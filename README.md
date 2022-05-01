@@ -105,7 +105,7 @@ The `authentication` option is the key which you can put in the header or query 
 - `/news` - Check latest Hypixel Network News.
 - `/skywars <player>` - Skywars stats of specified user.
 - `/slayer <player> <type>` - Slayer of specified user.
-- `/UHC <player>` - UHC Stats of specified user.
+- `/uhc <player>` - UHC Stats of specified user.
 - `/weight <player>` - Skyblock Stats of specified user.
 
 
