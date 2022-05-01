@@ -1,0 +1,20 @@
+{
+  "server": {
+    "host": "mc.hypixel.net",
+    "port": 25565
+  },
+  "minecraft": {
+    "username": "mail@example.com",
+    "password": "YOUR_PASSWORD",
+    "lobbyHolder": "USERNAME",
+    "accountType": "microsoft" 
+  },
+  "discord": {
+    "token": "DISCORD_BOT_TOKEN",
+    "channel": "CHANNEL_ID",
+    "commandRole": "COMMAND_ROLE_ID",
+    "ownerId": "OWNER_ID",
+    "prefix": "!",
+    "messageMode": "webhook"
+  }
+}
