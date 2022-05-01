@@ -10,15 +10,10 @@ A two-way chat bridge between [Hypixel](https://hypixel.net/) guild chat and a [
 
 - [Installation using NodeJS](#installation-using-nodejs)
   - [Prerequisites](#prerequisites)
-  - [Setup Guide](#setup-guide)
 - [Installation using Docker](#installation-using-docker)
   - [Prerequisites](#prerequisites-1)
-  - [Setup Guide](#setup-guide-1)
-- [Deploy directly to Replit](#deploy-directly-to-replit)
-  - [Prerequisites](#prerequisites-2)
-  - [Setup Guide](#setup-guide-2)
 - [Configuration](#configuration)
-- [Roadmap](#roadmap)
+- [To-Do List](#todo)
 
 ## Installation using NodeJS
 
@@ -96,7 +91,7 @@ The `authentication` option is the key which you can put in the header or query 
 - `!promote <user>` - Promotes the specified user by 1 rank (`!p`, `!up`)
 - `!demote <user>` - Demotes the specified user by 1 rank (`!d`, `!down`)
 
-### Roadmap
+### To-Do List
 
 - [ ] Chat message filter
   - The filter should block any messages sent from Discord to Hypixel that contains banable words, and words that could potentially cause a mute.
