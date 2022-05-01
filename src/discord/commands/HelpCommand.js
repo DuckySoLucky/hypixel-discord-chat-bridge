@@ -42,7 +42,7 @@ class HelpCommand extends DiscordCommand {
               `Prefix: \`${this.discord.app.config.discord.prefix}\``,
               `Guild Channel: <#${this.discord.app.config.discord.channel}>`,
               `Command Role: <@&${this.discord.app.config.discord.commandRole}>`,
-              `Version: \`1.2\``,
+              `Version: \`1.0\``,
             ].join('\n'),
           }
         ],
