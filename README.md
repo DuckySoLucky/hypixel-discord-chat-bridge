@@ -66,8 +66,8 @@ The prefix is the command prefixed used for all the commands in the bot on the D
 
 The messageMode can either be `bot` or `webhook`. This selects how the messages should be displayed when sent from Minecraft to Discord. If webhook mode is selected the bot requires the `Manage Webhooks` permission in the channel it's running in. The bot always requires the `Send Messages` and `View Channel` permissions in the channel you're using it in.
 
-- [View Webhook example](https://i.imgur.com/tulcMVA.png)
-- [View Bot Mode example](https://i.imgur.com/L8XhcNn.png)
+- [View Webhook example](https://imgur.com/)
+- [View Bot Mode example](https://imgur.com/)
 
 > Note: The Discord rate limit for webhooks is 30 requests every 60 seconds, whereas for normal bot messages it's 5 messages every 5 seconds. Using webhooks effectively halves the number of messages the bot can send per minute which may cause issues in an active guild.
 
@@ -83,6 +83,8 @@ The `authentication` option is the key which you can put in the header or query 
 
 `< >` = Required arguments, `[ ]` Optional arguments
 
+`Discord`
+
 - `!help` - Displays the list of commands (`!h`)
 - `!relog [delay]` - Relogs the MC client, a delay can be given in seconds, if no delay is given it will default to 5 seconds (`!r`)
 - `!override <command> [args]` - Executes the string attached. This is a dangerous permission to grant (`!o`, `!or`)
@@ -91,13 +93,35 @@ The `authentication` option is the key which you can put in the header or query 
 - `!promote <user>` - Promotes the specified user by 1 rank (`!p`, `!up`)
 - `!demote <user>` - Demotes the specified user by 1 rank (`!d`, `!down`)
 
+`Minecraft` 
+
+- `/8ball [question]` - Ask 8ball a question.
+- `/bedwars <player>` - BedWars stats of specified user.
+- `/bridge <player>` - Bridge stats of specified user.
+- `/duels <player>` - Duels stats of specified user.
+- `/fairysouls <player>` - Fairy Souls of specified user.
+- `/math <calculation>` - Calculate.
+- `/networth <player>` - Networth of specified user.
+- `/news` - Check latest Hypixel Network News.
+- `/skywars <player>` - Skywars stats of specified user.
+- `/slayer <player> <type>` - Slayer of specified user.
+- `/UHC <player>` - UHC Stats of specified user.
+- `/weight <player>` - Skyblock Stats of specified user.
+
+
 ### To-Do List
+
 
 - [ ] Chat message filter
   - The filter should block any messages sent from Discord to Hypixel that contains banable words, and words that could potentially cause a mute.
 - [ ] Add support for officer chat
   - Allocate a second discord channel to use for two way officer chat.
+- [ ] Minecraft command rewrite
+  - Rewriting some minecraft commands. Using function instead of copy pasting same code.
 
 ## Credits
 
-[Senither](https://github.com/Senither).
+
+[MaroAPI](https://github.com/zt3h)
+[SkyCryptAPI](https://github.com/SkyCryptWebsite)
+[Senither](https://github.com/Senither)
