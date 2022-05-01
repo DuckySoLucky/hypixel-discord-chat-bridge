@@ -13,7 +13,7 @@ A two-way chat bridge between [Hypixel](https://hypixel.net/) guild chat and a [
 - [Installation using Docker](#installation-using-docker)
   - [Prerequisites](#prerequisites-1)
 - [Configuration](#configuration)
-- [To-Do List](#todo)
+- [To-Do List](#to-do-list)
 
 ## Installation using NodeJS
 
