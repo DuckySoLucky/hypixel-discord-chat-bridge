@@ -46,15 +46,17 @@ The server is the server the Minecraft client should connect to, by default it w
 
 #### Minecraft
 
-The minecraft section includes a `username` and `password` option, if using a Mojang account these should be filled out with your Mojang username and password for the Minecraft account you plan on using, your Minecraft username is most likely the email it was created with. If using with a microsoft account change `accountType` to `microsoft`, `username` and `password` are not required and will be left blank as you will be directed to the [Microsoft Link page](https://www.microsoft.com/link). There is also a `lobbyHolder` option which is used in the `!guildlobby` command, this command will whisper the user specified in the config with a message using the `?tw <username>` format, for this command to do anything another bot needs to listen, and then act when receiving the message.
+The minecraft section includes a `username` and `password` option, if using a Mojang account these should be filled out with your Mojang username and password for the Minecraft account you plan on using, your Minecraft username is most likely the email it was created with. If using with a microsoft account change `accountType` to `microsoft`, `username` and `password` are not required and will be left blank as you will be directed to the [Microsoft Link page](https://www.microsoft.com/link). 
 
 #### Discord
 
-The Discord options includes the `token`, `channel`, `commandRole`, `ownerId`, `prefix` and `messageMode` options.
+The Discord options includes the `token`, `channel`, `officerChannel`, `commandRole`, `ownerId`, `prefix`, `messageMode` and `joinMessage` options.
 
 The token is the Discord application token, if you don't already have a Discord App, you can [create a new app](https://discordapp.com/developers), then convert the app to a Discord bot, and then get your Discord bot token on the "Bot" page.
 
 The Discord channel is the ID of the text channel the bot should be linked with, the bot will only send and listen to messages in the channel defined in the config.
+
+The Discord Officer channel is the ID of the text channel the bot should be linked with for the Officer Chat, the bot will only send and listen to messages in the channel defined in the config.
 
 The command role is the ID of any role on the server the bot is hosted for, any user with the role will be able to run all the Discord commands built into the bot, like `!kick` and `!relog`.
 
@@ -71,13 +73,7 @@ The messageMode can either be `bot` or `webhook`. This selects how the messages 
 
 > Note: The Discord rate limit for webhooks is 30 requests every 60 seconds, whereas for normal bot messages it's 5 messages every 5 seconds. Using webhooks effectively halves the number of messages the bot can send per minute which may cause issues in an active guild.
 
-#### Express
-
-The express section includes an option to enable/disable the express API option. If enabled, this will allow you to locally send requests to your bridge bot via other applications, and globally if you have port forwarding enabled.
-
-The `port` option allows you to set what port you want to host your API on. 
-
-The `authentication` option is the key which you can put in the header or query of your request. This allows security as only people with the authentication key will be able to successfully send requests to your API.
+The joinMessage is ability to toggle join and leave message being sent to the discord channel. This should be set to `false` in inactive guilds since it can be spammy. 
 
 ### Commands
 
@@ -85,28 +81,29 @@ The `authentication` option is the key which you can put in the header or query 
 
 `Discord`
 
-- `!help` - Displays the list of commands (`!h`)
-- `!relog [delay]` - Relogs the MC client, a delay can be given in seconds, if no delay is given it will default to 5 seconds (`!r`)
-- `!override <command> [args]` - Executes the string attached. This is a dangerous permission to grant (`!o`, `!or`)
-- `!invite <player>` - Invites the specified user to the guild, providing the guild isn't full (`!i`, `!inv`)
-- `!kick <user> [reason]` - Kicks the specified user from the guild (`!k`)
-- `!promote <user>` - Promotes the specified user by 1 rank (`!p`, `!up`)
-- `!demote <user>` - Demotes the specified user by 1 rank (`!d`, `!down`)
+- `!help` - Displays the list of commands
+- `!relog [delay]` - Relogs the MC client, a delay can be given in seconds, if no delay is given it will default to 5 seconds
+- `!override <command> [args]` - Executes the string attached. This is a dangerous permission to grant 
+- `!invite <player>` - Invites the specified user to the guild, providing the guild isn't full 
+- `!kick <user> [reason]` - Kicks the specified user from the guild 
+- `!promote <user>` - Promotes the specified user by 1 rank 
+- `!demote <user>` - Demotes the specified user by 1 rank 
+- `!online` - View online player in the guild
 
 `Minecraft` 
 
-- `/8ball [question]` - Ask 8ball a question.
-- `/bedwars <player>` - BedWars stats of specified user.
-- `/bridge <player>` - Bridge stats of specified user.
-- `/duels <player>` - Duels stats of specified user.
-- `/fairysouls <player>` - Fairy Souls of specified user.
-- `/math <calculation>` - Calculate.
-- `/networth <player>` - Networth of specified user.
-- `/news` - Check latest Hypixel Network News.
-- `/skywars <player>` - Skywars stats of specified user.
-- `/slayer <player> <type>` - Slayer of specified user.
-- `/uhc <player>` - UHC Stats of specified user.
-- `/weight <player>` - Skyblock Stats of specified user.
+- `!8ball <question>` - Ask 8ball a question.
+- `!bedwars [player]` - BedWars stats of specified user.
+- `!duels [gamemode] [player]` - Duels stats of specified user.
+- `!fairysouls [player]` - Fairy Souls of specified user.
+- `!help` - Shows this help menu.
+- `!math <calculation>` - Calculate.
+- `!networth [player]` - Networth of specified user.
+- `!news` - Check latest Hypixel Network News.
+- `!skywars [player]` - Skywars stats of specified user.
+- `!slayer [player] [type]` - Slayer of specified user.
+- `!uhc [player]` - UHC Stats of specified user.
+- `!weight [player]` - Skyblock Stats of specified user.
 
 
 ### To-Do List
@@ -114,10 +111,10 @@ The `authentication` option is the key which you can put in the header or query 
 
 - [ ] Chat message filter
   - The filter should block any messages sent from Discord to Hypixel that contains banable words, and words that could potentially cause a mute.
-- [ ] Add support for officer chat
-  - Allocate a second discord channel to use for two way officer chat.
-- [ ] Minecraft command rewrite
-  - Rewriting some minecraft commands. Using function instead of copy pasting same code.
+- [ ] More minecraft QOL commands
+  - Add more QoL commands to the minecraft.
+- [ ] `/` Command support
+  - Rewrite how discord commands work. Add new `/` Discord Command support. Not sure about this yet.
 
 ## Credits
 
