@@ -8,7 +8,7 @@ class StateHandler {
     this.discord.client.user.setActivity('Guild Chat', { type: 'WATCHING' })
 
     if (this.discord.app.config.discord.messageMode == 'webhook') {
-      this.discord.webhook = await getWebhook(this.discord)
+      this.discord.webhook = getWebhook(this.discord, 'Guild')
     }
 
     this.discord.client.channels.fetch(this.discord.app.config.discord.channel).then(channel => {
@@ -33,8 +33,10 @@ class StateHandler {
   }
 }
 
-async function getWebhook(discord) {
+async function getWebhook(discord, type) {
   let channel = discord.client.channels.cache.get(discord.app.config.discord.channel)
+  if (type == 'Officer') {channel = discord.client.channels.cache.get(discord.app.config.discord.officerChannel)}
+
   let webhooks = await channel.fetchWebhooks()
   if (webhooks.first()) {
     return webhooks.first()

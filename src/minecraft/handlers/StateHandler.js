@@ -34,13 +34,13 @@ class StateHandler extends EventHandler {
       }
     }
 
-    this.minecraft.app.log.warn(`Minecraft bot disconnected from server, attempting reconnect in ${loginDelay / 1000} seconds`)
+    this.minecraft.app.log.warn(`Minecraft bot has disconnected! Attempting reconnect in ${loginDelay / 1000} seconds`)
 
     setTimeout(() => this.minecraft.connect(), loginDelay)
   }
 
   onKicked(reason) {
-    this.minecraft.app.log.warn(`Minecraft bot was kicked from server for "${reason}"`)
+    this.minecraft.app.log.warn(`Minecraft bot has been kicked from the server for "${reason}"`)
 
     this.loginAttempts++
   }

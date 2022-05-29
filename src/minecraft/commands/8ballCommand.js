@@ -1,12 +1,17 @@
 const MinecraftCommand = require('../../contracts/MinecraftCommand')
 const axios = require('axios');
+
+process.on('uncaughtException', function (err) {
+  console.log(err.stack);
+});
+
 class eightballCommand extends MinecraftCommand {
   constructor(minecraft) {
     super(minecraft)
 
     this.name = '8ball'
     this.aliases = ['8b']
-    this.description = "Ask 8ball a question."
+    this.description = "Ask an 8ball a question."
   }
 
   onCommand(username, message) {

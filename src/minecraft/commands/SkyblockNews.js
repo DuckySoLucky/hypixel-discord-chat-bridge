@@ -1,6 +1,10 @@
 const MinecraftCommand = require('../../contracts/MinecraftCommand')
 const hypixel = require('../../contracts/Hypixel')
 
+process.on('uncaughtException', function (err) {
+  console.log(err.stack);
+});
+
 class SkyblockNewsCommand extends MinecraftCommand {
   constructor(minecraft) {
     super(minecraft)
@@ -14,7 +18,6 @@ class SkyblockNewsCommand extends MinecraftCommand {
     let temp = this;
 	hypixel.getSkyblockNews().then((news) => {
         temp.send(`/gc ` + news[0].link)
-        console.log(news[0].link)
       })
       .catch(console.log)
   }

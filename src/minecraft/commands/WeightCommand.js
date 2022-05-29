@@ -1,54 +1,39 @@
 const MinecraftCommand = require('../../contracts/MinecraftCommand')
 const axios = require('axios');
 
+process.on('uncaughtException', function (err) {
+  console.log(err.stack);
+});
+
+const getSkyblock = async function (name) {
+    const response = await axios.get('http://75.119.140.170:12312/v1/profiles/' + name + '?key=pele');
+    return response.data;
+};
+
 class StatsCommand extends MinecraftCommand {
     constructor(minecraft) {
         super(minecraft)
 
-        this.name = 'weight'
-        this.aliases = ['stats']
+        this.name = 'stats'
+        this.aliases = ['weight']
         this.description = 'Skyblock Stats of specified user.'
     }
-
-    onCommand(username, message) {
+    
+    async onCommand(username, message) {
         let args = this.getArgs(message);
         let msg = args.shift();
         if (msg) {
             let temp = this;
-            axios({
-                method: 'get',
-                url: `https://sky.shiiyu.moe/api/v2/profile/${msg}`
-            }).then(function (response) {
-                if(response.status >= 300){
-                    temp.send('/gc The provided username doesn\'t exist!');
-                }
-                let profile = {};
-                Object.keys(response.data.profiles).forEach((key) => {
-                    if (response.data.profiles[key].current)    //trazi upravo sada otvoren profile
-                        profile = response.data.profiles[key];
-                })
-                let name
-                if(profile.data.profile.game_mode === 'ironman'){name = msg+' ♲'}else{name = msg}
-                temp.send(`/gc ${name}\'s Weight = ${Math.round(profile.data.weight.senither.overall* 100) / 100} ᐧᐧᐧᐧ Skill Average = ${Math.round(profile.data.average_level* 100) / 100} ᐧᐧᐧᐧ Catacombs = ${profile.data.dungeons.catacombs.level.level}`);
-            }).catch(()=>{this.send(`/gc ${username} the provided username doesn\'t exist!`)});
+            const x = await getSkyblock(msg)
+            const SA = (x.data[0].skills.farming.level + x.data[0].skills.mining.level + x.data[0].skills.combat.level + x.data[0].skills.foraging.level + x.data[0].skills.fishing.level + x.data[0].skills.enchanting.level + x.data[0].skills.alchemy.level + x.data[0].skills.taming.level) / 8
+            
+            this.send(`/gc ${msg}\'s Weight = ${Math.round(x.data[0].weight.total_weight * 100) / 100} ᐧᐧᐧᐧ  Skill Average = ${SA} ᐧᐧᐧᐧ Catacombs = ${x.data[0].dungeons.catacombs.skill.level}`)
         } else {
             let temp = this;
-            axios({
-                method: 'get',
-                url: `https://sky.shiiyu.moe/api/v2/profile/${username}`
-            }).then(function (response) {
-                if(response.status >= 300){
-                    temp.send('The provided username doesn\'t exist!');
-                }
-                let profile = {};
-                Object.keys(response.data.profiles).forEach((key) => {
-                    if (response.data.profiles[key].current)    //trazi upravo sada otvoren profile
-                        profile = response.data.profiles[key];
-                })
-                let name
-                if(profile.data.profile.game_mode === 'ironman'){name = username+' ♲'}else{name = username}
-                temp.send(`/gc ${name}\'s Weight = ${Math.round(profile.data.weight.senither.overall* 100) / 100} ᐧᐧᐧᐧ  Skill Average = ${Math.round(profile.data.average_level* 100) / 100} ᐧᐧᐧᐧ Catacombs = ${profile.data.dungeons.catacombs.level.level}`);
-            }).catch(()=>{this.send(`/gc ${username} the provided username doesn\'t exist!`)});
+            const x = await getSkyblock(username)
+            const SA = (x.data[0].skills.farming.level + x.data[0].skills.mining.level + x.data[0].skills.combat.level + x.data[0].skills.foraging.level + x.data[0].skills.fishing.level + x.data[0].skills.enchanting.level + x.data[0].skills.alchemy.level + x.data[0].skills.taming.level) / 8
+            
+            this.send(`/gc ${username}\'s Weight = ${Math.round(x.data[0].weight.total_weight * 100) / 100} ᐧᐧᐧᐧ  Skill Average = ${SA} ᐧᐧᐧᐧ Catacombs = ${x.data[0].dungeons.catacombs.skill.level}`)
         }
     }
 }

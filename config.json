@@ -6,15 +6,16 @@
   "minecraft": {
     "username": "mail@example.com",
     "password": "YOUR_PASSWORD",
-    "lobbyHolder": "USERNAME",
     "accountType": "microsoft" 
   },
   "discord": {
-    "token": "DISCORD_BOT_TOKEN",
-    "channel": "CHANNEL_ID",
-    "commandRole": "COMMAND_ROLE_ID",
-    "ownerId": "OWNER_ID",
+    "token": "TOKEN",
+    "channel": "000000000000000000",
+    "officerChannel": "000000000000000000",
+    "commandRole": "000000000000000000",
+    "ownerId": "000000000000000000",
     "prefix": "!",
-    "messageMode": "webhook"
+    "messageMode": "webhook",
+    "joinMessage": "true"
   }
 }

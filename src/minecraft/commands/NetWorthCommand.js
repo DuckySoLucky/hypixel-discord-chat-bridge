@@ -1,25 +1,18 @@
 const MinecraftCommand = require('../../contracts/MinecraftCommand')
 const axios = require('axios');
 
+process.on('uncaughtException', function (err) {
+  console.log(err.stack);
+});
+
 const getActiveProfile = function (profiles, uuid) {
   return profiles.sort((a, b) => b.members[uuid].last_save - a.members[uuid].last_save)[0];
 };
 
 const getNetworth = async function (name) {
-  const name1 = await axios.get(`https://api.mojang.com/users/profiles/minecraft/${name}`)
-
-  const uuid = name1.data.id
-
-  const { data } = await axios.get(`https://api.hypixel.net/skyblock/profiles?key=f0cc904f-34b8-4a8f-b77c-67530162eaa1&uuid=${uuid}`);
-
-  const activeProfile = getActiveProfile(data.profiles, uuid);
-
-  const profile = activeProfile.members[uuid];
-  profile.banking = activeProfile.banking;
-
-  const response = await axios.post('https://maro.skybrokers.xyz/api/networth/categories', { data: profile });
-  
-  return response.data;
+  const response = await axios.get('http://75.119.140.170:12312/v1/profiles/' + name + '?key=pele');
+  const notation = addNotation("oneLetters", response.data.data[0].networth.total_networth);
+  return notation;
 };
 
 function lmao(num){
@@ -36,8 +29,6 @@ function addNotation(type, value) {
     let returnVal = value;
     let notList = [];
     if (type === "shortScale") {
-        //notation type
-        //do notation stuff here
         notList = [
             " Thousand",
             " Million",
@@ -88,16 +79,10 @@ class NetWorthCommand extends MinecraftCommand {
         let args = this.getArgs(message);
         let msg = args.shift();
         if(msg){ 
-            const nw = await getNetworth(msg)
-            const nw1 = nw.data.networth + nw.data.bank + nw.data.purse
-            const data = addNotation("oneLetters", nw1)
-            const data2 = lmao(nw1)
+            const data = await getNetworth(msg)
             this.send(`/gc ${msg}\'s networth is $${data}`)
         }else{
-            const nw = await getNetworth(username)
-            const nw1 = nw.data.networth + nw.data.bank + nw.data.purse
-            const data = addNotation("oneLetters", nw1)
-            const data2 = lmao(nw1)
+            const data = await getNetworth(username)
             this.send(`/gc ${username}\'s networth is $${data}`)
         }
     }

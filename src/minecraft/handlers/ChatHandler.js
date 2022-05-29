@@ -1,4 +1,5 @@
 const EventHandler = require('../../contracts/EventHandler')
+const fs = require('fs');
 
 class StateHandler extends EventHandler {
   constructor(minecraft, command) {
@@ -6,6 +7,8 @@ class StateHandler extends EventHandler {
 
     this.minecraft = minecraft
     this.command = command
+
+
   }
 
   registerEvents(bot) {
@@ -18,78 +21,54 @@ class StateHandler extends EventHandler {
     const message = event.toString().trim()
 
     if (this.isLobbyJoinMessage(message)) {
-      this.minecraft.app.log.minecraft('Sending Minecraft client to limbo')
       return this.bot.chat('/ac §')
     }
 
-    if (this.isLoginMessage(message)) {
-      let user = message.split('>')[1].trim().split('joined.')[0].trim()
-      if(user === '56ms'){
-          this.send('/gc hi rat swavy')
-      }
-      return this.minecraft.broadcastPlayerToggle({ username: user, message: `joined.`, color: '47F049' })
-    }
-
-    if (this.isRequestMessage(message)) {
-        const axios = require('axios');
-        var DB = require('../jsonPull.js');
-            function getname(message) {
-                let user = message.substr(54);
-                if (user[0] !== '[') {
-                    return user.split(' ')[0];
-                } else return user.split(' ')[1];
-            }
-            let user = getname(message);
-            let user1 = user.toLowerCase()
-             if(DB.GetUser(user1)){
-            this.send(`/gc ${user} is blacklisted!!! Do not accept!`)
-            }else{
-            let temp = this;
-            axios({
-                method: 'get',
-                url: `https://sky.shiiyu.moe/api/v2/profile/${user}`
-            }).then(function (response) {
-                let profile = {};
-                Object.keys(response.data.profiles).forEach((key) => {
-                    if (response.data.profiles[key].current)
-                        profile = response.data.profiles[key];
-                })
-                if(profile.data.dungeons.catacombs.level.level >= 32 && profile.data.average_level_no_progress >= 35 || user === 'SadanAirways') {
-                    temp.send(`/g accept ${user}`);
-                }
-            })
-            }
-        }
-
     if (this.isPartyMessage(message)) {
-        function waity(seconds) {
-            var waitTill = new Date(new Date().getTime() + seconds * 1000)
-            while (waitTill > new Date()) {}
+      function waity(seconds) {
+          var waitTill = new Date(new Date().getTime() + seconds * 1000)
+          while (waitTill > new Date()) {}
+      }
+      function getname(message) {
+        let user = message.substr(54);
+        if (user[0] !== '[') {
+          return user.split(' ')[0];
+        }else {
+          return user.split(' ')[1];
         }
-        function getname(message) {
-                let user = message.substr(54);
-                if (user[0] !== '[') {
-                    return user.split(' ')[0];
-                } else return user.split(' ')[1];
-            }
-        const name = getname(message)
+      }
+      const name = getname(message)
 
-        console.log(`${name} started a fragrun.`)
-        this.send(`/p accept ${name}`)
-        waity(5)
-        this.send(`/p leave`)        
+      this.send(`/p accept ${name}`)
+      waity(5)
+      this.send(`/p leave`)        
     }
     
+    if (this.isLoginMessage(message)) {
+      let user = message.split('>')[1].trim().split('joined.')[0].trim()
+      if (user == 'FemboyLiqht' || user == 'DuckySoSkilled') {
+        this.bot.chat('/gc You useless piece of shit. You absolute waste of space and air. You uneducated, ignorant, idiotic dumb swine, you\'re an absolute embarrassment to humanity and all life as a whole. No wonder your father questioned whether or not your were truly his son')
+      }
+        
+      var data = JSON.parse(fs.readFileSync('config.json'));
+      if (data.discord.joinMessage == "true") { 
+        let user = message.split('>')[1].trim().split('joined.')[0].trim()
+
+        return this.minecraft.broadcastPlayerToggle({ username: user, message: `joined.`, color: '47F049' })
+        
+      }
+    }
 
     if (this.isLogoutMessage(message)) {
-      let user = message.split('>')[1].trim().split('left.')[0].trim()
-
-      return this.minecraft.broadcastPlayerToggle({ username: user, message: `left.`, color: 'F04947' })
+      var data = JSON.parse(fs.readFileSync('config.json'));
+      if (data.discord.joinMessage == "true") { 
+        let user = message.split('>')[1].trim().split('left.')[0].trim()
+        return this.minecraft.broadcastPlayerToggle({ username: user, message: `left.`, color: 'F04947' })
+      }
     }
 
     if (this.isJoinMessage(message)) {
       let user = message.replace(/\[(.*?)\]/g, '').trim().split(/ +/g)[0]
-
       return this.minecraft.broadcastHeadedEmbed({
         message: `${user} joined the guild!`,
         title: `Member Joined`,
@@ -100,7 +79,6 @@ class StateHandler extends EventHandler {
 
     if (this.isLeaveMessage(message)) {
       let user = message.replace(/\[(.*?)\]/g, '').trim().split(/ +/g)[0]
-
       return this.minecraft.broadcastHeadedEmbed({
         message: `${user} left the guild!`,
         title: `Member Left`,
@@ -109,9 +87,10 @@ class StateHandler extends EventHandler {
       })
     }
 
+
+
     if (this.isKickMessage(message)) {
       let user = message.replace(/\[(.*?)\]/g, '').trim().split(/ +/g)[0]
-
       return this.minecraft.broadcastHeadedEmbed({
         message: `${user} was kicked from the guild!`,
         title: `Member Kicked`,
@@ -225,7 +204,7 @@ class StateHandler extends EventHandler {
       return this.minecraft.broadcastCleanEmbed({ message: `Player \`${user}\` not found.`, color: 'DC143C' })
     }
 
-    if (!this.isGuildMessage(message)) {
+    if (!this.isGuildMessage(message) && !this.isOfficerChatMessage(message)) {
       return
     }
 
@@ -237,6 +216,10 @@ class StateHandler extends EventHandler {
     let parts = message.split(':')
     let group = parts.shift().trim()
     let hasRank = group.endsWith(']')
+
+    let chat = message.split('>')
+    let chatType = chat.shift().trim()
+
 
     let userParts = group.split(' ')
     let username = userParts[userParts.length - (hasRank ? 2 : 1)]
@@ -258,11 +241,11 @@ class StateHandler extends EventHandler {
     if (playerMessage == '@') {
       return
     }
-
     this.minecraft.broadcastMessage({
       username: username,
       message: playerMessage,
       guildRank: guildRank,
+      chat: chatType,
     })
   }
 
@@ -278,7 +261,11 @@ class StateHandler extends EventHandler {
     return message.startsWith('Guild >') && message.includes(':')
   }
 
-isPartyMessage(message) {
+  isOfficerChatMessage(message) {
+    return message.startsWith('Officer >') && message.includes(':')
+  }
+
+  isPartyMessage(message) {
     return message.startsWith('Party >')
   }
 
@@ -314,9 +301,9 @@ isPartyMessage(message) {
     return message.includes('was demoted from') && !message.includes(':')
   }
   
-    isRequestMessage(message) {
-        return message.includes('has requested to join the Guild!')
-    }
+  isRequestMessage(message) {
+    return message.includes('has requested to join the Guild!')
+  }
 
   isBlockedMessage(message) {
     return message.includes('We blocked your comment') && !message.includes(':')

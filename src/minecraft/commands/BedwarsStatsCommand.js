@@ -1,6 +1,10 @@
 const MinecraftCommand = require('../../contracts/MinecraftCommand')
 const hypixel = require('../../contracts/Hypixel')
 
+process.on('uncaughtException', function (err) {
+	console.log(err.stack);
+  });
+  
 class BwstatsCommand extends MinecraftCommand {
   constructor(minecraft) {
     super(minecraft)

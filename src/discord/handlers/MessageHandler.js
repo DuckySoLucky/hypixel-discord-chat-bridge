@@ -17,8 +17,8 @@ class MessageHandler {
     if (content.length == 0) {
       return
     }
-
     this.discord.broadcastMessage({
+      channel: message.channel.id,
       username: message.member.displayName,
       message: this.stripDiscordContent(message.content),
       replyingTo: await this.fetchReply(message),
@@ -52,7 +52,7 @@ class MessageHandler {
   }
 
   shouldBroadcastMessage(message) {
-    return !message.author.bot && message.channel.id == this.discord.app.config.discord.channel && message.content && message.content.length > 0
+    return !message.author.bot && message.channel.id == this.discord.app.config.discord.officerChannel && message.content && message.content.length > 0 || !message.author.bot && message.channel.id == this.discord.app.config.discord.channel && message.content && message.content.length > 0
   }
 }
 
