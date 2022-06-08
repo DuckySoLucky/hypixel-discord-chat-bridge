@@ -94,6 +94,7 @@ The joinMessage is ability to toggle join and leave message being sent to the di
 
 - `!8ball <question>` - Ask 8ball a question.
 - `!bedwars [player]` - BedWars stats of specified user.
+- `!denick <player>` - Denick username of specified user. 
 - `!duels [gamemode] [player]` - Duels stats of specified user.
 - `!fairysouls [player]` - Fairy Souls of specified user.
 - `!help` - Shows this help menu.
