@@ -11,7 +11,7 @@ class DenickerCommand extends MinecraftCommand {
         super(minecraft)
 
         this.name = 'denick'
-        this.aliases = ['unnicker', 'nick', 'denick']
+        this.aliases = ['unnicker', 'nick', 'denicker', 'unnick']
         this.description = 'Denick username of specified user.'
     }
     
@@ -19,14 +19,16 @@ class DenickerCommand extends MinecraftCommand {
         let args = this.getArgs(message);
         let msg = args.shift();
         let temp = this;
+        
         axios({
             method: 'get',
             url: `https://api.antisniper.net/denick?key=3a55ea8f-9e85-4003-9912-6198122cd27f&nick=${msg}`
         }).then(function (response) {
+
             if(response.status >= 300){
                 temp.send('/gc The provided nick doesn\'t exist!');
             }
-            temp.send(`/gc ${response.player.nick}\'s Username is ${response.player.ign}`)
+            temp.send(`/gc ${response.data.player.nick}\'s Username is ${response.data.player.ign}`)
         }).catch(()=>{this.send(`/gc ${username} the provided nick doesn\'t exist!`)});
     }
 }
