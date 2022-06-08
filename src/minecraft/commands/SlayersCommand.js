@@ -2,9 +2,9 @@ const MinecraftCommand = require('../../contracts/MinecraftCommand')
 const axios = require('axios');
 
 process.on('uncaughtException', function (err) {
-    console.log(err.stack);
-  });
-  
+  console.log(err.stack);
+});
+
 class SlayersCommand extends MinecraftCommand {
     constructor(minecraft) {
         super(minecraft)

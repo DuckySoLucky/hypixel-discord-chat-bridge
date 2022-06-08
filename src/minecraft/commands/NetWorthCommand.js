@@ -9,12 +9,6 @@ const getActiveProfile = function (profiles, uuid) {
   return profiles.sort((a, b) => b.members[uuid].last_save - a.members[uuid].last_save)[0];
 };
 
-const getNetworth = async function (name) {
-  const response = await axios.get('http://75.119.140.170:12312/v1/profiles/' + name + '?key=pele');
-  const notation = addNotation("oneLetters", response.data.data[0].networth.total_networth);
-  return notation;
-};
-
 function lmao(num){
     let arr = Array.from(String(num), num=>Number(num)).reverse();
     let temp = [];
@@ -78,12 +72,24 @@ class NetWorthCommand extends MinecraftCommand {
     async onCommand(username, message) {
         let args = this.getArgs(message);
         let msg = args.shift();
+        let temp = this;
         if(msg){ 
-            const data = await getNetworth(msg)
-            this.send(`/gc ${msg}\'s networth is $${data}`)
+            const response = await axios.get('http://75.119.140.170:12312/v1/profiles/' + msg + '?key=pele')
+            .then(function (response) {
+                if(response.status == 404){temp.send('/gc The provided username doesn\'t exist!');}
+
+                const data = addNotation("oneLetters", response.data.data[0].networth.total_networth);
+                temp.send(`/gc ${msg}\'s networth is $${data}`)
+            }).catch(()=>{this.send(`/gc ${username} the provided username doesn\'t exist!`)});
+
         }else{
-            const data = await getNetworth(username)
-            this.send(`/gc ${username}\'s networth is $${data}`)
+            const response = await axios.get('http://75.119.140.170:12312/v1/profiles/' + username + '?key=pele')
+            .then(function (response) {
+                if(response.status == 404){temp.send('/gc The provided username doesn\'t exist!');}
+
+                const data = addNotation("oneLetters", response.data.data[0].networth.total_networth);
+                temp.send(`/gc ${username}\'s networth is $${data}`)
+            }).catch(()=>{this.send(`/gc ${username} the provided username doesn\'t exist!`)});
         }
     }
 }

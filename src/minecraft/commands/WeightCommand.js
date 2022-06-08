@@ -22,18 +22,27 @@ class StatsCommand extends MinecraftCommand {
     async onCommand(username, message) {
         let args = this.getArgs(message);
         let msg = args.shift();
+        let temp = this;
         if (msg) {
-            let temp = this;
-            const x = await getSkyblock(msg)
-            const SA = (x.data[0].skills.farming.level + x.data[0].skills.mining.level + x.data[0].skills.combat.level + x.data[0].skills.foraging.level + x.data[0].skills.fishing.level + x.data[0].skills.enchanting.level + x.data[0].skills.alchemy.level + x.data[0].skills.taming.level) / 8
+            const response = await axios.get('http://75.119.140.170:12312/v1/profiles/' + msg + '?key=pele')
+            .then(function (response) {
+                if(response.status > 299){temp.send('/gc The provided test doesn\'t exist!')}
+
+                const SA = (response.data.data[0].skills.farming.level + response.data.data[0].skills.mining.level + response.data.data[0].skills.combat.level + response.data.data[0].skills.foraging.level + response.data.data[0].skills.fishing.level + response.data.data[0].skills.enchanting.level + response.data.data[0].skills.alchemy.level + response.data.data[0].skills.taming.level) / 8
+                temp.send(`/gc ${msg}\'s Weight = ${Math.round(response.data.data[0].weight.total_weight * 100) / 100} ᐧᐧᐧᐧ  Skill Average = ${SA} ᐧᐧᐧᐧ Catacombs = ${response.data.data[0].dungeons.catacombs.skill.level}`)
+        
+            }).catch(()=>{this.send(`/gc ${username} the provided username doesn\'t exist!`)});
+
             
-            this.send(`/gc ${msg}\'s Weight = ${Math.round(x.data[0].weight.total_weight * 100) / 100} ᐧᐧᐧᐧ  Skill Average = ${SA} ᐧᐧᐧᐧ Catacombs = ${x.data[0].dungeons.catacombs.skill.level}`)
         } else {
-            let temp = this;
-            const x = await getSkyblock(username)
-            const SA = (x.data[0].skills.farming.level + x.data[0].skills.mining.level + x.data[0].skills.combat.level + x.data[0].skills.foraging.level + x.data[0].skills.fishing.level + x.data[0].skills.enchanting.level + x.data[0].skills.alchemy.level + x.data[0].skills.taming.level) / 8
-            
-            this.send(`/gc ${username}\'s Weight = ${Math.round(x.data[0].weight.total_weight * 100) / 100} ᐧᐧᐧᐧ  Skill Average = ${SA} ᐧᐧᐧᐧ Catacombs = ${x.data[0].dungeons.catacombs.skill.level}`)
+            const response = await axios.get('http://75.119.140.170:12312/v1/profiles/' + username + '?key=pele')
+            .then(function (response) {
+                if(response.status > 299) {temp.send('/gc The provided test doesn\'t exist!')}
+                
+                const SA = (response.data.data[0].skills.farming.level + response.data.data[0].skills.mining.level + response.data.data[0].skills.combat.level + response.data.data[0].skills.foraging.level + response.data.data[0].skills.fishing.level + response.data.data[0].skills.enchanting.level + response.data.data[0].skills.alchemy.level + response.data.data[0].skills.taming.level) / 8
+                temp.send(`/gc ${username}\'s Weight = ${Math.round(response.data.data[0].weight.total_weight * 100) / 100} ᐧᐧᐧᐧ  Skill Average = ${SA} ᐧᐧᐧᐧ Catacombs = ${response.data.data[0].dungeons.catacombs.skill.level}`)
+ 
+            }).catch(()=>{this.send(`/gc ${username} the provided username doesn\'t exist!`)});
         }
     }
 }
