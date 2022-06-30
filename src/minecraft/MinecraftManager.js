@@ -4,6 +4,8 @@ const StateHandler = require('./handlers/StateHandler')
 const ErrorHandler = require('./handlers/ErrorHandler')
 const ChatHandler = require('./handlers/ChatHandler')
 const mineflayer = require('mineflayer')
+const Filter = require('bad-words'),
+    filter = new Filter();
 
 class MinecraftManager extends CommunicationBridge {
   constructor(app) {
@@ -37,10 +39,17 @@ class MinecraftManager extends CommunicationBridge {
 
   onBroadcast({ channel, username, message, replyingTo  }) { 
     this.app.log.broadcast(`${username}: ${message}`, 'Minecraft')
-    if (this.bot.player !== undefined) {
-      if (channel == this.app.config.discord.officerChannel) {this.bot.chat(`/oc ${replyingTo ? `${username} replying to ${replyingTo} »` : `${username} »`} ${message}`)}
-      else { this.bot.chat(`/gc ${replyingTo ? `${username} replying to ${replyingTo} »` : `${username} »`} ${message}`)}
 
+    if(this.app.config.discord.filterMessages == 'true'){
+      if (this.bot.player !== undefined) {
+        if (channel == this.app.config.discord.officerChannel) {this.bot.chat(filter.clean(`/oc ${replyingTo ? `${username} replying to ${replyingTo} »` : `${username} »`} ${message}`))}
+        else { this.bot.chat(filter.clean(`/gc ${replyingTo ? `${username} replying to ${replyingTo} »` : `${username} »`} ${message}`))}
+      }
+    }else{
+      if (this.bot.player !== undefined) {
+        if (channel == this.app.config.discord.officerChannel) {this.bot.chat(`/oc ${replyingTo ? `${username} replying to ${replyingTo} »` : `${username} »`} ${message}`)}
+        else { this.bot.chat(`/gc ${replyingTo ? `${username} replying to ${replyingTo} »` : `${username} »`} ${message}`)}
+      }
     }
   }
 }

@@ -18,6 +18,7 @@
     "commandRole": "000000000000000000",
     "prefix": "!",
     "messageMode": "webhook",
-    "joinMessage": "true"
+    "joinMessage": "true",
+    "filterMessages": "true"
   }
 }
