@@ -11,12 +11,12 @@ class InfoCommand extends MinecraftCommand {
 
     this.name = 'info'
     this.aliases = ['help']
-    this.description = 'Shows this help menu'
+    this.description = 'Shows help menu'
   }
 
   onCommand(username, message) {
     let temp = this;
-    temp.send(`/gc https://imgur.com/a/vVhDzb5`)
+    temp.send(`/gc https://cdn.discordapp.com/attachments/582986211912712192/992041335563493406/unknown.png`)
   }
 }
 
