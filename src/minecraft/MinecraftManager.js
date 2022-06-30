@@ -26,18 +26,16 @@ class MinecraftManager extends CommunicationBridge {
 
   createBotConnection() {
     return mineflayer.createBot({
-      host: this.app.config.server.host,
-      port: this.app.config.server.port,
-      username: this.app.config.minecraft.username,
-      password: this.app.config.minecraft.password,
-      version: "1.12.2", // 1.12.2 instead of 1.8.9 Because of the Chat expansion
-      auth: this.app.config.minecraft.accountType,
+      host: "mc.hypixel.net",
+      port: 25565,
+      username: "robertkovac769@gmail.com",
+      version: "1.12.2",
+      auth: "microsoft",
     })
   }
 
   onBroadcast({ channel, username, message, replyingTo  }) { 
     this.app.log.broadcast(`${username}: ${message}`, 'Minecraft')
-
     if (this.bot.player !== undefined) {
       if (channel == this.app.config.discord.officerChannel) {this.bot.chat(`/oc ${replyingTo ? `${username} replying to ${replyingTo} »` : `${username} »`} ${message}`)}
       else { this.bot.chat(`/gc ${replyingTo ? `${username} replying to ${replyingTo} »` : `${username} »`} ${message}`)}

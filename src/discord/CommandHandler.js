@@ -29,8 +29,7 @@ class CommandHandler {
     if (!command) {
       return false
     }
-
-    if ((command.name != 'help' && !this.isCommander(message.member)) || (command.name != 'online' && !this.isCommander(message.member)) || (command.name == 'override' && !this.isOwner(message.author))) {
+    if (command.name != 'help' && command.name != 'online' && !this.isModerator(message.member)) {
       return message.channel.send({
         embed: {
           description: `You don't have permission to do that.`,
@@ -45,13 +44,10 @@ class CommandHandler {
     return true
   }
 
-  isCommander(member) {
+  isModerator(member) {
     return member.roles.cache.find(r => r.id == this.discord.app.config.discord.commandRole)
   }
 
-  isOwner(member) {
-    return member.id == this.discord.app.config.discord.ownerId
-  }
 }
 
 module.exports = CommandHandler

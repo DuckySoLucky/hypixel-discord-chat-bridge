@@ -37,8 +37,9 @@ class DiscordManager extends CommunicationBridge {
   }
   
   async getWebhook(discord, type) {
-    let channel = discord.client.channels.cache.get(discord.app.config.discord.channel)
+    let channel = discord.client.channels.cache.get(discord.app.config.discord.guildChatChannel)
     if (type == 'Officer') {channel = discord.client.channels.cache.get(discord.app.config.discord.officerChannel)}
+    if (type == 'Logger') {channel = discord.client.channels.cache.get(discord.app.config.discord.loggingChannel)}
   
     let webhooks = await channel.fetchWebhooks()
     if (webhooks.first()) {
@@ -56,7 +57,7 @@ class DiscordManager extends CommunicationBridge {
     switch (this.app.config.discord.messageMode.toLowerCase()) {
       case 'bot':
         if (chat == 'Guild') {
-          this.app.discord.client.channels.fetch(this.app.config.discord.channel).then(channel => {
+          this.app.discord.client.channels.fetch(this.app.config.discord.guildChatChannel).then(channel => {
             channel.send({
               embed: {
                 description: message,
@@ -106,63 +107,114 @@ class DiscordManager extends CommunicationBridge {
     }
   }
 
-  onBroadcastCleanEmbed({ message, color }) {
+  onBroadcastCleanEmbed({ message, color, channel }) {
     this.app.log.broadcast(message, 'Event')
-
-    this.app.discord.client.channels.fetch(this.app.config.discord.channel).then(channel => {
-      channel.send({
-        embed: {
-          color: color,
-          description: message,
-        }
+    if (channel == 'Logger')  {
+      this.app.discord.client.channels.fetch(this.app.config.discord.guildChatChannel).then(channel => {
+        channel.send({
+          embed: {
+            color: color,
+            description: message,
+          }
+        })
       })
-    })
+    } else {
+      this.app.discord.client.channels.fetch(this.app.config.discord.loggingChannel).then(channel => {
+        channel.send({
+          embed: {
+            color: color,
+            description: message,
+          }
+        })
+      })
+    } 
+  }  
+
+  onBroadcastHeadedEmbed({ message, title, icon, color, channel }) {
+    this.app.log.broadcast(message, 'Event')
+    if (channel == 'Logger')  {
+      this.app.discord.client.channels.fetch(this.app.config.discord.loggingChannel).then(channel => {
+        channel.send({
+          embed: {
+            color: color,
+            author: {
+              name: title,
+              icon_url: icon,
+            },
+            description: message,
+          }
+        })
+      })
+    } else { 
+      this.app.discord.client.channels.fetch(this.app.config.discord.guildChatChannel).then(channel => {
+        channel.send({
+          embed: {
+            color: color,
+            author: {
+              name: title,
+              icon_url: icon,
+            },
+            description: message,
+          }
+        })
+      })
+    }
   }
 
-  onBroadcastHeadedEmbed({ message, title, icon, color }) {
-    this.app.log.broadcast(message, 'Event')
-
-    this.app.discord.client.channels.fetch(this.app.config.discord.channel).then(channel => {
-      channel.send({
-        embed: {
-          color: color,
-          author: {
-            name: title,
-            icon_url: icon,
-          },
-          description: message,
-        }
-      })
-    })
-  }
-
-  async onPlayerToggle({ username, message, color}) {
+  async onPlayerToggle({ username, message, color, channel}) {
     this.app.log.broadcast(username + ' ' + message, 'Event')
 
     switch (this.app.config.discord.messageMode.toLowerCase()) {
       case 'bot':
-        this.app.discord.client.channels.fetch(this.app.config.discord.channel).then(channel => {
-          channel.send({
-            embed: {
-              color: color,
-              timestamp: new Date(),
-              author: {
-                name: `${username} ${message}`,
-                icon_url: 'https://www.mc-heads.net/avatar/' + username,
-              },
-            }
+        if (channel == 'Logger') {
+          this.app.discord.client.channels.fetch(this.app.config.discord.loggingChannel).then(channel => {
+            channel.send({
+              embed: {
+                color: color,
+                timestamp: new Date(),
+                author: {
+                  name: `${username} ${message}`,
+                  icon_url: 'https://www.mc-heads.net/avatar/' + username,
+                },
+              }
+            })
           })
-        })
-        break
+          break
+        } else {
+          this.app.discord.client.channels.fetch(this.app.config.discord.guildChatChannel).then(channel => {
+            channel.send({
+              embed: {
+                color: color,
+                timestamp: new Date(),
+                author: {
+                  name: `${username} ${message}`,
+                  icon_url: 'https://www.mc-heads.net/avatar/' + username,
+                },
+              }
+            })
+          })
+          break 
+        }
 
       case 'webhook':
-        this.app.discord.webhook = await this.getWebhook(this.app.discord, 'Guild')
-        this.app.discord.webhook.send({
-          username: username, avatarURL: 'https://www.mc-heads.net/avatar/' + username, embeds: [{
-            color: color,
-            description: `${username} ${message}`,
-          }]
-        })
+        if (channel == 'Guild') {
+          this.app.discord.webhook = await this.getWebhook(this.app.discord, 'Guild')
+          this.app.discord.webhook.send({
+            username: username, avatarURL: 'https://www.mc-heads.net/avatar/' + username, embeds: [{
+              color: color,
+              description: `${username} ${message}`,
+            }]
+          })
+        }
+        if (channel == 'Logger') {
+          this.app.discord.webhook = await this.getWebhook(this.app.discord, 'Logger')
+          this.app.discord.webhook.send({
+            username: username, avatarURL: 'https://www.mc-heads.net/avatar/' + username, embeds: [{
+              color: color,
+              description: `${username} ${message}`,
+            }]
+          })
+        }
         break
 
       default:

@@ -74,7 +74,7 @@ class NetWorthCommand extends MinecraftCommand {
         let msg = args.shift();
         let temp = this;
         if(msg){ 
-            const response = await axios.get('http://75.119.140.170:12312/v1/profiles/' + msg + '?key=pele')
+            const response = await axios.get('http://pelepuric.ddns.net:3000/v1/profiles/' + msg + '?key=pele')
             .then(function (response) {
                 if(response.status == 404){temp.send('/gc The provided username doesn\'t exist!');}
 
@@ -83,7 +83,7 @@ class NetWorthCommand extends MinecraftCommand {
             }).catch(()=>{this.send(`/gc ${username} the provided username doesn\'t exist!`)});
 
         }else{
-            const response = await axios.get('http://75.119.140.170:12312/v1/profiles/' + username + '?key=pele')
+            const response = await axios.get('http://pelepuric.ddns.net:3000/v1/profiles/' + username + '?key=pele')
             .then(function (response) {
                 if(response.status == 404){temp.send('/gc The provided username doesn\'t exist!');}
 

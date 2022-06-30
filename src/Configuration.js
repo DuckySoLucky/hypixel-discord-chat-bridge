@@ -30,7 +30,7 @@ class Configuration {
     MINECRAFT_LOBBY_HOLDER: val => (this.properties.minecraft.lobbyHolder = val),
     MINECRAFT_ACCOUNT_TYPE: val => (this.properties.minecraft.accountType = val),
     DISCORD_TOKEN: val => (this.properties.discord.token = val),
-    DISCORD_CHANNEL: val => (this.properties.discord.channel = val),
+    DISCORD_CHANNEL: val => (this.properties.discord.guildChatChannel = val),
     DISCORD_COMMAND_ROLE: val => (this.properties.discord.commandRole = val),
     DISCORD_OWNER_ID: val => (this.properties.discord.ownerId = val),
     DISCORD_PREFIX: val => (this.properties.discord.prefix = val),

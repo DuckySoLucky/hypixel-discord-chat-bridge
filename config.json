@@ -6,14 +6,16 @@
   "minecraft": {
     "username": "mail@example.com",
     "password": "YOUR_PASSWORD",
-    "accountType": "microsoft" 
+    "accountType": "microsoft",
+    "guildID": "HYPIXEL_GUILD_ID_(REQUIRED FOR !GEXP COMMAND)",
+    "guildExp": "HYPIXEL_GUILD_EXP_REQS__(DOESN'T KICK, REQUIRED FOR SUBTRACTING ON !GEXP COMMAND)"
   },
   "discord": {
     "token": "TOKEN",
-    "channel": "000000000000000000",
+    "guildChatChannel": "000000000000000000",
     "officerChannel": "000000000000000000",
+    "loggingChannel": "000000000000000000",
     "commandRole": "000000000000000000",
-    "ownerId": "000000000000000000",
     "prefix": "!",
     "messageMode": "webhook",
     "joinMessage": "true"

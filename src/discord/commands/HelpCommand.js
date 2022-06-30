@@ -40,9 +40,11 @@ class HelpCommand extends DiscordCommand {
             name: `Info`,
             value: [
               `Prefix: \`${this.discord.app.config.discord.prefix}\``,
-              `Guild Channel: <#${this.discord.app.config.discord.channel}>`,
+              `Guild Channel: <#${this.discord.app.config.discord.guildChatChannel}>`,
+              `Officer Channel: <#${this.discord.app.config.discord.officerChannel}>`,
+              `Logging Channel: <#${this.discord.app.config.discord.loggingChannel}>`,
               `Command Role: <@&${this.discord.app.config.discord.commandRole}>`,
-              `Version: \`1.3\``,
+              `Version: \`1.4\``,
             ].join('\n'),
           }
         ],

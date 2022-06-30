@@ -1,6 +1,6 @@
 const MinecraftCommand = require('../../contracts/MinecraftCommand')
 const axios = require('axios');
-const fetch = require('node-fetch');
+const hypixel = require('../../contracts/Hypixel')
 
 process.on('uncaughtException', function (err) {
   console.log(err.stack);
@@ -26,10 +26,13 @@ class DenickerCommand extends MinecraftCommand {
         }).then(function (response) {
 
             if(response.status >= 300){
-                temp.send('/gc The provided nick doesn\'t exist!');
+                temp.send('/gc The provided nickname doesn\'t exist!');
             }
-            temp.send(`/gc ${response.data.player.nick}\'s Username is ${response.data.player.ign}`)
-        }).catch(()=>{this.send(`/gc ${username} the provided nick doesn\'t exist!`)});
+            hypixel.getPlayer(response.data.player.ign).then(player => {
+                console.log(player.rank)
+            	temp.send(`/gc [${player.rank}] ${response.data.player.ign} is ${response.data.player.nick}`)
+			}).catch(e => {temp.send('/gc ' + e); });
+        }).catch(()=>{this.send(`/gc ${username} the provided nickname doesn\'t exist!`)});
     }
 }
 
