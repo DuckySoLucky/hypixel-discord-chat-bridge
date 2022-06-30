@@ -46,23 +46,23 @@ The server is the server the Minecraft client should connect to, by default it w
 
 #### Minecraft
 
-The minecraft section includes a `username` and `password` option, if using a Mojang account these should be filled out with your Mojang username and password for the Minecraft account you plan on using, your Minecraft username is most likely the email it was created with. If using with a microsoft account change `accountType` to `microsoft`, `username` and `password` are not required and will be left blank as you will be directed to the [Microsoft Link page](https://www.microsoft.com/link). 
+The minecraft section includes a `username` and `password` option, if using a Mojang account these should be filled out with your Mojang username and password for the Minecraft account you plan on using, your Minecraft username is most likely the email it was created with. If using with a microsoft account change `accountType` to `microsoft`, `username` and `password` are not required and will be left blank as you will be directed to the [Microsoft Link page](https://www.microsoft.com/link). `guildID` is ID of the hypixel guild required for Hypixel API, `guildExp` is integer value required for `!gexp` command which is used for checking how much more Guild experience user has to collect to meet requirements of the guild.
 
 #### Discord
 
-The Discord options includes the `token`, `channel`, `officerChannel`, `commandRole`, `ownerId`, `prefix`, `messageMode` and `joinMessage` options.
+The Discord options includes the `token`, `guildChatChannel`, `officerChannel`, `loggingChannel`, `commandRole`, `prefix`, `messageMode` and `joinMessage` options.
 
 The token is the Discord application token, if you don't already have a Discord App, you can [create a new app](https://discordapp.com/developers), then convert the app to a Discord bot, and then get your Discord bot token on the "Bot" page.
 
-The Discord channel is the ID of the text channel the bot should be linked with, the bot will only send and listen to messages in the channel defined in the config.
+The Discord Guild channel is the ID of the text channel the bot should be linked with, the bot will only send and listen to messages in the channel defined in the config.
 
 The Discord Officer channel is the ID of the text channel the bot should be linked with for the Officer Chat, the bot will only send and listen to messages in the channel defined in the config.
 
+The Discord Logging channel is the ID of the text channel the bot should be linked with for the Logging Chat, the bot will only send and listen to guild managment stuff like kicks, mutes, promotions, demotions..
+
 The command role is the ID of any role on the server the bot is hosted for, any user with the role will be able to run all the Discord commands built into the bot, like `!kick` and `!relog`.
 
-> Note: Any user can run the `!help` command, however all the other commands requires the user has the command role.
-
-The owner ID is similar to the command role, however this is the ID of the user that should have full access to the `!override` command, the user with this permission can use the command to run virtually any command via the bot, and should therefore be limited to just the owner of the bot.
+> Note: Any user can run the `!help` and `!online` command, however all the other commands requires the user has the command role.
 
 The prefix is the command prefixed used for all the commands in the bot on the Discord side, by default this is set it `!`.
 
@@ -105,6 +105,7 @@ The joinMessage is ability to toggle join and leave message being sent to the di
 - `!slayer [player] [type]` - Slayer of specified user.
 - `!uhc [player]` - UHC Stats of specified user.
 - `!weight [player]` - Skyblock Stats of specified user.
+- `!guildexp [player]` - Guilds experience of specified user.
 
 
 ### To-Do List
@@ -113,12 +114,11 @@ The joinMessage is ability to toggle join and leave message being sent to the di
 - [ ] Chat message filter
   - The filter should block any messages sent from Discord to Hypixel that contains banable words, and words that could potentially cause a mute.
 - [ ] More minecraft QOL commands
-  - Add more QoL commands to the minecraft.
-- [ ] `/` Command support
-  - Rewrite how discord commands work. Add new `/` Discord Command support. Not sure about this yet.
+  - Add more QoL commands to the minecraft and discord.
+- [ ] Slash Command support
+  - Rewrite how discord commands work. Add new `/` Discord Command support. Most likely won't implement this.
 
 ## Credits
-
 
 [MaroAPI](https://github.com/zt3h)
 [SkyCryptAPI](https://github.com/SkyCryptWebsite)
