@@ -6,7 +6,7 @@ process.on('uncaughtException', function (err) {
 });
 
 const getSkyblock = async function (name) {
-    const response = await axios.get('http://pelepuric.ddns.net:3000/v1/profiles/' + name + '?key=pele');
+    const response = await axios.get('http://localhost:3000/v1/profiles/' + name + '?key=DuckySoLucky');
     return response.data;
 };
 
@@ -24,7 +24,7 @@ class StatsCommand extends MinecraftCommand {
         let msg = args.shift();
         let temp = this;
         if (msg) {
-            const response = await axios.get('http://pelepuric.ddns.net:3000/v1/profiles/' + msg + '?key=pele')
+            const response = await axios.get('http://localhost:3000/v1/profiles/' + msg + '?key=DuckySoLucky')
             .then(function (response) {
                 if(response.status > 299){temp.send('/gc The provided test doesn\'t exist!')}
 
@@ -35,7 +35,7 @@ class StatsCommand extends MinecraftCommand {
 
             
         } else {
-            const response = await axios.get('http://pelepuric.ddns.net:3000/v1/profiles/' + username + '?key=pele')
+            const response = await axios.get('http://localhost:3000/v1/profiles/' + username + '?key=DuckySoLucky')
             .then(function (response) {
                 if(response.status > 299) {temp.send('/gc The provided test doesn\'t exist!')}
                 
