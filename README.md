@@ -110,9 +110,6 @@ The joinMessage is ability to toggle join and leave message being sent to the di
 
 ### To-Do List
 
-
-- [ ] Chat message filter
-  - The filter should block any messages sent from Discord to Hypixel that contains banable words, and words that could potentially cause a mute.
 - [ ] More minecraft QOL commands
   - Add more QoL commands to the minecraft and discord.
 - [ ] Slash Command support
