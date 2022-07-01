@@ -110,7 +110,7 @@ class DiscordManager extends CommunicationBridge {
   onBroadcastCleanEmbed({ message, color, channel }) {
     this.app.log.broadcast(message, 'Event')
     if (channel == 'Logger')  {
-      this.app.discord.client.channels.fetch(this.app.config.discord.guildChatChannel).then(channel => {
+      this.app.discord.client.channels.fetch(this.app.config.discord.loggingChannel).then(channel => {
         channel.send({
           embed: {
             color: color,
@@ -119,7 +119,7 @@ class DiscordManager extends CommunicationBridge {
         })
       })
     } else {
-      this.app.discord.client.channels.fetch(this.app.config.discord.loggingChannel).then(channel => {
+      this.app.discord.client.channels.fetch(this.app.config.discord.guildChatChannel).then(channel => {
         channel.send({
           embed: {
             color: color,

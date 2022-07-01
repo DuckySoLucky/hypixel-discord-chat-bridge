@@ -73,9 +73,7 @@ class StateHandler extends EventHandler {
         icon: `https://mc-heads.net/avatar/${user}`,
         color: '47F049',
         channel: 'Guild'
-      })
-      &&
-      this.minecraft.broadcastHeadedEmbed({
+      }) && this.minecraft.broadcastHeadedEmbed({
         message: `${user} joined the guild!`,
         title: `Member Joined`,
         icon: `https://mc-heads.net/avatar/${user}`,
@@ -92,9 +90,7 @@ class StateHandler extends EventHandler {
         icon: `https://mc-heads.net/avatar/${user}`,
         color: 'F04947',
         channel: 'Guild'
-      })
-      &&
-      this.minecraft.broadcastHeadedEmbed({
+      }) && this.minecraft.broadcastHeadedEmbed({
         message: `${user} left the guild!`,
         title: `Member Left`,
         icon: `https://mc-heads.net/avatar/${user}`,
@@ -113,9 +109,7 @@ class StateHandler extends EventHandler {
         icon: `https://mc-heads.net/avatar/${user}`,
         color: 'F04947',
         channel: 'Guild'
-      }) 
-      &&
-      this.minecraft.broadcastHeadedEmbed({
+      }) && this.minecraft.broadcastHeadedEmbed({
         message: `${user} was kicked from the guild!`,
         title: `Member Kicked`,
         icon: `https://mc-heads.net/avatar/${user}`,

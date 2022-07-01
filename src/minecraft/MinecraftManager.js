@@ -4,8 +4,8 @@ const StateHandler = require('./handlers/StateHandler')
 const ErrorHandler = require('./handlers/ErrorHandler')
 const ChatHandler = require('./handlers/ChatHandler')
 const mineflayer = require('mineflayer')
-const Filter = require('bad-words'),
-    filter = new Filter();
+const Filter = require('bad-words'), 
+  filter = new Filter();
 
 class MinecraftManager extends CommunicationBridge {
   constructor(app) {
