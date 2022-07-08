@@ -5,7 +5,7 @@ A two-way chat bridge between [Hypixel](https://hypixel.net/) guild chat and a [
 > This application will login to Hypixel using Mineflayer which is not a normal Minecraft client, this could result in your Minecraft account getting banned from Hypixel, so use this application at your own risk.
 
 <hr>
-
+ 
 ## Table of Content
 
 - [Installation using NodeJS](#installation-using-nodejs)
