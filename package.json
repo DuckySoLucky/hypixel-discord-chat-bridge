@@ -3,25 +3,8 @@
   "version": "1.8.0",
   "description": "A Hypixel guild chat and Discord chat bridge",
   "main": "index.js",
-  "scripts": {
-    "start": "node index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/DuckySoLucky/hypixel-discord-chat-bridge.git"
-  },
-  "keywords": [
-    "hypixel",
-    "discord",
-    "chat",
-    "bridge"
-  ],
   "author": "DuckySoLucky",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/issues"
-  },
-  "homepage": "https://github.com/DuckySoLucky/hypixel-discord-chat-bridge#readme",
   "dependencies": {
     "@zikeji/hypixel": "^3.1.1",
     "axios": "^0.24.0",
