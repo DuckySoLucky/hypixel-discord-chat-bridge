@@ -1,11 +1,16 @@
 const EventHandler = require('../../contracts/EventHandler')
-const fs = require('fs');
+const fs = require('fs')
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
+const config = require('../../../config.json')
+let guildInfo = [], guildRanks = [], members = []
+
 
 class StateHandler extends EventHandler {
-  constructor(minecraft, command) {
+  constructor(minecraft, command, discord) {
     super()
 
     this.minecraft = minecraft
+    this.discord = discord
     this.command = command
 
 
@@ -17,7 +22,7 @@ class StateHandler extends EventHandler {
     this.bot.on('message', (...args) => this.onMessage(...args))
   }
 
-  onMessage(event) {
+  async onMessage(event) {
     const message = event.toString().trim()
 
     if (this.isLobbyJoinMessage(message)) {
@@ -25,12 +30,10 @@ class StateHandler extends EventHandler {
     }
 
     if (this.isPartyMessage(message)) {
-
       function waity(seconds) {
         var waitTill = new Date(new Date().getTime() + seconds * 1000)
         while (waitTill > new Date()) {}
       }
-
       function getname(message) {
         let user = message.substr(54);
         if (user[0] !== '[') {
@@ -39,14 +42,68 @@ class StateHandler extends EventHandler {
           return user.split(' ')[1];
         }
       }
-
-        const name = getname(message)
-        this.send(`/party accept ${name}`)
-        waity(5)
-        this.send(`/party leave`)        
+      const name = getname(message)
+      this.send(`/party accept ${name}`)
+      waity(5)
+      this.send(`/party leave`)        
     }
     
-    
+    if (this.isGuildListMessage(message)) {
+      if(!message.includes('Online Members')) {
+        if (message.includes('Guild Name') || message.includes('Total Members') || message.includes('Online Members')) {
+          guildInfo.push(message)
+        } else if (message.includes('--')) {
+          guildRanks.push(message)
+        } else {
+          members.push(message)
+        }
+      } else {
+        guildInfo.push(message)
+
+        let guildInfoSplit = guildInfo[0].split(' ');
+        let guildInfoSplit2 = guildInfo[1].split(' ');
+        let guildInfoSplit3 = guildInfo[2].split(' ');
+
+        for (let i = 0; i < members.length; i++) {
+          members[i] = members[i].replaceAll('[OWNER] ', '')
+          members[i] = members[i].replaceAll('[ADMIN] ', '')
+          members[i] = members[i].replaceAll('[MCP] ', '')
+          members[i] = members[i].replaceAll('[GM] ', '')
+          members[i] = members[i].replaceAll('[PIG+++] ', '')
+          members[i] = members[i].replaceAll('[YOUTUBE] ', '')
+          members[i] = members[i].replaceAll('[MVP++] ', '')
+          members[i] = members[i].replaceAll('[MVP+] ', '')
+          members[i] = members[i].replaceAll('[MVP] ', '')
+          members[i] = members[i].replaceAll('[VIP+] ', '')
+          members[i] = members[i].replaceAll('[VIP] ', '')
+          members[i] = members[i].replaceAll('  ', ' ')
+          members[i] = members[i].replaceAll(' ● ', '` ᛫ `')
+          String.prototype.reverse = function () {return this.split('').reverse().join('');};
+          String.prototype.replaceLast = function (what, replacement) {return this.reverse().replace(new RegExp(what.reverse()), replacement.reverse()).reverse();};
+          members[i] = members[i].replaceLast(' ●', '`');
+        }
+        
+        let description = `Member Count: **${guildInfoSplit2[2]}/125**\nOnline Members: **${guildInfoSplit3[2]}**\n`
+        for (let i = 0; i < guildRanks.length; i++) {
+          description+= `\n`
+          guildRanks[i] = guildRanks[i].replaceAll('--', '**')
+          description+= `**${guildRanks[i]}**\n \`${members[i]}`
+        }
+
+        this.minecraft.broadcastHeadedEmbed({
+          message: `${description}`,
+          title: guildInfoSplit[2],
+          icon: `https://hypixel.paniek.de/guild/${config.minecraft.guildID}/banner.png`,
+          color: '47F049',
+          channel: 'Guild'
+        })
+        guildInfo = [];
+        guildRanks = [];
+        members = [];
+      }
+  }
+  
+
     if (this.isLoginMessage(message)) {
       let user = message.replace(/\[(.*?)\]/g, '').trim().split(/ +/g)[0]
       var data = JSON.parse(fs.readFileSync('config.json'));
@@ -72,13 +129,13 @@ class StateHandler extends EventHandler {
         title: `Member Joined`,
         icon: `https://mc-heads.net/avatar/${user}`,
         color: '47F049',
-        channel: 'Guild'
+        channel: 'Logger'
       }) && this.minecraft.broadcastHeadedEmbed({
         message: `${user} joined the guild!`,
         title: `Member Joined`,
         icon: `https://mc-heads.net/avatar/${user}`,
         color: '47F049',
-        channel: 'Logger'
+        channel: 'Guild'
       })   
     }
 
@@ -89,17 +146,15 @@ class StateHandler extends EventHandler {
         title: `Member Left`,
         icon: `https://mc-heads.net/avatar/${user}`,
         color: 'F04947',
-        channel: 'Guild'
+        channel: 'Logger'
       }) && this.minecraft.broadcastHeadedEmbed({
         message: `${user} left the guild!`,
         title: `Member Left`,
         icon: `https://mc-heads.net/avatar/${user}`,
         color: 'F04947',
-        channel: 'Logger'
+        channel: 'Guild'
       })
     }
-
-
 
     if (this.isKickMessage(message)) {
       let user = message.replace(/\[(.*?)\]/g, '').trim().split(/ +/g)[0]
@@ -108,15 +163,14 @@ class StateHandler extends EventHandler {
         title: `Member Kicked`,
         icon: `https://mc-heads.net/avatar/${user}`,
         color: 'F04947',
-        channel: 'Guild'
+        channel: 'Logger'
       }) && this.minecraft.broadcastHeadedEmbed({
         message: `${user} was kicked from the guild!`,
         title: `Member Kicked`,
         icon: `https://mc-heads.net/avatar/${user}`,
         color: 'F04947',
-        channel: 'Logger'
+        channel: 'Guild'
       })   
-
     }
 
     if (this.isPromotionMessage(message)) {
@@ -310,6 +364,10 @@ class StateHandler extends EventHandler {
 
   isPartyMessage(message) {
     return message.includes('has invited you to join their party!') && !message.includes(':')
+  }
+
+  isGuildListMessage(message) {
+    return message.includes('●') || message.startsWith('-- ') && message.endsWith(' --') || message.startsWith('Online Members: ') || message.includes('Online Members: ') || message.startsWith('Total Members:') ||  message.startsWith('Guild Name:')
   }
 
   isPromotionMessage(message) {

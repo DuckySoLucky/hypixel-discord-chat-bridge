@@ -7,8 +7,10 @@
     "username": "mail@example.com",
     "password": "YOUR_PASSWORD",
     "accountType": "microsoft",
-    "guildID": "HYPIXEL_GUILD_ID_(REQUIRED FOR !GEXP COMMAND)",
-    "guildExp": "HYPIXEL_GUILD_EXP_REQS__(DOESN'T KICK, REQUIRED FOR SUBTRACTING ON !GEXP COMMAND)"
+    "apiKey": "HYPIXEL_API_KEY",
+    "guildName": "HYPIXEL_GUILD_NAME",
+    "guildID": "HYPIXEL_GUILD_ID",
+    "guildExp": "HYPIXEL_GUILD_EXP_REQUIREMENT"
   },
   "discord": {
     "token": "TOKEN",
