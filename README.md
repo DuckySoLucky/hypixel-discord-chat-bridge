@@ -5,11 +5,11 @@ A two-way chat bridge between [Hypixel](https://hypixel.net/) guild chat and a [
 > This application will login to Hypixel using Mineflayer which is not a normal Minecraft client, this could result in your Minecraft account getting banned from Hypixel, so use this application at your own risk.
 
 <hr>
-
+ 
 ## Table of Content
 
 - [Installation using NodeJS](#installation-using-nodejs)
-  - [Prerequisites](#prerequisites)
+  - [Prerequisites](#prerequisites) 
 - [Installation using Docker](#installation-using-docker)
   - [Prerequisites](#prerequisites-1)
 - [Configuration](#configuration)
@@ -46,11 +46,11 @@ The server is the server the Minecraft client should connect to, by default it w
 
 #### Minecraft
 
-The minecraft section includes a `username` and `password` option, if using a Mojang account these should be filled out with your Mojang username and password for the Minecraft account you plan on using, your Minecraft username is most likely the email it was created with. If using with a microsoft account change `accountType` to `microsoft`, `username` and `password` are not required and will be left blank as you will be directed to the [Microsoft Link page](https://www.microsoft.com/link). `guildID` is ID of the hypixel guild required for Hypixel API, `guildExp` is integer value required for `!gexp` command which is used for checking how much more Guild experience user has to collect to meet requirements of the guild.
+The minecraft section includes a `username` and `password` option, if using a Mojang account these should be filled out with your Mojang username and password for the Minecraft account you plan on using, your Minecraft username is most likely the email it was created with. If using with a microsoft account change `accountType` to `microsoft`, `username` and `password` are not required and will be left blank as you will be directed to the [Microsoft Link page](https://www.microsoft.com/link). `apiKey` is Hypixel Network API key which you can get by running `/api new` command in game, `guildName` is as the same says name of the Guild. `guildID` is ID of the hypixel guild required for Hypixel API, `guildExp` is integer value required for `!gexp` command which is used for checking how much more Guild experience user has to collect to meet requirements of the guild.
 
 #### Discord
 
-The Discord options includes the `token`, `guildChatChannel`, `officerChannel`, `loggingChannel`, `commandRole`, `prefix`, `messageMode` and `joinMessage` options.
+The Discord options includes the `token`, `guildChatChannel`, `officerChannel`, `loggingChannel`, `commandRole`, `prefix`, `messageMode`, `joinMessage` and `filterMessages` options.
 
 The token is the Discord application token, if you don't already have a Discord App, you can [create a new app](https://discordapp.com/developers), then convert the app to a Discord bot, and then get your Discord bot token on the "Bot" page.
 
@@ -74,6 +74,8 @@ The messageMode can either be `bot` or `webhook`. This selects how the messages 
 > Note: The Discord rate limit for webhooks is 30 requests every 60 seconds, whereas for normal bot messages it's 5 messages every 5 seconds. Using webhooks effectively halves the number of messages the bot can send per minute which may cause issues in an active guild.
 
 The joinMessage is ability to toggle join and leave message being sent to the discord channel. This should be set to `false` in inactive guilds since it can be spammy. 
+
+The joinMessage is ability to toggle filtering messages. This should be set to `false` otherwise bot might get banned.
 
 ### Commands
 
