@@ -102,7 +102,27 @@ The joinMessage is ability to toggle join and leave message being sent to the di
 
 `Minecraft` 
 
-
+- `!8ball <question>` - Ask an 8ball a question.
+- `!fairysouls [player]` - Fairy Souls of specified user.
+- `!UHC [player]` - UHC Stats of specified user.
+- `!accessories [player]` - Accessories of specified user.
+- `!bedwars [player]` - BedWars stats of specified user.
+- `!catacombs [player]` - Skyblock Dungeons Stats of specified user.
+- `!denick [player]` - Denick username of specified user.
+- `!duels [player]` - Duel stats of specified user.
+- `!fetchur` - Information about an item for Fetchur.
+- `!guildexp [player]` - Guilds experience of specified user.
+- `!help` - Shows help menu
+- `!kitty` - Random image of cute cat.
+- `!math <calculation>` - Calculate.
+- `!namehistory [player]` - Name History of specified user.
+- `!networth [player]` - Networth of specified user.
+- `!skills [player]` - Skills and Skill Average of specified user.
+- `!skywars [player]` - Skywars stats of specified user.
+- `!skyblock [player]` - Skyblock Stats of specified user.
+- `!news` - Check latest Hypixel Network News.
+- `!slayer [player] [type]` - Slayer of specified user.
+- `!weight [player]` - Skyblock Stats of specified user.
 
 
 ### To-Do List
@@ -110,4 +130,12 @@ The joinMessage is ability to toggle join and leave message being sent to the di
 - [ ] 2.0 Release
   - Rewrite whole code with usage of discordjs v13 and slash commands.
 
+## Powered by
+- [Senither](https://github.com/Senither)
+- [Hypixel Network API](http://api.hypixel.net/)
+- [Hypixel API Reborn](https://hypixel.stavzdev.me/#/)
+- [PlayerDB API](https://playerdb.co/)
+- [SkyHelper API](https://github.com/Altpapier/SkyHelperAPI)
+- [SkyShiiyu API](https://github.com/SkyCryptWebsite/SkyCrypt)
+- [MaroAPI](https://github.com/zt3h)
 
