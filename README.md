@@ -78,7 +78,7 @@ The `messageMode` can either be `bot` or `webhook`. This selects how the message
 - [View Webhook example](https://imgur.com/)
 - [View Bot Mode example](https://imgur.com/)
 
-> Note` - The Discord rate limit for webhooks is 30 requests every 60 seconds, whereas for normal bot messages it's 5 messages every 5 seconds. Using webhooks effectively halves the number of messages the bot can send per minute which may cause issues in an active guild.
+> Note - The Discord rate limit for webhooks is 30 requests every 60 seconds, whereas for normal bot messages it's 5 messages every 5 seconds. Using webhooks effectively halves the number of messages the bot can send per minute which may cause issues in an active guild.
 
 The filterMessage is ability to toggle filtering messages. This should be set to `false` otherwise bot might get banned.
 
