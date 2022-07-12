@@ -9,9 +9,7 @@ app
   .register()
   .then(() => {
     app.connect()
-  })
-  .catch(err => {
+  }).catch(err => {
     console.error(err)
   })
 
-keepAlive();

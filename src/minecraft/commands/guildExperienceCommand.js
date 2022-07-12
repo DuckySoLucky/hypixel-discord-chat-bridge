@@ -1,5 +1,5 @@
 const MinecraftCommand = require('../../contracts/MinecraftCommand')
-const hypixel = require('../../contracts/Hypixel')
+const hypixel = require('../../contracts/API/HypixelRebornAPI')
 
 process.on('uncaughtException', function (err) {
   console.log(err.stack);
@@ -10,7 +10,7 @@ class guildExperienceCommand extends MinecraftCommand {
     super(minecraft)
 
     this.name = 'guildexp'
-    this.aliases = ['gexp', 'exp']
+    this.aliases = ['gexp']
     this.description = "Guilds experience of specified user."
   }
 

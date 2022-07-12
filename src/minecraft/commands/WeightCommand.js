@@ -1,49 +1,38 @@
 const MinecraftCommand = require('../../contracts/MinecraftCommand')
-const axios = require('axios');
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
+const skyShiiyuAPI = require('../../contracts/API/SkyShiiyuAPI')
+process.on('uncaughtException', function (err) {console.log(err.stack)});
 
-process.on('uncaughtException', function (err) {
-  console.log(err.stack);
-});
-
-const getSkyblock = async function (name) {
-    const response = await axios.get('http://localhost:3000/v1/profiles/' + name + '?key=DuckySoLucky');
-    return response.data;
-};
+async function getWeight(username) {
+    const profile = await skyShiiyuAPI.getProfile(username)
+    const senither = `Senither Weight = ${Math.round(profile.data.weight.senither.overall * 100) / 100} | Skills = ${Math.round(profile.data.weight.senither.skill.total * 100) / 100} | Dungeons = ${Math.round(profile.data.weight.senither.dungeon.total * 100) / 100} | Slayer = ${Math.round(profile.data.weight.senither.slayer.total * 100) / 100}`
+    const lily = `Lily Weight = ${Math.round(profile.data.weight.lily.total * 100) / 100} | Skills = ${Math.round((profile.data.weight.lily.skill.base + profile.data.weight.lily.skill.overflow) * 100) / 100} | Dungeons = ${Math.round((profile.data.weight.lily.catacombs.completion.base + profile.data.weight.lily.catacombs.completion.master + profile.data.weight.lily.catacombs.experience) * 100) / 100} | Slayer = ${Math.round(profile.data.weight.lily.slayer * 100) / 100}`
+    if (profile.data.profile.game_mode == 'ironman') username = `♲ ${username}`
+    return [senither, lily, username]
+}
 
 class StatsCommand extends MinecraftCommand {
     constructor(minecraft) {
         super(minecraft)
 
-        this.name = 'stats'
-        this.aliases = ['weight']
+        this.name = 'weight'
+        this.aliases = ['w']
         this.description = 'Skyblock Stats of specified user.'
     }
     
     async onCommand(username, message) {
-        let args = this.getArgs(message);
-        let msg = args.shift();
-        let temp = this;
-        if (msg) {
-            const response = await axios.get('http://localhost:3000/v1/profiles/' + msg + '?key=DuckySoLucky')
-            .then(function (response) {
-                if(response.status > 299){temp.send('/gc The provided test doesn\'t exist!')}
-
-                const SA = (response.data.data[0].skills.farming.level + response.data.data[0].skills.mining.level + response.data.data[0].skills.combat.level + response.data.data[0].skills.foraging.level + response.data.data[0].skills.fishing.level + response.data.data[0].skills.enchanting.level + response.data.data[0].skills.alchemy.level + response.data.data[0].skills.taming.level) / 8
-                temp.send(`/gc ${msg}\'s Weight = ${Math.round(response.data.data[0].weight.total_weight * 100) / 100} ᐧᐧᐧᐧ  Skill Average = ${SA} ᐧᐧᐧᐧ Catacombs = ${response.data.data[0].dungeons.catacombs.skill.level}`)
-        
-            }).catch(()=>{this.send(`/gc ${username} the provided username doesn\'t exist!`)});
-
-            
+        let msg = this.getArgs(message);
+        if (msg[0]) {
+            const response = await getWeight(msg[0])
+            this.send(`/gc ${response[2]}\'s ${response[0]}`)
+            await delay(1000)
+            this.send(`/gc ${response[2]}\'s ${response[1]}`)
         } else {
-            const response = await axios.get('http://localhost:3000/v1/profiles/' + username + '?key=DuckySoLucky')
-            .then(function (response) {
-                if(response.status > 299) {temp.send('/gc The provided test doesn\'t exist!')}
-                
-                const SA = (response.data.data[0].skills.farming.level + response.data.data[0].skills.mining.level + response.data.data[0].skills.combat.level + response.data.data[0].skills.foraging.level + response.data.data[0].skills.fishing.level + response.data.data[0].skills.enchanting.level + response.data.data[0].skills.alchemy.level + response.data.data[0].skills.taming.level) / 8
-                temp.send(`/gc ${username}\'s Weight = ${Math.round(response.data.data[0].weight.total_weight * 100) / 100} ᐧᐧᐧᐧ  Skill Average = ${SA} ᐧᐧᐧᐧ Catacombs = ${response.data.data[0].dungeons.catacombs.skill.level}`)
- 
-            }).catch(()=>{this.send(`/gc ${username} the provided username doesn\'t exist!`)});
-        }
+            const response = await getWeight(username)
+            this.send(`/gc ${response[2]}\'s ${response[0]}`)
+            await delay(1000)
+            this.send(`/gc ${response[2]}\'s ${response[1]}`)
+         }
     }
 }
 

@@ -1,9 +1,17 @@
 const MinecraftCommand = require('../../contracts/MinecraftCommand')
-const axios = require('axios');
+const SkyHelperAPI = require('../../contracts/API/SkyHelperAPI')
+process.on('uncaughtException', function (err) {console.log(err.stack)});
 
-process.on('uncaughtException', function (err) {
-  console.log(err.stack);
-});
+async function getCatacombs(username) {
+    try {
+        const profile = await SkyHelperAPI.getProfile(username)
+        if (profile.isIronman) username = `♲ ${username}`
+        return `${username}\'s Catacombs: ${profile.dungeons.catacombs.skill.level} ᐧᐧᐧᐧ Classes:  H-${profile.dungeons.classes.healer.level}  M-${profile.dungeons.classes.mage.level}  B-${profile.dungeons.classes.berserk.level}  A-${profile.dungeons.classes.archer.level}  T-${profile.dungeons.classes.tank.level} ᐧᐧᐧᐧ Class Average: ${((profile.dungeons.classes.healer.level + profile.dungeons.classes.mage.level + profile.dungeons.classes.berserk.level + profile.dungeons.classes.archer.level + profile.dungeons.classes.tank.level) / 5)}`
+    }
+    catch (error) {
+        return error.toString().replaceAll('Request failed with status code 404', 'There is no player with the given UUID or name or the player has no Skyblock profiles').replaceAll('Request failed with status code 500', 'There is no player with the given UUID or name or the player has no Skyblock profiles')
+    }
+}
 
 class CatacombsCommand extends MinecraftCommand {
     constructor(minecraft) {
@@ -11,33 +19,15 @@ class CatacombsCommand extends MinecraftCommand {
 
         this.name = 'catacombs'
         this.aliases = ['cata', 'dungeons']
-        this.description = 'Skyblock cata Stats of specified user.'
+        this.description = 'Skyblock Dungeons Stats of specified user.'
     }
     
     async onCommand(username, message) {
-        let args = this.getArgs(message);
-        let msg = args.shift();
-        let temp = this;
-        if (msg) {
-            const response = await axios.get('http://localhost:3000/v1/profiles/' + msg + '?key=DuckySoLucky')
-            .then(function (response) {
-                if(response.status > 299){temp.send('/gc The provided test doesn\'t exist!')}
-
-                const CA = (response.data.data[0].dungeons.classes.healer.level + response.data.data[0].dungeons.classes.mage.level + response.data.data[0].dungeons.classes.berserk.level + response.data.data[0].dungeons.classes.archer.level + response.data.data[0].dungeons.classes.tank.level) / 5
-                temp.send(`/gc ${msg}\'s Cata: ${response.data.data[0].dungeons.catacombs.skill.level} ᐧᐧᐧᐧ Class levels:  H-${response.data.data[0].dungeons.classes.healer.level}  M-${response.data.data[0].dungeons.classes.mage.level}  B-${response.data.data[0].dungeons.classes.berserk.level}  A-${response.data.data[0].dungeons.classes.archer.level}  T-${response.data.data[0].dungeons.classes.tank.level} ᐧᐧᐧᐧ Class Average: ${CA}`)
-        
-            }).catch(()=>{this.send(`/gc ${username} the provided username doesn\'t exist!`)});
-
-            
+        let msg = this.getArgs(message);
+        if (!msg[0]) {
+            this.send(`/gc ${await getCatacombs(username)}`)
         } else {
-            const response = await axios.get('http://localhost:3000/v1/profiles/' + username + '?key=DuckySoLucky')
-            .then(function (response) {
-                if(response.status > 299) {temp.send('/gc The provided test doesn\'t exist!')}
-                
-                const CA = (response.data.data[0].dungeons.classes.healer.level + response.data.data[0].dungeons.classes.mage.level + response.data.data[0].dungeons.classes.berserk.level + response.data.data[0].dungeons.classes.archer.level + response.data.data[0].dungeons.classes.tank.level) / 5
-                temp.send(`/gc ${username}\'s Cata: ${response.data.data[0].dungeons.catacombs.skill.level} ᐧᐧᐧᐧ Class levels:  H-${response.data.data[0].dungeons.classes.healer.level}  M-${response.data.data[0].dungeons.classes.mage.level}  B-${response.data.data[0].dungeons.classes.berserk.level}  A-${response.data.data[0].dungeons.classes.archer.level}  T-${response.data.data[0].dungeons.classes.tank.level} ᐧᐧᐧᐧ Class Average: ${CA}`)
- 
-            }).catch(()=>{this.send(`/gc ${username} the provided username doesn\'t exist!`)});
+            this.send(`/gc ${await getCatacombs(msg[0])}`)
         }
     }
 }

@@ -4,23 +4,42 @@
     "port": 25565
   },
   "minecraft": {
-    "username": "mail@example.com",
-    "password": "YOUR_PASSWORD",
+    "username": "email@example.com",
+    "password": "none",
     "accountType": "microsoft",
-    "apiKey": "HYPIXEL_API_KEY",
-    "guildName": "HYPIXEL_GUILD_NAME",
-    "guildID": "HYPIXEL_GUILD_ID",
-    "guildExp": "HYPIXEL_GUILD_EXP_REQUIREMENT"
+
+    "guildID": "HYPIXEL_GUILD_ID", 
+    "guildExp": "GUILD_EXP_REQUIREMENTS",
+
+    "messageRepeatBypass": "true",
+    "messageRepeatBypassLength": "24"
   },
   "discord": {
     "token": "TOKEN",
-    "guildChatChannel": "000000000000000000",
-    "officerChannel": "000000000000000000",
-    "loggingChannel": "000000000000000000",
-    "commandRole": "000000000000000000",
+    "guildChatChannel": "CHANNEL_ID",
+    "officerChannel": "CHANNEL_ID",
+    "loggingChannel": "CHANNEL_ID",
+    "commandRole": "ROLE_ID",
     "prefix": "!",
     "messageMode": "webhook",
-    "joinMessage": "true",
-    "filterMessages": "true"
+    "filterMessages": "true",
+    "joinMessage": "false"
+  },
+  "console": {
+    "maxEventSize": 50
+  },
+  "api": {
+    "hypixelAPI": "https://api.hypixel.net",
+    "hypixelAPIkey": "HYPIXEL_API_KEY",
+
+    "skyHelperAPI": "http://176.31.203.28:1195/v1",
+    "skyHelperKey": "DuckySoLucky",
+
+    "antiSniperAPI": "https://api.antisniper.net",
+    "antiSniperKey": "ANTISNIPIER_API_KEY",
+
+    "skyShiiyuAPI": "https://sky.shiiyu.moe/api/v2",
+    
+    "playerDBAPI": "https://playerdb.co/api/player/minecraft"
   }
 }

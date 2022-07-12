@@ -44,7 +44,7 @@ class HelpCommand extends DiscordCommand {
               `Officer Channel: <#${this.discord.app.config.discord.officerChannel}>`,
               `Logging Channel: <#${this.discord.app.config.discord.loggingChannel}>`,
               `Command Role: <@&${this.discord.app.config.discord.commandRole}>`,
-              `Version: \`1.4\``,
+              `Version: \`1.7\``,
             ].join('\n'),
           }
         ],

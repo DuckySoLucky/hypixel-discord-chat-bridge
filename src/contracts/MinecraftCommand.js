@@ -1,3 +1,6 @@
+const config = require('../../config.json')
+const helperFunctions = require('./helperFunctions')
+
 class MinecraftCommand {
   constructor(minecraft) {
     this.minecraft = minecraft
@@ -13,7 +16,12 @@ class MinecraftCommand {
 
   send(message) {
     if (this.minecraft.bot.player !== undefined) {
-      this.minecraft.bot.chat(message)
+      if (config.minecraft.messageRepeatBypass == "true") {
+        let string = helperFunctions.generateID(config.minecraft.messageRepeatBypassLength)
+        this.minecraft.bot.chat(message + ' - ' + string)
+      } else {
+        this.minecraft.bot.chat(message)
+      }
     }
   }
 

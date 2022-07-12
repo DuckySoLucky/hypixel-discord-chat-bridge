@@ -1,20 +1,15 @@
 const express = require('express');
 const server = express();
+server.listen(1382, () => { console.log("Web Server is Ready!") });
  
 server.all('/', (req, res) => {
   res.send(`Bot is Online!`)
 })
- 
-function keepAlive() {
-  server.listen(1382, () => { console.log("Server is Ready!") });
-}
- 
-module.exports = keepAlive;
 
 //--------------------------------
 // If u wanna have fancy website
-
-/*var http = require('http');
+/*
+var http = require('http');
 var fs = require('fs');
 
 const PORT=1382; 

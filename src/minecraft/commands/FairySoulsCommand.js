@@ -1,10 +1,17 @@
 const MinecraftCommand = require('../../contracts/MinecraftCommand')
-const hypixel = require('../../contracts/Hypixel')
-const axios = require('axios');
+const skyShiiyuAPI = require('../../contracts/API/SkyShiiyuAPI')
+process.on('uncaughtException', function (err) {console.log(err.stack)});
 
-process.on('uncaughtException', function (err) {
-  console.log(err.stack);
-});
+async function fairySouls(username) {
+    try {
+      const profile = await skyShiiyuAPI.getProfile(username)
+      if(profile.data.profile.game_mode == 'ironman') username = `♲ ${username}`
+      return `${username}\'s Fairy Souls: ${profile.data.fairy_souls.collected}/${profile.data.fairy_souls.total} | Progress: ${Math.round(profile.data.fairy_souls.progress * 100) / 100*100}%`
+    }
+    catch (error) {
+      return error//.toString().replaceAll('[hypixel-api-reborn] ', '')
+    }
+}
 
 class StatsCommand extends MinecraftCommand {
     constructor(minecraft) {
@@ -15,45 +22,12 @@ class StatsCommand extends MinecraftCommand {
         this.description = 'Fairy Souls of specified user.'
     }
 
-    onCommand(username, message) {
-        let args = this.getArgs(message);
-        let msg = args.shift();
-        if (msg) {
-            let temp = this;
-            axios({
-                method: 'get',
-                url: `https://sky.shiiyu.moe/api/v2/profile/${msg}`
-            }).then(function (response) {
-                if(response.status >= 300){
-                    temp.send('/gc The provided username doesn\'t exist!');
-                }
-                let profile = {};
-                Object.keys(response.data.profiles).forEach((key) => {
-                    if (response.data.profiles[key].current)    //trazi upravo sada otvoren profile
-                        profile = response.data.profiles[key];
-                })
-                let name
-                if(profile.data.profile.game_mode === 'ironman'){name = msg+' ♲'}else{name = msg}
-                temp.send(`/gc ${name}\'s Fairy Souls: ${profile.data.fairy_souls.collected}/${profile.data.fairy_souls.total} | Progress: ${Math.round(profile.data.fairy_souls.progress * 100) / 100*100}%`)
-            }).catch(()=>{this.send(`/gc ${username} the provided username doesn\'t exist!`)});
+    async onCommand(username, message) {
+        let msg = this.getArgs(message);
+        if (!msg[0]) {
+            this.send(`/gc ${await fairySouls(username)}`)   
         } else {
-            let temp = this;
-            axios({
-                method: 'get',
-                url: `https://sky.shiiyu.moe/api/v2/profile/${username}`
-            }).then(function (response) {
-                if(response.status >= 300){
-                    temp.send('The provided username doesn\'t exist!');
-                }
-                let profile = {};
-                Object.keys(response.data.profiles).forEach((key) => {
-                    if (response.data.profiles[key].current)
-                        profile = response.data.profiles[key];
-                })
-                let name
-                if(profile.data.profile.game_mode === 'ironman'){name = username+' ♲'}else{name = username}
-                temp.send(`/gc ${name}\'s Fairy Souls: ${profile.data.fairy_souls.collected}/${profile.data.fairy_souls.total} | Progress: ${Math.round(profile.data.fairy_souls.progress * 100) / 100*100}%`)
-            }).catch(()=>{this.send(`/gc ${username} the provided username doesn\'t exist!`)});
+            this.send(`/gc ${await fairySouls(msg[0])}`) 
         }
     }
 }

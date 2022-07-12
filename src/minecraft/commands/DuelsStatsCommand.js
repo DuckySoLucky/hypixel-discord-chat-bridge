@@ -1,10 +1,6 @@
 const MinecraftCommand = require('../../contracts/MinecraftCommand')
-const hypixel = require('../../contracts/Hypixel')
-const axios = require('axios');
-
-process.on('uncaughtException', function (err) {
-  console.log(err.stack);
-});
+const hypixel = require('../../contracts/API/HypixelRebornAPI')
+process.on('uncaughtException', function (err) {console.log(err.stack)})
 
 class DuelsStatsCommand extends MinecraftCommand {
 	constructor(minecraft) {
@@ -23,9 +19,8 @@ class DuelsStatsCommand extends MinecraftCommand {
 		if (arg[0] == undefined && arg[1] == undefined) { // !duels
 			hypixel.getPlayer(username).then(player => {
 				temp.send(`/gc [Duels] [${player.stats.duels.division}] ${username} Wins: ${player.stats.duels.wins} | CWS: ${player.stats.duels.winstreak} | BWS: ${player.stats.duels.bestWinstreak} | WLR: ${player.stats.duels.WLRatio}`)	
-			}).catch(e => {
-				console.error(e);
-				this.send(e);
+			}).catch(error => {
+				this.send(error.toString().replaceAll('[hypixel-api-reborn] ', ''));
 			});
 		}
 
@@ -80,9 +75,8 @@ class DuelsStatsCommand extends MinecraftCommand {
 						else {temp.send(`/gc [Bow] [${player.stats.duels.bow.division}] ${username} Wins: ${player.stats.duels.bow.wins} | CWS: ${player.stats.duels.bow.winstreak} | BWS: ${player.stats.duels.bow.bestWinstreak} | WLR: ${player.stats.duels.bow.WLRatio}`)}
 					}
 				} 	
-			}).catch(e => {
-				console.error(e);
-				this.send(e);
+			}).catch(error => {
+				this.send(error.toString().replaceAll('[hypixel-api-reborn] ', ''));
 			});
 		else {
 			if (!duels.includes(arg[0])) {
@@ -140,14 +134,12 @@ class DuelsStatsCommand extends MinecraftCommand {
 						else {temp.send(`/gc [Bow] [${player.stats.duels.bow.division}] ${username} Wins: ${player.stats.duels.bow.wins} | CWS: ${player.stats.duels.bow.winstreak} | BWS: ${player.stats.duels.bow.bestWinstreak} | WLR: ${player.stats.duels.bow.WLRatio}`)}
 					}
 				} 	
-			}).catch(e => {
-				console.error(e);
-				this.send(e);
+			}).catch(error => {
+				this.send(error.toString().replaceAll('[hypixel-api-reborn] ', ''));
 			});
 
 		}
 	}
 }
-  
 
 module.exports = DuelsStatsCommand

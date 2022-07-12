@@ -1,11 +1,13 @@
 const CommunicationBridge = require('../contracts/CommunicationBridge')
-const CommandHandler = require('./CommandHandler')
 const StateHandler = require('./handlers/StateHandler')
 const ErrorHandler = require('./handlers/ErrorHandler')
 const ChatHandler = require('./handlers/ChatHandler')
+const CommandHandler = require('./CommandHandler')
+const config = require('../../config.json')
 const mineflayer = require('mineflayer')
-const Filter = require('bad-words'), 
-  filter = new Filter();
+const Filter = require('bad-words'),
+filter = new Filter();
+
 
 class MinecraftManager extends CommunicationBridge {
   constructor(app) {
@@ -28,12 +30,12 @@ class MinecraftManager extends CommunicationBridge {
 
   createBotConnection() {
     return mineflayer.createBot({
-      host: "mc.hypixel.net",
-      port: 25565,
-      username: this.app.config.minecraft.username,
-      password: this.app.config.minecraft.password,
+      host: config.server.host,
+      port: config.server.port,
+      username: config.minecraft.paswword,
+      password: config.minecraft.password,
       version: "1.12.2",
-      auth: "microsoft",
+      auth: config.minecraft.auth,
     })
   }
 

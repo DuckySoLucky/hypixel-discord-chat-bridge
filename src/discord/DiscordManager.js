@@ -3,6 +3,7 @@ const StateHandler = require('./handlers/StateHandler')
 const MessageHandler = require('./handlers/MessageHandler')
 const CommandHandler = require('./CommandHandler')
 const Discord = require('discord.js-light')
+const config = require('../../config.json')
 
 class DiscordManager extends CommunicationBridge {
   constructor(app) {
@@ -108,7 +109,8 @@ class DiscordManager extends CommunicationBridge {
   }
 
   onBroadcastCleanEmbed({ message, color, channel }) {
-    this.app.log.broadcast(message, 'Event')
+    if (message.length < config.console.maxEventSize)
+      this.app.log.broadcast(message, 'Event')
     if (channel == 'Logger')  {
       this.app.discord.client.channels.fetch(this.app.config.discord.loggingChannel).then(channel => {
         channel.send({
@@ -131,7 +133,10 @@ class DiscordManager extends CommunicationBridge {
   }  
 
   onBroadcastHeadedEmbed({ message, title, icon, color, channel }) {
-    this.app.log.broadcast(message, 'Event')
+    if (message) {
+      if (message.length < config.console.maxEventSize)
+        this.app.log.broadcast(message, 'Event')
+    }
     if (channel == 'Logger')  {
       this.app.discord.client.channels.fetch(this.app.config.discord.loggingChannel).then(channel => {
         channel.send({
@@ -163,7 +168,6 @@ class DiscordManager extends CommunicationBridge {
 
   async onPlayerToggle({ username, message, color, channel}) {
     this.app.log.broadcast(username + ' ' + message, 'Event')
-
     switch (this.app.config.discord.messageMode.toLowerCase()) {
       case 'bot':
         if (channel == 'Logger') {
