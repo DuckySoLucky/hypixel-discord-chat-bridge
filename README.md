@@ -69,7 +69,7 @@ The `loggingChannel` is the ID of the text channel the bot should be linked with
 
 The `commandRole` is the ID of any role on the server the bot is hosted for, any user with the role will be able to run all the Discord commands built into the bot, like `!kick` and `!relog`.
 
-> Note` - Any user can run the `!help`, `!online` and `!guildtop` commands, however all the other commands requires the user has the command role.
+> Note: Any user can run the `!help`, `!online` and `!guildtop` commands, however all the other commands requires the user has the command role.
 
 The `prefix` is the command prefixed used for all the commands in the bot on the Discord side, by default this is set it `!`.
 
