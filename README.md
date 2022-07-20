@@ -78,9 +78,9 @@ The `commandRole` is the ID of any role on the server the bot is hosted for, any
 
 The `messageMode` can either be `bot`, `webhook` or `minecraft`. This selects how the messages should be displayed when sent from Minecraft to Discord. If webhook mode is selected the bot requires the `Manage Webhooks` permission in the channel it's running in. The bot always requires the `Send Messages` and `View Channel` permissions in the channel you're using it in.
 
-- [View Webhook example](https://imgur.com/)
-- [View Bot Mode example](https://imgur.com/)
-- [View Minecraft Mode example](https://imgur.com/)
+- [View Webhook example](https://imgur.com/DttmVtQ)
+- [View Bot Mode example](https://imgur.com/WvRAeZc)
+- [View Minecraft Mode example](https://imgur.com/MAAMpiT)
 
 > Note - The Discord rate limit for webhooks is 30 requests every 60 seconds, whereas for normal bot messages it's 5 messages every 5 seconds. Using webhooks effectively halves the number of messages the bot can send per minute which may cause issues in an active guild.
 
