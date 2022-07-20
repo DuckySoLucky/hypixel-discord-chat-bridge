@@ -27,7 +27,7 @@ class StateHandler extends EventHandler {
     if (config.console.debug == "true") {
         this.minecraft.broadcastMessage({
             fullMessage: colouredMessage,
-            message: 'test',
+            message: 'debug_temp_message_ignore',
             chat: "debugChannel"
         }
     )}

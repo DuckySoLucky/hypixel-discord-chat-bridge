@@ -1,3 +1,5 @@
+const config = require('../../../config.json')
+
 class MessageHandler {
   constructor(discord, command) {
     this.discord = discord
@@ -52,7 +54,7 @@ class MessageHandler {
   }
 
   shouldBroadcastMessage(message) {
-    return !message.author.bot && message.channel.id == this.discord.app.config.discord.officerChannel && message.content && message.content.length > 0 || !message.author.bot && message.channel.id == this.discord.app.config.discord.guildChatChannel && message.content && message.content.length > 0 || !message.author.bot && message.channel.id == this.discord.app.config.discord.loggingChannel && message.content && message.content.length > 0
+    return !message.author.bot && message.channel.id == config.discord.officerChannel && message.content && message.content.length > 0 || !message.author.bot && message.channel.id == config.discord.guildChatChannel && message.content && message.content.length > 0 || !message.author.bot && message.channel.id == config.discord.loggingChannel && message.content && message.content.length > 0
   }
 }
 

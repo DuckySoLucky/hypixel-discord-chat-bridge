@@ -42,14 +42,14 @@ class MinecraftManager extends CommunicationBridge {
 
   onBroadcast({ channel, username, message, replyingTo  }) { 
     this.app.log.broadcast(`${username}: ${message}`, 'Minecraft')
-    if(this.app.config.discord.filterMessages == 'true'){
+    if(config.discord.filterMessages == 'true'){
       if (this.bot.player !== undefined) {
-        if (channel == this.app.config.discord.officerChannel) {this.bot.chat(filter.clean(`/oc ${replyingTo ? `${username} replying to ${replyingTo} »` : `${username} »`} ${message}`))}
+        if (channel == config.discord.officerChannel) {this.bot.chat(filter.clean(`/oc ${replyingTo ? `${username} replying to ${replyingTo} »` : `${username} »`} ${message}`))}
         else { this.bot.chat(filter.clean(`/gc ${replyingTo ? `${username} replying to ${replyingTo} »` : `${username} »`} ${message}`))}
       }
     } else{
       if (this.bot.player !== undefined) {
-        if (channel == this.app.config.discord.officerChannel) {this.bot.chat(`/oc ${replyingTo ? `${username} replying to ${replyingTo} »` : `${username} »`} ${message}`)}
+        if (channel == config.discord.officerChannel) {this.bot.chat(`/oc ${replyingTo ? `${username} replying to ${replyingTo} »` : `${username} »`} ${message}`)}
         else { this.bot.chat(`/gc ${replyingTo ? `${username} replying to ${replyingTo} »` : `${username} »`} ${message}`)}
       }
     }

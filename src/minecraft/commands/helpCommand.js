@@ -12,7 +12,7 @@ class InfoCommand extends MinecraftCommand {
 
   onCommand(username, message) {
     let temp = this;
-    temp.send(`/gc https://cdn.discordapp.com/attachments/600317865429565490/996120686609305681/unknown.png?size=4096`)
+    temp.send(`/gc https://imgur.com/xWyKJNA`)
   }
 }
 

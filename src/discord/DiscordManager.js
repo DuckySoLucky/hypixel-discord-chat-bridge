@@ -26,7 +26,7 @@ class DiscordManager extends CommunicationBridge {
     this.client.on('ready', () => this.stateHandler.onReady())
     this.client.on('message', message => this.messageHandler.onMessage(message))
 
-    this.client.login(this.app.config.discord.token).catch(error => {this.app.log.error(error)})
+    this.client.login(config.discord.token).catch(error => {this.app.log.error(error)})
 
     // Getting Commands
     client.commands = new Collection();
@@ -52,9 +52,9 @@ class DiscordManager extends CommunicationBridge {
   }
   
   async getWebhook(discord, type) {
-    let channel = discord.client.channels.cache.get(discord.app.config.discord.guildChatChannel)
-    if (type == 'Officer') {channel = discord.client.channels.cache.get(discord.app.config.discord.officerChannel)}
-    if (type == 'Logger') {channel = discord.client.channels.cache.get(discord.app.config.discord.loggingChannel)}
+    let channel = discord.client.channels.cache.get(config.discord.guildChatChannel)
+    if (type == 'Officer') {channel = discord.client.channels.cache.get(config.discord.officerChannel)}
+    if (type == 'Logger') {channel = discord.client.channels.cache.get(config.discord.loggingChannel)}
   
     let webhooks = await channel.fetchWebhooks()
     if (webhooks.first()) {
@@ -68,11 +68,12 @@ class DiscordManager extends CommunicationBridge {
   }
 
   async onBroadcast({ fullMessage, username, message, guildRank, chat }) {
+    if (message == 'debug_temp_message_ignore') if (config.discord.messageMode != 'minecraft') return
     if (chat != 'debugChannel') this.app.log.broadcast(`${username} [${guildRank}]: ${message}`, `Discord`)
-    switch (this.app.config.discord.messageMode.toLowerCase()) {
+    switch (config.discord.messageMode.toLowerCase()) {
       case 'bot':
         if (chat == 'Guild') {
-          this.app.discord.client.channels.fetch(this.app.config.discord.guildChatChannel).then(channel => {
+          this.app.discord.client.channels.fetch(config.discord.guildChatChannel).then(channel => {
             channel.send({
               embeds: [{
                 description: message,
@@ -90,7 +91,7 @@ class DiscordManager extends CommunicationBridge {
           })
           break
         } else if (chat == 'Officer'){
-          this.app.discord.client.channels.fetch(this.app.config.discord.officerChannel).then(channel => {
+          this.app.discord.client.channels.fetch(config.discord.officerChannel).then(channel => {
             channel.send({
               embeds: [{
                 description: message,
@@ -147,7 +148,7 @@ class DiscordManager extends CommunicationBridge {
     if (message.length < config.console.maxEventSize)
       this.app.log.broadcast(message, 'Event')
     if (channel == 'Logger')  {
-      this.app.discord.client.channels.fetch(this.app.config.discord.loggingChannel).then(channel => {
+      this.app.discord.client.channels.fetch(config.discord.loggingChannel).then(channel => {
         channel.send({
           embeds: [{
             color: color,
@@ -156,7 +157,7 @@ class DiscordManager extends CommunicationBridge {
         })
       })
     } else {
-      this.app.discord.client.channels.fetch(this.app.config.discord.guildChatChannel).then(channel => {
+      this.app.discord.client.channels.fetch(config.discord.guildChatChannel).then(channel => {
         channel.send({
           embeds: [{
             color: color,
@@ -173,7 +174,7 @@ class DiscordManager extends CommunicationBridge {
         this.app.log.broadcast(message, 'Event')
     }
     if (channel == 'Logger')  {
-      this.app.discord.client.channels.fetch(this.app.config.discord.loggingChannel).then(channel => {
+      this.app.discord.client.channels.fetch(config.discord.loggingChannel).then(channel => {
         channel.send({
           embeds: [{
             color: color,
@@ -186,7 +187,7 @@ class DiscordManager extends CommunicationBridge {
         })
       })
     } else { 
-      this.app.discord.client.channels.fetch(this.app.config.discord.guildChatChannel).then(channel => {
+      this.app.discord.client.channels.fetch(config.discord.guildChatChannel).then(channel => {
         channel.send({
           embeds: [{
             color: color,
@@ -203,10 +204,10 @@ class DiscordManager extends CommunicationBridge {
 
   async onPlayerToggle({ fullMessage, username, message, color, channel}) {
     this.app.log.broadcast(username + ' ' + message, 'Event')
-    switch (this.app.config.discord.messageMode.toLowerCase()) {
+    switch (config.discord.messageMode.toLowerCase()) {
       case 'bot':
         if (channel == 'Logger') {
-          this.app.discord.client.channels.fetch(this.app.config.discord.loggingChannel).then(channel => {
+          this.app.discord.client.channels.fetch(config.discord.loggingChannel).then(channel => {
             channel.send({
               embeds: [{
                 color: color,
@@ -220,7 +221,7 @@ class DiscordManager extends CommunicationBridge {
           })
           break
         } else {
-          this.app.discord.client.channels.fetch(this.app.config.discord.guildChatChannel).then(channel => {
+          this.app.discord.client.channels.fetch(config.discord.guildChatChannel).then(channel => {
             channel.send({
               embeds: [{
                 color: color,

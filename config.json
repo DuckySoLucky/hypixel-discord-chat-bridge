@@ -8,6 +8,7 @@
     "password": "none",
     "accountType": "microsoft",
 
+    "prefix": "!",
     "guildID": "HYPIXEL_GUILD_ID", 
     "guildExp": "0",
 
@@ -22,7 +23,6 @@
     "officerChannel": "CHANNEL_ID",
     "loggingChannel": "CHANNEL_ID",
     "commandRole": "ROLE_ID",
-    "prefix": "!",
     "messageMode": "minecraft",
     "filterMessages": "true",
     "joinMessage": "false"
