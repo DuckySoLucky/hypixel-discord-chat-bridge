@@ -5,9 +5,8 @@ const ChatHandler = require('./handlers/ChatHandler')
 const CommandHandler = require('./CommandHandler')
 const config = require('../../config.json')
 const mineflayer = require('mineflayer')
-const Filter = require('bad-words'),
-filter = new Filter();
-
+const Filter = require('bad-words'), filter = new Filter();
+const Logger = require('../Logger')
 
 class MinecraftManager extends CommunicationBridge {
   constructor(app) {
