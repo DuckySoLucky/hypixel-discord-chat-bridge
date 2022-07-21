@@ -134,6 +134,10 @@ The `debugChannel` is the ID of the text channel where the bot should send messa
 - `!slayer [player] [type]` - Slayer of specified user.
 - `!weight [player]` - Skyblock Stats of specified user.
 
+# Frag Bot
+
+The bot also includes an integrated frag bot that can be used for Hypixel Skyblock dungeons.
+
 ### To-Do List
 
 - [ ] Event Notifier
