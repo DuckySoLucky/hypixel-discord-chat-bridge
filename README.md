@@ -113,25 +113,29 @@ The `debugChannel` is the ID of the text channel where the bot should send messa
 `Minecraft`
 
 - `!8ball <question>` - Ask an 8ball a question.
-- `!fairysouls [player]` - Fairy Souls of specified user.
-- `!UHC [player]` - UHC Stats of specified user.
-- `!accessories [player]` - Accessories of specified user.
+
+- `!armor [player]` - Renders armor of specified user.
 - `!bedwars [player]` - BedWars stats of specified user.
 - `!catacombs [player]` - Skyblock Dungeons Stats of specified user.
+- `!accessories [player]` - Accessories of specified user.
 - `!denick [player]` - Denick username of specified user.
 - `!duels [player]` - Duel stats of specified user.
+- `!fairysouls [player]` - Fairy Souls of specified user.
 - `!fetchur` - Information about an item for Fetchur.
 - `!guildexp [player]` - Guilds experience of specified user.
 - `!help` - Shows help menu
 - `!kitty` - Random image of cute cat.
 - `!math <calculation>` - Calculate.
 - `!namehistory [player]` - Name History of specified user.
+- `!news` - Check latest Hypixel Network News.
 - `!networth [player]` - Networth of specified user.
+- `!pet [player]` - Renders active pet of specified user.
+- `!render [player] [slot]` - Renders item of specified user.
 - `!skills [player]` - Skills and Skill Average of specified user.
 - `!skywars [player]` - Skywars stats of specified user.
 - `!skyblock [player]` - Skyblock Stats of specified user.
-- `!news` - Check latest Hypixel Network News.
 - `!slayer [player] [type]` - Slayer of specified user.
+- `!UHC [player]` - UHC Stats of specified user.
 - `!weight [player]` - Skyblock Stats of specified user.
 
 #### Frag Bot
@@ -144,10 +148,8 @@ The bot also includes an integrated frag bot that can be used for Hypixel Skyblo
   - Ability for bot to send messages 24/12/6/1/0.15 hours before Skyblock event starts.
 - [ ] Auto Guild Accept and Promote
   - Ability for bot to automatically promote and accept invites.
-- [ ] Translate command
-  - Ability for bot to translate message from one language to another.
-- [ ] Drop Chance Command
-  - Ability for player to run command and see drop chance of an item, will use Official Hypixel Network Wiki for Skyblock.
+- [ ] Discord Help Command
+  - `/help` command on discord
 
 ## Powered by
 
