@@ -11,7 +11,7 @@ class renderCommand extends MinecraftCommand {
 
     this.name = 'render'
     this.aliases = ['r']
-    this.description = "Renders held item of specified user."
+    this.description = "Renders item of specified user."
   }
 
   async onCommand(username, message) {
