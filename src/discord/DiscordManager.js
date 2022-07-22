@@ -16,7 +16,7 @@ class DiscordManager extends CommunicationBridge {
     this.app = app
 
     this.stateHandler = new StateHandler(this)
-    this.messageHandler = new MessageHandler(this)//, new CommandHandler(this))
+    this.messageHandler = new MessageHandler(this)
     this.commandHandler = new CommandHandler(this)
   }
 
@@ -131,10 +131,12 @@ class DiscordManager extends CommunicationBridge {
           if (fullMessage.includes('http') || fullMessage.includes('https')) await client.channels.cache.get(config.discord.officerChannel).send({content: `${message}`})
         }
         if (chat == 'debugChannel') {
-          await client.channels.cache.get(config.console.debugChannel).send({
-            files: [new MessageAttachment(generateMessageImage(fullMessage), `debugChat.png`)],
-          })
-          if (fullMessage.includes('http') || fullMessage.includes('https')) await client.channels.cache.get(config.console.debugChannel).send({content: `${message}`})
+          if (config.console.debug == "true") {
+            await client.channels.cache.get(config.console.debugChannel).send({
+              files: [new MessageAttachment(generateMessageImage(fullMessage), `debugChat.png`)],
+            })
+            if (fullMessage.includes('http') || fullMessage.includes('https')) await client.channels.cache.get(config.console.debugChannel).send({content: `${message}`})
+          }
         }
         break
         
