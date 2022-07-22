@@ -35,16 +35,7 @@ _Older versions may also work, but have not been tested._
 
 ### Configuration
 
-#### Server
-
-The server is the server the Minecraft client should connect to, by default it will point to Hypixels server so it can be left as-is if the plan is to use the app for Hypixel guild chat, if not then the `host` is the servers IP or hostname, and the `port` is the port the server is running on.
-
-> Note: The port must be a number, Mineflayer expects an integer so you can't wrap the port in quotes or Mineflayer won't create a connection to the Minecraft server.
-
 #### Minecraft
-
-The minecraft section includes a `username` and `password` option, if using a Mojang account these should be filled out with your Mojang username and password for the Minecraft account you plan on using, your Minecraft username is most likely the email it was created with.
-If using with a microsoft account change `accountType` to `microsoft`, `username` and `password` are not required and will be left blank as you will be directed to the [Microsoft Link page](https://www.microsoft.com/link).
 
 The `prefix` is the command prefixed used for all the commands in the bot on the Discord side, by default this is set it `!`.
 
