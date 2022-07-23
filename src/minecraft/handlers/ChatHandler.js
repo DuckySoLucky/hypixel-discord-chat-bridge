@@ -25,7 +25,7 @@ class StateHandler extends EventHandler {
     const message = event.toString()
     const colouredMessage = event.toMotd();
 
-    if (config.console.debug == "true") {
+    if (config.console.debug) {
         this.minecraft.broadcastMessage({
             fullMessage: colouredMessage,
             message: 'debug_temp_message_ignore',
@@ -148,7 +148,7 @@ class StateHandler extends EventHandler {
     if (this.isLoginMessage(message)) {
       let user = message.replace(/\[(.*?)\]/g, '').trim().split(/ +/g)[0]
       var data = JSON.parse(fs.readFileSync('config.json'));
-      if (data.discord.joinMessage == "true") { 
+      if (data.discord.joinMessage) { 
         let user = message.split('>')[1].trim().split('joined.')[0].trim()
         return this.minecraft.broadcastPlayerToggle({ 
           fullMessage: colouredMessage,
@@ -163,7 +163,7 @@ class StateHandler extends EventHandler {
     if (this.isLogoutMessage(message)) {
       let user = message.replace(/\[(.*?)\]/g, '').trim().split(/ +/g)[0]
       var data = JSON.parse(fs.readFileSync('config.json'));
-      if (data.discord.joinMessage == "true") { 
+      if (data.discord.joinMessage) { 
         let user = message.split('>')[1].trim().split('left.')[0].trim()
         return this.minecraft.broadcastPlayerToggle({ 
           fullMessage: colouredMessage,

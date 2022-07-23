@@ -36,5 +36,22 @@
     "skyShiiyuAPI": "https://sky.shiiyu.moe/api/v2",
 
     "playerDBAPI": "https://playerdb.co/api/player/minecraft"
+  },
+  "event": {
+    "enabled": true,
+    "notifiers": {
+      "BANK_INTEREST": true,
+      "DARK_AUCTION": true,
+      "ELECTION_BOOTH_OPENS": true,
+      "ELECTION_OVER": true,
+      "FALLEN_STAR_CULT": true,
+      "FEAR_MONGERER": true,
+      "JACOBS_CONTEST": true,
+      "JERRYS_WORKSHOP": true,
+      "NEW_YEAR_CELEBRATION": true,
+      "SEASON_OF_JERRY": true,
+      "SPOOKY_FESTIVAL": true,
+      "TRAVELING_ZOO": true
+    }
   }
 }

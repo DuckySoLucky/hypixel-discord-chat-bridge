@@ -8,6 +8,7 @@ const mineflayer = require('mineflayer')
 const Filter = require('bad-words'),
 filter = new Filter();
 const Logger = require('../Logger')
+const eventNotifier = require('./other/eventNotifier')
 
 
 class MinecraftManager extends CommunicationBridge {
@@ -41,7 +42,7 @@ class MinecraftManager extends CommunicationBridge {
 
   onBroadcast({ channel, username, message, replyingTo  }) { 
     Logger.broadcastMessage(`${username}: ${message}`, 'Minecraft')
-    if(config.discord.filterMessages == 'true'){
+    if(config.discord.filterMessages){
       if (this.bot.player !== undefined) {
         if (channel == config.discord.officerChannel) {this.bot.chat(filter.clean(`/oc ${replyingTo ? `${username} replying to ${replyingTo} »` : `${username} »`} ${message}`))}
         else { this.bot.chat(filter.clean(`/gc ${replyingTo ? `${username} replying to ${replyingTo} »` : `${username} »`} ${message}`))}

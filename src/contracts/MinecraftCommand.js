@@ -16,7 +16,7 @@ class MinecraftCommand {
 
   send(message) {
     if (this.minecraft.bot.player !== undefined) {
-      if (config.minecraft.messageRepeatBypass == "true") {
+      if (config.minecraft.messageRepeatBypass) {
         let string = helperFunctions.generateID(config.minecraft.messageRepeatBypassLength)
         this.minecraft.bot.chat(message + ' - ' + string)
       } else {

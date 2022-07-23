@@ -131,7 +131,7 @@ class DiscordManager extends CommunicationBridge {
           if (fullMessage.includes('http') || fullMessage.includes('https')) await client.channels.cache.get(config.discord.officerChannel).send({content: `${message}`})
         }
         if (chat == 'debugChannel') {
-          if (config.console.debug == "true") {
+          if (config.console.debug) {
             await client.channels.cache.get(config.console.debugChannel).send({
               files: [new MessageAttachment(generateMessageImage(fullMessage), `debugChat.png`)],
             })
