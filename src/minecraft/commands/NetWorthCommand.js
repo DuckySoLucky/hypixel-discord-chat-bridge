@@ -27,7 +27,7 @@ class NetWorthCommand extends MinecraftCommand {
 
     async onCommand(username, message) {
         let arg = this.getArgs(message);
-        if(arg[0]) username = msg[0]
+        if(arg[0]) username = arg[0]
         this.send(`/gc ${await getNetworth(username)}`)
     }
 }
