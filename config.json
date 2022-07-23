@@ -2,9 +2,9 @@
   "minecraft": {
     "prefix": "!",
     "guildID": "HYPIXEL_GUILD_ID",
-    "guildExp": "0",
-    "messageRepeatBypass": "true",
-    "messageRepeatBypassLength": "24"
+    "guildExp": 0,
+    "messageRepeatBypass": true,
+    "messageRepeatBypassLength": 24
   },
   "discord": {
     "token": "TOKEN",
@@ -15,12 +15,12 @@
     "loggingChannel": "CHANNEL_ID",
     "commandRole": "ROLE_ID",
     "messageMode": "minecraft",
-    "filterMessages": "true",
-    "joinMessage": "false"
+    "filterMessages": true,
+    "joinMessage": false
   },
   "console": {
     "maxEventSize": 50,
-    "debug": "true",
+    "debug": true,
     "debugChannel": "CHANNEL_ID"
   },
   "api": {
