@@ -39,9 +39,9 @@ class SlayersCommand extends MinecraftCommand {
     }
 
     async onCommand(username, message) {
-        let arg = this.getArgs(message);
+        let msg = this.getArgs(message);
         if(msg[0]) username = msg[0]
-        this.send(`/gc ${await getSlayer(username, arg[1])}`)
+        this.send(`/gc ${await getSlayer(username, msg[1])}`)
     }
 }
 
