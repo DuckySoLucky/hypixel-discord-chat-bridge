@@ -20,6 +20,8 @@ class CatacombsCommand extends MinecraftCommand {
         this.name = 'catacombs'
         this.aliases = ['cata', 'dungeons']
         this.description = 'Skyblock Dungeons Stats of specified user.'
+        this.options = ['name']
+        this.optionsDescription = ['Minecraft Username']
     }
     
     async onCommand(username, message) {

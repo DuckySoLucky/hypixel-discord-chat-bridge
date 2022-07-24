@@ -12,6 +12,8 @@ class eightballCommand extends MinecraftCommand {
     this.name = 'skyblock'
     this.aliases = ['stats']
     this.description = "Skyblock Stats of specified user."
+    this.options = ['name']
+    this.optionsDescription = ['Minecraft Username']
   }
 
   async onCommand(username, message) {

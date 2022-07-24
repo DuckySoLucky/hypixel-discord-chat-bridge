@@ -8,6 +8,8 @@ class CalculateCommand extends MinecraftCommand {
         this.name = 'math'
         this.aliases = ["calc", "calculate"]
         this.description = 'Calculate.'
+        this.options = ['calculation']
+        this.optionsDescription = ['Any kind of math equation']
     }
 
     onCommand(username, message) { 

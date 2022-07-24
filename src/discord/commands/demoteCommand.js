@@ -1,13 +1,12 @@
 process.on('uncaughtException', function (err) {console.log(err.stack);});
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
 const config = require('../../../config.json')
 
 module.exports = {
 	data: new SlashCommandBuilder()
     .setName("demote")
-    .setDescription("(Moderator Command) Demotes the given user by one guild rank.")
-    .addStringOption(option => option.setName("name").setDescription("Username").setRequired(true)),
+    .setDescription("(Bridge Bot) (Mod) Demotes the given user by one guild rank.")
+    .addStringOption(option => option.setName("name").setDescription("Minecraft Username").setRequired(true)),
 
     async execute(interaction, client, member) {
         if ((await member).roles.cache.has(config.discord.commandRole)) {

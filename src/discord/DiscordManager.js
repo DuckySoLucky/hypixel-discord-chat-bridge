@@ -26,7 +26,7 @@ class DiscordManager extends CommunicationBridge {
 
     this.client.on('ready', () => this.stateHandler.onReady())
     this.client.on('message', message => this.messageHandler.onMessage(message))
-
+    
     this.client.login(config.discord.token).catch(error => {Logger.errorMessage(error)})
 
     client.commands = new Collection();

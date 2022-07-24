@@ -19,6 +19,8 @@ class SwstatsCommand extends MinecraftCommand {
     this.name = 'skywars'
     this.aliases = ['sw']
     this.description = 'Skywars stats of specified user.'
+    this.options = ['name']
+    this.optionsDescription = ['Minecraft Username']
   }
 
   async onCommand(username, message) {

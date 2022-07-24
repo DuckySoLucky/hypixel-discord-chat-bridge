@@ -11,6 +11,8 @@ class DenickerCommand extends MinecraftCommand {
         this.name = 'denick'
         this.aliases = []
         this.description = 'Denick username of specified user.'
+        this.options = ['nick']
+        this.optionsDescription = ['Minecraft Username']
     }
     
     async onCommand(username, message) {

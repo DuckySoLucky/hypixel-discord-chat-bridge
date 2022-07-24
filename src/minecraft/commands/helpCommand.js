@@ -8,6 +8,8 @@ class InfoCommand extends MinecraftCommand {
     this.name = 'info'
     this.aliases = ['help']
     this.description = 'Shows help menu'
+    this.options = []
+    this.optionsDescription = []
   }
 
   onCommand(username, message) {

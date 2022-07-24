@@ -10,6 +10,8 @@ class eightballCommand extends MinecraftCommand {
     this.name = '8ball'
     this.aliases = ['8b']
     this.description = "Ask an 8ball a question."
+    this.options = ['question']
+    this.optionsDescription = ['Any kind of question']
   }
 
   onCommand(username, message) {

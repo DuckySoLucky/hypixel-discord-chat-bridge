@@ -20,6 +20,8 @@ class UHCStatsCommand extends MinecraftCommand {
     this.name = 'UHC'
     this.aliases = ['uhc']
     this.description = 'UHC Stats of specified user.'
+	this.options = ['name']
+	this.optionsDescription = ['Minecraft Username']
   }
 
   async onCommand(username, message) {

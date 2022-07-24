@@ -11,9 +11,12 @@ class CommandHandler {
     this.commands = new Collection()
 
     let commandFiles = fs.readdirSync('./src/minecraft/commands').filter(file => file.endsWith('.js'))
+    global.minecraftCommandList = []
     for (const file of commandFiles) {
       const command = new (require(`./commands/${file}`))(minecraft)
-
+      
+      minecraftCommandList.push(command)
+      
       this.commands.set(command.name, command)
     }
   }

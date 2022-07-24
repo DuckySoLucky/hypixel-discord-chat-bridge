@@ -12,6 +12,8 @@ class renderCommand extends MinecraftCommand {
     this.name = 'armor'
     this.aliases = []
     this.description = "Renders armor of specified user."
+    this.options = ['name']
+    this.optionsDescription = ['Minecraft Username']
   }
 
   async onCommand(username, message) {

@@ -13,6 +13,8 @@ class renderCommand extends MinecraftCommand {
     this.name = 'pet'
     this.aliases = []
     this.description = "Renders active pet of specified user."
+    this.options = ['name']
+    this.optionsDescription = ['Minecraft Username']
   }
 
   async onCommand(username, message) {

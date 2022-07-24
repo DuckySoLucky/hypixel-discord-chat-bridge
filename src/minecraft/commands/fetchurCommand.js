@@ -9,6 +9,7 @@ class InfoCommand extends MinecraftCommand {
     this.name = 'fetchur'
     this.aliases = []
     this.description = 'Information about an item for Fetchur.'
+    this.options = []
   }
 
   async onCommand(username, message) {

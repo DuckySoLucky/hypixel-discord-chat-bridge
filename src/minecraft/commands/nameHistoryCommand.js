@@ -10,6 +10,8 @@ class nameHistoryCommand extends MinecraftCommand {
     this.name = 'namehistory'
     this.aliases = ['nh']
     this.description = "Name History of specified user."
+    this.options = ['name']
+    this.optionsDescription = ['Minecraft Username']
   }
 
   async onCommand(username, message) {

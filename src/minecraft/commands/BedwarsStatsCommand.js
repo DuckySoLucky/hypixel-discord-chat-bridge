@@ -20,6 +20,8 @@ class BwstatsCommand extends MinecraftCommand {
     this.name = 'bedwars'
     this.aliases = ['bw', 'bws']
     this.description = 'BedWars stats of specified user.'
+    this.options = ['name']
+    this.optionsDescription = ['Minecraft Username']
   }
 
   async onCommand(username, message) {

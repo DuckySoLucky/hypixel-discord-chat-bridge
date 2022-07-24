@@ -12,6 +12,7 @@ class guildExperienceCommand extends MinecraftCommand {
     this.name = 'guildexp'
     this.aliases = ['gexp']
     this.description = "Guilds experience of specified user."
+    this.options = ['name']
   }
 
     onCommand(username, message) {

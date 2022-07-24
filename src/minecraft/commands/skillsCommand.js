@@ -9,6 +9,8 @@ class InfoCommand extends MinecraftCommand {
     this.name = 'skills'
     this.aliases = ['skill']
     this.description = 'Skills and Skill Average of specified user.'
+    this.options = ['name']
+    this.optionsDescription = ['Minecraft Username']
   }
 
   async onCommand(username, message) {

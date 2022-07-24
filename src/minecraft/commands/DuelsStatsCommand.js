@@ -9,6 +9,8 @@ class DuelsStatsCommand extends MinecraftCommand {
 		this.name = 'duels'
 		this.aliases = ['duel']
 		this.description = 'Duel stats of specified user.'
+		this.options = ['name', 'duel']
+		this.optionsDescription = ['Minecraft Username', 'Type of Duel']
 	}
   
 	async onCommand(username, message) {

@@ -11,6 +11,8 @@ class SkyblockNewsCommand extends MinecraftCommand {
     this.name = 'news'
     this.aliases = ['sbnews']
     this.description = 'Check latest Hypixel Network News.'
+    this.options = []
+    this.optionsDescription = []
   }
 
   async onCommand(username, message) {

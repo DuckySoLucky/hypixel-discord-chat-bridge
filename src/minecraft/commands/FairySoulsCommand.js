@@ -20,6 +20,8 @@ class StatsCommand extends MinecraftCommand {
         this.name = 'fairysouls'
         this.aliases = ['fs']
         this.description = 'Fairy Souls of specified user.'
+        this.options = ['name']
+        this.optionsDescription = ['Minecraft Username']
     }
 
     async onCommand(username, message) {

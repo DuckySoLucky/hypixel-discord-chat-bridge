@@ -1,13 +1,12 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
 process.on('uncaughtException', function (err) {console.log(err.stack);});
 const config = require('../../../config.json')
 
 module.exports = {
 	data: new SlashCommandBuilder()
     .setName("mute")
-    .setDescription("(Moderator Command) Mutes the given user for a given amount of time.")
-    .addStringOption(option => option.setName("name").setDescription("Username").setRequired(true))
+    .setDescription("(Bridge Bot) (Mod) Mutes the given user for a given amount of time.")
+    .addStringOption(option => option.setName("name").setDescription("Minecraft Username").setRequired(true))
     .addStringOption(option => option.setName("time").setDescription("Time").setRequired(true)),
 
     async execute(interaction, client, member) {

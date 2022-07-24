@@ -11,6 +11,8 @@ class InfoCommand extends MinecraftCommand {
     this.name = 'accessories'
     this.aliases = ['talismans', 'talisman']
     this.description = 'Accessories of specified user.'
+    this.options = ['name']
+    this.optionsDescription = ['Minecraft Username']
   }
 
   async onCommand(username, message) {

@@ -17,7 +17,9 @@ class StatsCommand extends MinecraftCommand {
 
         this.name = 'weight'
         this.aliases = ['w']
-        this.description = 'Skyblock Stats of specified user.'
+        this.description = 'Skyblock Weight of specified user.'
+        this.options = ['name']
+        this.optionsDescription = ['Minecraft Username']
     }
     
     async onCommand(username, message) {

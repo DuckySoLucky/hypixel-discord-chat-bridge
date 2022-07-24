@@ -36,6 +36,8 @@ class SlayersCommand extends MinecraftCommand {
         this.name = 'slayer'
         this.aliases = ['slayers']
         this.description = 'Slayer of specified user.'
+        this.options = ['name', 'type']
+        this.optionsDescription = ['Minecraft Username', 'Type of Slayer']
     }
 
     async onCommand(username, message) {

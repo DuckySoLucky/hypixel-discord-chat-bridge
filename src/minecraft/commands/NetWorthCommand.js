@@ -23,6 +23,8 @@ class NetWorthCommand extends MinecraftCommand {
         this.name = 'networth'
         this.aliases = ["nw"]
         this.description = 'Networth of specified user.'
+        this.options = ['name']
+        this.optionsDescription = ['Minecraft Username']
     }
 
     async onCommand(username, message) {
