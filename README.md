@@ -144,6 +144,10 @@ The Event options include various events which will be notified by bot 30 and 5 
 
 The bot also includes event notifier that can be used to send message in guild 30 & 5 minutes before the event starts, by the default all of the events are toggled on. Feel free to disable events which you do not like in config.
 
+### Chat Triggers Module
+
+If you think message format is boring You can check out my repository for ChatTriggers module which changes the way messages from Bot look like. [Click Here](https://github.com/DuckySoLucky/Hypixel-Guild-Chat-Format)
+
 #### Frag Bot
 
 The bot also includes an integrated frag bot that can be used for Hypixel Skyblock dungeons.
@@ -152,8 +156,7 @@ The bot also includes an integrated frag bot that can be used for Hypixel Skyblo
 
 - [ ] Auto Guild Accept and Promote
   - Ability for bot to automatically promote and accept invites.
-- [ ] Chat Triggers module
-  - Chat Triggers module which will make minecraft guild chat look better.
+
   
 ## Powered by
 
