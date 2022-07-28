@@ -154,6 +154,7 @@ The bot also includes an integrated frag bot that can be used for Hypixel Skyblo
 
 ### To-Do List
 
+*Grammar and other stuff might be broken, Im writing this more for myself so I dont forget ;-;*
 - [ ] Auto Guild Accept and Promote
   - Ability for bot to automatically promote and accept invites.
 - [ ] Cannot send same message better handling
@@ -168,7 +169,23 @@ The bot also includes an integrated frag bot that can be used for Hypixel Skyblo
   - Shows bot uptime, ping and other useful information
 - [ ] Make some discord command client sided
   - Make some command visible only by executor
-  
+- [ ] `!analyzeparty [integer] [player]` command
+  - Analyze past x games of player, and checks which players were in the same game as him. The players which were in his game the most are most likely in player's party. 
+- [ ] Linking System 
+  - Players will have to link before using bridge bot, will be used for a lot of features like feature below
+- [ ] Automatic guild kick
+  - Bot will automatically kick everyone who do not meet requirements every x Days, player will receive discord DM x hours before getting kicked
+- [ ] Command Blacklist
+  - Ability to blacklist someone from using commands 
+- [ ] Fragbot Whitelist
+  - Abiliy to make frag bot be used only by specified users or by guild members only
+- [ ] Clean a lot of code
+  - As it says clean code, mostly minecraft to discord message part, It's pretty much copy pasted
+- [ ] `!winstreak` command
+  - Send estimated winstreak of player which has Winstreak API off
+- [ ] `!daily` and `!weekly` command
+   - Show daily/weekly stats of specified user
+
 ## Powered by
 
 - [AltPapier](https://github.com/Altpapier/hypixel-discord-guild-bridge)
