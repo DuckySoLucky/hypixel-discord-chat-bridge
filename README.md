@@ -156,7 +156,18 @@ The bot also includes an integrated frag bot that can be used for Hypixel Skyblo
 
 - [ ] Auto Guild Accept and Promote
   - Ability for bot to automatically promote and accept invites.
-
+- [ ] Cannot send same message better handling
+  - If you use bot in officer channel and u send same message it will send embed into guild chat channel instead of officer
+- [ ] `!ah [player]`
+  - Show player's current auctions, useful while playing other hypixel games or dungeons
+- [ ] Automatic API key grabber
+  - Bot will automaticaly run `/api new` after joining hypixel and storing it info config
+- [ ] Rewriting Commands
+  - Rewrite commands which aren't complex and can use Hypixel's offical API to make them faster
+- [ ] `/info` command
+  - Shows bot uptime, ping and other useful information
+- [ ] Make some discord command client sided
+  - Make some command visible only by executor
   
 ## Powered by
 
