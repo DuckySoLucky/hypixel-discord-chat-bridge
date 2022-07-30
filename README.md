@@ -201,6 +201,8 @@ The bot also includes an integrated frag bot that can be used for Hypixel Skyblo
    - Clean code
 - [x] Fix Guild Quest Message 
    - Broke in 2.0 release
+- [ ] Better Guild Requirements Handler
+   - If input is -1, that means that option is disabled
 
 ## Powered by
 
