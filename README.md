@@ -2,7 +2,7 @@
 
 A two-way chat bridge between [Hypixel](https://hypixel.net/) guild chat and a [Discord](https://discord.com/) channel. The application utilizes [discord.js v13](https://github.com/discordjs/discord.js) for communicating with Discord, and [Mineflayer](https://github.com/PrismarineJS/mineflayer) for communicating with Hypixel.
 
-> This application will login to Hypixel using Mineflayer which is not a normal Minecraft client, this could result in your Minecraft account getting banned from Hypixel, so use this application at your own risk. I have been using same account over a year, so as long u don't do something sketchy You will not get banned.
+> This application will login to Hypixel using Mineflayer which is not a normal Minecraft client, this could result in your Minecraft account getting banned from Hypixel, so use this application at your own risk. I have been using same account over a year, so as long u don't do something sketchy you will not get banned.
 
 <hr>
  
@@ -43,7 +43,7 @@ The `prefix` is the command prefixed used for all the commands in the bot on the
 
 `messageRepeatBypass` is ability to toggle bypass for users to use same command back to back without bot getting stopped by hypixel chat, I recommend you keep it on.
 
-`messageRepeatBypassLength` is length of message which will be sent to bypass message repeat, I recommend You to keep it on at least 16.
+`messageRepeatBypassLength` is length of message which will be sent to bypass message repeat, I recommend you to keep it on at least 16.
 
 #### Discord
 
@@ -51,9 +51,9 @@ The Discord options includes the `token`, `clientID`, `serverID`, `guildChatChan
 
 The `token` is the Discord application token, if you don't already have a Discord App, you can [create a new app](https://discordapp.com/developers), then convert the app to a Discord bot, and then get your Discord bot token on the "Bot" page.
 
-The `clientID` is the Discord ID of the Discord Bot. First You have to enable Developer Mode which can be located inside Settings under Advanced tag, You can get Client ID by right clicking on discord bot and clicking Copy ID.
+The `clientID` is the Discord ID of the Discord Bot. First you have to enable Developer Mode which can be located inside Settings under Advanced tag, you can get Client ID by right clicking on discord bot and clicking Copy ID.
 
-The `serverID` is same as `clientID` but it's ID of the server. You can get it by right clicking on server and clicking on Copy ID.
+The `serverID` is same as `clientID` but it's ID of the server. you can get it by right clicking on server and clicking on Copy ID.
 
 The `guildChatChannel` is the ID of the text channel the bot should be linked with, the bot will only send and listen to messages in the channel defined in the config.
 
@@ -81,11 +81,21 @@ The joinMessage is ability to toggle join and leave message being sent to the di
 
 The Discord options includes the `maxEventSize`, `debug`, and `debugChannel` options.
 
-The `maxEventSize` is max length of message which can be logged. I recommend you not touching this unless u know what You are doing.
+The `maxEventSize` is max length of message which can be logged. I recommend you not touching this unless u know what you are doing.
 
-The `debug` is option to toggle logging all messags on discord, even public chat. This is useful for checking something but You can't get on the PC or You are lazy to launch minecraft.
+The `debug` is option to toggle logging all messags on discord, even public chat. This is useful for checking something but you can't get on the PC or you are lazy to launch minecraft.
 
 The `debugChannel` is the ID of the text channel where the bot should send messages.
+
+### API
+
+The API options include information about APIs which are being used, the only one which needs to be changed is `hypixelAPIkey`.
+
+You can get Hypixel API key by joining Hypixel Network and typing `/api new` command.
+
+### Event
+
+The Event options include various events which will be notified by bot 30 and 5 minutes before event starts. If you do not like one of the events just change value from `true` to `false`. There is also ability to toggle off bot notifier fully in `enabled` option
 
 ### Commands
 
@@ -94,6 +104,7 @@ The `debugChannel` is the ID of the text channel where the bot should send messa
 `Discord`
 
 - `/guildtop [integer]` - Top 10 members with the most guild experience.
+- `/help` - Shows help menu
 - `/override <command> [args]` - executes the string attached. This is a dangerous permission to grant
 - `/invite <player>` - Invites the specified user to the guild, providing the guild isn't full
 - `/kick <user> [reason]` - Kicks the specified user from the guild
@@ -129,26 +140,61 @@ The `debugChannel` is the ID of the text channel where the bot should send messa
 - `!UHC [player]` - UHC Stats of specified user.
 - `!weight [player]` - Skyblock Stats of specified user.
 
+### Events Notifier
+
+The bot also includes event notifier that can be used to send message in guild 30 & 5 minutes before the event starts, by the default all of the events are toggled on. Feel free to disable events which you do not like in config.
+
+### Chat Triggers Module
+
+If you think message format is boring You can check out my repository for ChatTriggers module which changes the way messages from Bot look like. [Click Here](https://github.com/DuckySoLucky/Hypixel-Guild-Chat-Format)
+
 #### Frag Bot
 
 The bot also includes an integrated frag bot that can be used for Hypixel Skyblock dungeons.
 
 ### To-Do List
 
-- [ ] Event Notifier
-  - Ability for bot to send messages 24/12/6/1/0.15 hours before Skyblock event starts.
+*Grammar and other stuff might be broken, Im writing this more for myself so I dont forget ;-;*
 - [ ] Auto Guild Accept and Promote
   - Ability for bot to automatically promote and accept invites.
-- [ ] Discord Help Command
-  - `/help` command on discord
+- [ ] Cannot send same message better handling
+  - If you use bot in officer channel and u send same message it will send embed into guild chat channel instead of officer
+- [ ] `!ah [player]`
+  - Show player's current auctions, useful while playing other hypixel games or dungeons
+- [ ] Automatic API key grabber
+  - Bot will automaticaly run `/api new` after joining hypixel and storing it info config
+- [ ] Rewriting Commands
+  - Rewrite commands which aren't complex and can use Hypixel's offical API to make them faster
+- [ ] `/info` command
+  - Shows bot uptime, ping and other useful information
+- [ ] Make some discord command client sided
+  - Make some command visible only by executor
+- [ ] `!analyzeparty [integer] [player]` command
+  - Analyze past x games of player, and checks which players were in the same game as him. The players which were in his game the most are most likely in player's party. 
+- [ ] Linking System 
+  - Players will have to link before using bridge bot, will be used for a lot of features like feature below
+- [ ] Automatic guild kick
+  - Bot will automatically kick everyone who do not meet requirements every x Days, player will receive discord DM x hours before getting kicked
+- [ ] Command Blacklist
+  - Ability to blacklist someone from using commands 
+- [ ] Fragbot Whitelist
+  - Abiliy to make frag bot be used only by specified users or by guild members only
+- [ ] Clean a lot of code
+  - As it says clean code, mostly minecraft to discord message part, It's pretty much copy pasted
+- [ ] `!winstreak` command
+  - Send estimated winstreak of player which has Winstreak API off
+- [ ] `!daily` and `!weekly` command
+   - Show daily/weekly stats of specified user
 
 ## Powered by
 
 - [AltPapier](https://github.com/Altpapier/hypixel-discord-guild-bridge)
+- [DawJaw](https://dawjaw.net/jacobs)
 - [Hypixel Network API](http://api.hypixel.net/)
 - [Hypixel API Reborn](https://hypixel.stavzdev.me/#/)
 - [MaroAPI](https://github.com/zt3h)
 - [PlayerDB API](https://playerdb.co/)
 - [SkyHelper API](https://github.com/Altpapier/SkyHelperAPI)
 - [SkyShiiyu API](https://github.com/SkyCryptWebsite/SkyCrypt)
+- [SlothPixel API](https://github.com/slothpixel)
 - [Senither](https://github.com/Senither)
