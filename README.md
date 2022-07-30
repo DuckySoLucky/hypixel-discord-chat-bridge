@@ -189,6 +189,10 @@ The bot also includes an integrated frag bot that can be used for Hypixel Skyblo
   - Send estimated winstreak of player which has Winstreak API off
 - [ ] `!daily` and `!weekly` command
    - Show daily/weekly stats of specified user
+- [ ] `/uptime`
+   - Send uptime of bridge bot
+- [ ] `/info`
+   - Send information of bridge bot, like config information
 
 ## Powered by
 
