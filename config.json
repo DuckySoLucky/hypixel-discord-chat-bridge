@@ -1,0 +1,70 @@
+{
+  "minecraft": {
+    "prefix": "!",
+    "guildID": "HYPIXEL_GUILD_ID",
+    "guildExp": 0,
+    "messageRepeatBypass": true,
+    "messageRepeatBypassLength": 24
+  },
+  "discord": {
+    "token": "TOKEN",
+    "clientID": "CLIENT_ID_OF_DISCORD_BOT",
+    "serverID": "DISCORD_SERVER_ID",
+    "guildChatChannel": "CHANNEL_ID",
+    "officerChannel": "CHANNEL_ID",
+    "loggingChannel": "CHANNEL_ID",
+    "commandRole": "ROLE_ID",
+    "messageMode": "minecraft",
+    "filterMessages": true,
+    "joinMessage": false
+  },
+  "console": {
+    "maxEventSize": 50,
+    "debug": true,
+    "debugChannel": "CHANNEL_ID"
+  },
+  "api": {
+    "hypixelAPI": "https://api.hypixel.net",
+    "hypixelAPIkey": "HYPIXEL_API_KEY",
+
+    "skyHelperAPI": "http://176.31.203.28:1195/v1",
+    "skyHelperKey": "DuckySoLucky",
+
+    "antiSniperAPI": "https://api.antisniper.net",
+    "antiSniperKey": "3a55ea8f-9e85-4003-9912-6198122cd27f",
+
+    "skyShiiyuAPI": "https://sky.shiiyu.moe/api/v2",
+
+    "playerDBAPI": "https://playerdb.co/api/player/minecraft",
+
+    "imgurAPIkey": "IMGUR_CLIENT_ID"
+  },
+  "event": {
+    "enabled": true,
+    "notifiers": {
+      "BANK_INTEREST": true,
+      "DARK_AUCTION": true,
+      "ELECTION_BOOTH_OPENS": false,
+      "ELECTION_OVER": true,
+      "FALLEN_STAR_CULT": true,
+      "FEAR_MONGERER": true,
+      "JACOBS_CONTEST": true,
+      "JERRYS_WORKSHOP": true,
+      "NEW_YEAR_CELEBRATION": true,
+      "SEASON_OF_JERRY": true,
+      "SPOOKY_FESTIVAL": true,
+      "TRAVELING_ZOO": true
+    }
+  },
+  "guildRequirement": {
+    "enabled": true,
+    "autoAccept": false,
+    "requirements": {
+      "hypixelNetworkLevel": 0,
+      "skywarsStars": 0,
+      "bedwarsStars": 0,
+      "senitherWeight": 0,
+      "lilyWeight": 0
+    }
+  }
+}
