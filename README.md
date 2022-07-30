@@ -159,15 +159,17 @@ The bot also includes an integrated frag bot that can be used for Hypixel Skyblo
 ### To-Do List
 
 *Grammar and other stuff might be broken, Im writing this more for myself so I dont forget ;-;*
-- [ ] Auto Guild Accept and Promote
-  - Ability for bot to automatically promote and accept invites.
+- [x] Auto Guild Accept
+  - Ability for bot to automatically accept invites if user meets requirements
+- [ ] Auto Promote
+  - Ability for bot to automatically promote player if he meets requirements
 - [ ] Cannot send same message better handling
   - If you use bot in officer channel and u send same message it will send embed into guild chat channel instead of officer
 - [x] `!ah [player]`
   - Show player's current auctions, useful while playing other hypixel games or dungeons
 - [ ] Automatic API key grabber
   - Bot will automaticaly run `/api new` after joining hypixel and storing it info config
-- [ ] Rewriting Commands
+- [x] Rewriting Commands
   - Rewrite commands which aren't complex and can use Hypixel's offical API to make them faster
 - [ ] `/info` command
   - Shows bot uptime, ping and other useful information
@@ -193,6 +195,12 @@ The bot also includes an integrated frag bot that can be used for Hypixel Skyblo
    - Send uptime of bridge bot
 - [ ] `/info`
    - Send information of bridge bot, like config information
+- [x] Command Error Handler
+   - Respond to guild chat if something goes wrong with command instead of just logging it in console
+- [x] Clean code for Frag Bot
+   - Clean code
+- [x] Fix Guild Quest Message 
+   - Broke in 2.0 release
 
 ## Powered by
 
