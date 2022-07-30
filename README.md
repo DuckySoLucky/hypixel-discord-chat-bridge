@@ -89,9 +89,13 @@ The `debugChannel` is the ID of the text channel where the bot should send messa
 
 ### API
 
-The API options include information about APIs which are being used, the only one which needs to be changed is `hypixelAPIkey`.
+The API options include information about APIs which are being used, the only one which needs to be changed are `hypixelAPIkey`, `antiSniperKey` and `imgurAPIkey`
 
-You can get Hypixel API key by joining Hypixel Network and typing `/api new` command.
+You can receive Hypixel API key by joining Hypixel Network and typing `/api new` command.
+
+AntiSniper key can be generated [Here](https://api.antisniper.net/)
+
+Imgur API can be generated [Here](https://api.imgur.com/oauth2/addclient)
 
 ### Event
 
@@ -115,8 +119,8 @@ The Event options include various events which will be notified by bot 30 and 5 
 `Minecraft`
 
 - `!8ball <question>` - Ask an 8ball a question.
-
 - `!armor [player]` - Renders armor of specified user.
+- `!auction [player]` - Active Auctions of specified user.
 - `!bedwars [player]` - BedWars stats of specified user.
 - `!catacombs [player]` - Skyblock Dungeons Stats of specified user.
 - `!accessories [player]` - Accessories of specified user.
@@ -155,15 +159,17 @@ The bot also includes an integrated frag bot that can be used for Hypixel Skyblo
 ### To-Do List
 
 *Grammar and other stuff might be broken, Im writing this more for myself so I dont forget ;-;*
-- [ ] Auto Guild Accept and Promote
-  - Ability for bot to automatically promote and accept invites.
+- [x] Auto Guild Accept
+  - Ability for bot to automatically accept invites if user meets requirements
+- [ ] Auto Promote
+  - Ability for bot to automatically promote player if he meets requirements
 - [ ] Cannot send same message better handling
   - If you use bot in officer channel and u send same message it will send embed into guild chat channel instead of officer
-- [ ] `!ah [player]`
+- [x] `!ah [player]`
   - Show player's current auctions, useful while playing other hypixel games or dungeons
 - [ ] Automatic API key grabber
   - Bot will automaticaly run `/api new` after joining hypixel and storing it info config
-- [ ] Rewriting Commands
+- [x] Rewriting Commands
   - Rewrite commands which aren't complex and can use Hypixel's offical API to make them faster
 - [ ] `/info` command
   - Shows bot uptime, ping and other useful information
@@ -179,19 +185,32 @@ The bot also includes an integrated frag bot that can be used for Hypixel Skyblo
   - Ability to blacklist someone from using commands 
 - [ ] Fragbot Whitelist
   - Abiliy to make frag bot be used only by specified users or by guild members only
-- [ ] Clean a lot of code
+- [x] Clean a lot of code
   - As it says clean code, mostly minecraft to discord message part, It's pretty much copy pasted
 - [ ] `!winstreak` command
   - Send estimated winstreak of player which has Winstreak API off
 - [ ] `!daily` and `!weekly` command
    - Show daily/weekly stats of specified user
+- [ ] `/uptime`
+   - Send uptime of bridge bot
+- [ ] `/info`
+   - Send information of bridge bot, like config information
+- [x] Command Error Handler
+   - Respond to guild chat if something goes wrong with command instead of just logging it in console
+- [x] Clean code for Frag Bot
+   - Clean code
+- [x] Fix Guild Quest Message 
+   - Broke in 2.0 release
+- [ ] Better Guild Requirements Handler
+   - If input is -1, that means that option is disabled
 
 ## Powered by
 
 - [AltPapier](https://github.com/Altpapier/hypixel-discord-guild-bridge)
 - [DawJaw](https://dawjaw.net/jacobs)
-- [Hypixel Network API](http://api.hypixel.net/)
 - [Hypixel API Reborn](https://hypixel.stavzdev.me/#/)
+- [Hypixel Skyblock Facade](https://hypixel-api.senither.com/)
+- [Hypixel Network API](http://api.hypixel.net/)
 - [MaroAPI](https://github.com/zt3h)
 - [PlayerDB API](https://playerdb.co/)
 - [SkyHelper API](https://github.com/Altpapier/SkyHelperAPI)
