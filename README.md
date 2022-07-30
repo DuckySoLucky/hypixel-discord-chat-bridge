@@ -93,9 +93,9 @@ The API options include information about APIs which are being used, the only on
 
 You can receive Hypixel API key by joining Hypixel Network and typing `/api new` command.
 
-AntiSniper key can be received [Here](https://api.antisniper.net/)
+AntiSniper key can be generated [Here](https://api.antisniper.net/)
 
-Imgur API can be received [Here](https://api.imgur.com/oauth2/addclient)
+Imgur API can be generated [Here](https://api.imgur.com/oauth2/addclient)
 
 ### Event
 
