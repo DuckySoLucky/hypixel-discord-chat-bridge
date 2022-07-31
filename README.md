@@ -171,29 +171,29 @@ The bot also includes an integrated frag bot that can be used for Hypixel Skyblo
   - Bot will automaticaly run `/api new` after joining hypixel and storing it info config
 - [x] Rewriting Commands
   - Rewrite commands which aren't complex and can use Hypixel's offical API to make them faster
-- [ ] `/info` command
+- [x] `/info` command
   - Shows bot uptime, ping and other useful information
-- [ ] Make some discord command client sided
+- [x] Make some discord command client sided
   - Make some command visible only by executor
 - [ ] `!analyzeparty [integer] [player]` command
   - Analyze past x games of player, and checks which players were in the same game as him. The players which were in his game the most are most likely in player's party. 
-- [ ] Linking System 
+- [x] Linking System 
   - Players will have to link before using bridge bot, will be used for a lot of features like feature below
 - [ ] Automatic guild kick
   - Bot will automatically kick everyone who do not meet requirements every x Days, player will receive discord DM x hours before getting kicked
-- [ ] Command Blacklist
+- [x] Command Blacklist
   - Ability to blacklist someone from using commands 
 - [ ] Fragbot Whitelist
   - Abiliy to make frag bot be used only by specified users or by guild members only
 - [x] Clean a lot of code
   - As it says clean code, mostly minecraft to discord message part, It's pretty much copy pasted
-- [ ] `!winstreak` command
+- [x] `!winstreak` command
   - Send estimated winstreak of player which has Winstreak API off
 - [ ] `!daily` and `!weekly` command
    - Show daily/weekly stats of specified user
-- [ ] `/uptime`
+- x] `/uptime`
    - Send uptime of bridge bot
-- [ ] `/info`
+- [x] `/info`
    - Send information of bridge bot, like config information
 - [x] Command Error Handler
    - Respond to guild chat if something goes wrong with command instead of just logging it in console
@@ -201,7 +201,7 @@ The bot also includes an integrated frag bot that can be used for Hypixel Skyblo
    - Clean code
 - [x] Fix Guild Quest Message 
    - Broke in 2.0 release
-- [ ] Better Guild Requirements Handler
+- [x] Better Guild Requirements Handler
    - If input is -1, that means that option is disabled
 
 ## Powered by
