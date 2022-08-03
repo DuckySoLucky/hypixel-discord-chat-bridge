@@ -172,8 +172,6 @@ The bot also includes an integrated frag bot that can be used for Hypixel Skyblo
 
 ### To-Do List
 
-- [ ] Cannot send same message better handling
-  - If you use bot in officer channel and u send same message it will send embed into guild chat channel instead of officer
 - [ ] Automatic API key grabber
   - Bot will automaticaly run `/api new` after joining hypixel and storing it info config
 - [ ] Fragbot Whitelist
