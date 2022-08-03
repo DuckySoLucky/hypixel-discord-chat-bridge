@@ -41,6 +41,7 @@ class MinecraftManager extends CommunicationBridge {
 
   async onBroadcast({ member, channel, username, message, replyingTo  }) { 
     Logger.broadcastMessage(`${username}: ${message}`, 'Minecraft')
+    global.bridgeChat = channel
     if(config.discord.filterMessages){
       if (this.bot.player !== undefined) {
         if (channel == config.discord.officerChannel) {this.bot.chat(filter.clean(`/oc ${replyingTo ? `${username} replying to ${replyingTo} »` : `${username} »`} ${message}`))}
