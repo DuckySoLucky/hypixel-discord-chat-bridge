@@ -172,8 +172,8 @@ The bot also includes an integrated frag bot that can be used for Hypixel Skyblo
 
 ### To-Do List
 
-- [ ] Automatic API key grabber
-  - Bot will automaticaly run `/api new` after joining hypixel and storing it info config
+- [ ] Setup inside a console
+  - Title
 - [ ] Fragbot Whitelist
   - Abiliy to make frag bot be used only by specified users or by guild members only
 
