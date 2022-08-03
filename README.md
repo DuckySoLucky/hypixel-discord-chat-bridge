@@ -101,15 +101,28 @@ Imgur API can be generated [Here](https://api.imgur.com/oauth2/addclient)
 
 The Event options include various events which will be notified by bot 30 and 5 minutes before event starts. If you do not like one of the events just change value from `true` to `false`. There is also ability to toggle off bot notifier fully in `enabled` option
 
+### Guild Requirements
+
+The bot also includes automatic guild accept if the user meets requirements. The requirements are set in the config.json, is requirement's value is 0 or below 0, it will not be accounted.
+
+`enabled` is option, should it check requirements of person who tries to join Guild or not. If this is enabled, request will be sent to the Logging Channel on the discord.
+
+`autoAccept` is option to enable automatic Guild accept or not, if the user meets requirements he will be automatically accepted by the bot.
+
+`requirements` option has suboptions, which are requirements.
+
 ### Commands
 
 `< >` = Required arguments, `[ ]` Optional arguments
 
 `Discord`
 
+- `/blacklist [player]` - Blacklists specified user from using bot.
 - `/guildtop [integer]` - Top 10 members with the most guild experience.
 - `/help` - Shows help menu
-- `/override <command> [args]` - executes the string attached. This is a dangerous permission to grant
+- `/info` - Shows information about bot
+- `/uptime` - Shows the uptime of the bot
+- `/override <command> [args]` - Executes the string attached. This is a dangerous permission to grant
 - `/invite <player>` - Invites the specified user to the guild, providing the guild isn't full
 - `/kick <user> [reason]` - Kicks the specified user from the guild
 - `/promote <user>` - Promotes the specified user by 1 rank
@@ -143,14 +156,15 @@ The Event options include various events which will be notified by bot 30 and 5 
 - `!slayer [player] [type]` - Slayer of specified user.
 - `!UHC [player]` - UHC Stats of specified user.
 - `!weight [player]` - Skyblock Stats of specified user.
-
-### Events Notifier
-
-The bot also includes event notifier that can be used to send message in guild 30 & 5 minutes before the event starts, by the default all of the events are toggled on. Feel free to disable events which you do not like in config.
+- `!winstreak [player]` - Estimated winstreaks of the specified user.
 
 ### Chat Triggers Module
 
 If you think message format is boring You can check out my repository for ChatTriggers module which changes the way messages from Bot look like. [Click Here](https://github.com/DuckySoLucky/Hypixel-Guild-Chat-Format)
+
+### Events Notifier
+
+The bot also includes event notifier that can be used to send message in guild 30 & 5 minutes before the event starts, by the default all of the events are toggled on. Feel free to disable events which you do not like in config.
 
 #### Frag Bot
 
