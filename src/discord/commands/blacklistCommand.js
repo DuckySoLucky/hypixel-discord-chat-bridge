@@ -5,7 +5,7 @@ const config = require('../../../config.json')
 module.exports = {
 	data: new SlashCommandBuilder()
     .setName("blacklist")
-    .setDescription("(Bridge Bot) (Mod) Demotes the given user by one guild rank.")
+    .setDescription("(Bridge Bot) (Mod) Blacklist specified user from using bot.")
     .addStringOption(option => option.setName("arg").setDescription("Add or Remove").setRequired(true))
     .addStringOption(option => option.setName("name").setDescription("Minecraft Username").setRequired(true)),
 
