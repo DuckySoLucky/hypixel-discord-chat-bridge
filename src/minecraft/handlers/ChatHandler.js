@@ -1,6 +1,7 @@
 const { replaceAllRanks, toFixed, addCommas } = require('../../contracts/helperFunctions')
 const { getSenitherWeightUsername } = require('../../contracts/weight/senitherWeight')
 const { getLilyWeightUsername } = require('../../contracts/weight/lilyWeight')
+const { getUsername, getUUID } = require('../../contracts/API/PlayerDBAPI')
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
 let guildInfo = [], guildRanks = [], members = [], guildTop = []
 const hypixel = require('../../contracts/API/HypixelRebornAPI')
@@ -68,15 +69,17 @@ class StateHandler extends EventHandler {
         const lilyW = lily.total
 
         if(config.guildRequirement.autoAccept) {
-          if (player.stats.bedwars.level > config.guildRequirement.requirements.bedwarsStars || player.stats.skywars.level > config.guildRequirement.requirements.skywars) bot.chat(`/g accept ${username}`)
-          if (senitherW > config.guildRequirement.requirements.senitherWeight) bot.chat(`/g accept ${username}`)
-          if (lilyW > config.guildRequirement.requirements.lilyWeight) bot.chat(`/g accept ${username}`)
-          
+          if (config.guildRequirement.requirements.bedwarsStars > 0) if (player.stats.bedwars.level > config.guildRequirement.requirements.bedwarsStars) bot.chat(`/g accept ${username}`)
+          if (config.guildRequirement.requirements.skywars > 0) if (player.stats.skywars.level > config.guildRequirement.requirements.skywars) bot.chat(`/g accept ${username}`)
+          if (config.guildRequirement.requirements.senitherWeight > 0) if (senitherW > config.guildRequirement.requirements.senitherWeight) bot.chat(`/g accept ${username}`)
+          if (config.guildRequirement.requirements.lilyWeight > 0) if (lilyW > config.guildRequirement.requirements.lilyWeight) bot.chat(`/g accept ${username}`)
+
         } else {
           let meetRequirements = false;
-          if (player.stats.bedwars.level > config.guildRequirement.requirements.bedwarsStars || player.stats.skywars.level > config.guildRequirement.requirements.skywars) meetRequirements = true;
-          if (senitherW > config.guildRequirement.requirements.senitherWeight) meetRequirements = true;
-          if (lilyW > config.guildRequirement.requirements.lilyWeight) meetRequirements = true;
+          if (config.guildRequirement.requirements.bedwarsStars > 0) if (player.stats.bedwars.level > config.guildRequirement.requirements.bedwarsStars) meetRequirements = true;
+          if (config.guildRequirement.requirements.skywars > 0) if (player.stats.skywars.level > config.guildRequirement.requirements.skywars) meetRequirements = true;
+          if (config.guildRequirement.requirements.senitherWeight > 0) if (senitherW > config.guildRequirement.requirements.senitherWeight) meetRequirements = true;
+          if (config.guildRequirement.requirements.lilyWeight > 0) if (lilyW > config.guildRequirement.requirements.lilyWeight) meetRequirements = true;
 
           this.minecraft.broadcastHeadedEmbed({
             message: `**Meets Requirements?**\n${meetRequirements ? 'Yes' : 'No'}\n \n**Hypixel Network Level**\n${player.level}\n \n**Bedwars Level**\n${player.stats.bedwars.level}\n \n**Skywars Level**\n${player.stats.skywars.level}\n \n**Senither Weight**\n${addCommas(toFixed(senitherW, 0))}\n \n**Lily Weight**\n${addCommas(toFixed(lilyW, 0))}`,
@@ -183,6 +186,7 @@ class StateHandler extends EventHandler {
 
     if (this.isLeaveMessage(message)) {
       let user = message.replace(/\[(.*?)\]/g, '').trim().split(/ +/g)[0]
+
       return [this.minecraft.broadcastHeadedEmbed({
         message: `${user} ${messages.leaveMessage}`,
         title: `Member Left`,
@@ -200,6 +204,7 @@ class StateHandler extends EventHandler {
 
     if (this.isKickMessage(message)) {
       let user = message.replace(/\[(.*?)\]/g, '').trim().split(/ +/g)[0]
+      
       return [this.minecraft.broadcastHeadedEmbed({
         message: `${user} ${messages.kickMessage}`,
         title: `Member Kicked`,
@@ -276,6 +281,47 @@ class StateHandler extends EventHandler {
         color: 'DC143C', 
         channel: 'Guild' 
       })
+    }
+    
+    if(this.isAlreadyBlacklistedMessage(message)) {
+      return this.minecraft.broadcastHeadedEmbed({
+        message: `${messages.alreadyBlacklistedMessage}`,
+        title: `Blacklist`,
+        color: '47F049',
+        channel: 'Guild'
+      })
+    }
+
+    if (this.isBlacklistMessage(message)) {
+      let user = message.split(' ')[1]
+      return [this.minecraft.broadcastHeadedEmbed({
+        message: `${user}${messages.blacklistMessage}`,
+        title: `Blacklist`,
+        color: '47F049',
+        channel: 'Guild'
+      }),
+      this.minecraft.broadcastHeadedEmbed({
+        message: `${user}${messages.blacklistMessage}`,
+        title: `Blacklist`,
+        color: '47F049',
+        channel: 'Logger'
+      })]
+    }
+
+    if (this.isBlacklistRemovedMessage(message)) {
+      let user = message.split(' ')[1]
+      return [this.minecraft.broadcastHeadedEmbed({
+        message: `${user}${messages.blacklistRemoveMessage}`,
+        title: `Blacklist`,
+        color: '47F049',
+        channel: 'Guild'
+      }),
+      this.minecraft.broadcastHeadedEmbed({
+        message: `${user}${messages.blacklistRemoveMessage}`,
+        title: `Blacklist`,
+        color: '47F049',
+        channel: 'Logger'
+      })]
     }
 
     if (this.isOnlineInvite(message)) {
@@ -445,6 +491,14 @@ class StateHandler extends EventHandler {
       })  
     }
 
+    if (config.console.debug) {
+      this.minecraft.broadcastMessage({
+        fullMessage: colouredMessage,
+        message: 'debug_temp_message_ignore',
+        chat: 'debugChannel'
+      }
+    )}
+
     let parts = message.split(':')
     let group = parts.shift().trim()
     let hasRank = group.endsWith(']')
@@ -461,14 +515,6 @@ class StateHandler extends EventHandler {
     if (playerMessage.length == 0 || this.command.handle(username, playerMessage)) return
     if (playerMessage == '@') return
 
-    if (config.console.debug) {
-      this.minecraft.broadcastMessage({
-        fullMessage: colouredMessage,
-        message: 'debug_temp_message_ignore',
-        chat: "debugChannel"
-      }
-    )}
-
     this.minecraft.broadcastMessage({
       fullMessage: colouredMessage,
       username: username,
@@ -481,6 +527,17 @@ class StateHandler extends EventHandler {
 
   isMessageFromBot(username) {
     return bot.username === username
+  }
+
+  isAlreadyBlacklistedMessage(message) {
+    return message.includes(`You've already ignored that player! /ignore remove Player to unignore them!`) && !message.includes(':')
+  }
+  isBlacklistRemovedMessage(message) {
+    return message.startsWith('Removed') && message.includes('from your ignore list.') && !message.includes(':')
+  }
+
+  isBlacklistMessage(message) {
+    return message.startsWith('Added') && message.includes('to your ignore list.') && !message.includes(':')
   }
 
   isGuildMessage(message) {

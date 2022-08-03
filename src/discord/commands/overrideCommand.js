@@ -18,7 +18,7 @@ module.exports = {
                 .setTitle('Command has been executed successfully')
                 .setDescription(`\`/${command}\`\n`)
                 .setFooter({ text: 'by DuckySoLucky#5181', iconURL: 'https://cdn.discordapp.com/avatars/486155512568741900/164084b936b4461fe9505398f7383a0e.png?size=4096' })
-            await interaction.reply({ embeds: [commandMessage] })
+            await interaction.reply({ embeds: [commandMessage], ephemeral: true  })
         } else {
             await interaction.reply({ content: 'You do not have permission to run this command.', ephemeral: true })
         }

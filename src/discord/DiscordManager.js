@@ -21,7 +21,7 @@ class DiscordManager extends CommunicationBridge {
     this.commandHandler = new CommandHandler(this)
   }
 
-  connect() {
+  async connect() {
     global.client = new Client({intents: 32767})
     this.client = client
 
@@ -48,6 +48,7 @@ class DiscordManager extends CommunicationBridge {
       else {client.on(event.name, (...args) => event.execute(...args))} 
     }
 
+    global.guild = await client.guilds.fetch(config.discord.serverID)
     process.on('SIGINT', () => this.stateHandler.onClose())
   }
 
@@ -112,11 +113,13 @@ class DiscordManager extends CommunicationBridge {
           files: [new MessageAttachment(messageToImage(fullMessage), `${username}.png`)],
         })
         // Link Handler
-        if (fullMessage.includes('http') || fullMessage.includes('https')) {
-          const msg = fullMessage.splt(' ')
+        channel = await this.getChannel(chat)
+        if (fullMessage.includes('http://') || fullMessage.includes('https://')) {
+          const msg = fullMessage.replaceAll('§r', '').split(' ')
           for (let i = 0; i < msg.length; i++) {
-            if (msg[i].startsWith('https') || msg[i].startsWith('http')) {
+            if (msg[i].startsWith('https://') || msg[i].startsWith('http://')) {
               await channel.send({content: `${msg[i]}`})
+              break;
             }   
           }
         }
@@ -184,15 +187,6 @@ class DiscordManager extends CommunicationBridge {
         await channel.send({
           files: [new MessageAttachment(messageToImage(fullMessage), `${username}.png`)],
         })
-        // Link Handler
-        if (fullMessage.includes('http') || fullMessage.includes('https')) {
-          const msg = fullMessage.splt(' ')
-          for (let i = 0; i < msg.length; i++) {
-            if (msg[i].startsWith('https') || msg[i].startsWith('http')) {
-              await channel.send({content: `${msg[i]}`})
-            }   
-          }
-        }
         break
       default:
         throw new Error('Invalid message mode: must be bot or webhook')

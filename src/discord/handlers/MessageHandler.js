@@ -13,6 +13,7 @@ class MessageHandler {
     if (content.length == 0) return
 
     this.discord.broadcastMessage({
+      member: message.member.user,
       channel: message.channel.id,
       username: message.member.displayName,
       message: this.stripDiscordContent(message.content),
@@ -39,8 +40,8 @@ class MessageHandler {
   }
 
   stripDiscordContent(message) {
-    return message.replace(/<[@|#|!|&]{1,2}(\d+){16,}>/g, '\n').replace(/<:\w+:(\d+){16,}>/g, '\n').replace(/[^\p{L}\p{N}\p{P}\p{Z}]/gu, '\n').split('\n').map(part => {part = part.trim(); return part.length == 0 ? '' : part + ' '}).join('')
-  }
+      return message.replace(/<[@|#|!|&]{1,2}(\d+){16,}>/g, '\n').replace(/<:\w+:(\d+){16,}>/g, '\n').replace(/[^\p{L}\p{N}\p{P}\p{Z}]/gu, '\n').split('\n').map(part => {part = part.trim(); return part.length == 0 ? '' : part + ' '}).join('')
+    }
 
   shouldBroadcastMessage(message) {
     return !message.author.bot && message.channel.id == config.discord.officerChannel && message.content && message.content.length > 0 || !message.author.bot && message.channel.id == config.discord.guildChatChannel && message.content && message.content.length > 0

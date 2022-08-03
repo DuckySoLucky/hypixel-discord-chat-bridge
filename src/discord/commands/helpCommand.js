@@ -69,18 +69,20 @@ module.exports = {
                                 options += `${command.data.options[j].name != '' ? `\`[${command.data.options[j].name}]\`:` : ``}${command.data.options[j].description != '' ? ` ${command.data.options[j].description}\n` : ``}`
                             }
                         }
-                    const commandData = new MessageEmbed()
-                        .setColor(0x0099FF)
-                        .setTitle(`**${config.minecraft.prefix}${command.data.name}**`)
-                        .setDescription(name + '\n')
-                        .addFields(
-                            { name: '**Options** ', value: `${options}`, inline: true },
-                        )
-                        .setFooter({ text: 'by DuckySoLucky#5181 | () = required, [] = optional', iconURL: 'https://cdn.discordapp.com/avatars/486155512568741900/164084b936b4461fe9505398f7383a0e.png?size=4096' })
-                    await interaction.reply({ embeds: [commandData] })
+                        const commandData = new MessageEmbed()
+                            .setColor(0x0099FF)
+                            .setTitle(`**${config.minecraft.prefix}${command.data.name}**`)
+                            .setDescription(name + '\n')
+                            .addFields(
+                                { name: '**Options** ', value: `${options}`, inline: true },
+                            )
+                            .setFooter({ text: 'by DuckySoLucky#5181 | () = required, [] = optional', iconURL: 'https://cdn.discordapp.com/avatars/486155512568741900/164084b936b4461fe9505398f7383a0e.png?size=4096' })
+                        await interaction.reply({ embeds: [commandData] })
+                        break;
                     }
                 }  
             }
+            if (found) return
             // Minecraft Commands
             for (let i = 0; i < minecraftCommandList.length; i++) {
                 if (minecraftCommandList[i].name === commandName) {
@@ -101,8 +103,10 @@ module.exports = {
                         )
                         .setFooter({ text: 'by DuckySoLucky#5181 | () = required, [] = optional', iconURL: 'https://cdn.discordapp.com/avatars/486155512568741900/164084b936b4461fe9505398f7383a0e.png?size=4096' })
                     await interaction.reply({ embeds: [commandData] })
+                    break;
                 }
             }
+            if (found) return
             if (!found) {
                 const errorEmbed = new MessageEmbed()
                     .setColor('#ff0000')

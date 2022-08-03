@@ -10,28 +10,28 @@ async function getKeyData() {
 }
 async function getPlayer(uuid) {
     // https://api.hypixel.net/player?key=HYPIXEL_API_KEY&uuid=PLAYER_UUID
-    if (uuid.length != 32) uuid = await PlayerDBAPI.getPlayerData(uuid)
+    if (uuid.length != 32) uuid = await PlayerDBAPI.getUUID(uuid)
     const response = await axios.get(`${config.api.hypixelAPI}/player?key=${config.api.hypixelAPIkey}&uuid=${uuid}`)
     if(response.data.success != true){return response.data.cause}
     return response.data
 }
 async function getFriends(uuid) {
     // https://api.hypixel.net/friends?key=HYPIXEL_API_KEY&uuid=PLAYER_UUID
-    if (uuid.length != 32) uuid = await PlayerDBAPI.getPlayerData(uuid)
+    if (uuid.length != 32) uuid = await PlayerDBAPI.getUUID(uuid)
     const response = await axios.get(`${config.api.hypixelAPI}/friends?key=${config.api.hypixelAPIkey}&uuid=${uuid}`)
     if(response.data.success != true){return response.data.cause}
     return response.data
 }
 async function getRecentGames(uuid) {
     // https://api.hypixel.net/recentgames?key=HYPIXEL_API_KEY&uuid=PLAYER_UUID
-    if (uuid.length != 32) uuid = await PlayerDBAPI.getPlayerData(uuid)
+    if (uuid.length != 32) uuid = await PlayerDBAPI.getUUID(uuid)
     const response = await axios.get(`${config.api.hypixelAPI}/recentgames?key=${config.api.hypixelAPIkey}&uuid=${uuid}`)
     if(response.data.success != true){return response.data.cause}
     return response.data
 }
 async function getPlayerStatus(uuid) {
     // https://api.hypixel.net/status?key=HYPIXEL_API_KEY&uuid=PLAYER_UUID
-    if (uuid.length != 32) uuid = await PlayerDBAPI.getPlayerData(uuid)
+    if (uuid.length != 32) uuid = await PlayerDBAPI.getUUID(uuid)
     const response = await axios.get(`${config.api.hypixelAPI}/status?key=${config.api.hypixelAPIkey}&uuid=${uuid}`)
     if(response.data.success != true){return response.data.cause}
     return response.data

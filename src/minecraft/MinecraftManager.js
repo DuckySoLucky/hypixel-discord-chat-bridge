@@ -10,7 +10,6 @@ const Filter = require('bad-words')
 const Logger = require('../Logger')
 const filter = new Filter()
 
-
 class MinecraftManager extends CommunicationBridge {
   constructor(app) {
     super()
@@ -40,7 +39,7 @@ class MinecraftManager extends CommunicationBridge {
     })
   }
 
-  onBroadcast({ channel, username, message, replyingTo  }) { 
+  async onBroadcast({ member, channel, username, message, replyingTo  }) { 
     Logger.broadcastMessage(`${username}: ${message}`, 'Minecraft')
     if(config.discord.filterMessages){
       if (this.bot.player !== undefined) {
