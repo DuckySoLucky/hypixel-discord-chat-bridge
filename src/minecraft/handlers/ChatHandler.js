@@ -7,6 +7,7 @@ let guildInfo = [], guildRanks = [], members = [], guildTop = []
 const hypixel = require('../../contracts/API/HypixelRebornAPI')
 const EventHandler = require('../../contracts/EventHandler')
 const messages = require('../../../messages.json')
+const linked = require('../../../data/minecraftLinked.json')
 const config = require('../../../config.json')
 const Logger = require('../../Logger')
 const fs = require('fs')
@@ -187,6 +188,10 @@ class StateHandler extends EventHandler {
     if (this.isLeaveMessage(message)) {
       let user = message.replace(/\[(.*?)\]/g, '').trim().split(/ +/g)[0]
 
+      const uuid = await getUUID(user)
+      const member = await guild.members.fetch(linked?.[uuid]?.data[0])
+      member.roles.remove(config.discord.guildMemberRole)
+
       return [this.minecraft.broadcastHeadedEmbed({
         message: `${user} ${messages.leaveMessage}`,
         title: `Member Left`,
@@ -204,6 +209,10 @@ class StateHandler extends EventHandler {
 
     if (this.isKickMessage(message)) {
       let user = message.replace(/\[(.*?)\]/g, '').trim().split(/ +/g)[0]
+
+      const uuid = await getUUID(user)
+      const member = await guild.members.fetch(linked?.[uuid]?.data[0])
+      member.roles.remove(config.discord.guildMemberRole)
       
       return [this.minecraft.broadcastHeadedEmbed({
         message: `${user} ${messages.kickMessage}`,

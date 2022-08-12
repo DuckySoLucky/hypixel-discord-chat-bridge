@@ -1,7 +1,6 @@
 const { ImgurClient } = require('imgur')
 const config = require('../../../config.json')
 const imgurClient = new ImgurClient({ clientId: config.api.imgurAPIkey })
-process.on('uncaughtException', function (err) {console.log(err.stack)})
 const { getPlayer, decodeData } = require('../../contracts/getSkyblockProfile')
 const MinecraftCommand = require('../../contracts/MinecraftCommand')
 const { renderLore } = require('../../contracts/renderItem')
@@ -32,7 +31,6 @@ class armorCommand extends MinecraftCommand {
         if (!selectedItem?.tag?.display?.Name) continue;
         const renderedItem = await renderLore(selectedItem?.tag?.display?.Name, selectedItem?.tag?.display?.Lore)
         const upload = await imgurClient.upload({image: renderedItem, type: 'stream'})
-        if (!upload.data.link) this.send(`/gc There was an error with Imgur, try again.`)
         response+=`${upload.data.link} | `
       }
       if (searchedPlayer.profileData.game_mode == "ironman") username = `♲ ${username}`

@@ -9,9 +9,10 @@ class StateHandler {
   async onReady() {
     Logger.discordMessage('Client ready, logged in as ' + this.discord.client.user.tag)
     this.discord.client.user.setActivity('Guild Chat', { type: 'WATCHING' })
+    const channel = await getChannel('Guild')
+    global.bridgeChat = config.discord.guildChatChannel
     global.uptime = new Date().getTime()
 
-    const channel = await getChannel('Guild')
     channel.send({
       embeds: [{
         author: { name: `Chat Bridge is Online` },

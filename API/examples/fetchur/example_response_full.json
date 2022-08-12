@@ -1,0 +1,9 @@
+{
+  "status": 200,
+  "data": {
+    "name": "Rabbit's Foot",
+    "quantity": 3,
+    "text": "3x Rabbit's Feet",
+    "image": "https://sky.shiiyu.moe/item/RABBIT_FOOT"
+  }
+}

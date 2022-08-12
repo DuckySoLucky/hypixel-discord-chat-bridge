@@ -1,8 +1,5 @@
 const MinecraftCommand = require('../../contracts/MinecraftCommand')
-const hypixel = require('../../contracts/API/HypixelRebornAPI')
 const hypixelAPI = require('../../contracts/API/HypixelAPI')
-
-process.on('uncaughtException', function (err) {console.log(err.stack)})
 
 class SkyblockNewsCommand extends MinecraftCommand {
   constructor(minecraft) {

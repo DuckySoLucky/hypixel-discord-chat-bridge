@@ -1,6 +1,5 @@
 const MinecraftCommand = require('../../contracts/MinecraftCommand')
-const skyHelperAPI = require('../../contracts/API/SkyHelperAPI')
-process.on('uncaughtException', function (err) {console.log(err.stack)})
+const { getFetchur } = require('../../../API/functions/getFecthur')
 
 class fetchurCommand extends MinecraftCommand {
   constructor(minecraft) {
@@ -14,8 +13,8 @@ class fetchurCommand extends MinecraftCommand {
 
   async onCommand(username, message) {
     try {
-      const fetchur = await skyHelperAPI.getFetchur()
-      this.send(`/gc Fetchur Requests » ${fetchur.data.text}`)
+      const fetchur = getFetchur()
+      this.send(`/gc Fetchur Requests » ${fetchur.text}`)
     } catch (error) {
       this.send('/gc Something went wrong..')
     }

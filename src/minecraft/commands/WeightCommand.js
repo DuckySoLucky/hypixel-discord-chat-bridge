@@ -1,7 +1,7 @@
-const { getSenitherWeightUsername } = require('../../contracts/weight/senitherWeight')
-const { getLilyWeightUsername } = require('../../contracts/weight/lilyWeight')
-process.on('uncaughtException', function (err) {console.log(err.stack)})
 const MinecraftCommand = require('../../contracts/MinecraftCommand')
+const { getLatestProfile } = require('../../../API/functions/getLatestProfile');
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
+const getWeight = require('../../../API/stats/weight');
 
 class StatsCommand extends MinecraftCommand {
     constructor(minecraft) {
@@ -16,15 +16,18 @@ class StatsCommand extends MinecraftCommand {
     
     async onCommand(username, message) {
         try {
-            let msg = this.getArgs(message);
-            if(msg[0]) username = msg[0]
-            const senither = await getSenitherWeightUsername(username)
-            const senitherW = `Senither Weight = ${Math.round((senither.skills.weight + senither.skills.weight_overflow + senither.dungeons.weight + senither.dungeons.weight_overflow + senither.slayers.weight + senither.slayers.weight_overflow) * 100) / 100} | Skills = ${Math.round((senither.skills.weight + senither.skills.weight_overflow) * 100) / 100} | Dungeons = ${Math.round((senither.dungeons.weight + senither.dungeons.weight_overflow) * 100) / 100} | Slayer = ${Math.round((senither.slayers.weight + senither.slayers.weight_overflow) * 100) / 100}`
+            let arg = this.getArgs(message)
+            if (arg[0]) username = arg[0]
+            const data = await getLatestProfile(username)
+            username = data.profileData?.game_mode ? `♲ ${username}` : username
+            const profile = await getWeight(data.profile, data.uuid) 
+            const lilyW = `Lily Weight = ${Math.round(profile.weight.lily.total * 100) / 100} | Skills = ${Math.round((profile.weight.lily.skills.total) * 100) / 100} | Slayer = ${Math.round(profile.weight.lily.slayer.total * 100) / 100} | Dungeons = ${Math.round((profile.weight.lily.catacombs.total) * 100) / 100}`
+            const senitherW = `Senither Weight = ${Math.round((profile.weight.senither.total) * 100) / 100} | Skills: ${Math.round((profile.weight.senither.skills.alchemy + profile.weight.senither.skills.combat + profile.weight.senither.skills.enchanting + profile.weight.senither.skills.farming + profile.weight.senither.skills.fishing + profile.weight.senither.skills.foraging + profile.weight.senither.skills.mining + profile.weight.senither.skills.taming) * 100) / 100} | Slayer: ${Math.round((profile.weight.senither.slayer.total) * 100) / 100} | Dungeons: ${Math.round((profile.weight.senither.dungeons.total) * 100) / 100}`
             this.send(`/gc ${username}\'s ${senitherW}`)
-            const lily = await getLilyWeightUsername(username)
-            const lilyW = `Lily Weight = ${Math.round(lily.total * 100) / 100} | Skills = ${Math.round((lily.skill.base + lily.skill.overflow) * 100) / 100} | Dungeons = ${Math.round((lily.catacombs.completion.base + lily.catacombs.completion.master + lily.catacombs.experience) * 100) / 100} | Slayer = ${Math.round(lily.slayer * 100) / 100}`
+            await delay(690)
             this.send(`/gc ${username}\'s ${lilyW}`) 
         } catch (error) {
+            console.log(error)
             this.send('/gc There is no player with the given UUID or name or the player has no Skyblock profiles')
         }   
     }

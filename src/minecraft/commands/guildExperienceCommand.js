@@ -1,4 +1,3 @@
-process.on('uncaughtException', function (err) {console.log(err.stack)})
 const MinecraftCommand = require('../../contracts/MinecraftCommand')
 const hypixel = require('../../contracts/API/HypixelRebornAPI')
 const config = require('../../../config.json')
@@ -14,31 +13,33 @@ class guildExperienceCommand extends MinecraftCommand {
     }
 
     onCommand(username, message) {
+        let arg = this.getArgs(message);
+        if (arg[0]) username = arg[0]
         try {
-            let arg = this.getArgs(message), found = false;
-            if (arg[0]) username = arg[0]
             hypixel.getPlayer(username).then(player => {
                 hypixel.getGuild("id", config.minecraft.guildID).then(guild => {
-                    for (var i = 0; i < guild.members.length; i++) {
+                    for (let i = 0; i < guild.members.length; i++) {
                         if (guild.members[i].uuid === player.uuid) {
-                            found = true;
+                            const player = guild.members[i]
                             break;
                         }
-                    }
-                    if (found == false || found == undefined) {
-                        this.send(`/gc ${username} is not in the Guild.`)
-                        return;
+                        if (i == guild.members.length-1) {
+                            this.send(`/gc ${username} is not in the Guild.`)
+                            return;
+                        }
                     }
 
-                    if (guild.members[i].weeklyExperience < config.minecraft.guildExp) {
-                        this.send(`/gc You are missing ${config.minecraft.guildExp-guild.members[i].weeklyExperience} Guild Experience.`)
+                    if (player.weeklyExperience < config.minecraft.guildExp) {
+                        this.send(`/gc ${username} is missing ${config.minecraft.guildExp-player.weeklyExperience} Guild Experience.`)
                     }else {
-                        this.send('/gc You have enough guild experience.')
+                        this.send(`/gc ${username} has enough guild experience.`)
                     }
                     
-                });
-            }).catch(err => {console.log(err)});
+                }).catch(error => {this.send('/gc ' + error.toString().replaceAll('[hypixel-api-reborn] ', ''))})
+            }).catch(error => {this.send('/gc ' + error.toString().replaceAll('[hypixel-api-reborn] ', ''))})
+
         } catch (error) {
+            console.log(i)
             this.send('There is no player with the given UUID or name or player has never joined Hypixel.')
         }
     }    

@@ -26,4 +26,6 @@
   "blacklistMessage": " has been successfully blacklisted.",
   "blacklistRemoveMessage": " has been successfully removed from the blacklist.",
   "alreadyBlacklistedMessage": "Player is already blacklisted.",
+
+  "guildQuestCompletedShortFormat": false
 }

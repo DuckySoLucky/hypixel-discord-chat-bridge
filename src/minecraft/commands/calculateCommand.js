@@ -1,5 +1,4 @@
 const MinecraftCommand = require('../../contracts/MinecraftCommand')
-process.on('uncaughtException', function (err) {console.log(err.stack)})
 
 class CalculateCommand extends MinecraftCommand {
     constructor(minecraft) {

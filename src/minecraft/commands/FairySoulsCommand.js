@@ -1,15 +1,5 @@
-process.on('uncaughtException', function (err) {console.log(err.stack)})
 const MinecraftCommand = require('../../contracts/MinecraftCommand')
-const { getPlayer } = require('../../contracts/getSkyblockProfile')
-
-async function getFairySouls(username) {
-  try {
-    const response = await getPlayer(username)
-    return `${username}\'s Fairy Souls: ${response.memberData.fairy_souls_collected}/238 | Progress: ${Math.round(response.memberData.fairy_souls_collected/238 * 100) / 100*100}%`
-  } catch(error) {
-    return error
-  }
-}
+const { getLatestProfile } = require('../../../API/functions/getLatestProfile');
 
 class fairySoulsCommand extends MinecraftCommand {
     constructor(minecraft) {
@@ -24,12 +14,17 @@ class fairySoulsCommand extends MinecraftCommand {
 
     async onCommand(username, message) {
       try {
-        let msg = this.getArgs(message);
+        let msg = this.getArgs(message)
         if(msg[0]) username = msg[0]
-        this.send(`/gc ${await getFairySouls(username)}`)   
+
+        const data = await getLatestProfile(username)
+        username = data.profileData?.game_mode ? `♲ ${username}` : username
+        this.send(`/gc ${username}\'s Fairy Souls: ${data.profile.fairy_souls_collected}/238 | Progress: ${Math.round(data.profile.fairy_souls_collected/238 * 100) / 100*100}%`)   
       } catch (error) {
+        console.log(error)
         this.send('/gc There is no player with the given UUID or name or the player has no Skyblock profiles')
       }
     }
 }
+
 module.exports = fairySoulsCommand

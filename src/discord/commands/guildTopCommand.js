@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-process.on('uncaughtException', function (err) {console.log(err.stack)})
+
 
 module.exports = {
 	data: new SlashCommandBuilder()

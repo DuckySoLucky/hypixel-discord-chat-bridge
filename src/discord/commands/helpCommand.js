@@ -1,4 +1,4 @@
-process.on('uncaughtException', function (err) {console.log(err.stack)})
+
 const { SlashCommandBuilder } = require('@discordjs/builders')
 const { MessageEmbed } = require('discord.js')
 const config = require('../../../config.json')

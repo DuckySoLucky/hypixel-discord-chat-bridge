@@ -24,9 +24,8 @@ class DiscordManager extends CommunicationBridge {
   async connect() {
     global.client = new Client({intents: 32767})
     this.client = client
-
     this.client.on('ready', () => this.stateHandler.onReady())
-    this.client.on('message', message => this.messageHandler.onMessage(message))
+    this.client.on('messageCreate', message => this.messageHandler.onMessage(message))
     
     this.client.login(config.discord.token).catch(error => {Logger.errorMessage(error)})
 

@@ -1,0 +1,15 @@
+module.exports = {
+    0: { name: 'Red Wool', quantity: 50, text: '50x Red Wool', image: 'https://sky.shiiyu.moe/item/WOOL:14' },
+    1: { name: 'Yellow Stained Glass', quantity: 20, text: '20x Yellow Stained Glass', image: 'https://sky.shiiyu.moe/item/STAINED_GLASS:4' },
+    2: { name: 'Compass', quantity: 1, text: '1x Compass', image: 'https://sky.shiiyu.moe/item/COMPASS' },
+    3: { name: 'Mithril', quantity: 20, text: '20x Mithril', image: 'https://sky.shiiyu.moe/item/MITHRIL_ORE' },
+    4: { name: 'Firework Rocket', quantity: 1, text: '1x Firework Rocket', image: 'https://sky.shiiyu.moe/item/FIREWORK' },
+    5: { name: 'Coffee', quantity: 1, text: '1x Coffee', image: 'https://sky.shiiyu.moe/item/DECENT_COFFEE' },
+    6: { name: 'Door', quantity: 1, text: '1x Door', image: 'https://sky.shiiyu.moe/item/WOOD_DOOR' },
+    7: { name: 'Rabbit\'s Foot', quantity: 3, text: '3x Rabbit\'s Feet', image: 'https://sky.shiiyu.moe/item/RABBIT_FOOT' },
+    8: { name: 'Superboom TNT', quantity: 1, text: '1x Superboom TNT', image: 'https://sky.shiiyu.moe/item/SUPERBOOM_TNT' },
+    9: { name: 'Pumpkin', quantity: 1, text: '1x Pumpkin', image: 'https://sky.shiiyu.moe/item/PUMPKIN' },
+    10: { name: 'Flint and Steel', quantity: 1, text: '1x Flint and Steel', image: 'https://sky.shiiyu.moe/item/FLINT_AND_STEEL' },
+    11: { name: 'Nether Quartz Ore', quantity: 50, text: '50x Nether Quartz Ore', image: 'https://sky.shiiyu.moe/item/QUARTZ_ORE' },
+    12: { name: 'Red Wool', quantity: 50, text: '50x Red Wool', image: 'https://sky.shiiyu.moe/item/WOOL:14' },
+}

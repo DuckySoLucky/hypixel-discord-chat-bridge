@@ -1,18 +1,7 @@
-process.on('uncaughtException', function (err) {console.log(err.stack)})
 const MinecraftCommand = require('../../contracts/MinecraftCommand')
 const { addNotation } = require('../../contracts/helperFunctions')
-const SkyHelperAPI = require('../../contracts/API/SkyHelperAPI')
-
-async function getNetworth(username) {
-    try {
-        const profile = await SkyHelperAPI.getProfile(username)
-        if (profile.isIronman) username = `♲ ${username}`
-        return `${username}\'s networth is ${addNotation("oneLetters", profile.networth.total_networth)}`
-    }
-    catch (error) {
-        return error.toString().replaceAll('Request failed with status code 404', 'There is no player with the given UUID or name or the player has no Skyblock profiles').replaceAll('Request failed with status code 500', 'There is no player with the given UUID or name or the player has no Skyblock profiles').replaceAll(`TypeError: Cannot read properties of undefined (reading 'status')`, 'There is no player with the given UUID or name or the player has no Skyblock profiles')
-    }
-}
+const { getLatestProfile } = require('../../../API/functions/getLatestProfile');
+const getNetworth = require('../../../API/stats/networth')
 
 class NetWorthCommand extends MinecraftCommand {
     constructor(minecraft) {
@@ -29,7 +18,13 @@ class NetWorthCommand extends MinecraftCommand {
         try {
             let arg = this.getArgs(message);
             if(arg[0]) username = arg[0]
-            this.send(`/gc ${await getNetworth(username)}`)
+
+            const data = await getLatestProfile(username)
+            username = data.profileData?.game_mode ? `♲ ${username}` : username
+            const profile = await getNetworth(data.profile, data.profileData) 
+
+            this.send( `/gc ${username}\'s networth is ${addNotation("oneLetters", profile.total_networth)} | Purse: ${addNotation("oneLetters", profile.purse)} | Bank: ${addNotation("oneLetters", profile.bank)}`)
+        
         } catch (error) {
             this.send('/gc There is no player with the given UUID or name or the player has no Skyblock profiles')
         }

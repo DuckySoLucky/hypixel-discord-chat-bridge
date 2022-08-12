@@ -1,4 +1,3 @@
-process.on('uncaughtException', function (err) {console.log(err.stack)})
 const MinecraftCommand = require('../../contracts/MinecraftCommand')
 const axios = require('axios')
 

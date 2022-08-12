@@ -1,6 +1,6 @@
 const MinecraftCommand = require('../../contracts/MinecraftCommand')
-const skyHelperAPI = require('../../contracts/API/SkyHelperAPI')
-process.on('uncaughtException', function (err) {console.log(err.stack)})
+const { getLatestProfile } = require('../../../API/functions/getLatestProfile');
+const getSkills = require('../../../API/stats/skills')
 
 class skillsCommand extends MinecraftCommand {
   constructor(minecraft) {
@@ -15,11 +15,12 @@ class skillsCommand extends MinecraftCommand {
 
   async onCommand(username, message) {
     try {
-      let msg = this.getArgs(message);
-      if(msg[0]) username = msg[0]
-      const profile = await skyHelperAPI.getProfile(username)
-      if (profile.isIronman) username = `♲ ${username}`
-      this.send(`/gc Skill Average » ${Math.round(((profile.skills.farming.level + profile.skills.mining.level + profile.skills.combat.level + profile.skills.foraging.level + profile.skills.fishing.level + profile.skills.enchanting.level + profile.skills.alchemy.level + profile.skills.taming.level ) / 8 )* 100) / 100} | Farming - ${Math.round(profile.skills.farming.levelWithProgress * 100) / 100} | Mining - ${Math.round(profile.skills.mining.levelWithProgress * 100) / 100} | Combat - ${Math.round(profile.skills.combat.levelWithProgress * 100) / 100} | Enchanting - ${Math.round(profile.skills.enchanting.levelWithProgress * 100) / 100} | Fishing - ${Math.round(profile.skills.fishing.levelWithProgress * 100) / 100} | Foraging - ${Math.round(profile.skills.foraging.levelWithProgress * 100) / 100} | Alchemy - ${Math.round(profile.skills.alchemy.levelWithProgress * 100) / 100} | Taming - ${Math.round(profile.skills.taming.levelWithProgress * 100) / 100}`)
+      let arg = this.getArgs(message)
+      if (arg[0]) username = arg[0]
+      const data = await getLatestProfile(username)
+      username = data.profileData?.game_mode ? `♲ ${username}` : username
+      const profile = getSkills(data.player, data.profile) 
+      this.send(`/gc Skill Average » ${Math.round(((profile.farming.level + profile.mining.level + profile.combat.level + profile.foraging.level + profile.fishing.level + profile.enchanting.level + profile.alchemy.level + profile.taming.level ) / 8 )* 100) / 100} | Farming - ${Math.round(profile.farming.levelWithProgress * 100) / 100} | Mining - ${Math.round(profile.mining.levelWithProgress * 100) / 100} | Combat - ${Math.round(profile.combat.levelWithProgress * 100) / 100} | Enchanting - ${Math.round(profile.enchanting.levelWithProgress * 100) / 100} | Fishing - ${Math.round(profile.fishing.levelWithProgress * 100) / 100} | Foraging - ${Math.round(profile.foraging.levelWithProgress * 100) / 100} | Alchemy - ${Math.round(profile.alchemy.levelWithProgress * 100) / 100} | Taming - ${Math.round(profile.taming.levelWithProgress * 100) / 100}`)
     } catch (error) {
       this.send('/gc There is no player with the given UUID or name or the player has no Skyblock profiles')
     }

@@ -1,0 +1,803 @@
+{
+  "status": 200,
+  "data": {
+    "username": "Altpapier",
+    "id": "ea805d40e8284d8d8e64e9fc8ac301ca",
+    "name": "Watermelon",
+    "isIronman": false,
+    "skills": {
+      "farming": {
+        "xp": 15522425,
+        "level": 35,
+        "xpCurrent": 418694,
+        "xpForNext": 1800000,
+        "progress": 0.23260777777777777
+      },
+      "mining": {},
+      "combat": {},
+      "foraging": {},
+      "fishing": {},
+      "enchanting": {},
+      "alchemy": {},
+      "carpentry": {},
+      "runecrafting": {},
+      "social": {},
+      "taming": {}
+    },
+    "networth": {
+      "total_networth": 2497027432,
+      "purse": 6068271,
+      "bank": 90822777,
+      "types": {
+        "armor": {
+          "value": 100523841,
+          "items": [
+            {
+              "name": "Necrotic Storm's Boots ✪✪✪✪✪",
+              "value": 19650115,
+              "base_item_price": 4475000,
+              "amount": 1,
+              "calculation": [
+                {
+                  "type": "Hot Potato Book",
+                  "value": 282290,
+                  "amount": 10
+                },
+                {
+                  "type": "Necrotic Reforge",
+                  "value": 30000,
+                  "amount": 1
+                },
+                {
+                  "type": "Enchantments",
+                  "enchants": [
+                    {
+                      "name": "Depth Strider 3",
+                      "value": 1000,
+                      "amount": 1
+                    },
+                    {
+                      "name": "Ultimate Wisdom 5",
+                      "value": 3999997,
+                      "amount": 1
+                    },
+                    {
+                      "name": "Feather Falling 10",
+                      "value": 225000,
+                      "amount": 1
+                    },
+                    {
+                      "name": "Rejuvenate 5",
+                      "value": 788888,
+                      "amount": 1
+                    },
+                    {
+                      "name": "Growth 5",
+                      "value": 1000,
+                      "amount": 1
+                    },
+                    {
+                      "name": "Protection 5",
+                      "value": 1000,
+                      "amount": 1
+                    }
+                  ],
+                  "value": 5016885,
+                  "amount": 6
+                },
+                {
+                  "type": "Wither Essence",
+                  "value": 4200000,
+                  "amount": 1200
+                },
+                {
+                  "type": "Recombobulator 3000",
+                  "value": 5900001,
+                  "amount": 1
+                }
+              ]
+            },
+            {},
+            {},
+            {}
+          ]
+        },
+        "wardrobe": {},
+        "inventory": {},
+        "enderchest": {},
+        "storage": {},
+        "pets": {},
+        "accessories_bag": {},
+        "sacks": {}
+      }
+    },
+    "weight": {
+      "skills": {
+        "farming": {
+          "weight": 145.8264683118762,
+          "weight_overflow": 0
+        },
+        "mining": {},
+        "combat": {},
+        "foraging": {},
+        "fishing": {},
+        "enchanting": {},
+        "alchemy": {},
+        "taming": {}
+      },
+      "slayer": {
+        "revenant": {
+          "weight": 452.8985507246377,
+          "weight_overflow": 16.513506163509486
+        },
+        "tarantula": {},
+        "sven": {},
+        "enderman": {}
+      },
+      "dungeons": {
+        "catacombs": {
+          "weight": 818.7467260229272,
+          "weight_overflow": 0
+        },
+        "classes": {
+          "healer": {
+            "weight": 4.033218982016511,
+            "weight_overflow": 0
+          },
+          "mage": {},
+          "berserk": {},
+          "archer": {},
+          "tank": {}
+        }
+      }
+    },
+    "dungeons": {
+      "selected_class": "Mage",
+      "secrets_found": 5251,
+      "classes": {
+        "healer": {
+          "xp": 188140,
+          "level": 21,
+          "xpCurrent": 36013,
+          "xpForNext": 71500,
+          "progress": 0.5036783216783217
+        },
+        "mage": {},
+        "berserk": {},
+        "archer": {},
+        "tank": {}
+      },
+      "catacombs": {
+        "skill": {
+          "xp": 2284640,
+          "level": 29,
+          "xpCurrent": 476838,
+          "xpForNext": 800000,
+          "progress": 0.5960475
+        },
+        "highest_tier_completed": "M3",
+        "floors": {
+          "entrance": {
+            "times_played": 4,
+            "completions": 4,
+            "best_score": {
+              "score": 180,
+              "name": "B"
+            },
+            "fastest_s": 0,
+            "fastest_s_plus": 0,
+            "mobs_killed": 275
+          },
+          "floor_1": {},
+          "floor_2": {},
+          "floor_3": {},
+          "floor_4": {},
+          "floor_5": {},
+          "floor_6": {},
+          "floor_7": {}
+        },
+        "master_mode_floors": {
+          "floor_1": {
+            "times_played": 0,
+            "completions": 0,
+            "best_score": {
+              "score": 310,
+              "name": "S+"
+            },
+            "fastest_s": 394196,
+            "fastest_s_plus": 328509,
+            "mobs_killed": 379
+          },
+          "floor_2": {}
+        }
+      }
+    },
+    "mining": {
+      "mining": 60,
+      "mithril_powder": {
+        "current": 9202,
+        "total": 1934820
+      },
+      "gemstone_powder": {
+        "current": 1102,
+        "total": 514043
+      },
+      "hotM_tree": {
+        "tokens": {
+          "current": 0,
+          "total": 15
+        },
+        "level": 7,
+        "perks": [
+          {
+            "name": "Peak of the Mountain",
+            "id": "special_0",
+            "level": 5,
+            "maxLevel": 5
+          },
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {}
+        ],
+        "disabled_perks": [],
+        "last_reset": 1631300262538,
+        "pickaxe_ability": "Mining Speed Boost"
+      },
+      "crystal_hollows": {
+        "last_pass": 1631710395905,
+        "crystals": [
+          {
+            "name": "Jade Crystal",
+            "id": "jade_crystal",
+            "total_placed": 4,
+            "statues_placed": [],
+            "state": "Not Found"
+          },
+          {
+            "name": "Amber Crystal",
+            "total_placed": 4,
+            "king_quests_completed": 5,
+            "state": "Not Found"
+          },
+          {
+            "name": "Sapphire Crystal",
+            "total_placed": 4,
+            "parts_delivered": [],
+            "state": "Not Found"
+          },
+          {
+            "name": "Amethyst Crystal",
+            "total_placed": 4,
+            "state": "Not Found"
+          },
+          {},
+          {},
+          {}
+        ]
+      },
+      "forge": [
+        {
+          "slot": 1,
+          "item": "Bejeweled Handle",
+          "id": "BEJEWELED_HANDLE",
+          "ending": 1635151958726,
+          "ended": true
+        }
+      ]
+    },
+    "slayer": {
+      "wolf": {
+        "xp": 600125,
+        "level": 8,
+        "xpForNext": 1000000,
+        "progress": 0.600125,
+        "kills": {
+          "1": 5,
+          "2": 15,
+          "3": 32,
+          "4": 1047
+        }
+      },
+      "zombie": {},
+      "spider": {},
+      "enderman": {}
+    },
+    "milestones": {
+      "fishing": {
+        "sea_creatures_killed": 9160,
+        "current_pet": "epic",
+        "next_pet": 10000,
+        "progress": 0.916
+      },
+      "mining": {
+        "ores_mined": 273245,
+        "current_pet": "legendary",
+        "next_pet": 0,
+        "progress": 1
+      }
+    },
+    "missing": {
+      "talismans": [
+        {
+          "name": "Soulflow Pile",
+          "rarity": "uncommon",
+          "id": "SOULFLOW_PILE",
+          "price": null
+        },
+        {
+          "name": "Talisman of Power",
+          "rarity": "common",
+          "id": "POWER_TALISMAN",
+          "price": null
+        },
+        {
+          "name": "Ring of Power",
+          "rarity": "uncommon",
+          "id": "POWER_RING",
+          "price": null
+        },
+        {
+          "name": "Artifact of Power",
+          "rarity": "rare",
+          "id": "POWER_ARTIFACT",
+          "price": null
+        },
+        {
+          "name": "Pocket Espresso Machine",
+          "rarity": "common",
+          "id": "POCKET_ESPRESSO_MACHINE",
+          "price": 600000
+        },
+        {
+          "name": "Master Skull - Tier 1",
+          "rarity": "common",
+          "id": "MASTER_SKULL_TIER_1",
+          "price": 850000
+        },
+        {
+          "name": "Personal Compactor 4000",
+          "rarity": "uncommon",
+          "id": "PERSONAL_COMPACTOR_4000",
+          "price": 899000
+        },
+        {
+          "name": "Master Skull - Tier 2",
+          "rarity": "common",
+          "id": "MASTER_SKULL_TIER_2",
+          "price": 1200000
+        },
+        {
+          "name": "Personal Compactor 5000",
+          "rarity": "rare",
+          "id": "PERSONAL_COMPACTOR_5000",
+          "price": 1580000
+        },
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ],
+      "maxTalismans": [
+        {
+          "name": "Artifact of Power",
+          "rarity": "rare",
+          "id": "POWER_ARTIFACT",
+          "price": null
+        },
+        {
+          "name": "Pocket Espresso Machine",
+          "rarity": "common",
+          "id": "POCKET_ESPRESSO_MACHINE",
+          "price": 600000
+        },
+        {
+          "name": "Jungle Amulet",
+          "rarity": "uncommon",
+          "id": "JUNGLE_AMULET",
+          "price": 2400000
+        },
+        {
+          "name": "Handy Blood Chalice",
+          "rarity": "common",
+          "id": "HANDY_BLOOD_CHALICE",
+          "price": 3300000
+        },
+        {
+          "name": "Personal Compactor 7000",
+          "rarity": "legendary",
+          "id": "PERSONAL_COMPACTOR_7000",
+          "price": 5200000
+        },
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    "kills": {
+      "totalKills": 547469,
+      "types": [
+        {
+          "name": "Caverns Ghost",
+          "id": "caverns_ghost",
+          "kills": 189792
+        },
+        {
+          "name": "Unburried Zombie",
+          "id": "unburried_zombie",
+          "kills": 35395
+        },
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    "deaths": {
+      "totalDeaths": 5165,
+      "types": [
+        {
+          "name": "Void",
+          "id": "void",
+          "deaths": 2014
+        },
+        {
+          "name": "Unknown",
+          "id": "unknown",
+          "deaths": 598
+        },
+        {
+          "name": "Caverns Ghost",
+          "id": "caverns_ghost",
+          "deaths": 382
+        },
+        {
+          "name": "Voidling Extremist",
+          "id": "voidling_extremist",
+          "deaths": 362
+        },
+        {
+          "name": "Enderman",
+          "id": "enderman",
+          "deaths": 334
+        },
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    "pets": [
+      {
+        "name": "[Lvl 16] Horse",
+        "level": 16,
+        "xpCurrent": 858,
+        "xpForNext": 1150,
+        "progress": 0.7460869565217392,
+        "tier": "RARE",
+        "type": "HORSE",
+        "exp": 9673.888333333345,
+        "skin": null
+      },
+      {
+        "name": "[Lvl 10] Jerry",
+        "level": 10,
+        "xpCurrent": 14,
+        "xpForNext": 230,
+        "progress": 0.06086956521739131,
+        "tier": "COMMON",
+        "type": "JERRY",
+        "exp": 1354.1999999999996,
+        "skin": null
+      },
+      {
+        "name": "[Lvl 25] Bee",
+        "level": 25,
+        "xpCurrent": 405,
+        "xpForNext": 3700,
+        "progress": 0.10945945945945947,
+        "tier": "EPIC",
+        "type": "BEE",
+        "exp": 37405.08750000002,
+        "skin": null
+      },
+      {},
+      {},
+      {}
+    ],
+    "talismans": {
+      "common": [
+        {
+          "name": "Village Affinity Talisman",
+          "id": "VILLAGE_TALISMAN",
+          "reforge": "Bloody",
+          "rarity": "COMMON",
+          "recombobulated": false
+        },
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ],
+      "uncommon": [],
+      "rare": [],
+      "epic": [],
+      "legendary": [],
+      "mythic": []
+    },
+    "collections": [
+      {
+        "name": "Cocoa Beans",
+        "id": "INK_SACK:3",
+        "category": "FARMING",
+        "maxTiers": 9,
+        "tier": 9,
+        "amount": 134147,
+        "contributions": [
+          {
+            "user": "ea805d40e8284d8d8e64e9fc8ac301ca",
+            "amount": 134147
+          }
+        ]
+      },
+      {
+        "name": "Carrot",
+        "id": "CARROT_ITEM",
+        "category": "FARMING",
+        "maxTiers": 9,
+        "tier": 9,
+        "amount": 1803084,
+        "contributions": [
+          {
+            "user": "ea805d40e8284d8d8e64e9fc8ac301ca",
+            "amount": 1803084
+          }
+        ]
+      },
+      {
+        "name": "Cactus",
+        "id": "CACTUS",
+        "category": "FARMING",
+        "maxTiers": 9,
+        "tier": 9,
+        "amount": 102839,
+        "contributions": [
+          {
+            "user": "ea805d40e8284d8d8e64e9fc8ac301ca",
+            "amount": 102839
+          }
+        ]
+      },
+      {
+        "name": "Raw Chicken",
+        "id": "RAW_CHICKEN",
+        "category": "FARMING",
+        "maxTiers": 9,
+        "tier": 9,
+        "amount": 172305,
+        "contributions": [
+          {
+            "user": "ea805d40e8284d8d8e64e9fc8ac301ca",
+            "amount": 172305
+          }
+        ]
+      }
+    ],
+    "minions": {
+      "uniqueMinions": 513,
+      "minionSlots": 23,
+      "bonusSlots": 5,
+      "nextSlot": 37,
+      "unlockedMinions": [
+        {
+          "id": "GRAVEL",
+          "name": "Gravel",
+          "category": "mining",
+          "maxLevel": 11,
+          "tier": 10
+        },
+        {
+          "id": "COCOA",
+          "name": "Cocoa Beans",
+          "category": "farming",
+          "maxLevel": 12,
+          "tier": 10
+        },
+        {
+          "id": "FISHING",
+          "name": "Raw Fish",
+          "category": "fishing",
+          "maxLevel": 11,
+          "tier": 8
+        },
+        {
+          "id": "ICE",
+          "name": "Ice",
+          "category": "mining",
+          "maxLevel": 11,
+          "tier": 11
+        },
+        {
+          "id": "SLIME",
+          "name": "Slime",
+          "category": "combat",
+          "maxLevel": 11,
+          "tier": 9
+        }
+      ]
+    },
+    "cakebag": [
+      17,
+      18,
+      30,
+      35,
+      36,
+      37,
+      41,
+      42,
+      43,
+      46,
+      47,
+      48,
+      49,
+      53,
+      54,
+      55,
+      59,
+      64,
+      78,
+      69,
+      84,
+      90,
+      97,
+      101,
+      112,
+      119,
+      121,
+      124,
+      125,
+      126,
+      132,
+      136,
+      137,
+      138,
+      139,
+      143,
+      149,
+      150
+    ]
+  }
+}

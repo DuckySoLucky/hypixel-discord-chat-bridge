@@ -1,16 +1,6 @@
-process.on('uncaughtException', function (err) {console.log(err.stack)})
 const MinecraftCommand = require('../../contracts/MinecraftCommand')
-const SkyHelperAPI = require('../../contracts/API/SkyHelperAPI')
-
-async function getCatacombs(username) {
-    try {
-        const profile = await SkyHelperAPI.getProfile(username)
-        if (profile.isIronman) username = `♲ ${username}`
-        return `${username}\'s Catacombs: ${profile.dungeons.catacombs.skill.level} ᐧᐧᐧᐧ Class Average: ${((profile.dungeons.classes.healer.level + profile.dungeons.classes.mage.level + profile.dungeons.classes.berserk.level + profile.dungeons.classes.archer.level + profile.dungeons.classes.tank.level) / 5)} ᐧᐧᐧᐧ Classes:  H-${profile.dungeons.classes.healer.level}  M-${profile.dungeons.classes.mage.level}  B-${profile.dungeons.classes.berserk.level}  A-${profile.dungeons.classes.archer.level}  T-${profile.dungeons.classes.tank.level}`}
-    catch (error) {
-        return error.toString().replaceAll('Request failed with status code 404', 'There is no player with the given UUID or name or the player has no Skyblock profiles').replaceAll('Request failed with status code 500', 'There is no player with the given UUID or name or the player has no Skyblock profiles')
-    }
-}
+const getDungeons = require('../../../API/stats/dungeons');
+const { getLatestProfile } = require('../../../API/functions/getLatestProfile');
 
 class CatacombsCommand extends MinecraftCommand {
     constructor(minecraft) {
@@ -25,9 +15,13 @@ class CatacombsCommand extends MinecraftCommand {
     
     async onCommand(username, message) {
         try {
-            let msg = this.getArgs(message);
-            if(msg[0]) username = msg[0]
-            this.send(`/gc ${await getCatacombs(username)}`)
+            let arg = this.getArgs(message)
+            if(arg[0]) username = arg[0]
+            const data = await getLatestProfile(username)
+            username = data.profileData?.game_mode ? `♲ ${username}` : username
+            const dungeons = getDungeons(data.player, data.profile)
+            this.send(`/gc ${username}\'s Catacombs: ${dungeons.catacombs.skill.level} ᐧᐧᐧᐧ Class Average: ${((dungeons.classes.healer.level + dungeons.classes.mage.level + dungeons.classes.berserk.level + dungeons.classes.archer.level + dungeons.classes.tank.level) / 5)} ᐧᐧᐧᐧ Classes:  H-${dungeons.classes.healer.level}  M-${dungeons.classes.mage.level}  B-${dungeons.classes.berserk.level}  A-${dungeons.classes.archer.level}  T-${dungeons.classes.tank.level}`)
+
         } catch (error) {
             this.send('/gc There is no player with the given UUID or name or the player has no Skyblock profiles')
         }

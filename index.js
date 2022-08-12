@@ -1,3 +1,4 @@
+process.on('uncaughtException', function (err) {console.log(err.stack)})
 const keepAlive = require('./src/web/server.js'); 
 const app = require('./src/Application')
 
@@ -12,3 +13,4 @@ app
   }).catch(err => {
     console.error(err)
   })
+  

@@ -1,11 +1,11 @@
-process.on('uncaughtException', function (err) {console.log(err.stack)})
+
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const config = require('../../../config.json')
 
 module.exports = {
 	data: new SlashCommandBuilder()
     .setName("blacklist")
-    .setDescription("(Bridge Bot) (Mod) Blacklist specified user from using bot.")
+    .setDescription("(Bridge Bot) (Mod) Demotes the given user by one guild rank.")
     .addStringOption(option => option.setName("arg").setDescription("Add or Remove").setRequired(true))
     .addStringOption(option => option.setName("name").setDescription("Minecraft Username").setRequired(true)),
 

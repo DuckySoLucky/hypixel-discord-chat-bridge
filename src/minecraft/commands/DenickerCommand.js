@@ -1,4 +1,3 @@
-process.on('uncaughtException', function (err) {console.log(err.stack)})
 const MinecraftCommand = require('../../contracts/MinecraftCommand')
 const hypixel = require('../../contracts/API/HypixelRebornAPI')
 const config = require('../../../config.json')
@@ -19,11 +18,11 @@ class DenickerCommand extends MinecraftCommand {
         try {
             let arg = this.getArgs(message);
             const response = (await axios.get(`${config.api.antiSniperAPI}/denick?key=${config.api.antiSniperKey}&nick=${arg[0]}`)).data
-            hypixel.getPlayer(response.data.player.ign).then(player => {
-                this.send(`/gc [${player.rank}] ${response.player.ign} is ${response.data.nick}`)
+            hypixel.getPlayer(response.data?.player?.ign).then(player => {
+                this.send(`/gc [${player?.rank}] ${response?.player?.ign} is ${response?.data?.nick}`)
             }).catch(error => {this.send('/gc ' + error.toString().replaceAll('[hypixel-api-reborn] ', ''))})
         } catch (error) {
-            this.send('/gc Something went wrong..')
+            this.send('/gc There is no player with the given UUID or name or the player has no Skyblock profiles')
         }
     }
 }
