@@ -7,7 +7,6 @@ let guildInfo = [], guildRanks = [], members = [], guildTop = []
 const hypixel = require('../../contracts/API/HypixelRebornAPI')
 const EventHandler = require('../../contracts/EventHandler')
 const messages = require('../../../messages.json')
-const linked = require('../../../data/minecraftLinked.json')
 const config = require('../../../config.json')
 const Logger = require('../../Logger')
 const fs = require('fs')
