@@ -176,7 +176,8 @@ The bot also includes an integrated frag bot that can be used for Hypixel Skyblo
   - Title
 - [ ] Fragbot Whitelist
   - Abiliy to make frag bot be used only by specified users or by guild members only
-
+- [ ] Update discord.js
+  - Update to discord.js v14
 
 ## Powered by
 
