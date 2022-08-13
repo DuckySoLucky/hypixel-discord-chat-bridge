@@ -1,5 +1,4 @@
 const CommunicationBridge = require('../contracts/CommunicationBridge')
-const { getUsername } = require('../contracts/API/PlayerDBAPI')
 const StateHandler = require('./handlers/StateHandler')
 const ErrorHandler = require('./handlers/ErrorHandler')
 const eventNotifier = require('./other/eventNotifier')
@@ -10,8 +9,6 @@ const mineflayer = require('mineflayer')
 const Filter = require('bad-words')
 const Logger = require('../Logger')
 const filter = new Filter()
-let minecraftUsername
-
 
 class MinecraftManager extends CommunicationBridge {
   constructor(app) {

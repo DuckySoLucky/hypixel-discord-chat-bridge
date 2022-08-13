@@ -48,7 +48,7 @@ class renderCommand extends MinecraftCommand {
 
           const renderedItem = await renderLore(`§7[${pet.level}] §${getRarityColor(pet.tier)}${pet.display_name}`, newLore)
           const upload = await imgurClient.upload({image: renderedItem, type: 'stream'})
-          this.send(`/gc ${username}'s Active Pet » ${upload.data.link}`)
+          this.send(`/gc ${username}'s Active Pet » ${upload.data.link ?? 'Something went Wrong..'}`)
           return;
         }
       }

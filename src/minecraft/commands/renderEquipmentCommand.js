@@ -5,24 +5,25 @@ const { getPlayer, decodeData } = require('../../contracts/getSkyblockProfile')
 const MinecraftCommand = require('../../contracts/MinecraftCommand')
 const { renderLore } = require('../../contracts/renderItem')
 
-class armorCommand extends MinecraftCommand {
+class equipmentCommand extends MinecraftCommand {
   constructor(minecraft) {
     super(minecraft)
 
-    this.name = 'armor'
+    this.name = 'equipment'
     this.aliases = []
-    this.description = "Renders armor of specified user."
-    this.options = ['name']
-    this.optionsDescription = ['Minecraft Username']
+    this.description = "Renders equipment of specified user."
+    this.options = ['name', 'slot']
+    this.optionsDescription = ['Minecraft Username', 'Number between 1 and 36']
   }
 
   async onCommand(username, message) {
     try {
       let arg = this.getArgs(message)
       if (arg[0]) username = arg[0]
+
       const searchedPlayer = await getPlayer(username).catch((err) => {this.send(`/gc Error: ${err}`)})
       const playerProfile = searchedPlayer.memberData
-      const inventory = playerProfile?.inv_armor?.data
+      const inventory = playerProfile?.equippment_contents?.data
       if (!inventory) {this.send(`/gc This player has an Inventory API off.`)}
       const inventoryData = (await decodeData(Buffer.from(inventory, 'base64'))).i
       let response = ''
@@ -34,11 +35,11 @@ class armorCommand extends MinecraftCommand {
         response+=`${upload.data.link} | `
       }
       if (searchedPlayer.profileData.game_mode == "ironman") username = `♲ ${username}`
-      this.send(`/gc ${username}'s Armor » ${response == '' ? 'None' : response}`)
+      this.send(`/gc ${username}'s Equipment » ${response == '' ? 'None' : response}`)
     } catch (error) {
       this.send('/gc There is no player with the given UUID or name or the player has no Skyblock profiles')
     }
   }
 }
 
-module.exports = armorCommand;
+module.exports = equipmentCommand;
