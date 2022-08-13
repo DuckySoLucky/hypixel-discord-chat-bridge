@@ -1,0 +1,2986 @@
+[
+  {
+    "name": "Cocoa Beans",
+    "id": "INK_SACK:3",
+    "category": "FARMING",
+    "maxTiers": 9,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 75
+      },
+      {
+        "tier": 2,
+        "amountRequired": 200
+      },
+      {
+        "tier": 3,
+        "amountRequired": 500
+      },
+      {
+        "tier": 4,
+        "amountRequired": 2000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 6,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 20000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 50000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 100000
+      }
+    ]
+  },
+  {
+    "name": "Carrot",
+    "id": "CARROT_ITEM",
+    "category": "FARMING",
+    "maxTiers": 9,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 100
+      },
+      {
+        "tier": 2,
+        "amountRequired": 250
+      },
+      {
+        "tier": 3,
+        "amountRequired": 500
+      },
+      {
+        "tier": 4,
+        "amountRequired": 1750
+      },
+      {
+        "tier": 5,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 6,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 50000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 100000
+      }
+    ]
+  },
+  {
+    "name": "Cactus",
+    "id": "CACTUS",
+    "category": "FARMING",
+    "maxTiers": 9,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 100
+      },
+      {
+        "tier": 2,
+        "amountRequired": 250
+      },
+      {
+        "tier": 3,
+        "amountRequired": 500
+      },
+      {
+        "tier": 4,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 6,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 50000
+      }
+    ]
+  },
+  {
+    "name": "Raw Chicken",
+    "id": "RAW_CHICKEN",
+    "category": "FARMING",
+    "maxTiers": 10,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 6,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 50000
+      },
+      {
+        "tier": 10,
+        "amountRequired": 100000
+      }
+    ]
+  },
+  {
+    "name": "Sugar Cane",
+    "id": "SUGAR_CANE",
+    "category": "FARMING",
+    "maxTiers": 9,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 100
+      },
+      {
+        "tier": 2,
+        "amountRequired": 250
+      },
+      {
+        "tier": 3,
+        "amountRequired": 500
+      },
+      {
+        "tier": 4,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 2000
+      },
+      {
+        "tier": 6,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 20000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 50000
+      }
+    ]
+  },
+  {
+    "name": "Pumpkin",
+    "id": "PUMPKIN",
+    "category": "FARMING",
+    "maxTiers": 11,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 40
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 6,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 50000
+      },
+      {
+        "tier": 10,
+        "amountRequired": 100000
+      },
+      {
+        "tier": 11,
+        "amountRequired": 250000
+      }
+    ]
+  },
+  {
+    "name": "Wheat",
+    "id": "WHEAT",
+    "category": "FARMING",
+    "maxTiers": 11,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 500
+      },
+      {
+        "tier": 5,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 6,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 7,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 15000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 10,
+        "amountRequired": 50000
+      },
+      {
+        "tier": 11,
+        "amountRequired": 100000
+      }
+    ]
+  },
+  {
+    "name": "Seeds",
+    "id": "SEEDS",
+    "category": "FARMING",
+    "maxTiers": 6,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 6,
+        "amountRequired": 5000
+      }
+    ]
+  },
+  {
+    "name": "Mushroom",
+    "id": "MUSHROOM_COLLECTION",
+    "category": "FARMING",
+    "maxTiers": 9,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 6,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 50000
+      }
+    ]
+  },
+  {
+    "name": "Raw Rabbit",
+    "id": "RABBIT",
+    "category": "FARMING",
+    "maxTiers": 9,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 6,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 50000
+      }
+    ]
+  },
+  {
+    "name": "Nether Wart",
+    "id": "NETHER_STALK",
+    "category": "FARMING",
+    "maxTiers": 12,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 6,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 50000
+      },
+      {
+        "tier": 10,
+        "amountRequired": 75000
+      },
+      {
+        "tier": 11,
+        "amountRequired": 100000
+      },
+      {
+        "tier": 12,
+        "amountRequired": 250000
+      }
+    ]
+  },
+  {
+    "name": "Mutton",
+    "id": "MUTTON",
+    "category": "FARMING",
+    "maxTiers": 10,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 6,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 50000
+      },
+      {
+        "tier": 10,
+        "amountRequired": 100000
+      }
+    ]
+  },
+  {
+    "name": "Melon",
+    "id": "MELON",
+    "category": "FARMING",
+    "maxTiers": 9,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 250
+      },
+      {
+        "tier": 2,
+        "amountRequired": 500
+      },
+      {
+        "tier": 3,
+        "amountRequired": 1250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 15000
+      },
+      {
+        "tier": 6,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 50000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 100000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 250000
+      }
+    ]
+  },
+  {
+    "name": "Potato",
+    "id": "POTATO_ITEM",
+    "category": "FARMING",
+    "maxTiers": 9,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 100
+      },
+      {
+        "tier": 2,
+        "amountRequired": 200
+      },
+      {
+        "tier": 3,
+        "amountRequired": 500
+      },
+      {
+        "tier": 4,
+        "amountRequired": 1750
+      },
+      {
+        "tier": 5,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 6,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 50000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 100000
+      }
+    ]
+  },
+  {
+    "name": "Leather",
+    "id": "LEATHER",
+    "category": "FARMING",
+    "maxTiers": 10,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 6,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 50000
+      },
+      {
+        "tier": 10,
+        "amountRequired": 100000
+      }
+    ]
+  },
+  {
+    "name": "Raw Porkchop",
+    "id": "PORK",
+    "category": "FARMING",
+    "maxTiers": 9,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 6,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 50000
+      }
+    ]
+  },
+  {
+    "name": "Feather",
+    "id": "FEATHER",
+    "category": "FARMING",
+    "maxTiers": 9,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 6,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 50000
+      }
+    ]
+  },
+  {
+    "name": "Lapis Lazuli",
+    "id": "INK_SACK:4",
+    "category": "MINING",
+    "maxTiers": 10,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 250
+      },
+      {
+        "tier": 2,
+        "amountRequired": 500
+      },
+      {
+        "tier": 3,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 4,
+        "amountRequired": 2000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 6,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 50000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 100000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 150000
+      },
+      {
+        "tier": 10,
+        "amountRequired": 250000
+      }
+    ]
+  },
+  {
+    "name": "Redstone",
+    "id": "REDSTONE",
+    "category": "MINING",
+    "maxTiers": 16,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 100
+      },
+      {
+        "tier": 2,
+        "amountRequired": 250
+      },
+      {
+        "tier": 3,
+        "amountRequired": 750
+      },
+      {
+        "tier": 4,
+        "amountRequired": 1500
+      },
+      {
+        "tier": 5,
+        "amountRequired": 3000
+      },
+      {
+        "tier": 6,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 50000
+      },
+      {
+        "tier": 10,
+        "amountRequired": 200000
+      },
+      {
+        "tier": 11,
+        "amountRequired": 400000
+      },
+      {
+        "tier": 12,
+        "amountRequired": 600000
+      },
+      {
+        "tier": 13,
+        "amountRequired": 800000
+      },
+      {
+        "tier": 14,
+        "amountRequired": 1000000
+      },
+      {
+        "tier": 15,
+        "amountRequired": 1200000
+      },
+      {
+        "tier": 16,
+        "amountRequired": 1400000
+      }
+    ]
+  },
+  {
+    "name": "Coal",
+    "id": "COAL",
+    "category": "MINING",
+    "maxTiers": 10,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 6,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 50000
+      },
+      {
+        "tier": 10,
+        "amountRequired": 100000
+      }
+    ]
+  },
+  {
+    "name": "Mycelium",
+    "id": "MYCEL",
+    "category": "MINING",
+    "maxTiers": 10,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 500
+      },
+      {
+        "tier": 3,
+        "amountRequired": 750
+      },
+      {
+        "tier": 4,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 6,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 15000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 50000
+      },
+      {
+        "tier": 10,
+        "amountRequired": 100000
+      }
+    ]
+  },
+  {
+    "name": "End Stone",
+    "id": "ENDER_STONE",
+    "category": "MINING",
+    "maxTiers": 10,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 6,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 15000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 10,
+        "amountRequired": 50000
+      }
+    ]
+  },
+  {
+    "name": "Nether Quartz",
+    "id": "QUARTZ",
+    "category": "MINING",
+    "maxTiers": 9,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 6,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 50000
+      }
+    ]
+  },
+  {
+    "name": "Sand",
+    "id": "SAND",
+    "category": "MINING",
+    "maxTiers": 7,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 500
+      },
+      {
+        "tier": 5,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 6,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 7,
+        "amountRequired": 5000
+      }
+    ]
+  },
+  {
+    "name": "Iron Ingot",
+    "id": "IRON_INGOT",
+    "category": "MINING",
+    "maxTiers": 12,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 6,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 50000
+      },
+      {
+        "tier": 10,
+        "amountRequired": 100000
+      },
+      {
+        "tier": 11,
+        "amountRequired": 200000
+      },
+      {
+        "tier": 12,
+        "amountRequired": 400000
+      }
+    ]
+  },
+  {
+    "name": "Gemstone",
+    "id": "GEMSTONE_COLLECTION",
+    "category": "MINING",
+    "maxTiers": 11,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 100
+      },
+      {
+        "tier": 2,
+        "amountRequired": 250
+      },
+      {
+        "tier": 3,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 4,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 5,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 6,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 100000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 250000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 500000
+      },
+      {
+        "tier": 10,
+        "amountRequired": 1000000
+      },
+      {
+        "tier": 11,
+        "amountRequired": 2000000
+      }
+    ]
+  },
+  {
+    "name": "Obsidian",
+    "id": "OBSIDIAN",
+    "category": "MINING",
+    "maxTiers": 10,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 6,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 50000
+      },
+      {
+        "tier": 10,
+        "amountRequired": 100000
+      }
+    ]
+  },
+  {
+    "name": "Diamond",
+    "id": "DIAMOND",
+    "category": "MINING",
+    "maxTiers": 9,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 6,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 50000
+      }
+    ]
+  },
+  {
+    "name": "Cobblestone",
+    "id": "COBBLESTONE",
+    "category": "MINING",
+    "maxTiers": 10,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 6,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 40000
+      },
+      {
+        "tier": 10,
+        "amountRequired": 70000
+      }
+    ]
+  },
+  {
+    "name": "Glowstone Dust",
+    "id": "GLOWSTONE_DUST",
+    "category": "MINING",
+    "maxTiers": 7,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 4,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 5,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 6,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 25000
+      }
+    ]
+  },
+  {
+    "name": "Gold Ingot",
+    "id": "GOLD_INGOT",
+    "category": "MINING",
+    "maxTiers": 9,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 500
+      },
+      {
+        "tier": 5,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 6,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 7,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 25000
+      }
+    ]
+  },
+  {
+    "name": "Gravel",
+    "id": "GRAVEL",
+    "category": "MINING",
+    "maxTiers": 9,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 6,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 15000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 50000
+      }
+    ]
+  },
+  {
+    "name": "Hard Stone",
+    "id": "HARD_STONE",
+    "category": "MINING",
+    "maxTiers": 7,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 3,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 4,
+        "amountRequired": 50000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 150000
+      },
+      {
+        "tier": 6,
+        "amountRequired": 300000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 1000000
+      }
+    ]
+  },
+  {
+    "name": "Mithril",
+    "id": "MITHRIL_ORE",
+    "category": "MINING",
+    "maxTiers": 9,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 250
+      },
+      {
+        "tier": 3,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 4,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 5,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 6,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 250000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 500000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 1000000
+      }
+    ]
+  },
+  {
+    "name": "Emerald",
+    "id": "EMERALD",
+    "category": "MINING",
+    "maxTiers": 9,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 6,
+        "amountRequired": 15000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 30000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 50000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 100000
+      }
+    ]
+  },
+  {
+    "name": "Red Sand",
+    "id": "SAND:1",
+    "category": "MINING",
+    "maxTiers": 8,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 500
+      },
+      {
+        "tier": 3,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 4,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 15000
+      },
+      {
+        "tier": 6,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 50000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 100000
+      }
+    ]
+  },
+  {
+    "name": "Ice",
+    "id": "ICE",
+    "category": "MINING",
+    "maxTiers": 10,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 500
+      },
+      {
+        "tier": 5,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 6,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 50000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 100000
+      },
+      {
+        "tier": 10,
+        "amountRequired": 250000
+      }
+    ]
+  },
+  {
+    "name": "Sulphur",
+    "id": "SULPHUR_ORE",
+    "category": "MINING",
+    "maxTiers": 9,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 200
+      },
+      {
+        "tier": 2,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 3,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 4,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 6,
+        "amountRequired": 15000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 50000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 100000
+      }
+    ]
+  },
+  {
+    "name": "Netherrack",
+    "id": "NETHERRACK",
+    "category": "MINING",
+    "maxTiers": 5,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 250
+      },
+      {
+        "tier": 3,
+        "amountRequired": 500
+      },
+      {
+        "tier": 4,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 5000
+      }
+    ]
+  },
+  {
+    "name": "Ender Pearl",
+    "id": "ENDER_PEARL",
+    "category": "COMBAT",
+    "maxTiers": 9,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 250
+      },
+      {
+        "tier": 3,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 4,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 5,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 6,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 15000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 50000
+      }
+    ]
+  },
+  {
+    "name": "Chili Pepper",
+    "id": "CHILI_PEPPER",
+    "category": "COMBAT",
+    "maxTiers": 9,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 10
+      },
+      {
+        "tier": 2,
+        "amountRequired": 25
+      },
+      {
+        "tier": 3,
+        "amountRequired": 75
+      },
+      {
+        "tier": 4,
+        "amountRequired": 250
+      },
+      {
+        "tier": 5,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 6,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 7,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 20000
+      }
+    ]
+  },
+  {
+    "name": "Slimeball",
+    "id": "SLIME_BALL",
+    "category": "COMBAT",
+    "maxTiers": 9,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 6,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 50000
+      }
+    ]
+  },
+  {
+    "name": "Magma Cream",
+    "id": "MAGMA_CREAM",
+    "category": "COMBAT",
+    "maxTiers": 8,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 250
+      },
+      {
+        "tier": 3,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 4,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 5,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 6,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 50000
+      }
+    ]
+  },
+  {
+    "name": "Ghast Tear",
+    "id": "GHAST_TEAR",
+    "category": "COMBAT",
+    "maxTiers": 7,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 20
+      },
+      {
+        "tier": 2,
+        "amountRequired": 250
+      },
+      {
+        "tier": 3,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 4,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 5,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 6,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 25000
+      }
+    ]
+  },
+  {
+    "name": "Gunpowder",
+    "id": "SULPHUR",
+    "category": "COMBAT",
+    "maxTiers": 9,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 6,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 50000
+      }
+    ]
+  },
+  {
+    "name": "Rotten Flesh",
+    "id": "ROTTEN_FLESH",
+    "category": "COMBAT",
+    "maxTiers": 10,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 6,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 50000
+      },
+      {
+        "tier": 10,
+        "amountRequired": 100000
+      }
+    ]
+  },
+  {
+    "name": "Spider Eye",
+    "id": "SPIDER_EYE",
+    "category": "COMBAT",
+    "maxTiers": 9,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 6,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 50000
+      }
+    ]
+  },
+  {
+    "name": "Bone",
+    "id": "BONE",
+    "category": "COMBAT",
+    "maxTiers": 10,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 500
+      },
+      {
+        "tier": 5,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 6,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 50000
+      },
+      {
+        "tier": 10,
+        "amountRequired": 150000
+      }
+    ]
+  },
+  {
+    "name": "Blaze Rod",
+    "id": "BLAZE_ROD",
+    "category": "COMBAT",
+    "maxTiers": 8,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 250
+      },
+      {
+        "tier": 3,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 4,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 5,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 6,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 50000
+      }
+    ]
+  },
+  {
+    "name": "String",
+    "id": "STRING",
+    "category": "COMBAT",
+    "maxTiers": 9,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 6,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 50000
+      }
+    ]
+  },
+  {
+    "name": "Acacia Wood",
+    "id": "LOG_2",
+    "category": "FORAGING",
+    "maxTiers": 9,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 500
+      },
+      {
+        "tier": 5,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 6,
+        "amountRequired": 2000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 25000
+      }
+    ]
+  },
+  {
+    "name": "Spruce Wood",
+    "id": "LOG:1",
+    "category": "FORAGING",
+    "maxTiers": 9,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 2000
+      },
+      {
+        "tier": 6,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 50000
+      }
+    ]
+  },
+  {
+    "name": "Jungle Wood",
+    "id": "LOG:3",
+    "category": "FORAGING",
+    "maxTiers": 9,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 500
+      },
+      {
+        "tier": 5,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 6,
+        "amountRequired": 2000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 25000
+      }
+    ]
+  },
+  {
+    "name": "Birch Wood",
+    "id": "LOG:2",
+    "category": "FORAGING",
+    "maxTiers": 10,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 500
+      },
+      {
+        "tier": 5,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 6,
+        "amountRequired": 2000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 25000
+      },
+      {
+        "tier": 10,
+        "amountRequired": 50000
+      }
+    ]
+  },
+  {
+    "name": "Oak Wood",
+    "id": "LOG",
+    "category": "FORAGING",
+    "maxTiers": 9,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 500
+      },
+      {
+        "tier": 5,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 6,
+        "amountRequired": 2000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 30000
+      }
+    ]
+  },
+  {
+    "name": "Dark Oak Wood",
+    "id": "LOG_2:1",
+    "category": "FORAGING",
+    "maxTiers": 9,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 2000
+      },
+      {
+        "tier": 6,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 10000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 15000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 25000
+      }
+    ]
+  },
+  {
+    "name": "Lily Pad",
+    "id": "WATER_LILY",
+    "category": "FISHING",
+    "maxTiers": 9,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 10
+      },
+      {
+        "tier": 2,
+        "amountRequired": 50
+      },
+      {
+        "tier": 3,
+        "amountRequired": 100
+      },
+      {
+        "tier": 4,
+        "amountRequired": 200
+      },
+      {
+        "tier": 5,
+        "amountRequired": 500
+      },
+      {
+        "tier": 6,
+        "amountRequired": 1500
+      },
+      {
+        "tier": 7,
+        "amountRequired": 3000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 6000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 10000
+      }
+    ]
+  },
+  {
+    "name": "Prismarine Shard",
+    "id": "PRISMARINE_SHARD",
+    "category": "FISHING",
+    "maxTiers": 6,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 10
+      },
+      {
+        "tier": 2,
+        "amountRequired": 25
+      },
+      {
+        "tier": 3,
+        "amountRequired": 50
+      },
+      {
+        "tier": 4,
+        "amountRequired": 100
+      },
+      {
+        "tier": 5,
+        "amountRequired": 200
+      },
+      {
+        "tier": 6,
+        "amountRequired": 400
+      }
+    ]
+  },
+  {
+    "name": "Ink Sac",
+    "id": "INK_SACK",
+    "category": "FISHING",
+    "maxTiers": 9,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 20
+      },
+      {
+        "tier": 2,
+        "amountRequired": 40
+      },
+      {
+        "tier": 3,
+        "amountRequired": 100
+      },
+      {
+        "tier": 4,
+        "amountRequired": 200
+      },
+      {
+        "tier": 5,
+        "amountRequired": 400
+      },
+      {
+        "tier": 6,
+        "amountRequired": 800
+      },
+      {
+        "tier": 7,
+        "amountRequired": 1500
+      },
+      {
+        "tier": 8,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 9,
+        "amountRequired": 4000
+      }
+    ]
+  },
+  {
+    "name": "Raw Fish",
+    "id": "RAW_FISH",
+    "category": "FISHING",
+    "maxTiers": 11,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 20
+      },
+      {
+        "tier": 2,
+        "amountRequired": 50
+      },
+      {
+        "tier": 3,
+        "amountRequired": 100
+      },
+      {
+        "tier": 4,
+        "amountRequired": 250
+      },
+      {
+        "tier": 5,
+        "amountRequired": 500
+      },
+      {
+        "tier": 6,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 8,
+        "amountRequired": 15000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 30000
+      },
+      {
+        "tier": 10,
+        "amountRequired": 45000
+      },
+      {
+        "tier": 11,
+        "amountRequired": 60000
+      }
+    ]
+  },
+  {
+    "name": "Pufferfish",
+    "id": "RAW_FISH:3",
+    "category": "FISHING",
+    "maxTiers": 10,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 20
+      },
+      {
+        "tier": 2,
+        "amountRequired": 50
+      },
+      {
+        "tier": 3,
+        "amountRequired": 100
+      },
+      {
+        "tier": 4,
+        "amountRequired": 150
+      },
+      {
+        "tier": 5,
+        "amountRequired": 400
+      },
+      {
+        "tier": 6,
+        "amountRequired": 800
+      },
+      {
+        "tier": 7,
+        "amountRequired": 2400
+      },
+      {
+        "tier": 8,
+        "amountRequired": 4800
+      },
+      {
+        "tier": 9,
+        "amountRequired": 9000
+      },
+      {
+        "tier": 10,
+        "amountRequired": 18000
+      }
+    ]
+  },
+  {
+    "name": "Clownfish",
+    "id": "RAW_FISH:2",
+    "category": "FISHING",
+    "maxTiers": 7,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 10
+      },
+      {
+        "tier": 2,
+        "amountRequired": 25
+      },
+      {
+        "tier": 3,
+        "amountRequired": 50
+      },
+      {
+        "tier": 4,
+        "amountRequired": 100
+      },
+      {
+        "tier": 5,
+        "amountRequired": 200
+      },
+      {
+        "tier": 6,
+        "amountRequired": 400
+      },
+      {
+        "tier": 7,
+        "amountRequired": 800
+      }
+    ]
+  },
+  {
+    "name": "Raw Salmon",
+    "id": "RAW_FISH:1",
+    "category": "FISHING",
+    "maxTiers": 9,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 20
+      },
+      {
+        "tier": 2,
+        "amountRequired": 50
+      },
+      {
+        "tier": 3,
+        "amountRequired": 100
+      },
+      {
+        "tier": 4,
+        "amountRequired": 250
+      },
+      {
+        "tier": 5,
+        "amountRequired": 500
+      },
+      {
+        "tier": 6,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 8,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 10000
+      }
+    ]
+  },
+  {
+    "name": "Magmafish",
+    "id": "MAGMA_FISH",
+    "category": "FISHING",
+    "maxTiers": 12,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 20
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 500
+      },
+      {
+        "tier": 4,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 5000
+      },
+      {
+        "tier": 6,
+        "amountRequired": 15000
+      },
+      {
+        "tier": 7,
+        "amountRequired": 30000
+      },
+      {
+        "tier": 8,
+        "amountRequired": 50000
+      },
+      {
+        "tier": 9,
+        "amountRequired": 75000
+      },
+      {
+        "tier": 10,
+        "amountRequired": 100000
+      },
+      {
+        "tier": 11,
+        "amountRequired": 250000
+      },
+      {
+        "tier": 12,
+        "amountRequired": 500000
+      }
+    ]
+  },
+  {
+    "name": "Prismarine Crystals",
+    "id": "PRISMARINE_CRYSTALS",
+    "category": "FISHING",
+    "maxTiers": 7,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 10
+      },
+      {
+        "tier": 2,
+        "amountRequired": 25
+      },
+      {
+        "tier": 3,
+        "amountRequired": 50
+      },
+      {
+        "tier": 4,
+        "amountRequired": 100
+      },
+      {
+        "tier": 5,
+        "amountRequired": 200
+      },
+      {
+        "tier": 6,
+        "amountRequired": 400
+      },
+      {
+        "tier": 7,
+        "amountRequired": 800
+      }
+    ]
+  },
+  {
+    "name": "Clay",
+    "id": "CLAY_BALL",
+    "category": "FISHING",
+    "maxTiers": 5,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 50
+      },
+      {
+        "tier": 2,
+        "amountRequired": 100
+      },
+      {
+        "tier": 3,
+        "amountRequired": 250
+      },
+      {
+        "tier": 4,
+        "amountRequired": 1000
+      },
+      {
+        "tier": 5,
+        "amountRequired": 2500
+      }
+    ]
+  },
+  {
+    "name": "Sponge",
+    "id": "SPONGE",
+    "category": "FISHING",
+    "maxTiers": 9,
+    "tiers": [
+      {
+        "tier": 1,
+        "amountRequired": 20
+      },
+      {
+        "tier": 2,
+        "amountRequired": 40
+      },
+      {
+        "tier": 3,
+        "amountRequired": 100
+      },
+      {
+        "tier": 4,
+        "amountRequired": 200
+      },
+      {
+        "tier": 5,
+        "amountRequired": 400
+      },
+      {
+        "tier": 6,
+        "amountRequired": 800
+      },
+      {
+        "tier": 7,
+        "amountRequired": 1500
+      },
+      {
+        "tier": 8,
+        "amountRequired": 2500
+      },
+      {
+        "tier": 9,
+        "amountRequired": 4000
+      }
+    ]
+  }
+]
