@@ -33,7 +33,7 @@ class renderCommand extends MinecraftCommand {
           // Lore splitting
           for (const line of lore) {
             if (!line.includes('Total XP')) {
-              newLine = line.split('.')
+              newLine = line.split('. ')
               if (newLine.length > 0) {
                 for (const l of newLine) {
                   newLore.push(l)
