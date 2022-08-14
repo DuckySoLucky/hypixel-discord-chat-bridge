@@ -174,6 +174,8 @@ The bot also includes an integrated frag bot that can be used for Hypixel Skyblo
 
 - [ ] Setup inside a console
   - Title
+- [ ] `!pet` Command lore splitting
+  - Lore of pet can sometimes be very long, to solve this issue there should be lore formatter function which will split lore every x characters so it looks better.
 - [ ] Fragbot Whitelist
   - Abiliy to make frag bot be used only by specified users or by guild members only
 - [ ] Update discord.js
