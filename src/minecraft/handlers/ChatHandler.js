@@ -437,7 +437,7 @@ class StateHandler extends EventHandler {
 
     if (this.isGuildQuestCompletion(message)) { 
       this.minecraft.broadcastHeadedEmbed({ 
-        title: guildQuestCompletion[0], 
+        title: 'Guild Quest Completion', 
         icon: `https://hypixel.paniek.de/guild/${config.minecraft.guildID}/banner.png`, 
         message: `${message}`,
         color: 'FFD700', 
