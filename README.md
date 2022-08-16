@@ -139,6 +139,7 @@ The bot also includes automatic guild accept if the user meets requirements. The
 - `!accessories [player]` - Accessories of specified user.
 - `!denick [player]` - Denick username of specified user.
 - `!duels [player]` - Duel stats of specified user.
+- `!equipment [name]` - Renders equipment of specified user.
 - `!fairysouls [player]` - Fairy Souls of specified user.
 - `!fetchur` - Information about an item for Fetchur.
 - `!guildexp [player]` - Guilds experience of specified user.
