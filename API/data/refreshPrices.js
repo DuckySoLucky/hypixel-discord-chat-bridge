@@ -1,3 +1,4 @@
+const config = require('../../config.json');
 const axios = require('axios');
 const fs = require('fs');
 
@@ -12,7 +13,7 @@ module.exports = async function refreshPrices() {
 
         if (request.status === 200) {
             fs.writeFileSync('./data/prices.json', JSON.stringify(request.data, null, 2));
-            console.log('[PRICES] Prices updated successfully');
+            if (config.console.debug) console.log('[PRICES] Prices updated successfully');
         } else {
             console.log('[PRICES] Failed to update prices: ', request.status);
         }
