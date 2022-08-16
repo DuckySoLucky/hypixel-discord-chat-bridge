@@ -12,8 +12,8 @@ class equipmentCommand extends MinecraftCommand {
     this.name = 'equipment'
     this.aliases = []
     this.description = "Renders equipment of specified user."
-    this.options = ['name', 'slot']
-    this.optionsDescription = ['Minecraft Username', 'Number between 1 and 36']
+    this.options = ['name']
+    this.optionsDescription = ['Minecraft Username']
   }
 
   async onCommand(username, message) {
