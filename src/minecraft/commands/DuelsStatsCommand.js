@@ -17,6 +17,7 @@ class DuelsStatsCommand extends MinecraftCommand {
 			const duelTypes = ['blitz', 'uhc', 'parkour', 'boxing', 'bowspleef', 'spleef', 'arena', 'megawalls', 'op', 'sumo', 'classic', 'combo', 'bridge', 'nodebuff', 'bow']
 			let arg = this.getArgs(message) ?? [username], duel
 			if (!arg) arg[0] = username
+            if (!arg[0]) arg[0] = username
 			if (arg[0].includes('/')) arg[0] = username
 
 			if (duelTypes.includes(arg[0].toLowerCase())) {
@@ -27,7 +28,6 @@ class DuelsStatsCommand extends MinecraftCommand {
 				if (arg[1]) if (arg[1].includes('/')) arg[1] = username
 				if (arg[1]) if (duelTypes.includes(arg[1].toLowerCase())) duel = arg[1].toLowerCase()
 			}
-			
 			hypixel.getPlayer(username).then(player => {
 				if (!duel) {
 					this.send(`/gc [Duels] [${player.stats.duels.division}] ${username} Wins: ${player.stats.duels.wins} | CWS: ${player.stats.duels.winstreak} | BWS: ${player.stats.duels.bestWinstreak} | WLR: ${player.stats.duels.WLRatio}`)	
