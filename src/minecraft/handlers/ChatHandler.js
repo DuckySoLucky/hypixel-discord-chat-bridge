@@ -28,7 +28,11 @@ class StateHandler extends EventHandler {
   async onMessage(event) {
     const message = event.toString()
     const colouredMessage = event.toMotd();
-
+    
+    if (this.isLobbyJoinMessage(message)) {
+      return bot.chat('\u00a7')
+    }
+    
     if (this.isPartyMessage(message)) {
       let username = replaceAllRanks(message.substr(54))
       this.send(`/party accept ${username}`)
@@ -601,6 +605,10 @@ class StateHandler extends EventHandler {
 
   isRepeatMessage(message) {
     return message == 'You cannot say the same message twice!'
+  }
+  
+  isLobbyJoinMessage(message) {
+    return (message.endsWith(' the lobby!') || message.endsWith(' the lobby! <<<')) && message.includes('[MVP+')
   }
 
   isNoPermission(message) {
