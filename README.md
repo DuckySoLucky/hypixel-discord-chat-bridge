@@ -158,6 +158,7 @@ The bot also includes automatic guild accept if the user meets requirements. The
 - `!UHC [player]` - UHC Stats of specified user.
 - `!weight [player]` - Skyblock Stats of specified user.
 - `!winstreak [player]` - Estimated winstreaks of the specified user.
+- `!woolwars [player]` - WoolWars stats of specified user.
 
 ### Chat Triggers Module
 
