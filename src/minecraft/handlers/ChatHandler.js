@@ -491,15 +491,6 @@ class StateHandler extends EventHandler {
       })
     }
 
-    if (this.isPartyMessage(message)) {
-      console.log(message)
-      this.minecraft.broadcastCleanEmbed({ 
-        message: `${message}`, 
-        color: 'DC143C', 
-        channel: 'Guild' 
-      })  
-    }
-
     if (config.console.debug) {
       this.minecraft.broadcastMessage({
         fullMessage: colouredMessage,

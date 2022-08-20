@@ -21,7 +21,7 @@ class auctionHouseCommand extends MinecraftCommand {
 
   async onCommand(username, message) {
     try {
-      let arg = this.getArgs(message), string = ''
+      let arg = this.getArgs(message), string = '', bidder
       if (arg[0]) username = arg[0]
 
       // Could have been done better and faster using Promise.all(), I'm lazy

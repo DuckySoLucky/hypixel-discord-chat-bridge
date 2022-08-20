@@ -1,0 +1,48 @@
+const MinecraftCommand = require('../../contracts/MinecraftCommand')
+const config = require('../../../config.json')
+const axios = require('axios')
+const { toFixed } = require('../../contracts/helperFunctions')
+
+async function wwStats(username) {
+  try {
+    const uuid = (await axios.get(`${config.api.playerDBAPI}/${username}`)).data.data.player.raw_id
+    const woolWars = (await axios.get(`https://api.hypixel.net/player?key=${config.api.hypixelAPIkey}&uuid=${uuid}`)).data.player.stats.WoolGames
+    const level = getWoolWarsStar(woolWars.progression.experience)
+    return `[${toFixed(level, 0)}✫] ${username} » W: ${woolWars.wool_wars.stats.wins} | WLR: ${toFixed(woolWars.wool_wars.stats.wins/woolWars.wool_wars.stats.games_played, 2)} | KDR: ${toFixed(woolWars.wool_wars.stats.kills/woolWars.wool_wars.stats.deaths, 2)} | BB: ${woolWars.wool_wars.stats.blocks_broken} | WP: ${woolWars.wool_wars.stats.wool_placed}`
+  } catch (error) {
+		return 'There is no player with the given username or player has never played WoolWars.'
+  }
+}
+
+function getWoolWarsStar(exp) {
+  const minimalExp = [0, 1e3, 3e3, 6e3, 1e4, 15e3];
+  const baseLevel = minimalExp.length;
+  const baseExp = minimalExp[minimalExp.length - 1];
+  if (exp >= baseExp) return (exp - baseExp) / 5e3 + baseLevel;
+  const lvl = minimalExp.findIndex((x)=>exp < x);
+  return lvl + exp / minimalExp[lvl];
+}
+
+class woolwarsCommand extends MinecraftCommand {
+  constructor(minecraft) {
+    super(minecraft)
+
+    this.name = 'woolwars'
+    this.aliases = ['ww']
+    this.description = 'WoolWars stats of specified user.'
+    this.options = ['name']
+    this.optionsDescription = ['Minecraft Username']
+  }
+
+  async onCommand(username, message) {
+    try {
+      let msg = this.getArgs(message);
+      if(msg[0]) username = msg[0]
+      this.send(`/gc ${await wwStats(username)}`)
+    } catch (error) {
+      this.send('There is no player with the given UUID or name or player has never joined Hypixel.')
+    }
+  }
+}
+
+module.exports = woolwarsCommand
