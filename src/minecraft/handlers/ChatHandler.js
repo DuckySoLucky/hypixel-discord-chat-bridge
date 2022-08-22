@@ -518,7 +518,7 @@ class StateHandler extends EventHandler {
     this.minecraft.broadcastMessage({
       fullMessage: colouredMessage,
       username: username,
-      message: playerMessage,
+      message: playerMessage.replaceAll('@everyone', 'everyone').replaceAll('@here', 'here'),
       guildRank: guildRank,
       chat: chatType,
     })
