@@ -18,13 +18,10 @@ class NetWorthCommand extends MinecraftCommand {
         try {
             let arg = this.getArgs(message);
             if(arg[0]) username = arg[0]
-
             const data = await getLatestProfile(username)
             username = data.profileData?.game_mode ? `♲ ${username}` : username
             const profile = await getNetworth(data.profile, data.profileData) 
-
-            this.send( `/gc ${username}\'s networth is ${addNotation("oneLetters", profile.total_networth)} | Purse: ${addNotation("oneLetters", profile.purse)} | Bank: ${addNotation("oneLetters", profile.bank)}`)
-        
+            this.send( `/gc ${username}\'s networth is ${addNotation("oneLetters", profile.total_networth) ?? 0} | Purse: ${addNotation("oneLetters", profile.purse) ?? 0} | Bank: ${addNotation("oneLetters", profile.bank) ?? 0}`)
         } catch (error) {
             this.send('/gc There is no player with the given UUID or name or the player has no Skyblock profiles')
         }
