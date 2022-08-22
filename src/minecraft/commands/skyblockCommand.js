@@ -14,7 +14,7 @@ class skyblockCommand extends MinecraftCommand {
     super(minecraft)
 
     this.name = 'skyblock'
-    this.aliases = ['stats']
+    this.aliases = ['stats', 'sb']
     this.description = "Skyblock Stats of specified user."
     this.options = ['name']
     this.optionsDescription = ['Minecraft Username']
@@ -42,10 +42,12 @@ class skyblockCommand extends MinecraftCommand {
           if (talisman.enrichment) enrichment ++
         }
       }
-      this.send(`/gc Skill Average » ${Math.round(((profile.skills.farming.level + profile.skills.mining.level + profile.skills.combat.level + profile.skills.foraging.level + profile.skills.fishing.level + profile.skills.enchanting.level + profile.skills.alchemy.level + profile.skills.taming.level ) / 8 )* 100) / 100} | Slayer » ${addCommas(profile.slayer?.[Object.keys(profile.slayer)[0]].xp + profile.slayer?.[Object.keys(profile.slayer)[1]].xp + profile.slayer?.[Object.keys(profile.slayer)[2]].xp + profile.slayer?.[Object.keys(profile.slayer)[3]].xp + profile.slayer?.[Object.keys(profile.slayer)[4]].xp)} | ${profile.slayer?.[Object.keys(profile.slayer)[0]].level} ${profile.slayer?.[Object.keys(profile.slayer)[1]].level} ${profile.slayer?.[Object.keys(profile.slayer)[2]].level} ${profile.slayer?.[Object.keys(profile.slayer)[3]].level} ${profile.slayer?.[Object.keys(profile.slayer)[4]].level} | Catacombs » ${profile.dungeons.catacombs.skill.level} | Class Average » ${((profile.dungeons.classes.healer.level + profile.dungeons.classes.mage.level + profile.dungeons.classes.berserk.level + profile.dungeons.classes.archer.level + profile.dungeons.classes.tank.level) / 5)} | Networth » ${addNotation("oneLetters", profile.networth.total_networth)} | Accessories » ${talismanCount} | Recombobulated » ${recombobulated} | Enriched » ${enrichment}`)
-      await delay(690)
-      this.send(`/gc https://sky.shiiyu.moe/stats/${username}`)
+      this.send(`/gc ${username}'s Senither Weight » ${Math.round((profile.weight.weight.senither.total) * 100) / 100} | Lily Weight » ${Math.round(profile.weight.weight.lily.total * 100) / 100} | Skill Average » ${Math.round(((profile.skills.farming.level + profile.skills.mining.level + profile.skills.combat.level + profile.skills.foraging.level + profile.skills.fishing.level + profile.skills.enchanting.level + profile.skills.alchemy.level + profile.skills.taming.level ) / 8 )* 100) / 100} | Slayer » ${addCommas(profile.slayer?.[Object.keys(profile.slayer)[0]].xp + profile.slayer?.[Object.keys(profile.slayer)[1]].xp + profile.slayer?.[Object.keys(profile.slayer)[2]].xp + profile.slayer?.[Object.keys(profile.slayer)[3]].xp + profile.slayer?.[Object.keys(profile.slayer)[4]].xp)} | ${profile.slayer?.[Object.keys(profile.slayer)[0]].level} ${profile.slayer?.[Object.keys(profile.slayer)[1]].level} ${profile.slayer?.[Object.keys(profile.slayer)[2]].level} ${profile.slayer?.[Object.keys(profile.slayer)[3]].level} ${profile.slayer?.[Object.keys(profile.slayer)[4]].level} | Catacombs » ${profile.dungeons.catacombs.skill.level} | Class Average » ${((profile.dungeons.classes.healer.level + profile.dungeons.classes.mage.level + profile.dungeons.classes.berserk.level + profile.dungeons.classes.archer.level + profile.dungeons.classes.tank.level) / 5)} | Networth » ${addNotation("oneLetters", profile.networth.total_networth) ?? 0} | Accessories » ${talismanCount ?? 0} | Recombobulated » ${recombobulated} | Enriched » ${enrichment}`)
+      // Hypixel beamed links so this is useless
+      //await delay(690)
+      //this.send(`/gc https://sky.shiiyu.moe/stats/${username}`)
     } catch (error) {
+        console.log(error9)
       this.send('/gc There is no player with the given UUID or name or the player has no Skyblock profiles')
     }
   }
