@@ -39,7 +39,7 @@ class MinecraftManager extends CommunicationBridge {
     })
   }
 
-  async onBroadcast({ member, channel, username, message, replyingTo  }) { 
+  async onBroadcast({ channel, username, message, replyingTo  }) { 
     Logger.broadcastMessage(`${username}: ${message}`, 'Minecraft')
     bridgeChat = channel
     if(config.discord.filterMessages){
