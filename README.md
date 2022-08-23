@@ -17,7 +17,7 @@ A two-way chat bridge between [Hypixel](https://hypixel.net/) guild chat and a [
 ## NodeJS
 
 - Git
-- NodeJS >= 14
+- NodeJS >= 16.9
 - Yarn >= 1.2
 - A Minecraft account
 
@@ -118,16 +118,20 @@ The bot also includes automatic guild accept if the user meets requirements. The
 `Discord`
 
 - `/blacklist [player]` - Blacklists specified user from using bot.
+- `/demote [player]` - Demotes the given user by one guild rank.
 - `/guildtop [integer]` - Top 10 members with the most guild experience.
 - `/help` - Shows help menu
 - `/info` - Shows information about bot
-- `/uptime` - Shows the uptime of the bot
-- `/override <command> [args]` - Executes the string attached. This is a dangerous permission to grant
-- `/invite <player>` - Invites the specified user to the guild, providing the guild isn't full
-- `/kick <user> [reason]` - Kicks the specified user from the guild
-- `/promote <user>` - Promotes the specified user by 1 rank
-- `/demote <user>` - Demotes the specified user by 1 rank
+- `/invite <player>` - Invites the specified user to the guild
+- `/kick <user> <reason>` - Kicks the specified user from the guild
+- `/mute <user> <time>` - Mutes the given user for a given amount of time
 - `/online` - View online player in the guild
+- `/override <command>` - Executes commands as the minecraft bot.
+- `/ping` - Shows the latency of the bot
+- `/promote <user>` - Promotes the specified user by 1 rank
+- `/unmute <user>` - Unmutes the given user
+- `/uptime` - Shows the uptime of the bot
+
 
 `Minecraft`
 
@@ -180,8 +184,6 @@ The bot also includes an integrated frag bot that can be used for Hypixel Skyblo
   - Lore of pet can sometimes be very long, to solve this issue there should be lore formatter function which will split lore every x characters so it looks better.
 - [ ] Fragbot Whitelist
   - Abiliy to make frag bot be used only by specified users or by guild members only
-- [ ] Update discord.js
-  - Update to discord.js v14
 
 ## Powered by
 
