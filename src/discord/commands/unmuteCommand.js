@@ -1,8 +1,8 @@
 const config = require('../../../config.json')
 
 module.exports = {
-  name: 'invite',
-  description: 'Invites the given user to the guild.',
+  name: 'unmute',
+  description: 'Unmutes the given user.',
   options: [
     {
         name: 'name',
@@ -15,7 +15,7 @@ module.exports = {
   execute: async (interaction, client) => {
     const name = interaction.options.getString("name")
     if ((await interaction.guild.members.fetch(interaction.user)).roles.cache.has(config.discord.commandRole)) {
-        bot.chat(`/g invite ${name}`); 
+        bot.chat(`/g unmute ${name}`); 
         await interaction.followUp({ content: 'Command has been executed successfully.', ephemeral: true })
 
     } else {

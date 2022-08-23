@@ -1,11 +1,11 @@
-/*const express = require('express');
+const express = require('express');
 const server = express();
-server.listen(1382, () => { console.log("Web Server is Ready!") });
+server.listen(1439, () => { console.log("Web Server is Ready!") });
  
 server.all('/', (req, res) => {
-  res.send(`Bot is Online!`)
+  res.send(` `)
 })
-*/
+
 //--------------------------------
 // If u wanna have fancy website
 /*

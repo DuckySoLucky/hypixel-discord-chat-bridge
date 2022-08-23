@@ -1,19 +1,17 @@
-process.on('uncaughtException', function (err) {console.log(err.stack);});
-const { SlashCommandBuilder } = require('@discordjs/builders')  
 const { toFixed } = require('../../contracts/helperFunctions')
-const { MessageEmbed } = require("discord.js")
-const config = require('../../../config.json')
+const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
-    data: new SlashCommandBuilder()
-    .setName("uptime")
-    .setDescription("Shows the uptime of the bot."),
+    name: "uptime",
+    description: "Shows the uptime of the bot.",
 
-    async execute(interaction, client, member) {
-        const uptimeembed = new MessageEmbed()
-            .setTitle("Hypixel Bridge Bot | Uptime")
-            .setDescription(`🕐 **System Uptime**\n Online since <t:${toFixed(uptime/1000, 0)}:R>`)
-            .setColor('#18191c')
-        interaction.reply({embeds: [uptimeembed], ephemeral: true })
+    execute: async (interaction, client) => {
+        const uptimeEmbed = new EmbedBuilder()
+            .setColor(0x0099FF)
+            .setTitle("🕐 Uptime!")
+            .setDescription(`Online since <t:${toFixed(uptime/1000, 0)}:R>`)
+            .setFooter({ text: `by DuckySoLucky#5181 | /help [command] for more information`, iconURL: 'https://imgur.com/tgwQJTX.png' })
+
+        interaction.followUp({ embeds: [ uptimeEmbed ] })
     }
 }

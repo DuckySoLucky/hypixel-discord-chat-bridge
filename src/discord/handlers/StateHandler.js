@@ -16,7 +16,7 @@ class StateHandler {
     channel.send({
       embeds: [{
         author: { name: `Chat Bridge is Online` },
-        color: '47F049'
+        color: 2067276
       }]
     })
   }
@@ -26,7 +26,7 @@ class StateHandler {
     channel.send({
       embeds: [{
         author: { name: `Chat Bridge is Offline` },
-        color: 'F04947'
+        color: 15548997
       }]
     })
   }

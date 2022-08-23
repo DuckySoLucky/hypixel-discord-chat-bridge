@@ -1,5 +1,5 @@
 const CommunicationBridge = require('../contracts/CommunicationBridge')
-const { Client, Collection, MessageAttachment } = require('discord.js')
+const { Client, Collection, AttachmentBuilder, GatewayIntentBits } = require('discord.js')
 const messageToImage = require('../contracts/messageToImage')
 const MessageHandler = require('./handlers/MessageHandler')
 const StateHandler = require('./handlers/StateHandler')
@@ -22,19 +22,20 @@ class DiscordManager extends CommunicationBridge {
   }
 
   async connect() {
-    global.client = new Client({intents: 32767})
+    global.client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
     this.client = client
     this.client.on('ready', () => this.stateHandler.onReady())
     this.client.on('messageCreate', message => this.messageHandler.onMessage(message))
     
     this.client.login(config.discord.token).catch(error => {Logger.errorMessage(error)})
 
+
     client.commands = new Collection()
     const commandFiles = fs.readdirSync('src/discord/commands').filter(file => file.endsWith('.js'))
     
     for (const file of commandFiles) {
       const command = require(`./commands/${file}`)
-      client.commands.set(command.data.name, command)
+      client.commands.set(command.name, command)
     }
 
     const eventsPath = path.join(__dirname, 'events')
@@ -48,6 +49,7 @@ class DiscordManager extends CommunicationBridge {
     }
 
     global.guild = await client.guilds.fetch(config.discord.serverID)
+
     process.on('SIGINT', () => this.stateHandler.onClose())
   }
 
@@ -84,7 +86,7 @@ class DiscordManager extends CommunicationBridge {
         channel.send({
           embeds: [{
             description: message,
-            color: '6495ED',
+            color: 3447003,
             timestamp: new Date(),
             footer: {
               text: guildRank,
@@ -109,7 +111,7 @@ class DiscordManager extends CommunicationBridge {
       
       case 'minecraft':
         await channel.send({
-          files: [new MessageAttachment(messageToImage(fullMessage), `${username}.png`)],
+          files: [new AttachmentBuilder(messageToImage(fullMessage), { name: `${username}.png` })],
         })
         // Link Handler
         channel = await this.getChannel(chat)
@@ -184,7 +186,7 @@ class DiscordManager extends CommunicationBridge {
         break
       case 'minecraft':
         await channel.send({
-          files: [new MessageAttachment(messageToImage(fullMessage), `${username}.png`)],
+          files: [new AttachmentBuilder(messageToImage(fullMessage), { name: `${username}.png` })],
         })
         break
       default:

@@ -1,20 +1,25 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
-
 const config = require('../../../config.json')
 
 module.exports = {
-	data: new SlashCommandBuilder()
-    .setName("promote")
-    .setDescription("(Bridge Bot) (Mod)  Promotes the given user by one guild rank.")
-    .addStringOption(option => option.setName("name").setDescription("Minecraft Username").setRequired(true)),
+  name: 'promote',
+  description: 'Promotes the given user by one guild rank.',
+  options: [
+    {
+        name: 'name',
+        description: 'Minecraft Username',
+        type: 3,
+        required: true
+    }
+  ],
 
-    async execute(interaction, client, member) {
-        if ((await member).roles.cache.has(config.discord.commandRole)) {
-            const name = interaction.options.getString("name");
-            bot.chat(`/g promote ${name}`)
-            await interaction.reply({ content: 'Command has been executed successfully.', ephemeral: true });
-        } else {
-            await interaction.reply({ content: 'You do not have permission to run this command.', ephemeral: true })
-        }
-        }
+  execute: async (interaction, client) => {
+    const name = interaction.options.getString("name")
+    if ((await interaction.guild.members.fetch(interaction.user)).roles.cache.has(config.discord.commandRole)) {
+        bot.chat(`/g promote ${name}`); 
+        await interaction.followUp({ content: 'Command has been executed successfully.', ephemeral: true })
+
+    } else {
+        await interaction.followUp({ content: 'You do not have permission to run this command.', ephemeral: true })
+    }
+  }
 }

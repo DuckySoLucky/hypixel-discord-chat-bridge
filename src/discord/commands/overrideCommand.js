@@ -1,26 +1,32 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
-
-const { MessageEmbed } = require('discord.js')
 const config = require('../../../config.json')
+const { EmbedBuilder } = require("discord.js")
 
 module.exports = {
-	data: new SlashCommandBuilder()
-    .setName("override")
-    .setDescription("(Bridge Bot) (Mod) Executes commands as the minecraft bot.")
-    .addStringOption(option => option.setName("command").setDescription("Minecraft Command").setRequired(true)),
-
-    async execute(interaction, client, member) {
-        if ((await member).roles.cache.has(config.discord.commandRole)) {
-            const command = interaction.options.getString("command");
-            bot.chat(`/${command}`)
-            const commandMessage = new MessageEmbed()
-                .setColor('#00FF00')
-                .setTitle('Command has been executed successfully')
-                .setDescription(`\`/${command}\`\n`)
-                .setFooter({ text: 'by DuckySoLucky#5181', iconURL: 'https://cdn.discordapp.com/avatars/486155512568741900/164084b936b4461fe9505398f7383a0e.png?size=4096' })
-            await interaction.reply({ embeds: [commandMessage], ephemeral: true  })
-        } else {
-            await interaction.reply({ content: 'You do not have permission to run this command.', ephemeral: true })
-        }
+  name: 'override',
+  description: 'Executes commands as the minecraft bot.',
+  options: [
+    {
+        name: 'command',
+        description: 'Minecraft Command',
+        type: 3,
+        required: true
     }
+  ],
+
+  execute: async (interaction, client) => {
+    const name = interaction.options.getString("name")
+    if ((await interaction.guild.members.fetch(interaction.user)).roles.cache.has(config.discord.commandRole)) {
+        const command = interaction.options.getString("command");
+        bot.chat(`/${command}`)
+        const commandMessage = new EmbedBuilder()
+            .setColor(2067276)
+            .setTitle('Command has been executed successfully')
+            .setDescription(`\`/${command}\`\n`)
+            .setFooter({ text: 'by DuckySoLucky#5181', iconURL: 'https://imgur.com/tgwQJTX.png' })
+        await interaction.followUp({ embeds: [commandMessage], ephemeral: true  })
+
+    } else {
+        await interaction.followUp({ content: 'You do not have permission to run this command.', ephemeral: true })
+    }
+  }
 }

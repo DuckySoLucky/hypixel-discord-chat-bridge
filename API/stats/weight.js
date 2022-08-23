@@ -1,7 +1,6 @@
 const { calculateTotalSenitherWeight } = require('../constants/senitherWeight');
 const LilyWeight = require("lilyweight");
 const config = require('../../config.json')
-require('dotenv').config();
 const lilyW = new LilyWeight(config.api.hypixelAPIkey);
 
 module.exports = async (profile, uuid) => {

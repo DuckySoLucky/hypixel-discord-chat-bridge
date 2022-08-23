@@ -50,6 +50,7 @@ class auctionHouseCommand extends MinecraftCommand {
       }
       if (string == '') this.send('/gc This player does not have any auctions active.')
     } catch (error) {
+      console.log(error)
       this.send(`/gc [ERROR] ${error}`)
     }
   }

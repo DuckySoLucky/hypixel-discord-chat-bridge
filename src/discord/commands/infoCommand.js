@@ -1,36 +1,32 @@
-process.on('uncaughtException', function (err) {console.log(err.stack);});
-const { SlashCommandBuilder } = require('@discordjs/builders')  
 const { toFixed } = require('../../contracts/helperFunctions')
-const { MessageEmbed } = require("discord.js")
-const config = require('../../../config.json')
 const { version } = require('../../../package.json')
+const { EmbedBuilder } = require("discord.js")
+const config = require('../../../config.json')
 const fs = require('fs')
 
 module.exports = {
-    data: new SlashCommandBuilder()
-    .setName("info")
-    .setDescription("Shows information about bot."),
+    name: "info",
+    description: "Shows information about the bot.",
 
-    async execute(interaction, client, member) {
-
+    execute: async (interaction, client) => {
         let discordCommands = '', minecraftCommands = ''
         const discordCommandFiles = fs.readdirSync('src/discord/commands').filter(file => file.endsWith('.js'))
         for (const file of discordCommandFiles) {
             const command = require(`./${file}`)
             let discordOptions = ''
-            for (let i = 0; i < command.data.options.length; i++) {
-                if (command.data.options.length < 1) {
-                    discordCommands += `- \`${command.data.name}${command.data.options[i].name != '' ? ` [${command.data.options[i].name}]\`\n` : `\`\n`}`
-                } else {
-                    for (let j = 0; j < command.data.options.length; j++) {
-                        discordOptions += ` [${command.data.options[j].name}]`
-                    }
-                    discordCommands += `- \`${command.data.name}${discordOptions}\`\n`
-                    break;
+            if (!command.options) {
+                discordCommands += `- \`${command.name}\`\n`
+                continue;
+            }
+            for (let i = 0; i < command.options.length; i++) {
+                for (let j = 0; j < command.options.length; j++) {
+                    discordOptions += ` [${command.options[j].name}]`
                 }
+                discordCommands += `- \`${command.name}${discordOptions}\`\n`
+                break;
+            }
                 
-            }  
-        }
+        }  
         for (let i = 0; i < minecraftCommandList.length; i++) {
             if (minecraftCommandList[i].options.length < 1) {
                 minecraftCommands += `- \`${minecraftCommandList[i].name}${minecraftCommandList[i].options != '' ? ` [${minecraftCommandList[i].options}]\`\n` : `\`\n`}`
@@ -43,7 +39,8 @@ module.exports = {
             }  
         }
 
-        const helpMenu = new MessageEmbed()
+
+        const infoEmbed = new EmbedBuilder()
             .setColor(0x0099FF)
             .setTitle('Hypixel Bridge Bot Commands')
             .addFields(
@@ -51,9 +48,10 @@ module.exports = {
                 { name: '**Discord Commands**: ', value: `${discordCommands}`, inline: true },
                 { name: '\u200B', value: '\u200B' },
                 { name: '**Minecraft Information**:', value: `Bot: \`${bot.username}\`\nPrefix: \`${config.minecraft.prefix}\`\nUptime: Online since <t:${toFixed(uptime/1000, 0)}:R>\nVersion: \`${version}\``, inline: true },
-                { name: `**Discord Information**`, value: `Guild Channel: <#${config.discord.guildChatChannel}>\nOfficer Channel: <#${config.discord.officerChannel}>\nGuild Logs Channel: <#${config.discord.loggingChannel}>\nCommand Role: <@&${config.discord.commandRole}>\nMessage Mode: \`${config.discord.messageMode}\`\nFilter: \`${config.discord.filterMessages}\`\nJoin Messages: \`${config.discord.joinMessage}\``, inline: true },
+                { name: `**Discord Information**`, value: `Guild Channel: ${config.discord.guildChatChannel ? `<#${config.discord.guildChatChannel}>` :'None'}>\nOfficer Channel: ${config.discord.officerChannel ? `<#${config.discord.officerChannel}>` :'None'}>\nGuild Logs Channel: ${config.discord.loggingChannel ? `<#${config.discord.loggingChannel}>` :'None'}>\nDebugging Channel: ${config.console.debugChannel ? `<#${config.console.debugChannel}>` :'None'}\nCommand Role: <@&${config.discord.commandRole}>\nMessage Mode: \`${config.discord.messageMode}\`\nFilter: \`${config.discord.filterMessages}\`\nJoin Messages: \`${config.discord.joinMessage}\``, inline: true },
             )
-            .setFooter({ text: 'by DuckySoLucky#5181 | /help [command] for more information', iconURL: 'https://cdn.discordapp.com/avatars/486155512568741900/164084b936b4461fe9505398f7383a0e.png?size=4096' })
-        await interaction.reply({ embeds: [helpMenu] })
+            .setFooter({ text: 'by DuckySoLucky#5181 | /help [command] for more information', iconURL: 'https://imgur.com/tgwQJTX.png' })
+        await interaction.followUp({ embeds: [ infoEmbed ] })
+        
     }
 }

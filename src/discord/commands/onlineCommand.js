@@ -1,13 +1,10 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
-
-
 module.exports = {
-	data: new SlashCommandBuilder()
-    .setName("online")
-    .setDescription("(Bridge Bot) List of online members."),
-
-    async execute(interaction, client, member) {
+    name: 'online',
+    description: 'List of online members.',
+  
+    execute: async (interaction, client) => {
         bot.chat(`/g online`)
-        await interaction.reply({ content: 'Command has been executed successfully.', ephemeral: true });
+        await interaction.followUp({ content: 'Command has been executed successfully.', ephemeral: true });
     }
-}
+  }
+  

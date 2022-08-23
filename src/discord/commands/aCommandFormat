@@ -1,0 +1,14 @@
+module.exports = {
+  name: '',
+  description: '',
+  options: [{
+    name: '',
+    description: '',
+    type: 3,
+    required: false
+  }],
+
+  execute: async (interaction, client) => {
+
+  },
+};

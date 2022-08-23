@@ -23,15 +23,12 @@
   },
   "homepage": "https://github.com/DuckySoLucky/hypixel-discord-chat-bridge#readme",
   "dependencies": {
-    "@discordjs/rest": "^1.0.0",
     "axios": "^0.27.2",
     "bad-words": "^3.0.4",
     "canvas": "^2.9.3",
     "chalk": "^4.1.0",
     "cors": "^2.8.5",
-    "discord-buttons": "^4.0.0-deprecated",
-    "discord.js": "^13.9.0",
-    "dotenv": "^16.0.1",
+    "discord.js": "^14.3.0",
     "express": "^4.18.1",
     "express-rate-limit": "^6.5.1",
     "fetch": "^1.1.0",
@@ -40,7 +37,6 @@
     "json-crate": "^0.1.3",
     "lilyweight": "^2.6.3",
     "mineflayer": "^4.3.0",
-    "tslib": "^2.4.0",
     "prismarine-nbt": "^1.6.0",
     "util": "^0.12.4"
   }

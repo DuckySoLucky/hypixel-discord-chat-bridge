@@ -1,24 +1,32 @@
-
-const { SlashCommandBuilder } = require('@discordjs/builders')
 const config = require('../../../config.json')
 
 module.exports = {
-	data: new SlashCommandBuilder()
-    .setName("kick")
-    .setDescription("(Bridge Bot) (Mod) Kick the given user from the Guild.")
-    .addStringOption(option => option.setName("name").setDescription("Minecraft Username").setRequired(true))
-    .addStringOption(option => option.setName("reason").setDescription("Reason").setRequired(true)),
-
-    async execute(interaction, client, member) {
-        if ((await member).roles.cache.has(config.discord.commandRole)) {
-            const name = interaction.options.getString("name");
-            const reason = interaction.options.getString("reason");
-            bot.chat(`/g kick ${name} ${reason}`)
-            await interaction.reply({ content: 'Command has been executed successfully.', ephemeral: true });
-        } else {
-            await interaction.reply({ content: 'You do not have permission to run this command.', ephemeral: true })
-        }
-
+  name: 'kick',
+  description: 'Kick the given user from the Guild.',
+  options: [
+    {
+        name: 'name',
+        description: 'Minecraft Username',
+        type: 3,
+        required: true
+    },
+    {
+        name: 'reason',
+        description: 'Reason',
+        type: 3,
+        required: true
     }
-}
+  ],
 
+  execute: async (interaction, client) => {
+    const name = interaction.options.getString("name")
+    const reason = interaction.options.getString("reason")
+    if ((await interaction.guild.members.fetch(interaction.user)).roles.cache.has(config.discord.commandRole)) {
+        bot.chat(`/g kick ${name} ${reason}`); 
+        await interaction.followUp({ content: 'Command has been executed successfully.', ephemeral: true })
+
+    } else {
+        await interaction.followUp({ content: 'You do not have permission to run this command.', ephemeral: true })
+    }
+  }
+}

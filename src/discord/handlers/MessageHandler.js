@@ -14,6 +14,7 @@ class MessageHandler {
     
     const [attachments] = message.attachments.values();
     const url = attachments ? attachments.url : null;
+    
     const content = this.stripDiscordContent(message.content).trim()
     if (content.length == 0) return
 

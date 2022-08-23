@@ -1,0 +1,6 @@
+node_modules/
+data/collections.json
+package-lock.json
+.env
+package-lock.json
+.prettierrc.json

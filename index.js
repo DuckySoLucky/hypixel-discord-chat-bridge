@@ -1,5 +1,5 @@
 process.on('uncaughtException', function (err) {console.log(err.stack)})
-const keepAlive = require('./src/web/server.js'); 
+const webServer = require('./src/web/server.js'); 
 const app = require('./src/Application')
 
 'use strict'
@@ -11,6 +11,6 @@ app
   .then(() => {
     app.connect()
   }).catch(err => {
-    console.error(err)
+    console.error(err) 
   })
   

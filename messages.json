@@ -26,6 +26,5 @@
   "blacklistMessage": " has been successfully blacklisted.",
   "blacklistRemoveMessage": " has been successfully removed from the blacklist.",
   "alreadyBlacklistedMessage": "Player is already blacklisted.",
-
-  "guildQuestCompletedShortFormat": false
+  "cannotMuteMoreThanOneMonthMessage": "You cannot mute someone for more than one month"
 }
