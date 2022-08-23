@@ -22,7 +22,7 @@ class DenickerCommand extends MinecraftCommand {
                 this.send(`/gc [${player?.rank}] ${response?.player?.ign} is ${response?.data?.nick}`)
             }).catch(error => {this.send('/gc ' + error.toString().replaceAll('[hypixel-api-reborn] ', ''))})
         } catch (error) {
-            this.send('/gc Sorry, I wasn\' able to denick this person.')
+            this.send('/gc Sorry, I wasn\'t able to denick this person.')
         }
     }
 }
