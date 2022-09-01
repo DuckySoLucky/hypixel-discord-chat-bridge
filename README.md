@@ -59,7 +59,7 @@ The `guildChatChannel` is the ID of the text channel the bot should be linked wi
 
 The `officerChannel` is the ID of the text channel the bot should be linked with for the Officer Chat, the bot will only send and listen to messages in the channel defined in the config.
 
-The `loggingChannel` is the ID of the text channel the bot should be linked with for the Logging Chat, the bot will only send and listen to guild managment stuff like kicks, mutes, promotions, demotions..
+The `loggingChannel` is the ID of the text channel the bot should be linked with for the Logging Chat, the bot will only send and listen to guild managment stuff like kicks, mutes, promotions, demotions etc.
 
 The `commandRole` is the ID of any role on the server the bot is hosted for, any user with the role will be able to run all the Discord commands built into the bot, like `/kick` and `/promote`.
 
@@ -89,13 +89,13 @@ The `debugChannel` is the ID of the text channel where the bot should send messa
 
 ### API
 
-The API options include information about APIs which are being used, the only one which needs to be changed are `hypixelAPIkey`, `antiSniperKey` and `imgurAPIkey`
+The API options include information about APIs which are being used, the only one which needs to be changed are `hypixelAPIkey`, `antiSniperKey` and `imgurAPIkey`.
 
 You can receive Hypixel API key by joining Hypixel Network and typing `/api new` command.
 
-AntiSniper key can be generated [Here](https://api.antisniper.net/)
+AntiSniper key can be generated [Here](https://api.antisniper.net/).
 
-Imgur API can be generated [Here](https://api.imgur.com/oauth2/addclient)
+Imgur API can be generated [Here](https://api.imgur.com/oauth2/addclient).
 
 ### Event
 
@@ -113,24 +113,24 @@ The bot also includes automatic guild accept if the user meets requirements. The
 
 ### Commands
 
-`< >` = Required arguments, `[ ]` Optional arguments
+`< >` = Required arguments, `[ ]` = Optional arguments
 
 `Discord`
 
 - `/blacklist [player]` - Blacklists specified user from using bot.
 - `/demote [player]` - Demotes the given user by one guild rank.
 - `/guildtop [integer]` - Top 10 members with the most guild experience.
-- `/help` - Shows help menu
-- `/info` - Shows information about bot
-- `/invite <player>` - Invites the specified user to the guild
-- `/kick <user> <reason>` - Kicks the specified user from the guild
-- `/mute <user> <time>` - Mutes the given user for a given amount of time
-- `/online` - View online player in the guild
+- `/help` - Shows help menu.
+- `/info` - Shows information about bot.
+- `/invite <player>` - Invites the specified user to the guild.
+- `/kick <user> <reason>` - Kicks the specified user from the guild.
+- `/mute <user> <time>` - Mutes the given user for a given amount of time.
+- `/online` - View online player in the guild.
 - `/override <command>` - Executes commands as the minecraft bot.
-- `/ping` - Shows the latency of the bot
-- `/promote <user>` - Promotes the specified user by 1 rank
-- `/unmute <user>` - Unmutes the given user
-- `/uptime` - Shows the uptime of the bot
+- `/ping` - Shows the latency of the bot.
+- `/promote <user>` - Promotes the specified user by 1 rank.
+- `/unmute <user>` - Unmutes the given user.
+- `/uptime` - Shows the uptime of the bot.
 
 
 `Minecraft`
@@ -147,7 +147,7 @@ The bot also includes automatic guild accept if the user meets requirements. The
 - `!fairysouls [player]` - Fairy Souls of specified user.
 - `!fetchur` - Information about an item for Fetchur.
 - `!guildexp [player]` - Guilds experience of specified user.
-- `!help` - Shows help menu
+- `!help` - Shows help menu.
 - `!kitty` - Random image of cute cat.
 - `!math <calculation>` - Calculate.
 - `!namehistory [player]` - Name History of specified user.
@@ -183,7 +183,7 @@ The bot also includes an integrated frag bot that can be used for Hypixel Skyblo
 - [ ] `!pet` Command lore splitting
   - Lore of pet can sometimes be very long, to solve this issue there should be lore formatter function which will split lore every x characters so it looks better.
 - [ ] Fragbot Whitelist
-  - Abiliy to make frag bot be used only by specified users or by guild members only
+  - Abiliy to make frag bot be used only by specified users or by guild members only.
 
 ## Powered by
 
