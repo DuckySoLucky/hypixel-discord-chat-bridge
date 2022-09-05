@@ -29,11 +29,8 @@ class guildExperienceCommand extends MinecraftCommand {
                         }
                     }
 
-                    if (player.weeklyExperience < config.minecraft.guildExp) {
-                        this.send(`/gc ${username} is missing ${config.minecraft.guildExp-player.weeklyExperience} Guild Experience.`)
-                    }else {
-                        this.send(`/gc ${username} has enough guild experience.`)
-                    }
+                    this.send(`/gc ${username == arg[0] ? `${arg[0]}'s` : `Your`} Weekly Guild Experience » ${player.weeklyExperience}.`)
+
                     
                 }).catch(error => {this.send('/gc ' + error.toString().replaceAll('[hypixel-api-reborn] ', ''))})
             }).catch(error => {this.send('/gc ' + error.toString().replaceAll('[hypixel-api-reborn] ', ''))})
