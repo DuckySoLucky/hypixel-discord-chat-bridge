@@ -25,7 +25,7 @@
   },
   "api": {
     "hypixelAPI": "https://api.hypixel.net",
-    "hypixelAPIkey": "f0cc904f-34b8-4a8f-b77c-67530162eaa1",
+    "hypixelAPIkey": "HYPIXEL_API_KEY",
 
     "skyHelperAPI": "http://176.31.203.28:1195/v1",
     "skyHelperKey": "DuckySoLucky",
