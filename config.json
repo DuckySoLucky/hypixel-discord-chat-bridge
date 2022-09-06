@@ -27,7 +27,7 @@
     "hypixelAPI": "https://api.hypixel.net",
     "hypixelAPIkey": "HYPIXEL_API_KEY",
 
-    "skyHelperAPI": "http://176.31.203.28:1195/v1",
+    "skyHelperAPI": "http://192.95.42.73:1924//v1",
     "skyHelperKey": "DuckySoLucky",
 
     "antiSniperAPI": "https://api.antisniper.net",
