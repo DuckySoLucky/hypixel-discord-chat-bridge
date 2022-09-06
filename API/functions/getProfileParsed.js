@@ -13,16 +13,17 @@ async function getProfileParsed(uuid, profileid) {
             }
         }
 
-        const playerRes = await axios.get(`https://api.hypixel.net/player?key=${config.api.hypixelAPIkey}&uuid=${uuid}`);
-        const player = parseHypixel(playerRes, uuid);
+        const [playerRes, profileRes] = await Promise.all([
+            await axios.get(`https://api.hypixel.net/player?key=${config.api.hypixelAPIkey}&uuid=${uuid}`),
+            await axios.get(`https://api.hypixel.net/skyblock/profiles?key=${config.api.hypixelAPIkey}&uuid=${uuid}`)
+        ]);
 
-        const profileRes = await axios.get(`https://api.hypixel.net/skyblock/profiles?key=${config.api.hypixelAPIkey}&uuid=${uuid}`);
+        const player = parseHypixel(playerRes, uuid);
         const profile = await parseProfile(player, profileRes, uuid, profileid);
 
         return profile
-    }
-    catch (error) {
-        console.log(error)
+    } catch (error) {
+        return ({ status: 404, reason: error });
     }
 }
 

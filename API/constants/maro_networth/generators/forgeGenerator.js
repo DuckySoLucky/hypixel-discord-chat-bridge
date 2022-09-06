@@ -1,5 +1,5 @@
-const constants = require('../src/constants');
-const helper = require('../src/helper');
+const constants = require("../src/constants");
+const helper = require("../src/helper");
 
 const findProfits = function (db) {
   const forgeItems = constants.forge_recipes;
@@ -13,17 +13,18 @@ const findProfits = function (db) {
       const data = db[item[0]];
       if (data === undefined) continue;
 
-      let index = 0, count = 0;
+      let index = 0,
+        count = 0;
 
       while (count < item[1]) {
-        if (data.type == 'AUCTION') {
+        if (data.type == "AUCTION") {
           if (!data.sales[index]) index = 0;
 
           count += data.sales[index].count;
           recipe.push(data.sales[index].price);
         }
 
-        if (data.type == 'BAZAAR') {
+        if (data.type == "BAZAAR") {
           count += data.count ?? 1;
           recipe.push(data.price);
         }
@@ -44,7 +45,7 @@ const findProfits = function (db) {
         name: nameWithoutReforge,
         profit: difference,
         auction: listedPrice,
-        crafting: craftPrice
+        crafting: craftPrice,
       };
     }
   }

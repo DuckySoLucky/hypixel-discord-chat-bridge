@@ -1,6 +1,7 @@
 const MinecraftCommand = require('../../contracts/MinecraftCommand')
 const hypixel = require('../../contracts/API/HypixelRebornAPI')
 const config = require('../../../config.json')
+const { getUUID } = require('../../contracts/API/PlayerDBAPI')
 
 class guildExperienceCommand extends MinecraftCommand {
         constructor(minecraft) {
@@ -12,31 +13,19 @@ class guildExperienceCommand extends MinecraftCommand {
         this.options = ['name']
     }
 
-    onCommand(username, message) {
+    async onCommand(username, message) {
         let arg = this.getArgs(message);
         if (arg[0]) username = arg[0]
         try {
-            hypixel.getPlayer(username).then(player => {
-                hypixel.getGuild("id", config.minecraft.guildID).then(guild => {
-                    for (let i = 0; i < guild.members.length; i++) {
-                        if (guild.members[i].uuid === player.uuid) {
-                            const player = guild.members[i]
-                            break;
-                        }
-                        if (i == guild.members.length-1) {
-                            this.send(`/gc ${username} is not in the Guild.`)
-                            return;
-                        }
-                    }
+            const uuid = await getUUID(username)
+            hypixel.getGuild("id", config.minecraft.guildID).then(guild => {
+                for (let i = 0; i < guild.members.length; i++) {
+                    if (guild.members[i].uuid === uuid) return this.send(`/gc ${username == arg[0] ? `${arg[0]}'s` : `Your`} Weekly Guild Experience » ${player.weeklyExperience}.`)
 
-                    this.send(`/gc ${username == arg[0] ? `${arg[0]}'s` : `Your`} Weekly Guild Experience » ${player.weeklyExperience}.`)
-
-                    
-                }).catch(error => {this.send('/gc ' + error.toString().replaceAll('[hypixel-api-reborn] ', ''))})
+                    if (i == guild.members.length-1) return his.send(`/gc ${username} is not in the Guild.`)
+                }
             }).catch(error => {this.send('/gc ' + error.toString().replaceAll('[hypixel-api-reborn] ', ''))})
-
         } catch (error) {
-            console.log(i)
             this.send('There is no player with the given UUID or name or player has never joined Hypixel.')
         }
     }    

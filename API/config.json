@@ -1,0 +1,9 @@
+{
+  "auctionHouse": {
+    "refreshMessage": true
+  },
+  "prices": {
+    "refreshMessage": true
+  },
+  "debug": true
+}

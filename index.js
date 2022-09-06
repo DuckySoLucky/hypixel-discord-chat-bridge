@@ -1,16 +1,20 @@
-process.on('uncaughtException', function (err) {console.log(err.stack)})
+process.on('uncaughtException', function (error) {console.log(error)})
+const refreshCollections = require('./API/data/refreshCollections');
+const refreshAuctions = require('./API/data/refreshAuctions');
+const refreshPrices = require('./API/data/refreshPrices');
 const webServer = require('./src/web/server.js'); 
 const app = require('./src/Application')
 
-'use strict'
-process.title = 'Hypixel Discord Chat Bridge'
+process.title = 'Hypixel Discord Chat Bridge | by DuckySoLucky#5181'
+'use strict'; 
 
+app.register().then(() => {
+  app.connect()
+}).catch(error => {
+  console.error(error) 
+})
 
-app
-  .register()   
-  .then(() => {
-    app.connect()
-  }).catch(err => {
-    console.error(err) 
-  })
+refreshCollections();
+refreshAuctions();
+refreshPrices();
   
