@@ -5,5 +5,5 @@
   "prices": {
     "refreshMessage": true
   },
-  "debug": true
+  "debug": false
 }
