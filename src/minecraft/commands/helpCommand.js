@@ -4,8 +4,8 @@ class helpCommand extends MinecraftCommand {
   constructor(minecraft) {
     super(minecraft)
 
-    this.name = 'info'
-    this.aliases = ['help']
+    this.name = 'help'
+    this.aliases = ['info']
     this.description = 'Shows help menu'
     this.options = []
     this.optionsDescription = []
@@ -13,7 +13,7 @@ class helpCommand extends MinecraftCommand {
 
   onCommand(username, message) {
     try {
-      this.send(`/gc https://i.imgur.com/kumg6l5.png`)
+      this.send(`/gc https://imgur.com/Pqp2Xgd.png`)
     } catch (error) {
       this.send('/gc Something went wrong..')
     }

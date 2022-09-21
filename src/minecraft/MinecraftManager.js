@@ -1,4 +1,5 @@
 const CommunicationBridge = require('../contracts/CommunicationBridge')
+const skyblockNotifier = require('./other/skyblockNotifier')
 const StateHandler = require('./handlers/StateHandler')
 const ErrorHandler = require('./handlers/ErrorHandler')
 const eventNotifier = require('./other/eventNotifier')

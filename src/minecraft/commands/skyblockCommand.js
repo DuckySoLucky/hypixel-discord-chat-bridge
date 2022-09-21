@@ -1,13 +1,21 @@
-const MinecraftCommand = require('../../contracts/MinecraftCommand')
-const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
-const { addNotation, addCommas} = require('../../contracts/helperFunctions')
 const { getLatestProfile } = require('../../../API/functions/getLatestProfile');
+const { addNotation, addCommas} = require('../../contracts/helperFunctions')
+const MinecraftCommand = require('../../contracts/MinecraftCommand')
+const { getNetworth, getPrices } = require('skyhelper-networth');
+const getTalismans = require('../../../API/stats/talismans');
+const getDungeons = require('../../../API/stats/dungeons');
 const getSkills = require('../../../API/stats/skills');
 const getSlayer = require('../../../API/stats/slayer');
-const getNetworth = require('../../../API/stats/networth');
 const getWeight = require('../../../API/stats/weight');
-const getDungeons = require('../../../API/stats/dungeons');
-const getTalismans = require('../../../API/stats/talismans');
+
+let prices;
+getPrices().then((data) => { 
+    prices = data
+})
+
+setInterval(async () => {
+  prices = await getPrices();
+}, 1000 * 60 * 5); 
 
 class skyblockCommand extends MinecraftCommand {
   constructor(minecraft) {
@@ -24,30 +32,32 @@ class skyblockCommand extends MinecraftCommand {
     try {
       let arg = this.getArgs(message)
       if (arg[0]) username = arg[0]
+      if (!prices) return this.send(`/gc ${username} Prices are still loading, please try again in a few seconds.`)
+
       const data = await getLatestProfile(username)
       username = data.profileData?.game_mode ? `♲ ${username}` : username
-      const profile = {
-        skills: getSkills(data.player, data.profile),
-        slayer: getSlayer(data.profile),
-        networth: await getNetworth(data.profile, data.profileData),
-        weight: await getWeight(data.profile, data.uuid),
-        dungeons: getDungeons(data.player, data.profile),
-        talismans: await getTalismans(data.profile),
-      }
-      let common = profile.talismans?.common?.length, uncommon = profile.talismans?.uncommon?.length, rare = profile.talismans?.rare?.length, epic = profile.talismans?.epic?.length, legendary = profile.talismans?.legendary?.length, mythic = profile.talismans?.mythic?.length, special = profile.talismans?.special?.length, verySpecial = profile.talismans?.very?.length, recombobulated = 0, enrichment = 0
+      const [skills, slayer, networth, weight, dungeons, talismans] = await Promise.all([
+        getSkills(data.player, data.profile),
+        getSlayer(data.profile),
+        getNetworth(data.profile, data.profileData?.banking?.balance, { prices }),
+        getWeight(data.profile, data.uuid),
+        getDungeons(data.player, data.profile),
+        getTalismans(data.profile),
+      ])
+      let common = talismans?.common?.length, uncommon = talismans?.uncommon?.length, rare = talismans?.rare?.length, epic = talismans?.epic?.length, legendary = talismans?.legendary?.length, mythic = talismans?.mythic?.length, special = talismans?.special?.length, verySpecial = talismans?.very?.length, recombobulated = 0, enrichment = 0
       const talismanCount = common + uncommon + rare + epic + legendary + mythic + special + verySpecial
-      for (const rarity of Object.keys(profile.talismans)) {
-        for (const talisman of profile.talismans[rarity]) {
+      for (const rarity of Object.keys(talismans)) {
+        for (const talisman of talismans[rarity]) {
           if (talisman.recombobulated) recombobulated ++
           if (talisman.enrichment) enrichment ++
         }
       }
-      this.send(`/gc ${username}'s Senither Weight » ${Math.round((profile.weight.weight.senither.total) * 100) / 100} | Lily Weight » ${Math.round(profile.weight.weight.lily.total * 100) / 100} | Skill Average » ${Math.round(((profile.skills.farming.level + profile.skills.mining.level + profile.skills.combat.level + profile.skills.foraging.level + profile.skills.fishing.level + profile.skills.enchanting.level + profile.skills.alchemy.level + profile.skills.taming.level ) / 8 )* 100) / 100} | Slayer » ${addCommas(profile.slayer?.[Object.keys(profile.slayer)[0]].xp + profile.slayer?.[Object.keys(profile.slayer)[1]].xp + profile.slayer?.[Object.keys(profile.slayer)[2]].xp + profile.slayer?.[Object.keys(profile.slayer)[3]].xp + profile.slayer?.[Object.keys(profile.slayer)[4]].xp)} | ${profile.slayer?.[Object.keys(profile.slayer)[0]].level} ${profile.slayer?.[Object.keys(profile.slayer)[1]].level} ${profile.slayer?.[Object.keys(profile.slayer)[2]].level} ${profile.slayer?.[Object.keys(profile.slayer)[3]].level} ${profile.slayer?.[Object.keys(profile.slayer)[4]].level} | Catacombs » ${profile.dungeons.catacombs.skill.level} | Class Average » ${((profile.dungeons.classes.healer.level + profile.dungeons.classes.mage.level + profile.dungeons.classes.berserk.level + profile.dungeons.classes.archer.level + profile.dungeons.classes.tank.level) / 5)} | Networth » ${addNotation("oneLetters", profile.networth.total_networth) ?? 0} | Accessories » ${talismanCount ?? 0} | Recombobulated » ${recombobulated} | Enriched » ${enrichment}`)
-      // Hypixel beamed links so this is useless
+      this.send(`/gc ${username}'s Senither Weight » ${Math.round((weight.weight.senither.total) * 100) / 100} | Lily Weight » ${Math.round(weight.weight.lily.total * 100) / 100} | Skill Average » ${Math.round(((skills.farming.level + skills.mining.level + skills.combat.level + skills.foraging.level + skills.fishing.level + skills.enchanting.level + skills.alchemy.level + skills.taming.level ) / 8 )* 100) / 100} | Slayer » ${addCommas(slayer?.[Object.keys(slayer)[0]].xp + slayer?.[Object.keys(slayer)[1]].xp + slayer?.[Object.keys(slayer)[2]].xp + slayer?.[Object.keys(slayer)[3]].xp + slayer?.[Object.keys(slayer)[4]].xp)} | ${slayer?.[Object.keys(slayer)[0]].level} ${slayer?.[Object.keys(slayer)[1]].level} ${slayer?.[Object.keys(slayer)[2]].level} ${slayer?.[Object.keys(slayer)[3]].level} ${slayer?.[Object.keys(slayer)[4]].level} | Catacombs » ${dungeons.catacombs.skill.level} | Class Average » ${((dungeons.classes.healer.level + dungeons.classes.mage.level + dungeons.classes.berserk.level + dungeons.classes.archer.level + dungeons.classes.tank.level) / 5)} | Networth » ${addNotation("oneLetters", networth.total_networth) ?? 0} | Accessories » ${talismanCount ?? 0} | Recombobulated » ${recombobulated} | Enriched » ${enrichment}`)
+      // ! Hypixel beamed links so this is useless
       //await delay(690)
       //this.send(`/gc https://sky.shiiyu.moe/stats/${username}`)
     } catch (error) {
-        console.log(error9)
+        console.log(error)
       this.send('/gc There is no player with the given UUID or name or the player has no Skyblock profiles')
     }
   }
