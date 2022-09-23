@@ -5,7 +5,7 @@ const { addCommas } = require('../../contracts/helperFunctions')
 async function bwStats(username) {
   try {
     const player = await hypixel.getPlayer(username)
-    return `[BW] [${player.stats.bedwars.level}✫] ${player.nickname}ᐧᐧᐧᐧFK:${addComas(player.stats.bedwars.finalKills)}ᐧᐧᐧᐧFKDR:${player.stats.bedwars.finalKDRatio}ᐧᐧᐧᐧWLR:${player.stats.bedwars.WLRatio}ᐧᐧᐧᐧWS:${player.stats.bedwars.winstreak}`
+    return `[BW] [${player.stats.bedwars.level}✫] ${player.nickname}ᐧᐧᐧᐧFK:${addCommas(player.stats.bedwars.finalKills)}ᐧᐧᐧᐧFKDR:${player.stats.bedwars.finalKDRatio}ᐧᐧᐧᐧWLR:${player.stats.bedwars.WLRatio}ᐧᐧᐧᐧWS:${player.stats.bedwars.winstreak}`
   }
   catch (error) {
     return error.toString().replaceAll('[hypixel-api-reborn] ', '')
