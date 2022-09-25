@@ -39,6 +39,7 @@
     "mineflayer": "^4.3.0",
     "moment": "^2.29.4",
     "prismarine-nbt": "^1.6.0",
-    "util": "^0.12.4"
+    "util": "^0.12.4",
+    "skyhelper-networth": "^1.0.12",
   }
 }
