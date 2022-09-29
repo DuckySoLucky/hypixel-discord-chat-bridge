@@ -38,7 +38,7 @@ async function getLatestProfile(uuid) {
 
         if (result.length == 0) return ({ status: 404, reason: `Found no SkyBlock profiles for a user with a UUID of '${uuid}'.` });
 
-        const respond = result.sort((a, b) => b.last_save - a.last_save);
+        return result.sort((a, b) => b.selected || b.last_save - a.last_save);
         const profileData = profileRes.data.profiles.find((a) => a.members[uuid].last_save === respond[0].last_save);
 
         return { profile: respond[0], profileData: profileData, playerRes: playerRes.data, player: player, uuid: uuid }
