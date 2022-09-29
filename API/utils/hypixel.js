@@ -182,7 +182,7 @@ module.exports = {
 
     if (result.length == 0) return { status: 404, reason: `Found no SkyBlock profiles for a user with a UUID of '${uuid}'.` };
 
-    return result.sort((a, b) => b.last_save - a.last_save);
+    return result.sort((a, b) => b.selected || b.last_save - a.last_save);
   },
   parseProfileItems: async function parseProfileItems(player, profileRes, uuid, profileid, res) {
     if (profileRes.data.hasOwnProperty("profiles") && profileRes.data.profiles == null) return { status: 404, reason: `Found no SkyBlock profiles for a user with a UUID of '${uuid}' and profile of '${profileid}'.` };
@@ -231,7 +231,7 @@ module.exports = {
     }
     if (result.length == 0) return { status: 404, reason: `Found no SkyBlock profiles for a user with a UUID of '${uuid}'.` };
 
-    return result.sort((a, b) => b.last_save - a.last_save);
+    return result.sort((a, b) => b.selected || b.last_save - a.last_save);
   },
 
   parseBingoProfile: function parseBingoProfile(profile, bingo, uuid) {
