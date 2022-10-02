@@ -41,17 +41,13 @@ async function getLatestProfile(uuid) {
         if (result.length == 0) return ({ status: 404, reason: `Found no SkyBlock profiles for a user with a UUID of '${uuid}'.` });
 
         const respond = result.sort((a, b) => b.selected);
-        const profileData = profileRes.data.profiles.find((a) => a.members[uuid].selected);
+        const profileData = profileRes.data.profiles.find((a) => a..selected);
 
         return { profile: respond[0], profileData: profileData, playerRes: playerRes.data, player: player, uuid: uuid }
     }
     catch (error) {
         return ({ status: 404, reason: error });
     }
-}
-
-function isValidProfile(profileMembers, uuid) {
-    return profileMembers.hasOwnProperty(uuid) && profileMembers[uuid].last_save != undefined;
 }
 
 module.exports = { getLatestProfile }
