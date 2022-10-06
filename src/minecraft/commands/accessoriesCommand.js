@@ -36,6 +36,7 @@ class accessoriesCommand extends MinecraftCommand {
       this.send(`/gc ${username}'s Accessories » Common - ${common} | Uncommon - ${uncommon} | Rare - ${rare} | Epic - ${epic} |  Legendary - ${legendary} | Special - ${special} | Very Special - ${verySpecial}`)
     
     } catch (error) {
+      console.log(error)
       this.send(`/gc [ERROR] ${error}`)
     }
   }

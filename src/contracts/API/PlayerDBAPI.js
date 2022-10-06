@@ -8,6 +8,7 @@ async function getUUID(username) {
         return response.data.data.player.raw_id
     } catch (error) {
         console.log(error)
+        return error;
     }
 }
 
@@ -18,6 +19,7 @@ async function getUsername(uuid) {
         return response.data.data.player.username
     } catch (error) {
         console.log(error)
+        return error;
     }
 }
 

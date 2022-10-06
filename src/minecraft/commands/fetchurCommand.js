@@ -1,5 +1,5 @@
 const MinecraftCommand = require('../../contracts/MinecraftCommand')
-const { getFetchur } = require('../../../API/functions/getFecthur')
+const { getFetchur } = require('../../../API/functions/getFetchur')
 
 class fetchurCommand extends MinecraftCommand {
   constructor(minecraft) {
@@ -14,8 +14,10 @@ class fetchurCommand extends MinecraftCommand {
   async onCommand(username, message) {
     try {
       const fetchur = getFetchur()
-      this.send(`/gc Fetchur Requests » ${fetchur.text}`)
+      
+      this.send(`/gc Fetchur Requests » ${fetchur.text} | Description: ${fetchur.description}`)
     } catch (error) {
+      console.log(error)
       this.send('/gc Something went wrong..')
     }
   }

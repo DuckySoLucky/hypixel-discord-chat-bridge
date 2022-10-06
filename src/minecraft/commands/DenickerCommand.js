@@ -16,12 +16,15 @@ class DenickerCommand extends MinecraftCommand {
     
     async onCommand(username, message) {
         try {
-            let arg = this.getArgs(message);
-            const response = (await axios.get(`${config.api.antiSniperAPI}/denick?key=${config.api.antiSniperKey}&nick=${arg[0]}`)).data
-            hypixel.getPlayer(response.data?.player?.ign).then(player => {
-                this.send(`/gc [${player?.rank}] ${response?.player?.ign} is ${response?.data?.nick}`)
-            }).catch(error => {this.send('/gc ' + error.toString().replaceAll('[hypixel-api-reborn] ', ''))})
+            username = this.getArgs(message)[0];
+            const [player, hypixel] = await Promise.all([
+                (axios.get(`${config.api.antiSniperAPI}/denick?key=${config.api.antiSniperKey}&nick=${username}`)).data,
+                hypixel.getPlayer(username)
+            ]);
+            this.send(`/gc [${player?.rank}] ${response?.player?.ign} is ${response?.data?.nick}`);
+
         } catch (error) {
+            console.log(error)
             this.send('/gc Sorry, I wasn\'t able to denick this person.')
         }
     }

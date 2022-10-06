@@ -1,7 +1,8 @@
 const { ImgurClient } = require('imgur')
+const { getLatestProfile } = require('../../../API/functions/getLatestProfile')
 const config = require('../../../config.json')
 const imgurClient = new ImgurClient({ clientId: config.api.imgurAPIkey })
-const { getPlayer, decodeData } = require('../../contracts/getSkyblockProfile')
+const { decodeData } = require('../../contracts/helperFunctions')
 const MinecraftCommand = require('../../contracts/MinecraftCommand')
 const { renderLore } = require('../../contracts/renderItem')
 
@@ -18,24 +19,28 @@ class armorCommand extends MinecraftCommand {
 
   async onCommand(username, message) {
     try {
-      let arg = this.getArgs(message)
-      if (arg[0]) username = arg[0]
-      const searchedPlayer = await getPlayer(username).catch((err) => {this.send(`/gc Error: ${err}`)})
-      const playerProfile = searchedPlayer.memberData
-      const inventory = playerProfile?.inv_armor?.data
-      if (!inventory) {this.send(`/gc This player has an Inventory API off.`)}
-      const inventoryData = (await decodeData(Buffer.from(inventory, 'base64'))).i
+      if (this.getArgs(message)[0]) username = this.getArgs(message)[0]
+      
+      const profile = await getLatestProfile(username);
+
+      if (!profile.profile.inv_armor?.data) return this.send(`/gc This player has an Inventory API off.`)
+      if (profile.profileData.game_mode) username = `♲ ${username}`
+      
+      const inventoryData = (await decodeData(Buffer.from(profile.profile.inv_armor.data, 'base64'))).i
+
       let response = ''
-      for (let i = 1; i < 5; i++) {
-        const selectedItem = inventoryData[i - 1]
-        if (!selectedItem?.tag?.display?.Name) continue;
-        const renderedItem = await renderLore(selectedItem?.tag?.display?.Name, selectedItem?.tag?.display?.Lore)
+      for (const piece of Object.values(inventoryData)) {
+        if (!piece?.tag?.display?.Name) continue;
+        
+        const renderedItem = await renderLore(piece?.tag?.display?.Name, piece?.tag?.display?.Lore)
         const upload = await imgurClient.upload({image: renderedItem, type: 'stream'})
-        response+=`${upload.data.link} | `
+        response += response.split(' | ').length == 4 ? upload.data.link : `${upload.data.link} | `;
       }
-      if (searchedPlayer.profileData.game_mode == "ironman") username = `♲ ${username}`
-      this.send(`/gc ${username}'s Armor » ${response == '' ? 'None' : response}`)
+
+
+      response == '' ? this.send(`/gc ${username} has no armor equiped.`) : this.send(`/gc ${username}'s armor » ${response}`)
     } catch (error) {
+      console.log(error)
       this.send('/gc There is no player with the given UUID or name or the player has no Skyblock profiles')
     }
   }

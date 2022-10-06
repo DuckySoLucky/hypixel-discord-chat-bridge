@@ -21,6 +21,7 @@ class kittyCommand extends MinecraftCommand {
       const upload = await client.upload({image: link, type: 'stream'})
       this.send(`/gc Cute Cat » ${upload.data.link}`)
     } catch (error) {
+      console.log(error)
       this.send('/gc Something went wrong..')
     }
   }

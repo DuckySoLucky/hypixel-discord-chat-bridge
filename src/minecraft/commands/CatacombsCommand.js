@@ -16,7 +16,7 @@ class CatacombsCommand extends MinecraftCommand {
     async onCommand(username, message) {
         try {
             let arg = this.getArgs(message)
-            if(arg[0]) username = arg[0]
+            if (arg[0]) username = arg[0]
             const data = await getLatestProfile(username)
             username = data.profileData?.game_mode ? `♲ ${username}` : username
             const dungeons = getDungeons(data.player, data.profile)

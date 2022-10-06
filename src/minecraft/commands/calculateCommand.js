@@ -16,6 +16,7 @@ class CalculateCommand extends MinecraftCommand {
           let str = this.getArgs(message).join(' ').replace(/[^-()\d/*+.]/g, '');
           this.send(`/gc ${!isNaN(eval(str)) ? `${eval(str)}` : '' }`);
         } catch {
+          console.log(error)
           this.send('/gc Invalid input!');
         }
     }

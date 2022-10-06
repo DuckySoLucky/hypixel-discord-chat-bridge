@@ -2,6 +2,9 @@ const fs = require('fs-promise')
 const { set } = require('lodash')
 const mkdirp = require('mkdirp')
 const getDirName = require('path').dirname
+const nbt = require('prismarine-nbt');
+const util = require('util');
+const parseNbt = util.promisify(nbt.parse);
 
 function replaceAllRanks(input) {
     input = input.replaceAll('[OWNER] ', '')
@@ -143,4 +146,9 @@ function capitalize(str) {
     return upperCased.join(' ');
 };
 
-module.exports = { replaceAllRanks, addNotation, generateID, getRarityColor, addCommas, toFixed, timeSince, writeAt, capitalize }
+async function decodeData(buffer) {
+    const parsedNbt = await parseNbt(buffer);
+    return nbt.simplify(parsedNbt);
+}
+
+module.exports = { replaceAllRanks, addNotation, generateID, getRarityColor, addCommas, toFixed, timeSince, writeAt, capitalize, decodeData }

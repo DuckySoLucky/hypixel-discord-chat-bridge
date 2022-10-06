@@ -7572,725 +7572,6 @@
   {
     "material": "SKULL_ITEM",
     "durability": 3,
-    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY0MTI0Mjc1NzEwMCwKICAicHJvZmlsZUlkIiA6ICJiNzVjZDRmMThkZjg0MmNlYjJhY2MxNTU5MTNiMjA0YiIsCiAgInByb2ZpbGVOYW1lIiA6ICJLcmlzdGlqb25hczEzIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzU3YTZkMzVlOWQ0MzU0MmQyNzUwYzQ4MzZiNDAzN2Y3NTE0NmViMjc4NzUzMmI0YzRjNWMzYjI2YmI2M2RjMTAiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ==",
-    "name": "Empty Thunder Bottle",
-    "tier": "EPIC",
-    "unstackable": true,
-    "npc_sell_price": 5000,
-    "id": "THUNDER_IN_A_BOTTLE_EMPTY"
-  },
-  {
-    "material": "SKULL_ITEM",
-    "durability": 3,
-    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY0MTA5ODY0NTEyOCwKICAicHJvZmlsZUlkIiA6ICIwMGZiNTRiOWI4NDA0YTA0YTViMmJhMzBlYzBlYTAxMiIsCiAgInByb2ZpbGVOYW1lIiA6ICJrbGxveWQ3MCIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9lNWViZjZmMTQzMDFkM2ViZDE0NTMzNTg3ZDJhMmQ0ODIzNDQzM2IxN2M5ZDJmMTM5MzRiN2NhYjQ1OGVlMjY3IiwKICAgICAgIm1ldGFkYXRhIiA6IHsKICAgICAgICAibW9kZWwiIDogInNsaW0iCiAgICAgIH0KICAgIH0KICB9Cn0=",
-    "name": "Pulse Ring",
-    "category": "ACCESSORY",
-    "tier": "UNCOMMON",
-    "npc_sell_price": 8000,
-    "id": "PULSE_RING"
-  },
-  {
-    "material": "SKULL_ITEM",
-    "durability": 3,
-    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY0MTA5ODc0MzQ2NywKICAicHJvZmlsZUlkIiA6ICIwNjNhMTc2Y2RkMTU0ODRiYjU1MjRhNjQyMGM1YjdhNCIsCiAgInByb2ZpbGVOYW1lIiA6ICJkYXZpcGF0dXJ5IiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzI0Mzc4Yjk4NmUzNTg1NTVlZTczZjA5YjIxMGQ0OWVjMTM3MTlkZTVlYTg4ZDc1NTIzNzcwZDMxMTYzZjNhZWYiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ==",
-    "name": "Thunder in a Bottle",
-    "tier": "EPIC",
-    "unstackable": true,
-    "npc_sell_price": 5000,
-    "id": "THUNDER_IN_A_BOTTLE"
-  },
-  {
-    "material": "LEATHER_CHESTPLATE",
-    "color": "36,221,229",
-    "name": "Thunder Chestplate",
-    "category": "CHESTPLATE",
-    "tier": "EPIC",
-    "stats": {
-      "HEALTH": 230,
-      "DEFENSE": 230,
-      "STRENGTH": 25,
-      "SEA_CREATURE_CHANCE": 4
-    },
-    "requirements": [
-      {
-        "type": "SKILL",
-        "skill": "FISHING",
-        "level": 36
-      }
-    ],
-    "npc_sell_price": 200000,
-    "can_have_attributes": true,
-    "salvageable_from_recipe": true,
-    "upgrade_costs": [
-      [
-        {
-          "type": "ITEM",
-          "item_id": "THUNDER_SHARDS",
-          "amount": 2
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 40
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "THUNDER_SHARDS",
-          "amount": 4
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 80
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "THUNDER_SHARDS",
-          "amount": 6
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 120
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "THUNDER_SHARDS",
-          "amount": 8
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 160
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "THUNDER_SHARDS",
-          "amount": 10
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 200
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "THUNDER_SHARDS",
-          "amount": 15
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 300
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "THUNDER_SHARDS",
-          "amount": 20
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 400
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "THUNDER_SHARDS",
-          "amount": 25
-        },
-        {
-          "type": "ITEM",
-          "item_id": "HEAVY_PEARL",
-          "amount": 3
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 500
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "HORN_OF_TAURUS",
-          "amount": 30
-        },
-        {
-          "type": "ITEM",
-          "item_id": "HEAVY_PEARL",
-          "amount": 4
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 600
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "HORN_OF_TAURUS",
-          "amount": 40
-        },
-        {
-          "type": "ITEM",
-          "item_id": "HEAVY_PEARL",
-          "amount": 5
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 800
-        }
-      ]
-    ],
-    "gemstone_slots": [
-      {
-        "slot_type": "COMBAT"
-      }
-    ],
-    "id": "THUNDER_CHESTPLATE"
-  },
-  {
-    "material": "SKULL_ITEM",
-    "durability": 3,
-    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY0MTA5ODc5NDUzNSwKICAicHJvZmlsZUlkIiA6ICI5ZDIyZGRhOTVmZGI0MjFmOGZhNjAzNTI1YThkZmE4ZCIsCiAgInByb2ZpbGVOYW1lIiA6ICJTYWZlRHJpZnQ0OCIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS80YTkzZDJiZjk5OWE3ZmUwNTJiZjY3OTVlMGEwYmM3NTU1Y2MxZTAxNGM2NjdmYTg2ZGM0MjFjYjE4NmQ1YjY3IiwKICAgICAgIm1ldGFkYXRhIiA6IHsKICAgICAgICAibW9kZWwiIDogInNsaW0iCiAgICAgIH0KICAgIH0KICB9Cn0=",
-    "name": "Thunder Helmet",
-    "category": "HELMET",
-    "tier": "EPIC",
-    "stats": {
-      "HEALTH": 200,
-      "DEFENSE": 170,
-      "STRENGTH": 25,
-      "SEA_CREATURE_CHANCE": 4
-    },
-    "requirements": [
-      {
-        "type": "SKILL",
-        "skill": "FISHING",
-        "level": 36
-      }
-    ],
-    "npc_sell_price": 125000,
-    "can_have_attributes": true,
-    "salvageable_from_recipe": true,
-    "upgrade_costs": [
-      [
-        {
-          "type": "ITEM",
-          "item_id": "THUNDER_SHARDS",
-          "amount": 2
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 40
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "THUNDER_SHARDS",
-          "amount": 4
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 80
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "THUNDER_SHARDS",
-          "amount": 6
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 120
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "THUNDER_SHARDS",
-          "amount": 8
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 160
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "THUNDER_SHARDS",
-          "amount": 10
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 200
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "THUNDER_SHARDS",
-          "amount": 15
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 300
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "THUNDER_SHARDS",
-          "amount": 20
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 400
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "THUNDER_SHARDS",
-          "amount": 25
-        },
-        {
-          "type": "ITEM",
-          "item_id": "HEAVY_PEARL",
-          "amount": 3
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 500
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "HORN_OF_TAURUS",
-          "amount": 30
-        },
-        {
-          "type": "ITEM",
-          "item_id": "HEAVY_PEARL",
-          "amount": 4
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 600
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "HORN_OF_TAURUS",
-          "amount": 40
-        },
-        {
-          "type": "ITEM",
-          "item_id": "HEAVY_PEARL",
-          "amount": 5
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 800
-        }
-      ]
-    ],
-    "gemstone_slots": [
-      {
-        "slot_type": "COMBAT"
-      }
-    ],
-    "id": "THUNDER_HELMET"
-  },
-  {
-    "material": "LEATHER_LEGGINGS",
-    "color": "36,221,229",
-    "name": "Thunder Leggings",
-    "category": "LEGGINGS",
-    "tier": "EPIC",
-    "stats": {
-      "HEALTH": 220,
-      "DEFENSE": 200,
-      "STRENGTH": 25,
-      "SEA_CREATURE_CHANCE": 4
-    },
-    "requirements": [
-      {
-        "type": "SKILL",
-        "skill": "FISHING",
-        "level": 36
-      }
-    ],
-    "npc_sell_price": 175000,
-    "can_have_attributes": true,
-    "salvageable_from_recipe": true,
-    "upgrade_costs": [
-      [
-        {
-          "type": "ITEM",
-          "item_id": "THUNDER_SHARDS",
-          "amount": 2
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 40
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "THUNDER_SHARDS",
-          "amount": 4
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 80
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "THUNDER_SHARDS",
-          "amount": 6
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 120
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "THUNDER_SHARDS",
-          "amount": 8
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 160
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "THUNDER_SHARDS",
-          "amount": 10
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 200
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "THUNDER_SHARDS",
-          "amount": 15
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 300
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "THUNDER_SHARDS",
-          "amount": 20
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 400
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "THUNDER_SHARDS",
-          "amount": 25
-        },
-        {
-          "type": "ITEM",
-          "item_id": "HEAVY_PEARL",
-          "amount": 3
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 500
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "HORN_OF_TAURUS",
-          "amount": 30
-        },
-        {
-          "type": "ITEM",
-          "item_id": "HEAVY_PEARL",
-          "amount": 4
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 600
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "HORN_OF_TAURUS",
-          "amount": 40
-        },
-        {
-          "type": "ITEM",
-          "item_id": "HEAVY_PEARL",
-          "amount": 5
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 800
-        }
-      ]
-    ],
-    "gemstone_slots": [
-      {
-        "slot_type": "COMBAT"
-      }
-    ],
-    "id": "THUNDER_LEGGINGS"
-  },
-  {
-    "material": "LEATHER_BOOTS",
-    "color": "36,221,229",
-    "name": "Thunder Boots",
-    "category": "BOOTS",
-    "tier": "EPIC",
-    "stats": {
-      "HEALTH": 170,
-      "DEFENSE": 150,
-      "STRENGTH": 25,
-      "SEA_CREATURE_CHANCE": 4
-    },
-    "requirements": [
-      {
-        "type": "SKILL",
-        "skill": "FISHING",
-        "level": 36
-      }
-    ],
-    "npc_sell_price": 100000,
-    "can_have_attributes": true,
-    "salvageable_from_recipe": true,
-    "upgrade_costs": [
-      [
-        {
-          "type": "ITEM",
-          "item_id": "THUNDER_SHARDS",
-          "amount": 2
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 40
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "THUNDER_SHARDS",
-          "amount": 4
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 80
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "THUNDER_SHARDS",
-          "amount": 6
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 120
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "THUNDER_SHARDS",
-          "amount": 8
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 160
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "THUNDER_SHARDS",
-          "amount": 10
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 200
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "THUNDER_SHARDS",
-          "amount": 15
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 300
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "THUNDER_SHARDS",
-          "amount": 20
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 400
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "THUNDER_SHARDS",
-          "amount": 25
-        },
-        {
-          "type": "ITEM",
-          "item_id": "HEAVY_PEARL",
-          "amount": 3
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 500
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "HORN_OF_TAURUS",
-          "amount": 30
-        },
-        {
-          "type": "ITEM",
-          "item_id": "HEAVY_PEARL",
-          "amount": 4
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 600
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "HORN_OF_TAURUS",
-          "amount": 40
-        },
-        {
-          "type": "ITEM",
-          "item_id": "HEAVY_PEARL",
-          "amount": 5
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 800
-        }
-      ]
-    ],
-    "gemstone_slots": [
-      {
-        "slot_type": "COMBAT"
-      }
-    ],
-    "id": "THUNDER_BOOTS"
-  },
-  {
-    "material": "SKULL_ITEM",
-    "durability": 3,
-    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY0MTA5ODY5MjYyMywKICAicHJvZmlsZUlkIiA6ICIzNmMxODk4ZjlhZGE0NjZlYjk0ZDFmZWFmMjQ0MTkxMyIsCiAgInByb2ZpbGVOYW1lIiA6ICJMdW5haWFuIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzZjZWVkM2IwOGZhMzQ5ODJiYzNmYWFhOTkzNjk0MWI2Y2QwMGFiZDM3MTczZWU2N2IzY2UzYjllMThiZmNhNmMiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ==",
-    "name": "Thunderbolt Necklace",
-    "tier": "EPIC",
-    "category": "NECKLACE",
-    "npc_sell_price": 75000,
-    "stats": {
-      "HEALTH": 40,
-      "DEFENSE": 30,
-      "SEA_CREATURE_CHANCE": 1.5
-    },
-    "requirements": [
-      {
-        "type": "SKILL",
-        "skill": "FISHING",
-        "level": 36
-      }
-    ],
-    "unstackable": true,
-    "can_have_attributes": true,
-    "id": "THUNDERBOLT_NECKLACE"
-  },
-  {
-    "material": "SKULL_ITEM",
-    "durability": 3,
     "skin": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzVhMzViNWNhMTUyNjg2ODVjNDY2MDUzNWU1ODgzZDIxYTVlYzU3YzU1ZDM5NzIzNDI2OWFjYjVkYzI5NTRmIn19fQ==",
     "name": "Bird House",
     "furniture": "BIRD_HOUSE",
@@ -12572,6 +11853,7 @@
     "skin": "ewogICJ0aW1lc3RhbXAiIDogMTYyNDk3OTIzNzA3NywKICAicHJvZmlsZUlkIiA6ICJmZDYwZjM2ZjU4NjE0ZjEyYjNjZDQ3YzJkODU1Mjk5YSIsCiAgInByb2ZpbGVOYW1lIiA6ICJSZWFkIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzI2M2Y5OTFiOGUwMzhlNDZiOGVkNzYzMmY0NGNhMmUzMGMxNWY0Mjk3NzA3MGE4YzhkODcyOGUzZmMwNGZjN2MiCiAgICB9CiAgfQp9",
     "name": "Perfect Jasper Gemstone",
     "tier": "LEGENDARY",
+    "npc_sell_price": 10240000,
     "id": "PERFECT_JASPER_GEM"
   },
   {
@@ -12622,6 +11904,7 @@
     "skin": "ewogICJ0aW1lc3RhbXAiIDogMTYyNDk3OTI3NDk3OSwKICAicHJvZmlsZUlkIiA6ICJiNjM2OWQ0MzMwNTU0NGIzOWE5OTBhODYyNWY5MmEwNSIsCiAgInByb2ZpbGVOYW1lIiA6ICJCb2JpbmhvXyIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9kODg2ZTBmNDExODViMThhM2FmZDg5NDg4ZDJlZTRjYWEwNzM1MDA5MjQ3Y2NjZjAzOWNlZDZhZWQ3NTJmZjFhIgogICAgfQogIH0KfQ",
     "name": "Perfect Amethyst Gemstone",
     "tier": "LEGENDARY",
+    "npc_sell_price": 10240000,
     "id": "PERFECT_AMETHYST_GEM"
   },
   {
@@ -12648,6 +11931,7 @@
     "skin": "ewogICJ0aW1lc3RhbXAiIDogMTYyNDk3OTIxNzI5OCwKICAicHJvZmlsZUlkIiA6ICI5MThhMDI5NTU5ZGQ0Y2U2YjE2ZjdhNWQ1M2VmYjQxMiIsCiAgInByb2ZpbGVOYW1lIiA6ICJCZWV2ZWxvcGVyIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzM5YjZlMDQ3ZDNiMmJjYTg1ZThjYzQ5ZTU0ODBmOTc3NGQ4YTBlYWZlNmRmYTk1NTk1MzA1OTAyODM3MTUxNDIiCiAgICB9CiAgfQp9",
     "name": "Perfect Ruby Gemstone",
     "tier": "LEGENDARY",
+    "npc_sell_price": 10240000,
     "id": "PERFECT_RUBY_GEM"
   },
   {
@@ -12707,6 +11991,7 @@
     "skin": "ewogICJ0aW1lc3RhbXAiIDogMTYyNDk3OTI5MzQ4MCwKICAicHJvZmlsZUlkIiA6ICI5OTdjZjFlMmY1NGQ0YzEyOWY2ZjU5ZTVlNjU1YjZmNyIsCiAgInByb2ZpbGVOYW1lIiA6ICJpbzEyIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzM3YWUyMzZjZGVjM2YyYTZmNTFlYWUxNWUyYzhmNjIyOGIzNGYxMzdkYTE1NjlmZWM5ZTgwM2Y5Y2Q4MTc1OWQiCiAgICB9CiAgfQp9",
     "name": "Perfect Amber Gemstone",
     "tier": "LEGENDARY",
+    "npc_sell_price": 10240000,
     "id": "PERFECT_AMBER_GEM"
   },
   {
@@ -12724,6 +12009,7 @@
     "skin": "ewogICJ0aW1lc3RhbXAiIDogMTYxODA4NTE3NjQ5NiwKICAicHJvZmlsZUlkIiA6ICJiNWRkZTVmODJlYjM0OTkzYmMwN2Q0MGFiNWY2ODYyMyIsCiAgInByb2ZpbGVOYW1lIiA6ICJsdXhlbWFuIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzlkY2U2MmY3MGFjMDQ2Yjg4MTExM2M2Y2Y4NjI5ODc3Mjc3NzRlMjY1ODg1NTAxYzlhMjQ1YjE4MGRiMDhjMGQiCiAgICB9CiAgfQp9",
     "name": "Flawless Amber Gemstone",
     "tier": "EPIC",
+    "npc_sell_price": 1536000,
     "id": "FLAWLESS_AMBER_GEM"
   },
   {
@@ -12766,6 +12052,7 @@
     "skin": "ewogICJ0aW1lc3RhbXAiIDogMTYyNDk3OTI1NjAxMiwKICAicHJvZmlsZUlkIiA6ICJmZDQ3Y2I4YjgzNjQ0YmY3YWIyYmUxODZkYjI1ZmMwZCIsCiAgInByb2ZpbGVOYW1lIiA6ICJDVUNGTDEyIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzNmY2VkNzk3NzM4MmJmNzFkNGVlMTdmZjViOTE5ZTBlYjc5NzIwODNjNGNjY2ZhMTc1Yzg3NTNhZTQwYmEwMDYiCiAgICB9CiAgfQp9",
     "name": "Perfect Jade Gemstone",
     "tier": "LEGENDARY",
+    "npc_sell_price": 10240000,
     "id": "PERFECT_JADE_GEM"
   },
   {
@@ -12809,6 +12096,7 @@
     "skin": "ewogICJ0aW1lc3RhbXAiIDogMTYyNDk3OTE5NzMwNSwKICAicHJvZmlsZUlkIiA6ICJjNTBhZmE4YWJlYjk0ZTQ1OTRiZjFiNDI1YTk4MGYwMiIsCiAgInByb2ZpbGVOYW1lIiA6ICJUd29FQmFlIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzhlOTNlYmFjYjYwYjcxNzkzMzU1ZmRlMGQ0YmJhNDNhOWM1ZWMwOWMzZjM4ODk3YzQ4YzFmODU3NTIzYTBhMjkiCiAgICB9CiAgfQp9",
     "name": "Perfect Sapphire Gemstone",
     "tier": "LEGENDARY",
+    "npc_sell_price": 10240000,
     "id": "PERFECT_SAPPHIRE_GEM"
   },
   {
@@ -12859,6 +12147,7 @@
     "skin": "ewogICJ0aW1lc3RhbXAiIDogMTYyNDk3OTE3ODQ1MywKICAicHJvZmlsZUlkIiA6ICJiYzRlZGZiNWYzNmM0OGE3YWM5ZjFhMzlkYzIzZjRmOCIsCiAgInByb2ZpbGVOYW1lIiA6ICI4YWNhNjgwYjIyNDYxMzQwIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzNkYTZlY2RjYmMzZmUzNTVjYTA2MTExOTJhM2ZiZDM1ZGQ1NjM1ZDVmY2RmM2ZiYzc5ZWQyYmMxZjRhMDE3ZmUiCiAgICB9CiAgfQp9",
     "name": "Perfect Topaz Gemstone",
     "tier": "LEGENDARY",
+    "npc_sell_price": 10240000,
     "id": "PERFECT_TOPAZ_GEM"
   },
   {
@@ -13412,6 +12701,185 @@
     "name": "Greater Backpack",
     "tier": "EPIC",
     "id": "BLUE_GREATER_BACKPACK"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY2MzUxNzA5NTQzMiwKICAicHJvZmlsZUlkIiA6ICJhYzM2YmVkZGQxNGQ0YjVmYmQyYzc5OThlMWMwOTg3ZCIsCiAgInByb2ZpbGVOYW1lIiA6ICJtYWlzYWthIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2RjZGUyZmY2MGU0ZjVjZDFjMmIxM2M2MDk3MDUzOWRiZGMzY2U5NDQyZTdlNjEyNDdkMWIxZjEyMmYwNDU4ZGQiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ==",
+    "name": "Great Spook Necklace",
+    "category": "NECKLACE",
+    "tier": "EPIC",
+    "museum": true,
+    "npc_sell_price": 0,
+    "id": "GREAT_SPOOK_NECKLACE"
+  },
+  {
+    "material": "LEATHER_LEGGINGS",
+    "color": "153,51,153",
+    "name": "Great Spook Leggings",
+    "category": "LEGGINGS",
+    "tier": "EPIC",
+    "museum": true,
+    "npc_sell_price": 0,
+    "id": "GREAT_SPOOK_LEGGINGS"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY2MzUxNzAyMTQ2MSwKICAicHJvZmlsZUlkIiA6ICIwOWQ3YmJjNGYxZmU0ZjlkYjRiZmE1MTY2NDA3OTcyYiIsCiAgInByb2ZpbGVOYW1lIiA6ICJlemtkIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2I4ZjVkN2IyYmUwOTQ5NDAyZDU5YTZjOGRhNjdiYmIxZDg1NjI1ZWY0MzY0YjUxYTUzZmVmZGRhZjU5ZDc0N2EiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ==",
+    "name": "Great Spook Belt",
+    "category": "BELT",
+    "tier": "EPIC",
+    "museum": true,
+    "npc_sell_price": 0,
+    "id": "GREAT_SPOOK_BELT"
+  },
+  {
+    "material": "LEATHER_CHESTPLATE",
+    "color": "153,51,153",
+    "name": "Great Spook Chestplate",
+    "category": "CHESTPLATE",
+    "tier": "EPIC",
+    "museum": true,
+    "npc_sell_price": 0,
+    "id": "GREAT_SPOOK_CHESTPLATE"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY2Mzk1OTYwNDI2MywKICAicHJvZmlsZUlkIiA6ICIyNDIyZWM1ZWFiZDM0MDQ5YmYzNjBlOTFiMTFhMmFmZCIsCiAgInByb2ZpbGVOYW1lIiA6ICJsYXJnZWJyZWFzdHMiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjgzYWRmNjQ4ZDRlOTdkZTNiOTI4YTRlODJkMTE2OWMxOTc4ZDcxZTE4NzU3Y2JhZWUzNjYyN2I5YjBkM2YyZSIsCiAgICAgICJtZXRhZGF0YSIgOiB7CiAgICAgICAgIm1vZGVsIiA6ICJzbGltIgogICAgICB9CiAgICB9CiAgfQp9",
+    "name": "Great Spook Talisman",
+    "category": "ACCESSORY",
+    "tier": "COMMON",
+    "npc_sell_price": 0,
+    "museum": true,
+    "id": "GREAT_SPOOK_TALISMAN"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTYzNTA4OTUyODI4NSwKICAicHJvZmlsZUlkIiA6ICI2MzMyMDgwZTY3YTI0Y2MxYjE3ZGJhNzZmM2MwMGYxZCIsCiAgInByb2ZpbGVOYW1lIiA6ICJUZWFtSHlkcmEiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjc1NjkyMmMyMWJjMTUxOGJmNjAzNTM1MDkzMGMzYjFmNGM5Yjc0YjEwYjBkNjIxYmFiYWE0ZTQxMTA5YzE3ZiIsCiAgICAgICJtZXRhZGF0YSIgOiB7CiAgICAgICAgIm1vZGVsIiA6ICJzbGltIgogICAgICB9CiAgICB9CiAgfQp9",
+    "name": "Sweet Flesh",
+    "description": "%%gray%%It's strangely sweet and somewhat sticky...",
+    "tier": "UNCOMMON",
+    "glowing": true,
+    "npc_sell_price": 0,
+    "id": "SWEET_FLESH"
+  },
+  {
+    "material": "LEATHER_BOOTS",
+    "color": "153,51,153",
+    "name": "Great Spook Boots",
+    "category": "BOOTS",
+    "tier": "EPIC",
+    "museum": true,
+    "npc_sell_price": 0,
+    "id": "GREAT_SPOOK_BOOTS"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTYzNDkyNzY3NjA4MSwKICAicHJvZmlsZUlkIiA6ICJmYzUwMjkzYTVkMGI0NzViYWYwNDJhNzIwMWJhMzBkMiIsCiAgInByb2ZpbGVOYW1lIiA6ICJDVUNGTDE3IiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzkzNTdmMjVkY2NhNWZhZDFkOWI5ZDc2YTJhOGQxYmE1ZGY4OTM2MGU2NDJjN2ZiMzE3MTgwODdhODUxNTcxZWIiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ==",
+    "name": "Wet Pumpkin",
+    "description": "%%gray%%A squishy moist mess.",
+    "tier": "EPIC",
+    "npc_sell_price": 0,
+    "id": "WET_PUMPKIN"
+  },
+  {
+    "material": "DEAD_BUSH",
+    "name": "Great Spook Staff",
+    "tier": "LEGENDARY",
+    "unstackable": true,
+    "museum": true,
+    "npc_sell_price": 0,
+    "id": "GREAT_SPOOK_STAFF"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTYzNTA4OTU5NjQ0NiwKICAicHJvZmlsZUlkIiA6ICIwZWQ2MDFlMDhjZTM0YjRkYWUxZmI4MDljZmEwNTM5NiIsCiAgInByb2ZpbGVOYW1lIiA6ICJOZWVkTW9yZUFjY291bnRzIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2FjYzE5NTA0NjFkNTQ2ODdmNDAxNjJlNGVjZmZhY2Y2MGE0NmU0MTZmMjUzNGZhMjNhMDA5MWQwZWE2ZjJlYzEiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ==",
+    "name": "Decayed Bat",
+    "description": "%%gray%%A withering husk of its former self.",
+    "tier": "RARE",
+    "npc_sell_price": 0,
+    "id": "DECAYED_BAT"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY2Mzk1OTY1MDI2OSwKICAicHJvZmlsZUlkIiA6ICIwMzdlNzQwNGMyMjk0OTIxOTdkZjBlZWJmYWIyNTNjMiIsCiAgInByb2ZpbGVOYW1lIiA6ICJMX0FfWl9FX1JfIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2E4OWNjMWVkZTc1NTcwOWRlYmI3ZDFmZTdhYjgxMjlhYzg5MDE3ODhkOGQ4NjEzYjAzZWFjMTU3YzIzY2M0OWMiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ==",
+    "name": "Great Spook Artifact",
+    "category": "ACCESSORY",
+    "tier": "RARE",
+    "npc_sell_price": 0,
+    "museum": true,
+    "id": "GREAT_SPOOK_ARTIFACT"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY2MzUxNzA3MzYxMCwKICAicHJvZmlsZUlkIiA6ICJmMjc0YzRkNjI1MDQ0ZTQxOGVmYmYwNmM3NWIyMDIxMyIsCiAgInByb2ZpbGVOYW1lIiA6ICJIeXBpZ3NlbCIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS8yNWY0YTBmZmE4MjJkYzA5YzM1M2NjYTZhN2QxNmZjODlmZTIwYzBkOTYwYmFmMzA0MjAxNDgwNmJkNTMzYmE3IiwKICAgICAgIm1ldGFkYXRhIiA6IHsKICAgICAgICAibW9kZWwiIDogInNsaW0iCiAgICAgIH0KICAgIH0KICB9Cn0=",
+    "name": "Great Spook Gloves",
+    "category": "GLOVES",
+    "tier": "EPIC",
+    "museum": true,
+    "npc_sell_price": 0,
+    "id": "GREAT_SPOOK_GLOVES"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY2MzUxNzA0ODY2MSwKICAicHJvZmlsZUlkIiA6ICI2NmI0ZDRlMTFlNmE0YjhjYTFkN2Q5YzliZTBhNjQ5OSIsCiAgInByb2ZpbGVOYW1lIiA6ICJBcmFzdG9vWXNmIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzVkYzEyMzFiYmI5Nzc2NDFiOWI0YTg1NDNlY2Y2NjA2ZjNhOTkwYmJhYmFlMzAwMTBiZDE1Y2RmMDcxOTM0OCIsCiAgICAgICJtZXRhZGF0YSIgOiB7CiAgICAgICAgIm1vZGVsIiA6ICJzbGltIgogICAgICB9CiAgICB9CiAgfQp9",
+    "name": "Great Spook Cloak",
+    "category": "CLOAK",
+    "tier": "EPIC",
+    "museum": true,
+    "npc_sell_price": 0,
+    "id": "GREAT_SPOOK_CLOAK"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTYzNTA4OTU2NDMwNiwKICAicHJvZmlsZUlkIiA6ICJkZTE0MGFmM2NmMjM0ZmM0OTJiZTE3M2Y2NjA3MzViYiIsCiAgInByb2ZpbGVOYW1lIiA6ICJTUlRlYW0iLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjk3NzkwNmFiZGIwMGI0OTVjYzVhNjg1MWU5MmNlYjY1ZTFiZjg5ZmFmMWJlOTE0YjVkMzZjODQ4NzU3NmE3MyIsCiAgICAgICJtZXRhZGF0YSIgOiB7CiAgICAgICAgIm1vZGVsIiA6ICJzbGltIgogICAgICB9CiAgICB9CiAgfQp9",
+    "name": "Poisoned Candy",
+    "description": "%%gray%%A delicious, vibrant, and round candy with an extra kick.",
+    "tier": "UNCOMMON",
+    "npc_sell_price": 0,
+    "hide_from_viewrecipe_command": true,
+    "id": "POISONED_CANDY"
+  },
+  {
+    "material": "LEATHER_HELMET",
+    "color": "153,51,153",
+    "name": "Great Spook Helmet",
+    "category": "HELMET",
+    "tier": "EPIC",
+    "museum": true,
+    "npc_sell_price": 0,
+    "id": "GREAT_SPOOK_HELMET"
+  },
+  {
+    "material": "WOOD_SWORD",
+    "name": "Great Spook Sword",
+    "category": "SWORD",
+    "tier": "LEGENDARY",
+    "stats": {
+      "DAMAGE": 0
+    },
+    "museum": true,
+    "id": "GREAT_SPOOK_SWORD"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY2Mzk1OTYyNTMwNSwKICAicHJvZmlsZUlkIiA6ICJmMTkyZGU3MDUzMTQ0ODcxOTAwMjQ1MmIzZWE3MzA3NCIsCiAgInByb2ZpbGVOYW1lIiA6ICJOZVhvU2V0IiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzg1NjZiMGI3NWY5YTE3M2U4MTU1MDA3YmRjM2EzNDk5ODc0YjE3MzI3ZDk4NjQ1Y2RlNmQxMWEyMjU1NzUwYyIsCiAgICAgICJtZXRhZGF0YSIgOiB7CiAgICAgICAgIm1vZGVsIiA6ICJzbGltIgogICAgICB9CiAgICB9CiAgfQp9",
+    "name": "Great Spook Ring",
+    "category": "ACCESSORY",
+    "tier": "UNCOMMON",
+    "npc_sell_price": 0,
+    "museum": true,
+    "id": "GREAT_SPOOK_RING"
   },
   {
     "material": "SKULL_ITEM",
@@ -14512,11 +13980,47 @@
   {
     "material": "SKULL_ITEM",
     "durability": 3,
+    "skin": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODBjZjY0OTVmZjRhMzYwYWExZDY4MWE0ZjNhYTM0YWFkODc0MDljNWY3YzdkYmM5MjBjNzRkMDY5ZjY0ODhjOCJ9fX0=",
+    "name": "Witch Hat",
+    "furniture": "WITCH_HAT",
+    "tier": "RARE",
+    "id": "WITCH_HAT"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
     "skin": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzZkZjljMjEyYThhZDgyNTQ1ZjBlNTk0MTBiZmE5OTBmZjNlN2FhYmU4YmE4YzlmZGMzZDRhNWVhMjcyMjY0OCJ9fX0=",
     "name": "Ice Cream Cart",
     "furniture": "ICE_CREAM_CART",
     "tier": "EPIC",
     "id": "ICE_CREAM_CART"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTI1NGYzMzdjZDY0Mzk3OTczYTZlZTEwMzI4MzVhZDFjZjQ4NjFlNzdiZDZmYWFmMDA4Y2IyNjY5ZmI2ODVkNiJ9fX0=",
+    "name": "Halloween Scarecrow",
+    "furniture": "HALLOWEEN_SCARECROW",
+    "tier": "RARE",
+    "id": "HALLOWEEN_SCARECROW"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTkzMzQ4NTMzNWZjOWMzOGFiMzJlNmJkMmNkNDgwYzNiYWY2MWIwZTNmNmJjYTYxZTBlM2NmMWY3NzQ3YzlkYSJ9fX0=",
+    "name": "Hanging Reaper",
+    "furniture": "HANGING_REAPER",
+    "tier": "RARE",
+    "id": "HANGING_REAPER"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjNmY2RjOGQ4N2I0NTAxOTEyM2MwYjI3ZGI0NzhiYWViMTdjYjEwODdhYWUzYTFiMWQwNTkxMmZlZDc1NDJhOSJ9fX0=",
+    "name": "Pumpkin Crafting Table",
+    "furniture": "PUMPKIN_CRAFTING_TABLE",
+    "tier": "EPIC",
+    "id": "PUMPKIN_CRAFTING_TABLE"
   },
   {
     "material": "SKULL_ITEM",
@@ -14535,6 +14039,15 @@
     "furniture": "HAMMOCK",
     "tier": "RARE",
     "id": "HAMMOCK"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmYyNGVkNjg3NTMwNGZhNGExZjBjNzg1YjJjYjZhNmE3MjU2M2U5ZjNlMjRlYTU1ZTE4MTc4NDUyMTE5YWE2NiJ9fX0=",
+    "name": "Skeleton Statue",
+    "furniture": "SKELETON_STATUE",
+    "tier": "EPIC",
+    "id": "SKELETON_STATUE"
   },
   {
     "material": "SKULL_ITEM",
@@ -16510,7 +16023,8 @@
     "stats": {
       "WALK_SPEED": 40,
       "DAMAGE": 310,
-      "STRENGTH": 130
+      "STRENGTH": 160,
+      "CRITICAL_DAMAGE": 60
     },
     "npc_sell_price": 500000,
     "upgrade_costs": [
@@ -18927,14 +18441,6 @@
     "id": "PET_SKIN_SHEEP_ORANGE"
   },
   {
-    "material": "SHEARS",
-    "name": "Enchanted Shears",
-    "glowing": true,
-    "category": "SHEARS",
-    "npc_sell_price": 2,
-    "id": "ENCHANTED_SHEARS"
-  },
-  {
     "material": "WOOL",
     "durability": 6,
     "name": "Pink Wool",
@@ -19276,16 +18782,6 @@
     "unstackable": true,
     "museum": true,
     "id": "PET_SKIN_ELEPHANT_BLUE"
-  },
-  {
-    "material": "LEATHER_LEGGINGS",
-    "color": "153,51,153",
-    "name": "Great Spook Leggings",
-    "category": "LEGGINGS",
-    "tier": "EPIC",
-    "museum": true,
-    "npc_sell_price": 0,
-    "id": "GREAT_SPOOK_LEGGINGS"
   },
   {
     "material": "PISTON_STICKY_BASE",
@@ -19920,16 +19416,6 @@
     "id": "GOLD_CANDY"
   },
   {
-    "material": "LEATHER_CHESTPLATE",
-    "color": "153,51,153",
-    "name": "Great Spook Chestplate",
-    "category": "CHESTPLATE",
-    "tier": "EPIC",
-    "museum": true,
-    "npc_sell_price": 0,
-    "id": "GREAT_SPOOK_CHESTPLATE"
-  },
-  {
     "material": "IRON_SWORD",
     "name": "Cutlass",
     "category": "SWORD",
@@ -20421,6 +19907,13 @@
           "amount": 800
         }
       ]
+    ],
+    "requirements": [
+      {
+        "type": "DUNGEON_TIER",
+        "dungeon_type": "CATACOMBS",
+        "tier": 6
+      }
     ],
     "dungeon_item": true,
     "gemstone_slots": [
@@ -23885,7 +23378,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 10
+          "amount": 6
         }
       ],
       [
@@ -23897,7 +23390,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 15
+          "amount": 7
         }
       ],
       [
@@ -23909,7 +23402,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 20
+          "amount": 8
         }
       ],
       [
@@ -23921,7 +23414,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 30
+          "amount": 9
         }
       ],
       [
@@ -23933,7 +23426,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 40
+          "amount": 10
         }
       ]
     ],
@@ -27585,7 +27078,8 @@
     "tier": "LEGENDARY",
     "stats": {
       "DEFENSE": 160,
-      "HEALTH": 180
+      "HEALTH": 180,
+      "mending": 10
     },
     "npc_sell_price": 100000,
     "dungeon_item_conversion_cost": {
@@ -28139,17 +27633,6 @@
     "furniture": "BUNNY",
     "tier": "RARE",
     "id": "BUNNY"
-  },
-  {
-    "material": "SKULL_ITEM",
-    "durability": 3,
-    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTYzNTA4OTUyODI4NSwKICAicHJvZmlsZUlkIiA6ICI2MzMyMDgwZTY3YTI0Y2MxYjE3ZGJhNzZmM2MwMGYxZCIsCiAgInByb2ZpbGVOYW1lIiA6ICJUZWFtSHlkcmEiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjc1NjkyMmMyMWJjMTUxOGJmNjAzNTM1MDkzMGMzYjFmNGM5Yjc0YjEwYjBkNjIxYmFiYWE0ZTQxMTA5YzE3ZiIsCiAgICAgICJtZXRhZGF0YSIgOiB7CiAgICAgICAgIm1vZGVsIiA6ICJzbGltIgogICAgICB9CiAgICB9CiAgfQp9",
-    "name": "Sweet Flesh",
-    "description": "%%gray%%It's strangely sweet and somewhat sticky...",
-    "tier": "UNCOMMON",
-    "glowing": true,
-    "npc_sell_price": 0,
-    "id": "SWEET_FLESH"
   },
   {
     "material": "SKULL_ITEM",
@@ -30240,7 +29723,8 @@
     "tier": "LEGENDARY",
     "stats": {
       "DEFENSE": 140,
-      "HEALTH": 155
+      "HEALTH": 155,
+      "mending": 10
     },
     "npc_sell_price": 100000,
     "dungeon_item_conversion_cost": {
@@ -31158,8 +30642,8 @@
     "category": "LEGGINGS",
     "tier": "LEGENDARY",
     "stats": {
-      "DEFENSE": 220,
-      "HEALTH": 250,
+      "DEFENSE": 240,
+      "HEALTH": 260,
       "INTELLIGENCE": 20
     },
     "upgrade_costs": [
@@ -32068,7 +31552,8 @@
     "stats": {
       "WALK_SPEED": 30,
       "DAMAGE": 300,
-      "STRENGTH": 125
+      "STRENGTH": 130,
+      "CRITICAL_DAMAGE": 30
     },
     "npc_sell_price": 500000,
     "upgrade_costs": [
@@ -34556,7 +34041,7 @@
     "sword_type": "AXE",
     "tier": "RARE",
     "stats": {
-      "DAMAGE": 250,
+      "DAMAGE": 200,
       "STRENGTH": 70
     },
     "requirements": [
@@ -39878,7 +39363,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 10
+          "amount": 6
         }
       ],
       [
@@ -39890,7 +39375,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 15
+          "amount": 7
         }
       ],
       [
@@ -39902,7 +39387,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 20
+          "amount": 8
         }
       ],
       [
@@ -39914,7 +39399,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 30
+          "amount": 9
         }
       ],
       [
@@ -39926,7 +39411,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 40
+          "amount": 10
         }
       ]
     ],
@@ -40242,16 +39727,6 @@
       }
     ],
     "id": "SHADOW_ASSASSIN_LEGGINGS"
-  },
-  {
-    "material": "LEATHER_BOOTS",
-    "color": "153,51,153",
-    "name": "Great Spook Boots",
-    "category": "BOOTS",
-    "tier": "EPIC",
-    "museum": true,
-    "npc_sell_price": 0,
-    "id": "GREAT_SPOOK_BOOTS"
   },
   {
     "material": "SKULL_ITEM",
@@ -41593,7 +41068,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 10
+          "amount": 6
         }
       ],
       [
@@ -41605,7 +41080,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 15
+          "amount": 7
         }
       ],
       [
@@ -41617,7 +41092,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 20
+          "amount": 8
         }
       ],
       [
@@ -41629,7 +41104,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 30
+          "amount": 9
         }
       ],
       [
@@ -41641,7 +41116,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 40
+          "amount": 10
         }
       ]
     ],
@@ -42430,7 +41905,8 @@
     "tier": "LEGENDARY",
     "stats": {
       "DEFENSE": 90,
-      "HEALTH": 100
+      "HEALTH": 100,
+      "mending": 10
     },
     "npc_sell_price": 100000,
     "dungeon_item_conversion_cost": {
@@ -43624,16 +43100,6 @@
   {
     "material": "SKULL_ITEM",
     "durability": 3,
-    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTYzNDkyNzY5ODc2MiwKICAicHJvZmlsZUlkIiA6ICJmNWQwYjFhZTQxNmU0YTE5ODEyMTRmZGQzMWU3MzA1YiIsCiAgInByb2ZpbGVOYW1lIiA6ICJDYXRjaFRoZVdhdmUxMCIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9mZmIxODg0OGUzYWUyOGFkMmY4MThiNTEwN2FiZjkwYTIzYTRkYTczMzYwNGJmZmNmNmNhZTEwMjc0ODUwYWM0IiwKICAgICAgIm1ldGFkYXRhIiA6IHsKICAgICAgICAibW9kZWwiIDogInNsaW0iCiAgICAgIH0KICAgIH0KICB9Cn0=",
-    "name": "Frozen Spider",
-    "description": "%%gray%%One lonely spider sitting in the pond. Then down came the hook that pulled the spider out.",
-    "tier": "LEGENDARY",
-    "npc_sell_price": 0,
-    "id": "FROZEN_SPIDER"
-  },
-  {
-    "material": "SKULL_ITEM",
-    "durability": 3,
     "skin": "ewogICJ0aW1lc3RhbXAiIDogMTYyNTQ5MjY3ODAzMiwKICAicHJvZmlsZUlkIiA6ICI1ZjE4ZmY4NTEyZGQ0NmQ1OGY1MjJlYjg2MDg2ZjU5MiIsCiAgInByb2ZpbGVOYW1lIiA6ICJUYWtlb3MiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWZlZjcyMmRhMDVhZThiZDgxMzI5MDVhMTFiNWI2ZGZiZjhlN2FlMGFmNTk5YzgyNjZlMTYwZmIwNWU2MTU5YiIsCiAgICAgICJtZXRhZGF0YSIgOiB7CiAgICAgICAgIm1vZGVsIiA6ICJzbGltIgogICAgICB9CiAgICB9CiAgfQp9",
     "name": "Gemstone Fuel Tank",
     "tier": "RARE",
@@ -43664,8 +43130,9 @@
     "category": "SWORD",
     "tier": "EPIC",
     "stats": {
-      "DAMAGE": 170,
-      "STRENGTH": 60
+      "DAMAGE": 235,
+      "STRENGTH": 95,
+      "CRITICAL_DAMAGE": 95
     },
     "npc_sell_price": 1,
     "upgrade_costs": [
@@ -44301,8 +43768,9 @@
     "category": "SWORD",
     "tier": "RARE",
     "stats": {
-      "DAMAGE": 85,
-      "STRENGTH": 20
+      "DAMAGE": 105,
+      "STRENGTH": 20,
+      "CRITICAL_DAMAGE": 20
     },
     "npc_sell_price": 1,
     "upgrade_costs": [
@@ -44746,16 +44214,6 @@
     "category": "BAIT",
     "npc_sell_price": 10,
     "id": "SPOOKY_BAIT"
-  },
-  {
-    "material": "SKULL_ITEM",
-    "durability": 3,
-    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTYzNDkyNzY3NjA4MSwKICAicHJvZmlsZUlkIiA6ICJmYzUwMjkzYTVkMGI0NzViYWYwNDJhNzIwMWJhMzBkMiIsCiAgInByb2ZpbGVOYW1lIiA6ICJDVUNGTDE3IiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzkzNTdmMjVkY2NhNWZhZDFkOWI5ZDc2YTJhOGQxYmE1ZGY4OTM2MGU2NDJjN2ZiMzE3MTgwODdhODUxNTcxZWIiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ==",
-    "name": "Wet Pumpkin",
-    "description": "%%gray%%A squishy moist mess.",
-    "tier": "EPIC",
-    "npc_sell_price": 0,
-    "id": "WET_PUMPKIN"
   },
   {
     "material": "ARROW",
@@ -45759,15 +45217,6 @@
     "id": "SALMON_BOOTS_NEW"
   },
   {
-    "material": "DEAD_BUSH",
-    "name": "Great Spook Staff",
-    "tier": "LEGENDARY",
-    "unstackable": true,
-    "museum": true,
-    "npc_sell_price": 0,
-    "id": "GREAT_SPOOK_STAFF"
-  },
-  {
     "material": "SKULL_ITEM",
     "durability": 3,
     "skin": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWM4NDBiNjZjNjQ0MjA1OWJhMzFmYzM0OTk4ZTE1YzQ0NDdhNDI5ZDNmNzg5YTdlOWY2MmU2YTU3ZGRhMGFiMiJ9fX0K",
@@ -46561,16 +46010,6 @@
     "dungeon_item": true,
     "museum": true,
     "id": "MAXOR_THE_FISH"
-  },
-  {
-    "material": "SKULL_ITEM",
-    "durability": 3,
-    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTYzNTA4OTU5NjQ0NiwKICAicHJvZmlsZUlkIiA6ICIwZWQ2MDFlMDhjZTM0YjRkYWUxZmI4MDljZmEwNTM5NiIsCiAgInByb2ZpbGVOYW1lIiA6ICJOZWVkTW9yZUFjY291bnRzIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2FjYzE5NTA0NjFkNTQ2ODdmNDAxNjJlNGVjZmZhY2Y2MGE0NmU0MTZmMjUzNGZhMjNhMDA5MWQwZWE2ZjJlYzEiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ==",
-    "name": "Decayed Bat",
-    "description": "%%gray%%A withering husk of its former self.",
-    "tier": "RARE",
-    "npc_sell_price": 0,
-    "id": "DECAYED_BAT"
   },
   {
     "material": "SKULL_ITEM",
@@ -50489,9 +49928,8 @@
     "stats": {
       "DEFENSE": 111,
       "HEALTH": 66,
-      "WEAPON_ABILITY_DAMAGE": 3000
+      "WEAPON_ABILITY_DAMAGE": 4000
     },
-    "ability_damage_scaling": 0.2,
     "id": "WITCH_MASK"
   },
   {
@@ -54265,16 +53703,6 @@
     ],
     "dungeon_item": true,
     "id": "WITHER_GOGGLES"
-  },
-  {
-    "material": "SKULL_ITEM",
-    "durability": 3,
-    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTYzNTA4OTU2NDMwNiwKICAicHJvZmlsZUlkIiA6ICJkZTE0MGFmM2NmMjM0ZmM0OTJiZTE3M2Y2NjA3MzViYiIsCiAgInByb2ZpbGVOYW1lIiA6ICJTUlRlYW0iLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjk3NzkwNmFiZGIwMGI0OTVjYzVhNjg1MWU5MmNlYjY1ZTFiZjg5ZmFmMWJlOTE0YjVkMzZjODQ4NzU3NmE3MyIsCiAgICAgICJtZXRhZGF0YSIgOiB7CiAgICAgICAgIm1vZGVsIiA6ICJzbGltIgogICAgICB9CiAgICB9CiAgfQp9",
-    "name": "Poisoned Candy",
-    "description": "%%gray%%A delicious, vibrant, and round candy with an extra kick.",
-    "tier": "UNCOMMON",
-    "npc_sell_price": 0,
-    "id": "POISONED_CANDY"
   },
   {
     "material": "BANNER",
@@ -59087,16 +58515,6 @@
     "id": "MIDAS_JEWEL"
   },
   {
-    "material": "LEATHER_HELMET",
-    "color": "153,51,153",
-    "name": "Great Spook Helmet",
-    "category": "HELMET",
-    "tier": "EPIC",
-    "museum": true,
-    "npc_sell_price": 0,
-    "id": "GREAT_SPOOK_HELMET"
-  },
-  {
     "material": "SKULL_ITEM",
     "durability": 3,
     "skin": "eyJ0aW1lc3RhbXAiOjAsInByb2ZpbGVJZCI6ImRiYTJmMTE1NmNjMjQwMWJhOWU5YjRkMjdmN2M4OTdkIiwicHJvZmlsZU5hbWUiOiJjb2RlbmFtZV9CIiwidGV4dHVyZXMiOnsiU0tJTiI6eyJ1cmwiOiJodHRwczovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9hODVmMzEzODI1OTFkMmRhYjBlZmVkNGRkMzFlZDM4NTQ5NGFkOTU2MzQwOWM4YTJlMGVmZDA1NDkyZDYwYjU1In19fQ==",
@@ -62521,7 +61939,7 @@
     "stats": {
       "DAMAGE": 210,
       "STRENGTH": 60,
-      "ATTACK_SPEED": 100,
+      "ATTACK_SPEED": 50,
       "CRITICAL_DAMAGE": 50,
       "CRITICAL_CHANCE": 100
     },
@@ -62694,8 +62112,9 @@
     "category": "SWORD",
     "tier": "EPIC",
     "stats": {
-      "DAMAGE": 145,
-      "STRENGTH": 50
+      "DAMAGE": 175,
+      "STRENGTH": 50,
+      "CRITICAL_DAMAGE": 50
     },
     "npc_sell_price": 1,
     "upgrade_costs": [
@@ -65673,7 +65092,8 @@
     "description": "%%gray%%%%italic%%That thing was too big to be called a sword, it was more like a large hunk of stone.",
     "stats": {
       "DAMAGE": 500,
-      "STRENGTH": 100
+      "STRENGTH": 100,
+      "CRITICAL_DAMAGE": 30
     },
     "npc_sell_price": 0,
     "upgrade_costs": [
@@ -65722,6 +65142,36 @@
     ],
     "item_durability": -1,
     "dungeon_item": true,
+    "gemstone_slots": [
+      {
+        "slot_type": "JASPER",
+        "costs": [
+          {
+            "type": "COINS",
+            "coins": 50000
+          },
+          {
+            "type": "ITEM",
+            "item_id": "FINE_JASPER_GEM",
+            "amount": 20
+          }
+        ]
+      },
+      {
+        "slot_type": "JASPER",
+        "costs": [
+          {
+            "type": "COINS",
+            "coins": 100000
+          },
+          {
+            "type": "ITEM",
+            "item_id": "FINE_JASPER_GEM",
+            "amount": 40
+          }
+        ]
+      }
+    ],
     "id": "DARK_CLAYMORE"
   },
   {
@@ -67295,7 +66745,8 @@
     "tier": "LEGENDARY",
     "stats": {
       "DEFENSE": 110,
-      "HEALTH": 110
+      "HEALTH": 110,
+      "mending": 10
     },
     "npc_sell_price": 100000,
     "dungeon_item_conversion_cost": {
@@ -70896,7 +70347,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 10
+          "amount": 6
         }
       ],
       [
@@ -70908,7 +70359,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 15
+          "amount": 7
         }
       ],
       [
@@ -70920,7 +70371,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 20
+          "amount": 8
         }
       ],
       [
@@ -70932,7 +70383,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 30
+          "amount": 9
         }
       ],
       [
@@ -70944,7 +70395,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 40
+          "amount": 10
         }
       ]
     ],
@@ -72109,6 +71560,7 @@
     "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY0NjY1MDM2Nzk3NiwKICAicHJvZmlsZUlkIiA6ICI0MWQzYWJjMmQ3NDk0MDBjOTA5MGQ1NDM0ZDAzODMxYiIsCiAgInByb2ZpbGVOYW1lIiA6ICJNZWdha2xvb24iLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2U1MDlmMDZiOGRjMzg0MzU4ZmYyNDcyYWI2MmNlNmZkYzJmNjQ2ZTMzOGVmZGMzYzlmYjA1ZGRjNDMxZjY0IgogICAgfQogIH0KfQ==",
     "name": "Perfect Opal Gemstone",
     "tier": "LEGENDARY",
+    "npc_sell_price": 10240000,
     "unstackable": true,
     "id": "PERFECT_OPAL_GEM"
   },
@@ -72127,6 +71579,7 @@
     "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY0NjY1MDM1MzA0NywKICAicHJvZmlsZUlkIiA6ICI0MWQzYWJjMmQ3NDk0MDBjOTA5MGQ1NDM0ZDAzODMxYiIsCiAgInByb2ZpbGVOYW1lIiA6ICJNZWdha2xvb24iLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWQxNWVkNzBlNzIwMDQwYWQ3MzExZTY5MzU5ZGZkZjVlMTE0ZWFkZDJhNGMxZjk3MWE5NTAxMzQxYTQ1MjY0YiIKICAgIH0KICB9Cn0=",
     "name": "Flawless Opal Gemstone",
     "tier": "EPIC",
+    "npc_sell_price": 1536000,
     "unstackable": true,
     "id": "FLAWLESS_OPAL_GEM"
   },
@@ -73672,7 +73125,7 @@
       {
         "type": "SLAYER",
         "slayer_boss_type": "enderman",
-        "level": 3
+        "level": 5
       }
     ],
     "catacombs_requirements": [
@@ -76122,6 +75575,923 @@
   {
     "material": "SKULL_ITEM",
     "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY0OTQzNjM2MDg1NywKICAicHJvZmlsZUlkIiA6ICIzYTNmNzhkZmExZjQ0OTllYjE5NjlmYzlkOTEwZGYwYyIsCiAgInByb2ZpbGVOYW1lIiA6ICJOb19jcmVyYXIiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2NlOWVlNmM5NDcyYTFmOThhYjlmNzg0NDc4NTQwNWRmYThiNTZkOGUyMzFjZDMyNjc1YWM1YmFhOTg0OWJlOSIKICAgIH0KICB9Cn0=",
+    "name": "Tropical Bird 1 Minion Skin",
+    "category": "COSMETIC",
+    "museum": true,
+    "id": "TROPICAL_BIRD_1_PERSONALITY"
+  },
+  {
+    "material": "FISHING_ROD",
+    "name": "Rod of Champions",
+    "category": "FISHING_ROD",
+    "tier": "RARE",
+    "stats": {
+      "damage": 90,
+      "strength": 80,
+      "sea_creature_chance": 4,
+      "fishing_speed": 90
+    },
+    "npc_sell_price": 17800,
+    "requirements": [
+      {
+        "type": "SKILL",
+        "skill": "FISHING",
+        "level": 15
+      }
+    ],
+    "id": "CHAMP_ROD"
+  },
+  {
+    "material": "FISHING_ROD",
+    "name": "Yeti Rod",
+    "category": "FISHING_ROD",
+    "tier": "EPIC",
+    "stats": {
+      "damage": 150,
+      "strength": 130,
+      "fishing_speed": 75
+    },
+    "npc_sell_price": 150000,
+    "requirements": [
+      {
+        "type": "SKILL",
+        "skill": "FISHING",
+        "level": 25
+      }
+    ],
+    "id": "YETI_ROD"
+  },
+  {
+    "material": "FISHING_ROD",
+    "name": "Starter Lava Rod",
+    "category": "FISHING_ROD",
+    "tier": "UNCOMMON",
+    "stats": {
+      "damage": 50,
+      "strength": 50,
+      "fishing_speed": 8
+    },
+    "requirements": [
+      {
+        "type": "SKILL",
+        "skill": "FISHING",
+        "level": 10
+      }
+    ],
+    "soulbound": "COOP",
+    "id": "STARTER_LAVA_ROD"
+  },
+  {
+    "material": "FISHING_ROD",
+    "name": "Rod of Legends",
+    "category": "FISHING_ROD",
+    "tier": "EPIC",
+    "stats": {
+      "damage": 130,
+      "strength": 120,
+      "sea_creature_chance": 6,
+      "fishing_speed": 105
+    },
+    "npc_sell_price": 111000,
+    "requirements": [
+      {
+        "type": "SKILL",
+        "skill": "FISHING",
+        "level": 20
+      }
+    ],
+    "id": "LEGEND_ROD"
+  },
+  {
+    "material": "FISHING_ROD",
+    "name": "Hellfire Rod",
+    "category": "FISHING_ROD",
+    "tier": "LEGENDARY",
+    "stats": {
+      "damage": 180,
+      "strength": 180,
+      "sea_creature_chance": 14,
+      "fishing_speed": 75
+    },
+    "requirements": [
+      {
+        "type": "SKILL",
+        "skill": "FISHING",
+        "level": 35
+      }
+    ],
+    "npc_sell_price": 5634000,
+    "can_have_attributes": true,
+    "salvageable_from_recipe": true,
+    "upgrade_costs": [
+      [
+        {
+          "type": "ITEM",
+          "item_id": "LUMP_OF_MAGMA",
+          "amount": 20
+        },
+        {
+          "type": "ITEM",
+          "item_id": "MAGMA_FISH_SILVER",
+          "amount": 1
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 50
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "MOOGMA_PELT",
+          "amount": 20
+        },
+        {
+          "type": "ITEM",
+          "item_id": "MAGMA_FISH_SILVER",
+          "amount": 2
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 80
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "PYROCLASTIC_SCALE",
+          "amount": 20
+        },
+        {
+          "type": "ITEM",
+          "item_id": "MAGMA_FISH_SILVER",
+          "amount": 3
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 100
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "CUP_OF_BLOOD",
+          "amount": 50
+        },
+        {
+          "type": "ITEM",
+          "item_id": "MAGMA_FISH_SILVER",
+          "amount": 40
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 160
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "FLAMING_HEART",
+          "amount": 70
+        },
+        {
+          "type": "ITEM",
+          "item_id": "MAGMA_FISH_SILVER",
+          "amount": 50
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 200
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "ORB_OF_ENERGY",
+          "amount": 80
+        },
+        {
+          "type": "ITEM",
+          "item_id": "MAGMA_FISH_SILVER",
+          "amount": 60
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 300
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "HORN_OF_TAURUS",
+          "amount": 90
+        },
+        {
+          "type": "ITEM",
+          "item_id": "MAGMA_FISH_SILVER",
+          "amount": 70
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 400
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "THUNDER_SHARDS",
+          "amount": 30
+        },
+        {
+          "type": "ITEM",
+          "item_id": "MAGMA_FISH_GOLD",
+          "amount": 30
+        },
+        {
+          "type": "ITEM",
+          "item_id": "HEAVY_PEARL",
+          "amount": 3
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 1000
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "MAGMA_LORD_FRAGMENT",
+          "amount": 25
+        },
+        {
+          "type": "ITEM",
+          "item_id": "MAGMA_FISH_GOLD",
+          "amount": 40
+        },
+        {
+          "type": "ITEM",
+          "item_id": "HEAVY_PEARL",
+          "amount": 4
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 1200
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "MAGMA_LORD_FRAGMENT",
+          "amount": 30
+        },
+        {
+          "type": "ITEM",
+          "item_id": "MAGMA_FISH_GOLD",
+          "amount": 50
+        },
+        {
+          "type": "ITEM",
+          "item_id": "HEAVY_PEARL",
+          "amount": 5
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 1600
+        }
+      ]
+    ],
+    "id": "HELLFIRE_ROD"
+  },
+  {
+    "material": "FISHING_ROD",
+    "name": "Ice Rod",
+    "category": "FISHING_ROD",
+    "tier": "RARE",
+    "stats": {
+      "damage": 30,
+      "fishing_speed": 15
+    },
+    "npc_sell_price": 20000,
+    "requirements": [
+      {
+        "type": "SKILL",
+        "skill": "FISHING",
+        "level": 3
+      }
+    ],
+    "museum": true,
+    "id": "ICE_ROD"
+  },
+  {
+    "material": "FISHING_ROD",
+    "name": "Phantom Rod",
+    "category": "FISHING_WEAPON",
+    "tier": "LEGENDARY",
+    "stats": {
+      "damage": 200,
+      "strength": 125,
+      "fishing_speed": 100
+    },
+    "npc_sell_price": 1000,
+    "dungeon_item_conversion_cost": {
+      "essence_type": "UNDEAD",
+      "amount": 500
+    },
+    "upgrade_costs": [
+      [
+        {
+          "type": "ESSENCE",
+          "essence_type": "UNDEAD",
+          "amount": 200
+        }
+      ],
+      [
+        {
+          "type": "ESSENCE",
+          "essence_type": "UNDEAD",
+          "amount": 300
+        }
+      ],
+      [
+        {
+          "type": "ESSENCE",
+          "essence_type": "UNDEAD",
+          "amount": 400
+        }
+      ],
+      [
+        {
+          "type": "ESSENCE",
+          "essence_type": "UNDEAD",
+          "amount": 500
+        }
+      ],
+      [
+        {
+          "type": "ESSENCE",
+          "essence_type": "UNDEAD",
+          "amount": 600
+        }
+      ]
+    ],
+    "requirements": [
+      {
+        "type": "SKILL",
+        "skill": "FISHING",
+        "level": 21
+      }
+    ],
+    "id": "PHANTOM_ROD"
+  },
+  {
+    "material": "FISHING_ROD",
+    "name": "Auger Rod",
+    "category": "FISHING_ROD",
+    "tier": "LEGENDARY",
+    "stats": {
+      "damage": 135,
+      "strength": 90,
+      "fishing_speed": 110
+    },
+    "requirements": [
+      {
+        "type": "SKILL",
+        "skill": "FISHING",
+        "level": 25
+      }
+    ],
+    "id": "AUGER_ROD"
+  },
+  {
+    "material": "FISHING_ROD",
+    "name": "Magma Rod",
+    "category": "FISHING_ROD",
+    "tier": "RARE",
+    "stats": {
+      "damage": 150,
+      "strength": 150,
+      "sea_creature_chance": 6,
+      "fishing_speed": 40
+    },
+    "requirements": [
+      {
+        "type": "SKILL",
+        "skill": "FISHING",
+        "level": 27
+      }
+    ],
+    "npc_sell_price": 8000,
+    "can_have_attributes": true,
+    "salvageable_from_recipe": true,
+    "upgrade_costs": [
+      [
+        {
+          "type": "ITEM",
+          "item_id": "LUMP_OF_MAGMA",
+          "amount": 20
+        },
+        {
+          "type": "ITEM",
+          "item_id": "MAGMA_FISH_SILVER",
+          "amount": 1
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 50
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "MOOGMA_PELT",
+          "amount": 20
+        },
+        {
+          "type": "ITEM",
+          "item_id": "MAGMA_FISH_SILVER",
+          "amount": 2
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 80
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "PYROCLASTIC_SCALE",
+          "amount": 20
+        },
+        {
+          "type": "ITEM",
+          "item_id": "MAGMA_FISH_SILVER",
+          "amount": 3
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 100
+        }
+      ]
+    ],
+    "id": "MAGMA_ROD"
+  },
+  {
+    "material": "FISHING_ROD",
+    "name": "Challenging Rod",
+    "category": "FISHING_ROD",
+    "tier": "RARE",
+    "stats": {
+      "damage": 60,
+      "strength": 60,
+      "sea_creature_chance": 2,
+      "fishing_speed": 75
+    },
+    "npc_sell_price": 5000,
+    "requirements": [
+      {
+        "type": "SKILL",
+        "skill": "FISHING",
+        "level": 10
+      }
+    ],
+    "id": "CHALLENGE_ROD"
+  },
+  {
+    "material": "FISHING_ROD",
+    "name": "Shredder",
+    "category": "FISHING_WEAPON",
+    "tier": "LEGENDARY",
+    "stats": {
+      "damage": 120,
+      "ferocity": 50,
+      "fishing_speed": 115
+    },
+    "npc_sell_price": 1000,
+    "requirements": [
+      {
+        "type": "SKILL",
+        "skill": "FISHING",
+        "level": 20
+      }
+    ],
+    "id": "THE_SHREDDER"
+  },
+  {
+    "material": "FISHING_ROD",
+    "name": "Speedster Rod",
+    "category": "FISHING_ROD",
+    "tier": "UNCOMMON",
+    "stats": {
+      "damage": 30,
+      "strength": 15,
+      "fishing_speed": 45
+    },
+    "npc_sell_price": 1000,
+    "requirements": [
+      {
+        "type": "SKILL",
+        "skill": "FISHING",
+        "level": 6
+      }
+    ],
+    "museum": true,
+    "id": "SPEEDSTER_ROD"
+  },
+  {
+    "material": "FISHING_ROD",
+    "name": "Farmer's Rod",
+    "category": "FISHING_ROD",
+    "tier": "UNCOMMON",
+    "stats": {
+      "damage": 50,
+      "strength": 20,
+      "fishing_speed": 60
+    },
+    "npc_sell_price": 1050,
+    "requirements": [
+      {
+        "type": "SKILL",
+        "skill": "FISHING",
+        "level": 8
+      }
+    ],
+    "museum": true,
+    "id": "FARMER_ROD"
+  },
+  {
+    "material": "FISHING_ROD",
+    "name": "Inferno Rod",
+    "category": "FISHING_ROD",
+    "tier": "EPIC",
+    "stats": {
+      "damage": 170,
+      "strength": 170,
+      "sea_creature_chance": 10,
+      "fishing_speed": 60
+    },
+    "requirements": [
+      {
+        "type": "SKILL",
+        "skill": "FISHING",
+        "level": 30
+      }
+    ],
+    "npc_sell_price": 1028000,
+    "can_have_attributes": true,
+    "salvageable_from_recipe": true,
+    "upgrade_costs": [
+      [
+        {
+          "type": "ITEM",
+          "item_id": "LUMP_OF_MAGMA",
+          "amount": 20
+        },
+        {
+          "type": "ITEM",
+          "item_id": "MAGMA_FISH_SILVER",
+          "amount": 1
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 50
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "MOOGMA_PELT",
+          "amount": 20
+        },
+        {
+          "type": "ITEM",
+          "item_id": "MAGMA_FISH_SILVER",
+          "amount": 2
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 80
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "PYROCLASTIC_SCALE",
+          "amount": 20
+        },
+        {
+          "type": "ITEM",
+          "item_id": "MAGMA_FISH_SILVER",
+          "amount": 3
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 100
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "CUP_OF_BLOOD",
+          "amount": 50
+        },
+        {
+          "type": "ITEM",
+          "item_id": "MAGMA_FISH_SILVER",
+          "amount": 40
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 160
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "FLAMING_HEART",
+          "amount": 70
+        },
+        {
+          "type": "ITEM",
+          "item_id": "MAGMA_FISH_SILVER",
+          "amount": 50
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 200
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "ORB_OF_ENERGY",
+          "amount": 80
+        },
+        {
+          "type": "ITEM",
+          "item_id": "MAGMA_FISH_SILVER",
+          "amount": 60
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 300
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "HORN_OF_TAURUS",
+          "amount": 90
+        },
+        {
+          "type": "ITEM",
+          "item_id": "MAGMA_FISH_SILVER",
+          "amount": 70
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 400
+        }
+      ]
+    ],
+    "id": "INFERNO_ROD"
+  },
+  {
+    "material": "FISHING_ROD",
+    "name": "Sponge Rod",
+    "category": "FISHING_ROD",
+    "stats": {
+      "damage": 20,
+      "strength": 15,
+      "fishing_speed": 30
+    },
+    "npc_sell_price": 36,
+    "requirements": [
+      {
+        "type": "SKILL",
+        "skill": "FISHING",
+        "level": 5
+      }
+    ],
+    "museum": true,
+    "id": "SPONGE_ROD"
+  },
+  {
+    "material": "FISHING_ROD",
+    "name": "Prismarine Rod",
+    "category": "FISHING_ROD",
+    "stats": {
+      "damage": 15,
+      "strength": 10,
+      "fishing_speed": 15
+    },
+    "npc_sell_price": 10,
+    "requirements": [
+      {
+        "type": "SKILL",
+        "skill": "FISHING",
+        "level": 3
+      }
+    ],
+    "museum": true,
+    "id": "PRISMARINE_ROD"
+  },
+  {
+    "material": "EMPTY_MAP",
+    "name": "Travel Scroll to Dragontail",
+    "category": "TRAVEL_SCROLL",
+    "tier": "EPIC",
+    "id": "DRAGONTAIL_TRAVEL_SCROLL"
+  },
+  {
+    "material": "EMPTY_MAP",
+    "name": "Travel Scroll to Jungle Island",
+    "category": "TRAVEL_SCROLL",
+    "tier": "EPIC",
+    "id": "PARK_JUNGLE_TRAVEL_SCROLL"
+  },
+  {
+    "material": "EMPTY_MAP",
+    "name": "Travel Scroll to Museum",
+    "category": "TRAVEL_SCROLL",
+    "tier": "EPIC",
+    "id": "MUSEUM_TRAVEL_SCROLL"
+  },
+  {
+    "material": "EMPTY_MAP",
+    "name": "Travel Scroll to Deep Caverns",
+    "category": "TRAVEL_SCROLL",
+    "tier": "RARE",
+    "id": "MINING_2_TRAVEL_SCROLL"
+  },
+  {
+    "material": "EMPTY_MAP",
+    "name": "Travel Scroll to Dwarven Mines",
+    "category": "TRAVEL_SCROLL",
+    "tier": "RARE",
+    "soulbound": "COOP",
+    "id": "MINING_3_TRAVEL_SCROLL"
+  },
+  {
+    "material": "EMPTY_MAP",
+    "name": "Travel Scroll to the Barn",
+    "category": "TRAVEL_SCROLL",
+    "tier": "RARE",
+    "id": "FARMING_1_TRAVEL_SCROLL"
+  },
+  {
+    "material": "EMPTY_MAP",
+    "name": "Travel Scroll to Mushroom Island",
+    "category": "TRAVEL_SCROLL",
+    "tier": "RARE",
+    "id": "FARMING_2_TRAVEL_SCROLL"
+  },
+  {
+    "material": "EMPTY_MAP",
+    "name": "Travel Scroll to the Kuudra Passage",
+    "category": "TRAVEL_SCROLL",
+    "tier": "EPIC",
+    "id": "WASTELAND_TRAVEL_SCROLL"
+  },
+  {
+    "material": "EMPTY_MAP",
+    "name": "Travel Scroll to the Crystal Hollows",
+    "category": "TRAVEL_SCROLL",
+    "tier": "RARE",
+    "id": "CRYSTAL_HOLLOWS_TRAVEL_SCROLL"
+  },
+  {
+    "material": "EMPTY_MAP",
+    "name": "Travel Scroll to Spider's Den",
+    "category": "TRAVEL_SCROLL",
+    "tier": "RARE",
+    "id": "DANGER_1_TRAVEL_SCROLL"
+  },
+  {
+    "material": "EMPTY_MAP",
+    "name": "Travel Scroll to the Crimson Isle",
+    "category": "TRAVEL_SCROLL",
+    "tier": "RARE",
+    "id": "DANGER_2_TRAVEL_SCROLL"
+  },
+  {
+    "material": "EMPTY_MAP",
+    "name": "Travel Scroll to Hub Castle",
+    "category": "TRAVEL_SCROLL",
+    "tier": "EPIC",
+    "id": "HUB_CASTLE_TRAVEL_SCROLL"
+  },
+  {
+    "material": "EMPTY_MAP",
+    "name": "Travel Scroll to Dragon's Nest",
+    "category": "TRAVEL_SCROLL",
+    "tier": "EPIC",
+    "id": "DRAGON_NEST_TRAVEL_SCROLL"
+  },
+  {
+    "material": "EMPTY_MAP",
+    "name": "Travel Scroll to Howling Cave",
+    "category": "TRAVEL_SCROLL",
+    "tier": "EPIC",
+    "id": "PARK_CAVE_TRAVEL_SCROLL"
+  },
+  {
+    "material": "EMPTY_MAP",
+    "name": "Travel Scroll to The Park",
+    "category": "TRAVEL_SCROLL",
+    "tier": "RARE",
+    "id": "FORAGING_1_TRAVEL_SCROLL"
+  },
+  {
+    "material": "EMPTY_MAP",
+    "name": "Travel Scroll to the Crystal Nucleus",
+    "category": "TRAVEL_SCROLL",
+    "tier": "EPIC",
+    "soulbound": "SOLO",
+    "id": "CRYSTAL_NUCLEUS_TRAVEL_SCROLL"
+  },
+  {
+    "material": "EMPTY_MAP",
+    "name": "Travel Scroll to Scarleton",
+    "category": "TRAVEL_SCROLL",
+    "tier": "EPIC",
+    "id": "SCARLETON_TRAVEL_SCROLL"
+  },
+  {
+    "material": "EMPTY_MAP",
+    "name": "Travel Scroll to Dark Auction",
+    "category": "TRAVEL_SCROLL",
+    "tier": "EPIC",
+    "id": "HUB_DA_TRAVEL_SCROLL"
+  },
+  {
+    "material": "EMPTY_MAP",
+    "name": "Travel Scroll to the End",
+    "category": "TRAVEL_SCROLL",
+    "tier": "RARE",
+    "npc_sell_price": 100,
+    "id": "DANGER_3_TRAVEL_SCROLL"
+  },
+  {
+    "material": "EMPTY_MAP",
+    "name": "Travel Scroll to the Dwarven Forge",
+    "category": "TRAVEL_SCROLL",
+    "tier": "RARE",
+    "id": "FORGE_TRAVEL_SCROLL"
+  },
+  {
+    "material": "EMPTY_MAP",
+    "name": "Dusty Travel Scroll to the Kuudra Skull",
+    "category": "TRAVEL_SCROLL",
+    "tier": "EPIC",
+    "id": "NETHER_FORTRESS_BOSS_TRAVEL_SCROLL"
+  },
+  {
+    "material": "EMPTY_MAP",
+    "name": "Travel Scroll to the Gold Mine",
+    "category": "TRAVEL_SCROLL",
+    "tier": "RARE",
+    "id": "MINING_1_TRAVEL_SCROLL"
+  },
+  {
+    "material": "EMPTY_MAP",
+    "name": "Travel Scroll to Spider's Den Top of Nest",
+    "category": "TRAVEL_SCROLL",
+    "tier": "EPIC",
+    "id": "SPIDERS_DEN_TOP_TRAVEL_SCROLL"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY0OTQzNjM5MDc5NywKICAicHJvZmlsZUlkIiA6ICJmMjc0YzRkNjI1MDQ0ZTQxOGVmYmYwNmM3NWIyMDIxMyIsCiAgInByb2ZpbGVOYW1lIiA6ICJIeXBpZ3NlbCIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS83ZDNjYzE2OTg0N2I0ZWYyOTM4ZmNmN2Y4Yzg0NzAxMTI1ZjlmYWY5MTBjZDA4MjBlY2Q2ZmRjZmNhZjViOGIiCiAgICB9CiAgfQp9",
+    "name": "Tropical Bird 2 Minion Skin",
+    "category": "COSMETIC",
+    "museum": true,
+    "id": "TROPICAL_BIRD_2_PERSONALITY"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
     "skin": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTMwZmU3NzFmY2MzZWNjMDUzMGVlOTU0NWFiMDc3OTc0MzdmOTVlMDlhMGVhYTliNTEyNDk3ZmU4OTJmNTJmYiJ9fX0=",
     "name": "Enigma Cloak",
     "category": "CLOAK",
@@ -76941,6 +77311,111 @@
     "id": "GOBLIN_OMELETTE"
   },
   {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY2MTg2ODAwNTAzNywKICAicHJvZmlsZUlkIiA6ICJjNTZlMjI0MmNiZWY0MWE2ODdlMzI2MGRjMGNmOTM2MSIsCiAgInByb2ZpbGVOYW1lIiA6ICJMSlI3MzEwMCIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS81MmIwOWMyODllNzQ2MTQyYzFkOGQzYWY4OGU5MjMxZDdmNDk0ZmI2NTM4NzdjMjYxNzJmMjc0ZWVlNDYxODdmIiwKICAgICAgIm1ldGFkYXRhIiA6IHsKICAgICAgICAibW9kZWwiIDogInNsaW0iCiAgICAgIH0KICAgIH0KICB9Cn0=",
+    "name": "Glowing Mushroom",
+    "tier": "UNCOMMON",
+    "description": "Did you hear the joke about fungus? You won't like it, but it will grow on you.",
+    "id": "GLOWING_MUSHROOM"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY2MTgwMDIzNTcxNSwKICAicHJvZmlsZUlkIiA6ICIzZGRhMDc1ZTQ0Yzc0MmZhODE2YTNjNTNkY2RlMWQ3ZCIsCiAgInByb2ZpbGVOYW1lIiA6ICJzbmFLQVkiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmMxNDg1NGU2NGFiMmYyMDVlM2MwYWE5ZjcwOTYxZjc0ZjNiMTIzNmMzZjQxOGFkODQwNzM2ODI1NmU3YmVjOCIsCiAgICAgICJtZXRhZGF0YSIgOiB7CiAgICAgICAgIm1vZGVsIiA6ICJzbGltIgogICAgICB9CiAgICB9CiAgfQp9",
+    "name": "Chum",
+    "tier": "UNCOMMON",
+    "id": "CHUM"
+  },
+  {
+    "material": "SHEARS",
+    "name": "Moby's Shears",
+    "tier": "RARE",
+    "category": "SHEARS",
+    "id": "MOBYS_SHEARS"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY2MTgwMDE0NDc4NiwKICAicHJvZmlsZUlkIiA6ICJkYmQ4MDQ2M2EwMzY0Y2FjYjI3OGNhODBhMDBkZGIxMyIsCiAgInByb2ZpbGVOYW1lIiA6ICJ4bG9nMjEiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTFiZmQ1MzZmYjJkMDFmYzg3ZGVlOWQ0ZjhhNzI0OGFiMWE1OTM4NzcxOTQwMDUxMzE1M2RiZmQwNjk2NWIyMiIsCiAgICAgICJtZXRhZGF0YSIgOiB7CiAgICAgICAgIm1vZGVsIiA6ICJzbGltIgogICAgICB9CiAgICB9CiAgfQp9",
+    "name": "Empty Chum Bucket",
+    "tier": "COMMON",
+    "id": "EMPTY_CHUM_BUCKET"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY2MTgwMDE3NTk5MCwKICAicHJvZmlsZUlkIiA6ICI5YzM1ZGU3MjdmMzU0ZTVlYjFiOWRhOGViYTZhYzM1YyIsCiAgInByb2ZpbGVOYW1lIiA6ICJSZXphV1MiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2EyNTczOTZmODlhM2YyM2RjNzA1OTUxZWJiMzM5ZmQ3YzY2OTA1OTJkZjc1NWVmYzQ4YjBkODEyMjllMDg0ZSIsCiAgICAgICJtZXRhZGF0YSIgOiB7CiAgICAgICAgIm1vZGVsIiA6ICJzbGltIgogICAgICB9CiAgICB9CiAgfQp9",
+    "name": "Full Chum Bucket",
+    "tier": "UNCOMMON",
+    "id": "FULL_CHUM_BUCKET"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY2MTgwMDk0NzQxOSwKICAicHJvZmlsZUlkIiA6ICIzNmMxODk4ZjlhZGE0NjZlYjk0ZDFmZWFmMjQ0MTkxMyIsCiAgInByb2ZpbGVOYW1lIiA6ICJMdW5haWFuIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2RmZGMxZWVkNjg0ZGQ4MDVlYWU5NmQxMzJlM2RhNTNkNjQyNjdkNzM2MTM4OGQ1ZTJjNjdmNTk2OTg3MWU3MWQiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ==",
+    "name": "Glowy Chum Bait",
+    "tier": "UNCOMMON",
+    "category": "BAIT",
+    "npc_sell_price": 25,
+    "id": "GLOWY_CHUM_BAIT"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTYyNjEwNzI5NjMzNCwKICAicHJvZmlsZUlkIiA6ICJiMWMyNWQ0YjMwZDU0N2Y4YTk3NmZlYTllOGU1YzBjMyIsCiAgInByb2ZpbGVOYW1lIiA6ICJvd29FbmRlciIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS85YjY4ODU0NWUzMjZlNGYxZmQxYzQwNTg3M2Q5YzViOGJiZTY5ZGQyNjg4OWNlM2RlYTEwYjRkOWUzZDdiNGRiIiwKICAgICAgIm1ldGFkYXRhIiA6IHsKICAgICAgICAibW9kZWwiIDogInNsaW0iCiAgICAgIH0KICAgIH0KICB9Cn0=",
+    "name": "Chumming Talisman",
+    "category": "ACCESSORY",
+    "tier": "UNCOMMON",
+    "stats": {
+      "fishing_speed": 1,
+      "fishing_wisdom": 1
+    },
+    "description": "Listen, it's for real chums of Moby, ok?",
+    "id": "CHUMMING_TALISMAN"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY2MTgwMTIzMDIwMiwKICAicHJvZmlsZUlkIiA6ICIxOTQzY2VmYzM4NWM0YTJjYWJiZGViODBjZTIwM2RjZSIsCiAgInByb2ZpbGVOYW1lIiA6ICJzb29vb29vb29vb29vb29wIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzFlOTdmOTllOWVkYjg5ZWQ3YjEzMDkwYjkxODM5N2RhYzQ3ZmE3YTZlYTEwODBlNDM5Y2QzMzgwYTE2MDMxYzgiCiAgICB9CiAgfQp9",
+    "name": "Luminous Bracelet",
+    "tier": "UNCOMMON",
+    "category": "BRACELET",
+    "stats": {
+      "fishing_speed": 1,
+      "sea_creature_chance": 1
+    },
+    "requirements": [
+      {
+        "type": "SKILL",
+        "skill": "FISHING",
+        "level": 12
+      }
+    ],
+    "id": "LUMINOUS_BRACELET"
+  },
+  {
+    "material": "FISHING_ROD",
+    "name": "Chum Rod",
+    "category": "FISHING_ROD",
+    "tier": "RARE",
+    "stats": {
+      "damage": 55,
+      "strength": 40,
+      "sea_creature_chance": 2,
+      "fishing_speed": 70
+    },
+    "npc_sell_price": 750,
+    "requirements": [
+      {
+        "type": "SKILL",
+        "skill": "FISHING",
+        "level": 5
+      }
+    ],
+    "id": "CHUM_ROD"
+  },
+  {
     "material": "ENDER_PEARL",
     "name": "Spirit Leap",
     "glowing": true,
@@ -76973,6 +77448,106 @@
   {
     "material": "SKULL_ITEM",
     "durability": 3,
+    "skin": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTYwYTg3NWY1N2UzNjcwMDdmMmMxY2YwMDc3N2NiNDFmOTBlZmUyMDdmMDM5Y2MyOWQ3NmI1OGI4ZDg1MTJkIn19fQ==",
+    "name": "Winter Water Orb",
+    "tier": "LEGENDARY",
+    "npc_sell_price": 5000,
+    "description": "A collection of frozen substances, potentially including ice cream.",
+    "id": "WINTER_WATER_ORB"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDc3NGU1ZWYzZDhiY2RlOWVhMjFjMzRiODQ4MjdkMzQ1MzFlNjhmMTExNTEwZjMzODMwNTVlY2FhNzRiZWJjYyJ9fX0=",
+    "name": "Spooky Water Orb",
+    "tier": "LEGENDARY",
+    "npc_sell_price": 5000,
+    "description": "A terrifying sphere of extreme spookiness.",
+    "id": "SPOOKY_WATER_ORB"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWRmOTZjY2Q5Mjk5MGRkOGI4NTUzZDJjY2VhYjRjMmM5YjIwOGFhMjI1ZGIxNTc1ODJmY2Q1NjY5MTVkNGJjZiJ9fX0=",
+    "name": "Lava Water Orb",
+    "tier": "LEGENDARY",
+    "npc_sell_price": 5000,
+    "description": "Extremely hot to the touch.\n\n%%dark_gray%%Shouldn't this be steam..?",
+    "id": "LAVA_WATER_ORB"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjRjMjJiOGRmMGE4NTNhNDljYjgyZTkwYTYxOGQ2NTAxMjEyMjM2MWM4Mzk4MDYyZmNiYWY3NGQ1Njk2YzJhOSJ9fX0=",
+    "name": "Water Orb",
+    "tier": "EPIC",
+    "npc_sell_price": 3000,
+    "description": "A perfectly smooth, highly condensed orb of pure fish matter.\n\nUsed as a core ingredient in high level fishing crafts.\n\n%%dark_gray%%Smells like fish...",
+    "id": "WATER_ORB"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGQ5ZTk1NWE1MDYwMDBmMWQ4YmZjNjhlYWFmZTA0Y2M3ZGZiNDRmMDYyM2ExYjNkMGJmMjE1YThkNWE4NjFjMiJ9fX0=",
+    "name": "Bobbin' Scriptures",
+    "tier": "RARE",
+    "npc_sell_price": 35000,
+    "description": "The sacred ways of bobbin', written by a long-forgotten worshipper of Kuudra.",
+    "unstackable": true,
+    "id": "BOBBIN_SCRIPTURES"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODg5MzcyYjYzZWE5MmUyOWQwM2MzNjJhNDZmY2ZjMjBkZDA1YWYzYTVlMjdjZDBkMWFiNDNkZjM3MWExNDIxNSJ9fX0=",
+    "name": "Shark Water Orb",
+    "tier": "LEGENDARY",
+    "npc_sell_price": 5000,
+    "description": "A disgusting ball of mushed shark matter.\n\n%%dark_gray%%Are those teeth sticking out?",
+    "id": "SHARK_WATER_ORB"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY0MTI0Mjc1NzEwMCwKICAicHJvZmlsZUlkIiA6ICJiNzVjZDRmMThkZjg0MmNlYjJhY2MxNTU5MTNiMjA0YiIsCiAgInByb2ZpbGVOYW1lIiA6ICJLcmlzdGlqb25hczEzIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzU3YTZkMzVlOWQ0MzU0MmQyNzUwYzQ4MzZiNDAzN2Y3NTE0NmViMjc4NzUzMmI0YzRjNWMzYjI2YmI2M2RjMTAiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ==",
+    "name": "Empty Thunder Bottle",
+    "tier": "EPIC",
+    "unstackable": true,
+    "npc_sell_price": 5000,
+    "id": "THUNDER_IN_A_BOTTLE_EMPTY"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY0MTA5ODY0NTEyOCwKICAicHJvZmlsZUlkIiA6ICIwMGZiNTRiOWI4NDA0YTA0YTViMmJhMzBlYzBlYTAxMiIsCiAgInByb2ZpbGVOYW1lIiA6ICJrbGxveWQ3MCIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9lNWViZjZmMTQzMDFkM2ViZDE0NTMzNTg3ZDJhMmQ0ODIzNDQzM2IxN2M5ZDJmMTM5MzRiN2NhYjQ1OGVlMjY3IiwKICAgICAgIm1ldGFkYXRhIiA6IHsKICAgICAgICAibW9kZWwiIDogInNsaW0iCiAgICAgIH0KICAgIH0KICB9Cn0=",
+    "name": "Pulse Ring",
+    "category": "ACCESSORY",
+    "tier": "UNCOMMON",
+    "npc_sell_price": 8000,
+    "id": "PULSE_RING"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY0MTA5ODc0MzQ2NywKICAicHJvZmlsZUlkIiA6ICIwNjNhMTc2Y2RkMTU0ODRiYjU1MjRhNjQyMGM1YjdhNCIsCiAgInByb2ZpbGVOYW1lIiA6ICJkYXZpcGF0dXJ5IiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzI0Mzc4Yjk4NmUzNTg1NTVlZTczZjA5YjIxMGQ0OWVjMTM3MTlkZTVlYTg4ZDc1NTIzNzcwZDMxMTYzZjNhZWYiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ==",
+    "name": "Thunder in a Bottle",
+    "tier": "EPIC",
+    "unstackable": true,
+    "npc_sell_price": 5000,
+    "id": "THUNDER_IN_A_BOTTLE"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY2MjQwNTAzODIzNCwKICAicHJvZmlsZUlkIiA6ICIzY2MxMTY3MWU0MTM0ODM0YjhjMmZjMTY1OGE4OWU3OCIsCiAgInByb2ZpbGVOYW1lIiA6ICJSb3NzaTU2IiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2FjYWIwOTY1YzIwZjFkZTAzZTc5OTgxM2FlOWNiNWUwOTQyZWJmNmVkZmU5OWEwMzAyNTQ3NzU1Y2JhNzg5NzEiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ==",
+    "name": "Abiphone XIV Enormous",
+    "tier": "LEGENDARY",
+    "npc_sell_price": 100,
+    "id": "ABIPHONE_XIV_ENORMOUS"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
     "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY0NDI0Njg5ODk5NiwKICAicHJvZmlsZUlkIiA6ICI0M2NmNWJkNjUyMDM0YzU5ODVjMDIwYWI3NDE0OGQxYiIsCiAgInByb2ZpbGVOYW1lIiA6ICJrYW1pbDQ0NSIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9lNjllYmI2YzQ1NGMyZTIwZDJmNTMxN2FhOGYwOWNkODMzMzYxNGRhOWViMGRjYzI3Y2ZkYzdmYTAwMDBjNGExIiwKICAgICAgIm1ldGFkYXRhIiA6IHsKICAgICAgICAibW9kZWwiIDogInNsaW0iCiAgICAgIH0KICAgIH0KICB9Cn0=",
     "name": "Abiphone XI Ultra",
     "tier": "UNCOMMON",
@@ -76991,11 +77566,29 @@
   {
     "material": "SKULL_ITEM",
     "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY2MjQwNTE4NTEzMSwKICAicHJvZmlsZUlkIiA6ICJmNTgyNGRmNGIwMTU0MDA4OGRhMzUyYTQxODU1MDQ0NCIsCiAgInByb2ZpbGVOYW1lIiA6ICJGb3hHYW1lcjUzOTIiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGMyNDRhNGUzMDZmZDE0NzQwNWViYTZiZjY3MDIxZDUwYjgxNWQxMDdjYzE1ZDk3YjgwMmI3ODUyMTAwOTllNiIsCiAgICAgICJtZXRhZGF0YSIgOiB7CiAgICAgICAgIm1vZGVsIiA6ICJzbGltIgogICAgICB9CiAgICB9CiAgfQp9",
+    "name": "Abiphone XIV Enormous",
+    "tier": "LEGENDARY",
+    "npc_sell_price": 100,
+    "id": "ABIPHONE_XIV_ENORMOUS_PURPLE"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
     "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY0NDI0Njg0MzAwMSwKICAicHJvZmlsZUlkIiA6ICI5NTE3OTkxNjljYzE0MGY1OGM2MmRjOGZmZTU3NjBiZCIsCiAgInByb2ZpbGVOYW1lIiA6ICJPcmRpbmFsQ2FyZGluYWwiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzdhMzZiMmU2ZTA3MGMzZGZhMWMyNTcxOWIzNzZmYTAyZDU4NGQ3MDIwNmQxOGE1NjlhNzliYWE3MmU3MDkyOCIsCiAgICAgICJtZXRhZGF0YSIgOiB7CiAgICAgICAgIm1vZGVsIiA6ICJzbGltIgogICAgICB9CiAgICB9CiAgfQp9",
     "name": "Abiphone X Plus",
     "tier": "UNCOMMON",
     "npc_sell_price": 100,
     "id": "ABIPHONE_X_PLUS"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY2MjQwNTIxNTk5NCwKICAicHJvZmlsZUlkIiA6ICIwODFiZTAxZmZlMmU0ODMyODI3MDIwMjBlNmI1M2ExNyIsCiAgInByb2ZpbGVOYW1lIiA6ICJMeXJpY1BsYXRlMjUyNDIiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTI1YWNhNjFlMWI4YmVjYTliZWZjYWRkMDgyNjJjNTgyMWUyNzViZTQxNGQ5NGYwYjI3ZTg1ODBmMjBkYmYzYSIsCiAgICAgICJtZXRhZGF0YSIgOiB7CiAgICAgICAgIm1vZGVsIiA6ICJzbGltIgogICAgICB9CiAgICB9CiAgfQp9",
+    "name": "Abiphone XIV Enormous",
+    "tier": "LEGENDARY",
+    "npc_sell_price": 100,
+    "id": "ABIPHONE_XIV_ENORMOUS_BLACK"
   },
   {
     "material": "SKULL_ITEM",
@@ -77230,7 +77823,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 10
+          "amount": 6
         }
       ],
       [
@@ -77242,7 +77835,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 15
+          "amount": 7
         }
       ],
       [
@@ -77254,7 +77847,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 20
+          "amount": 8
         }
       ],
       [
@@ -77266,7 +77859,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 30
+          "amount": 9
         }
       ],
       [
@@ -77278,7 +77871,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 40
+          "amount": 10
         }
       ]
     ],
@@ -77461,7 +78054,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 10
+          "amount": 6
         }
       ],
       [
@@ -77473,7 +78066,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 15
+          "amount": 7
         }
       ],
       [
@@ -77485,7 +78078,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 20
+          "amount": 8
         }
       ],
       [
@@ -77497,7 +78090,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 30
+          "amount": 9
         }
       ],
       [
@@ -77509,7 +78102,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 40
+          "amount": 10
         }
       ]
     ],
@@ -77693,7 +78286,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 10
+          "amount": 6
         }
       ],
       [
@@ -77705,7 +78298,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 15
+          "amount": 7
         }
       ],
       [
@@ -77717,7 +78310,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 20
+          "amount": 8
         }
       ],
       [
@@ -77729,7 +78322,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 30
+          "amount": 9
         }
       ],
       [
@@ -77741,7 +78334,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 40
+          "amount": 10
         }
       ]
     ],
@@ -77924,7 +78517,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 10
+          "amount": 6
         }
       ],
       [
@@ -77936,7 +78529,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 15
+          "amount": 7
         }
       ],
       [
@@ -77948,7 +78541,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 20
+          "amount": 8
         }
       ],
       [
@@ -77960,7 +78553,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 30
+          "amount": 9
         }
       ],
       [
@@ -77972,7 +78565,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 40
+          "amount": 10
         }
       ]
     ],
@@ -81131,7 +81724,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 10
+          "amount": 6
         }
       ],
       [
@@ -81143,7 +81736,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 15
+          "amount": 7
         }
       ],
       [
@@ -81155,7 +81748,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 20
+          "amount": 8
         }
       ],
       [
@@ -81167,7 +81760,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 30
+          "amount": 9
         }
       ],
       [
@@ -81179,7 +81772,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 40
+          "amount": 10
         }
       ]
     ],
@@ -81362,7 +81955,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 10
+          "amount": 6
         }
       ],
       [
@@ -81374,7 +81967,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 15
+          "amount": 7
         }
       ],
       [
@@ -81386,7 +81979,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 20
+          "amount": 8
         }
       ],
       [
@@ -81398,7 +81991,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 30
+          "amount": 9
         }
       ],
       [
@@ -81410,7 +82003,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 40
+          "amount": 10
         }
       ]
     ],
@@ -81593,7 +82186,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 10
+          "amount": 6
         }
       ],
       [
@@ -81605,7 +82198,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 15
+          "amount": 7
         }
       ],
       [
@@ -81617,7 +82210,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 20
+          "amount": 8
         }
       ],
       [
@@ -81629,7 +82222,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 30
+          "amount": 9
         }
       ],
       [
@@ -81641,7 +82234,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 40
+          "amount": 10
         }
       ]
     ],
@@ -81825,7 +82418,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 10
+          "amount": 6
         }
       ],
       [
@@ -81837,7 +82430,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 15
+          "amount": 7
         }
       ],
       [
@@ -81849,7 +82442,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 20
+          "amount": 8
         }
       ],
       [
@@ -81861,7 +82454,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 30
+          "amount": 9
         }
       ],
       [
@@ -81873,7 +82466,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 40
+          "amount": 10
         }
       ]
     ],
@@ -85031,7 +85624,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 10
+          "amount": 6
         }
       ],
       [
@@ -85043,7 +85636,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 15
+          "amount": 7
         }
       ],
       [
@@ -85055,7 +85648,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 20
+          "amount": 8
         }
       ],
       [
@@ -85067,7 +85660,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 30
+          "amount": 9
         }
       ],
       [
@@ -85079,7 +85672,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 40
+          "amount": 10
         }
       ]
     ],
@@ -85260,7 +85853,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 10
+          "amount": 6
         }
       ],
       [
@@ -85272,7 +85865,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 15
+          "amount": 7
         }
       ],
       [
@@ -85284,7 +85877,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 20
+          "amount": 8
         }
       ],
       [
@@ -85296,7 +85889,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 30
+          "amount": 9
         }
       ],
       [
@@ -85308,7 +85901,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 40
+          "amount": 10
         }
       ]
     ],
@@ -85489,7 +86082,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 10
+          "amount": 6
         }
       ],
       [
@@ -85501,7 +86094,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 15
+          "amount": 7
         }
       ],
       [
@@ -85513,7 +86106,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 20
+          "amount": 8
         }
       ],
       [
@@ -85525,7 +86118,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 30
+          "amount": 9
         }
       ],
       [
@@ -85537,7 +86130,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 40
+          "amount": 10
         }
       ]
     ],
@@ -85718,7 +86311,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 10
+          "amount": 6
         }
       ],
       [
@@ -85730,7 +86323,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 15
+          "amount": 7
         }
       ],
       [
@@ -85742,7 +86335,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 20
+          "amount": 8
         }
       ],
       [
@@ -85754,7 +86347,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 30
+          "amount": 9
         }
       ],
       [
@@ -85766,7 +86359,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 40
+          "amount": 10
         }
       ]
     ],
@@ -88891,7 +89484,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 10
+          "amount": 6
         }
       ],
       [
@@ -88903,7 +89496,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 15
+          "amount": 7
         }
       ],
       [
@@ -88915,7 +89508,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 20
+          "amount": 8
         }
       ],
       [
@@ -88927,7 +89520,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 30
+          "amount": 9
         }
       ],
       [
@@ -88939,7 +89532,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 40
+          "amount": 10
         }
       ]
     ],
@@ -89121,7 +89714,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 10
+          "amount": 6
         }
       ],
       [
@@ -89133,7 +89726,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 15
+          "amount": 7
         }
       ],
       [
@@ -89145,7 +89738,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 20
+          "amount": 8
         }
       ],
       [
@@ -89157,7 +89750,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 30
+          "amount": 9
         }
       ],
       [
@@ -89169,7 +89762,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 40
+          "amount": 10
         }
       ]
     ],
@@ -89350,7 +89943,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 10
+          "amount": 6
         }
       ],
       [
@@ -89362,7 +89955,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 15
+          "amount": 7
         }
       ],
       [
@@ -89374,7 +89967,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 20
+          "amount": 8
         }
       ],
       [
@@ -89386,7 +89979,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 30
+          "amount": 9
         }
       ],
       [
@@ -89398,7 +89991,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 40
+          "amount": 10
         }
       ]
     ],
@@ -89579,7 +90172,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 10
+          "amount": 6
         }
       ],
       [
@@ -89591,7 +90184,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 15
+          "amount": 7
         }
       ],
       [
@@ -89603,7 +90196,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 20
+          "amount": 8
         }
       ],
       [
@@ -89615,7 +90208,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 30
+          "amount": 9
         }
       ],
       [
@@ -89627,7 +90220,7 @@
         {
           "type": "ITEM",
           "item_id": "HEAVY_PEARL",
-          "amount": 40
+          "amount": 10
         }
       ]
     ],
@@ -92580,6 +93173,855 @@
   {
     "material": "SKULL_ITEM",
     "durability": 3,
+    "skin": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmI2YjhjZWRmZWFkNDI4NmY2YzBiYmEzMmJiZDM2NWQyYThjYTJmMWVhY2Q3YjlkOTUxNDc0MTdkYmJhZTlkNCJ9fX0=",
+    "name": "Pitchin' Koi",
+    "category": "REFORGE_STONE",
+    "tier": "RARE",
+    "npc_sell_price": 22222,
+    "id": "PITCHIN_KOI"
+  },
+  {
+    "material": "LEATHER_CHESTPLATE",
+    "color": "36,221,229",
+    "name": "Thunder Chestplate",
+    "category": "CHESTPLATE",
+    "tier": "EPIC",
+    "stats": {
+      "HEALTH": 230,
+      "DEFENSE": 230,
+      "STRENGTH": 25,
+      "SEA_CREATURE_CHANCE": 4
+    },
+    "requirements": [
+      {
+        "type": "SKILL",
+        "skill": "FISHING",
+        "level": 36
+      }
+    ],
+    "npc_sell_price": 200000,
+    "can_have_attributes": true,
+    "salvageable_from_recipe": true,
+    "upgrade_costs": [
+      [
+        {
+          "type": "ITEM",
+          "item_id": "THUNDER_SHARDS",
+          "amount": 2
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 40
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "THUNDER_SHARDS",
+          "amount": 4
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 80
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "THUNDER_SHARDS",
+          "amount": 6
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 120
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "THUNDER_SHARDS",
+          "amount": 8
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 160
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "THUNDER_SHARDS",
+          "amount": 10
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 200
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "THUNDER_SHARDS",
+          "amount": 15
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 300
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "THUNDER_SHARDS",
+          "amount": 20
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 400
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "THUNDER_SHARDS",
+          "amount": 25
+        },
+        {
+          "type": "ITEM",
+          "item_id": "HEAVY_PEARL",
+          "amount": 3
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 500
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "HORN_OF_TAURUS",
+          "amount": 30
+        },
+        {
+          "type": "ITEM",
+          "item_id": "HEAVY_PEARL",
+          "amount": 4
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 600
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "HORN_OF_TAURUS",
+          "amount": 40
+        },
+        {
+          "type": "ITEM",
+          "item_id": "HEAVY_PEARL",
+          "amount": 5
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 800
+        }
+      ]
+    ],
+    "gemstone_slots": [
+      {
+        "slot_type": "COMBAT"
+      }
+    ],
+    "id": "THUNDER_CHESTPLATE"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY0MTA5ODc5NDUzNSwKICAicHJvZmlsZUlkIiA6ICI5ZDIyZGRhOTVmZGI0MjFmOGZhNjAzNTI1YThkZmE4ZCIsCiAgInByb2ZpbGVOYW1lIiA6ICJTYWZlRHJpZnQ0OCIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS80YTkzZDJiZjk5OWE3ZmUwNTJiZjY3OTVlMGEwYmM3NTU1Y2MxZTAxNGM2NjdmYTg2ZGM0MjFjYjE4NmQ1YjY3IiwKICAgICAgIm1ldGFkYXRhIiA6IHsKICAgICAgICAibW9kZWwiIDogInNsaW0iCiAgICAgIH0KICAgIH0KICB9Cn0=",
+    "name": "Thunder Helmet",
+    "category": "HELMET",
+    "tier": "EPIC",
+    "stats": {
+      "HEALTH": 200,
+      "DEFENSE": 170,
+      "STRENGTH": 25,
+      "SEA_CREATURE_CHANCE": 4
+    },
+    "requirements": [
+      {
+        "type": "SKILL",
+        "skill": "FISHING",
+        "level": 36
+      }
+    ],
+    "npc_sell_price": 125000,
+    "can_have_attributes": true,
+    "salvageable_from_recipe": true,
+    "upgrade_costs": [
+      [
+        {
+          "type": "ITEM",
+          "item_id": "THUNDER_SHARDS",
+          "amount": 2
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 40
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "THUNDER_SHARDS",
+          "amount": 4
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 80
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "THUNDER_SHARDS",
+          "amount": 6
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 120
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "THUNDER_SHARDS",
+          "amount": 8
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 160
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "THUNDER_SHARDS",
+          "amount": 10
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 200
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "THUNDER_SHARDS",
+          "amount": 15
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 300
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "THUNDER_SHARDS",
+          "amount": 20
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 400
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "THUNDER_SHARDS",
+          "amount": 25
+        },
+        {
+          "type": "ITEM",
+          "item_id": "HEAVY_PEARL",
+          "amount": 3
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 500
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "HORN_OF_TAURUS",
+          "amount": 30
+        },
+        {
+          "type": "ITEM",
+          "item_id": "HEAVY_PEARL",
+          "amount": 4
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 600
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "HORN_OF_TAURUS",
+          "amount": 40
+        },
+        {
+          "type": "ITEM",
+          "item_id": "HEAVY_PEARL",
+          "amount": 5
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 800
+        }
+      ]
+    ],
+    "gemstone_slots": [
+      {
+        "slot_type": "COMBAT"
+      }
+    ],
+    "id": "THUNDER_HELMET"
+  },
+  {
+    "material": "LEATHER_LEGGINGS",
+    "color": "36,221,229",
+    "name": "Thunder Leggings",
+    "category": "LEGGINGS",
+    "tier": "EPIC",
+    "stats": {
+      "HEALTH": 220,
+      "DEFENSE": 200,
+      "STRENGTH": 25,
+      "SEA_CREATURE_CHANCE": 4
+    },
+    "requirements": [
+      {
+        "type": "SKILL",
+        "skill": "FISHING",
+        "level": 36
+      }
+    ],
+    "npc_sell_price": 175000,
+    "can_have_attributes": true,
+    "salvageable_from_recipe": true,
+    "upgrade_costs": [
+      [
+        {
+          "type": "ITEM",
+          "item_id": "THUNDER_SHARDS",
+          "amount": 2
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 40
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "THUNDER_SHARDS",
+          "amount": 4
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 80
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "THUNDER_SHARDS",
+          "amount": 6
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 120
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "THUNDER_SHARDS",
+          "amount": 8
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 160
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "THUNDER_SHARDS",
+          "amount": 10
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 200
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "THUNDER_SHARDS",
+          "amount": 15
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 300
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "THUNDER_SHARDS",
+          "amount": 20
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 400
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "THUNDER_SHARDS",
+          "amount": 25
+        },
+        {
+          "type": "ITEM",
+          "item_id": "HEAVY_PEARL",
+          "amount": 3
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 500
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "HORN_OF_TAURUS",
+          "amount": 30
+        },
+        {
+          "type": "ITEM",
+          "item_id": "HEAVY_PEARL",
+          "amount": 4
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 600
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "HORN_OF_TAURUS",
+          "amount": 40
+        },
+        {
+          "type": "ITEM",
+          "item_id": "HEAVY_PEARL",
+          "amount": 5
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 800
+        }
+      ]
+    ],
+    "gemstone_slots": [
+      {
+        "slot_type": "COMBAT"
+      }
+    ],
+    "id": "THUNDER_LEGGINGS"
+  },
+  {
+    "material": "LEATHER_BOOTS",
+    "color": "36,221,229",
+    "name": "Thunder Boots",
+    "category": "BOOTS",
+    "tier": "EPIC",
+    "stats": {
+      "HEALTH": 170,
+      "DEFENSE": 150,
+      "STRENGTH": 25,
+      "SEA_CREATURE_CHANCE": 4
+    },
+    "requirements": [
+      {
+        "type": "SKILL",
+        "skill": "FISHING",
+        "level": 36
+      }
+    ],
+    "npc_sell_price": 100000,
+    "can_have_attributes": true,
+    "salvageable_from_recipe": true,
+    "upgrade_costs": [
+      [
+        {
+          "type": "ITEM",
+          "item_id": "THUNDER_SHARDS",
+          "amount": 2
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 40
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "THUNDER_SHARDS",
+          "amount": 4
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 80
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "THUNDER_SHARDS",
+          "amount": 6
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 120
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "THUNDER_SHARDS",
+          "amount": 8
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 160
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "THUNDER_SHARDS",
+          "amount": 10
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 200
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "THUNDER_SHARDS",
+          "amount": 15
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 300
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "THUNDER_SHARDS",
+          "amount": 20
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 400
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "THUNDER_SHARDS",
+          "amount": 25
+        },
+        {
+          "type": "ITEM",
+          "item_id": "HEAVY_PEARL",
+          "amount": 3
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 500
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "HORN_OF_TAURUS",
+          "amount": 30
+        },
+        {
+          "type": "ITEM",
+          "item_id": "HEAVY_PEARL",
+          "amount": 4
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 600
+        }
+      ],
+      [
+        {
+          "type": "ITEM",
+          "item_id": "HORN_OF_TAURUS",
+          "amount": 40
+        },
+        {
+          "type": "ITEM",
+          "item_id": "HEAVY_PEARL",
+          "amount": 5
+        },
+        {
+          "type": "ESSENCE",
+          "essence_type": "CRIMSON",
+          "amount": 800
+        }
+      ]
+    ],
+    "gemstone_slots": [
+      {
+        "slot_type": "COMBAT"
+      }
+    ],
+    "id": "THUNDER_BOOTS"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY0MTA5ODY5MjYyMywKICAicHJvZmlsZUlkIiA6ICIzNmMxODk4ZjlhZGE0NjZlYjk0ZDFmZWFmMjQ0MTkxMyIsCiAgInByb2ZpbGVOYW1lIiA6ICJMdW5haWFuIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzZjZWVkM2IwOGZhMzQ5ODJiYzNmYWFhOTkzNjk0MWI2Y2QwMGFiZDM3MTczZWU2N2IzY2UzYjllMThiZmNhNmMiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ==",
+    "name": "Thunderbolt Necklace",
+    "tier": "EPIC",
+    "category": "NECKLACE",
+    "npc_sell_price": 75000,
+    "stats": {
+      "HEALTH": 40,
+      "DEFENSE": 30,
+      "SEA_CREATURE_CHANCE": 1.5
+    },
+    "requirements": [
+      {
+        "type": "SKILL",
+        "skill": "FISHING",
+        "level": 36
+      }
+    ],
+    "unstackable": true,
+    "can_have_attributes": true,
+    "id": "THUNDERBOLT_NECKLACE"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY2MjU1OTQ4Mzg4MywKICAicHJvZmlsZUlkIiA6ICIxZjEyNTNhYTVkYTQ0ZjU5YWU1YWI1NmFhZjRlNTYxNyIsCiAgInByb2ZpbGVOYW1lIiA6ICJOb3RNaUt5IiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzhkYmE1MDlmYmQ5MmNmNjBiZmJhODg0ZTYyOTY2NDlhOWVjMjkyZTQ1OGQ0YjUxNDYyNWU4NTEyZmNlNGI4MGMiCiAgICB9CiAgfQp9",
+    "name": "Finwave Gloves",
+    "category": "GLOVES",
+    "tier": "EPIC",
+    "soulbound": "COOP",
+    "npc_sell_price": 9000,
+    "stats": {
+      "health": 12,
+      "health_regeneration": 1,
+      "fishing_speed": 8
+    },
+    "id": "FINWAVE_GLOVES"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY2MjU1OTUzMDE5OCwKICAicHJvZmlsZUlkIiA6ICI1NjY3NWIyMjMyZjA0ZWUwODkxNzllOWM5MjA2Y2ZlOCIsCiAgInByb2ZpbGVOYW1lIiA6ICJUaGVJbmRyYSIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9iNWU3NGU2M2IzZTAzNjE5YjU2MzZkZWY1ZDgwZTZmYTg4ZTVjZWJkZWFmZTQwOTA1Y2JhZDQ5ODU4MzYxMDYyIgogICAgfQogIH0KfQ",
+    "name": "Finwave Cloak",
+    "category": "CLOAK",
+    "tier": "EPIC",
+    "soulbound": "COOP",
+    "npc_sell_price": 9000,
+    "stats": {
+      "health": 15,
+      "health_regeneration": 1,
+      "fishing_speed": 8
+    },
+    "id": "FINWAVE_CLOAK"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY2MjU1OTQ2NDQzNiwKICAicHJvZmlsZUlkIiA6ICJiNTM5NTkyMjMwY2I0MmE0OWY5YTRlYmYxNmRlOTYwYiIsCiAgInByb2ZpbGVOYW1lIiA6ICJtYXJpYW5hZmFnIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzZmNWNiNDAxMjM5YTM0MTA2MzJjMWJmMDQwYzliNmIyNDkyZDI4MTliODhhMzYzMmYxZGUzZTBjZWVjMDg4MTIiCiAgICB9CiAgfQp9",
+    "name": "Gillsplash Gloves",
+    "category": "GLOVES",
+    "tier": "LEGENDARY",
+    "soulbound": "COOP",
+    "npc_sell_price": 9000,
+    "stats": {
+      "health": 20,
+      "health_regeneration": 2,
+      "fishing_speed": 12
+    },
+    "id": "GILLSPLASH_GLOVES"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY2MjQ4Nzc4MTYwNCwKICAicHJvZmlsZUlkIiA6ICJjOWRlZTM4MDUzYjg0YzI5YjZlZjA5YjJlMDM5OTc0ZiIsCiAgInByb2ZpbGVOYW1lIiA6ICJTQVJfRGVjZW1iZXI1IiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzY1MWMwOTQ1ODg4OGRhN2I2ZjY2YzVjYjFiYTFhMjFhNTNhMjkwNGZjZjFkZmRkYTUxMDNlZGI3M2ZhZWEwODciCiAgICB9CiAgfQp9",
+    "name": "Finwave Belt",
+    "category": "BELT",
+    "tier": "EPIC",
+    "soulbound": "COOP",
+    "npc_sell_price": 9000,
+    "stats": {
+      "health": 18,
+      "health_regeneration": 1,
+      "fishing_speed": 8
+    },
+    "id": "FINWAVE_BELT"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY2MjU1OTUxNTkwMSwKICAicHJvZmlsZUlkIiA6ICIxNmQ4NjI4NzYzMWY0NDY2OGQ0NDM2ZTJlY2IwNTllNSIsCiAgInByb2ZpbGVOYW1lIiA6ICJSZXphVG91cm5leSIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS80ZGRkZmU3MDEwMGU2OTBmMmZjNWFiOTljMDhhNGJjZGY0ZWUxZjg4MGYwOGQ0OTU4ZThiYzJiYjU2MjRmZjc5IgogICAgfQogIH0KfQ",
+    "name": "Gillsplash Cloak",
+    "category": "CLOAK",
+    "tier": "LEGENDARY",
+    "soulbound": "COOP",
+    "npc_sell_price": 9000,
+    "stats": {
+      "health": 25,
+      "health_regeneration": 2,
+      "fishing_speed": 12
+    },
+    "id": "GILLSPLASH_CLOAK"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY2MjU1OTQ5OTMwNywKICAicHJvZmlsZUlkIiA6ICJjMTNkYzkxZjg1YjA0ZWM4OGU2NDk5YzdjZDc4Zjk3MSIsCiAgInByb2ZpbGVOYW1lIiA6ICJjYXNzdGhlY3J5cHRpZCIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS80YzM3N2Q3NzY3YTE3ZTk4ZDZjOTUwYjMyMWFmN2VmZDA5YmFmMWRiZTY4MjE1MzNhMDEyZTlhYzJlMWIyNjczIgogICAgfQogIH0KfQ",
+    "name": "Ichthyic Gloves",
+    "category": "GLOVES",
+    "tier": "RARE",
+    "soulbound": "COOP",
+    "npc_sell_price": 4500,
+    "stats": {
+      "health": 8,
+      "fishing_speed": 4
+    },
+    "id": "ICHTHYIC_GLOVES"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY2MjQ4Nzc5NTIwNSwKICAicHJvZmlsZUlkIiA6ICI4M2EwYjZmOGVjMWI0YTU3OGQ2NmJlZDE2MmQ4M2I4MyIsCiAgInByb2ZpbGVOYW1lIiA6ICJTbmlwZWRfQnlfS2NhbHMiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTJkYzViZTUxZWZiODI3ZmZjNjk4NGZiYjcyNDNiNzBjNTRlNDBiMTNjNGJhYzRjM2ZlNmQ4YWQzMmZhNWViOSIKICAgIH0KICB9Cn0",
+    "name": "Gillsplash Belt",
+    "category": "BELT",
+    "tier": "LEGENDARY",
+    "soulbound": "COOP",
+    "npc_sell_price": 9000,
+    "stats": {
+      "health": 30,
+      "health_regeneration": 2,
+      "fishing_speed": 12
+    },
+    "id": "GILLSPLASH_BELT"
+  },
+  {
+    "material": "INK_SACK",
+    "durability": 15,
+    "name": "Great White Tooth Meal",
+    "tier": "LEGENDARY",
+    "npc_sell_price": 12000,
+    "description": "It smells like blood and fear.",
+    "id": "GREAT_WHITE_TOOTH_MEAL"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY2MjU1OTU0NTkzMywKICAicHJvZmlsZUlkIiA6ICI2NDU4Mjc0MjEyNDg0MDY0YTRkMDBlNDdjZWM4ZjcyZSIsCiAgInByb2ZpbGVOYW1lIiA6ICJUaDNtMXMiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmE4M2IxY2JlODU5MzY4MzgxMDlkNmE2NzBmNWI3ZGVlZDllYjEwNmViYTRjNzE4ZmJlMTE3OWNlOWMwYzkxYSIKICAgIH0KICB9Cn0",
+    "name": "Ichthyic Cloak",
+    "category": "CLOAK",
+    "tier": "RARE",
+    "soulbound": "COOP",
+    "npc_sell_price": 4500,
+    "stats": {
+      "health": 10,
+      "fishing_speed": 4
+    },
+    "id": "ICHTHYIC_CLOAK"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
+    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY2MjQ4Nzc2NjA4NSwKICAicHJvZmlsZUlkIiA6ICJiMDBmZWRjOTM0YmU0NWIxOGI3M2MyOTgzNjFjZTg3MSIsCiAgInByb2ZpbGVOYW1lIiA6ICJBbGRlcmJyYXVlIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2NhNjQzOGRmY2NjZmUyNmFmMzU2ZjIxNTE4OWJiYmZhYzM5NGUyOGNhZmQ5YjNjYmM0NmEzOWVhY2Q3MWQxMzAiCiAgICB9CiAgfQp9",
+    "name": "Ichthyic Belt",
+    "category": "BELT",
+    "tier": "RARE",
+    "soulbound": "COOP",
+    "npc_sell_price": 4500,
+    "stats": {
+      "health": 12,
+      "fishing_speed": 4
+    },
+    "id": "ICHTHYIC_BELT"
+  },
+  {
+    "material": "SKULL_ITEM",
+    "durability": 3,
     "skin": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTNjZmQ5NGU5MjVlYWI0MzMwYTc2OGFmY2FlNmMxMjhiMGEyOGUyMzE0OWVlZTQxYzljNmRmODk0YzI0ZjNkZSJ9fX0=",
     "name": "Campfire Cultist Badge",
     "category": "ACCESSORY",
@@ -92971,922 +94413,5 @@
       "bundled_amount": 9
     },
     "id": "ECCENTRIC_PAINTING_BUNDLE"
-  },
-  {
-    "material": "SKULL_ITEM",
-    "durability": 3,
-    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY0OTQzNjM2MDg1NywKICAicHJvZmlsZUlkIiA6ICIzYTNmNzhkZmExZjQ0OTllYjE5NjlmYzlkOTEwZGYwYyIsCiAgInByb2ZpbGVOYW1lIiA6ICJOb19jcmVyYXIiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2NlOWVlNmM5NDcyYTFmOThhYjlmNzg0NDc4NTQwNWRmYThiNTZkOGUyMzFjZDMyNjc1YWM1YmFhOTg0OWJlOSIKICAgIH0KICB9Cn0=",
-    "name": "Tropical Bird 1 Minion Skin",
-    "category": "COSMETIC",
-    "museum": true,
-    "id": "TROPICAL_BIRD_1_PERSONALITY"
-  },
-  {
-    "material": "FISHING_ROD",
-    "name": "Rod of Champions",
-    "category": "FISHING_ROD",
-    "tier": "RARE",
-    "stats": {
-      "damage": 90,
-      "strength": 80,
-      "sea_creature_chance": 4,
-      "fishing_speed": 90
-    },
-    "npc_sell_price": 17800,
-    "requirements": [
-      {
-        "type": "SKILL",
-        "skill": "FISHING",
-        "level": 15
-      }
-    ],
-    "id": "CHAMP_ROD"
-  },
-  {
-    "material": "FISHING_ROD",
-    "name": "Yeti Rod",
-    "category": "FISHING_ROD",
-    "tier": "EPIC",
-    "stats": {
-      "damage": 150,
-      "strength": 130,
-      "fishing_speed": 75
-    },
-    "npc_sell_price": 150000,
-    "requirements": [
-      {
-        "type": "SKILL",
-        "skill": "FISHING",
-        "level": 25
-      }
-    ],
-    "id": "YETI_ROD"
-  },
-  {
-    "material": "FISHING_ROD",
-    "name": "Starter Lava Rod",
-    "category": "FISHING_ROD",
-    "tier": "UNCOMMON",
-    "stats": {
-      "damage": 50,
-      "strength": 50,
-      "fishing_speed": 8
-    },
-    "requirements": [
-      {
-        "type": "SKILL",
-        "skill": "FISHING",
-        "level": 10
-      }
-    ],
-    "soulbound": "COOP",
-    "id": "STARTER_LAVA_ROD"
-  },
-  {
-    "material": "FISHING_ROD",
-    "name": "Rod of Legends",
-    "category": "FISHING_ROD",
-    "tier": "EPIC",
-    "stats": {
-      "damage": 130,
-      "strength": 120,
-      "sea_creature_chance": 6,
-      "fishing_speed": 105
-    },
-    "npc_sell_price": 111000,
-    "requirements": [
-      {
-        "type": "SKILL",
-        "skill": "FISHING",
-        "level": 20
-      }
-    ],
-    "id": "LEGEND_ROD"
-  },
-  {
-    "material": "FISHING_ROD",
-    "name": "Hellfire Rod",
-    "category": "FISHING_ROD",
-    "tier": "LEGENDARY",
-    "stats": {
-      "damage": 180,
-      "strength": 180,
-      "sea_creature_chance": 14,
-      "fishing_speed": 75
-    },
-    "requirements": [
-      {
-        "type": "SKILL",
-        "skill": "FISHING",
-        "level": 35
-      }
-    ],
-    "npc_sell_price": 5634000,
-    "can_have_attributes": true,
-    "salvageable_from_recipe": true,
-    "upgrade_costs": [
-      [
-        {
-          "type": "ITEM",
-          "item_id": "LUMP_OF_MAGMA",
-          "amount": 20
-        },
-        {
-          "type": "ITEM",
-          "item_id": "MAGMA_FISH_SILVER",
-          "amount": 1
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 50
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "MOOGMA_PELT",
-          "amount": 20
-        },
-        {
-          "type": "ITEM",
-          "item_id": "MAGMA_FISH_SILVER",
-          "amount": 2
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 80
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "PYROCLASTIC_SCALE",
-          "amount": 20
-        },
-        {
-          "type": "ITEM",
-          "item_id": "MAGMA_FISH_SILVER",
-          "amount": 3
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 100
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "CUP_OF_BLOOD",
-          "amount": 50
-        },
-        {
-          "type": "ITEM",
-          "item_id": "MAGMA_FISH_SILVER",
-          "amount": 40
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 160
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "FLAMING_HEART",
-          "amount": 70
-        },
-        {
-          "type": "ITEM",
-          "item_id": "MAGMA_FISH_SILVER",
-          "amount": 50
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 200
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "ORB_OF_ENERGY",
-          "amount": 80
-        },
-        {
-          "type": "ITEM",
-          "item_id": "MAGMA_FISH_SILVER",
-          "amount": 60
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 300
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "HORN_OF_TAURUS",
-          "amount": 90
-        },
-        {
-          "type": "ITEM",
-          "item_id": "MAGMA_FISH_SILVER",
-          "amount": 70
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 400
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "THUNDER_SHARDS",
-          "amount": 30
-        },
-        {
-          "type": "ITEM",
-          "item_id": "MAGMA_FISH_GOLD",
-          "amount": 30
-        },
-        {
-          "type": "ITEM",
-          "item_id": "HEAVY_PEARL",
-          "amount": 3
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 1000
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "MAGMA_LORD_FRAGMENT",
-          "amount": 25
-        },
-        {
-          "type": "ITEM",
-          "item_id": "MAGMA_FISH_GOLD",
-          "amount": 40
-        },
-        {
-          "type": "ITEM",
-          "item_id": "HEAVY_PEARL",
-          "amount": 4
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 1200
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "MAGMA_LORD_FRAGMENT",
-          "amount": 30
-        },
-        {
-          "type": "ITEM",
-          "item_id": "MAGMA_FISH_GOLD",
-          "amount": 50
-        },
-        {
-          "type": "ITEM",
-          "item_id": "HEAVY_PEARL",
-          "amount": 5
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 1600
-        }
-      ]
-    ],
-    "id": "HELLFIRE_ROD"
-  },
-  {
-    "material": "FISHING_ROD",
-    "name": "Ice Rod",
-    "category": "FISHING_ROD",
-    "tier": "RARE",
-    "stats": {
-      "damage": 30,
-      "fishing_speed": 15
-    },
-    "npc_sell_price": 20000,
-    "requirements": [
-      {
-        "type": "SKILL",
-        "skill": "FISHING",
-        "level": 3
-      }
-    ],
-    "museum": true,
-    "id": "ICE_ROD"
-  },
-  {
-    "material": "FISHING_ROD",
-    "name": "Phantom Rod",
-    "category": "FISHING_WEAPON",
-    "tier": "LEGENDARY",
-    "stats": {
-      "damage": 200,
-      "strength": 125,
-      "fishing_speed": 100
-    },
-    "npc_sell_price": 1000,
-    "dungeon_item_conversion_cost": {
-      "essence_type": "UNDEAD",
-      "amount": 500
-    },
-    "upgrade_costs": [
-      [
-        {
-          "type": "ESSENCE",
-          "essence_type": "UNDEAD",
-          "amount": 200
-        }
-      ],
-      [
-        {
-          "type": "ESSENCE",
-          "essence_type": "UNDEAD",
-          "amount": 300
-        }
-      ],
-      [
-        {
-          "type": "ESSENCE",
-          "essence_type": "UNDEAD",
-          "amount": 400
-        }
-      ],
-      [
-        {
-          "type": "ESSENCE",
-          "essence_type": "UNDEAD",
-          "amount": 500
-        }
-      ],
-      [
-        {
-          "type": "ESSENCE",
-          "essence_type": "UNDEAD",
-          "amount": 600
-        }
-      ]
-    ],
-    "requirements": [
-      {
-        "type": "SKILL",
-        "skill": "FISHING",
-        "level": 21
-      }
-    ],
-    "id": "PHANTOM_ROD"
-  },
-  {
-    "material": "FISHING_ROD",
-    "name": "Auger Rod",
-    "category": "FISHING_ROD",
-    "tier": "LEGENDARY",
-    "stats": {
-      "damage": 135,
-      "strength": 90,
-      "fishing_speed": 110
-    },
-    "requirements": [
-      {
-        "type": "SKILL",
-        "skill": "FISHING",
-        "level": 25
-      }
-    ],
-    "id": "AUGER_ROD"
-  },
-  {
-    "material": "FISHING_ROD",
-    "name": "Magma Rod",
-    "category": "FISHING_ROD",
-    "tier": "RARE",
-    "stats": {
-      "damage": 150,
-      "strength": 150,
-      "sea_creature_chance": 6,
-      "fishing_speed": 40
-    },
-    "requirements": [
-      {
-        "type": "SKILL",
-        "skill": "FISHING",
-        "level": 27
-      }
-    ],
-    "npc_sell_price": 8000,
-    "can_have_attributes": true,
-    "salvageable_from_recipe": true,
-    "upgrade_costs": [
-      [
-        {
-          "type": "ITEM",
-          "item_id": "LUMP_OF_MAGMA",
-          "amount": 20
-        },
-        {
-          "type": "ITEM",
-          "item_id": "MAGMA_FISH_SILVER",
-          "amount": 1
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 50
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "MOOGMA_PELT",
-          "amount": 20
-        },
-        {
-          "type": "ITEM",
-          "item_id": "MAGMA_FISH_SILVER",
-          "amount": 2
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 80
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "PYROCLASTIC_SCALE",
-          "amount": 20
-        },
-        {
-          "type": "ITEM",
-          "item_id": "MAGMA_FISH_SILVER",
-          "amount": 3
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 100
-        }
-      ]
-    ],
-    "id": "MAGMA_ROD"
-  },
-  {
-    "material": "FISHING_ROD",
-    "name": "Challenging Rod",
-    "category": "FISHING_ROD",
-    "tier": "RARE",
-    "stats": {
-      "damage": 60,
-      "strength": 60,
-      "sea_creature_chance": 2,
-      "fishing_speed": 75
-    },
-    "npc_sell_price": 5000,
-    "requirements": [
-      {
-        "type": "SKILL",
-        "skill": "FISHING",
-        "level": 10
-      }
-    ],
-    "id": "CHALLENGE_ROD"
-  },
-  {
-    "material": "FISHING_ROD",
-    "name": "Shredder",
-    "category": "FISHING_WEAPON",
-    "tier": "LEGENDARY",
-    "stats": {
-      "damage": 120,
-      "ferocity": 50,
-      "fishing_speed": 115
-    },
-    "npc_sell_price": 1000,
-    "requirements": [
-      {
-        "type": "SKILL",
-        "skill": "FISHING",
-        "level": 20
-      }
-    ],
-    "id": "THE_SHREDDER"
-  },
-  {
-    "material": "FISHING_ROD",
-    "name": "Speedster Rod",
-    "category": "FISHING_ROD",
-    "tier": "UNCOMMON",
-    "stats": {
-      "damage": 30,
-      "strength": 15,
-      "fishing_speed": 45
-    },
-    "npc_sell_price": 1000,
-    "requirements": [
-      {
-        "type": "SKILL",
-        "skill": "FISHING",
-        "level": 6
-      }
-    ],
-    "museum": true,
-    "id": "SPEEDSTER_ROD"
-  },
-  {
-    "material": "FISHING_ROD",
-    "name": "Farmer's Rod",
-    "category": "FISHING_ROD",
-    "tier": "UNCOMMON",
-    "stats": {
-      "damage": 50,
-      "strength": 20,
-      "fishing_speed": 60
-    },
-    "npc_sell_price": 1050,
-    "requirements": [
-      {
-        "type": "SKILL",
-        "skill": "FISHING",
-        "level": 8
-      }
-    ],
-    "museum": true,
-    "id": "FARMER_ROD"
-  },
-  {
-    "material": "FISHING_ROD",
-    "name": "Inferno Rod",
-    "category": "FISHING_ROD",
-    "tier": "EPIC",
-    "stats": {
-      "damage": 170,
-      "strength": 170,
-      "sea_creature_chance": 10,
-      "fishing_speed": 60
-    },
-    "requirements": [
-      {
-        "type": "SKILL",
-        "skill": "FISHING",
-        "level": 30
-      }
-    ],
-    "npc_sell_price": 1028000,
-    "can_have_attributes": true,
-    "salvageable_from_recipe": true,
-    "upgrade_costs": [
-      [
-        {
-          "type": "ITEM",
-          "item_id": "LUMP_OF_MAGMA",
-          "amount": 20
-        },
-        {
-          "type": "ITEM",
-          "item_id": "MAGMA_FISH_SILVER",
-          "amount": 1
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 50
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "MOOGMA_PELT",
-          "amount": 20
-        },
-        {
-          "type": "ITEM",
-          "item_id": "MAGMA_FISH_SILVER",
-          "amount": 2
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 80
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "PYROCLASTIC_SCALE",
-          "amount": 20
-        },
-        {
-          "type": "ITEM",
-          "item_id": "MAGMA_FISH_SILVER",
-          "amount": 3
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 100
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "CUP_OF_BLOOD",
-          "amount": 50
-        },
-        {
-          "type": "ITEM",
-          "item_id": "MAGMA_FISH_SILVER",
-          "amount": 40
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 160
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "FLAMING_HEART",
-          "amount": 70
-        },
-        {
-          "type": "ITEM",
-          "item_id": "MAGMA_FISH_SILVER",
-          "amount": 50
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 200
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "ORB_OF_ENERGY",
-          "amount": 80
-        },
-        {
-          "type": "ITEM",
-          "item_id": "MAGMA_FISH_SILVER",
-          "amount": 60
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 300
-        }
-      ],
-      [
-        {
-          "type": "ITEM",
-          "item_id": "HORN_OF_TAURUS",
-          "amount": 90
-        },
-        {
-          "type": "ITEM",
-          "item_id": "MAGMA_FISH_SILVER",
-          "amount": 70
-        },
-        {
-          "type": "ESSENCE",
-          "essence_type": "CRIMSON",
-          "amount": 400
-        }
-      ]
-    ],
-    "id": "INFERNO_ROD"
-  },
-  {
-    "material": "FISHING_ROD",
-    "name": "Sponge Rod",
-    "category": "FISHING_ROD",
-    "stats": {
-      "damage": 20,
-      "strength": 15,
-      "fishing_speed": 30
-    },
-    "npc_sell_price": 36,
-    "requirements": [
-      {
-        "type": "SKILL",
-        "skill": "FISHING",
-        "level": 5
-      }
-    ],
-    "museum": true,
-    "id": "SPONGE_ROD"
-  },
-  {
-    "material": "FISHING_ROD",
-    "name": "Prismarine Rod",
-    "category": "FISHING_ROD",
-    "stats": {
-      "damage": 15,
-      "strength": 10,
-      "fishing_speed": 15
-    },
-    "npc_sell_price": 10,
-    "requirements": [
-      {
-        "type": "SKILL",
-        "skill": "FISHING",
-        "level": 3
-      }
-    ],
-    "museum": true,
-    "id": "PRISMARINE_ROD"
-  },
-  {
-    "material": "EMPTY_MAP",
-    "name": "Travel Scroll to Dragontail",
-    "category": "TRAVEL_SCROLL",
-    "tier": "EPIC",
-    "id": "DRAGONTAIL_TRAVEL_SCROLL"
-  },
-  {
-    "material": "EMPTY_MAP",
-    "name": "Travel Scroll to Jungle Island",
-    "category": "TRAVEL_SCROLL",
-    "tier": "EPIC",
-    "id": "PARK_JUNGLE_TRAVEL_SCROLL"
-  },
-  {
-    "material": "EMPTY_MAP",
-    "name": "Travel Scroll to Museum",
-    "category": "TRAVEL_SCROLL",
-    "tier": "EPIC",
-    "id": "MUSEUM_TRAVEL_SCROLL"
-  },
-  {
-    "material": "EMPTY_MAP",
-    "name": "Travel Scroll to Deep Caverns",
-    "category": "TRAVEL_SCROLL",
-    "tier": "RARE",
-    "id": "MINING_2_TRAVEL_SCROLL"
-  },
-  {
-    "material": "EMPTY_MAP",
-    "name": "Travel Scroll to Dwarven Mines",
-    "category": "TRAVEL_SCROLL",
-    "tier": "RARE",
-    "soulbound": "COOP",
-    "id": "MINING_3_TRAVEL_SCROLL"
-  },
-  {
-    "material": "EMPTY_MAP",
-    "name": "Travel Scroll to the Barn",
-    "category": "TRAVEL_SCROLL",
-    "tier": "RARE",
-    "id": "FARMING_1_TRAVEL_SCROLL"
-  },
-  {
-    "material": "EMPTY_MAP",
-    "name": "Travel Scroll to Mushroom Island",
-    "category": "TRAVEL_SCROLL",
-    "tier": "RARE",
-    "id": "FARMING_2_TRAVEL_SCROLL"
-  },
-  {
-    "material": "EMPTY_MAP",
-    "name": "Travel Scroll to the Kuudra Passage",
-    "category": "TRAVEL_SCROLL",
-    "tier": "EPIC",
-    "id": "WASTELAND_TRAVEL_SCROLL"
-  },
-  {
-    "material": "EMPTY_MAP",
-    "name": "Travel Scroll to the Crystal Hollows",
-    "category": "TRAVEL_SCROLL",
-    "tier": "RARE",
-    "id": "CRYSTAL_HOLLOWS_TRAVEL_SCROLL"
-  },
-  {
-    "material": "EMPTY_MAP",
-    "name": "Travel Scroll to Spider's Den",
-    "category": "TRAVEL_SCROLL",
-    "tier": "RARE",
-    "id": "DANGER_1_TRAVEL_SCROLL"
-  },
-  {
-    "material": "EMPTY_MAP",
-    "name": "Travel Scroll to the Crimson Isle",
-    "category": "TRAVEL_SCROLL",
-    "tier": "RARE",
-    "id": "DANGER_2_TRAVEL_SCROLL"
-  },
-  {
-    "material": "EMPTY_MAP",
-    "name": "Travel Scroll to Hub Castle",
-    "category": "TRAVEL_SCROLL",
-    "tier": "EPIC",
-    "id": "HUB_CASTLE_TRAVEL_SCROLL"
-  },
-  {
-    "material": "EMPTY_MAP",
-    "name": "Travel Scroll to Dragon's Nest",
-    "category": "TRAVEL_SCROLL",
-    "tier": "EPIC",
-    "id": "DRAGON_NEST_TRAVEL_SCROLL"
-  },
-  {
-    "material": "EMPTY_MAP",
-    "name": "Travel Scroll to Howling Cave",
-    "category": "TRAVEL_SCROLL",
-    "tier": "EPIC",
-    "id": "PARK_CAVE_TRAVEL_SCROLL"
-  },
-  {
-    "material": "EMPTY_MAP",
-    "name": "Travel Scroll to The Park",
-    "category": "TRAVEL_SCROLL",
-    "tier": "RARE",
-    "id": "FORAGING_1_TRAVEL_SCROLL"
-  },
-  {
-    "material": "EMPTY_MAP",
-    "name": "Travel Scroll to the Crystal Nucleus",
-    "category": "TRAVEL_SCROLL",
-    "tier": "EPIC",
-    "soulbound": "SOLO",
-    "id": "CRYSTAL_NUCLEUS_TRAVEL_SCROLL"
-  },
-  {
-    "material": "EMPTY_MAP",
-    "name": "Travel Scroll to Scarleton",
-    "category": "TRAVEL_SCROLL",
-    "tier": "EPIC",
-    "id": "SCARLETON_TRAVEL_SCROLL"
-  },
-  {
-    "material": "EMPTY_MAP",
-    "name": "Travel Scroll to Dark Auction",
-    "category": "TRAVEL_SCROLL",
-    "tier": "EPIC",
-    "id": "HUB_DA_TRAVEL_SCROLL"
-  },
-  {
-    "material": "EMPTY_MAP",
-    "name": "Travel Scroll to the End",
-    "category": "TRAVEL_SCROLL",
-    "tier": "RARE",
-    "npc_sell_price": 100,
-    "id": "DANGER_3_TRAVEL_SCROLL"
-  },
-  {
-    "material": "EMPTY_MAP",
-    "name": "Travel Scroll to the Dwarven Forge",
-    "category": "TRAVEL_SCROLL",
-    "tier": "RARE",
-    "id": "FORGE_TRAVEL_SCROLL"
-  },
-  {
-    "material": "EMPTY_MAP",
-    "name": "Dusty Travel Scroll to the Kuudra Skull",
-    "category": "TRAVEL_SCROLL",
-    "tier": "EPIC",
-    "id": "NETHER_FORTRESS_BOSS_TRAVEL_SCROLL"
-  },
-  {
-    "material": "EMPTY_MAP",
-    "name": "Travel Scroll to the Gold Mine",
-    "category": "TRAVEL_SCROLL",
-    "tier": "RARE",
-    "id": "MINING_1_TRAVEL_SCROLL"
-  },
-  {
-    "material": "EMPTY_MAP",
-    "name": "Travel Scroll to Spider's Den Top of Nest",
-    "category": "TRAVEL_SCROLL",
-    "tier": "EPIC",
-    "id": "SPIDERS_DEN_TOP_TRAVEL_SCROLL"
-  },
-  {
-    "material": "SKULL_ITEM",
-    "durability": 3,
-    "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY0OTQzNjM5MDc5NywKICAicHJvZmlsZUlkIiA6ICJmMjc0YzRkNjI1MDQ0ZTQxOGVmYmYwNmM3NWIyMDIxMyIsCiAgInByb2ZpbGVOYW1lIiA6ICJIeXBpZ3NlbCIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS83ZDNjYzE2OTg0N2I0ZWYyOTM4ZmNmN2Y4Yzg0NzAxMTI1ZjlmYWY5MTBjZDA4MjBlY2Q2ZmRjZmNhZjViOGIiCiAgICB9CiAgfQp9",
-    "name": "Tropical Bird 2 Minion Skin",
-    "category": "COSMETIC",
-    "museum": true,
-    "id": "TROPICAL_BIRD_2_PERSONALITY"
   }
 ]

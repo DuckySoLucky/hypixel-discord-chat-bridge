@@ -150,8 +150,6 @@ The bot also includes automatic guild accept if the user meets requirements. The
 - `!help` - Shows help menu.
 - `!kitty` - Random image of cute cat.
 - `!math <calculation>` - Calculate.
-- `!namehistory [player]` - Name History of specified user.
-- `!news` - Check latest Hypixel Network News.
 - `!networth [player]` - Networth of specified user.
 - `!pet [player]` - Renders active pet of specified user.
 - `!render [player] [slot]` - Renders item of specified user.

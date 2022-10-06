@@ -127,6 +127,11 @@
     "SkyBlock Hex Disabled | Monitoring - A fix has been implemented, the hex is now re-enabled and we are monitoring the results. | Sep 7, 12:46 EDT",
     "SkyBlock Hex Disabled | Identified - An issue has been identified with the Hex and a fix is being implemented. | Sep 6, 05:50 EDT",
     "SkyBlock Bazaar Disabled | Resolved - This incident has been resolved. | Sep 5, 14:28 EDT",
-    "SkyBlock Bazaar Disabled | Monitoring - A fix has been implemented and we are monitoring the results. | Sep 4, 20:00 EDT"
+    "SkyBlock Bazaar Disabled | Monitoring - A fix has been implemented and we are monitoring the results. | Sep 4, 20:00 EDT",
+    "High latency for Europe connections | Resolved - This incident has been resolved. | Oct 3, 19:05 EDT",
+    "High latency for Europe connections | Monitoring - Our upstream provider has implemented a fix and we are monitoring. | Oct 3, 17:23 EDT",
+    "High latency for Europe connections | Investigating - We are currently investigating an issue with our upstream provider resulting in higher latency for players in Europe. | Oct 3, 13:00 EDT",
+    "SkyBlock Bazaar Disabled | Identified - The Bazaar is currently disabled due to exploits, we have identified the issue and are working to resolve it. | Sep 4, 16:57 EDT",
+    "SkyBlock Dungeons Disabled | Resolved - This incident has been resolved. | Sep 1, 11:41 EDT"
   ]
 }
