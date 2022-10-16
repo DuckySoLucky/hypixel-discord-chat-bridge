@@ -2,7 +2,7 @@ const config = require('../../../config.json')
 const { EmbedBuilder } = require("discord.js")
 
 module.exports = {
-  name: 'override',
+  name: 'execute',
   description: 'Executes commands as the minecraft bot.',
   options: [
     {

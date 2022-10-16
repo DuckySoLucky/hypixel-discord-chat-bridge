@@ -11,6 +11,7 @@ module.exports = {
 
             try {
                 Logger.discordMessage(`${interaction.user.username} - [${interaction.commandName}]`)
+                bridgeChat = interaction.channelId;
                 await command.execute(interaction, interaction.client)
             } catch (error) {
                 console.log(error)

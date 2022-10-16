@@ -1,12 +1,11 @@
-const constants = require("./constants");
-const nbt = require("prismarine-nbt");
-const moment = require("moment");
-const parseNbt = require("util").promisify(nbt.parse);
+const constants = require('./constants');
+const nbt = require('prismarine-nbt');
+const parseNbt = require('util').promisify(nbt.parse);
 
 const slots = {
   normal: Object.keys(constants.gemstones),
-  special: ["UNIVERSAL", "COMBAT", "OFFENSIVE", "DEFENSIVE", "MINING"],
-  ignore: ["unlocked_slots"],
+  special: ['UNIVERSAL', 'COMBAT', 'OFFENSIVE', 'DEFENSIVE', 'MINING'],
+  ignore: ['unlocked_slots']
 };
 
 const getKey = function (key) {
@@ -20,7 +19,7 @@ const getKey = function (key) {
 };
 
 const decodeNBT = async function (data) {
-  const buffer = Buffer.from(data, "base64");
+  const buffer = Buffer.from(data, 'base64');
   const item = await parseNbt(buffer);
 
   if (item === undefined) {
@@ -49,8 +48,8 @@ const getPath = function (obj, ...keys) {
 };
 
 const getRawLore = function (text) {
-  const parts = text.split("§");
-  let output = "";
+  const parts = text.split('§');
+  let output = '';
 
   for (const [index, part] of parts.entries()) {
     output += part.substring(Math.min(index, 1));
@@ -63,20 +62,20 @@ const removeReforge = function (text) {
   const items = constants.forge_items;
 
   if (!items.includes(text)) {
-    text = text.split(" ").slice(1).join(" ");
+    text = text.split(' ').slice(1).join(' ');
   }
 
   return text;
 };
 
 const capitalize = function (str) {
-  const words = str.replace(/_/g, " ").toLowerCase().split(" ");
+  const words = str.replace(/_/g, ' ').toLowerCase().split(' ');
 
-  const upperCased = words.map((word) => {
+  const upperCased = words.map(word => {
     return word.charAt(0).toUpperCase() + word.substr(1);
   });
 
-  return upperCased.join(" ");
+  return upperCased.join(' ');
 };
 
 const parseItemGems = function (gems) {
@@ -85,19 +84,12 @@ const parseItemGems = function (gems) {
   for (const [key, value] of Object.entries(gems)) {
     if (slots.ignore.includes(key)) continue;
 
-    const slot_type = key.split("_")[0];
+    const slot_type = key.split('_')[0];
 
     if (slots.special.includes(slot_type)) {
-      if (key.includes("_gem")) {
-        parsed.push({
-          type: gems[`${key}`],
-          tier: gems[`${key.replace("_gem", "")}`],
-        });
-      } else {
-        parsed.push({ type: gems[`${key}_gem`], tier: value });
-      }
+      parsed.push({ type: gems[`${key}_gem`], tier: value });
     } else if (slots.normal.includes(slot_type)) {
-      parsed.push({ type: key.split("_")[0], tier: value });
+      parsed.push({ type: key.split('_')[0], tier: value });
     }
   }
 
@@ -164,19 +156,20 @@ const getMode = function (numbers) {
 };
 
 const toTimestamp = function (timestamp) {
-  return Date.parse(timestamp) / 1000;
-};
+  return Date.parse(timestamp)/1000
+}
 
-const nth = function (i) {
-  return i + ["st", "nd", "rd"][((((i + 90) % 100) - 10) % 10) - 1] || `${i}th`;
-};
+const nth = function(i) {
+  return i + ['st', 'nd', 'rd'][((((i + 90) % 100) - 10) % 10) - 1] || `${i}th`;
+}
+
 
 // CREDITS: https://github.com/grafana/grafana (Modified)
 
-const units = new Set(["y", "M", "w", "d", "h", "m", "s"]);
+const units = new Set(['y', 'M', 'w', 'd', 'h', 'm', 's']);
 
 function parseDateMath(mathString, time) {
-  const strippedMathString = mathString.replace(/\s/g, "");
+  const strippedMathString = mathString.replace(/\s/g, '');
   const dateTime = time;
   let i = 0;
   const { length } = strippedMathString;
@@ -187,11 +180,11 @@ function parseDateMath(mathString, time) {
     let type;
     let number;
 
-    if (c === "/") {
+    if (c === '/') {
       type = 0;
-    } else if (c === "+") {
+    } else if (c === '+') {
       type = 1;
-    } else if (c === "-") {
+    } else if (c === '-') {
       type = 2;
     } else {
       return;
@@ -234,10 +227,10 @@ function parseDateMath(mathString, time) {
   return dateTime;
 }
 
-const parseTimestamp = function (text) {
+const parseTimestamp = function(text) {
   if (!text) return;
 
-  if (typeof text !== "string") {
+  if (typeof text !== 'string') {
     if (moment.isMoment(text)) {
       return text;
     }
@@ -248,18 +241,18 @@ const parseTimestamp = function (text) {
   }
 
   let time;
-  let mathString = "";
+  let mathString = '';
   let index;
   let parseString;
 
-  if (text.slice(0, 3) === "now") {
+  if (text.slice(0, 3) === 'now') {
     time = moment.utc();
     mathString = text.slice(3);
   } else {
-    index = text.indexOf("||");
+    index = text.indexOf('||');
     if (index === -1) {
       parseString = text;
-      mathString = "";
+      mathString = '';
     } else {
       parseString = text.slice(0, Math.max(0, index));
       mathString = text.slice(Math.max(0, index + 2));
@@ -274,20 +267,6 @@ const parseTimestamp = function (text) {
 
   const dateMath = parseDateMath(mathString, time);
   return dateMath ? dateMath.valueOf() : undefined;
-};
+}
 
-module.exports = {
-  getPath,
-  decodeNBT,
-  getRawLore,
-  capitalize,
-  parseItemGems,
-  removeReforge,
-  getAverage,
-  getMedian,
-  getMean,
-  getMode,
-  toTimestamp,
-  nth,
-  parseTimestamp,
-};
+module.exports = { getPath, decodeNBT, getRawLore, capitalize, parseItemGems, removeReforge, getAverage, getMedian, getMean, getMode, toTimestamp, parseTimestamp, nth };

@@ -1,38 +1,36 @@
-const EventHandler = require('../../contracts/EventHandler')
-const Logger = require('../.././Logger')
+const EventHandler = require("../../contracts/EventHandler");
+const Logger = require("../.././Logger");
 
 class StateHandler extends EventHandler {
   constructor(minecraft) {
-    super()
+    super();
 
-    this.minecraft = minecraft
+    this.minecraft = minecraft;
   }
 
   registerEvents(bot) {
-    this.bot = bot
+    this.bot = bot;
 
-    this.bot.on('error', (...args) => this.onError(...args))
+    this.bot.on("error", (...args) => this.onError(...args));
   }
 
   onError(error) {
-    if (this.isConnectionResetError(error)) {
-      return
-    }
-
+    if (this.isConnectionResetError(error)) return;
+  
     if (this.isConnectionRefusedError(error)) {
-      return Logger.errorMessage('Connection refused while attempting to login via the Minecraft client')
+      return Logger.errorMessage("Connection refused while attempting to login via the Minecraft client");
     }
 
-    Logger.warnMessage(error)
+    Logger.warnMessage(error);
   }
 
   isConnectionResetError(error) {
-    return error.hasOwnProperty('code') && error.code == 'ECONNRESET'
+    return error.hasOwnProperty("code") && error.code == "ECONNRESET";
   }
 
   isConnectionRefusedError(error) {
-    return error.hasOwnProperty('code') && error.code == 'ECONNREFUSED'
+    return error.hasOwnProperty("code") && error.code == "ECONNREFUSED";
   }
 }
 
-module.exports = StateHandler
+module.exports = StateHandler;

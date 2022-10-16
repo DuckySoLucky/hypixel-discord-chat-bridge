@@ -1,16 +1,9 @@
-const { getUUID } = require('../API/PlayerDBAPI')
-const config = require('../../../config.json')
-const axios = require('axios')
+const { calculateTotalSenitherWeight,} = require("../../../API/stats/senitherWeight");
+const { getLatestProfile } = require("../../../API/functions/getLatestProfile");
 
-async function getSenitherWeight(uuid) {
-  const weight = (await axios.get(`https://hypixel-api.senither.com/v1/profiles/${uuid}/weight?key=${config.api.hypixelAPIkey}`)).data
-  return weight
+async function getSenitherWeight(username) {
+  const profile = await getLatestProfile(username);
+  return await calculateTotalSenitherWeight(profile.profile);
 }
 
-async function getSenitherWeightUsername(username) {
-  const uuid = await getUUID(username)
-  const weight = (await axios.get(`https://hypixel-api.senither.com/v1/profiles/${uuid}/weight?key=${config.api.hypixelAPIkey}`)).data.data
-  return weight
-}
-
-module.exports = { getSenitherWeight, getSenitherWeightUsername }
+module.exports = { getSenitherWeight, getSenitherWeight };

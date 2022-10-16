@@ -5,6 +5,7 @@ async function getProfile(username, profile) {
     try {
         const response = await axios.get(`${config.api.skyHelperAPI}/profiles/${username}?key=${config.api.skyHelperKey}`)
         if(response.data.status == 404){return 'ERROR There is no player with the given UUID or name or the player has no Skyblock profiles'}
+        // I have no idea what's going on here but I will keep it in case someone uses it ;-;
         if (profile != undefined) {
             for (let i = 0; i < Object.keys(response.data.data).length; i++) {
                 if (response.data.data[i].name == profile) {
