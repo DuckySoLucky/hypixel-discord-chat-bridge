@@ -149,7 +149,7 @@ The bot also includes automatic guild accept if the user meets requirements. The
 - `!guildexp [player]` - Guilds experience of specified user.
 - `!help` - Shows help menu.
 - `!kitty` - Random image of cute cat.
-- `!math <calculation>` - Calculate.
+- `!math <calculation>` - Calculate any kind of math problem.
 - `!networth [player]` - Networth of specified user.
 - `!pet [player]` - Renders active pet of specified user.
 - `!render [player] [slot]` - Renders item of specified user.
