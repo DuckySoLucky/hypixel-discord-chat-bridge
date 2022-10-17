@@ -25,5 +25,5 @@ if (config.event.enabled) {
                 }
             }
         }
-    }, 5000);
+    }, 60000);
 }
