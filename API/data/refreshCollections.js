@@ -25,12 +25,12 @@ module.exports = async () => {
                 });
             }
         }
-        fs.writeFileSync('./data/collections.json', JSON.stringify(collections, null, 2), (err) => {
+        fs.writeFileSync(__dirname + '/collections.json', JSON.stringify(collections, null, 2), (err) => {
             console.log(err);
         });
 
         const items_res = (await axios.get('https://api.hypixel.net/resources/skyblock/items')).data.items;
-        fs.writeFileSync('../json/items.json', JSON.stringify(items_res, null, 2));
+        fs.writeFileSync(__dirname + '/items.json', JSON.stringify(items_res, null, 2));
     }
 
     await refreshCollections();

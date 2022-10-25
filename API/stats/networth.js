@@ -1,5 +1,4 @@
-const itemGenerator = require("../constants/maro_networth/generators/itemGenerator");
-const networthGenerator = require("../constants/maro_networth/generators/networthGenerator");
+const { getNetworth, getPrices } = require("skyhelper-networth")
 const config = require("../config.json");
 const fs = require("fs");
 

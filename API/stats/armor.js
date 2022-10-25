@@ -1,4 +1,4 @@
-const { toTimestamp } = require("../constants/maro_networth/src/helper");
+const { toTimestamp } = require("../functions/helper");
 const { decodeData } = require("../utils/nbt");
 
 module.exports = async (profile) => {

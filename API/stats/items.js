@@ -1,5 +1,5 @@
 const { decodeData } = require("../utils/nbt");
-const { toTimestamp } = require("../constants/maro_networth/src/helper");
+const { toTimestamp } = require("../functions/helper");
 const { toFixed } = require("../constants/functions");
 
 module.exports = async (profile) => {

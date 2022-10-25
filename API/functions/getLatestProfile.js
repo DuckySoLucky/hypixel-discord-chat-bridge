@@ -21,7 +21,7 @@ async function getLatestProfile(uuid) {
 
         const player = parseHypixel(playerRes, uuid);
 
-        if (!profileRes.data.hasOwnProperty('profiles') && !profileRes.data.profiles)  return ({ status: 404, reason: `Found no SkyBlock profiles for a user with a UUID of '${uuid}'.` });
+        if (!profileRes.data.hasOwnProperty('profiles') || !profileRes.data.profiles)  return ({ status: 404, reason: `Found no SkyBlock profiles for a user with a UUID of '${uuid}'.` });
         
         const profileData = profileRes.data.profiles.find((a) => a.selected);
         const profile = profileData.members[uuid];

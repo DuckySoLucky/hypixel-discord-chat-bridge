@@ -1,5 +1,5 @@
 // CREDITS: https://github.com/slothpixel/core (Modified)
-const { nth, parseTimestamp } = require("./maro_networth/src/helper");
+const { nth, parseTimestamp } = require("../functions/helper");
 
 const months = [
   "Early Spring",

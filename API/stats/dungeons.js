@@ -58,7 +58,7 @@ module.exports = (player, profile) => {
         },
         fastest: master_catacombs?.fastest_time[i] ?? 0,
         fastest_s: master_catacombs?.fastest_time_s[i] ?? 0,
-        fastest_s_plus: master_catacombs?.fastest_time_s_plus[i] ?? 0,
+        fastest_s_plus: master_catacombs?.fastest_time_s_plus?.[i] || 0,
         mobs_killed: master_catacombs?.mobs_killed[i] ?? 0,
       };
     }

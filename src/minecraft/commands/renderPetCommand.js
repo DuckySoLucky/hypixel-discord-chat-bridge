@@ -5,7 +5,7 @@ const { getRarityColor } = require('../../contracts/helperFunctions')
 const MinecraftCommand = require('../../contracts/MinecraftCommand')
 const { renderLore } = require('../../contracts/renderItem')
 const { getLatestProfile } = require('../../../API/functions/getLatestProfile');
-const { getPets } = require('../../../API/stats/pets')
+const getPets = require('../../../API/stats/pets')
 
 class renderCommand extends MinecraftCommand {
   constructor(minecraft) {
@@ -24,8 +24,8 @@ class renderCommand extends MinecraftCommand {
       if (arg[0]) username = arg[0]
       const data = await getLatestProfile(username)
       username = data.profileData?.game_mode ? `♲ ${username}` : username
-      const profile = await getPets(data.profile) 
-      for (const pet of profile) {
+      const profile = getPets(data.profile) 
+      for (const pet of profile.pets) {
         if (pet.active) {
           const lore = pet.lore
           let newLore = [], newLine = []
@@ -46,7 +46,7 @@ class renderCommand extends MinecraftCommand {
             }
           }
 
-          const renderedItem = await renderLore(`§7[${pet.level}] §${getRarityColor(pet.tier)}${pet.display_name}`, newLore)
+          const renderedItem = await renderLore(`§7[Lvl ${pet.level}] §${getRarityColor(pet.tier)}${pet.display_name}`, newLore)
           const upload = await imgurClient.upload({image: renderedItem, type: 'stream'})
           return this.send(`/gc ${username}'s Active Pet » ${upload.data.link ?? 'Something went Wrong..'}`)
         }

@@ -8,6 +8,7 @@ const config = require("../../config.json");
 const Logger = require(".././Logger");
 const path = require("node:path");
 const fs = require("fs");
+const { kill } = require("node:process");
 let channel;
 
 class DiscordManager extends CommunicationBridge {
@@ -60,7 +61,12 @@ class DiscordManager extends CommunicationBridge {
 
     global.guild = await client.guilds.fetch(config.discord.serverID);
 
-    process.on("SIGINT", () => this.stateHandler.onClose());
+    process.on("SIGINT", () => {
+      this.stateHandler.onClose().then(() => {
+        client.destroy()
+        kill(process.pid);
+      });
+    });
   }
 
   async getChannel(type) {

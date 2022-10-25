@@ -32,10 +32,7 @@ module.exports = async function refresAuctions() {
             )}%`
           );
       }
-      fs.writeFileSync(
-        "API/data/auctions.json",
-        JSON.stringify(auctions, null, 2)
-      );
+      fs.writeFileSync(__dirname + "/auctions.json", JSON.stringify(auctions, null, 2));
       if (config.auctionHouse.refreshMessage)
         console.log("[AUCTIONS] Auctions updated successfully");
     } else {
