@@ -31,6 +31,22 @@ _Older versions may also work, but have not been tested._
 
 ### Setup Guide
 
+To get started, clone down the repository using:
+
+    git clone https://github.com/DuckySoLucky/hypixel-discord-chat-bridge.git
+
+Next go into the `hypixel-discord-chat-bridge` folder and install all the dependencies using NPM.
+
+    npm i
+
+While the dependencies are being installed you edit the configuration file to match your needs, you can find the configuration file under the name `config.json` 
+
+Once edited and the dependencies are installed, you can start the application using:
+
+    node index.js
+
+Using the link provided in the console, you sign into the minecraft account that you want to use.
+
 <hr>
 
 ### Configuration
