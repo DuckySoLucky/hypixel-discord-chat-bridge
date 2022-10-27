@@ -3,3 +3,4 @@ package-lock.json
 .env
 package-lock.json
 .prettierrc.json
+config.json

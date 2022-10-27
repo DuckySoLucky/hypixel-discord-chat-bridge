@@ -1,8 +1,9 @@
 # Hypixel Discord Chat Bridge
+<img src="https://img.shields.io/github/stars/DuckySoLucky/hypixel-discord-chat-bridge?color=success&style=for-the-badge"> <img src="https://img.shields.io/tokei/lines/github/DuckySoLucky/hypixel-discord-chat-bridge?color=GREEN&style=for-the-badge">
 
 A two-way chat bridge between [Hypixel](https://hypixel.net/) guild chat and a [Discord](https://discord.com/) channel. The application utilizes [discord.js v13](https://github.com/discordjs/discord.js) for communicating with Discord, and [Mineflayer](https://github.com/PrismarineJS/mineflayer) for communicating with Hypixel.
 
-> This application will login to Hypixel using Mineflayer which is not a normal Minecraft client, this could result in your Minecraft account getting banned from Hypixel, so use this application at your own risk. I have been using same account over a year, so as long u don't do something sketchy you will not get banned.
+> ⚠️This application will login to Hypixel using Mineflayer which is not a normal Minecraft client, this could result in your Minecraft account getting banned from Hypixel, so use this application at your own risk. I have been using same account over a year, so as long u don't do something sketchy you will not get banned.
 
 <hr>
  
@@ -21,15 +22,7 @@ A two-way chat bridge between [Hypixel](https://hypixel.net/) guild chat and a [
 - Yarn >= 1.2
 - A Minecraft account
 
-## Docker
-
-- Git
-- Docker >= 20
-- A Minecraft account
-
-_Older versions may also work, but have not been tested._
-
-### Setup Guide
+### Setup Guide for NodeJS
 
 To get started, clone down the repository using:
 
@@ -39,7 +32,7 @@ Next go into the `hypixel-discord-chat-bridge` folder and install all the depend
 
     npm i
 
-While the dependencies are being installed you edit the configuration file to match your needs, you can find the configuration file under the name `config.json` 
+While the dependencies are being installed you edit the configuration file. To edit the configuration file, open the `config-EXAMPLE.json` file in your favorite text editor. The configuration file is pretty self explanatory, but if you need help with it, you can check out the [Configuration](#configuration) section. Once you are done editing the configuration file, save it and rename it to `config.json`.
 
 Once edited and the dependencies are installed, you can start the application using:
 
@@ -47,9 +40,16 @@ Once edited and the dependencies are installed, you can start the application us
 
 Using the link provided in the console, you sign into the minecraft account that you want to use.
 
-<hr>
+## Docker
 
-### Configuration
+- Git
+- Docker >= 20
+- A Minecraft account
+_Older versions may also work, but have not been tested._
+
+### Setup Guide for Docker
+
+## Configuration
 
 #### Minecraft
 
