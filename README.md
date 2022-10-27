@@ -32,7 +32,7 @@ Next go into the `hypixel-discord-chat-bridge` folder and install all the depend
 
     npm i
 
-While the dependencies are being installed you edit the configuration file. To edit the configuration file, open the `config-EXAMPLE.json` file in your favorite text editor.  The configuration file is pretty self explanatory, but if you need help with it, you can check out the [Configuration](#configuration) section. Once you are done editing the configuration file, save it and rename it to `config.json`.
+While the dependencies are being installed you edit the configuration file. To edit the configuration file, open the `config-EXAMPLE.json` file in your favorite text editor. The configuration file is pretty self explanatory, but if you need help with it, you can check out the [Configuration](#configuration) section. Once you are done editing the configuration file, save it and rename it to `config.json`.
 
 Once edited and the dependencies are installed, you can start the application using:
 
