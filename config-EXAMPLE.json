@@ -28,10 +28,10 @@
     "hypixelAPIkey": "HYPIXEL_API_KEY",
 
     "skyHelperAPI": "http://192.95.42.73:1924//v1",
-    "skyHelperKey": "DuckySoLucky",
+    "skyHelperKey": "DuckySoLucky", // leave this
 
     "antiSniperAPI": "https://api.antisniper.net",
-    "antiSniperKey": "3a55ea8f-9e85-4003-9912-6198122cd27f",
+    "antiSniperKey": "ANTISNIPER_API_KEY",
 
     "skyShiiyuAPI": "https://sky.shiiyu.moe/api/v2",
 
