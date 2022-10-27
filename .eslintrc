@@ -11,6 +11,11 @@
     "ecmaVersion": 12,
     "project": "./tsconfig.json"
   },
+  "globals": {
+    "bot": true,
+    "client": true,
+    "minecraftCommandList": true
+  },
   "rules": {
     "curly": ["warn", "multi-line", "consistent"],
     "no-unused-vars": ["error", { "args": "none" }],
