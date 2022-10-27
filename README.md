@@ -20,16 +20,18 @@ A two-way chat bridge between [Hypixel](https://hypixel.net/) guild chat and a [
 - NodeJS >= 16.9
 - Yarn >= 1.2
 - A Minecraft account
+- [Setup](#Setup Guide for NodeJS)
 
 ## Docker
 
 - Git
 - Docker >= 20
 - A Minecraft account
+- [Setup](#Setup Guide for Docker)
 
 _Older versions may also work, but have not been tested._
 
-### Setup Guide
+### Setup Guide for NodeJS
 
 To get started, clone down the repository using:
 
@@ -48,6 +50,8 @@ Once edited and the dependencies are installed, you can start the application us
 Using the link provided in the console, you sign into the minecraft account that you want to use.
 
 <hr>
+
+### Setup Guide for Docker
 
 ### Configuration
 
