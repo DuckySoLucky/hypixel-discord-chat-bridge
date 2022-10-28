@@ -1,5 +1,5 @@
 # Hypixel Discord Chat Bridge
-<img src="https://img.shields.io/github/stars/DuckySoLucky/hypixel-discord-chat-bridge?color=success&style=for-the-badge"> <img src="https://img.shields.io/tokei/lines/github/DuckySoLucky/hypixel-discord-chat-bridge?color=GREEN&style=for-the-badge">
+<img src="https://img.shields.io/github/contributors/DuckySoLucky/hypixel-discord-chat-bridge?color=success&style=for-the-badge"> <img src="https://img.shields.io/github/stars/DuckySoLucky/hypixel-discord-chat-bridge?color=success&style=for-the-badge"> <img src="https://img.shields.io/github/forks/DuckySoLucky/hypixel-discord-chat-bridge?color=success&style=for-the-badge"> <img src="https://img.shields.io/tokei/lines/github/DuckySoLucky/hypixel-discord-chat-bridge?color=success&style=for-the-badge"> <img src="https://img.shields.io/github/repo-size/DuckySoLucky/hypixel-discord-chat-bridge?color=success&style=for-the-badge"> <img src='https://img.shields.io/github/commit-activity/m/DuckySoLucky/hypixel-discord-chat-bridge?color=success&style=for-the-badge'>
 
 A two-way chat bridge between [Hypixel](https://hypixel.net/) guild chat and a [Discord](https://discord.com/) channel. The application utilizes [discord.js v13](https://github.com/discordjs/discord.js) for communicating with Discord, and [Mineflayer](https://github.com/PrismarineJS/mineflayer) for communicating with Hypixel.
 
@@ -10,6 +10,8 @@ A two-way chat bridge between [Hypixel](https://hypixel.net/) guild chat and a [
 ## Table of Content
 
 - [Installation using NodeJS](#NodeJS)
+- [Installation guide for Git](#installation-guide-for-git)
+- [Installation guide for NodeJS](#installation-guide-for-nodejs)
 - [Installation using Docker](#Docker)
 - [Commands](#Commands)
 - [Configuration](#configuration)
@@ -17,10 +19,27 @@ A two-way chat bridge between [Hypixel](https://hypixel.net/) guild chat and a [
 
 ## NodeJS
 
-- Git
-- NodeJS >= 16.9
-- Yarn >= 1.2
+- Git [Install Guide](#installation-guide-for-git)
+- NodeJS >= 16.9 [Install Guide](#installation-guide-for-nodejs)
 - A Minecraft account
+
+### Installation guide for Git
+
+To get started, download git [from this link](https://git-scm.com/downloads) by selecting the operating system you are using.
+
+Once the installer is downloaded, run it and follow the instructions.
+Leave most of the settings as default
+
+Then go onto the next step of [installing NodeJS](#installing-nodejs).
+
+### Installation guide for NodeJS
+
+To get started, download NodeJS [from this link](https://nodejs.org/en/download/) by selecting the operating system you are using.
+
+Once the installer is downloaded, run it and follow the instructions.
+Leave most of the settings as default
+
+Then go onto the next step of [Setup for NodeJS](#setup-guide-for-nodejs).
 
 ### Setup Guide for NodeJS
 
@@ -43,9 +62,9 @@ Using the link provided in the console, you sign into the minecraft account that
 ## Docker
 
 - Git
-- Docker >= 20
-- A Minecraft account
+- Docker >= 20<br>
 _Older versions may also work, but have not been tested._
+- A Minecraft account
 
 ### Setup Guide for Docker
 
