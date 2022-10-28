@@ -7,7 +7,7 @@ module.exports = {
     const result = await axios.get(url)
 
     for (const header of headers) {
-      if (result.headers.hasOwnProperty(header.toLowerCase())) {
+      if (result.headers == header.toLowerCase()) {
         response.set(header, result.headers[header.toLowerCase()])
       }
     }

@@ -1,6 +1,5 @@
 const { getNetworth, getPrices } = require("skyhelper-networth")
 const config = require("../config.json");
-const fs = require("fs");
 
 let prices = {};
 

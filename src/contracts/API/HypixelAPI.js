@@ -160,4 +160,4 @@ async function getWatchDogData(){
     }
 }
 
-module.exports = {getKeyData, getPlayer, getFriends, getRecentGames, getPlayerStatus, getGuildData, getGamesData, getChallenges, getLatestSkyblockNews, getSkyblockElections, getLeaderboards, getSkyblockBingoData, getSkyblockCollections, getSkyblockItems, getSkyblockItems, getSkyblockSkills, getSkyblockAuctions, getBoosters, getPlayerCount, getWatchDogData};
+module.exports = {getKeyData, getPlayer, getFriends, getRecentGames, getPlayerStatus, getGuildData, getGamesData, getChallenges, getLatestSkyblockNews, getSkyblockElections, getLeaderboards, getSkyblockBingoData, getSkyblockCollections, getSkyblockItems, getSkyblockSkills, getSkyblockAuctions, getBoosters, getPlayerCount, getWatchDogData};

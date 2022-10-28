@@ -14,7 +14,6 @@ module.exports = {
   ],
 
   execute: async (interaction, client) => {
-    const name = interaction.options.getString("name")
     if ((await interaction.guild.members.fetch(interaction.user)).roles.cache.has(config.discord.commandRole)) {
         const command = interaction.options.getString("command");
         bot.chat(`/${command}`)
