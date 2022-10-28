@@ -30,7 +30,7 @@ module.exports = {
             bot.chat(`/ignore remove ${name}`); 
             await interaction.followUp({ content: 'Command has been executed successfully.', ephemeral: true })
         } else {
-            await interaction.followUp({ content: 'Invalid Usage: \`/ignore [add/remove] [name]\`.', ephemeral: true })
+            await interaction.followUp({ content: 'Invalid Usage: `/ignore [add/remove] [name]`.', ephemeral: true })
         }
 
     } else {

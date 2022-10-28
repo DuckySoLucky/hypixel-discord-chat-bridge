@@ -1,10 +1,15 @@
 const express = require('express');
 const server = express();
-server.listen(1439, () => { console.log("Web Server is Ready!") });
+
+function start() {
+  server.listen(1439, () => { console.log("Web Server is Ready!") });
+}
  
 server.all('/', (req, res) => {
   res.send(` `)
 })
+
+module.exports = { start };
 
 //--------------------------------
 // If u wanna have fancy website

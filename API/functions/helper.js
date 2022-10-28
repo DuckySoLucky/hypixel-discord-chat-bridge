@@ -1,3 +1,5 @@
+const moment = require('moment');
+
 const capitalize = function (str) {
   const words = str.replace(/_/g, ' ').toLowerCase().split(' ');
 

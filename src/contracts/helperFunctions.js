@@ -61,6 +61,10 @@ function addNotation(type, value) {
   return returnVal;
 }
 
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 function generateID(length) {
   let result = "",
     characters = "abcde0123456789",
@@ -162,4 +166,5 @@ module.exports = {
   writeAt,
   capitalize,
   decodeData,
+  numberWithCommas,
 };

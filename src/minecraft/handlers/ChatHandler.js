@@ -7,6 +7,7 @@ const { getUUID } = require('../../contracts/API/PlayerDBAPI')
 const EventHandler = require('../../contracts/EventHandler')
 const getWeight = require('../../../API/stats/weight')
 const messages = require('../../../messages.json')
+const { EmbedBuilder } = require('discord.js')
 const config = require('../../../config.json')
 const Logger = require('../../Logger')
 const fs = require('fs')
@@ -64,11 +65,13 @@ class StateHandler extends EventHandler {
 
     if (this.isRequestMessage(message)) {
       let username = replaceAllRanks(message.split('has')[0].replaceAll('-----------------------------------------------------\n', ''))
+      const uuid = await getUUID(username);
       if (config.guildRequirement.enabled) {
         const [player, profile] = await Promise.all([
           hypixel.getPlayer(uuid),
           getLatestProfile(uuid)
         ])
+        let meetRequirements = false;
 
         const weight = (await getWeight(profile.profile, profile.uuid)).weight.senither.total
 
@@ -285,7 +288,7 @@ class StateHandler extends EventHandler {
     if (this.isBlockedMessage(message)) {
       let blockedMsg = message.match(/".+"/g)[0].slice(1, -1)
       return this.minecraft.broadcastCleanEmbed({ 
-        message: `${messages.blockedMessageFirst} ${blockedMsg} ${blockedMessageSecond}`, 
+        message: `${messages.blockedMessageFirst} ${blockedMsg} ${messages.blockedMessageSecond}`, 
         color: 15548997, 
         channel: 'Guild' 
       })
@@ -582,10 +585,6 @@ class StateHandler extends EventHandler {
 
   isGuildQuestCompletion(message) {
     return message.includes('GUILD QUEST TIER ') && message.includes('COMPLETED') && !message.includes(':')
-  }
-
-  isPartyMessage(message) {
-    return message.startsWith('Party >')
   }
 
   isLoginMessage(message) {

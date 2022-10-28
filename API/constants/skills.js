@@ -2,7 +2,7 @@
 const xp_tables = require('./xp_tables');
 
 module.exports = function calcSkill(skill, experience) {
-    table = 'normal';
+    let table = 'normal';
     if (skill === 'runecrafting') table = 'runecrafting';
     if (skill === 'social') table = 'social';
     if (skill === 'dungeoneering') table = 'catacombs';

@@ -29,9 +29,6 @@ module.exports = {
   renderLore: function renderLore(text) {
     let output = "";
 
-    /** @type {ColorCode|null} */
-    let color = null;
-    /** @type {Set<FormatCode>} */
     const formats = new Set();
 
     // @ts-ignore - this regex always matches so we don't need to check for null
