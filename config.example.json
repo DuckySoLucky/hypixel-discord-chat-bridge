@@ -3,6 +3,7 @@
     "prefix": "!",
     "guildID": "HYPIXEL_GUILD_ID",
     "guildExp": 0,
+    "guildWelcomeMessage": "Welcome to the guild! Make sure to join our discord /g discord! To view my commands run !help, Have a nice day :D",
     "messageRepeatBypass": true,
     "messageRepeatBypassLength": 24
   },
