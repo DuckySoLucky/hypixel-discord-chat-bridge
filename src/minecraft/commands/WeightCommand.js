@@ -23,9 +23,9 @@ class StatsCommand extends MinecraftCommand {
             const profile = await getWeight(data.profile, data.uuid) 
             const lilyW = `Lily Weight » ${Math.round(profile.weight.lily.total * 100) / 100} | Skills » ${Math.round((profile.weight.lily.skills.total) * 100) / 100} | Slayer » ${Math.round(profile.weight.lily.slayer.total * 100) / 100} | Dungeons » ${Math.round((profile.weight.lily.catacombs.total) * 100) / 100}`
             const senitherW = `Senither Weight » ${Math.round((profile.weight.senither.total) * 100) / 100} | Skills: ${Math.round((profile.weight.senither.skills.alchemy.total + profile.weight.senither.skills.combat.total + profile.weight.senither.skills.enchanting.total + profile.weight.senither.skills.farming.total + profile.weight.senither.skills.fishing.total + profile.weight.senither.skills.foraging.total + profile.weight.senither.skills.mining.total + profile.weight.senither.skills.taming.total) * 100) / 100} | Slayer: ${Math.round((profile.weight.senither.slayer.total) * 100) / 100} | Dungeons: ${Math.round((profile.weight.senither.dungeons.total) * 100) / 100}`
-            this.send(`/gc ${username}\'s ${senitherW}`)
+            this.send(`/gc ${username}'s ${senitherW}`)
             await delay(690)
-            this.send(`/gc ${username}\'s ${lilyW}`) 
+            this.send(`/gc ${username}'s ${lilyW}`) 
         } catch (error) {
             console.log(error)
             this.send('/gc There is no player with the given UUID or name or the player has no Skyblock profiles')

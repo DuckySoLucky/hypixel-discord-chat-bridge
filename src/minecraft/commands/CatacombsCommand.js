@@ -20,7 +20,7 @@ class CatacombsCommand extends MinecraftCommand {
             const data = await getLatestProfile(username)
             username = data.profileData?.game_mode ? `♲ ${username}` : username
             const dungeons = getDungeons(data.player, data.profile)
-            this.send(`/gc ${username}\'s Catacombs: ${dungeons.catacombs.skill.level} ᐧᐧᐧᐧ Class Average: ${((dungeons.classes.healer.level + dungeons.classes.mage.level + dungeons.classes.berserk.level + dungeons.classes.archer.level + dungeons.classes.tank.level) / 5)} ᐧᐧᐧᐧ Secrets Found: ${dungeons.secrets_found} ᐧᐧᐧᐧ Classes:  H-${dungeons.classes.healer.level}  M-${dungeons.classes.mage.level}  B-${dungeons.classes.berserk.level}  A-${dungeons.classes.archer.level}  T-${dungeons.classes.tank.level}`)
+            this.send(`/gc ${username}'s Catacombs: ${dungeons.catacombs.skill.level} ᐧᐧᐧᐧ Class Average: ${((dungeons.classes.healer.level + dungeons.classes.mage.level + dungeons.classes.berserk.level + dungeons.classes.archer.level + dungeons.classes.tank.level) / 5)} ᐧᐧᐧᐧ Secrets Found: ${dungeons.secrets_found} ᐧᐧᐧᐧ Classes:  H-${dungeons.classes.healer.level}  M-${dungeons.classes.mage.level}  B-${dungeons.classes.berserk.level}  A-${dungeons.classes.archer.level}  T-${dungeons.classes.tank.level}`)
 
         } catch (error) {
             this.send('/gc There is no player with the given UUID or name or the player has no Skyblock profiles')

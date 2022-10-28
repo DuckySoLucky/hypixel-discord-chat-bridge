@@ -65,7 +65,9 @@
     "globals": {
       "bot": true,
       "client": true,
-      "minecraftCommandList": true
+      "minecraftCommandList": true,
+      "uptime": true,
+      "bridgeChat": true
     }
   }
 }

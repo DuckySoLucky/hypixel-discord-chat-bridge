@@ -1,7 +1,4 @@
 process.on('uncaughtException', function (error) {console.log(error)})
-const refreshCollections = require('./API/data/refreshCollections');
-//const refreshAuctions = require('./API/data/refreshAuctions');
-const refreshPrices = require('./API/data/refreshPrices');
 const webServer = require('./src/web/server.js'); 
 const app = require('./src/Application')
 
@@ -14,7 +11,5 @@ app.register().then(() => {
   console.error(error) 
 })
 
-refreshCollections();
-//refreshAuctions();
-refreshPrices();
+webServer.start()
   

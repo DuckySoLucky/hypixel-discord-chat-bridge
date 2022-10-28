@@ -19,7 +19,7 @@ class fairySoulsCommand extends MinecraftCommand {
 
         const data = await getLatestProfile(username)
         username = data.profileData?.game_mode ? `♲ ${username}` : username
-        this.send(`/gc ${username}\'s Fairy Souls: ${data.profile.fairy_souls_collected}/238 | Progress: ${Math.round(data.profile.fairy_souls_collected/238 * 100) / 100*100}%`)   
+        this.send(`/gc ${username}'s Fairy Souls: ${data.profile.fairy_souls_collected}/238 | Progress: ${Math.round(data.profile.fairy_souls_collected/238 * 100) / 100*100}%`)   
       } catch (error) {
         console.log(error)
         this.send('/gc There is no player with the given UUID or name or the player has no Skyblock profiles')

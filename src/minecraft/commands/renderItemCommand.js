@@ -50,26 +50,6 @@ class renderCommand extends MinecraftCommand {
       console.log(error)
       this.send('/gc There is no player with the given UUID or name or the player has no Skyblock profiles')
     }
-
-    try {
-
-
-      const searchedPlayer = await getPlayer(username).catch((err) => {this.send(`/gc Error: ${err}`)})
-      const playerProfile = searchedPlayer.memberData
-      const inventory = playerProfile?.inv_contents?.data
-      if (!inventory) {this.send(`/gc This player has an Inventory API off.`)}
-      const inventoryData = (await decodeData(Buffer.from(inventory, 'base64'))).i
-
-      const selectedItem = inventoryData[itemNumber - 1]
-      if (!selectedItem || !Object.keys(selectedItem || {}).length) {this.send(`/gc Player does not have an item at slot ${itemNumber}.`)}
-
-      const renderedItem = await renderLore(selectedItem?.tag?.display?.Name, selectedItem?.tag?.display?.Lore)
-      const upload = await imgurClient.upload({image: renderedItem, type: 'stream'})
-      if (searchedPlayer.profileData.game_mode == "ironman") username = `♲ ${username}`
-      this.send(`/gc ${username}'s item at slot ${itemNumber} » ${upload.data.link ?? 'Something went Wrong..'}`)
-    } catch (error) {
-      this.send('/gc There is no player with the given UUID or name or the player has no Skyblock profiles')
-    }
   }
 }
 

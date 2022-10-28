@@ -34,7 +34,7 @@ class NetWorthCommand extends MinecraftCommand {
 
             const profile = await getNetworth(data.profile, data.profileData?.banking?.balance, { prices });
             if (profile.noInventory) return this.send(`/gc ${capitalize(username)} has an Inventory API off!`)
-            this.send( `/gc ${capitalize(username)}\'s Networth is ${addNotation("oneLetters", profile.networth) ?? 0} | Unsoulbound Networth: ${addNotation("oneLetters", profile.unsoulboundNetworth) ?? 0} | Purse: ${addNotation("oneLetters", profile.purse) ?? 0} | Bank: ${addNotation("oneLetters", profile.bank) ?? 0}`)
+            this.send( `/gc ${capitalize(username)}'s Networth is ${addNotation("oneLetters", profile.networth) ?? 0} | Unsoulbound Networth: ${addNotation("oneLetters", profile.unsoulboundNetworth) ?? 0} | Purse: ${addNotation("oneLetters", profile.purse) ?? 0} | Bank: ${addNotation("oneLetters", profile.bank) ?? 0}`)
         } catch (error) {
             console.log(error)
             this.send('/gc There is no player with the given UUID or name or the player has no Skyblock profiles')

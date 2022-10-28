@@ -6,4 +6,4 @@ async function getSenitherWeight(username) {
   return await calculateTotalSenitherWeight(profile.profile);
 }
 
-module.exports = { getSenitherWeight, getSenitherWeight };
+module.exports = { getSenitherWeight };

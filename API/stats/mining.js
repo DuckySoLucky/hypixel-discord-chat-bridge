@@ -33,8 +33,8 @@ module.exports = (player, profile) => {
   if (mining_stats?.nodes?.quick_forge) {
     for (const item of Object.keys(forgeItemTimes)) {
       const lessForgingTime =
-        miningapi.mining_core.nodes.forge_time <= 19
-          ? 0.1 + miningapi.mining_core.nodes.forge_time * 0.005
+        mining_stats.mining_core.nodes.forge_time <= 19
+          ? 0.1 + mining_stats.mining_core.nodes.forge_time * 0.005
           : 0.3;
       forgeItemTimes[item].duration =
         forgeItemTimes[item].duration -
