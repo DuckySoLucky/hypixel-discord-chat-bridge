@@ -10,6 +10,8 @@ A two-way chat bridge between [Hypixel](https://hypixel.net/) guild chat and a [
 ## Table of Content
 
 - [Installation using NodeJS](#NodeJS)
+- [Installation guide for Git](#installation-guide-for-git)
+- [Installation guide for NodeJS](#installation-guide-for-nodejs)
 - [Installation using Docker](#Docker)
 - [Commands](#Commands)
 - [Configuration](#configuration)
@@ -17,11 +19,11 @@ A two-way chat bridge between [Hypixel](https://hypixel.net/) guild chat and a [
 
 ## NodeJS
 
-- Git [Install Guide](#installing-git)
-- NodeJS >= 16.9 [Install Guide](#installing-nodejs)
+- Git [Install Guide](#installation-guide-for-git)
+- NodeJS >= 16.9 [Install Guide](#installation-guide-for-nodejs)
 - A Minecraft account
 
-### Installing Git
+### Installation guide for Git
 
 To get started, download git [from this link](https://git-scm.com/downloads) by selecting the operating system you are using.
 
@@ -30,7 +32,7 @@ Leave most of the settings as default
 
 Then go onto the next step of [installing NodeJS](#installing-nodejs).
 
-### Installing NodeJS
+### Installation guide for NodeJS
 
 To get started, download NodeJS [from this link](https://nodejs.org/en/download/) by selecting the operating system you are using.
 
