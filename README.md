@@ -17,10 +17,27 @@ A two-way chat bridge between [Hypixel](https://hypixel.net/) guild chat and a [
 
 ## NodeJS
 
-- Git
-- NodeJS >= 16.9
-- Yarn >= 1.2
+- Git [Install Guide](#installing-git)
+- NodeJS >= 16.9 [Install Guide](#installing-nodejs)
 - A Minecraft account
+
+### Installing Git
+
+To get started, download git [from this link](https://git-scm.com/downloads) by selecting the operating system you are using.
+
+Once the installer is downloaded, run it and follow the instructions.
+Leave most of the settings as default
+
+Then go onto the next step of [installing NodeJS](#installing-nodejs).
+
+### Installing NodeJS
+
+To get started, download NodeJS [from this link](https://nodejs.org/en/download/) by selecting the operating system you are using.
+
+Once the installer is downloaded, run it and follow the instructions.
+Leave most of the settings as default
+
+Then go onto the next step of [Setup for NodeJS](#setup-guide-for-nodejs).
 
 ### Setup Guide for NodeJS
 
