@@ -62,9 +62,9 @@ Using the link provided in the console, you sign into the minecraft account that
 ## Docker
 
 - Git
-- Docker >= 20
-- A Minecraft account
+- Docker >= 20<br>
 _Older versions may also work, but have not been tested._
+- A Minecraft account
 
 ### Setup Guide for Docker
 
