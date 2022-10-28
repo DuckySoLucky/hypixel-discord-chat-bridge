@@ -165,7 +165,7 @@ class StateHandler extends EventHandler {
   
 
     if (this.isLoginMessage(message)) {
-      var data = JSON.parse(fs.readFileSync('config.json'));
+      let data = JSON.parse(fs.readFileSync('config.json'));
       if (data.discord.joinMessage) { 
         let user = message.split('>')[1].trim().split('joined.')[0].trim()
         return this.minecraft.broadcastPlayerToggle({ 
@@ -179,7 +179,7 @@ class StateHandler extends EventHandler {
     }
 
     if (this.isLogoutMessage(message)) {
-      var data = JSON.parse(fs.readFileSync('config.json'));
+      let data = JSON.parse(fs.readFileSync('config.json'));
       if (data.discord.joinMessage) { 
         let user = message.split('>')[1].trim().split('left.')[0].trim()
         return this.minecraft.broadcastPlayerToggle({ 
@@ -541,7 +541,7 @@ class StateHandler extends EventHandler {
     let chatType = chat.shift().trim()
     let userParts = group.split(' ')
     let username = userParts[userParts.length - (hasRank ? 2 : 1)]
-    let guildRank = userParts[userParts.length - 1].replace(/[\[\]]/g, '')
+    let guildRank = userParts[userParts.length - 1].replace('[', '').replace(']', '')
     const playerMessage = parts.join(':').trim()
 
     if (!this.isGuildMessage(message) && !this.isOfficerChatMessage(message)) return

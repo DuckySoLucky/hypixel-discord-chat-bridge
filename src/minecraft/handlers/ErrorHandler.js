@@ -25,11 +25,11 @@ class StateHandler extends EventHandler {
   }
 
   isConnectionResetError(error) {
-    return error.hasOwnProperty("code") && error.code == "ECONNRESET";
+    return error.code && error.code == "ECONNRESET";
   }
 
   isConnectionRefusedError(error) {
-    return error.hasOwnProperty("code") && error.code == "ECONNREFUSED";
+    return error.code && error.code == "ECONNREFUSED";
   }
 }
 
