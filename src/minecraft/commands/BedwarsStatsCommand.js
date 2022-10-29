@@ -30,6 +30,7 @@ class bedwarsCommand extends MinecraftCommand {
       } else {
         if (['solo', 'doubles', 'threes', 'fours', '4v4'].includes(mode)) {
           this.send(`/gc [BW] [${player.stats.bedwars.level}✫] ${player.nickname} ${mode} FK: ${addCommas(player.stats.bedwars[mode].finalKills)} FKDR: ${player.stats.bedwars[mode].finalKDRatio} Wins: ${player.stats.bedwars[mode].wins} WLR: ${player.stats.bedwars[mode].WLRatio} Beds: ${player.stats.bedwars[mode].beds.broken} BLR: ${player.stats.bedwars[mode].beds.BLRatio} WS: ${player.stats.bedwars[mode].winstreak}`)
+
         } else {
           this.send(`/gc [BW] [${player.stats.bedwars.level}✫] ${player.nickname} FK: ${addCommas(player.stats.bedwars.finalKills)} FKDR: ${player.stats.bedwars.finalKDRatio} Wins: ${player.stats.bedwars.wins} WLR: ${player.stats.bedwars.WLRatio} Beds: ${player.stats.bedwars.beds.broken} BLR: ${player.stats.bedwars.beds.BLRatio} WS: ${player.stats.bedwars.winstreak}`)
         }
