@@ -18,7 +18,7 @@ class accessoriesCommand extends MinecraftCommand {
   async onCommand(username, message) {
     try {
       let arg = this.getArgs(message)
-      if(arg[0]) username = arg[0]
+      if (arg[0]) username = arg[0]
       const data = await getLatestProfile(username)
       username = data.profileData?.game_mode ? `♲ ${username}` : username
       const talismans = await getTalismans(data.profile)
@@ -27,15 +27,15 @@ class accessoriesCommand extends MinecraftCommand {
       for (const rarity of Object.keys(talismans)) {
         if (rarity == "talismanBagUpgrades" || rarity == "currentReforge" || rarity == "unlockedReforges" || rarity == "tuningsSlots" || rarity == "tunings") continue
         for (const talisman of talismans[rarity]) {
-          if (talisman.recombobulated) recombobulated ++
-          if (talisman.enrichment) enrichment ++
+          if (talisman.recombobulated) recombobulated++
+          if (talisman.enrichment) enrichment++
         }
       }
-      
+
       this.send(`/gc ${username}'s Accessories » ${talismanCount} | Recombobulated » ${recombobulated} | Enriched » ${enrichment}`)
       await delay(690)
       this.send(`/gc ${username}'s Accessories » Common - ${common} | Uncommon - ${uncommon} | Rare - ${rare} | Epic - ${epic} |  Legendary - ${legendary} | Special - ${special} | Very Special - ${verySpecial}`)
-    
+
     } catch (error) {
       console.log(error)
       this.send(`/gc [ERROR] ${error}`)

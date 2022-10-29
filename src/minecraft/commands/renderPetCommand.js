@@ -24,7 +24,7 @@ class renderCommand extends MinecraftCommand {
       if (arg[0]) username = arg[0]
       const data = await getLatestProfile(username)
       username = data.profileData?.game_mode ? `♲ ${username}` : username
-      const profile = getPets(data.profile) 
+      const profile = getPets(data.profile)
       for (const pet of profile.pets) {
         if (pet.active) {
           const lore = pet.lore
@@ -47,12 +47,12 @@ class renderCommand extends MinecraftCommand {
           }
 
           const renderedItem = await renderLore(`§7[Lvl ${pet.level}] §${getRarityColor(pet.tier)}${pet.display_name}`, newLore)
-          const upload = await imgurClient.upload({image: renderedItem, type: 'stream'})
+          const upload = await imgurClient.upload({ image: renderedItem, type: 'stream' })
           return this.send(`/gc ${username}'s Active Pet » ${upload.data.link ?? 'Something went Wrong..'}`)
         }
       }
       this.send(`/gc ${username} does not have pet equiped.`)
-    }  
+    }
     catch (error) {
       console.log(error)
       this.send('/gc There is no player with the given UUID or name or the player has no Skyblock profiles')

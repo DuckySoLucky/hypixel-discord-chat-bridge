@@ -12,7 +12,7 @@ class CatacombsCommand extends MinecraftCommand {
         this.options = ['name']
         this.optionsDescription = ['Minecraft Username']
     }
-    
+
     async onCommand(username, message) {
         try {
             let arg = this.getArgs(message)

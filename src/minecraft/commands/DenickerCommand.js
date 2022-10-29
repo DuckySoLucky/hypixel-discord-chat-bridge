@@ -13,7 +13,7 @@ class DenickerCommand extends MinecraftCommand {
         this.options = ['nick']
         this.optionsDescription = ['Minecraft Username']
     }
-    
+
     async onCommand(username, message) {
         try {
             username = this.getArgs(message)[0];
