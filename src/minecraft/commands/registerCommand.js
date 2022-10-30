@@ -40,17 +40,15 @@ class dailyCommand extends MinecraftCommand {
                 res.json().then((a) => {
                     const UUID = a.uuid
                     fetch(`https://api.pixelic.de/v1/player/register?uuid=${UUID}`, { method: 'POST' }).then((res) => {
-                        res.json().then((b) => {
-                            if (res.status == 201) {
-                                this.send(`/gc Successfully registered ${player} in the database!`)
-                            }
-                            else if (res.status == 400) {
-                                this.send(`/gc ${player} is already registered in the database!`)
-                            }
-                            else {
-                                this.send(`/gc An error occured while registering ${player} in the database! Try again in 5 mins`)
-                            }
-                        })
+                        if (res.status == 201) {
+                            this.send(`/gc Successfully registered ${player} in the database!`)
+                        }
+                        else if (res.status == 400) {
+                            this.send(`/gc ${player} is already registered in the database!`)
+                        }
+                        else {
+                            this.send(`/gc An error occured while registering ${player} in the database! Try again in 5 mins`)
+                        }
                     })
                 })
             }).catch((err) => {
