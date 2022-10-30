@@ -40,9 +40,7 @@ class dailyCommand extends MinecraftCommand {
                 res.json().then((a) => {
                     const UUID = a.uuid
                     fetch(`https://api.pixelic.de/v1/player/register?uuid=${UUID}`, { method: 'POST' }).then((res) => {
-                        // console.log(res.status)
                         res.json().then((b) => {
-                            console.log(res.status)
                             if (res.status == 201) {
                                 this.send(`/gc Successfully registered ${player} in the database!`)
                             }
