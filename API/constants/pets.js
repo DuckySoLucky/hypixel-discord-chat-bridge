@@ -1,5 +1,5 @@
 // CREDIT: https://github.com/SkyCryptWebsite/SkyCrypt/ (Modified)
-
+/*eslint-disable */
 const { floor, round } = require('./functions.js')
 const { symbols } = require('./symbols.js')
 

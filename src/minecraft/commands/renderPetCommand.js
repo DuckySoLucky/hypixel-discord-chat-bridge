@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 const { ImgurClient } = require("imgur");
 const config = require("../../../config.json");
 const imgurClient = new ImgurClient({ clientId: config.api.imgurAPIkey });

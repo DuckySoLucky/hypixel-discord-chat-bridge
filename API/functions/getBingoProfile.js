@@ -1,6 +1,6 @@
 //CREDIT: https://github.com/Senither/hypixel-skyblock-facade (Modified)
-const { isUuid } = require("../utils/uuid");
-const { parseBingoProfile } = require("../utils/hypixel");
+const { isUuid } = require("../utils/uuid.JS");
+const { parseBingoProfile } = require("../utils/hypixel.JS");
 const config = require("../../config.json");
 const axios = require("axios");
 

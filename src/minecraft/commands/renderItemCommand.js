@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 const { ImgurClient } = require("imgur");
 const {
   getLatestProfile,

@@ -3,7 +3,7 @@ const {
   getLatestProfile,
 } = require("../../../API/functions/getLatestProfile.js");
 
-class fairySoulsCommand extends minecraftCommand {
+class FairySoulsCommand extends minecraftCommand {
   constructor(minecraft) {
     super(minecraft);
 
@@ -16,7 +16,7 @@ class fairySoulsCommand extends minecraftCommand {
 
   async onCommand(username, message) {
     try {
-      let msg = this.getArgs(message);
+      const msg = this.getArgs(message);
       if (msg[0]) username = msg[0];
 
       const data = await getLatestProfile(username);
@@ -38,4 +38,4 @@ class fairySoulsCommand extends minecraftCommand {
   }
 }
 
-module.exports = fairySoulsCommand;
+module.exports = FairySoulsCommand;
