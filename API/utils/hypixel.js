@@ -1,11 +1,8 @@
-const getRank = require("../stats/rank");
-const getHypixelLevel = require("../stats/hypixelLevel");
+const getRank = require("../stats/rank.js");
+const getHypixelLevel = require("../stats/hypixelLevel.js");
 
 function parseHypixel(playerRes, uuid, res) {
-  if (
-    playerRes.data.hasOwnProperty("player") &&
-    playerRes.data.player == null
-  ) {
+  if (playerRes.data.player === undefined) {
     return res.status(404).json({
       status: 404,
       reason: `Found no Player data for a user with a UUID of '${uuid}'`,

@@ -1,5 +1,6 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const config = require("../../../config.json");
+// eslint-disable-next-line
 const { ImgurClient } = require("imgur");
 const axios = require("axios");
 

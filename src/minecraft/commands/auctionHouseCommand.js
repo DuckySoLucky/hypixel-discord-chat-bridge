@@ -21,8 +21,8 @@ class AuctionHouseCommand extends minecraftCommand {
 
   async onCommand(username, message) {
     try {
-      const arg = this.getArgs(message),
-        string = "";
+      const arg = this.getArgs(message);
+      let string = "";
       let bidder;
       if (arg[0]) username = arg[0];
 

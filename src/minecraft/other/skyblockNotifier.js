@@ -1,4 +1,4 @@
-const { writeAt } = require("../../contracts/helperFunctions");
+const { writeAt } = require("../../contracts/helperFunctions.js");
 // eslint-disable-next-line
 const Rss = require('rss-parser');
 const fs = require('fs');
