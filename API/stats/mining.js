@@ -1,6 +1,7 @@
-const { getHotM, perks, forgeItemTimes } = require("../constants/mining");
-const { toFixed, titleCase } = require("../constants/functions");
-const getSkills = require("./skills");
+/*eslint-disable */
+const { getHotM, perks, forgeItemTimes } = require("../constants/mining.js");
+const { toFixed, titleCase } = require("../constants/functions.js");
+const getSkills = require("./skills.js");
 
 module.exports = (player, profile) => {
   const mining_stats = profile?.mining_core;

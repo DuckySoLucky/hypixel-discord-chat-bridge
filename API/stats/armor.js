@@ -3,7 +3,7 @@ const { decodeData } = require("../utils/nbt");
 
 module.exports = async (profile) => {
   const armorPieces = ["helmet", "chestplate", "leggings", "boots"];
-  const inv_armor = {
+  const INV_ARMOR = {
     helmet: [],
     chestplate: [],
     leggings: [],
@@ -40,9 +40,9 @@ module.exports = async (profile) => {
           toTimestamp(invArmor[i].tag.ExtraAttributes.timestamp) | null;
       }
 
-      inv_armor[armorPieces[i]] = invArmor[i];
+      INV_ARMOR[armorPieces[i]] = invArmor[i];
     }
   }
 
-  return inv_armor;
+  return INV_ARMOR;
 };

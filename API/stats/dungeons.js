@@ -1,21 +1,21 @@
-const calcSkill = require("../constants/skills");
-const { titleCase } = require("../constants/functions");
+const calcSkill = require("../constants/skills.js");
+const { titleCase } = require("../constants/functions.js");
 
 module.exports = (player, profile) => {
   try {
     const dungeons = profile?.dungeons;
     const catacombs = dungeons?.dungeon_types.catacombs;
-    const master_catacombs = dungeons?.dungeon_types.master_catacombs;
+    const MASTER_CATACOMBS = dungeons?.dungeon_types.master_catacombs;
 
     const floors = {};
-    const available_floors = Object.keys(
+    const AVAILABLE_FLOORS = Object.keys(
       dungeons?.dungeon_types.catacombs.times_played || []
     );
 
-    for (const floor in available_floors) {
-      let floor_name = "entrance";
-      if (floor != 0) floor_name = `floor_${floor}`;
-      floors[floor_name] = {
+    for (const floor in AVAILABLE_FLOORS) {
+      let floorName = "entrance";
+      if (floor != 0) floorName = `floor_${floor}`;
+      floors[floorName] = {
         times_played: catacombs?.times_played
           ? catacombs?.times_played[floor] || 0
           : 0,
@@ -43,28 +43,28 @@ module.exports = (player, profile) => {
       };
     }
 
-    const master_mode_floors = {};
+    const MASTER_MODE_FLOORS = {};
 
     for (
       let i = 1;
       i <= dungeons?.dungeon_types.master_catacombs.highest_tier_completed;
       i++
     ) {
-      master_mode_floors[`floor_${i}`] = {
-        completions: master_catacombs?.tier_completions[i] ?? 0,
+      MASTER_MODE_FLOORS[`floor_${i}`] = {
+        completions: MASTER_CATACOMBS?.tier_completions[i] ?? 0,
         best_score: {
-          score: master_catacombs?.best_score[i] ?? 0,
-          name: getScoreName(master_catacombs?.best_score[i] ?? 0),
+          score: MASTER_CATACOMBS?.best_score[i] ?? 0,
+          name: getScoreName(MASTER_CATACOMBS?.best_score[i] ?? 0),
         },
-        fastest: master_catacombs?.fastest_time[i] ?? 0,
-        fastest_s: master_catacombs?.fastest_time_s[i] ?? 0,
-        fastest_s_plus: master_catacombs?.fastest_time_s_plus?.[i] || 0,
-        mobs_killed: master_catacombs?.mobs_killed[i] ?? 0,
+        fastest: MASTER_CATACOMBS?.fastest_time[i] ?? 0,
+        fastest_s: MASTER_CATACOMBS?.fastest_time_s[i] ?? 0,
+        fastest_s_plus: MASTER_CATACOMBS?.fastest_time_s_plus?.[i] || 0,
+        mobs_killed: MASTER_CATACOMBS?.mobs_killed[i] ?? 0,
       };
     }
 
-    const highest_tier_completed = master_catacombs?.highest_tier_completed
-      ? `M${master_catacombs?.highest_tier_completed}`
+    const HIGEHST_TIER_COMPLETED = MASTER_CATACOMBS?.highest_tier_completed
+      ? `M${MASTER_CATACOMBS?.highest_tier_completed}`
       : catacombs?.highest_tier_completed
       ? `F${catacombs?.highest_tier_completed}`
       : null;
@@ -117,9 +117,9 @@ module.exports = (player, profile) => {
           dungeons?.dungeon_types.catacombs.experience || 0
         ),
         perks,
-        highest_tier_completed,
+        HIGEHST_TIER_COMPLETED,
         floors,
-        master_mode_floors,
+        MASTER_MODE_FLOORS,
       },
     };
   } catch (error) {

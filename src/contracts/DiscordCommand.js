@@ -4,7 +4,7 @@ class DiscordCommand {
   }
 
   getArgs(message) {
-    let args = message.content.split(" ");
+    const args = message.content.split(" ");
 
     args.shift();
 

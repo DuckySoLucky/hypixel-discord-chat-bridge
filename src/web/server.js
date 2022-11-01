@@ -1,13 +1,15 @@
-const express = require('express');
+const express = require("express");
 const server = express();
 
 function start() {
-  server.listen(1439, () => { console.log("Web Server is Ready!") });
+  server.listen(1439, () => {
+    console.log("Web Server is Ready!");
+  });
 }
- 
-server.all('/', (req, res) => {
-  res.send(` `)
-})
+
+server.all("/", (req, res) => {
+  res.send(` `);
+});
 
 module.exports = { start };
 
@@ -27,4 +29,3 @@ fs.readFile('./src/web/index.html', function (err, html) {
         response.end();  
     }).listen(PORT);
 });*/
- 

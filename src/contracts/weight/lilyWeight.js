@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 const LilyWeight = require("lilyweight");
 const config = require("../../../config.json");
 const lily = new LilyWeight(config.api.hypixelAPIkey);

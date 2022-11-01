@@ -1,5 +1,5 @@
-const mobs = require("../constants/mobs");
-const { titleCase } = require("../constants/functions");
+const mobs = require("../constants/mobs.js");
+const { titleCase } = require("../constants/functions.js");
 
 module.exports = (profile) => {
   const stats = profile?.stats;

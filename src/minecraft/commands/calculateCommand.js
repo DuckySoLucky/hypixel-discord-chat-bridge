@@ -1,6 +1,6 @@
-const MinecraftCommand = require("../../contracts/MinecraftCommand");
+const minecraftCommand = require("../../contracts/minecraftCommand.js");
 
-class CalculateCommand extends MinecraftCommand {
+class CalculateCommand extends minecraftCommand {
   constructor(minecraft) {
     super(minecraft);
 
@@ -13,7 +13,7 @@ class CalculateCommand extends MinecraftCommand {
 
   onCommand(username, message) {
     try {
-      let str = this.getArgs(message)
+      const str = this.getArgs(message)
         .join(" ")
         .replace(/[^-()\d/*+.]/g, "");
       this.send(`/gc ${!isNaN(eval(str)) ? `${eval(str)}` : ""}`);
