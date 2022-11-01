@@ -1,6 +1,7 @@
-const { calculateTotalSenitherWeight } = require("../constants/senitherWeight");
+const { calculateTotalSenitherWeight } = require("../constants/senitherWeight.js");
+// eslint-disable-next-line
 const LilyWeight = require("lilyweight");
-const config = require('../../config.json');
+const config = require("../../config.json");
 const lilyW = new LilyWeight(config.api.hypixelAPIkey);
 
 module.exports = async (profile, uuid) => {

@@ -1,6 +1,8 @@
+/*eslint-disable */
 const { ActivityType } = require("discord.js");
 const config = require("../../../config.json");
-const Logger = require("../../Logger");
+const Logger = require("../../Logger.js");
+/*eslint-enable */
 
 class StateHandler {
   constructor(discord) {

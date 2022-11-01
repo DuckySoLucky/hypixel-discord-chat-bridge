@@ -1,4 +1,5 @@
-const xp_tables = require("../constants/xp_tables");
+/*eslint-disable */
+const xp_tables = require("../constants/xp_tables.js");
 
 module.exports = (profile) => {
   function getSlayer(slayer) {

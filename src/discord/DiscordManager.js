@@ -1,11 +1,13 @@
+/*eslint-disable */
 const { Client, Collection, AttachmentBuilder, GatewayIntentBits } = require("discord.js");
-const CommunicationBridge = require("../contracts/CommunicationBridge");
-const messageToImage = require("../contracts/messageToImage");
-const MessageHandler = require("./handlers/MessageHandler");
-const StateHandler = require("./handlers/StateHandler");
-const CommandHandler = require("./CommandHandler");
+const CommunicationBridge = require("../contracts/CommunicationBridge.js");
+const messageToImage = require("../contracts/messageToImage.js");
+const MessageHandler = require("./handlers/MessageHandler.js");
+const StateHandler = require("./handlers/StateHandler.js");
+const CommandHandler = require("./CommandHandler.js");
 const config = require("../../config.json");
-const Logger = require(".././Logger");
+const Logger = require(".././Logger.js");
+/*eslint-enable */
 const path = require("node:path");
 const fs = require("fs");
 const { kill } = require("node:process");
@@ -92,7 +94,7 @@ class DiscordManager extends CommunicationBridge {
 
   async getWebhook(discord, type) {
     channel = await this.getChannel(type);
-    let webhooks = await channel.fetchWebhooks();
+    const webhooks = await channel.fetchWebhooks();
     if (webhooks.first()) {
       return webhooks.first();
     } else {
