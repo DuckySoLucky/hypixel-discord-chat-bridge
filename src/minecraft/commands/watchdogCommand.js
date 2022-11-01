@@ -28,10 +28,8 @@ class watchdogCommand extends MinecraftCommand {
     async onCommand(username, message) {
         try {
             hypixel.getWatchdogStats().then((data) => {
-                var staffTotal = data.byStaffTotal
-                var watchdogTotal = data.byWatchdogTotal
-                var staffTotal = staffTotal.toFixed(0);
-                var watchdogTotal = watchdogTotal.toFixed(0);
+                var staffTotal = (data.byStaffTotal).toFixed(0);
+                var watchdogTotal = (data.byWatchdogTotal).toFixed(0);
                 var staffTotal = Formatter(staffTotal, 2)
                 var watchdogTotal = Formatter(watchdogTotal, 2)
                 this.send(`/gc Watchdog Stats: ${watchdogTotal} Staff Stats: ${staffTotal} - Today Watchdog Stats: ${data.byWatchdogLastMinute} Today Staff Stats: ${data.byStaffRollingDay}`)
