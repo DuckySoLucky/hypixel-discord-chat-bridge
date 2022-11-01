@@ -1,4 +1,4 @@
-const { decodeData, decodeArrayBuffer } = require("../utils/nbt");
+const { decodeData, decodeArrayBuffer } = require("../utils/nbt.js");
 
 module.exports = async (profile) => {
   if (profile.talisman_bag?.data) {
