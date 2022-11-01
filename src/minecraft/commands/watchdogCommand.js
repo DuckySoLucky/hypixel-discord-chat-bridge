@@ -28,17 +28,15 @@ class watchdogCommand extends MinecraftCommand {
     async onCommand(username, message) {
         try {
             hypixel.getWatchdogStats().then((data) => {
-                var staffTotal = (data.byStaffTotal).toFixed(0);
-                var watchdogTotal = (data.byWatchdogTotal).toFixed(0);
-                var staffTotal = Formatter(staffTotal, 2)
-                var watchdogTotal = Formatter(watchdogTotal, 2)
+                var staffTotal = Formatter(((data.byStaffTotal).toFixed(0)), 2)
+                var watchdogTotal = Formatter(((data.byWatchdogTotal).toFixed(0)), 2)
                 this.send(`/gc Watchdog Stats: ${watchdogTotal} Staff Stats: ${staffTotal} - Today Watchdog Stats: ${data.byWatchdogLastMinute} Today Staff Stats: ${data.byStaffRollingDay}`)
             }).catch((error) => {
                 console.log(error)
             })
         } catch (error) {
             console.log(error)
-            this.send('/gc Something went wrong..')
+            this.send('/gc Something went wrong..') 
         }
     }
 }
