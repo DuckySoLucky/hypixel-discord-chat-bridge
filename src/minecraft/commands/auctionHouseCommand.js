@@ -1,4 +1,5 @@
 const config = require("../../../config.json");
+// eslint-disable-next-line
 const { ImgurClient } = require("imgur");
 const imgurClient = new ImgurClient({ clientId: config.api.imgurAPIkey });
 const { addCommas, timeSince } = require("../../contracts/helperFunctions.js");

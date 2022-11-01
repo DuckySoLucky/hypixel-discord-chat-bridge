@@ -1,8 +1,8 @@
-const { isUuid } = require("../utils/uuid");
+const { isUuid } = require("../utils/uuid.js");
 const config = require("../../config.json");
-const { parseHypixel } = require("../utils/hypixel");
+const { parseHypixel } = require("../utils/hypixel.js");
 const axios = require("axios");
-const { getUUID } = require("../../src/contracts/API/PlayerDBAPI");
+const { getUUID } = require("../../src/contracts/API/PlayerDBAPI.js");
 
 async function getLatestProfile(uuid) {
   try {

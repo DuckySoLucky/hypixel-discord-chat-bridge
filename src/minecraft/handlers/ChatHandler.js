@@ -10,8 +10,8 @@ const messages = require('../../../messages.json')
 /*eslint-disable */
 const { EmbedBuilder } = require('discord.js')
 const config = require('../../../config.json')
-/*eslint-enable */
 const Logger = require('../../Logger.js')
+/*eslint-enable */
 const fs = require('fs')
 
 class StateHandler extends eventHandler {

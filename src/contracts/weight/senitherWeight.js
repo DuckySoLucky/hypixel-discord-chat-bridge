@@ -1,6 +1,6 @@
 const {
   calculateTotalSenitherWeight,
-} = require("../../../API/stats/senitherWeight");
+} = require("../../../API/stats/senitherWeight.js");
 const {
   getLatestProfile,
 } = require("../../../API/functions/getLatestProfile.js");

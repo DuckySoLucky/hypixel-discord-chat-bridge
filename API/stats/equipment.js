@@ -1,5 +1,5 @@
-const { toTimestamp } = require("../functions/helper");
-const { decodeData } = require("../utils/nbt");
+const { toTimestamp } = require("../functions/helper.js");
+const { decodeData } = require("../utils/nbt.js");
 
 module.exports = async (profile) => {
   const EQUIPMENT_CONTENTS = {
