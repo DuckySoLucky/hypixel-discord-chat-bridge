@@ -48,11 +48,6 @@ class dailyCommand extends MinecraftCommand {
                                     const PlayerName = message.split(' ')[1]
                                     // General
 
-                                    var EXP = Formatter((Player.networkExp - Daily.General.EXP), 2)
-                                    var levelRaw = ((Math.sqrt(Player.networkExp + 15312.5) - 125 / Math.sqrt(2)) / (25 * Math.sqrt(2))) - Daily.General.levelRaw // Do not change anything here!
-                                    var level = Math.trunc(levelRaw)
-                                    var karma = Formatter(Player.karma, 2)
-
                                     if (mode == 'solo') {
                                         var Bedwars_solo_wins = Player.stats.Bedwars.eight_one_wins_bedwars === undefined ? 0 : Player.stats.Bedwars.eight_one_wins_bedwars - Daily.Bedwars.solo.wins
                                         var Bedwars_solo_losses = Player.stats.Bedwars.eight_one_losses_bedwars === undefined ? 0 : Player.stats.Bedwars.eight_one_losses_bedwars - Daily.Bedwars.solo.losses
