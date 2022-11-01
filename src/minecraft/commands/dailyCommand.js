@@ -38,14 +38,15 @@ class dailyCommand extends MinecraftCommand {
                                         var Bedwars_solo_bedsBroken = Player.stats.Bedwars.eight_one_beds_broken_bedwars === undefined ? 0 : Player.stats.Bedwars.eight_one_beds_broken_bedwars - Daily.Bedwars.solo.bedsBroken
                                         var Bedwars_solo_bedsLost = Player.stats.Bedwars.eight_one_beds_lost_bedwars === undefined ? 0 : Player.stats.Bedwars.eight_one_beds_lost_bedwars - Daily.Bedwars.solo.bedsLost
                                         if (Bedwars_solo_wins == '0') {
-                                            let Bedwars_solo_wlr = '0'
+                                            var Bedwars_solo_wlr_1 = '0'
                                         }
                                         else if (Bedwars_solo_losses == '0') {
-                                            var Bedwars_solo_wlr = Bedwars_solo_wins
+                                            var Bedwars_solo_wlr_2 = Bedwars_solo_wins
                                         }
                                         else {
-                                            var Bedwars_solo_wlr = (Bedwars_solo_wins / Bedwars_solo_losses).toFixed(2)
+                                            var Bedwars_solo_wlr_3 = (Bedwars_solo_wins / Bedwars_solo_losses).toFixed(2)
                                         }
+                                        var Bedwars_solo_wlr = Bedwars_solo_wlr_1 || Bedwars_solo_wlr_2 || Bedwars_solo_wlr_3
                                         if (Bedwars_solo_finalKills == '0') {
                                             var Bedwars_solo_fkdr = '0'
                                         }
