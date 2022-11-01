@@ -1,7 +1,6 @@
 function parseHypixel(playerRes, uuid, res) {
     if (
-        playerRes.data.hasOwnProperty("player") &&
-        playerRes.data.player == null
+        playerRes.data.hasOwnProperty("player") && playerRes.data.player == null
     ) {
         return res.status(404).json({
             status: 404,
