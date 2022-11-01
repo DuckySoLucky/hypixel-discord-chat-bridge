@@ -51,7 +51,6 @@ class dailyCommand extends MinecraftCommand {
                                     if (mode == 'solo') {
                                         var Bedwars_solo_wins = Player.stats.Bedwars.eight_one_wins_bedwars === undefined ? 0 : Player.stats.Bedwars.eight_one_wins_bedwars - Daily.Bedwars.solo.wins
                                         var Bedwars_solo_losses = Player.stats.Bedwars.eight_one_losses_bedwars === undefined ? 0 : Player.stats.Bedwars.eight_one_losses_bedwars - Daily.Bedwars.solo.losses
-                                        var Bedwars_solo_deaths = Player.stats.Bedwars.eight_one_deaths_bedwars === undefined ? 0 : Player.stats.Bedwars.eight_one_deaths_bedwars - Daily.Bedwars.solo.deaths
                                         var Bedwars_solo_finalKills = Player.stats.Bedwars.eight_one_final_kills_bedwars === undefined ? 0 : Player.stats.Bedwars.eight_one_final_kills_bedwars - Daily.Bedwars.solo.finalKills
                                         var Bedwars_solo_finalDeaths = Player.stats.Bedwars.eight_one_final_deaths_bedwars === undefined ? 0 : Player.stats.Bedwars.eight_one_final_deaths_bedwars - Daily.Bedwars.solo.finalDeaths
                                         var Bedwars_solo_bedsBroken = Player.stats.Bedwars.eight_one_beds_broken_bedwars === undefined ? 0 : Player.stats.Bedwars.eight_one_beds_broken_bedwars - Daily.Bedwars.solo.bedsBroken
