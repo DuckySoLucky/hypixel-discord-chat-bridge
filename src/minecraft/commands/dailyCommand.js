@@ -29,7 +29,6 @@ class dailyCommand extends MinecraftCommand {
 
                                     const Player = player.player
                                     const PlayerName = message.split(' ')[1]
-                                    // General
 
                                     if (mode == 'solo') {
                                         var Bedwars_solo_wins = Player.stats.Bedwars.eight_one_wins_bedwars === undefined ? 0 : Player.stats.Bedwars.eight_one_wins_bedwars - Daily.Bedwars.solo.wins
@@ -65,7 +64,7 @@ class dailyCommand extends MinecraftCommand {
                                         else {
                                             var Bedwars_solo_bblr = (Bedwars_solo_bedsBroken / Bedwars_solo_bedsLost).toFixed(2)
                                         }
-                                        this.send(`/gc Daily stats for ${PlayerName} in ${mode}: Wins: ${Bedwars_solo_wins} WLR: ${Bedwars_solo_wlr} FKDR: ${Bedwars_solo_fkdr} BLR: ${Bedwars_solo_bblr} Finals: ${Bedwars_solo_finalKills} Beds: ${Bedwars_solo_bedsBroken} - ${makeid(10)}`)
+                                        this.send(`/gc Daily stats for ${PlayerName} in ${mode}: Wins: ${Bedwars_solo_wins} WLR: ${Bedwars_solo_wlr} FKDR: ${Bedwars_solo_fkdr} BLR: ${Bedwars_solo_bblr} Finals: ${Bedwars_solo_finalKills} Beds: ${Bedwars_solo_bedsBroken}`)
                                     }
                                     else if (mode == 'doubles') {
                                         var Bedwars_doubles_wins = Player.stats.Bedwars.eight_two_wins_bedwars === undefined ? 0 : Player.stats.Bedwars.eight_two_wins_bedwars - Daily.Bedwars.doubles.wins
@@ -112,7 +111,7 @@ class dailyCommand extends MinecraftCommand {
                                         else {
                                             var Bedwars_doubles_bblr = (Bedwars_doubles_bedsBroken / Bedwars_doubles_bedsLost).toFixed(2)
                                         }
-                                        this.send(`/gc Daily stats for ${PlayerName} in ${mode}: Wins: ${Bedwars_doubles_wins}  WLR: ${Bedwars_doubles_wlr} FKDR: ${Bedwars_doubles_fkdr} BLR: ${Bedwars_doubles_bblr} Finals: ${Bedwars_doubles_finalKills} Beds: ${Bedwars_doubles_bedsBroken} - ${makeid(10)}`)
+                                        this.send(`/gc Daily stats for ${PlayerName} in ${mode}: Wins: ${Bedwars_doubles_wins}  WLR: ${Bedwars_doubles_wlr} FKDR: ${Bedwars_doubles_fkdr} BLR: ${Bedwars_doubles_bblr} Finals: ${Bedwars_doubles_finalKills} Beds: ${Bedwars_doubles_bedsBroken}`)
                                     }
                                     else if (mode == 'threes') {
                                         var Bedwars_threes_wins = Player.stats.Bedwars.four_three_wins_bedwars === undefined ? 0 : Player.stats.Bedwars.four_three_wins_bedwars - Daily.Bedwars.threes.wins
@@ -159,7 +158,7 @@ class dailyCommand extends MinecraftCommand {
                                         else {
                                             var Bedwars_threes_bblr = (Bedwars_threes_bedsBroken / Bedwars_threes_bedsLost).toFixed(2)
                                         }
-                                        this.send(`/gc Daily stats for ${PlayerName} in ${mode}: Wins: ${Bedwars_threes_wins} WLR: ${Bedwars_threes_wlr} FKDR: ${Bedwars_threes_fkdr} BLR: ${Bedwars_threes_bblr} Finals: ${Bedwars_threes_finalKills} Beds: ${Bedwars_threes_bedsBroken} - ${makeid(10)}`)
+                                        this.send(`/gc Daily stats for ${PlayerName} in ${mode}: Wins: ${Bedwars_threes_wins} WLR: ${Bedwars_threes_wlr} FKDR: ${Bedwars_threes_fkdr} BLR: ${Bedwars_threes_bblr} Finals: ${Bedwars_threes_finalKills} Beds: ${Bedwars_threes_bedsBroken}`)
                                     }
                                     else if (mode == 'fours') {
                                         var Bedwars_fours_wins = Player.stats.Bedwars.four_four_wins_bedwars === undefined ? 0 : Player.stats.Bedwars.four_four_wins_bedwars - Daily.Bedwars.fours.wins
@@ -206,7 +205,7 @@ class dailyCommand extends MinecraftCommand {
                                         else {
                                             var Bedwars_fours_bblr = (Bedwars_fours_bedsBroken / Bedwars_fours_bedsLost).toFixed(2)
                                         }
-                                        this.send(`/gc Daily stats for ${PlayerName} in ${mode}: Wins: ${Bedwars_fours_wins} WLR: ${Bedwars_fours_wins} FKDR: ${Bedwars_fours_fkdr} BLR: ${Bedwars_fours_bblr} Finals: ${Bedwars_fours_finalKills} Beds: ${Bedwars_fours_bedsBroken} - ${makeid(10)}`)
+                                        this.send(`/gc Daily stats for ${PlayerName} in ${mode}: Wins: ${Bedwars_fours_wins} WLR: ${Bedwars_fours_wins} FKDR: ${Bedwars_fours_fkdr} BLR: ${Bedwars_fours_bblr} Finals: ${Bedwars_fours_finalKills} Beds: ${Bedwars_fours_bedsBroken}`)
                                     }
                                     else if (mode == '4v4') {
                                         var Bedwars_four_two_wins = Player.stats.Bedwars.two_four_wins_bedwars === undefined ? 0 : Player.stats.Bedwars.two_four_wins_bedwars - Daily.Bedwars.four_two.wins
@@ -253,7 +252,7 @@ class dailyCommand extends MinecraftCommand {
                                         else {
                                             var Bedwars_four_two_bblr = (Bedwars_four_two_bedsBroken / Bedwars_four_two_bedsLost).toFixed(2)
                                         }
-                                        this.send(`/gc Daily stats for ${PlayerName} in ${mode}: Wins: ${Bedwars_four_two_wins} WRL: ${Bedwars_four_two_wlr} FKDR: ${Bedwars_four_two_fkdr} BLR: ${Bedwars_four_two_bblr} Finals: ${Bedwars_four_two_finalKills} Beds: ${Bedwars_four_two_bedsBroken} - ${makeid(10)}`)
+                                        this.send(`/gc Daily stats for ${PlayerName} in ${mode}: Wins: ${Bedwars_four_two_wins} WRL: ${Bedwars_four_two_wlr} FKDR: ${Bedwars_four_two_fkdr} BLR: ${Bedwars_four_two_bblr} Finals: ${Bedwars_four_two_finalKills} Beds: ${Bedwars_four_two_bedsBroken}`)
                                     }
                                     else if (mode == 'overall' || mode == undefined) {
                                         var bedwars_wins = Player.stats.Bedwars.wins_bedwars === undefined ? 0 : Player.stats.Bedwars.wins_bedwars - Daily.Bedwars.overall.wins
