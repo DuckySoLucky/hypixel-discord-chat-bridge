@@ -1,6 +1,5 @@
 
 const MinecraftCommand = require('../../contracts/MinecraftCommand')
-const config = require('../../../config.json')
 const fetch = (...args) => import('node-fetch').then(({
     default: fetch
 }) => fetch(...args)).catch(err => console.log(err));
