@@ -24,7 +24,6 @@ A two-way chat bridge between [Hypixel](https://hypixel.net/) guild chat and a [
 - A Minecraft account
 
 ### Installation guide for Git
-[More in depth guide](guides/git.md)
 
 To get started, download git [from this link](https://git-scm.com/downloads) by selecting the operating system you are using.
 
@@ -34,7 +33,6 @@ Leave most of the settings as default
 Then go onto the next step of [installing NodeJS](#installing-nodejs).
 
 ### Installation guide for NodeJS
-[More in depth guide](guides/NodeJS.md)
 
 To get started, download NodeJS [from this link](https://nodejs.org/en/download/) by selecting the operating system you are using.
 
