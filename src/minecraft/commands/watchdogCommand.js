@@ -34,7 +34,6 @@ class watchdogCommand extends MinecraftCommand {
                 var watchdogTotal = Formatter(watchdogTotal, 2)
                 this.send(`/gc Watchdog Stats: ${watchdogTotal} Staff Stats: ${staffTotal} - Today Watchdog Stats: ${data.byWatchdogLastMinute} Today Staff Stats: ${data.byStaffRollingDay}`)
             }).catch((error) => {
-                this.send(`/gc ${player} does not exist!`)
                 console.log(error)
             })
         } catch (error) {
