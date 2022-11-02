@@ -172,34 +172,37 @@ The bot also includes automatic guild accept if the user meets requirements. The
 
 `Minecraft`
 
-- `!8ball <question>` - Ask an 8ball a question.
-- `!armor [player]` - Renders armor of specified user.
-- `!auction [player]` - Active Auctions of specified user.
-- `!bedwars [player]` - BedWars stats of specified user.
-- `!catacombs [player]` - Skyblock Dungeons Stats of specified user.
-- `!accessories [player]` - Accessories of specified user.
-- `!denick [player]` - Denick username of specified user.
-- `!duels [player]` - Duel stats of specified user.
-- `!equipment [name]` - Renders equipment of specified user.
-- `!fairysouls [player]` - Fairy Souls of specified user.
-- `!fetchur` - Information about an item for Fetchur.
-- `!guildexp [player]` - Guilds experience of specified user.
-- `!guild [guildName]` - Lets you look up a guild based on its name.
-- `!go [player]` - Lets you look up a guild based on a players ign.
-- `!help` - Shows help menu.
-- `!kitty` - Random image of cute cat.
-- `!math <calculation>` - Calculate any kind of math problem.
-- `!networth [player]` - Networth of specified user.
-- `!pet [player]` - Renders active pet of specified user.
-- `!render [player] [slot]` - Renders item of specified user.
-- `!skills [player]` - Skills and Skill Average of specified user.
-- `!skywars [player]` - Skywars stats of specified user.
-- `!skyblock [player]` - Skyblock Stats of specified user.
-- `!slayer [player] [type]` - Slayer of specified user.
-- `!UHC [player]` - UHC Stats of specified user.
-- `!weight [player]` - Skyblock Stats of specified user.
-- `!winstreak [player]` - Estimated winstreaks of the specified user.
-- `!woolwars [player]` - WoolWars stats of specified user.
+`< >` = Required arguments, `[ ]` = Optional arguments
+|Command|Feature|Syntax|Example|Response|
+|--|--|--|--|--|
+|`8ball` | Ask an 8ball a question | <question> | Example | [Responce Of Example](wwwwwww)
+|`armor` | Renders armor of specified user | [player] | Example | [Responce Of Example](wwwwwww)
+|`auction` | Active Auctions of specified user | [player] | Example | [Responce Of Example](wwwwwww)
+|`bedwars` | BedWars stats of specified user | [player] | Example | [Responce Of Example](wwwwwww)
+|`catacombs` | Skyblock Dungeons Stats of specified user | [player] | Example | [Responce Of Example](wwwwwww)
+|`accessories` | Accessories of specified user | [player] | Example | [Responce Of Example](wwwwwww)
+|`denick` | Denick username of specified user | [player] | Example | [Responce Of Example](wwwwwww)
+|`duels` | Duel stats of specified user | [player] | Example | [Responce Of Example](wwwwwww)
+|`equipment` | Renders equipment of specified user | [player] | Example | [Responce Of Example](wwwwwww)
+|`fairysouls` | Fairy Souls of specified user | [player] | Example | [Responce Of Example](wwwwwww)
+|`fetchur` | Information about an item for Fetchur |  | Example | [Responce Of Example](wwwwwww)
+|`guildexp` | Guilds experience of specified user | [player] | Example | [Responce Of Example](wwwwwww)
+|`guild` | Look up a guild based on its name | [guildName] | Example | [Responce Of Example](wwwwwww)
+|`go` | Look up a guild based on a players ign | [player] | Example | [Responce Of Example](wwwwwww)
+|`help` | Shows help menu |  | Example | [Responce Of Example](wwwwwww)
+|`kitty` | Random image of cute cat |  | Example | [Responce Of Example](wwwwwww)
+|`math` | Calculate any kind of math problem | <calculation> | Example | [Responce Of Example](wwwwwww)
+|`networth` | Networth of specified user | [player] | Example | [Responce Of Example](wwwwwww)
+|`pet` | Renders active pet of specified user | [player] | Example | [Responce Of Example](wwwwwww)
+|`render` | Renders item of specified user | [player] | Example | [Responce Of Example](wwwwwww)
+|`skills` | Skills and Skill Average of specified user | [player] | Example | [Responce Of Example](wwwwwww)
+|`skywars` | Skywars stats of specified user | [player] | Example | [Responce Of Example](wwwwwww)
+|`skyblock` | Skyblock Stats of specified user | [player] | Example | [Responce Of Example](wwwwwww)
+|`slayer` | Slayer of specified user | [player] | Example | [Responce Of Example](wwwwwww)
+|`UHC` | UHC Stats of specified user | [player] | Example | [Responce Of Example](wwwwwww)
+|`weight` | Skyblock Stats of specified user | [player] | Example | [Responce Of Example](wwwwwww)
+|`winstreak` | Estimated winstreaks of the specified user | [player] | Example | [Responce Of Example](wwwwwww)
+|`woolwars` | WoolWars stats of specified user | [player] | Example | [Responce Of Example](wwwwwww)
 
 ### Chat Triggers Module
 
