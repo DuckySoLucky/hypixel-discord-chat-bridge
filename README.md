@@ -14,6 +14,8 @@ A two-way chat bridge between [Hypixel](https://hypixel.net/) guild chat and a [
 - [Installation guide for NodeJS](#installation-guide-for-nodejs)
 - [Installation using Docker](#Docker)
 - [Commands](#Commands)
+  - [Commands for Discord](#discord-commands)
+  - [Commands for Minecraft](#minecraft-commands)
 - [Configuration](#configuration)
 - [To-Do List](#to-do-list)
 
@@ -152,7 +154,7 @@ The bot also includes automatic guild accept if the user meets requirements. The
 
 `< >` = Required arguments, `[ ]` = Optional arguments
 
-`Discord`
+#### Discord Commands
 
 - `/blacklist [player]` - Blacklists specified user from using bot.
 - `/demote [player]` - Demotes the given user by one guild rank.
@@ -170,27 +172,27 @@ The bot also includes automatic guild accept if the user meets requirements. The
 - `/uptime` - Shows the uptime of the bot.
 
 
-`Minecraft`
+#### Minecraft Commands
 
 `< >` = Required arguments, `[ ]` = Optional arguments
 |Command|Feature|Syntax|Example|Response|
 |--|--|--|--|--|
-|`8ball` | Ask an 8ball a question | `<question>` | !8ball is DuckySoLucky Hot? | [Responce Of Example](https://i.imgur.com/mLyICsX.jpeg)
-|`armor` | Renders armor of specified user | `[player]` | !Armour SpookyKath | [Responce Of Example](https://i.imgur.com/enFiSct.jpg)
-|`auction` | Active Auctions of specified user | `[player]` | !auction | [Responce Of Example](imgurLinkWhen)
-|`bedwars` | BedWars stats of specified user | `[player]` | !bedwars | [Responce Of Example](https://i.imgur.com/CKjLKMs.jpg)
-|`catacombs` | Skyblock Dungeons Stats of specified user | `[player]` | !dungeons | [Responce Of Example](https://i.imgur.com/RoRSo8Q.jpg)
-|`accessories` | Accessories of specified user | `[player]` | !accessories | [Responce Of Example](https://i.imgur.com/0E3lMwc.jpg)
-|`denick` | Denick username of specified user | `<player>` | !denick Jediiii | [Responce Of Example](https://i.imgur.com/XTjg0CX.jpg)
-|`duels` | Duel stats of specified user | `[player]` | !duels | [Responce Of Example](imgurLinkWhen)
-|`equipment` | Renders equipment of specified user | `[player]` | !equipment | [Responce Of Example](imgurLinkWhen)
-|`fairysouls` | Fairy Souls of specified user | `[player]` | !fairysouls | [Responce Of Example](imgurLinkWhen)
-|`fetchur` | Information about an item for Fetchur | `None` | !fetcher | [Responce Of Example](imgurLinkWhen)
-|`guildexp` | Guilds experience of specified user | `[player]` | !guildexp | [Responce Of Example](imgurLinkWhen)
-|`guild` | Look up a guild based on its name | `<guildName>` | !guild Felony | [Responce Of Example](imgurLinkWhen)
-|`go` | Look up a guild based on a players ign | `<player>` | !go SpookyKath | [Responce Of Example](imgurLinkWhen)
-|`help` | Shows help menu | `None` | !help | [Responce Of Example](imgurLinkWhen)
-|`kitty` | Random image of cute cat | `None` | !kitty | [Responce Of Example](imgurLinkWhen)
+|`8ball` | Ask an 8ball a question | `!8ball <question>` | !8ball is DuckySoLucky Hot? | [Responce Of Example](https://i.imgur.com/mLyICsX.jpeg)
+|`armor` | Renders armor of specified user | `!armor [player]` | !Armour SpookyKath | [Responce Of Example](https://i.imgur.com/enFiSct.jpg)
+|`auction` | Active Auctions of specified user | `!auction [player]` | !auction | [Responce Of Example](imgurLinkWhen)
+|`bedwars` | BedWars stats of specified user | `!bedwars [player]` | !bedwars | [Responce Of Example](https://i.imgur.com/CKjLKMs.jpg)
+|`catacombs` | Skyblock Dungeons Stats of specified user | `!catacombs [player]` | !dungeons | [Responce Of Example](https://i.imgur.com/RoRSo8Q.jpg)
+|`accessories` | Accessories of specified user | `!accessories [player]` | !accessories | [Responce Of Example](https://i.imgur.com/0E3lMwc.jpg)
+|`denick` | Denick username of specified user | `!denick <player>` | !denick Jediiii | [Responce Of Example](https://i.imgur.com/XTjg0CX.jpg)
+|`duels` | Duel stats of specified user | `!duels [player]` | !duels | [Responce Of Example](imgurLinkWhen)
+|`equipment` | Renders equipment of specified user | `!equipment [player]` | !equipment | [Responce Of Example](imgurLinkWhen)
+|`fairysouls` | Fairy Souls of specified user | `!fairysouls [player]` | !fairysouls | [Responce Of Example](imgurLinkWhen)
+|`fetchur` | Information about an item for Fetchur | `!fetcher` | !fetcher | [Responce Of Example](imgurLinkWhen)
+|`guildexp` | Guilds experience of specified user | `!guildexp [player]` | !guildexp | [Responce Of Example](imgurLinkWhen)
+|`guild` | Look up a guild based on its name | `!guild <guildName>` | !guild Felony | [Responce Of Example](imgurLinkWhen)
+|`go` | Look up a guild based on a players ign | `!go <player>` | !go SpookyKath | [Responce Of Example](imgurLinkWhen)
+|`help` | Shows help menu | `!help` | !help | [Responce Of Example](imgurLinkWhen)
+|`kitty` | Random image of cute cat | `!kitty` | !kitty | [Responce Of Example](imgurLinkWhen)
 |`math` | Calculate any kind of math problem | `<calculation>` | !math 1+1 | [Responce Of Example](imgurLinkWhen)
 |`networth` | Networth of specified user | `[player]` | !networth | [Responce Of Example](imgurLinkWhen)
 |`pet` | Renders active pet of specified user | `[player]` | !pet | [Responce Of Example](imgurLinkWhen)
