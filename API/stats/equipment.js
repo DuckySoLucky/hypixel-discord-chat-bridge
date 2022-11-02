@@ -1,8 +1,8 @@
-const { toTimestamp } = require("../functions/helper.js");
-const { decodeData } = require("../utils/nbt.js");
+const { toTimestamp } = require("../functions/helper");
+const { decodeData } = require("../utils/nbt");
 
 module.exports = async (profile) => {
-  const EQUIPMENT_CONTENTS = {
+  const equipment_contents = {
     necklace: [],
     cloak: [],
     belt: [],
@@ -40,9 +40,9 @@ module.exports = async (profile) => {
           toTimestamp(equipment[i].tag.ExtraAttributes.timestamp) | null;
       }
 
-      EQUIPMENT_CONTENTS[equipmentPieces[i]] = equipment[i];
+      equipment_contents[equipmentPieces[i]] = equipment[i];
     }
   }
 
-  return EQUIPMENT_CONTENTS;
+  return equipment_contents;
 };

@@ -1,8 +1,6 @@
-/*eslint-disable */
 const { Collection } = require("discord.js");
-const Logger = require("../Logger");
-/*eslint-enable */
 const config = require("../../config.json");
+const Logger = require("../Logger");
 const fs = require("fs");
 
 class CommandHandler {
@@ -12,7 +10,7 @@ class CommandHandler {
     this.prefix = config.minecraft.prefix;
     this.commands = new Collection();
 
-    const commandFiles = fs.readdirSync("./src/minecraft/commands").filter((file) => file.endsWith(".js"));
+    let commandFiles = fs.readdirSync("./src/minecraft/commands").filter((file) => file.endsWith(".js"));
     global.minecraftCommandList = [];
     for (const file of commandFiles) {
       const command = new (require(`./commands/${file}`))(minecraft);
@@ -25,9 +23,9 @@ class CommandHandler {
   handle(player, message) {
     if (!message.startsWith(this.prefix)) return false;
 
-    const args = message.slice(this.prefix.length).trim().split(/ +/);
-    const commandName = args.shift().toLowerCase();
-    const command = this.commands.get(commandName) || this.commands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
+    let args = message.slice(this.prefix.length).trim().split(/ +/);
+    let commandName = args.shift().toLowerCase();
+    let command = this.commands.get(commandName) || this.commands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
 
     if (!command) return false;
 

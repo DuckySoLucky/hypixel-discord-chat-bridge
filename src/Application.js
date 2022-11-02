@@ -1,7 +1,5 @@
-/*eslint-disable */
-const DiscordManager = require("./discord/DiscordManager.js");
-const MinecraftManager = require("./minecraft/MinecraftManager.js");
-/*eslint-enable */
+const DiscordManager = require("./discord/DiscordManager");
+const MinecraftManager = require("./minecraft/MinecraftManager");
 
 class Application {
   async register() {

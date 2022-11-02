@@ -1,7 +1,6 @@
-const calcSkill = require("../constants/skills.js");
+const calcSkill = require("../constants/skills");
 
 module.exports = function getSkills(player, profile) {
-  // eslint-disable-next-line
   const skill_experience = {
     farming: profile?.experience_skill_farming || 0,
     mining: profile?.experience_skill_mining || 0,

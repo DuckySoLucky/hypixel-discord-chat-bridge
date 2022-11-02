@@ -33,7 +33,8 @@ Leave most of the settings as default
 
 Then go onto the next step of [installing NodeJS](#installing-nodejs).
 
-### Installation guide for NodeJS 
+### Installation guide for NodeJS
+[More in depth guide](guides/NodeJS.md)
 
 To get started, download NodeJS [from this link](https://nodejs.org/en/download/) by selecting the operating system you are using.
 

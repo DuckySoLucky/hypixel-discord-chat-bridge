@@ -41,9 +41,8 @@ function getPlayerRank(rank, packageRank, newPackageRank, monthlyPackageRank) {
     rank === "NORMAL"
       ? newPackageRank || packageRank || null
       : rank || newPackageRank || packageRank || null;
-  if (playerRank === "MVP_PLUS" && monthlyPackageRank === "SUPERSTAR") {
+  if (playerRank === "MVP_PLUS" && monthlyPackageRank === "SUPERSTAR")
     playerRank = "MVP_PLUS_PLUS";
-  }
   if (rank === "NONE") playerRank = null;
   return playerRank;
 }

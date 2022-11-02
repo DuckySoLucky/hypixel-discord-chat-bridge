@@ -1,7 +1,6 @@
-const { writeAt } = require("../../contracts/helperFunctions.js");
-// eslint-disable-next-line
-const Rss = require('rss-parser');
+const { writeAt } = require("../../contracts/helperFunctions");
 const fs = require('fs');
+const Rss = require('rss-parser');
 const parser = new Rss();
 
 setInterval(checkForSkyblockUpdates, 10000);

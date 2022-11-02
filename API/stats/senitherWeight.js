@@ -1,5 +1,4 @@
 //CREDIT: https://github.com/Senither/hypixel-skyblock-facade
-/*eslint-disable */
 const dungeon_weights = {
   catacombs: 0.0002149604615,
   healer: 0.0000045254834,

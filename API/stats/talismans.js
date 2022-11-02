@@ -1,7 +1,6 @@
-const { decodeData } = require("../utils/nbt.js");
-const { capitalize } = require("../constants/functions.js");
-const { talismans: allTalismans } = require("../constants/talismans.js");
-/*eslint-disable */
+const { decodeData } = require("../utils/nbt");
+const { capitalize } = require("../constants/functions");
+const { talismans: allTalismans } = require("../constants/talismans");
 
 module.exports = async (profile) => {
   if (profile.talisman_bag?.data) {

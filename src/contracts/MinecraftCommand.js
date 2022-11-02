@@ -1,4 +1,4 @@
-const helperFunctions = require("./helperFunctions.js");
+const helperFunctions = require("./helperFunctions");
 const config = require("../../config.json");
 
 class MinecraftCommand {
@@ -7,7 +7,7 @@ class MinecraftCommand {
   }
 
   getArgs(message) {
-    const args = message.split(" ");
+    let args = message.split(" ");
 
     args.shift();
 
@@ -17,7 +17,7 @@ class MinecraftCommand {
   send(message) {
     if (this.minecraft.bot.player !== undefined) {
       if (config.minecraft.messageRepeatBypass) {
-        const string = helperFunctions.generateID(
+        let string = helperFunctions.generateID(
           config.minecraft.messageRepeatBypassLength
         );
         this.minecraft.bot.chat(message + " - " + string);

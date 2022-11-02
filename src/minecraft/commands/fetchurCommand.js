@@ -1,28 +1,27 @@
-const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const { getFetchur } = require("../../../API/functions/getFetchur.js");
+const MinecraftCommand = require('../../contracts/MinecraftCommand')
+const { getFetchur } = require('../../../API/functions/getFetchur')
 
-class FetchurCommand extends minecraftCommand {
+class fetchurCommand extends MinecraftCommand {
   constructor(minecraft) {
-    super(minecraft);
+    super(minecraft)
 
-    this.name = "fetchur";
-    this.aliases = [];
-    this.description = "Information about an item for Fetchur.";
-    this.options = [];
+    this.name = 'fetchur'
+    this.aliases = []
+    this.description = 'Information about an item for Fetchur.'
+    this.options = []
   }
 
   async onCommand(username, message) {
     try {
-      const fetchur = getFetchur();
-
-      this.send(
-        `/gc Fetchur Requests » ${fetchur.text} | Description: ${fetchur.description}`
-      );
+      const fetchur = getFetchur()
+      
+      this.send(`/gc Fetchur Requests » ${fetchur.text} | Description: ${fetchur.description}`)
     } catch (error) {
-      console.log(error);
-      this.send("/gc Something went wrong..");
+      console.log(error)
+      this.send('/gc Something went wrong..')
     }
   }
 }
 
-module.exports = FetchurCommand;
+module.exports = fetchurCommand
+

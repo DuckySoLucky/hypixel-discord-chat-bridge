@@ -1,5 +1,5 @@
 // CREDIT: https://github.com/SkyCryptWebsite/SkyCrypt/ (Modified)
-/*eslint-disable */
+
 /*
   Animated skins created at ezgif.com/apng-maker with the following settings:
   - Skins that change based on time of day

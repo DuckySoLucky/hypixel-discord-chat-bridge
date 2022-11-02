@@ -1,4 +1,4 @@
-const getSkills = require("./skills.js");
+const getSkills = require("./skills");
 
 module.exports = (player, profile) => {
   const enchanting = {

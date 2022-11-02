@@ -1,4 +1,4 @@
-const milestones = require("../constants/milestones.js");
+const milestones = require("../constants/milestones");
 
 module.exports = function getMilestones(profile) {
   const dolphin = getCurrentPet(
@@ -42,7 +42,7 @@ function getCurrentPet(pet, stats) {
     xpForNext = Math.ceil(milestones[pet][level]);
   }
 
-  const left = xpForNext - stats > 0 ? xpForNext - stats : 0;
+  let left = xpForNext - stats > 0 ? xpForNext - stats : 0;
 
   progress = level >= 5 ? 0 : Math.max(0, Math.min(stats / xpForNext, 1));
   return {

@@ -1,14 +1,12 @@
-/*eslint-disable */
-const CommunicationBridge = require("../contracts/CommunicationBridge.js");
-const StateHandler = require("./handlers/StateHandler.js");
-const ErrorHandler = require("./handlers/ErrorHandler.js");
-const ChatHandler = require("./handlers/ChatHandler.js");
-const CommandHandler = require("./CommandHandler.js");
+const CommunicationBridge = require("../contracts/CommunicationBridge");
+const StateHandler = require("./handlers/StateHandler");
+const ErrorHandler = require("./handlers/ErrorHandler");
+const ChatHandler = require("./handlers/ChatHandler");
+const CommandHandler = require("./CommandHandler");
 const config = require("../../config.json");
 const mineflayer = require("mineflayer");
 const Filter = require("bad-words");
 const Logger = require("../Logger");
-/*eslint-enable */
 const filter = new Filter();
 
 class MinecraftManager extends CommunicationBridge {
@@ -21,8 +19,8 @@ class MinecraftManager extends CommunicationBridge {
     this.errorHandler = new ErrorHandler(this);
     this.chatHandler = new ChatHandler(this, new CommandHandler(this));
 
-    require("./other/eventNotifier.js");
-    require("./other/skyblockNotifier.js");
+    require("./other/eventNotifier");
+    require("./other/skyblockNotifier");
   }
 
   connect() {

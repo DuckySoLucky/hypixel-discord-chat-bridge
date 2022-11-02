@@ -2,7 +2,7 @@ module.exports = {
   titleCase: function titleCase(str, replaceunderscore = false) {
     try {
       if (replaceunderscore) str = str.replace(/_/g, " ");
-      const splitStr = str.toLowerCase().split(" ");
+      let splitStr = str.toLowerCase().split(" ");
       for (let i = 0; i < splitStr.length; i++) {
         splitStr[i] = splitStr[i][0].toUpperCase() + splitStr[i].substr(1);
       }
@@ -17,7 +17,7 @@ module.exports = {
     return str.charAt(0).toUpperCase() + str.slice(1);
   },
   toFixed: function toFixed(num, fixed) {
-    const re = new RegExp("^-?\\d+(?:.\\d{0," + (fixed || -1) + "})?");
+    let re = new RegExp("^-?\\d+(?:.\\d{0," + (fixed || -1) + "})?");
     return num.toString().match(re)[0];
   },
   isFormatCode: function isFormatCode(code) {
@@ -32,7 +32,7 @@ module.exports = {
     const formats = new Set();
 
     // @ts-ignore - this regex always matches so we don't need to check for null
-    for (const part of text.match(/(§[0-9a-fk-or])*[^§]*/g)) {
+    for (let part of text.match(/(§[0-9a-fk-or])*[^§]*/g)) {
       if (part.length === 0) continue;
 
       output += "";

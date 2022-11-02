@@ -1,5 +1,6 @@
-// Credits https://github.com/Altpapier/ (Modified)
-// eslint-disable-next-line
+// Credits https://github.com/Altpapier/
+// Modified
+
 const Canvas = require("canvas");
 Canvas.registerFont("src/contracts/Fonts/MinecraftRegular-Bmg3.ttf", {
   family: "Minecraft",

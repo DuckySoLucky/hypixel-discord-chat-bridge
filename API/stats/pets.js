@@ -4,10 +4,9 @@ const {
   capitalize,
   renderLore,
   formatNumber,
-} = require("../constants/functions.js");
-// eslint-disable-next-line
-const { pet_skins } = require("../constants/skins.js");
-const constants = require("../constants/pets.js");
+} = require("../constants/functions");
+const { pet_skins } = require("../constants/skins");
+const constants = require("../constants/pets");
 
 const rarities = [
   "common",
