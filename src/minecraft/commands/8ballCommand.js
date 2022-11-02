@@ -1,5 +1,7 @@
 const MinecraftCommand = require('../../contracts/MinecraftCommand')
-const axios = require('axios')
+const fetch = (...args) => import('node-fetch').then(({
+    default: fetch
+}) => fetch(...args)).catch(err => console.log(err));
 
 class eightBallCommand extends MinecraftCommand {
   constructor(minecraft) {
@@ -14,7 +16,11 @@ class eightBallCommand extends MinecraftCommand {
 
   async onCommand(username, message) {
     try {
-      this.send(axios.get(`https://8ball.delegator.com/magic/JSON/${message}`)).data.magic.answer
+      fetch(`https://8ball.delegator.com/magic/JSON/${message}`).then(res => {
+        res.json().then((data) => {
+          this.send(`/gc the magic 8ball says ${data.magic.answer}`)
+        })
+      })
     } catch (error) {
       console.log(error)
       this.send('/gc Something went wrong..')
