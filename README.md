@@ -184,6 +184,8 @@ The bot also includes automatic guild accept if the user meets requirements. The
 - `!fairysouls [player]` - Fairy Souls of specified user.
 - `!fetchur` - Information about an item for Fetchur.
 - `!guildexp [player]` - Guilds experience of specified user.
+- `!guild [guildName]` - Lets you look up a guild based on its name.
+- `!go [player]` - Lets you look up a guild based on a players ign.
 - `!help` - Shows help menu.
 - `!kitty` - Random image of cute cat.
 - `!math <calculation>` - Calculate any kind of math problem.
