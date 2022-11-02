@@ -1,10 +1,10 @@
-const DiscordManager = require("./discord/DiscordManager");
-const MinecraftManager = require("./minecraft/MinecraftManager");
+const discordManager = require("./discord/DiscordManager");
+const minecraftManager = require("./minecraft/MinecraftManager");
 
 class Application {
   async register() {
-    this.discord = new DiscordManager(this);
-    this.minecraft = new MinecraftManager(this);
+    this.discord = new discordManager(this);
+    this.minecraft = new minecraftManager(this);
 
     this.discord.setBridge(this.minecraft);
     this.minecraft.setBridge(this.discord);
