@@ -175,13 +175,13 @@ The bot also includes automatic guild accept if the user meets requirements. The
 `< >` = Required arguments, `[ ]` = Optional arguments
 |Command|Feature|Syntax|Example|Response|
 |--|--|--|--|--|
-|`8ball` | Ask an 8ball a question | `<question>` | !8ball is DuckySoLuckyHot | [Responce Of Example](imgurLinkWhen)
-|`armor` | Renders armor of specified user | `[player]` | !Armour SpookyKath | [Responce Of Example](imgurLinkWhen)
+|`8ball` | Ask an 8ball a question | `<question>` | !8ball is DuckySoLucky Hot? | [Responce Of Example](https://i.imgur.com/mLyICsX.jpeg)
+|`armor` | Renders armor of specified user | `[player]` | !Armour SpookyKath | [Responce Of Example](https://i.imgur.com/enFiSct.jpg)
 |`auction` | Active Auctions of specified user | `[player]` | !auction | [Responce Of Example](imgurLinkWhen)
-|`bedwars` | BedWars stats of specified user | `[player]` | !bedwars | [Responce Of Example](imgurLinkWhen)
-|`catacombs` | Skyblock Dungeons Stats of specified user | `[player]` | !dungeons | [Responce Of Example](imgurLinkWhen)
-|`accessories` | Accessories of specified user | `[player]` | !accessories | [Responce Of Example](imgurLinkWhen)
-|`denick` | Denick username of specified user | `<player>` | !denick Jediiii | [Responce Of Example](imgurLinkWhen)
+|`bedwars` | BedWars stats of specified user | `[player]` | !bedwars | [Responce Of Example](https://i.imgur.com/CKjLKMs.jpg)
+|`catacombs` | Skyblock Dungeons Stats of specified user | `[player]` | !dungeons | [Responce Of Example](https://i.imgur.com/RoRSo8Q.jpg)
+|`accessories` | Accessories of specified user | `[player]` | !accessories | [Responce Of Example](https://i.imgur.com/0E3lMwc.jpg)
+|`denick` | Denick username of specified user | `<player>` | !denick Jediiii | [Responce Of Example](https://i.imgur.com/XTjg0CX.jpg)
 |`duels` | Duel stats of specified user | `[player]` | !duels | [Responce Of Example](imgurLinkWhen)
 |`equipment` | Renders equipment of specified user | `[player]` | !equipment | [Responce Of Example](imgurLinkWhen)
 |`fairysouls` | Fairy Souls of specified user | `[player]` | !fairysouls | [Responce Of Example](imgurLinkWhen)
