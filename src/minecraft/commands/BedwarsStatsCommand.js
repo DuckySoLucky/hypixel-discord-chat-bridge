@@ -70,4 +70,4 @@ class BedwarsCommand extends minecraftCommand {
   }
 }
 
-module.exports = BedwarsCommand
+module.exports = bedwarsCommand
