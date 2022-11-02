@@ -8,7 +8,7 @@ class guildExperienceCommand extends MinecraftCommand {
         super(minecraft)
 
         this.name = 'guildexp'
-        this.aliases = ['gexp']
+        this.aliases = ['gexp', 'guildexp']
         this.description = "Guilds experience of specified user."
         this.options = ['name']
     }
