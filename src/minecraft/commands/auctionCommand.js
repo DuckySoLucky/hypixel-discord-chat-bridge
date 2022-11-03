@@ -32,19 +32,19 @@ class auctionHouseCommand extends MinecraftCommand {
       for (let i = 0; i < response.auctions.length; i++) {
         if (response.auctions[i].end >= Date.now()) {
           const auctionInfromation = (await decodeData(Buffer.from(response.auctions[i].item_bytes.data, 'base64'))).i
-          if (!response.auctions[i].bin) bidder = (await axios.get(`${config.api.hypixelAPI}/player?key=${config.api.hypixelAPIkey}&uuid=${response.auctions[i].bids[response.auctions[i].bids.length-1].bidder}`)).data.player
+          if (!response.auctions[i].bin) bidder = (await axios.get(`${config.api.hypixelAPI}/player?key=${config.api.hypixelAPIkey}&uuid=${response.auctions[i].bids[response.auctions[i].bids.length - 1].bidder}`)).data.player
           let lore = response.auctions[i].item_lore.split('\n')
           lore.push('§8§m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯', `§7Seller: ${getRank(data)} ${data.displayname}`)
           if (response.auctions[i].bin) lore.push(`§7Buy it now: §6${addCommas(response.auctions[i].starting_bid)} coins`)
           if (!response.auctions[i].bin) lore.push(`§7Bids: §a${(response.auctions[i].bids).length} bids`, ` `, `§7Top Bid: §6${addCommas(response.auctions[i].highest_bid_amount)} coins`, `§7Bidder: ${getRank(bidder)}${bidder.displayname}`)
           lore.push(' ', `§7Ends in: §e${timeSince(response.auctions[i].end)}`)
           const renderedItem = await renderLore(auctionInfromation[0].tag.display.Name, lore)
-          const upload = await imgurClient.upload({image: renderedItem, type: 'stream'})
+          const upload = await imgurClient.upload({ image: renderedItem, type: 'stream' })
           if (!upload.data.link) this.send(`/gc There was an error with Imgur, try again.`)
-          string += string == '' ? upload.data.link : ' | ' + upload.data.link 
+          string += string == '' ? upload.data.link : ' | ' + upload.data.link
         }
-        if (i == response.auctions.length-1 && string != '') {
-          this.send(`/gc ${username}'s Active Auctions » ${string}`); 
+        if (i == response.auctions.length - 1 && string != '') {
+          this.send(`/gc ${username}'s Active Auctions » ${string}`);
           break;
         }
       }

@@ -1,6 +1,6 @@
 const MinecraftCommand = require('../../contracts/MinecraftCommand')
 const fetch = (...args) => import('node-fetch').then(({
-    default: fetch
+  default: fetch
 }) => fetch(...args)).catch(err => console.log(err));
 
 class eightBallCommand extends MinecraftCommand {

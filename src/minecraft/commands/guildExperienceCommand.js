@@ -4,7 +4,7 @@ const config = require('../../../config.json')
 const { addCommas } = require('../../contracts/helperFunctions')
 
 class guildExperienceCommand extends MinecraftCommand {
-        constructor(minecraft) {
+    constructor(minecraft) {
         super(minecraft)
 
         this.name = 'guildexp'
@@ -27,14 +27,14 @@ class guildExperienceCommand extends MinecraftCommand {
                 if (member.uuid != player.uuid) continue;
 
                 if (guild.members.indexOf(member) == guild.members.length - 1) return this.send(`/gc ${username} is not in the Guild.`)
-                
+
                 return this.send(`/gc ${username == arg[0] ? `${arg[0]}'s` : `Your`} Weekly Guild Experience » ${addCommas(member.weeklyExperience)}.`)
             }
         } catch (error) {
             console.log(error)
             this.send('There is no player with the given UUID or name or player has never joined Hypixel.')
         }
-    }    
+    }
 }
 
 module.exports = guildExperienceCommand;

@@ -14,7 +14,7 @@ class DenickerCommand extends MinecraftCommand {
         this.options = ['nick']
         this.optionsDescription = ['Minecraft Username']
     }
-    
+
     async onCommand(username, message) {
         try {
             let msg = this.getArgs(message);
@@ -28,7 +28,7 @@ class DenickerCommand extends MinecraftCommand {
                 if (mode == 'duels') {
                     this.send(`/gc ${player.rank ? `[${player.rank}] ` : ``}${response.player?.ign} is nicked as ${response.player.queried_nick} | [${player.stats.duels.division}] ${username} Wins: ${player.stats.duels.wins} | Current WS: ${player.stats.duels.winstreak} | Best WS: ${player.stats.duels.bestWinstreak} | WLR: ${player.stats.duels.WLRatio}`);
                 }
-                else if (mode == 'bedwars' ) {
+                else if (mode == 'bedwars') {
                     this.send(`/gc ${player.rank ? `[${player.rank}] ` : ``}${response.player?.ign} is nicked as ${response.player.queried_nick} | [${player.stats.bedwars.level}✫] ${player.nickname} FK: ${addCommas(player.stats.bedwars.finalKills)} FKDR: ${player.stats.bedwars.finalKDRatio} Wins: ${player.stats.bedwars.wins} WLR: ${player.stats.bedwars.WLRatio} Beds: ${player.stats.bedwars.beds.broken} BLR: ${player.stats.bedwars.beds.BLRatio} WS: ${player.stats.bedwars.winstreak}`);
                 }
                 else {

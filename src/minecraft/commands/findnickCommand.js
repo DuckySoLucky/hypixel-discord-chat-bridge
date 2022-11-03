@@ -14,7 +14,6 @@ class findNickCommand extends MinecraftCommand {
         this.description = 'find a nick of a player'
     }
 
-
     onCommand(username, message) {
         const player = message.split(' ')[1]
         fetch(`https://api.antisniper.net/findnick?key=${config.api.antiSniperKey}&name=${player}`).then((res) => {

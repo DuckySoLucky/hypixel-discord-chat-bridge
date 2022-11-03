@@ -20,18 +20,18 @@ class equipmentCommand extends MinecraftCommand {
   async onCommand(username, message) {
     try {
       if (this.getArgs(message)[0]) username = this.getArgs(message)[0]
-      
+
       const profile = await getLatestProfile(username);
       if (!profile.profile.equippment_contents?.data) return this.send(`/gc This player has an Inventory API off.`)
       if (profile.profileData.game_mode) username = `♲ ${username}`
-      
+
       let response = ''
       const inventoryData = (await decodeData(Buffer.from(profile.profile.equippment_contents.data, 'base64'))).i
       for (const piece of Object.values(inventoryData)) {
         if (!piece?.tag?.display?.Name) continue;
-        
+
         const renderedItem = await renderLore(piece?.tag?.display?.Name, piece?.tag?.display?.Lore)
-        const upload = await imgurClient.upload({image: renderedItem, type: 'stream'})
+        const upload = await imgurClient.upload({ image: renderedItem, type: 'stream' })
         response += response.split(' | ').length == 4 ? upload.data.link : `${upload.data.link} | `;
       }
 

@@ -16,9 +16,9 @@ class kittyCommand extends MinecraftCommand {
 
   async onCommand(username, message) {
     try {
-      const link = (await axios.get(`https://api.thecatapi.com/v1/images/search`)).data[0].url 
+      const link = (await axios.get(`https://api.thecatapi.com/v1/images/search`)).data[0].url
       const client = new ImgurClient({ clientId: config.api.imgurAPIkey })
-      const upload = await client.upload({image: link, type: 'stream'})
+      const upload = await client.upload({ image: link, type: 'stream' })
       this.send(`/gc Cute Cat » ${upload.data.link}`)
     } catch (error) {
       console.log(error)

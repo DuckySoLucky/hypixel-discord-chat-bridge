@@ -32,18 +32,18 @@ class renderCommand extends MinecraftCommand {
           return
         }
       }
-      
+
       const profile = await getLatestProfile(username);
       if (!profile.profile.inv_contents?.data) return this.send(`/gc This player has an Inventory API off.`)
       if (profile.profileData.game_mode) username = `♲ ${username}`
-      
+
       const inventoryData = (await decodeData(Buffer.from(profile.profile.inv_contents.data, 'base64'))).i
 
-      if (!inventoryData[itemNumber - 1] || !Object.keys(inventoryData[itemNumber - 1] || {}).length) {this.send(`/gc Player does not have an item at slot ${itemNumber}.`)}
+      if (!inventoryData[itemNumber - 1] || !Object.keys(inventoryData[itemNumber - 1] || {}).length) { this.send(`/gc Player does not have an item at slot ${itemNumber}.`) }
 
       const renderedItem = await renderLore(inventoryData[itemNumber - 1]?.tag?.display?.Name, inventoryData[itemNumber - 1]?.tag?.display?.Lore)
-      const upload = await imgurClient.upload({image: renderedItem, type: 'stream'})
-      
+      const upload = await imgurClient.upload({ image: renderedItem, type: 'stream' })
+
       this.send(`/gc ${username}'s item at slot ${itemNumber} » ${upload.data.link ?? 'Something went Wrong..'}`)
 
     } catch (error) {

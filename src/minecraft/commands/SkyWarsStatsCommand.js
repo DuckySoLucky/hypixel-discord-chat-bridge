@@ -14,7 +14,7 @@ class skywarsCommand extends MinecraftCommand {
   async onCommand(username, message) {
     try {
       let msg = this.getArgs(message);
-      if(msg[0]) username = msg[0]
+      if (msg[0]) username = msg[0]
       const player = await hypixel.getPlayer(username)
       this.send(`/gc [SW] [${player.stats.skywars.level}✫] ${player.nickname}ᐧᐧᐧᐧKDR:${player.stats.skywars.KDRatio}ᐧᐧᐧᐧWLR:${player.stats.skywars.WLRatio}ᐧᐧᐧᐧWS:${player.stats.skywars.winstreak}`)
     } catch (error) {

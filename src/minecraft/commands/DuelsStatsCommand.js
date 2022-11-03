@@ -11,13 +11,13 @@ class DuelsStatsCommand extends MinecraftCommand {
 		this.options = ['name', 'duel']
 		this.optionsDescription = ['Minecraft Username', 'Type of Duel']
 	}
-  
+
 	async onCommand(username, message) {
 		try {
 			const duelTypes = ['blitz', 'uhc', 'parkour', 'boxing', 'bowspleef', 'spleef', 'arena', 'megawalls', 'op', 'sumo', 'classic', 'combo', 'bridge', 'nodebuff', 'bow']
 			let arg = this.getArgs(message) ?? [username], duel
 			if (!arg) arg[0] = username
-            if (!arg[0]) arg[0] = username
+			if (!arg[0]) arg[0] = username
 			if (arg[0].includes('/')) arg[0] = username
 
 			if (duelTypes.includes(arg[0].toLowerCase())) {
@@ -30,7 +30,7 @@ class DuelsStatsCommand extends MinecraftCommand {
 			}
 			hypixel.getPlayer(username).then(player => {
 				if (!duel) {
-					this.send(`/gc [Duels] [${player.stats.duels.division}] ${username} Wins: ${player.stats.duels.wins} | Current WS: ${player.stats.duels.winstreak} | Best WS: ${player.stats.duels.bestWinstreak} | WLR: ${player.stats.duels.WLRatio}`)	
+					this.send(`/gc [Duels] [${player.stats.duels.division}] ${username} Wins: ${player.stats.duels.wins} | Current WS: ${player.stats.duels.winstreak} | Best WS: ${player.stats.duels.bestWinstreak} | WLR: ${player.stats.duels.WLRatio}`)
 				} else {
 					if (Object?.keys(player?.stats?.duels?.[duel]).includes('overall') || Object?.keys(player?.stats?.duels?.[duel]).includes('1v1')) {
 						this.send(`/gc [Duels] [${duel.toUpperCase() ?? 'Unknown'}] [${player.stats.duels?.[duel]?.[Object.keys(player.stats.duels[duel])[0]]?.division ?? 'Unknown'}] ${username ?? 0} Wins: ${player.stats.duels?.[duel]?.[Object.keys(player.stats.duels[duel])[0]]?.wins ?? 0} | CWS: ${player.stats.duels?.[duel]?.[Object.keys(player.stats.duels[duel])[0]]?.winstreak ?? 0} | BWS: ${player.stats.duels?.[duel]?.[Object.keys(player.stats.duels[duel])[0]]?.bestWinstreak ?? 0} | WLR: ${player.stats.duels?.[duel]?.[Object.keys(player.stats.duels[duel])[0]]?.WLRatio ?? 0}`)
@@ -38,7 +38,7 @@ class DuelsStatsCommand extends MinecraftCommand {
 						this.send(`/gc [Duels] [${duel.toUpperCase() ?? 'Unknown'}] [${player.stats.duels?.[duel]?.division ?? 'Unknown'}] ${username ?? 0} Wins: ${player.stats.duels?.[duel]?.wins ?? 0} | CWS: ${player.stats.duels?.[duel]?.winstreak ?? 0} | BWS: ${player.stats.duels?.[duel]?.bestWinstreak ?? 0} | WLR: ${player.stats.duels?.[duel]?.WLRatio ?? 0}`)
 					}
 				}
-			}).catch(error => {this.send('/gc ' + error.toString().replaceAll('[hypixel-api-reborn] ', ''))})
+			}).catch(error => { this.send('/gc ' + error.toString().replaceAll('[hypixel-api-reborn] ', '')) })
 
 		} catch (error) {
 			console.log(error)
