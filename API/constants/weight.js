@@ -87,9 +87,9 @@ module.exports = function calculateWeight(type, level = null, experience) {
 }
 
 function calculateDungeonWeight(type, level, experience) {
-    let percentageModifier = dungeon_weights[type]
+    const percentageModifier = dungeon_weights[type]
 
-    let base = Math.pow(level, 4.5) * percentageModifier
+    const base = Math.pow(level, 4.5) * percentageModifier
 
     if (experience <= 569809640) {
         return {
@@ -98,8 +98,8 @@ function calculateDungeonWeight(type, level, experience) {
         }
     }
 
-    let remaining = experience - 569809640
-    let splitter = (4 * 569809640) / base
+    const remaining = experience - 569809640
+    const splitter = (4 * 569809640) / base
 
     return {
         weight: Math.floor(base),
@@ -116,7 +116,7 @@ function calculateSkillWeight(type, level, experience) {
         }
     }
 
-    let maxSkillLevelXP = skillGroup.maxLevel == 60 ? 111672425 : 55172425
+    const maxSkillLevelXP = skillGroup.maxLevel == 60 ? 111672425 : 55172425
 
     let base = Math.pow(level * 10, 0.5 + skillGroup.exponent + level / 100) / 1250
     if (experience > maxSkillLevelXP) {
@@ -145,14 +145,14 @@ function calculateSlayerWeight(type, experience) {
         }
     }
 
-    let base = 1000000 / slayerWeight.divider
+    const base = 1000000 / slayerWeight.divider
     let remaining = experience - 1000000
 
     let modifier = slayerWeight.modifier
     let overflow = 0
 
     while (remaining > 0) {
-        let left = Math.min(remaining, 1000000)
+        const left = Math.min(remaining, 1000000)
 
         overflow += Math.pow(left / (slayerWeight.divider * (1.5 + modifier)), 0.942)
         modifier += slayerWeight.modifier

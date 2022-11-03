@@ -18,7 +18,7 @@ module.exports = (profile) => {
           !(minion_name in unlocked_minions) ||
           unlocked_minions[minion_name]?.tier < minion_level
         ) {
-          let found_minion = constants[minion_name];
+          const found_minion = constants[minion_name];
           if (found_minion) {
             found_minion.tier = minion_level;
             unlocked_minions[minion_name] = found_minion;

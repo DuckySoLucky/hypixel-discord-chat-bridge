@@ -14,7 +14,7 @@ class guildExperienceCommand extends MinecraftCommand {
     }
 
     onCommand(username, message) {
-        let arg = this.getArgs(message);
+        const arg = this.getArgs(message);
         if (arg[0]) username = arg[0]
 
         try {

@@ -25,7 +25,7 @@ class NetWorthCommand extends MinecraftCommand {
 
     async onCommand(username, message) {
         try {
-            let arg = this.getArgs(message);
+            const arg = this.getArgs(message);
             if (arg[0]) username = arg[0]
             if (!prices) return this.send(`/gc ${username} Prices are still loading, please try again in a few seconds.`)
 

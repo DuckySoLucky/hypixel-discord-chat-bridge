@@ -92,7 +92,7 @@ class DiscordManager extends CommunicationBridge {
 
   async getWebhook(discord, type) {
     channel = await this.getChannel(type);
-    let webhooks = await channel.fetchWebhooks();
+    const webhooks = await channel.fetchWebhooks();
     if (webhooks.first()) {
       return webhooks.first();
     } else {

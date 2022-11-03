@@ -65,7 +65,7 @@ module.exports = (player, profile) => {
       jacob.crops[crop].contests++;
       jacob.crops[crop].participated = true;
       if (data.collected > jacob.crops[crop].personal_best)
-        jacob.crops[crop].personal_best = data.collected;
+        {jacob.crops[crop].personal_best = data.collected;}
 
       const contest = {
         date: date,

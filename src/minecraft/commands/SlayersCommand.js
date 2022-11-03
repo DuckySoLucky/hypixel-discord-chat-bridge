@@ -10,7 +10,7 @@ async function getSlayerData(username, input) {
         const profile = getSlayer(data.profile)
         for (let i = 0; i < Object.keys(profile).length; i++) {
             for (let j = 0; j < Object.keys(profile?.[Object.keys(profile)[i]]).length; j++) {
-                let total = profile?.[Object.keys(profile)[0]].xp + profile?.[Object.keys(profile)[1]].xp + profile?.[Object.keys(profile)[2]].xp + profile?.[Object.keys(profile)[3]].xp + profile?.[Object.keys(profile)[4]].xp
+                const total = profile?.[Object.keys(profile)[0]].xp + profile?.[Object.keys(profile)[1]].xp + profile?.[Object.keys(profile)[2]].xp + profile?.[Object.keys(profile)[3]].xp + profile?.[Object.keys(profile)[4]].xp
                 if (input == 'zombie') return `${username}'s Zombie Slayer Experience: ${addCommas(profile?.[Object.keys(profile)[0]].xp)} | Level: ${profile?.[Object.keys(profile)[0]].level} | T5 - ${profile?.[Object.keys(profile)[0]].kills?.[5]} | T4 - ${profile?.[Object.keys(profile)[0]].kills?.[4]} | T3 - ${profile?.[Object.keys(profile)[0]].kills?.[3]} | T2 - ${profile?.[Object.keys(profile)[0]].kills?.[2]} | T1 - ${profile?.[Object.keys(profile)[0]].kills?.[1]}`
                 else if (input == 'spider') return `${username}'s Spider Slayer Experience: ${addCommas(profile?.[Object.keys(profile)[1]].xp)} | Level: ${profile?.[Object.keys(profile)[1]].level} | T5 - ${profile?.[Object.keys(profile)[1]].kills?.[5]} | T4 - ${profile?.[Object.keys(profile)[1]].kills?.[4]} | T3 - ${profile?.[Object.keys(profile)[1]].kills?.[3]} | T2 - ${profile?.[Object.keys(profile)[1]].kills?.[2]} | T1 - ${profile?.[Object.keys(profile)[1]].kills?.[1]}`
                 else if (input == 'wolf') return `${username}'s Wolf Slayer Experience: ${addCommas(profile?.[Object.keys(profile)[2]].xp)} | Level: ${profile?.[Object.keys(profile)[2]].level} | T5 - ${profile?.[Object.keys(profile)[2]].kills?.[5]} | T4 - ${profile?.[Object.keys(profile)[2]].kills?.[4]} | T3 - ${profile?.[Object.keys(profile)[2]].kills?.[3]} | T2 - ${profile?.[Object.keys(profile)[2]].kills?.[2]} | T1 - ${profile?.[Object.keys(profile)[2]].kills?.[1]}`
@@ -40,8 +40,8 @@ class SlayersCommand extends MinecraftCommand {
     async onCommand(username, message) {
         try {
             let type, msg = this.getArgs(message);
-            if (msg[0]) if (msg[0].toLowerCase() == "zombie" || msg[0].toLowerCase() == "rev" || msg[0].toLowerCase() == "spider" || msg[0].toLowerCase() == "tara" || msg[0].toLowerCase() == "wolf" || msg[0].toLowerCase() == "sven" || msg[0].toLowerCase() == "eman" || msg[0].toLowerCase() == "enderman" || msg[0].toLowerCase() == "blaze" || msg[0].toLowerCase() == "demonlord") type = msg[0]
-            else if (msg[0]) username = msg[0]; if (msg[1]) type = msg[1]
+            if (msg[0]) {if (msg[0].toLowerCase() == "zombie" || msg[0].toLowerCase() == "rev" || msg[0].toLowerCase() == "spider" || msg[0].toLowerCase() == "tara" || msg[0].toLowerCase() == "wolf" || msg[0].toLowerCase() == "sven" || msg[0].toLowerCase() == "eman" || msg[0].toLowerCase() == "enderman" || msg[0].toLowerCase() == "blaze" || msg[0].toLowerCase() == "demonlord") type = msg[0]
+            else if (msg[0]) username = msg[0];} if (msg[1]) type = msg[1]
             this.send(`/gc ${await getSlayerData(username, type)}`)
         } catch (error) {
             console.log(error)

@@ -47,7 +47,7 @@ module.exports = (profileData) => {
     if (found_collection) {
       for (const tier of found_collection.tiers) {
         if (tier.amountRequired < collection.amount)
-          collection.tier = tier.tier;
+          {collection.tier = tier.tier;}
       }
     }
   }

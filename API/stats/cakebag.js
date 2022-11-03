@@ -18,7 +18,7 @@ module.exports = async (profile) => {
 
         for (const cake of bag_contents) {
           if (cake?.tag?.ExtraAttributes?.new_years_cake)
-            cakes.push(cake.tag.ExtraAttributes.new_years_cake);
+            {cakes.push(cake.tag.ExtraAttributes.new_years_cake);}
         }
       }
     }

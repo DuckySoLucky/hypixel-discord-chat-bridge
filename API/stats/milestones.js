@@ -42,7 +42,7 @@ function getCurrentPet(pet, stats) {
     xpForNext = Math.ceil(milestones[pet][level]);
   }
 
-  let left = xpForNext - stats > 0 ? xpForNext - stats : 0;
+  const left = xpForNext - stats > 0 ? xpForNext - stats : 0;
 
   progress = level >= 5 ? 0 : Math.max(0, Math.min(stats / xpForNext, 1));
   return {

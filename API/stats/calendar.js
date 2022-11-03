@@ -238,7 +238,7 @@ function buildSkyblockCalendar(events, from, to, years, stopAtYearEnd = true) {
   }
 
   if (toDate < fromDate)
-    throw new Error("Parameter 'to' must be greater than 'from'");
+    {throw new Error("Parameter 'to' must be greater than 'from'");}
 
   const currentYear = Math.floor((fromDate - yearZero) / yearMs);
   const currentOffset = (fromDate - yearZero) % yearMs;

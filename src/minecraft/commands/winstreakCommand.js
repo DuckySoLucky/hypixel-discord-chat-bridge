@@ -16,7 +16,7 @@ class winstreakCommand extends MinecraftCommand {
 
     async onCommand(username, message) {
         try {
-            let arg = this.getArgs(message);
+            const arg = this.getArgs(message);
             if (arg[0]) username = arg[0]
             const [player, response] = await Promise.all([
                 hypixel.getPlayer(username),

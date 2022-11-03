@@ -6,7 +6,7 @@ let prices = {};
 const retrievePrices = async function () {
   prices = await getPrices();
   if (config.prices.refreshMessage)
-    console.log("Prices retrieved successfully");
+    {console.log("Prices retrieved successfully");}
 };
 
 retrievePrices();

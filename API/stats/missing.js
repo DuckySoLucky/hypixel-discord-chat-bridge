@@ -12,12 +12,12 @@ module.exports = async (profile) => {
     ).i;
     talismans = talismans.concat(inventory);
 
-    let talisman_ids = [];
+    const talisman_ids = [];
     for (const talisman of talismans) {
       if (talisman?.tag?.ExtraAttributes?.id)
-        talisman_ids.push(talisman.tag.ExtraAttributes.id);
+        {talisman_ids.push(talisman.tag.ExtraAttributes.id);}
     }
-    let missing = {
+    const missing = {
       talismans: getMissingTalismans(talisman_ids),
       maxTalismans: getMissingTalismans(talisman_ids, "max"),
     };

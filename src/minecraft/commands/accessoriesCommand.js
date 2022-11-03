@@ -17,7 +17,7 @@ class accessoriesCommand extends MinecraftCommand {
 
   async onCommand(username, message) {
     try {
-      let arg = this.getArgs(message)
+      const arg = this.getArgs(message)
       if (arg[0]) username = arg[0]
       const data = await getLatestProfile(username)
       username = data.profileData?.game_mode ? `♲ ${username}` : username

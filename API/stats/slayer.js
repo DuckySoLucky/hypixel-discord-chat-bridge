@@ -17,7 +17,7 @@ module.exports = (profile) => {
     let level = 0;
     let xpForNext = 0;
     let progress = 0;
-    let maxLevel = 9;
+    const maxLevel = 9;
 
     for (let i = 0; i < xp_tables.slayer[slayer].length; i++) {
       if (xp_tables.slayer[slayer][i] <= experience) {

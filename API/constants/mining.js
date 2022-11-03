@@ -1,9 +1,9 @@
 module.exports = {
     getHotM: function getHotM(experience) {
         let level = 0;
-        let maxLevel = 7
-        let experienceGroup = [0, 3000, 9000, 25000, 60000, 100000, 150000];
-        for (let toRemove of experienceGroup) {
+        const maxLevel = 7
+        const experienceGroup = [0, 3000, 9000, 25000, 60000, 100000, 150000];
+        for (const toRemove of experienceGroup) {
             experience -= toRemove;
             if (experience < 0) {
                 return Math.min(level + (1 - (experience * -1) / toRemove), maxLevel);

@@ -66,8 +66,8 @@ module.exports = async (profile) => {
           };
         }
         if (talismans[getRarity(talisman.tag?.display.Lore)])
-          talismans[getRarity(talisman.tag?.display.Lore)].push(new_talisman);
-        else talismans[getRarity(talisman.tag?.display.Lore)] = new_talisman;
+          {talismans[getRarity(talisman.tag?.display.Lore)].push(new_talisman);}
+        else {talismans[getRarity(talisman.tag?.display.Lore)] = new_talisman;}
       }
     }
     return talismans;

@@ -19,7 +19,7 @@ module.exports = (auctionsData) => {
         : auction.highest_bid_amount;
 
       if (auction.item_lore.includes("\n"))
-        auction.item_lore = auction.item_lore.split("\n");
+        {auction.item_lore = auction.item_lore.split("\n");}
       auctions.active.push(auction);
     } else {
       if (!auction.claimed) {
@@ -29,7 +29,7 @@ module.exports = (auctionsData) => {
         auctions.valueIfAllSold += auction.highest_bid_amount;
 
         if (auction.item_lore.includes("\n"))
-          auction.item_lore = auction.item_lore.split("\n");
+          {auction.item_lore = auction.item_lore.split("\n");}
         auctions.ended.push(auction);
       }
     }

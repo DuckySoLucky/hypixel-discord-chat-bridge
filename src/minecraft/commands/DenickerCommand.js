@@ -17,9 +17,9 @@ class DenickerCommand extends MinecraftCommand {
 
     async onCommand(username, message) {
         try {
-            let msg = this.getArgs(message);
+            const msg = this.getArgs(message);
             username = this.getArgs(message)[0];
-            let mode = msg[1] ? msg[1] : 'bedwars';
+            const mode = msg[1] ? msg[1] : 'bedwars';
             const response = (await axios.get(`${config.api.antiSniperAPI}/denick?key=${config.api.antiSniperKey}&nick=${username}`)).data;
             if (!response.player?.ign) {
                 this.send('/gc Sorry, I wasn\'t able to denick this person.')

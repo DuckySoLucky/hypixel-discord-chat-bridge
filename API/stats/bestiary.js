@@ -21,7 +21,7 @@ module.exports = (profile) => {
 
       const boss = mob.boss ? "boss" : "regular";
 
-      let kills = bestiaryFamilies[mob.lookup] || 0;
+      const kills = bestiaryFamilies[mob.lookup] || 0;
       let tier = bestiaryKills[boss].filter((k) => k <= kills).length;
       let nextTierKills = bestiaryKills[boss][tier];
       let progress = kills / bestiaryKills[boss][tier];

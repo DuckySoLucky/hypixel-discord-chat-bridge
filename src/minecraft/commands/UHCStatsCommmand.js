@@ -14,7 +14,7 @@ class UHCStatsCommand extends MinecraftCommand {
 
 	async onCommand(username, message) {
 		try {
-			let msg = this.getArgs(message);
+			const msg = this.getArgs(message);
 			if (msg[0]) username = msg[0]
 			const player = await hypixel.getPlayer(username)
 			this.send(`/gc [UHC] [${player.stats.uhc.starLevel}✫] ${player.nickname}ᐧᐧᐧᐧKDR:${player.stats.uhc.KDRatio}ᐧᐧᐧᐧWLR:${player.stats.uhc.wins}ᐧᐧᐧHeads:${player.stats.uhc.headsEaten}`)

@@ -94,7 +94,7 @@ function addCommas(num) {
 }
 
 function toFixed(num, fixed) {
-  let response = new RegExp("^-?\\d+(?:.\\d{0," + (fixed || -1) + "})?");
+  const response = new RegExp("^-?\\d+(?:.\\d{0," + (fixed || -1) + "})?");
   return num.toString().match(response)[0];
 }
 
@@ -134,7 +134,7 @@ function writeAt(filePath, jsonPath, value) {
       return fs.writeJson(filePath, json);
     })
     .catch(function (error) {
-      let json = {};
+      const json = {};
       set(json, jsonPath, value);
       return fs.writeJson(filePath, json);
     });

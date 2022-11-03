@@ -26,7 +26,7 @@ class woolwarsCommand extends MinecraftCommand {
 
   async onCommand(username, message) {
     try {
-      let msg = this.getArgs(message);
+      const msg = this.getArgs(message);
       if (msg[0]) username = msg[0]
 
       const uuid = await getUUID(username)

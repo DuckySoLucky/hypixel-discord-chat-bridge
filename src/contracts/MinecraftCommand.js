@@ -7,7 +7,7 @@ class MinecraftCommand {
   }
 
   getArgs(message) {
-    let args = message.split(" ");
+    const args = message.split(" ");
 
     args.shift();
 
@@ -17,7 +17,7 @@ class MinecraftCommand {
   send(message) {
     if (this.minecraft.bot.player !== undefined) {
       if (config.minecraft.messageRepeatBypass) {
-        let string = helperFunctions.generateID(
+        const string = helperFunctions.generateID(
           config.minecraft.messageRepeatBypassLength
         );
         this.minecraft.bot.chat(message + " - " + string);

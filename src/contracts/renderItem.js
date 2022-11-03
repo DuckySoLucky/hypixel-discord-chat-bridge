@@ -77,10 +77,10 @@ async function renderLore(itemName, lore) {
       ctx.fillStyle = RGBA_COLOR[toRenderItem[0]];
 
       if (toRenderItem.startsWith("l"))
-        ctx.font = "24px MinecraftBold, MinecraftUnicode";
+        {ctx.font = "24px MinecraftBold, MinecraftUnicode";}
       else if (toRenderItem.startsWith("o"))
-        ctx.font = "24px MinecraftItalic, MinecraftUnicode";
-      else ctx.font = "24px Minecraft, MinecraftUnicode";
+        {ctx.font = "24px MinecraftItalic, MinecraftUnicode";}
+      else {ctx.font = "24px Minecraft, MinecraftUnicode";}
 
       ctx.fillText(toRenderItem.substring(1), width, index * 24 + 29);
       width += ctx.measureText(toRenderItem.substring(1)).width;

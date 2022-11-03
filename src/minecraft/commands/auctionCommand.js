@@ -33,7 +33,7 @@ class auctionHouseCommand extends MinecraftCommand {
         if (response.auctions[i].end >= Date.now()) {
           const auctionInfromation = (await decodeData(Buffer.from(response.auctions[i].item_bytes.data, 'base64'))).i
           if (!response.auctions[i].bin) bidder = (await axios.get(`${config.api.hypixelAPI}/player?key=${config.api.hypixelAPIkey}&uuid=${response.auctions[i].bids[response.auctions[i].bids.length - 1].bidder}`)).data.player
-          let lore = response.auctions[i].item_lore.split('\n')
+          const lore = response.auctions[i].item_lore.split('\n')
           lore.push('§8§m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯', `§7Seller: ${getRank(data)} ${data.displayname}`)
           if (response.auctions[i].bin) lore.push(`§7Buy it now: §6${addCommas(response.auctions[i].starting_bid)} coins`)
           if (!response.auctions[i].bin) lore.push(`§7Bids: §a${(response.auctions[i].bids).length} bids`, ` `, `§7Top Bid: §6${addCommas(response.auctions[i].highest_bid_amount)} coins`, `§7Bidder: ${getRank(bidder)}${bidder.displayname}`)

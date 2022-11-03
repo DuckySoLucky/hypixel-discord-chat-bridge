@@ -8,12 +8,12 @@ module.exports = {
         return nbt.simplify(parsedNbt);
     },
     decodeArrayBuffer: async function decodeArrayBuffer(arraybuf) {
-        let buf = Buffer.from(arraybuf);
+        const buf = Buffer.from(arraybuf);
 
         let data = await parseNbt(buf);
         data = nbt.simplify(data);
 
-        let items = data.i;
+        const items = data.i;
         return items;
     }
 }

@@ -2,9 +2,9 @@ const items = require('../constants/fetchur_items')
 
 function getFetchur() {
     try {
-        let today = new Date();
+        const today = new Date();
         today.setHours(today.getHours() - 6);
-        let day = today.getDate();
+        const day = today.getDate();
         let item;
         if (day <= 12) {
             item = items[day]

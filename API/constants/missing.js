@@ -7,7 +7,7 @@ module.exports = function getMissingTalismans(talismans, option = '') {
 
     unique.forEach((name) => {
         if (name in constants.talisman_duplicates) {
-            for (let duplicate of constants.talisman_duplicates[name]) {
+            for (const duplicate of constants.talisman_duplicates[name]) {
                 if (talismans.includes(duplicate)) {
                     talismans[talismans.indexOf(duplicate)] = name;
                     break;
@@ -20,7 +20,7 @@ module.exports = function getMissingTalismans(talismans, option = '') {
     missing.forEach((name) => {
         if (name in constants.talisman_upgrades) {
             //if the name is in the upgrades list
-            for (let upgrade of constants.talisman_upgrades[name]) {
+            for (const upgrade of constants.talisman_upgrades[name]) {
                 if (talismans.includes(upgrade)) {
                     //if talisman list includes the upgrade
                     missing = missing.filter((item) => item !== name);
@@ -32,7 +32,7 @@ module.exports = function getMissingTalismans(talismans, option = '') {
 
     const output = [];
     missing.forEach(async (talisman) => {
-        let object = {
+        const object = {
             name: null,
             rarity: null,
         };
