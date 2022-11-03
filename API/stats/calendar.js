@@ -237,8 +237,9 @@ function buildSkyblockCalendar(events, from, to, years, stopAtYearEnd = true) {
     throw new TypeError("Parameters 'from' and 'to' must be integers");
   }
 
-  if (toDate < fromDate)
-    {throw new Error("Parameter 'to' must be greater than 'from'");}
+  if (toDate < fromDate) {
+    throw new Error("Parameter 'to' must be greater than 'from'");
+  }
 
   const currentYear = Math.floor((fromDate - yearZero) / yearMs);
   const currentOffset = (fromDate - yearZero) % yearMs;
@@ -288,16 +289,18 @@ function buildSkyblockCalendar(events, from, to, years, stopAtYearEnd = true) {
   if (!stopBoolean) toToYears++;
 
   for (let i = 0; i < toToYears; i++) {
-    for (const [event, { name, times: times }] of Object.entries(eventTimes)) {
-      const duration = times[0].end - times[0].start + dayMs;
+    // eslint-disable-next-line
+    for (const [event, { name, times: times_ }] of Object.entries(eventTimes)) {
+      const duration = times_[0].end - times_[0].start + dayMs;
 
       eventList[event].name = name;
       eventList[event].duration = duration;
 
-      for (const { start: start, end: end } of times) {
+      // eslint-disable-next-line
+      for (const { start: start_, end: end_ } of times_) {
         const times = {
-          start: start + yearMs * i,
-          end: end + yearMs * i,
+          start: start_ + yearMs * i,
+          end: end_ + yearMs * i,
         };
 
         /* eslint-disable-next-line no-continue */
@@ -331,8 +334,8 @@ function buildSkyblockCalendar(events, from, to, years, stopAtYearEnd = true) {
       eventList[key].events,
       "start_timestamp"
     )
-      /* eslint-disable-next-line camelcase */
-      .filter(({ start_timestamp: startTimestamp }) => startTimestamp < toDate)
+      // eslint-disable-next-line
+      .filter(({ start_timestamp }) => start_timestamp < toDate)
       .sort((a, b) => a.start_timestamp - b.start_timestamp);
   });
 

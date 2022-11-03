@@ -7,9 +7,11 @@ const { getUUID } = require('../../contracts/API/PlayerDBAPI.js')
 const eventHandler = require('../../contracts/EventHandler.js')
 const getWeight = require('../../../API/stats/weight.js')
 const messages = require('../../../messages.json')
-const { EmbedBuilder: embedBuilder } = require('discord.js')
+/*eslint-disable */
+const { EmbedBuilder } = require('discord.js')
 const config = require('../../../config.json')
-const logger = require('../../Logger.js')
+const Logger = require('../../Logger.js')
+/*eslint-enable */
 const fs = require('fs')
 
 class StateHandler extends eventHandler {
@@ -99,7 +101,7 @@ class StateHandler extends eventHandler {
         bot.chat(`/oc ${username} ${meetRequirements ? 'Does' : 'Doesn\'t'} meet Requirements. [BW] [${player.stats.bedwars.level}✫] FKDR:${player.stats.bedwars.finalKDRatio} | [SW] [${player.stats.skywars.level}✫] KDR:${player.stats.skywars.KDRatio} | [Duels] Wins: ${player.stats.duels.wins} WLR: ${player.stats.duels.WLRatio} | Skyblock: ${weight}`)
 
         if (meetRequirements) {
-          const statsEmbed = new embedBuilder()
+          const statsEmbed = new EmbedBuilder()
             .setColor(2067276)
             .setTitle(`${player.nickname} has requested to join the Guild!`)
             .setDescription(`**Hypixel Network Level**\n${player.level}\n`)
@@ -506,7 +508,7 @@ class StateHandler extends eventHandler {
     }
 
     if (this.isTooFast(message)) {
-      return logger.warnMessage(message)
+      return Logger.warnMessage(message)
     }
 
     if (this.isPlayerNotFound(message)) {

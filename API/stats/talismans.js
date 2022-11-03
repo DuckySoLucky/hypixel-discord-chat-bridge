@@ -1,6 +1,7 @@
-const { talismans: allTalismans } = require("../constants/talismans.js");
-const { capitalize } = require("../constants/functions.js");
 const { decodeData } = require("../utils/nbt.js");
+const { capitalize } = require("../constants/functions.js");
+const { talismans: allTalismans } = require("../constants/talismans.js");
+/*eslint-disable */
 
 module.exports = async (profile) => {
   if (profile.talisman_bag?.data) {
@@ -22,11 +23,11 @@ module.exports = async (profile) => {
       very: [],
     };
     delete talismans.tunings.highest_unlocked_slot;
-    const talismanBag = (
+    const talisman_bag = (
       await decodeData(Buffer.from(profile.talisman_bag.data, "base64"))
     ).i;
 
-    for (const talisman of talismanBag) {
+    for (const talisman of talisman_bag) {
       if (talisman.tag?.display.Name && talisman.tag?.ExtraAttributes) {
         let name =
           talisman.tag?.display.Name.replace(/\u00A7[0-9A-FK-OR]/gi, "") ||
@@ -39,7 +40,7 @@ module.exports = async (profile) => {
           talisman.tag?.ExtraAttributes.rarity_upgrades > 0
             ? true
             : false || false;
-        let newTalisman = {};
+        let new_talisman = {};
 
         if (
           getRarity(talisman.tag?.display.Lore) != "common" &&
@@ -47,7 +48,7 @@ module.exports = async (profile) => {
           getRarity(talisman.tag?.display.Lore) != "rare" &&
           getRarity(talisman.tag?.display.Lore) != "epic"
         ) {
-          newTalisman = {
+          new_talisman = {
             name: allTalismans[talisman.tag?.ExtraAttributes.id]?.name || name,
             id: talisman.tag?.ExtraAttributes.id || null,
             reforge: reforge ?? "None",
@@ -57,7 +58,7 @@ module.exports = async (profile) => {
               talisman.tag?.ExtraAttributes?.talisman_enrichment ?? "None",
           };
         } else {
-          newTalisman = {
+          new_talisman = {
             name: allTalismans[talisman.tag?.ExtraAttributes.id]?.name || name,
             id: talisman.tag?.ExtraAttributes.id || null,
             reforge: reforge ?? "None",
@@ -66,8 +67,8 @@ module.exports = async (profile) => {
           };
         }
         if (talismans[getRarity(talisman.tag?.display.Lore)])
-          {talismans[getRarity(talisman.tag?.display.Lore)].push(newTalisman);}
-        else {talismans[getRarity(talisman.tag?.display.Lore)] = newTalisman;}
+          talismans[getRarity(talisman.tag?.display.Lore)].push(new_talisman);
+        else talismans[getRarity(talisman.tag?.display.Lore)] = new_talisman;
       }
     }
     return talismans;
@@ -84,9 +85,9 @@ module.exports = async (profile) => {
 };
 
 function getRarity(lore) {
-  let lastIndex = lore[lore.length - 1];
-  lastIndex = lastIndex.replace(/\u00A7[0-9A-FK-OR]/gi, "").toLowerCase();
-  if (lastIndex.startsWith("a ")) lastIndex = lastIndex.substring(2);
-  lastIndex = lastIndex.substring(0, lastIndex.indexOf(" "));
-  return lastIndex;
+  let last_index = lore[lore.length - 1];
+  last_index = last_index.replace(/\u00A7[0-9A-FK-OR]/gi, "").toLowerCase();
+  if (last_index.startsWith("a ")) last_index = last_index.substring(2);
+  last_index = last_index.substring(0, last_index.indexOf(" "));
+  return last_index;
 }

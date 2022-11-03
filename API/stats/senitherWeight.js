@@ -1,5 +1,6 @@
 //CREDIT: https://github.com/Senither/hypixel-skyblock-facade
-const dungeonWeights = {
+/*eslint-disable */
+const dungeon_weights = {
   catacombs: 0.0002149604615,
   healer: 0.0000045254834,
   mage: 0.0000045254834,
@@ -7,7 +8,7 @@ const dungeonWeights = {
   archer: 0.0000045254834,
   tank: 0.0000045254834,
 };
-const slayerWeights = {
+const slayer_weights = {
   revenant: {
     divider: 2208,
     modifier: 0.15,
@@ -25,7 +26,7 @@ const slayerWeights = {
     modifier: 0.017,
   },
 };
-const skillWeights = {
+const skill_weights = {
   mining: {
     exponent: 1.18207448,
     divider: 259634,
@@ -75,7 +76,7 @@ const skillWeights = {
   },
 };
 
-const calcSkill = require("./skills.js");
+const calcSkill = require("./skills");
 
 async function calculateSenitherWeight(type, level = null, experience) {
   const slayers = ["revenant", "tarantula", "sven", "enderman"];
@@ -90,12 +91,12 @@ async function calculateSenitherWeight(type, level = null, experience) {
     "alchemy",
     "taming",
   ];
-  if (slayers.includes(type)) {return calculateSlayerWeight(type, experience);}
+  if (slayers.includes(type)) return calculateSlayerWeight(type, experience);
   else if (dungeons.includes(type))
-    {return calculateDungeonWeight(type, level, experience);}
+    return calculateDungeonWeight(type, level, experience);
   else if (skills.includes(type))
-    {return calculateSkillWeight(type, level, experience);}
-  else {return null;}
+    return calculateSkillWeight(type, level, experience);
+  else return null;
 }
 
 async function calculateTotalSenitherWeight(profile) {
@@ -231,9 +232,9 @@ async function calculateTotalSenitherWeight(profile) {
 module.exports = { calculateSenitherWeight, calculateTotalSenitherWeight };
 
 function calculateDungeonWeight(type, level, experience) {
-  const percentageModifier = dungeonWeights[type];
+  let percentageModifier = dungeon_weights[type];
 
-  const base = Math.pow(level, 4.5) * percentageModifier;
+  let base = Math.pow(level, 4.5) * percentageModifier;
 
   if (experience <= 569809640) {
     return {
@@ -242,8 +243,8 @@ function calculateDungeonWeight(type, level, experience) {
     };
   }
 
-  const remaining = experience - 569809640;
-  const splitter = (4 * 569809640) / base;
+  let remaining = experience - 569809640;
+  let splitter = (4 * 569809640) / base;
 
   return {
     weight: Math.floor(base),
@@ -252,7 +253,7 @@ function calculateDungeonWeight(type, level, experience) {
 }
 
 function calculateSkillWeight(type, level, experience) {
-  const skillGroup = skillWeights[type];
+  const skillGroup = skill_weights[type];
   if (skillGroup.exponent == undefined || skillGroup.divider == undefined) {
     return {
       weight: 0,
@@ -260,7 +261,7 @@ function calculateSkillWeight(type, level, experience) {
     };
   }
 
-  const maxSkillLevelXP = skillGroup.maxLevel == 60 ? 111672425 : 55172425;
+  let maxSkillLevelXP = skillGroup.maxLevel == 60 ? 111672425 : 55172425;
 
   let base =
     Math.pow(level * 10, 0.5 + skillGroup.exponent + level / 100) / 1250;
@@ -284,7 +285,7 @@ function calculateSkillWeight(type, level, experience) {
 }
 
 function calculateSlayerWeight(type, experience) {
-  const slayerWeight = slayerWeights[type];
+  const slayerWeight = slayer_weights[type];
 
   if (experience <= 1000000) {
     return {
@@ -293,14 +294,14 @@ function calculateSlayerWeight(type, experience) {
     };
   }
 
-  const base = 1000000 / slayerWeight.divider;
+  let base = 1000000 / slayerWeight.divider;
   let remaining = experience - 1000000;
 
   let modifier = slayerWeight.modifier;
   let overflow = 0;
 
   while (remaining > 0) {
-    const left = Math.min(remaining, 1000000);
+    let left = Math.min(remaining, 1000000);
 
     overflow += Math.pow(
       left / (slayerWeight.divider * (1.5 + modifier)),

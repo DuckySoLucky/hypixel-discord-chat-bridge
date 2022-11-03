@@ -1,33 +1,35 @@
-const { Client: client, Collection: collection, AttachmentBuilder: attachmentBuilder, GatewayIntentBits: gatewayIntentBits } = require("discord.js");
-const communicationBridge = require("../contracts/CommunicationBridge.js");
+/*eslint-disable */
+const { Client, Collection, AttachmentBuilder, GatewayIntentBits } = require("discord.js");
+const CommunicationBridge = require("../contracts/CommunicationBridge.js");
 const messageToImage = require("../contracts/messageToImage.js");
-const messageHandler = require("./handlers/MessageHandler.js");
-const stateHandler = require("./handlers/StateHandler.js");
-const commandHandler = require("./CommandHandler.js");
+const MessageHandler = require("./handlers/MessageHandler.js");
+const StateHandler = require("./handlers/StateHandler.js");
+const CommandHandler = require("./CommandHandler.js");
 const config = require("../../config.json");
-const logger = require(".././Logger.js");
+const Logger = require(".././Logger.js");
+/*eslint-enable */
 const path = require("node:path");
 const fs = require("fs");
 const { kill } = require("node:process");
 let channel;
 
-class DiscordManager extends communicationBridge {
+class DiscordManager extends CommunicationBridge {
   constructor(app) {
     super();
 
     this.app = app;
 
-    this.stateHandler = new stateHandler(this);
-    this.messageHandler = new messageHandler(this);
-    this.commandHandler = new commandHandler(this);
+    this.stateHandler = new StateHandler(this);
+    this.messageHandler = new MessageHandler(this);
+    this.commandHandler = new CommandHandler(this);
   }
 
   async connect() {
-    global.client = new client({
+    global.client = new Client({
       intents: [
-        gatewayIntentBits.Guilds,
-        gatewayIntentBits.GuildMessages,
-        gatewayIntentBits.MessageContent,
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent,
       ],
     });
 
@@ -36,9 +38,9 @@ class DiscordManager extends communicationBridge {
     this.client.on("ready", () => this.stateHandler.onReady());
     this.client.on("messageCreate", (message) => this.messageHandler.onMessage(message));
 
-    this.client.login(config.discord.token).catch((error) => {logger.errorMessage(error)});
+    this.client.login(config.discord.token).catch((error) => {Logger.errorMessage(error)});
 
-    client.commands = new collection();
+    client.commands = new Collection();
     const commandFiles = fs
       .readdirSync("src/discord/commands")
       .filter((file) => file.endsWith(".js"));
@@ -107,7 +109,7 @@ class DiscordManager extends communicationBridge {
   async onBroadcast({ fullMessage, username, message, guildRank, chat }) {
     if (message == "debug_temp_message_ignore" && config.discord.messageMode != "minecraft") return;
     if (chat != "debugChannel") {
-      logger.broadcastMessage(`${username} [${guildRank}]: ${message}`,`Discord`);
+      Logger.broadcastMessage(`${username} [${guildRank}]: ${message}`,`Discord`);
     }
     channel = await this.getChannel(chat);
     switch (config.discord.messageMode.toLowerCase()) {
@@ -146,7 +148,7 @@ class DiscordManager extends communicationBridge {
       case "minecraft":
         await channel.send({
           files: [
-            new attachmentBuilder(messageToImage(fullMessage), {
+            new AttachmentBuilder(messageToImage(fullMessage), {
               name: `${username}.png`,
             }),
           ],
@@ -171,7 +173,7 @@ class DiscordManager extends communicationBridge {
 
   async onBroadcastCleanEmbed({ message, color, channel }) {
     if (message.length < config.console.maxEventSize) {
-      logger.broadcastMessage(message, "Event");
+      Logger.broadcastMessage(message, "Event");
     }
 
     channel = await this.getChannel(channel);
@@ -187,7 +189,7 @@ class DiscordManager extends communicationBridge {
 
   async onBroadcastHeadedEmbed({ message, title, icon, color, channel }) {
     if (message && message.length < config.console.maxEventSize) {
-      logger.broadcastMessage(message, "Event");
+      Logger.broadcastMessage(message, "Event");
     }
     channel = await this.getChannel(channel);
     channel.send({
@@ -205,7 +207,7 @@ class DiscordManager extends communicationBridge {
   }
 
   async onPlayerToggle({ fullMessage, username, message, color, channel }) {
-    logger.broadcastMessage(username + " " + message, "Event");
+    Logger.broadcastMessage(username + " " + message, "Event");
     channel = await this.getChannel(channel);
     switch (config.discord.messageMode.toLowerCase()) {
       case "bot":
@@ -242,7 +244,7 @@ class DiscordManager extends communicationBridge {
       case "minecraft":
         await channel.send({
           files: [
-            new attachmentBuilder(messageToImage(fullMessage), {
+            new AttachmentBuilder(messageToImage(fullMessage), {
               name: `${username}.png`,
             }),
           ],

@@ -5,16 +5,16 @@ module.exports = (player, profile) => {
   const jacob = {
     talked: profile.jacob2?.talked || false,
   };
-  const trapperQuest = {
+  const TRAPPER_QUEST = {
     last_task_time: "None",
     pelt_count: 0,
   };
 
   if (profile.trapper_quest) {
-    trapperQuest.last_task_time = profile.trapper_quest?.last_task_time
+    TRAPPER_QUEST.last_task_time = profile.trapper_quest?.last_task_time
       ? profile.trapper_quest?.last_task_time
       : "None";
-    trapperQuest.pelt_count = profile.trapper_quest.pelt_count ?? 0;
+    TRAPPER_QUEST.pelt_count = profile.trapper_quest.pelt_count ?? 0;
   }
 
   if (jacob.talked) {
@@ -56,16 +56,17 @@ module.exports = (player, profile) => {
       all_contests: [],
     };
 
-    for (const contestId in profile.jacob2.contests) {
-      const data = profile.jacob2.contests[contestId];
-      const contestName = contestId.split(":");
-      const date = `${contestName[1]}_${contestName[0]}`;
-      const crop = contestName.slice(2).join(":");
+    for (const CONTEST_ID in profile.jacob2.contests) {
+      const data = profile.jacob2.contests[CONTEST_ID];
+      const CONTEST_NAME = CONTEST_ID.split(":");
+      const date = `${CONTEST_NAME[1]}_${CONTEST_NAME[0]}`;
+      const crop = CONTEST_NAME.slice(2).join(":");
 
       jacob.crops[crop].contests++;
       jacob.crops[crop].participated = true;
-      if (data.collected > jacob.crops[crop].personal_best)
-        {jacob.crops[crop].personal_best = data.collected;}
+      if (data.collected > jacob.crops[crop].personal_best) {
+        jacob.crops[crop].personal_best = data.collected;
+      }
 
       const contest = {
         date: date,
@@ -106,7 +107,7 @@ module.exports = (player, profile) => {
 
   return {
     farming: getSkills(player, profile).farming?.level || 0,
-    trapper_quest: trapperQuest,
+    TRAPPER_QUEST,
     jacob,
   };
 };

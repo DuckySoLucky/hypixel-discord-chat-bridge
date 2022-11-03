@@ -1,11 +1,11 @@
-const minecraftCommand = require("../../contracts/MinecraftCommand.js");
+const minecraftCommand = require("../../contracts/minecraftCommand.js");
 
 class CalculateCommand extends minecraftCommand {
   constructor(minecraft) {
     super(minecraft);
 
-    this.name = "calculate";
-    this.aliases = ["calc", "math"];
+    this.name = "math";
+    this.aliases = ["calc", "calculate"];
     this.description = "Calculate.";
     this.options = ["calculation"];
     this.optionsDescription = ["Any kind of math equation"];

@@ -1,6 +1,8 @@
-const { ActivityType: activityType } = require("discord.js");
+/*eslint-disable */
+const { ActivityType } = require("discord.js");
 const config = require("../../../config.json");
-const logger = require("../../Logger.js");
+const Logger = require("../../Logger.js");
+/*eslint-enable */
 
 class StateHandler {
   constructor(discord) {
@@ -8,10 +10,10 @@ class StateHandler {
   }
 
   async onReady() {
-    logger.discordMessage("Client ready, logged in as " + this.discord.client.user.tag);
+    Logger.discordMessage("Client ready, logged in as " + this.discord.client.user.tag);
     this.discord.client.user.setPresence({
       activities: [
-        { name: `/help | by DuckySoLucky#5181`, type: activityType.Playing },
+        { name: `/help | by DuckySoLucky#5181`, type: ActivityType.Playing },
       ],
     });
     const channel = await getChannel("Guild");

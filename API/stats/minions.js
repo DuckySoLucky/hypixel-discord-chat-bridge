@@ -1,4 +1,4 @@
-const minionSlots = require("../constants/minion_slots.js");
+const MINION_SLOTS = require("../constants/minion_slots.js");
 
 module.exports = (profile) => {
   const constants = require("../constants/minions.js");
@@ -8,20 +8,20 @@ module.exports = (profile) => {
     const minions = profile.members[member]?.crafted_generators;
     if (minions) {
       for (const minion of minions) {
-        const minionLevel = Number(minion.replace(/\D/g, ""));
-        const minionName = minion.substring(
+        const MINION_LEVEL = Number(minion.replace(/\D/g, ""));
+        const MINION_NAME = minion.substring(
           0,
-          minion.length - minionLevel.toString().length - 1
+          minion.length - MINION_LEVEL.toString().length - 1
         );
         if (
-          unlockedMinions[minionName] < minionLevel ||
-          !(minionName in unlockedMinions) ||
-          unlockedMinions[minionName]?.tier < minionLevel
+          unlockedMinions[MINION_NAME] < MINION_LEVEL ||
+          !(MINION_NAME in unlockedMinions) ||
+          unlockedMinions[MINION_NAME]?.tier < MINION_LEVEL
         ) {
-          const foundMinion = constants[minionName];
-          if (foundMinion) {
-            foundMinion.tier = minionLevel;
-            unlockedMinions[minionName] = foundMinion;
+          const FOUND_MINION = constants[MINION_NAME];
+          if (FOUND_MINION) {
+            FOUND_MINION.tier = MINION_LEVEL;
+            unlockedMinions[MINION_NAME] = FOUND_MINION;
           }
         }
       }
@@ -36,21 +36,21 @@ module.exports = (profile) => {
 
   let slots = 5;
   let nextSlot = 0;
-  for (let i = 0; i < Object.keys(minionSlots).length; i++) {
-    if (uniqueMinions > Object.keys(minionSlots)[i]) {
+  for (let i = 0; i < Object.keys(MINION_SLOTS).length; i++) {
+    if (uniqueMinions > Object.keys(MINION_SLOTS)[i]) {
       slots = i + 5;
-      nextSlot = Object.keys(minionSlots)[i + 1] - uniqueMinions;
+      nextSlot = Object.keys(MINION_SLOTS)[i + 1] - uniqueMinions;
     }
   }
 
   let bonusSlots = 0;
-  const communityUpgrades = profile.community_upgrades?.upgrade_states || 0;
-  for (let i = 0; i < communityUpgrades.length; i++) {
+  const COMMUNITY_UPGRADES = profile.community_upgrades?.upgrade_states || 0;
+  for (let i = 0; i < COMMUNITY_UPGRADES.length; i++) {
     if (
-      communityUpgrades[i].upgrade === "minion_slots" &&
-      communityUpgrades[i].tier > bonusSlots
+      COMMUNITY_UPGRADES[i].upgrade === "minion_slots" &&
+      COMMUNITY_UPGRADES[i].tier > bonusSlots
     ) {
-      bonusSlots = communityUpgrades[i].tier;
+      bonusSlots = COMMUNITY_UPGRADES[i].tier;
     }
   }
 

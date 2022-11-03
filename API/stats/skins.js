@@ -1,5 +1,5 @@
 // CREDIT: https://github.com/SkyCryptWebsite/SkyCrypt/ (Modified)
-
+/*eslint-disable */
 /*
   Animated skins created at ezgif.com/apng-maker with the following settings:
   - Skins that change based on time of day
@@ -1303,19 +1303,19 @@ const animations = [
   ..######...########.##....##....########.##.....##.##.........#######..##.....##....##.....######.
   */
 
-const genPetSkins = {};
-const genItemSkins = {};
-const genAnimatedItems = {};
+const gen_pet_skins = {};
+const gen_item_skins = {};
+const gen_animated_items = {};
 
 skins.forEach((skin) => {
   if (skin.id.startsWith("PET_SKIN_")) {
-    genPetSkins[skin.id] = {
+    gen_pet_skins[skin.id] = {
       name: skin.name,
       texture: skin.texture,
       release: skin.release,
     };
   } else {
-    genItemSkins[skin.id] = {
+    gen_item_skins[skin.id] = {
       name: skin.name,
       texture: skin.texture,
     };
@@ -1324,25 +1324,25 @@ skins.forEach((skin) => {
 
 animations.forEach((anim) => {
   // Update texture in pet_skins
-  if (genPetSkins[anim.id]) {
-    genPetSkins[anim.id].texture = anim.texture;
+  if (gen_pet_skins[anim.id]) {
+    gen_pet_skins[anim.id].texture = anim.texture;
   }
 
   // Update texture in item_skins
-  if (genItemSkins[anim.id]) {
-    genItemSkins[anim.id].texture = anim.texture;
+  if (gen_item_skins[anim.id]) {
+    gen_item_skins[anim.id].texture = anim.texture;
   }
 
   // Push the item in animated_items (skins too!)
-  if (!genAnimatedItems[anim.id]) {
-    genAnimatedItems[anim.id] = {};
+  if (!gen_animated_items[anim.id]) {
+    gen_animated_items[anim.id] = {};
   }
-  genAnimatedItems[anim.id].texture = anim.texture;
+  gen_animated_items[anim.id].texture = anim.texture;
 });
 
-const petSkins = genPetSkins;
-const itemSkins = genItemSkins;
-const animatedItems = genAnimatedItems;
-const animatedItemsArr = animations;
+const pet_skins = gen_pet_skins;
+const item_skins = gen_item_skins;
+const animated_items = gen_animated_items;
+const animated_items_arr = animations;
 
-module.exports = { pet_skins: petSkins, item_skins: itemSkins, animated_items: animatedItems, animated_items_arr: animatedItemsArr };
+module.exports = { pet_skins, item_skins, animated_items, animated_items_arr };

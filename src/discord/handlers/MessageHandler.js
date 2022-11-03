@@ -9,7 +9,9 @@ class MessageHandler {
   }
 
   async onMessage(message) {
-    if (message.author.id === client.user.id || !this.shouldBroadcastMessage(message)) return;
+    if (message.author.id === client.user.id || !this.shouldBroadcastMessage(message)) {
+      return;
+    }  
     const url = message.attachments.values().url ?? null;
 
     const content = this.stripDiscordContent(message.content).trim();
@@ -64,17 +66,18 @@ class MessageHandler {
   }
 
   shouldBroadcastMessage(message) {
+    message.content = message.content.replaceAll("@", "")
     return (!message.author.bot &&
       message.channel.id == config.discord.officerChannel &&
-      message.content.replaceAll("@", "").length > 0 &&
+      message.content.length > 0 &&
       message.content) ||
       (!message.author.bot &&
         message.channel.id == config.discord.guildChatChannel &&
-        message.content.replaceAll("@", "").length > 0 &&
+        message.content.length > 0 &&
         message.content) ||
       (!message.author.bot &&
         message.channel.id == config.console.debugChannel &&
-        message.content.replaceAll("@", "").length > 0 &&
+        message.content.length > 0 &&
         message.content);
   }
 }

@@ -5,7 +5,8 @@ const {
   renderLore,
   formatNumber,
 } = require("../constants/functions.js");
-const { petSkins } = require("../constants/skins.js");
+// eslint-disable-next-line
+const { pet_skins } = require("../constants/skins.js");
 const constants = require("../constants/pets.js");
 
 const rarities = [
@@ -88,11 +89,11 @@ module.exports = (profile) => {
     }
 
     let petSkin = null;
-    if (pet.skin && petSkins?.[`PET_SKIN_${pet.skin}`]) {
+    if (pet.skin && pet_skins?.[`PET_SKIN_${pet.skin}`]) {
       pet.texture_path = `https://sky.shiiyu.moe${
-        petSkins[`PET_SKIN_${pet.skin}`].texture
+        pet_skins[`PET_SKIN_${pet.skin}`].texture
       }`;
-      petSkin = petSkins[`PET_SKIN_${pet.skin}`].name;
+      petSkin = pet_skins[`PET_SKIN_${pet.skin}`].name;
     }
     const levelData = getPetLevel(
       pet.exp,

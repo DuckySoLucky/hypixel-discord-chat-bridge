@@ -1,14 +1,15 @@
-const canvas = require("canvas");
-canvas.registerFont("src/contracts/Fonts/2_Minecraft-Italic.otf", {
+// eslint-disable-next-line
+const Canvas = require("canvas");
+Canvas.registerFont("src/contracts/Fonts/2_Minecraft-Italic.otf", {
   family: "MinecraftItalic",
 });
-canvas.registerFont("src/contracts/Fonts/MinecraftRegular-Bmg3.ttf", {
+Canvas.registerFont("src/contracts/Fonts/MinecraftRegular-Bmg3.ttf", {
   family: "Minecraft",
 });
-canvas.registerFont("src/contracts/Fonts/minecraft-bold.otf", {
+Canvas.registerFont("src/contracts/Fonts/minecraft-bold.otf", {
   family: "MinecraftBold",
 });
-canvas.registerFont("src/contracts/Fonts/unifont.ttf", {
+Canvas.registerFont("src/contracts/Fonts/unifont.ttf", {
   family: "MinecraftUnicode",
 });
 
@@ -32,7 +33,7 @@ const RGBA_COLOR = {
 };
 
 async function getCanvasWidthAndHeight(lore) {
-  const canvas = canvas.createCanvas(1, 1);
+  const canvas = Canvas.createCanvas(1, 1);
   const ctx = canvas.getContext("2d");
   ctx.font = "24px Minecraft";
 
@@ -54,7 +55,7 @@ async function renderLore(itemName, lore) {
   if (itemName) lore.unshift(itemName);
   const measurements = await getCanvasWidthAndHeight(lore);
   if (!measurements) return;
-  const canvas = canvas.createCanvas(measurements.width, measurements.height);
+  const canvas = Canvas.createCanvas(measurements.width, measurements.height);
   const ctx = canvas.getContext("2d");
   // BACKGROUND
   ctx.fillStyle = "#100110";
@@ -76,11 +77,13 @@ async function renderLore(itemName, lore) {
     for (const toRenderItem of splitItem) {
       ctx.fillStyle = RGBA_COLOR[toRenderItem[0]];
 
-      if (toRenderItem.startsWith("l"))
-        {ctx.font = "24px MinecraftBold, MinecraftUnicode";}
-      else if (toRenderItem.startsWith("o"))
-        {ctx.font = "24px MinecraftItalic, MinecraftUnicode";}
-      else {ctx.font = "24px Minecraft, MinecraftUnicode";}
+      if (toRenderItem.startsWith("l")) {
+        ctx.font = "24px MinecraftBold, MinecraftUnicode";
+      } else if (toRenderItem.startsWith("o")) {
+        ctx.font = "24px MinecraftItalic, MinecraftUnicode";
+      } else {
+        ctx.font = "24px Minecraft, MinecraftUnicode";
+      }
 
       ctx.fillText(toRenderItem.substring(1), width, index * 24 + 29);
       width += ctx.measureText(toRenderItem.substring(1)).width;

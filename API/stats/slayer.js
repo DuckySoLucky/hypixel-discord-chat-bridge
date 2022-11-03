@@ -1,4 +1,5 @@
-const xpTables = require("../constants/xp_tables.js");
+/*eslint-disable */
+const xp_tables = require("../constants/xp_tables.js");
 
 module.exports = (profile) => {
   function getSlayer(slayer) {
@@ -8,7 +9,7 @@ module.exports = (profile) => {
       return {
         xp: 0,
         level: 0,
-        xpForNext: xpTables.slayer[slayer][0],
+        xpForNext: xp_tables.slayer[slayer][0],
         progress: 0,
         kills: {},
       };
@@ -17,16 +18,16 @@ module.exports = (profile) => {
     let level = 0;
     let xpForNext = 0;
     let progress = 0;
-    const maxLevel = 9;
+    let maxLevel = 9;
 
-    for (let i = 0; i < xpTables.slayer[slayer].length; i++) {
-      if (xpTables.slayer[slayer][i] <= experience) {
+    for (let i = 0; i < xp_tables.slayer[slayer].length; i++) {
+      if (xp_tables.slayer[slayer][i] <= experience) {
         level = i + 1;
       }
     }
 
     if (level < maxLevel) {
-      xpForNext = Math.ceil(xpTables.slayer[slayer][level]);
+      xpForNext = Math.ceil(xp_tables.slayer[slayer][level]);
     }
 
     progress =

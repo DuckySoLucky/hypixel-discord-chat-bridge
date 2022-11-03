@@ -1,8 +1,8 @@
-const { getSkyblockCalendar } = require('../../../API/functions/getCalendar.js');
-const { timeSince, toFixed } = require('../../contracts/helperFunctions.js');
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+const { timeSince, toFixed } = require('../../contracts/helperFunctions.js');
 const config = require('../../../config.json');
 const axios = require('axios');
+const { getSkyblockCalendar } = require('../../../API/functions/getCalendar.js');
 
 if (config.event.enabled) {
     setInterval(async () => {

@@ -1,26 +1,28 @@
-const communicationBridge = require("../contracts/CommunicationBridge.js");
-const stateHandler = require("./handlers/StateHandler.js");
-const errorHandler = require("./handlers/ErrorHandler.js");
-const chatHandler = require("./handlers/ChatHandler.js");
-const commandHandler = require("./CommandHandler.js");
+/*eslint-disable */
+const CommunicationBridge = require("../contracts/CommunicationBridge.js");
+const StateHandler = require("./handlers/StateHandler.js");
+const ErrorHandler = require("./handlers/ErrorHandler.js");
+const ChatHandler = require("./handlers/ChatHandler.js");
+const CommandHandler = require("./CommandHandler.js");
 const config = require("../../config.json");
 const mineflayer = require("mineflayer");
-const logger = require("../Logger.js");
-const filters = require("bad-words");
-const filter = new filters();
+const Filter = require("bad-words");
+const Logger = require("../Logger");
+/*eslint-enable */
+const filter = new Filter();
 
-class MinecraftManager extends communicationBridge {
+class MinecraftManager extends CommunicationBridge {
   constructor(app) {
     super();
 
     this.app = app;
 
-    this.stateHandler = new stateHandler(this);
-    this.errorHandler = new errorHandler(this);
-    this.chatHandler = new chatHandler(this, new commandHandler(this));
+    this.stateHandler = new StateHandler(this);
+    this.errorHandler = new ErrorHandler(this);
+    this.chatHandler = new ChatHandler(this, new CommandHandler(this));
 
-    require("./other/skyblockNotifier.js");
     require("./other/eventNotifier.js");
+    require("./other/skyblockNotifier.js");
   }
 
   connect() {
@@ -44,7 +46,7 @@ class MinecraftManager extends communicationBridge {
   }
 
   async onBroadcast({ channel, username, message, replyingTo }) {
-    logger.broadcastMessage(`${username}: ${message}`, "Minecraft");
+    Logger.broadcastMessage(`${username}: ${message}`, "Minecraft");
     bridgeChat = channel;
     if (!this.bot.player) return; 
 

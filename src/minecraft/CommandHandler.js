@@ -1,6 +1,8 @@
-const { Collection: collection } = require("discord.js");
+/*eslint-disable */
+const { Collection } = require("discord.js");
+const Logger = require("../Logger");
+/*eslint-enable */
 const config = require("../../config.json");
-const logger = require("../Logger.js");
 const fs = require("fs");
 
 class CommandHandler {
@@ -8,7 +10,7 @@ class CommandHandler {
     this.minecraft = minecraft;
 
     this.prefix = config.minecraft.prefix;
-    this.commands = new collection();
+    this.commands = new Collection();
 
     const commandFiles = fs.readdirSync("./src/minecraft/commands").filter((file) => file.endsWith(".js"));
     global.minecraftCommandList = [];
@@ -29,7 +31,7 @@ class CommandHandler {
 
     if (!command) return false;
 
-    logger.minecraftMessage(`${player} - [${command.name}] ${message}`);
+    Logger.minecraftMessage(`${player} - [${command.name}] ${message}`);
     command.onCommand(player, message);
 
     return true;

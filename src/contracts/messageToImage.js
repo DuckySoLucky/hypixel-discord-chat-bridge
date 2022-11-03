@@ -1,8 +1,7 @@
-// Credits https://github.com/Altpapier/
-// Modified
-
-const canvas = require("canvas");
-canvas.registerFont("src/contracts/Fonts/MinecraftRegular-Bmg3.ttf", {
+// Credits https://github.com/Altpapier/ (Modified)
+// eslint-disable-next-line
+const Canvas = require("canvas");
+Canvas.registerFont("src/contracts/Fonts/MinecraftRegular-Bmg3.ttf", {
   family: "Minecraft",
 });
 
@@ -26,7 +25,7 @@ const RGBA_COLOR = {
 };
 
 function getHeight(message) {
-  const canvas = canvas.createCanvas(1, 1);
+  const canvas = Canvas.createCanvas(1, 1);
   const ctx = canvas.getContext("2d");
   const splitMessageSpace = message.split(" ");
   for (const [i, msg] of Object.entries(splitMessageSpace)) {
@@ -57,7 +56,7 @@ function getHeight(message) {
 
 function generateMessageImage(message) {
   const canvasHeight = getHeight(message);
-  const canvas = canvas.createCanvas(1000, canvasHeight);
+  const canvas = Canvas.createCanvas(1000, canvasHeight);
   const ctx = canvas.getContext("2d");
   const splitMessageSpace = message.split(" ");
   for (const [i, msg] of Object.entries(splitMessageSpace)) {
@@ -88,7 +87,7 @@ function generateMessageImage(message) {
     ctx.fillText(currentMessage, width, height);
     width += ctx.measureText(currentMessage).width;
   }
-  return canvas.toBuffer();
+  return canvas.toBuffer()
 }
 
 module.exports = generateMessageImage;

@@ -1,6 +1,5 @@
-const getMissingTalismans = require("../constants/missing.js");
 const { decodeData } = require("../utils/nbt.js");
-const prices = require("../data/prices.json");
+const getMissingTalismans = require("../constants/missing.js");
 
 module.exports = async (profile) => {
   if (profile.talisman_bag?.data && profile.inv_contents?.data) {
@@ -12,32 +11,19 @@ module.exports = async (profile) => {
     ).i;
     talismans = talismans.concat(inventory);
 
-    const talismanIDs = [];
+    const talismanIds = [];
     for (const talisman of talismans) {
-      if (talisman?.tag?.ExtraAttributes?.id)
-        {talismanIDs.push(talisman.tag.ExtraAttributes.id);}
+      if (talisman?.tag?.ExtraAttributes?.id) {
+        talismanIds.push(talisman.tag.ExtraAttributes.id);
+      }
     }
     const missing = {
-      talismans: getMissingTalismans(talismanIDs),
-      maxTalismans: getMissingTalismans(talismanIDs, "max"),
+      talismans: getMissingTalismans(talismanIds),
+      maxTalismans: getMissingTalismans(talismanIds, "max"),
     };
-
-    for (const talisman of missing.talismans) {
-      talisman.price = getPrice(talisman.id) || null;
-    }
-    for (const talisman of missing.maxTalismans) {
-      talisman.price = getPrice(talisman.id) || null;
-    }
-    missing.talismans.sort((a, b) => a.price - b.price);
-    missing.maxTalismans.sort((a, b) => a.price - b.price);
 
     return missing;
   } else {
     return null;
   }
 };
-
-function getPrice(name) {
-  name = name.toLowerCase();
-  return prices[name]?.price || null;
-}

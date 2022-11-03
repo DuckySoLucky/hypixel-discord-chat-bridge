@@ -1,30 +1,29 @@
-const moment = require('moment');
+const moment = require("moment");
 
 const capitalize = function (str) {
-  const words = str.replace(/_/g, ' ').toLowerCase().split(' ');
+  const words = str.replace(/_/g, " ").toLowerCase().split(" ");
 
-  const upperCased = words.map(word => {
+  const upperCased = words.map((word) => {
     return word.charAt(0).toUpperCase() + word.substr(1);
   });
 
-  return upperCased.join(' ');
+  return upperCased.join(" ");
 };
 
 const toTimestamp = function (timestamp) {
-  return Date.parse(timestamp)/1000
-}
+  return Date.parse(timestamp) / 1000;
+};
 
-const nth = function(i) {
-  return i + ['st', 'nd', 'rd'][((((i + 90) % 100) - 10) % 10) - 1] || `${i}th`;
-}
-
+const nth = function (i) {
+  return i + ["st", "nd", "rd"][((((i + 90) % 100) - 10) % 10) - 1] || `${i}th`;
+};
 
 // CREDITS: https://github.com/grafana/grafana (Modified)
 
-const units = new Set(['y', 'M', 'w', 'd', 'h', 'm', 's']);
+const units = new Set(["y", "M", "w", "d", "h", "m", "s"]);
 
 function parseDateMath(mathString, time) {
-  const strippedMathString = mathString.replace(/\s/g, '');
+  const strippedMathString = mathString.replace(/\s/g, "");
   const dateTime = time;
   let i = 0;
   const { length } = strippedMathString;
@@ -35,11 +34,11 @@ function parseDateMath(mathString, time) {
     let type;
     let number;
 
-    if (c === '/') {
+    if (c === "/") {
       type = 0;
-    } else if (c === '+') {
+    } else if (c === "+") {
       type = 1;
-    } else if (c === '-') {
+    } else if (c === "-") {
       type = 2;
     } else {
       return;
@@ -82,10 +81,10 @@ function parseDateMath(mathString, time) {
   return dateTime;
 }
 
-const parseTimestamp = function(text) {
+const parseTimestamp = function (text) {
   if (!text) return;
 
-  if (typeof text !== 'string') {
+  if (typeof text !== "string") {
     if (moment.isMoment(text)) {
       return text;
     }
@@ -96,18 +95,18 @@ const parseTimestamp = function(text) {
   }
 
   let time;
-  let mathString = '';
+  let mathString = "";
   let index;
   let parseString;
 
-  if (text.slice(0, 3) === 'now') {
+  if (text.slice(0, 3) === "now") {
     time = moment.utc();
     mathString = text.slice(3);
   } else {
-    index = text.indexOf('||');
+    index = text.indexOf("||");
     if (index === -1) {
       parseString = text;
-      mathString = '';
+      mathString = "";
     } else {
       parseString = text.slice(0, Math.max(0, index));
       mathString = text.slice(Math.max(0, index + 2));
@@ -122,6 +121,6 @@ const parseTimestamp = function(text) {
 
   const dateMath = parseDateMath(mathString, time);
   return dateMath ? dateMath.valueOf() : undefined;
-}
+};
 
 module.exports = { capitalize, toTimestamp, parseTimestamp, nth };
