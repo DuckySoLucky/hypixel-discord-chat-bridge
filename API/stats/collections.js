@@ -1,9 +1,9 @@
 const collections = require("../data/collections.json");
 
 module.exports = (profileData) => {
-  const players_collections = [];
+  const playersCollections = [];
   for (const collection of collections) {
-    players_collections.push({
+    playersCollections.push({
       name: collection.name,
       id: collection.id,
       category: collection.category,
@@ -16,25 +16,25 @@ module.exports = (profileData) => {
 
   for (const member of Object.keys(profileData.members)) {
     if (profileData.members[member]?.collection) {
-      for (const collection_id of Object.keys(
+      for (const collectionId of Object.keys(
         profileData.members[member]?.collection
       )) {
-        const collection = players_collections.find(
-          (a) => a.id === collection_id
+        const collection = playersCollections.find(
+          (a) => a.id === collectionId
         );
         if (collection) {
           collection.amount +=
-            profileData.members[member].collection[collection_id];
+            profileData.members[member].collection[collectionId];
           const contributions = collection.contributions.find(
             (a) => a.user === member
           );
           if (contributions) {
             contributions.amount +=
-              profileData.members[member].collection[collection_id];
+              profileData.members[member].collection[collectionId];
           } else {
             collection.contributions.push({
               user: member,
-              amount: profileData.members[member].collection[collection_id],
+              amount: profileData.members[member].collection[collectionId],
             });
           }
         }
@@ -42,15 +42,15 @@ module.exports = (profileData) => {
     }
   }
 
-  for (const collection of players_collections) {
-    const found_collection = collections.find((a) => a.id === collection.id);
-    if (found_collection) {
-      for (const tier of found_collection.tiers) {
+  for (const collection of playersCollections) {
+    const foundCollection = collections.find((a) => a.id === collection.id);
+    if (foundCollection) {
+      for (const tier of foundCollection.tiers) {
         if (tier.amountRequired < collection.amount)
           {collection.tier = tier.tier;}
       }
     }
   }
 
-  return players_collections;
+  return playersCollections;
 };

@@ -1,7 +1,7 @@
 // CREDIT: https://github.com/SkyCryptWebsite/SkyCrypt/ (Modified)
 
-const { floor, round } = require('./functions')
-const { symbols } = require('./symbols')
+const { floor, round } = require('./functions.js')
+const { symbols } = require('./symbols.js')
 
 function formatStat(stat) {
   const statFloored = Math.floor(stat);
@@ -3333,7 +3333,7 @@ const petStats = {
   ZOMBIE: Zombie,
 };
 
-const pet_rarity_offset = {
+const petRarityOffset = {
     common: 0,
     uncommon: 6,
     rare: 11,
@@ -3342,7 +3342,7 @@ const pet_rarity_offset = {
     mythic: 20,
   };
 
-  const pet_levels = [
+  const petLevels = [
     100, 110, 120, 130, 145, 160, 175, 190, 210, 230, 250, 275, 300, 330, 360, 400, 440, 490, 540, 600, 660, 730, 800,
     880, 960, 1050, 1150, 1260, 1380, 1510, 1650, 1800, 1960, 2130, 2310, 2500, 2700, 2920, 3160, 3420, 3700, 4000, 4350,
     4750, 5200, 5700, 6300, 7000, 7800, 8700, 9700, 10800, 12000, 13300, 14700, 16200, 17800, 19500, 21300, 23200, 25200,
@@ -3360,7 +3360,7 @@ const pet_rarity_offset = {
     1886700, 1886700, 1886700, 1886700, 1886700, 1886700, 1886700,
   ];
 
-  const pet_data = {
+  const petData = {
     ARMADILLO: {
       head: "/head/c1eb6df4736ae24dd12a3d00f91e6e3aa7ade6bbefb0978afef2f0f92461018f",
       type: "mining",
@@ -3775,7 +3775,7 @@ const pet_rarity_offset = {
     },
 };
 
-const pet_value = {
+const petValue = {
     common: 1,
     uncommon: 2,
     rare: 3,
@@ -3791,7 +3791,7 @@ const EPIC = rarities.indexOf("epic");
 const LEGENDARY = rarities.indexOf("legendary");
 const MYTHIC = rarities.indexOf("mythic");
 
-const pet_items = {
+const petItems = {
     PET_ITEM_ALL_SKILLS_BOOST_COMMON: {
       name: "All Skills Exp Boost",
       tier: "COMMON",
@@ -4082,11 +4082,11 @@ const pet_items = {
 
 
 module.exports = {
-    pet_rarity_offset,
-    pet_levels,
-    pet_data,
-    pet_value,
-    pet_items,
+    pet_rarity_offset: petRarityOffset,
+    pet_levels: petLevels,
+    pet_data: petData,
+    pet_value: petValue,
+    pet_items: petItems,
     rarityColors,
     petStats
 }

@@ -1,5 +1,5 @@
 //CREDIT: https://github.com/Senither/hypixel-skyblock-facade (Modified)
-const { buildSkyblockCalendar } = require("../constants/calendar");
+const { buildSkyblockCalendar } = require("../constants/calendar.js");
 
 function getSkyblockCalendar() {
   try {

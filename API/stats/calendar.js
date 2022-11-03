@@ -1,5 +1,5 @@
 // CREDITS: https://github.com/slothpixel/core (Modified)
-const { nth, parseTimestamp } = require("../functions/helper");
+const { nth, parseTimestamp } = require("../functions/helper.js");
 
 const months = [
   "Early Spring",
@@ -288,16 +288,16 @@ function buildSkyblockCalendar(events, from, to, years, stopAtYearEnd = true) {
   if (!stopBoolean) toToYears++;
 
   for (let i = 0; i < toToYears; i++) {
-    for (const [event, { name, times: times_ }] of Object.entries(eventTimes)) {
-      const duration = times_[0].end - times_[0].start + dayMs;
+    for (const [event, { name, times: times }] of Object.entries(eventTimes)) {
+      const duration = times[0].end - times[0].start + dayMs;
 
       eventList[event].name = name;
       eventList[event].duration = duration;
 
-      for (const { start: start_, end: end_ } of times_) {
+      for (const { start: start, end: end } of times) {
         const times = {
-          start: start_ + yearMs * i,
-          end: end_ + yearMs * i,
+          start: start + yearMs * i,
+          end: end + yearMs * i,
         };
 
         /* eslint-disable-next-line no-continue */
@@ -332,7 +332,7 @@ function buildSkyblockCalendar(events, from, to, years, stopAtYearEnd = true) {
       "start_timestamp"
     )
       /* eslint-disable-next-line camelcase */
-      .filter(({ start_timestamp }) => start_timestamp < toDate)
+      .filter(({ start_timestamp: startTimestamp }) => startTimestamp < toDate)
       .sort((a, b) => a.start_timestamp - b.start_timestamp);
   });
 

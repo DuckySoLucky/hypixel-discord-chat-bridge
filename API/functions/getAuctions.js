@@ -1,14 +1,14 @@
 //CREDIT: https://github.com/Senither/hypixel-skyblock-facade (Modified)
-const { isUuid } = require("../utils/uuid");
+const { isUuid } = require("../utils/uuid.js");
 const getActiveAuctions = require("../stats/auctions.js");
 const config = require('../../config.json');
 const axios = require("axios");
 
 async function getAuctions(uuid) {
   if (!isUuid(uuid)) {
-    const mojang_response = (await axios.get(`https://api.ashcon.app/mojang/v2/user/${uuid}`));
-    if (mojang_response?.data?.uuid) {
-      uuid = mojang_response.data.uuid.replace(/-/g, "");
+    const mojangResponse = (await axios.get(`https://api.ashcon.app/mojang/v2/user/${uuid}`));
+    if (mojangResponse?.data?.uuid) {
+      uuid = mojangResponse.data.uuid.replace(/-/g, "");
     }
   }
 

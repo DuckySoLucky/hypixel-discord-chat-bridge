@@ -1,9 +1,9 @@
-const { toTimestamp } = require("../functions/helper");
-const { decodeData } = require("../utils/nbt");
+const { toTimestamp } = require("../functions/helper.js");
+const { decodeData } = require("../utils/nbt.js");
 
 module.exports = async (profile) => {
   const armorPieces = ["helmet", "chestplate", "leggings", "boots"];
-  const inv_armor = {
+  const invArmor = {
     helmet: [],
     chestplate: [],
     leggings: [],
@@ -40,9 +40,9 @@ module.exports = async (profile) => {
           toTimestamp(invArmor[i].tag.ExtraAttributes.timestamp) | null;
       }
 
-      inv_armor[armorPieces[i]] = invArmor[i];
+      invArmor[armorPieces[i]] = invArmor[i];
     }
   }
 
-  return inv_armor;
+  return invArmor;
 };

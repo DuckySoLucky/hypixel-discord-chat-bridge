@@ -1,4 +1,4 @@
-const items = require('../constants/fetchur_items')
+const items = require('../constants/fetchur_items.js')
 
 function getFetchur() {
     try {

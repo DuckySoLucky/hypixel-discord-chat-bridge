@@ -1,14 +1,14 @@
 //CREDIT: https://github.com/Senither/hypixel-skyblock-facade (Modified)
-const { isUuid } = require("../utils/uuid");
-const { parseBingoProfile } = require("../utils/hypixel");
+const { isUuid } = require("../utils/uuid.js");
+const { parseBingoProfile } = require("../utils/hypixel.js");
 const config = require('../../config.json');
 const axios = require("axios");
 
 async function getBingo(uuid) {
   if (!isUuid(uuid)) {
-    const mojang_response = (await axios.get(`https://api.ashcon.app/mojang/v2/user/${uuid}`));
-    if (mojang_response?.data?.uuid) {
-      uuid = mojang_response.data.uuid.replace(/-/g, "");
+    const mojangResponse = (await axios.get(`https://api.ashcon.app/mojang/v2/user/${uuid}`));
+    if (mojangResponse?.data?.uuid) {
+      uuid = mojangResponse.data.uuid.replace(/-/g, "");
     }
   }
 

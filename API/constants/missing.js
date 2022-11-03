@@ -1,5 +1,5 @@
 //CREDIT: https://github.com/SkyCrypt/SkyCryptWebsite
-const constants = require('./talismans');
+const constants = require('./talismans.js');
 
 module.exports = function getMissingTalismans(talismans, option = '') {
     let unique = Object.keys(constants.talismans);

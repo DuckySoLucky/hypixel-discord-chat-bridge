@@ -1,5 +1,5 @@
 //CREDIT: https://github.com/SkyCrypt/SkyCryptWebsite (Modified)
-const xp_tables = require('./xp_tables');
+const xpTables = require('./xp_tables.js');
 
 module.exports = function calcSkill(skill, experience) {
     let table = 'normal';
@@ -13,7 +13,7 @@ module.exports = function calcSkill(skill, experience) {
             xp: 0,
             level: 0,
             xpCurrent: 0,
-            xpForNext: xp_tables[table][0],
+            xpForNext: xpTables[table][0],
             progress: 0,
         };
     }
@@ -23,13 +23,13 @@ module.exports = function calcSkill(skill, experience) {
     let progress = 0;
     let maxLevel = 0;
 
-    if (xp_tables.max_levels[skill]) maxLevel = xp_tables.max_levels[skill];
+    if (xpTables.max_levels[skill]) maxLevel = xpTables.max_levels[skill];
 
     for (let i = 1; i <= maxLevel; i++) {
-        xp += xp_tables[table][i - 1];
+        xp += xpTables[table][i - 1];
 
         if (xp > experience) {
-            xp -= xp_tables[table][i - 1];
+            xp -= xpTables[table][i - 1];
         } else {
             if (i <= maxLevel) level = i;
         }
@@ -40,7 +40,7 @@ module.exports = function calcSkill(skill, experience) {
     const totalXp = experience;
 
     if (level < maxLevel) {
-        xpForNext = Math.ceil(xp_tables[table][level]);
+        xpForNext = Math.ceil(xpTables[table][level]);
     }
     progress = level >= maxLevel ? 0 : Math.max(0, Math.min(xpCurrent / xpForNext, 1)) 
 
