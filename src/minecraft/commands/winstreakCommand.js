@@ -3,7 +3,7 @@ const hypixel = require('../../contracts/API/HypixelRebornAPI')
 const config = require('../../../config.json')
 const axios = require('axios');
 
-class DenickerCommand extends MinecraftCommand {
+class winstreakCommand extends MinecraftCommand {
     constructor(minecraft) {
         super(minecraft)
 
@@ -30,4 +30,4 @@ class DenickerCommand extends MinecraftCommand {
     }
 }
 
-module.exports = DenickerCommand
+module.exports = winstreakCommand
