@@ -1,10 +1,10 @@
-const { ImgurClient } = require('imgur')
 const { getLatestProfile } = require('../../../API/functions/getLatestProfile')
-const config = require('../../../config.json')
 const imgurClient = new ImgurClient({ clientId: config.api.imgurAPIkey })
-const { decodeData } = require('../../contracts/helperFunctions')
 const MinecraftCommand = require('../../contracts/MinecraftCommand')
+const { decodeData } = require('../../contracts/helperFunctions')
 const { renderLore } = require('../../contracts/renderItem')
+const config = require('../../../config.json')
+const { ImgurClient } = require('imgur')
 
 class armorCommand extends MinecraftCommand {
   constructor(minecraft) {
