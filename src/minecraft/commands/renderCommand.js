@@ -1,17 +1,17 @@
-const { ImgurClient } = require('imgur')
 const { getLatestProfile } = require('../../../API/functions/getLatestProfile')
-const config = require('../../../config.json')
 const imgurClient = new ImgurClient({ clientId: config.api.imgurAPIkey })
-const { decodeData } = require('../../contracts/helperFunctions')
 const MinecraftCommand = require('../../contracts/MinecraftCommand')
+const { decodeData } = require('../../contracts/helperFunctions')
 const { renderLore } = require('../../contracts/renderItem')
+const config = require('../../../config.json')
+const { ImgurClient } = require('imgur')
 
 class renderCommand extends MinecraftCommand {
   constructor(minecraft) {
     super(minecraft)
 
-    this.name = 'inventory'
-    this.aliases = ['inv', 'i', 'render', 'i']
+    this.name = 'render'
+    this.aliases = ['inv', 'inventory', 'i']
     this.description = "Renders item of specified user."
     this.options = ['name', 'slot']
     this.optionsDescription = ['Minecraft Username', 'Number between 1 and 36']
