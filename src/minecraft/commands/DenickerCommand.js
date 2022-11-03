@@ -1,4 +1,5 @@
 const MinecraftCommand = require('../../contracts/MinecraftCommand')
+const { addCommas } = require('../../contracts/helperFunctions')
 const hypixel = require('../../contracts/API/HypixelRebornAPI')
 const config = require('../../../config.json')
 const axios = require('axios');
@@ -16,6 +17,7 @@ class DenickerCommand extends MinecraftCommand {
     
     async onCommand(username, message) {
         try {
+            let msg = this.getArgs(message);
             username = this.getArgs(message)[0];
             let mode = msg[1] ? msg[1] : 'bedwars';
             const response = (await axios.get(`${config.api.antiSniperAPI}/denick?key=${config.api.antiSniperKey}&nick=${username}`)).data;
