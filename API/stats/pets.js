@@ -330,8 +330,8 @@ module.exports = (profile) => {
 };
 
 function getPetLevel(petExp, offsetRarity, maxLevel) {
-  const rarityOffset = constants.pet_rarity_offset[offsetRarity];
-  const levels = constants.pet_levels.slice(
+  const rarityOffset = constants.PET_RARITY_OFFSET[offsetRarity];
+  const levels = constants.PET_LEVELS.slice(
     rarityOffset,
     rarityOffset + maxLevel - 1
   );

@@ -60,7 +60,7 @@ class DuelsStatsCommand extends minecraftCommand {
             Object?.keys(player?.stats?.duels?.[duel]).includes("1v1")
           ) {
             this.send(
-              `/gc [Duels] [${duel.toUpperCase() ?? "Unknown"}] [${
+              `/gc [${duel.toUpperCase() ?? "Unknown"}] [${
                 player.stats.duels?.[duel]?.[
                   Object.keys(player.stats.duels[duel])[0]
                 ]?.division ?? "Unknown"
@@ -84,7 +84,7 @@ class DuelsStatsCommand extends minecraftCommand {
             );
           } else {
             this.send(
-              `/gc [Duels] [${duel.toUpperCase() ?? "Unknown"}] [${
+              `/gc [${duel.toUpperCase() ?? "Unknown"}] [${
                 player.stats.duels?.[duel]?.division ?? "Unknown"
               }] ${username ?? 0} Wins: ${
                 player.stats.duels?.[duel]?.wins ?? 0
