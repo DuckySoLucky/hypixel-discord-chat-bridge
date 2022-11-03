@@ -66,7 +66,7 @@ function numberWithCommas(x) {
 }
 
 function generateID(length) {
-  let result = "",
+  var result = "",
     characters = "abcde0123456789",
     charactersLength = characters.length;
   for (var i = 0; i < length; i++) {

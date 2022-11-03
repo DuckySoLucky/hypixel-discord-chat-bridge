@@ -1,18 +1,18 @@
-const { replaceAllRanks, toFixed, addCommas } = require('../../contracts/helperFunctions')
-const { getLatestProfile } = require('../../../API/functions/getLatestProfile')
+const { replaceAllRanks, toFixed, addCommas } = require('../../contracts/helperFunctions.js')
+const { getLatestProfile } = require('../../../API/functions/getLatestProfile.js')
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
 let guildInfo = [], guildRanks = [], members = [], guildTop = []
-const hypixel = require('../../contracts/API/HypixelRebornAPI')
-const { getUUID } = require('../../contracts/API/PlayerDBAPI')
-const EventHandler = require('../../contracts/EventHandler')
-const getWeight = require('../../../API/stats/weight')
+const hypixel = require('../../contracts/API/HypixelRebornAPI.js')
+const { getUUID } = require('../../contracts/API/PlayerDBAPI.js')
+const eventHandler = require('../../contracts/EventHandler.js')
+const getWeight = require('../../../API/stats/weight.js')
 const messages = require('../../../messages.json')
-const { EmbedBuilder } = require('discord.js')
+const { EmbedBuilder: embedBuilder } = require('discord.js')
 const config = require('../../../config.json')
-const Logger = require('../../Logger')
+const logger = require('../../Logger.js')
 const fs = require('fs')
 
-class StateHandler extends EventHandler {
+class StateHandler extends eventHandler {
   constructor(minecraft, command, discord) {
     super()
     this.minecraft = minecraft
@@ -99,7 +99,7 @@ class StateHandler extends EventHandler {
         bot.chat(`/oc ${username} ${meetRequirements ? 'Does' : 'Doesn\'t'} meet Requirements. [BW] [${player.stats.bedwars.level}✫] FKDR:${player.stats.bedwars.finalKDRatio} | [SW] [${player.stats.skywars.level}✫] KDR:${player.stats.skywars.KDRatio} | [Duels] Wins: ${player.stats.duels.wins} WLR: ${player.stats.duels.WLRatio} | Skyblock: ${weight}`)
 
         if (meetRequirements) {
-          const statsEmbed = new EmbedBuilder()
+          const statsEmbed = new embedBuilder()
             .setColor(2067276)
             .setTitle(`${player.nickname} has requested to join the Guild!`)
             .setDescription(`**Hypixel Network Level**\n${player.level}\n`)
@@ -506,7 +506,7 @@ class StateHandler extends EventHandler {
     }
 
     if (this.isTooFast(message)) {
-      return Logger.warnMessage(message)
+      return logger.warnMessage(message)
     }
 
     if (this.isPlayerNotFound(message)) {

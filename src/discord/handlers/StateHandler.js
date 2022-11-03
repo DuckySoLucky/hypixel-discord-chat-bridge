@@ -1,6 +1,6 @@
-const { ActivityType } = require("discord.js");
+const { ActivityType: activityType } = require("discord.js");
 const config = require("../../../config.json");
-const Logger = require("../../Logger");
+const logger = require("../../Logger.js");
 
 class StateHandler {
   constructor(discord) {
@@ -8,7 +8,7 @@ class StateHandler {
   }
 
   async onReady() {
-    Logger.discordMessage("Client ready, logged in as " + this.discord.client.user.tag);
+    logger.discordMessage("Client ready, logged in as " + this.discord.client.user.tag);
     this.discord.client.user.setPresence({
       activities: [
         { name: `/help | by DuckySoLucky#5181`, type: ActivityType.Playing },

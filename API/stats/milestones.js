@@ -1,4 +1,4 @@
-const milestones = require("../constants/milestones");
+const milestones = require("../constants/milestones.js");
 
 module.exports = function getMilestones(profile) {
   const dolphin = getCurrentPet(

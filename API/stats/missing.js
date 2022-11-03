@@ -1,5 +1,5 @@
-const { decodeData } = require("../utils/nbt");
-const getMissingTalismans = require("../constants/missing");
+const getMissingTalismans = require("../constants/missing.js");
+const { decodeData } = require("../utils/nbt.js");
 const prices = require("../data/prices.json");
 
 module.exports = async (profile) => {
@@ -12,14 +12,14 @@ module.exports = async (profile) => {
     ).i;
     talismans = talismans.concat(inventory);
 
-    const talisman_ids = [];
+    const talismanIDs = [];
     for (const talisman of talismans) {
       if (talisman?.tag?.ExtraAttributes?.id)
-        {talisman_ids.push(talisman.tag.ExtraAttributes.id);}
+        {talismanIDs.push(talisman.tag.ExtraAttributes.id);}
     }
     const missing = {
-      talismans: getMissingTalismans(talisman_ids),
-      maxTalismans: getMissingTalismans(talisman_ids, "max"),
+      talismans: getMissingTalismans(talismanIDs),
+      maxTalismans: getMissingTalismans(talismanIDs, "max"),
     };
 
     for (const talisman of missing.talismans) {

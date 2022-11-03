@@ -1,5 +1,5 @@
 const config = require('../../../config.json')
-const { EmbedBuilder } = require("discord.js")
+const { EmbedBuilder: embedBuilder } = require("discord.js")
 
 module.exports = {
   name: 'execute',
@@ -17,7 +17,7 @@ module.exports = {
     if ((await interaction.guild.members.fetch(interaction.user)).roles.cache.has(config.discord.commandRole)) {
         const command = interaction.options.getString("command");
         bot.chat(`/${command}`)
-        const commandMessage = new EmbedBuilder()
+        const commandMessage = new embedBuilder()
             .setColor(2067276)
             .setTitle('Command has been executed successfully')
             .setDescription(`\`/${command}\`\n`)

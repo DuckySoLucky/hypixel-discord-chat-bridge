@@ -1,5 +1,5 @@
 //CREDIT: https://github.com/Senither/hypixel-skyblock-facade
-const dungeon_weights = {
+const dungeonWeights = {
   catacombs: 0.0002149604615,
   healer: 0.0000045254834,
   mage: 0.0000045254834,
@@ -7,7 +7,7 @@ const dungeon_weights = {
   archer: 0.0000045254834,
   tank: 0.0000045254834,
 };
-const slayer_weights = {
+const slayerWeights = {
   revenant: {
     divider: 2208,
     modifier: 0.15,
@@ -25,7 +25,7 @@ const slayer_weights = {
     modifier: 0.017,
   },
 };
-const skill_weights = {
+const skillWeights = {
   mining: {
     exponent: 1.18207448,
     divider: 259634,
@@ -75,7 +75,7 @@ const skill_weights = {
   },
 };
 
-const calcSkill = require("./skills");
+const calcSkill = require("./skills.js");
 
 async function calculateSenitherWeight(type, level = null, experience) {
   const slayers = ["revenant", "tarantula", "sven", "enderman"];
@@ -231,7 +231,7 @@ async function calculateTotalSenitherWeight(profile) {
 module.exports = { calculateSenitherWeight, calculateTotalSenitherWeight };
 
 function calculateDungeonWeight(type, level, experience) {
-  const percentageModifier = dungeon_weights[type];
+  const percentageModifier = dungeonWeights[type];
 
   const base = Math.pow(level, 4.5) * percentageModifier;
 
@@ -252,7 +252,7 @@ function calculateDungeonWeight(type, level, experience) {
 }
 
 function calculateSkillWeight(type, level, experience) {
-  const skillGroup = skill_weights[type];
+  const skillGroup = skillWeights[type];
   if (skillGroup.exponent == undefined || skillGroup.divider == undefined) {
     return {
       weight: 0,
@@ -284,7 +284,7 @@ function calculateSkillWeight(type, level, experience) {
 }
 
 function calculateSlayerWeight(type, experience) {
-  const slayerWeight = slayer_weights[type];
+  const slayerWeight = slayerWeights[type];
 
   if (experience <= 1000000) {
     return {

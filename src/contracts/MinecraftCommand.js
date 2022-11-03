@@ -1,4 +1,4 @@
-const helperFunctions = require("./helperFunctions");
+const helperFunctions = require("./helperFunctions.js");
 const config = require("../../config.json");
 
 class MinecraftCommand {

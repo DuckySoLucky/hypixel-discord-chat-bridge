@@ -1,6 +1,6 @@
-const { toFixed } = require('../../contracts/helperFunctions')
+const { toFixed } = require('../../contracts/helperFunctions.js')
+const { EmbedBuilder: embedBuilder } = require("discord.js")
 const { version } = require('../../../package.json')
-const { EmbedBuilder } = require("discord.js")
 const config = require('../../../config.json')
 const fs = require('fs')
 
@@ -40,7 +40,7 @@ module.exports = {
         }
 
 
-        const infoEmbed = new EmbedBuilder()
+        const infoEmbed = new embedBuilder()
             .setColor(0x0099FF)
             .setTitle('Hypixel Bridge Bot Commands')
             .addFields(

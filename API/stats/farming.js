@@ -1,20 +1,20 @@
-const constants = require("../constants/farming");
-const getSkills = require("./skills");
+const constants = require("../constants/farming.js");
+const getSkills = require("./skills.js");
 
 module.exports = (player, profile) => {
   const jacob = {
     talked: profile.jacob2?.talked || false,
   };
-  const trapper_quest = {
+  const trapperQuest = {
     last_task_time: "None",
     pelt_count: 0,
   };
 
   if (profile.trapper_quest) {
-    trapper_quest.last_task_time = profile.trapper_quest?.last_task_time
+    trapperQuest.last_task_time = profile.trapper_quest?.last_task_time
       ? profile.trapper_quest?.last_task_time
       : "None";
-    trapper_quest.pelt_count = profile.trapper_quest.pelt_count ?? 0;
+    trapperQuest.pelt_count = profile.trapper_quest.pelt_count ?? 0;
   }
 
   if (jacob.talked) {
@@ -56,11 +56,11 @@ module.exports = (player, profile) => {
       all_contests: [],
     };
 
-    for (const contest_id in profile.jacob2.contests) {
-      const data = profile.jacob2.contests[contest_id];
-      const contest_name = contest_id.split(":");
-      const date = `${contest_name[1]}_${contest_name[0]}`;
-      const crop = contest_name.slice(2).join(":");
+    for (const contestId in profile.jacob2.contests) {
+      const data = profile.jacob2.contests[contestId];
+      const contestName = contestId.split(":");
+      const date = `${contestName[1]}_${contestName[0]}`;
+      const crop = contestName.slice(2).join(":");
 
       jacob.crops[crop].contests++;
       jacob.crops[crop].participated = true;
@@ -106,7 +106,7 @@ module.exports = (player, profile) => {
 
   return {
     farming: getSkills(player, profile).farming?.level || 0,
-    trapper_quest,
+    trapper_quest: trapperQuest,
     jacob,
   };
 };

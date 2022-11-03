@@ -1,10 +1,9 @@
-
-const MinecraftCommand = require('../../contracts/MinecraftCommand')
+const minecraftCommand = require('../../contracts/MinecraftCommand.js')
 const fetch = (...args) => import('node-fetch').then(({
     default: fetch
 }) => fetch(...args)).catch(err => console.log(err));
 
-class registerCommand extends MinecraftCommand {
+class RegisterCommand extends minecraftCommand {
     constructor(minecraft) {
         super(minecraft)
 
@@ -43,4 +42,4 @@ class registerCommand extends MinecraftCommand {
     }
 }
 
-module.exports = registerCommand
+module.exports = RegisterCommand

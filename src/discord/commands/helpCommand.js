@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require("discord.js")
+const { EmbedBuilder: embedBuilder } = require("discord.js")
 const config = require('../../../config.json')
 const fs = require('fs')
 
@@ -44,7 +44,7 @@ module.exports = {
                     minecraftCommands += `- \`${minecraftCommandList[i].name}${options}\`\n`
                 }  
             }
-            const helpMenu = new EmbedBuilder()
+            const helpMenu = new embedBuilder()
                 .setColor(0x0099FF)
                 .setTitle('Hypixel Bridge Bot Commands')
                 .setDescription('() = required argument, [] = optional argument')
@@ -64,7 +64,7 @@ module.exports = {
                     const description = command.description
                     found = true
                     if (!command.options) {
-                        const commandData = new EmbedBuilder()
+                        const commandData = new embedBuilder()
                             .setColor(0x0099FF)
                             .setTitle(`**${config.minecraft.prefix}${command.name}**`)
                             .setDescription(description + '\n')
@@ -78,7 +78,7 @@ module.exports = {
                             options += `${command.options[j].name != '' ? `\`[${command.options[j].name}]\`:` : ``}${command.options[j].description != '' ? ` ${command.options[j].description}\n` : ``}`
                         }
 
-                        const commandData = new EmbedBuilder()
+                        const commandData = new embedBuilder()
                             .setColor(0x0099FF)
                             .setTitle(`**${config.minecraft.prefix}${command.name}**`)
                             .setDescription(description + '\n')
@@ -98,7 +98,7 @@ module.exports = {
                     const description = minecraftCommandList[i].description
                     found = true;
                     if (minecraftCommandList[i].options.length == 0|| minecraftCommandList[i].options == [])  {
-                        const commandData = new EmbedBuilder()
+                        const commandData = new embedBuilder()
                             .setColor(0x0099FF)
                             .setTitle(`**${config.minecraft.prefix}${minecraftCommandList[i].name}**`)
                             .setDescription(description + '\n')
@@ -110,7 +110,7 @@ module.exports = {
                             options += `${minecraftCommandList[i].options[j] != '' ? `\`[${minecraftCommandList[i].options[j]}]\`:` : ``}${minecraftCommandList[i].optionsDescription[j] != '' ? ` ${minecraftCommandList[i].optionsDescription[j]}\n` : ``}`
                         }
                     } 
-                    const commandData = new EmbedBuilder()
+                    const commandData = new embedBuilder()
                         .setColor(0x0099FF)
                         .setTitle(`**${config.minecraft.prefix}${minecraftCommandList[i].name}**`)
                         .setDescription(minecraftCommandList[i].description + '\n')
@@ -123,7 +123,7 @@ module.exports = {
                 }
             }
             if (found) return
-            const errorEmbed = new EmbedBuilder()
+            const errorEmbed = new embedBuilder()
                 .setColor('#ff0000')
                 .setTitle('Error')
                 .setDescription(`Command \`${commandName}\` was not found`)

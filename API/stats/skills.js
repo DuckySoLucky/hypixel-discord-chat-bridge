@@ -1,7 +1,7 @@
-const calcSkill = require("../constants/skills");
+const calcSkill = require("../constants/skills.js");
 
 module.exports = function getSkills(player, profile) {
-  const skill_experience = {
+  const skillExperience = {
     farming: profile?.experience_skill_farming || 0,
     mining: profile?.experience_skill_mining || 0,
     combat: profile?.experience_skill_combat || 0,
@@ -16,16 +16,16 @@ module.exports = function getSkills(player, profile) {
   };
 
   return {
-    farming: calcSkill("farming", skill_experience["farming"]),
-    mining: calcSkill("mining", skill_experience["mining"]),
-    combat: calcSkill("combat", skill_experience["combat"]),
-    foraging: calcSkill("foraging", skill_experience["foraging"]),
-    fishing: calcSkill("fishing", skill_experience["fishing"]),
-    enchanting: calcSkill("enchanting", skill_experience["enchanting"]),
-    alchemy: calcSkill("alchemy", skill_experience["alchemy"]),
-    carpentry: calcSkill("carpentry", skill_experience["carpentry"]),
-    runecrafting: calcSkill("runecrafting", skill_experience["runecrafting"]),
-    social: calcSkill("social", skill_experience["social"]),
-    taming: calcSkill("taming", skill_experience["taming"]),
+    farming: calcSkill("farming", skillExperience["farming"]),
+    mining: calcSkill("mining", skillExperience["mining"]),
+    combat: calcSkill("combat", skillExperience["combat"]),
+    foraging: calcSkill("foraging", skillExperience["foraging"]),
+    fishing: calcSkill("fishing", skillExperience["fishing"]),
+    enchanting: calcSkill("enchanting", skillExperience["enchanting"]),
+    alchemy: calcSkill("alchemy", skillExperience["alchemy"]),
+    carpentry: calcSkill("carpentry", skillExperience["carpentry"]),
+    runecrafting: calcSkill("runecrafting", skillExperience["runecrafting"]),
+    social: calcSkill("social", skillExperience["social"]),
+    taming: calcSkill("taming", skillExperience["taming"]),
   };
 };

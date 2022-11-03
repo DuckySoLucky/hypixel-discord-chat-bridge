@@ -4,9 +4,9 @@ const {
   capitalize,
   renderLore,
   formatNumber,
-} = require("../constants/functions");
-const { pet_skins } = require("../constants/skins");
-const constants = require("../constants/pets");
+} = require("../constants/functions.js");
+const { petSkins } = require("../constants/skins.js");
+const constants = require("../constants/pets.js");
 
 const rarities = [
   "common",
@@ -88,11 +88,11 @@ module.exports = (profile) => {
     }
 
     let petSkin = null;
-    if (pet.skin && pet_skins?.[`PET_SKIN_${pet.skin}`]) {
+    if (pet.skin && petSkins?.[`PET_SKIN_${pet.skin}`]) {
       pet.texture_path = `https://sky.shiiyu.moe${
-        pet_skins[`PET_SKIN_${pet.skin}`].texture
+        petSkins[`PET_SKIN_${pet.skin}`].texture
       }`;
-      petSkin = pet_skins[`PET_SKIN_${pet.skin}`].name;
+      petSkin = petSkins[`PET_SKIN_${pet.skin}`].name;
     }
     const levelData = getPetLevel(
       pet.exp,

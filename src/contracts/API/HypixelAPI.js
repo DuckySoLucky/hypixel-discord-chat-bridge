@@ -1,6 +1,6 @@
-const axios = require('axios')
 const config = require('../../../config.json')
-const PlayerDBAPI = require('./PlayerDBAPI')
+const playerDBAPI = require('./PlayerDBAPI.js')
+const axios = require('axios')
 
 async function getKeyData() {
     // https://api.hypixel.net/key?key=HYPIXEL_API_KEY
@@ -14,7 +14,7 @@ async function getKeyData() {
 async function getPlayer(uuid) {
     // https://api.hypixel.net/player?key=HYPIXEL_API_KEY&uuid=PLAYER_UUID
     try {
-        if (uuid.length.replaceAll('-', '') != 32) uuid = await PlayerDBAPI.getUUID(uuid)
+        if (uuid.length.replaceAll('-', '') != 32) uuid = await playerDBAPI.getUUID(uuid)
         return (await axios.get(`${config.api.hypixelAPI}/player?key=${config.api.hypixelAPIkey}&uuid=${uuid}`)).data
     } catch (error) {
         return error
@@ -22,13 +22,13 @@ async function getPlayer(uuid) {
 }
 async function getFriends(uuid) {
     // https://api.hypixel.net/friends?key=HYPIXEL_API_KEY&uuid=PLAYER_UUID
-    if (uuid.length.replaceAll('-', '') != 32) uuid = await PlayerDBAPI.getUUID(uuid)
+    if (uuid.length.replaceAll('-', '') != 32) uuid = await playerDBAPI.getUUID(uuid)
     return (await axios.get(`${config.api.hypixelAPI}/friends?key=${config.api.hypixelAPIkey}&uuid=${uuid}`)).data
 }
 async function getRecentGames(uuid) {
     // https://api.hypixel.net/recentgames?key=HYPIXEL_API_KEY&uuid=PLAYER_UUID
     try {
-        if (uuid.length.replaceAll('-', '') != 32) uuid = await PlayerDBAPI.getUUID(uuid)
+        if (uuid.length.replaceAll('-', '') != 32) uuid = await playerDBAPI.getUUID(uuid)
         return (await axios.get(`${config.api.hypixelAPI}/recentgames?key=${config.api.hypixelAPIkey}&uuid=${uuid}`)).data
     } catch (error) {
         return error
@@ -37,7 +37,7 @@ async function getRecentGames(uuid) {
 async function getPlayerStatus(uuid) {
     // https://api.hypixel.net/status?key=HYPIXEL_API_KEY&uuid=PLAYER_UUID
     try {
-        if (uuid.length.replaceAll('-', '') != 32) uuid = await PlayerDBAPI.getUUID(uuid)
+        if (uuid.length.replaceAll('-', '') != 32) uuid = await playerDBAPI.getUUID(uuid)
         return (await axios.get(`${config.api.hypixelAPI}/status?key=${config.api.hypixelAPIkey}&uuid=${uuid}`)).data
     } catch (error) {
         return error

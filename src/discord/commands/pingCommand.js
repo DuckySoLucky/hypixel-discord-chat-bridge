@@ -1,11 +1,11 @@
-const { EmbedBuilder } = require("discord.js")
+const { EmbedBuilder: embedBuilder } = require("discord.js")
 
 module.exports = {
   name: "ping",
   description: "Shows the latency of the bot.",
 
   execute: async (interaction, client) => {
-    const embed = new EmbedBuilder()
+    const embed = new embedBuilder()
       .setColor(0x0099FF)
       .setTitle("🏓 Pong!")
       .setDescription(`Latency: ${client.ws.ping}ms`)

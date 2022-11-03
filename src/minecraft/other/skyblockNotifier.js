@@ -1,7 +1,7 @@
-const { writeAt } = require("../../contracts/helperFunctions");
+const { writeAt } = require("../../contracts/helperFunctions.js");
 const fs = require('fs');
-const Rss = require('rss-parser');
-const parser = new Rss();
+const rss = require('rss-parser');
+const parser = new rss();
 
 setInterval(checkForSkyblockUpdates, 10000);
 setInterval(checkForIncidents, 10000);

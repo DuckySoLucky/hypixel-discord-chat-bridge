@@ -22,7 +22,7 @@ class AccessoriesCommand extends minecraftCommand {
       const data = await getLatestProfile(username)
       username = data.profileData?.game_mode ? `♲ ${username}` : username
       const talismans = await getTalismans(data.profile)
-      let common = talismans?.common?.length, uncommon = talismans?.uncommon?.length, rare = talismans?.rare?.length, epic = talismans?.epic?.length, legendary = talismans?.legendary?.length, mythic = talismans?.mythic?.length, special = talismans?.special?.length, verySpecial = talismans?.very?.length, recombobulated = 0, enrichment = 0
+      var common = talismans?.common?.length, uncommon = talismans?.uncommon?.length, rare = talismans?.rare?.length, epic = talismans?.epic?.length, legendary = talismans?.legendary?.length, mythic = talismans?.mythic?.length, special = talismans?.special?.length, verySpecial = talismans?.very?.length, recombobulated = 0, enrichment = 0
       const talismanCount = common + uncommon + rare + epic + legendary + mythic + special + verySpecial
       for (const rarity of Object.keys(talismans)) {
         if (rarity == "talismanBagUpgrades" || rarity == "currentReforge" || rarity == "unlockedReforges" || rarity == "tuningsSlots" || rarity == "tunings") continue

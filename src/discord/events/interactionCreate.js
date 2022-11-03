@@ -1,4 +1,4 @@
-const Logger = require('../.././Logger')
+const logger = require('../.././Logger.js')
 
 module.exports = {
 	name: 'interactionCreate',
@@ -10,7 +10,7 @@ module.exports = {
             if (!command) return
 
             try {
-                Logger.discordMessage(`${interaction.user.username} - [${interaction.commandName}]`)
+                logger.discordMessage(`${interaction.user.username} - [${interaction.commandName}]`)
                 bridgeChat = interaction.channelId;
                 await command.execute(interaction, interaction.client)
             } catch (error) {

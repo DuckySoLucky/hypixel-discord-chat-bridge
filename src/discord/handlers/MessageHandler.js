@@ -1,6 +1,6 @@
 const config = require("../../../config.json");
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-const { generateID } = require("../../contracts/helperFunctions");
+const { generateID } = require("../../contracts/helperFunctions.js");
 
 class MessageHandler {
   constructor(discord, command) {

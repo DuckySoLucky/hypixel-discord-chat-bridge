@@ -1,7 +1,7 @@
-const EventHandler = require("../../contracts/EventHandler");
-const Logger = require("../.././Logger");
+const eventHandler = require("../../contracts/EventHandler.js");
+const logger = require("../.././Logger.js");
 
-class StateHandler extends EventHandler {
+class StateHandler extends eventHandler {
   constructor(minecraft) {
     super();
 
@@ -18,10 +18,10 @@ class StateHandler extends EventHandler {
     if (this.isConnectionResetError(error)) return;
   
     if (this.isConnectionRefusedError(error)) {
-      return Logger.errorMessage("Connection refused while attempting to login via the Minecraft client");
+      return logger.errorMessage("Connection refused while attempting to login via the Minecraft client");
     }
 
-    Logger.warnMessage(error);
+    logger.warnMessage(error);
   }
 
   isConnectionResetError(error) {

@@ -1,5 +1,5 @@
-const discordManager = require("./discord/DiscordManager");
-const minecraftManager = require("./minecraft/MinecraftManager");
+const minecraftManager = require("./minecraft/MinecraftManager.js");
+const discordManager = require("./discord/DiscordManager.js");
 
 class Application {
   async register() {
