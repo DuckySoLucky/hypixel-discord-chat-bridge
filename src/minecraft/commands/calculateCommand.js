@@ -4,8 +4,8 @@ class CalculateCommand extends MinecraftCommand {
   constructor(minecraft) {
     super(minecraft);
 
-    this.name = "math";
-    this.aliases = ["calc", "calculate"];
+    this.name = "calculate";
+    this.aliases = ["calc", "math"];
     this.description = "Calculate.";
     this.options = ["calculation"];
     this.optionsDescription = ["Any kind of math equation"];
