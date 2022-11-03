@@ -5,6 +5,10 @@ const getDirName = require("path").dirname;
 const nbt = require("prismarine-nbt");
 const util = require("util");
 const parseNbt = util.promisify(nbt.parse);
+const getLevel = require("../.././API/stats/hypixelLevel.js");
+const axios = require("axios");
+const config = require("../../config.json");
+const moment = require("moment");
 
 function replaceAllRanks(input) {
   input = input.replaceAll("[OWNER] ", "");
@@ -155,6 +159,268 @@ async function decodeData(buffer) {
   return nbt.simplify(parsedNbt);
 }
 
+// Bedwars Level Calculator
+const EASY_LEVELS = 4;
+const EASY_LEVELS_XP = 7000;
+const XP_PER_PRESTIGE = 96 * 5000 + EASY_LEVELS_XP;
+const LEVELS_PER_PRESTIGE = 100;
+const HIGHEST_PRESTIGE = 10;
+
+function getExpForLevel(level) {
+  if (level == 0) return 0;
+
+  var respectedLevel = getLevelRespectingPrestige(level);
+  if (respectedLevel > EASY_LEVELS) {
+    return 5000;
+  }
+
+  switch (respectedLevel) {
+    case 1:
+      return 500;
+    case 2:
+      return 1000;
+    case 3:
+      return 2000;
+    case 4:
+      return 3500;
+  }
+  return 5000;
+}
+
+function getLevelRespectingPrestige(level) {
+  if (level > HIGHEST_PRESTIGE * LEVELS_PER_PRESTIGE) {
+    return level - HIGHEST_PRESTIGE * LEVELS_PER_PRESTIGE;
+  } else {
+    return level % LEVELS_PER_PRESTIGE;
+  }
+}
+
+function getBedwarsLevel(exp) {
+  var prestiges = Math.floor(exp / XP_PER_PRESTIGE);
+  var level = prestiges * LEVELS_PER_PRESTIGE;
+  var expWithoutPrestiges = exp - prestiges * XP_PER_PRESTIGE;
+
+  for (let i = 1; i <= EASY_LEVELS; ++i) {
+    var expForEasyLevel = getExpForLevel(i);
+    if (expWithoutPrestiges < expForEasyLevel) {
+      break;
+    }
+    level++;
+    expWithoutPrestiges -= expForEasyLevel;
+  }
+
+  return level + expWithoutPrestiges / 5000;
+}
+
+function getSkywarsLevel(exp) {
+  var xps = [0, 20, 70, 150, 250, 500, 1000, 2000, 3500, 6000, 10000, 15000];
+  let exactLevel = 0;
+  if (exp >= 15000) {
+    exactLevel = (exp - 15000) / 10000 + 12;
+  } else {
+    for (let i = 0; i < xps.length; i++) {
+      if (exp < xps[i]) {
+        exactLevel = i + (exp - xps[i - 1]) / (xps[i] - xps[i - 1]);
+        break;
+      }
+    }
+  }
+
+  return exactLevel;
+}
+
+async function getStats(player, uuid, mode, time, username) {
+  const [response, response24H] = await Promise.all([
+    axios.get(
+      `https://api.hypixel.net/player?uuid=${uuid}&key=${config.api.hypixelAPIkey}`
+    ),
+    axios.get(`https://api.pixelic.de/v1/player/${time}?uuid=${uuid}`),
+  ]);
+
+  if (!mode || mode.includes("/")) {
+    return `/gc ${player == username ? "You have" : `${player} has`} gained ${
+      response.data.player.karma - response24H.data.General.karma
+    } karma and gained ${(
+      getLevel(response.data.player) - response24H.data.General.levelRaw
+    ).toFixed(3)} levels in the last 24 hours.`;
+  } else if (["bw", "bedwars", "bedwar", "bws"].includes(mode.toLowerCase())) {
+    const bedwarsData = response.data.player.stats.Bedwars;
+    const oldBedwarsData = response24H.data.Bedwars;
+
+    const experience = bedwarsData.Experience - oldBedwarsData.EXP;
+    const level = getBedwarsLevel(experience);
+
+    const FK =
+      bedwarsData.final_kills_bedwars - oldBedwarsData.overall.finalKills;
+    const FD =
+      bedwarsData.final_deaths_bedwars - oldBedwarsData.overall.finalDeaths + 1;
+
+    const wins = bedwarsData.wins_bedwars - oldBedwarsData.overall.wins;
+    const losses =
+      bedwarsData.losses_bedwars - oldBedwarsData.overall.losses + 1;
+
+    const BB =
+      bedwarsData.beds_broken_bedwars - oldBedwarsData.overall.bedsBroken;
+    const BL =
+      bedwarsData.beds_lost_bedwars - oldBedwarsData.overall.bedsLost + 1;
+
+    return `/gc [${level}✫] ${player} FK: ${addCommas(FK)} FKDR: ${(
+      FK / FD || 0
+    ).toFixed(2)} Wins: ${wins} WLR: ${(wins / losses || 0).toFixed(
+      2
+    )} BB: ${BB} BLR: ${(BB / BL || 0).toFixed(2)}`;
+  } else if (["sw", "skywars", "skywar", "sws"].includes(mode.toLowerCase())) {
+    const skywarsData = response.data.player.stats.SkyWars;
+    const oldSkywarsData = response24H.data.Skywars;
+
+    const experience = skywarsData.skywars_experience - oldSkywarsData.EXP;
+    const level = getSkywarsLevel(experience) - 1;
+
+    const kills = skywarsData.kills - oldSkywarsData.overall.kills;
+    const deaths = skywarsData.deaths - oldSkywarsData.overall.deaths + 1;
+
+    const wins = skywarsData.wins - oldSkywarsData.overall.wins;
+    const losses = skywarsData.losses - oldSkywarsData.overall.losses + 1;
+
+    const coins = skywarsData.coins - oldSkywarsData.coins;
+
+    return `/gc [${level}✫] ${player} Kills: ${addCommas(kills)} KDR: ${(
+      kills / deaths || 0
+    ).toFixed(2)} Wins: ${wins} WLR: ${(wins / losses || 0).toFixed(
+      2
+    )} Coins: ${addCommas(coins || 0)}`;
+  } else if (["duels", "duel", "d"].includes(mode.toLowerCase())) {
+    const duelsData = response.data.player.stats.Duels;
+    const oldDuelsData = response24H.data.Duels;
+
+    const gamesPlayed =
+      duelsData.games_played_duels - oldDuelsData.overall.gamesPlayed;
+
+    const wins = duelsData.wins - oldDuelsData.overall.wins;
+    const losses = duelsData.losses - oldDuelsData.overall.losses + 1;
+
+    const kills = duelsData.kills - oldDuelsData.overall.kills;
+    const deaths = duelsData.deaths - oldDuelsData.overall.deaths + 1;
+
+    const coins = duelsData.coins - oldDuelsData.coins;
+
+    return `/gc ${player} Games: ${addCommas(
+      gamesPlayed
+    )} Wins: ${wins} WLR: ${(wins / losses || 0).toFixed(2)} Kills: ${addCommas(
+      kills
+    )} KDR: ${(kills / deaths || 0).toFixed(2)} Coins: ${addCommas(
+      coins || 0
+    )}`;
+  }
+}
+
+function nth(i) {
+  return i + ["st", "nd", "rd"][((((i + 90) % 100) - 10) % 10) - 1] || `${i}th`;
+}
+
+const units = new Set(["y", "M", "w", "d", "h", "m", "s"]);
+
+function parseDateMath(mathString, time) {
+  const strippedMathString = mathString.replace(/\s/g, "");
+  const dateTime = time;
+  let i = 0;
+  const { length } = strippedMathString;
+
+  while (i < length) {
+    const c = strippedMathString.charAt(i);
+    i += 1;
+    let type;
+    let number;
+
+    if (c === "/") {
+      type = 0;
+    } else if (c === "+") {
+      type = 1;
+    } else if (c === "-") {
+      type = 2;
+    } else {
+      return;
+    }
+
+    if (Number.isNaN(Number.parseInt(strippedMathString.charAt(i), 10))) {
+      number = 1;
+    } else if (strippedMathString.length === 2) {
+      number = strippedMathString.charAt(i);
+    } else {
+      const numberFrom = i;
+      while (!Number.isNaN(Number.parseInt(strippedMathString.charAt(i), 10))) {
+        i += 1;
+        if (i > 10) {
+          return;
+        }
+      }
+      number = Number.parseInt(strippedMathString.slice(numberFrom, i), 10);
+    }
+
+    if (type === 0 && number !== 1) {
+      return;
+    }
+
+    const unit = strippedMathString.charAt(i);
+    i += 1;
+
+    if (!units.has(unit)) {
+      return;
+    }
+    if (type === 0) {
+      dateTime.startOf(unit);
+    } else if (type === 1) {
+      dateTime.add(number, unit);
+    } else if (type === 2) {
+      dateTime.subtract(number, unit);
+    }
+  }
+
+  return dateTime;
+}
+
+const parseTimestamp = function (text) {
+  if (!text) return;
+
+  if (typeof text !== "string") {
+    if (moment.isMoment(text)) {
+      return text;
+    }
+    if (moment.isDate(text)) {
+      return moment(text);
+    }
+    return;
+  }
+
+  let time;
+  let mathString = "";
+  let index;
+  let parseString;
+
+  if (text.slice(0, 3) === "now") {
+    time = moment.utc();
+    mathString = text.slice(3);
+  } else {
+    index = text.indexOf("||");
+    if (index === -1) {
+      parseString = text;
+      mathString = "";
+    } else {
+      parseString = text.slice(0, Math.max(0, index));
+      mathString = text.slice(Math.max(0, index + 2));
+    }
+
+    time = moment(parseString, moment.ISO_8601);
+  }
+
+  if (mathString.length === 0) {
+    return time.valueOf();
+  }
+
+  const dateMath = parseDateMath(mathString, time);
+  return dateMath ? dateMath.valueOf() : undefined;
+};
+
 module.exports = {
   replaceAllRanks,
   addNotation,
@@ -167,4 +433,7 @@ module.exports = {
   capitalize,
   decodeData,
   numberWithCommas,
+  getStats,
+  nth,
+  parseTimestamp,
 };

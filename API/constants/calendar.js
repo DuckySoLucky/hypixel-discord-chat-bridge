@@ -1,5 +1,5 @@
 // CREDITS: https://github.com/slothpixel/core (Modified)
-const { nth, parseTimestamp } = require("../functions/helper.js");
+const { nth, parseTimestamp } = require("../../src/contracts/helperFunctions.js");
 
 const months = [
   "Early Spring",
@@ -289,14 +289,14 @@ function buildSkyblockCalendar(events, from, to, years, stopAtYearEnd = true) {
   if (!stopBoolean) toToYears++;
 
   for (let i = 0; i < toToYears; i++) {
-    // eslint-disable-next-line 
+    // eslint-disable-next-line
     for (const [event, { name, times: times_ }] of Object.entries(eventTimes)) {
       const duration = times_[0].end - times_[0].start + dayMs;
 
       eventList[event].name = name;
       eventList[event].duration = duration;
 
-      // eslint-disable-next-line 
+      // eslint-disable-next-line
       for (const { start: start_, end: end_ } of times_) {
         const times = {
           start: start_ + yearMs * i,

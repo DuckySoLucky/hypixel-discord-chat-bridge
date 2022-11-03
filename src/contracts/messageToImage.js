@@ -87,7 +87,7 @@ function generateMessageImage(message) {
     ctx.fillText(currentMessage, width, height);
     width += ctx.measureText(currentMessage).width;
   }
-  return canvas.toBuffer();
+  return canvas.toBuffer()
 }
 
 module.exports = generateMessageImage;

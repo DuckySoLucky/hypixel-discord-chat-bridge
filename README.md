@@ -1,9 +1,7 @@
 # Hypixel Discord Chat Bridge
-<img src="https://img.shields.io/github/contributors/DuckySoLucky/hypixel-discord-chat-bridge?color=success&style=for-the-badge"> <img src="https://img.shields.io/github/stars/DuckySoLucky/hypixel-discord-chat-bridge?color=success&style=for-the-badge"> <img src="https://img.shields.io/github/forks/DuckySoLucky/hypixel-discord-chat-bridge?color=success&style=for-the-badge"> <img src="https://img.shields.io/tokei/lines/github/DuckySoLucky/hypixel-discord-chat-bridge?color=success&style=for-the-badge"> <img src="https://img.shields.io/github/repo-size/DuckySoLucky/hypixel-discord-chat-bridge?color=success&style=for-the-badge"> <img src='https://img.shields.io/github/commit-activity/m/DuckySoLucky/hypixel-discord-chat-bridge?color=success&style=for-the-badge'>
-
 A two-way chat bridge between [Hypixel](https://hypixel.net/) guild chat and a [Discord](https://discord.com/) channel. The application utilizes [discord.js v13](https://github.com/discordjs/discord.js) for communicating with Discord, and [Mineflayer](https://github.com/PrismarineJS/mineflayer) for communicating with Hypixel.
 
-> ⚠️This application will login to Hypixel using Mineflayer which is not a normal Minecraft client, this could result in your Minecraft account getting banned from Hypixel, so use this application at your own risk. I have been using same account over a year, so as long u don't do something sketchy you will not get banned.
+> ⚠️This application will login to Hypixel using Mineflayer which is not a normal Minecraft client, this could result in your Minecraft account getting banned from Hypixel, so use this application at your own risk.
 
 <hr>
  
@@ -19,27 +17,9 @@ A two-way chat bridge between [Hypixel](https://hypixel.net/) guild chat and a [
 
 ## NodeJS
 
-- Git [Install Guide](#installation-guide-for-git)
-- NodeJS >= 16.9 [Install Guide](#installation-guide-for-nodejs)
+- Git
+- NodeJS >= 16.9
 - A Minecraft account
-
-### Installation guide for Git
-
-To get started, download git [from this link](https://git-scm.com/downloads) by selecting the operating system you are using.
-
-Once the installer is downloaded, run it and follow the instructions.
-Leave most of the settings as default
-
-Then go onto the next step of [installing NodeJS](#installing-nodejs).
-
-### Installation guide for NodeJS 
-
-To get started, download NodeJS [from this link](https://nodejs.org/en/download/) by selecting the operating system you are using.
-
-Once the installer is downloaded, run it and follow the instructions.
-Leave most of the settings as default
-
-Then go onto the next step of [Setup for NodeJS](#setup-guide-for-nodejs).
 
 ### Setup Guide for NodeJS
 
@@ -51,7 +31,7 @@ Next go into the `hypixel-discord-chat-bridge` folder and install all the depend
 
     npm i
 
-While the dependencies are being installed you edit the configuration file. To edit the configuration file, open the `config-EXAMPLE.json` file in your favorite text editor. The configuration file is pretty self explanatory, but if you need help with it, you can check out the [Configuration](#configuration) section. Once you are done editing the configuration file, save it and rename it to `config.json`.
+While the dependencies are being installed you can edit the configuration file. The configuration file is called `config.example.json`. It is pretty self explanatory, but if you need help with it, you can check out the [Configuration](#configuration) section. Once you are done editing, save it and rename it to `config.json`.
 
 Once edited and the dependencies are installed, you can start the application using:
 
@@ -65,8 +45,6 @@ Using the link provided in the console, you sign into the minecraft account that
 - Docker >= 20<br>
 _Older versions may also work, but have not been tested._
 - A Minecraft account
-
-### Setup Guide for Docker
 
 ## Configuration
 
@@ -199,7 +177,7 @@ The bot also includes automatic guild accept if the user meets requirements. The
 
 ### Chat Triggers Module
 
-If you think message format is boring You can check out my repository for ChatTriggers module which changes the way messages from Bot look like. [Click Here](https://github.com/DuckySoLucky/Hypixel-Guild-Chat-Format)
+If you think that message format is boring, you can check out my repository for ChatTriggers module which changes the way messages from Bot look like. [Click Here](https://github.com/DuckySoLucky/Hypixel-Guild-Chat-Format)
 
 ### Events Notifier
 
@@ -207,25 +185,21 @@ The bot also includes event notifier that can be used to send message in guild 3
 
 #### Frag Bot
 
-The bot also includes an integrated frag bot that can be used for Hypixel Skyblock dungeons.
+The bot also includes an integrated frag bot that can be used by the guild.
 
 ### To-Do List
 
-- [ ] Setup inside a console
-  - Title
 - [ ] `!pet` Command lore splitting
   - Lore of pet can sometimes be very long, to solve this issue there should be lore formatter function which will split lore every x characters so it looks better.
 - [ ] Fragbot Whitelist
-  - Abiliy to make frag bot be used only by specified users or by guild members only.
+  - Ability to make frag bot be used only by specified users or by guild members only.
 
 ## Powered by
 
-- [AltPapier](https://github.com/Altpapier/hypixel-discord-guild-bridge)
+- [AltPapier](https://github.com/Altpapier)
 - [DawJaw](https://dawjaw.net/jacobs)
 - [Hypixel API Reborn](https://hypixel.stavzdev.me/#/)
-- [Hypixel Skyblock Facade](https://hypixel-api.senither.com/)
 - [Hypixel Network API](http://api.hypixel.net/)
-- [MaroAPI](https://github.com/zt3h)
 - [PlayerDB API](https://playerdb.co/)
 - [SkyHelper API](https://github.com/Altpapier/SkyHelperAPI)
 - [SkyShiiyu API](https://github.com/SkyCryptWebsite/SkyCrypt)
