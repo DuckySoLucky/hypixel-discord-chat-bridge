@@ -1,4 +1,5 @@
 # Hypixel Discord Chat Bridge
+
 <img src="https://img.shields.io/github/contributors/DuckySoLucky/hypixel-discord-chat-bridge?color=success&style=for-the-badge"> <img src="https://img.shields.io/github/stars/DuckySoLucky/hypixel-discord-chat-bridge?color=success&style=for-the-badge"> <img src="https://img.shields.io/github/forks/DuckySoLucky/hypixel-discord-chat-bridge?color=success&style=for-the-badge"> <img src="https://img.shields.io/tokei/lines/github/DuckySoLucky/hypixel-discord-chat-bridge?color=success&style=for-the-badge"> <img src="https://img.shields.io/github/repo-size/DuckySoLucky/hypixel-discord-chat-bridge?color=success&style=for-the-badge"> <img src='https://img.shields.io/github/commit-activity/m/DuckySoLucky/hypixel-discord-chat-bridge?color=success&style=for-the-badge'>
 
 A two-way chat bridge between [Hypixel](https://hypixel.net/) guild chat and a [Discord](https://discord.com/) channel. The application utilizes [discord.js v13](https://github.com/discordjs/discord.js) for communicating with Discord, and [Mineflayer](https://github.com/PrismarineJS/mineflayer) for communicating with Hypixel.
@@ -6,7 +7,7 @@ A two-way chat bridge between [Hypixel](https://hypixel.net/) guild chat and a [
 > ⚠️This application will login to Hypixel using Mineflayer which is not a normal Minecraft client, this could result in your Minecraft account getting banned from Hypixel, so use this application at your own risk. I have been using same account over a year, so as long u don't do something sketchy you will not get banned.
 
 <hr>
- 
+
 ## Table of Content
 
 - [Installation using NodeJS](#NodeJS)
@@ -26,6 +27,7 @@ A two-way chat bridge between [Hypixel](https://hypixel.net/) guild chat and a [
 - A Minecraft account
 
 ### Installation guide for Git
+
 [More in depth guide](guides/git.md)
 
 To get started, download git [from this link](https://git-scm.com/downloads) by selecting the operating system you are using.
@@ -36,6 +38,7 @@ Leave most of the settings as default
 Then go onto the next step of [installing NodeJS](#installing-nodejs).
 
 ### Installation guide for NodeJS
+
 [More in depth guide](guides/NodeJS.md)
 
 To get started, download NodeJS [from this link](https://nodejs.org/en/download/) by selecting the operating system you are using.
@@ -171,44 +174,43 @@ The bot also includes automatic guild accept if the user meets requirements. The
 - `/unmute <user>` - Unmutes the given user.
 - `/uptime` - Shows the uptime of the bot.
 
-
 #### Minecraft Commands
 
 `< >` = Required arguments, `[ ]` = Optional arguments
 |Command|Feature|Subcommands|Aliases|Syntax|Example|Response|
-|----|----|----|----|----|----|----|----|
-|`8ball` | Ask an 8ball a question | `question - required`| `8b` | `!8ball <question>` | !8ball is DuckySoLucky Hot? | [Responce Of Example](https://i.imgur.com/mLyICsX.jpeg)
-|`accessories` | Accessories of specified user | `question - required`| `8b` | `!accessories [player]` | !accessories | [Responce Of Example](https://i.imgur.com/0E3lMwc.jpg)
-|`armor` | Renders armor of specified user | `question - required`| `8b` | `!armor [player]` | !Armour SpookyKath | [Responce Of Example](https://i.imgur.com/enFiSct.jpg)
-|`auction` | Active Auctions of specified user | `question - required`| `8b` | `!auction [player]` | !auction | [Responce Of Example](imgurLinkWhen)
-|`bedwars` | BedWars stats of specified user | `question - required`| `8b` | `!bedwars [player]` | !bedwars | [Responce Of Example](https://i.imgur.com/CKjLKMs.jpg)
-|`catacombs` | Skyblock Dungeons Stats of specified user | `question - required`| `8b` | `!catacombs [player]` | !dungeons | [Responce Of Example](https://i.imgur.com/RoRSo8Q.jpg)
-|`calculate` | Calculate any kind of math problem | `question - required`| `8b` | `!math <calculation>` | !math 1+1 | [Responce Of Example](imgurLinkWhen)
-|`daily` | Shows your daily stats for bedwars | `question - required`| `8b` | `!daily <player>` | !daily SpookyKath | [Responce Of Example](imgurLinkWhen)
-|`denick` | Denick username of specified user | `question - required`| `8b` | `!denick <player> [mode]` | !denick Jediiii | [Responce Of Example](https://i.imgur.com/XTjg0CX.jpg)
-|`duels` | Duel stats of specified user | `question - required`| `8b` | `!duels [player]` | !duels | [Responce Of Example](imgurLinkWhen)
-|`equipment` | Renders equipment of specified user | `question - required`| `8b` | `!equipment [player]` | !equipment | [Responce Of Example](imgurLinkWhen)
-|`fairysouls` | Fairy Souls of specified user | `question - required`| `8b` | `!fairysouls [player]` | !fairysouls | [Responce Of Example](imgurLinkWhen)
-|`fetchur` | Information about an item for Fetchur | `question - required`| `8b` | `!fetcher` | !fetcher | [Responce Of Example](imgurLinkWhen)
-|`guild` | Look up a guild based on its name | `question - required`| `8b` | `!guild <guildName>` | !guild Felony | [Responce Of Example](imgurLinkWhen)
-|`guildexp` | Guilds experience of specified user  | `question - required`| `8b`| `!guildexp [player]` | !guildexp | [Responce Of Example](imgurLinkWhen)
-|`go` | Look up a guild based on a players ign | `question - required`| `8b` | `!go <player>` | !go SpookyKath | [Responce Of Example](imgurLinkWhen)
-|`help` | Shows help menu | `question - required`| `8b` | `!help` | !help | [Responce Of Example](imgurLinkWhen)
-|`kitty` | Random image of cute cat | `question - required`| `8b` | `!kitty` | !kitty | [Responce Of Example](imgurLinkWhen)
-|`monthly` | Shows your monthly stats for bedwars | `question - required`| `8b` | `!monthly <player>` | !monthly SpookyKath | [Responce Of Example](imgurLinkWhen)
-|`networth` | Networth of specified user | `question - required`| `8b` | `!networth [player]` | !networth | [Responce Of Example](imgurLinkWhen)
-|`pet` | Renders active pet of specified user | `question - required`| `8b` | `!pet [player]` | !pet | [Responce Of Example](imgurLinkWhen)
-|`register` | registers your ign into the database for !daily/weekly/monthly | `question - required`| `8b` | `!register <player>` | !register Spookykath | [Responce Of Example](imgurLinkWhen)
-|`render` | Renders item of specified user | `question - required`| `8b` | `!render [player] [slot]` | !redner SpookyKath 1 | [Responce Of Example](imgurLinkWhen)
-|`skills` | Skills and Skill Average of specified user | `question - required`| `8b` | `!skills [player]` | !skills | [Responce Of Example](imgurLinkWhen)
-|`skywars` | Skywars stats of specified user | `question - required`| `8b` | `!skywars [player]` | !skywars | [Responce Of Example](imgurLinkWhen)
-|`skyblock` | Skyblock Stats of specified user | `question - required`| `8b` | `!skyblock [player]` | !skyblock | [Responce Of Example](imgurLinkWhen)
-|`slayer` | Slayer of specified user | `question - required`| `8b` | `!slayer [player] [type]` | !slayer | [Responce Of Example](imgurLinkWhen)
-|`UHC` | UHC Stats of specified user | `question - required`| `8b` | `!uhc [player]` | !uhc | [Responce Of Example](imgurLinkWhen)
-|`weekly` | Shows your weekly stats for bedwars | `question - required`| `8b` | `!weekly <player>` | !weekly SpookyKath | [Responce Of Example](imgurLinkWhen)
-|`weight` | Skyblock Stats of specified user | `question - required`| `8b` | `!weight [player]` | !weight | [Responce Of Example](imgurLinkWhen)
-|`winstreak` | Estimated winstreaks of the specified user in bedwars | `question - required`| `8b` | `!winstreak [player]` | !winstreak | [Responce Of Example](imgurLinkWhen)
-|`woolwars` | WoolWars stats of specified user  | `question - required`| `8b`| `!woolwars [player]` | !woolwars | [Responce Of Example](imgurLinkWhen)
+|--|--|--|--|--|--|--|
+|`8ball` | Ask an 8ball a question | `question - required`| `8b` | `!8ball <question>` | !8ball is DuckySoLucky Hot? | [Example](https://i.imgur.com/mLyICsX.jpeg)
+|`accessories` | Accessories of specified user | `question - required`| `8b` | `!accessories [player]` | !accessories | [Example](https://i.imgur.com/0E3lMwc.jpg)
+|`armor` | Renders armor of specified user | `question - required`| `8b` | `!armor [player]` | !Armour SpookyKath | [Example](https://i.imgur.com/enFiSct.jpg)
+|`auction` | Active Auctions of specified user | `question - required`| `8b` | `!auction [player]` | !auction | [Example](imgurLinkWhen)
+|`bedwars` | BedWars stats of specified user | `question - required`| `8b` | `!bedwars [player]` | !bedwars | [Example](https://i.imgur.com/CKjLKMs.jpg)
+|`catacombs` | Skyblock Dungeons Stats of specified user | `question - required`| `8b` | `!catacombs [player]` | !dungeons | [Example](https://i.imgur.com/RoRSo8Q.jpg)
+|`calculate` | Calculate any kind of math problem | `question - required`| `8b` | `!math <calculation>` | !math 1+1 | [Example](imgurLinkWhen)
+|`daily` | Shows your daily stats for bedwars | `question - required`| `8b` | `!daily <player>` | !daily SpookyKath | [Example](imgurLinkWhen)
+|`denick` | Denick username of specified user | `question - required`| `8b` | `!denick <player> [mode]` | !denick Jediiii | [Example](https://i.imgur.com/XTjg0CX.jpg)
+|`duels` | Duel stats of specified user | `question - required`| `8b` | `!duels [player]` | !duels | [Example](imgurLinkWhen)
+|`equipment` | Renders equipment of specified user | `question - required`| `8b` | `!equipment [player]` | !equipment | [Example](imgurLinkWhen)
+|`fairysouls` | Fairy Souls of specified user | `question - required`| `8b` | `!fairysouls [player]` | !fairysouls | [Example](imgurLinkWhen)
+|`fetchur` | Information about an item for Fetchur | `question - required`| `8b` | `!fetcher` | !fetcher | [Example](imgurLinkWhen)
+|`guild` | Look up a guild based on its name | `question - required`| `8b` | `!guild <guildName>` | !guild Felony | [Example](imgurLinkWhen)
+|`guildexp` | Guilds experience of specified user  | `question - required`| `8b`| `!guildexp [player]` | !guildexp | [Example](imgurLinkWhen)
+|`go` | Look up a guild based on a players ign | `question - required`| `8b` | `!go <player>` | !go SpookyKath | [Example](imgurLinkWhen)
+|`help` | Shows help menu | `question - required`| `8b` | `!help` | !help | [Example](imgurLinkWhen)
+|`kitty` | Random image of cute cat | `question - required`| `8b` | `!kitty` | !kitty | [Example](imgurLinkWhen)
+|`monthly` | Shows your monthly stats for bedwars | `question - required`| `8b` | `!monthly <player>` | !monthly SpookyKath | [Example](imgurLinkWhen)
+|`networth` | Networth of specified user | `question - required`| `8b` | `!networth [player]` | !networth | [Example](imgurLinkWhen)
+|`pet` | Renders active pet of specified user | `question - required`| `8b` | `!pet [player]` | !pet | [Example](imgurLinkWhen)
+|`register` | registers your ign into the database for !daily/weekly/monthly | `question - required`| `8b` | `!register <player>` | !register Spookykath | [Example](imgurLinkWhen)
+|`render` | Renders item of specified user | `question - required`| `8b` | `!render [player] [slot]` | !redner SpookyKath 1 | [Example](imgurLinkWhen)
+|`skills` | Skills and Skill Average of specified user | `question - required`| `8b` | `!skills [player]` | !skills | [Example](imgurLinkWhen)
+|`skywars` | Skywars stats of specified user | `question - required`| `8b` | `!skywars [player]` | !skywars | [Example](imgurLinkWhen)
+|`skyblock` | Skyblock Stats of specified user | `question - required`| `8b` | `!skyblock [player]` | !skyblock | [Example](imgurLinkWhen)
+|`slayer` | Slayer of specified user | `question - required`| `8b` | `!slayer [player] [type]` | !slayer | [Example](imgurLinkWhen)
+|`UHC` | UHC Stats of specified user | `question - required`| `8b` | `!uhc [player]` | !uhc | [Example](imgurLinkWhen)
+|`weekly` | Shows your weekly stats for bedwars | `question - required`| `8b` | `!weekly <player>` | !weekly SpookyKath | [Example](imgurLinkWhen)
+|`weight` | Skyblock Stats of specified user | `question - required`| `8b` | `!weight [player]` | !weight | [Example](imgurLinkWhen)
+|`winstreak` | Estimated winstreaks of the specified user in bedwars | `question - required`| `8b` | `!winstreak [player]` | !winstreak | [Example](imgurLinkWhen)
+|`woolwars` | WoolWars stats of specified user  | `question - required`| `8b`| `!woolwars [player]` | !woolwars | [Example](imgurLinkWhen)
 
 ### Chat Triggers Module
 
