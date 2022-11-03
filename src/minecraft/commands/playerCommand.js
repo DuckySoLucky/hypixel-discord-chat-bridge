@@ -28,7 +28,7 @@ class PlayerCommand extends MinecraftCommand {
  
 onCommand(username, message) {
     const player = message.split(' ')[1]
-      HypAPI.getPlayer(player).then((data) => {
+      hypixel.getPlayer(player).then((data) => {
         var ap = Formatter(((data.achievementPoints).toFixed(0)), 2)
         var karma = Formatter(((data.karma).toFixed(0)), 2)
           this.send(`/gc Info for [${player.rank}] ${player} - Karma: ${karma} Network Level: ${data.level} Achievement Points: ${ap} Guild: ${data.guild} Online Status: ${data.isOnline}`)
