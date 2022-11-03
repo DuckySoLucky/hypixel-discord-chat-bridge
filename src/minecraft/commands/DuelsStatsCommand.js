@@ -1,7 +1,7 @@
-const MinecraftCommand = require('../../contracts/MinecraftCommand')
-const hypixel = require('../../contracts/API/HypixelRebornAPI')
+const minecraftCommand = require('../../contracts/MinecraftCommand.js')
+const hypixel = require('../../contracts/API/HypixelRebornAPI.js')
 
-class DuelsStatsCommand extends MinecraftCommand {
+class DuelsStatsCommand extends minecraftCommand {
 	constructor(minecraft) {
 		super(minecraft)
 
@@ -15,7 +15,7 @@ class DuelsStatsCommand extends MinecraftCommand {
 	async onCommand(username, message) {
 		try {
 			const duelTypes = ['blitz', 'uhc', 'parkour', 'boxing', 'bowspleef', 'spleef', 'arena', 'megawalls', 'op', 'sumo', 'classic', 'combo', 'bridge', 'nodebuff', 'bow']
-			let arg = this.getArgs(message) ?? [username], duel
+			var arg = this.getArgs(message) ?? [username], duel
 			if (!arg) arg[0] = username
 			if (!arg[0]) arg[0] = username
 			if (arg[0].includes('/')) arg[0] = username

@@ -1,9 +1,9 @@
-const MinecraftCommand = require('../../contracts/MinecraftCommand')
+const minecraftCommand = require('../../contracts/MinecraftCommand.js')
 const config = require('../../../config.json')
-const { ImgurClient } = require('imgur')
+const { IMGUR_CLEINT } = require('imgur')
 const axios = require('axios')
 
-class kittyCommand extends MinecraftCommand {
+class KittyCommand extends minecraftCommand {
   constructor(minecraft) {
     super(minecraft)
 
@@ -17,7 +17,7 @@ class kittyCommand extends MinecraftCommand {
   async onCommand(username, message) {
     try {
       const link = (await axios.get(`https://api.thecatapi.com/v1/images/search`)).data[0].url
-      const client = new ImgurClient({ clientId: config.api.imgurAPIkey })
+      const client = new IMGUR_CLEINT({ clientId: config.api.imgurAPIkey })
       const upload = await client.upload({ image: link, type: 'stream' })
       this.send(`/gc Cute Cat » ${upload.data.link}`)
     } catch (error) {
@@ -29,4 +29,4 @@ class kittyCommand extends MinecraftCommand {
 
 
 
-module.exports = kittyCommand;
+module.exports = KittyCommand;

@@ -1,12 +1,12 @@
-const { getLatestProfile } = require('../../../API/functions/getLatestProfile');
-const { addNotation, addCommas } = require('../../contracts/helperFunctions')
-const MinecraftCommand = require('../../contracts/MinecraftCommand')
+const { getLatestProfile } = require('../../../API/functions/getLatestProfile.js');
+const { addNotation, addCommas } = require('../../contracts/helperFunctions.js')
+const minecraftCommand = require('../../contracts/MinecraftCommand.js')
 const { getNetworth, getPrices } = require('skyhelper-networth');
-const getTalismans = require('../../../API/stats/talismans');
-const getDungeons = require('../../../API/stats/dungeons');
-const getSkills = require('../../../API/stats/skills');
-const getSlayer = require('../../../API/stats/slayer');
-const getWeight = require('../../../API/stats/weight');
+const getTalismans = require('../../../API/stats/talismans.js');
+const getDungeons = require('../../../API/stats/dungeons.js');
+const getSkills = require('../../../API/stats/skills.js');
+const getSlayer = require('../../../API/stats/slayer.js');
+const getWeight = require('../../../API/stats/weight.js');
 
 let prices;
 getPrices().then((data) => {
@@ -17,7 +17,7 @@ setInterval(async () => {
   prices = await getPrices();
 }, 1000 * 60 * 5);
 
-class skyblockCommand extends MinecraftCommand {
+class SkyblockCommand extends minecraftCommand {
   constructor(minecraft) {
     super(minecraft)
 
@@ -46,7 +46,7 @@ class skyblockCommand extends MinecraftCommand {
         getDungeons(data.player, data.profile),
         getTalismans(data.profile),
       ])
-      let common = talismans.common?.length, uncommon = talismans.uncommon?.length, rare = talismans.rare?.length, epic = talismans.epic?.length, legendary = talismans.legendary?.length, mythic = talismans.mythic?.length, special = talismans.special?.length, verySpecial = talismans.very?.length, recombobulated = 0, enrichment = 0
+      var common = talismans.common?.length, uncommon = talismans.uncommon?.length, rare = talismans.rare?.length, epic = talismans.epic?.length, legendary = talismans.legendary?.length, mythic = talismans.mythic?.length, special = talismans.special?.length, verySpecial = talismans.very?.length, recombobulated = 0, enrichment = 0
       const talismanCount = common + uncommon + rare + epic + legendary + mythic + special + verySpecial
       for (const rarity of Object.keys(talismans)) {
         if (rarity == "talismanBagUpgrades" || rarity == "currentReforge" || rarity == "unlockedReforges" || rarity == "tuningsSlots" || rarity == "tunings") continue
@@ -63,4 +63,4 @@ class skyblockCommand extends MinecraftCommand {
   }
 }
 
-module.exports = skyblockCommand
+module.exports = SkyblockCommand

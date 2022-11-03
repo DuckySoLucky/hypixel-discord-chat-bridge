@@ -1,6 +1,6 @@
-const { getLatestProfile } = require('../../../API/functions/getLatestProfile');
-const { addNotation, capitalize } = require('../../contracts/helperFunctions')
-const MinecraftCommand = require('../../contracts/MinecraftCommand')
+const { getLatestProfile } = require('../../../API/functions/getLatestProfile.js');
+const { addNotation, capitalize } = require('../../contracts/helperFunctions.js')
+const minecraftCommand = require('../../contracts/MinecraftCommand.js')
 const { getNetworth, getPrices } = require('skyhelper-networth');
 
 let prices;
@@ -12,7 +12,7 @@ setInterval(async () => {
     prices = await getPrices();
 }, 1000 * 60 * 5);
 
-class NetWorthCommand extends MinecraftCommand {
+class NetWorthCommand extends minecraftCommand {
     constructor(minecraft) {
         super(minecraft)
 

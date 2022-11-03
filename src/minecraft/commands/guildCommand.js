@@ -1,7 +1,7 @@
-const MinecraftCommand = require('../../contracts/MinecraftCommand')
-const hypixel = require('../../contracts/API/HypixelRebornAPI')
+const minecraftCommand = require('../../contracts/MinecraftCommand.js')
+const hypixel = require('../../contracts/API/HypixelRebornAPI.js')
 
-class guildOfCommand extends MinecraftCommand {
+class GuildCommand extends minecraftCommand {
     constructor(minecraft) {
         super(minecraft)
 
@@ -33,4 +33,4 @@ class guildOfCommand extends MinecraftCommand {
 }
 
 
-module.exports = guildOfCommand;
+module.exports = GuildCommand;

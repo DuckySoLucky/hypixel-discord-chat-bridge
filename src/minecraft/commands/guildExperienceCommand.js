@@ -1,9 +1,9 @@
-const MinecraftCommand = require('../../contracts/MinecraftCommand')
-const hypixel = require('../../contracts/API/HypixelRebornAPI')
+const minecraftCommand = require('../../contracts/MinecraftCommand.js')
+const { addCommas } = require('../../contracts/helperFunctions.js')
+const hypixel = require('../../contracts/API/HypixelRebornAPI.js')
 const config = require('../../../config.json')
-const { addCommas } = require('../../contracts/helperFunctions')
 
-class guildExperienceCommand extends MinecraftCommand {
+class GuildExperienceCommand extends minecraftCommand {
     constructor(minecraft) {
         super(minecraft)
 
@@ -37,4 +37,4 @@ class guildExperienceCommand extends MinecraftCommand {
     }
 }
 
-module.exports = guildExperienceCommand;
+module.exports = GuildExperienceCommand;

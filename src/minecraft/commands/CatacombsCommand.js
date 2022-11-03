@@ -1,23 +1,9 @@
-const { getLatestProfile } = require('../../../API/functions/getLatestProfile');
-const MinecraftCommand = require('../../contracts/MinecraftCommand')
-const getDungeons = require('../../../API/stats/dungeons');
+const { getLatestProfile } = require('../../../API/functions/getLatestProfile.js');
+const minecraftCommand = require('../../contracts/MinecraftCommand.js')
+const { addNotation } = require('../../contracts/helperFunctions.js')
+const getDungeons = require('../../../API/stats/dungeons.js');
 
-function Formatter(num, digits) {
-  const lookup = [
-    { value: 1, symbol: "" },
-    { value: 1e3, symbol: "k" },
-    { value: 1e6, symbol: "m" },
-    { value: 1e9, symbol: "b" },
-    { value: 1e12, symbol: "t" }
-  ];
-  const rx = /.0+$|(.[0-9]*[1-9])0+$/;
-  var item = lookup.slice().reverse().find(function (item) {
-    return num >= item.value;
-  });
-  return item ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol : "0";
-}
-
-class CatacombsCommand extends MinecraftCommand {
+class CatacombsCommand extends minecraftCommand {
   constructor(minecraft) {
     super(minecraft)
 
@@ -35,8 +21,7 @@ class CatacombsCommand extends MinecraftCommand {
       const data = await getLatestProfile(username)
       username = data.profileData?.game_mode ? `♲ ${username}` : username
       const dungeons = getDungeons(data.player, data.profile)
-      var secrets = Formatter(((dungeons.secrets_found).toFixed(0)), 2)
-      this.send(`/gc ${username}'s Catacombs: ${dungeons.catacombs.skill.level} ᐧᐧᐧᐧ Class Average: ${((dungeons.classes.healer.level + dungeons.classes.mage.level + dungeons.classes.berserk.level + dungeons.classes.archer.level + dungeons.classes.tank.level) / 5)} ᐧᐧᐧᐧ Secrets Found: ${secrets} ᐧᐧᐧᐧ Classes:  H-${dungeons.classes.healer.level}  M-${dungeons.classes.mage.level}  B-${dungeons.classes.berserk.level}  A-${dungeons.classes.archer.level}  T-${dungeons.classes.tank.level}`)
+      this.send(`/gc ${username}'s Catacombs: ${dungeons.catacombs.skill.level} ᐧᐧᐧᐧ Class Average: ${((dungeons.classes.healer.level + dungeons.classes.mage.level + dungeons.classes.berserk.level + dungeons.classes.archer.level + dungeons.classes.tank.level) / 5)} ᐧᐧᐧᐧ Secrets Found: ${addNotation("oneLetters", dungeons.secrets_found) ?? 0} ᐧᐧᐧᐧ Classes:  H-${dungeons.classes.healer.level}  M-${dungeons.classes.mage.level}  B-${dungeons.classes.berserk.level}  A-${dungeons.classes.archer.level}  T-${dungeons.classes.tank.level}`)
 
     } catch (error) {
       this.send('/gc There is no player with the given UUID or name or the player has no Skyblock profiles')

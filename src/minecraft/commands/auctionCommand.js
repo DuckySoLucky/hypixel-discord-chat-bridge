@@ -1,14 +1,14 @@
 const config = require('../../../config.json')
-const { ImgurClient } = require('imgur');
-const imgurClient = new ImgurClient({ clientId: config.api.imgurAPIkey })
-const { addCommas, timeSince } = require('../../contracts/helperFunctions')
-const MinecraftCommand = require('../../contracts/MinecraftCommand')
-const { decodeData } = require('../../contracts/helperFunctions');
-const { renderLore } = require('../../contracts/renderItem')
-const getRank = require('../../../API/stats/rank')
+const { IMGUR_CLEINT } = require('imgur');
+const imgurClient = new IMGUR_CLEINT({ clientId: config.api.imgurAPIkey })
+const { addCommas, timeSince } = require('../../contracts/helperFunctions.js')
+const minecraftCommand = require('../../contracts/MinecraftCommand.js')
+const { decodeData } = require('../../contracts/helperFunctions.js');
+const { renderLore } = require('../../contracts/renderItem.js')
+const getRank = require('../../../API/stats/rank.js')
 const axios = require('axios')
 
-class auctionHouseCommand extends MinecraftCommand {
+class AuctionHouseCommand extends minecraftCommand {
   constructor(minecraft) {
     super(minecraft)
 
@@ -21,7 +21,7 @@ class auctionHouseCommand extends MinecraftCommand {
 
   async onCommand(username, message) {
     try {
-      let arg = this.getArgs(message), string = '', bidder
+      var arg = this.getArgs(message), string = '', bidder
       if (arg[0]) username = arg[0]
 
       // Could have been done better and faster using Promise.all(), I'm lazy
@@ -56,4 +56,4 @@ class auctionHouseCommand extends MinecraftCommand {
   }
 }
 
-module.exports = auctionHouseCommand;
+module.exports = AuctionHouseCommand;

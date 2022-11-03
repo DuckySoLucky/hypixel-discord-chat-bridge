@@ -1,8 +1,8 @@
-const MinecraftCommand = require('../../contracts/MinecraftCommand')
-const { getLatestProfile } = require('../../../API/functions/getLatestProfile');
-const getSkills = require('../../../API/stats/skills')
+const { getLatestProfile } = require('../../../API/functions/getLatestProfile.js');
+const minecraftCommand = require('../../contracts/MinecraftCommand.js')
+const getSkills = require('../../../API/stats/skills.js')
 
-class skillsCommand extends MinecraftCommand {
+class SkillsCommand extends minecraftCommand {
   constructor(minecraft) {
     super(minecraft)
 
@@ -27,4 +27,4 @@ class skillsCommand extends MinecraftCommand {
   }
 }
 
-module.exports = skillsCommand
+module.exports = SkillsCommand

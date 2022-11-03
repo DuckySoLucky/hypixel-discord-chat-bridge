@@ -1,7 +1,7 @@
-const MinecraftCommand = require('../../contracts/MinecraftCommand')
-const { getLatestProfile } = require('../../../API/functions/getLatestProfile');
+const minecraftCommand = require('../../contracts/MinecraftCommand.js')
+const { getLatestProfile } = require('../../../API/functions/getLatestProfile.js');
 
-class fairySoulsCommand extends MinecraftCommand {
+class FairySoulsCommand extends minecraftCommand {
   constructor(minecraft) {
     super(minecraft)
 
@@ -27,4 +27,4 @@ class fairySoulsCommand extends MinecraftCommand {
   }
 }
 
-module.exports = fairySoulsCommand
+module.exports = FairySoulsCommand

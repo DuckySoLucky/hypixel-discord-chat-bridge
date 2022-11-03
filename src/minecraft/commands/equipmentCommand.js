@@ -1,12 +1,12 @@
-const { ImgurClient } = require('imgur')
-const { getLatestProfile } = require('../../../API/functions/getLatestProfile')
+const { IMGUR_CLEINT } = require('imgur')
+const { getLatestProfile } = require('../../../API/functions/getLatestProfile.js')
 const config = require('../../../config.json')
-const imgurClient = new ImgurClient({ clientId: config.api.imgurAPIkey })
-const { decodeData } = require('../../contracts/helperFunctions')
-const MinecraftCommand = require('../../contracts/MinecraftCommand')
-const { renderLore } = require('../../contracts/renderItem')
+const imgurClient = new IMGUR_CLEINT({ clientId: config.api.imgurAPIkey })
+const { decodeData } = require('../../contracts/helperFunctions.js')
+const minecraftCommand = require('../../contracts/MinecraftCommand.js')
+const { renderLore } = require('../../contracts/renderItem.js')
 
-class equipmentCommand extends MinecraftCommand {
+class EquipmentCommand extends minecraftCommand {
   constructor(minecraft) {
     super(minecraft)
 
@@ -44,4 +44,4 @@ class equipmentCommand extends MinecraftCommand {
   }
 }
 
-module.exports = equipmentCommand;
+module.exports = EquipmentCommand;

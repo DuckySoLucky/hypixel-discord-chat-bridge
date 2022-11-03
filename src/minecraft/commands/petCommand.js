@@ -1,13 +1,13 @@
-const { ImgurClient } = require('imgur')
+const { IMGUR_CLEINT } = require('imgur')
 const config = require('../../../config.json')
-const imgurClient = new ImgurClient({ clientId: config.api.imgurAPIkey })
-const { getRarityColor } = require('../../contracts/helperFunctions')
-const MinecraftCommand = require('../../contracts/MinecraftCommand')
-const { renderLore } = require('../../contracts/renderItem')
-const { getLatestProfile } = require('../../../API/functions/getLatestProfile');
-const getPets = require('../../../API/stats/pets')
+const imgurClient = new IMGUR_CLEINT({ clientId: config.api.imgurAPIkey })
+const { getRarityColor } = require('../../contracts/helperFunctions.js')
+const minecraftCommand = require('../../contracts/MinecraftCommand.js')
+const { renderLore } = require('../../contracts/renderItem.js')
+const { getLatestProfile } = require('../../../API/functions/getLatestProfile.js');
+const getPets = require('../../../API/stats/pets.js')
 
-class renderCommand extends MinecraftCommand {
+class RenderCommand extends minecraftCommand {
   constructor(minecraft) {
     super(minecraft)
 
@@ -28,7 +28,7 @@ class renderCommand extends MinecraftCommand {
       for (const pet of profile.pets) {
         if (pet.active) {
           const lore = pet.lore
-          let newLore = [], newLine = []
+          var newLore = [], newLine = []
 
           // Lore splitting
           for (const line of lore) {
@@ -61,4 +61,4 @@ class renderCommand extends MinecraftCommand {
 }
 
 
-module.exports = renderCommand;
+module.exports = RenderCommand;

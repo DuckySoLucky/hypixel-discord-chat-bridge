@@ -1,9 +1,9 @@
-const MinecraftCommand = require('../../contracts/MinecraftCommand')
-const { getLatestProfile } = require('../../../API/functions/getLatestProfile');
+const { getLatestProfile } = require('../../../API/functions/getLatestProfile.js');
+const minecraftCommand = require('../../contracts/MinecraftCommand.js')
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
-const getWeight = require('../../../API/stats/weight');
+const getWeight = require('../../../API/stats/weight.js');
 
-class StatsCommand extends MinecraftCommand {
+class StatsCommand extends minecraftCommand {
     constructor(minecraft) {
         super(minecraft)
 

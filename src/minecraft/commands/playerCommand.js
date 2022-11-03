@@ -1,8 +1,8 @@
-const MinecraftCommand = require('../../contracts/MinecraftCommand')
-const hypixel = require('../../contracts/API/HypixelRebornAPI')
-const { addNotation } = require('../../contracts/helperFunctions')
+const minecraftCommand = require('../../contracts/MinecraftCommand.js')
+const { addNotation } = require('../../contracts/helperFunctions.js')
+const hypixel = require('../../contracts/API/HypixelRebornAPI.js')
 
-class PlayerCommand extends MinecraftCommand {
+class PlayerCommand extends minecraftCommand {
   constructor(minecraft) {
     super(minecraft)
 

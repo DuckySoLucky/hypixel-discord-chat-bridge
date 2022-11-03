@@ -1,9 +1,9 @@
-const MinecraftCommand = require('../../contracts/MinecraftCommand')
+const minecraftCommand = require('../../contracts/MinecraftCommand.js')
 const fetch = (...args) => import('node-fetch').then(({
   default: fetch
 }) => fetch(...args)).catch(err => console.log(err));
 
-class eightBallCommand extends MinecraftCommand {
+class EightBallCommand extends minecraftCommand {
   constructor(minecraft) {
     super(minecraft)
 
@@ -28,4 +28,4 @@ class eightBallCommand extends MinecraftCommand {
   }
 }
 
-module.exports = eightBallCommand
+module.exports = EightBallCommand

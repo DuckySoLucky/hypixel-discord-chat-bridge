@@ -1,9 +1,9 @@
-const MinecraftCommand = require('../../contracts/MinecraftCommand')
+const { getLatestProfile } = require('../../../API/functions/getLatestProfile.js');
+const minecraftCommand = require('../../contracts/MinecraftCommand.js')
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
-const getTalismans = require('../../../API/stats/talismans');
-const { getLatestProfile } = require('../../../API/functions/getLatestProfile');
+const getTalismans = require('../../../API/stats/talismans.js');
 
-class accessoriesCommand extends MinecraftCommand {
+class AccessoriesCommand extends minecraftCommand {
   constructor(minecraft) {
     super(minecraft)
 
@@ -43,4 +43,4 @@ class accessoriesCommand extends MinecraftCommand {
   }
 }
 
-module.exports = accessoriesCommand
+module.exports = AccessoriesCommand

@@ -4,7 +4,7 @@ const fetch = (...args) => import('node-fetch').then(({
     default: fetch
 }) => fetch(...args)).catch(err => console.log(err));
 
-class dailyCommand extends MinecraftCommand {
+class registerCommand extends MinecraftCommand {
     constructor(minecraft) {
         super(minecraft)
 
@@ -43,4 +43,4 @@ class dailyCommand extends MinecraftCommand {
     }
 }
 
-module.exports = dailyCommand
+module.exports = registerCommand

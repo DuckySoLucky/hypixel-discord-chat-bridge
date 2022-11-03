@@ -1,10 +1,10 @@
-const MinecraftCommand = require('../../contracts/MinecraftCommand')
-const { addCommas } = require('../../contracts/helperFunctions')
-const hypixel = require('../../contracts/API/HypixelRebornAPI')
+const minecraftCommand = require('../../contracts/MinecraftCommand.js')
+const { addCommas } = require('../../contracts/helperFunctions.js')
+const hypixel = require('../../contracts/API/HypixelRebornAPI.js')
 const config = require('../../../config.json')
 const axios = require('axios');
 
-class DenickerCommand extends MinecraftCommand {
+class DenickerCommand extends minecraftCommand {
     constructor(minecraft) {
         super(minecraft)
 

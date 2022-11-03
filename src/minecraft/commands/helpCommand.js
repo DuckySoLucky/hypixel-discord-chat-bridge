@@ -1,6 +1,6 @@
-const MinecraftCommand = require('../../contracts/MinecraftCommand')
+const minecraftCommand = require('../../contracts/MinecraftCommand.js')
 
-class helpCommand extends MinecraftCommand {
+class HelpCommand extends minecraftCommand {
   constructor(minecraft) {
     super(minecraft)
 
@@ -21,5 +21,5 @@ class helpCommand extends MinecraftCommand {
   }
 }
 
-module.exports = helpCommand
+module.exports = HelpCommand
 

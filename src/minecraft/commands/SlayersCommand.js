@@ -1,7 +1,7 @@
-const MinecraftCommand = require('../../contracts/MinecraftCommand')
-const { getLatestProfile } = require('../../../API/functions/getLatestProfile');
-const getSlayer = require('../../../API/stats/slayer');
-const { addCommas } = require('../../contracts/helperFunctions')
+const { getLatestProfile } = require('../../../API/functions/getLatestProfile.js');
+const minecraftCommand = require('../../contracts/MinecraftCommand.js')
+const { addCommas } = require('../../contracts/helperFunctions.js')
+const getSlayer = require('../../../API/stats/slayer.js');
 
 async function getSlayerData(username, input) {
     try {
@@ -26,7 +26,7 @@ async function getSlayerData(username, input) {
     }
 }
 
-class SlayersCommand extends MinecraftCommand {
+class SlayersCommand extends minecraftCommand {
     constructor(minecraft) {
         super(minecraft)
 
@@ -39,7 +39,7 @@ class SlayersCommand extends MinecraftCommand {
 
     async onCommand(username, message) {
         try {
-            let type, msg = this.getArgs(message);
+            var type, msg = this.getArgs(message);
             if (msg[0]) {if (msg[0].toLowerCase() == "zombie" || msg[0].toLowerCase() == "rev" || msg[0].toLowerCase() == "spider" || msg[0].toLowerCase() == "tara" || msg[0].toLowerCase() == "wolf" || msg[0].toLowerCase() == "sven" || msg[0].toLowerCase() == "eman" || msg[0].toLowerCase() == "enderman" || msg[0].toLowerCase() == "blaze" || msg[0].toLowerCase() == "demonlord") type = msg[0]
             else if (msg[0]) username = msg[0];} if (msg[1]) type = msg[1]
             this.send(`/gc ${await getSlayerData(username, type)}`)

@@ -1,8 +1,8 @@
-const MinecraftCommand = require('../../contracts/MinecraftCommand')
+const minecraftCommand = require('../../contracts/MinecraftCommand.js')
+const { toFixed } = require('../../contracts/helperFunctions.js')
+const { getUUID } = require('../../contracts/API/PlayerDBAPI.js')
 const config = require('../../../config.json')
 const axios = require('axios')
-const { toFixed } = require('../../contracts/helperFunctions')
-const { getUUID } = require('../../contracts/API/PlayerDBAPI')
 
 function getWoolWarsStar(exp) {
   const minimalExp = [0, 1e3, 3e3, 6e3, 1e4, 15e3];
@@ -13,7 +13,7 @@ function getWoolWarsStar(exp) {
   return lvl + exp / minimalExp[lvl];
 }
 
-class woolwarsCommand extends MinecraftCommand {
+class WoolwarsCommand extends minecraftCommand {
   constructor(minecraft) {
     super(minecraft)
 
@@ -40,4 +40,4 @@ class woolwarsCommand extends MinecraftCommand {
   }
 }
 
-module.exports = woolwarsCommand
+module.exports = WoolwarsCommand
