@@ -1,5 +1,6 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const getDungeons = require("../../../API/stats/dungeons.js");
+const { numberWithCommas } = require("../../contracts/helperFunctions.js");
 const {
   getLatestProfile,
 } = require("../../../API/functions/getLatestProfile.js");
@@ -32,7 +33,7 @@ class CatacombsCommand extends minecraftCommand {
             dungeons.classes.archer.level +
             dungeons.classes.tank.level) /
           5
-        } ᐧᐧᐧᐧ Secrets Found: ${dungeons.secrets_found} ᐧᐧᐧᐧ Classes:  H-${
+        } ᐧᐧᐧᐧ Secrets Found: ${numberWithCommas(dungeons.secrets_found || 0)} ᐧᐧᐧᐧ Classes:  H-${
           dungeons.classes.healer.level
         }  M-${dungeons.classes.mage.level}  B-${
           dungeons.classes.berserk.level

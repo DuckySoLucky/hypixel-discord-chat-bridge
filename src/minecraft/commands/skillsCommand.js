@@ -21,7 +21,7 @@ class SkillsCommand extends minecraftCommand {
       if (arg[0]) username = arg[0];
       const data = await getLatestProfile(username);
       username = data.profileData?.game_mode ? `♲ ${username}` : username;
-      const profile = getSkills(data.player, data.profile);
+      const profile = getSkills(data.profile);
       this.send(
         `/gc Skill Average » ${
           Math.round(
@@ -37,25 +37,25 @@ class SkillsCommand extends minecraftCommand {
               9) *
               100
           ) / 100
-        } | Farming - ${
+          || 0} | Farming - ${
           Math.round(profile.farming.levelWithProgress * 100) / 100
-        } | Mining - ${
+          || 0} | Mining - ${
           Math.round(profile.mining.levelWithProgress * 100) / 100
-        } | Combat - ${
+          || 0} | Combat - ${
           Math.round(profile.combat.levelWithProgress * 100) / 100
-        } | Enchanting - ${
+          || 0} | Enchanting - ${
           Math.round(profile.enchanting.levelWithProgress * 100) / 100
-        } | Fishing - ${
+          || 0} | Fishing - ${
           Math.round(profile.fishing.levelWithProgress * 100) / 100
-        } | Foraging - ${
+          || 0} | Foraging - ${
           Math.round(profile.foraging.levelWithProgress * 100) / 100
-        } | Alchemy - ${
+          || 0} | Alchemy - ${
           Math.round(profile.alchemy.levelWithProgress * 100) / 100
-        } | Taming - ${
+          || 0} | Taming - ${
           Math.round(profile.taming.levelWithProgress * 100) / 100
-        } | Carpentry - ${
+        || 0} | Carpentry - ${
           Math.round(profile.carpentry.levelWithProgress * 100) / 100
-        }`
+          || 0}`
       );
     } catch (error) {
       this.send(

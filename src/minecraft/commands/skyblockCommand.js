@@ -53,7 +53,7 @@ class SkyblockCommand extends minecraftCommand {
 
       const [skills, slayer, networth, weight, dungeons, talismans] =
         await Promise.all([
-          getSkills(data.player, data.profile),
+          getSkills(data.profile),
           getSlayer(data.profile),
           getNetworth(data.profile, data.profileData?.banking?.balance || 0, {
             prices,
@@ -98,6 +98,50 @@ class SkyblockCommand extends minecraftCommand {
           if (talisman.enrichment) enrichment++;
         }
       }
+      console.log(
+        `/gc ${username}'s Senither Weight » ${
+          Math.round(weight.weight.senither.total * 100) / 100
+        } | Lily Weight » ${
+          Math.round(weight.weight.lily.total * 100) / 100
+        } | Skill Average » ${
+          Math.round(
+            ((skills.farming.level +
+              skills.mining.level +
+              skills.combat.level +
+              skills.foraging.level +
+              skills.fishing.level +
+              skills.enchanting.level +
+              skills.alchemy.level +
+              skills.taming.level +
+              skills.carpentry.level) /
+              9) *
+              100
+          ) / 100
+        } | Slayer » ${addCommas(
+          slayer?.[Object.keys(slayer)[0]].xp +
+            slayer?.[Object.keys(slayer)[1]].xp +
+            slayer?.[Object.keys(slayer)[2]].xp +
+            slayer?.[Object.keys(slayer)[3]].xp +
+            slayer?.[Object.keys(slayer)[4]].xp
+        )} | ${slayer?.[Object.keys(slayer)[0]].level} ${
+          slayer?.[Object.keys(slayer)[1]].level
+        } ${slayer?.[Object.keys(slayer)[2]].level} ${
+          slayer?.[Object.keys(slayer)[3]].level
+        } ${slayer?.[Object.keys(slayer)[4]].level} | Catacombs » ${
+          dungeons.catacombs.skill.level
+        } | Class Average » ${
+          (dungeons.classes.healer.level +
+            dungeons.classes.mage.level +
+            dungeons.classes.berserk.level +
+            dungeons.classes.archer.level +
+            dungeons.classes.tank.level) /
+          5
+        } | Networth » ${
+          addNotation("oneLetters", networth.networth) ?? 0
+        } | Accessories » ${
+          talismanCount ?? 0
+        } | Recombobulated » ${recombobulated} | Enriched » ${enrichment}`
+      );
       this.send(
         `/gc ${username}'s Senither Weight » ${
           Math.round(weight.weight.senither.total * 100) / 100

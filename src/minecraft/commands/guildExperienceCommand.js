@@ -29,7 +29,7 @@ class GuildExperienceCommand extends minecraftCommand {
           return this.send(`/gc ${username} is not in the Guild.`);
         }
 
-        if (member.uuid != player.uuid) continue;
+        if (member.uuid != player) continue;
 
         return this.send(
           `/gc ${

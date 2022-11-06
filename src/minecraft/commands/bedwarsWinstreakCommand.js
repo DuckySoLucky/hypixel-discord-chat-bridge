@@ -22,17 +22,17 @@ class DenickerCommand extends minecraftCommand {
         hypixel.getPlayer(username),
         axios.get(
           `${config.api.antiSniperAPI}/winstreak?key=${config.api.antiSniperKey}&name=${username}`
-        ).data,
+        ),
       ]);
       this.send(
         `/gc [${player.stats.bedwars.level}✫] ${player.nickname}: Accurrate » ${
-          response.player.accurate ? "Yes" : "No"
-        } | Overall » ${response.player.data.overall_winstreak} | Solo » ${
-          response.player.data.eight_one_winstreak
-        } | Doubles » ${response.player.data.eight_two_winstreak} | Trios » ${
-          response.player.data.four_three_winstreak
-        } | Fours » ${response.player.data.four_four_winstreak} | 4v4  » ${
-          response.player.data.two_four_winstreak
+          response.data.player.accurate ? "Yes" : "No"
+        } | Overall » ${response.data.player.data.overall_winstreak} | Solo » ${
+          response.data.player.data.eight_one_winstreak
+        } | Doubles » ${response.data.player.data.eight_two_winstreak} | Trios » ${
+          response.data.player.data.four_three_winstreak
+        } | Fours » ${response.data.player.data.four_four_winstreak} | 4v4  » ${
+          response.data.player.data.two_four_winstreak
         }`
       );
     } catch (error) {
