@@ -1,7 +1,7 @@
 const helperFunctions = require("./helperFunctions.js");
 const config = require("../../config.json");
 
-class MinecraftCommand {
+class minecraftCommand {
   constructor(minecraft) {
     this.minecraft = minecraft;
   }
@@ -32,4 +32,4 @@ class MinecraftCommand {
   }
 }
 
-module.exports = MinecraftCommand;
+module.exports = minecraftCommand;
