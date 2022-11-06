@@ -1,4 +1,4 @@
-const minecraftCommand = require("../../contracts/MinecraftCommand.js");
+const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { getUUID } = require("../../contracts/API/PlayerDBAPI.js");
 const { getStats } = require("../../contracts/helperFunctions.js");
 const fetch = (...args) =>
