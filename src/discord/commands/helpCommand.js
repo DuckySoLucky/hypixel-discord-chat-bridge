@@ -39,7 +39,7 @@ module.exports = {
         }
       }
       for (let i = 0; i < minecraftCommandList.length; i++) {
-        if (minecraftCommandList[i].options.length < 1) {
+        if (minecraftCommandList[i].options?.length < 1) {
           minecraftCommands += `- \`${minecraftCommandList[i].name}${
             minecraftCommandList[i].options != ""
               ? ` [${minecraftCommandList[i].options}]\`\n`
