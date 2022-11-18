@@ -9,6 +9,9 @@ class GuildInformationCommand extends minecraftCommand {
     this.name = "guild";
     this.aliases = ["g"];
     this.description = "View information of a guild";
+    
+    this.options = ["name"];
+    this.optionsDescription = ["Name of the Guild"];
   }
 
   async onCommand(username, message) {
