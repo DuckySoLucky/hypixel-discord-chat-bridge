@@ -52,7 +52,7 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.36.1",
     "@typescript-eslint/parser": "^5.43.0",
-    "concurrently": "^7.3.0",
+    "concurrently": "^7.6.0",
     "ejs-lint": "^2.0.0",
     "eslint": "^8.28.0",
     "eslint-config-prettier": "^8.5.0",
