@@ -31,7 +31,7 @@
   "homepage": "https://github.com/DuckySoLucky/hypixel-discord-chat-bridge#readme",
   "dependencies": {
     "@discordjs/rest": "^1.3.0",
-    "axios": "^1.1.3",
+    "axios": "^1.2.0",
     "bad-words": "^3.0.4",
     "canvas": "^2.10.2",
     "chalk": "^4.1.0",
