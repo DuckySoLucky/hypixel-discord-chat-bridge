@@ -12,4 +12,4 @@ jobs:
         continue-on-error: true
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          issue-message: "This looks like your first issue on SkyCrypt!\nThank you for bringing this issue to our attention.\nExpect a developer to comment within the first 3-5 business days of issue submission."
+          issue-message: "This looks like your first issue!\nThank you for bringing this issue to our attention.\nExpect a developer to comment within the first 3-5 business days of issue submission."
