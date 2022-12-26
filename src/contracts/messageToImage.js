@@ -4,7 +4,7 @@ const Canvas = require("canvas");
 Canvas.registerFont("src/contracts/Fonts/MinecraftRegular-Bmg3.ttf", {
   family: "Minecraft",
 });
-Canvas.registerFont('./fonts/unifont.ttf', { 
+Canvas.registerFont('src/contracts/Fonts/unifont.ttf', { 
   family: 'MinecraftUnicode',
 });
 
