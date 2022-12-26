@@ -4,6 +4,9 @@ const Canvas = require("canvas");
 Canvas.registerFont("src/contracts/Fonts/MinecraftRegular-Bmg3.ttf", {
   family: "Minecraft",
 });
+Canvas.registerFont('./fonts/unifont.ttf', { 
+  family: 'MinecraftUnicode',
+});
 
 const RGBA_COLOR = {
   0: "rgba(0,0,0,1)",
@@ -33,7 +36,7 @@ function getHeight(message) {
   }
   const splitMessage = splitMessageSpace.join(" ").split(/§|\n/g);
   splitMessage.shift();
-  ctx.font = "40px Minecraft";
+  ctx.font = '40px Minecraft, MinecraftUnicode';
 
   let width = 5;
   let height = 35;
@@ -67,7 +70,7 @@ function generateMessageImage(message) {
   ctx.shadowOffsetX = 4;
   ctx.shadowOffsetY = 4;
   ctx.shadowColor = "#131313";
-  ctx.font = "40px Minecraft";
+  ctx.font = '40px Minecraft, MinecraftUnicode';
 
   let width = 5;
   let height = 35;
