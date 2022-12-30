@@ -13,16 +13,15 @@ class SkywarsCommand extends minecraftCommand {
 
   async onCommand(username, message) {
     try {
-      const msg = this.getArgs(message);
-      if (msg[0]) username = msg[0];
+      username = this.getArgs(message)[0] || username;
+
       const player = await hypixel.getPlayer(username);
+
       this.send(
         `/gc [${player.stats.skywars.level}✫] ${player.nickname}ᐧᐧᐧᐧKDR:${player.stats.skywars.KDRatio}ᐧᐧᐧᐧWLR:${player.stats.skywars.WLRatio}ᐧᐧᐧᐧWS:${player.stats.skywars.winstreak}`
       );
     } catch (error) {
-      this.send(
-        "There is no player with the given UUID or name or player has never joined Hypixel."
-      );
+      this.send(`/gc ${error.toString().replace("[hypixel-api-reborn] ", "")}`);
     }
   }
 }

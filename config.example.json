@@ -26,18 +26,12 @@
   "api": {
     "hypixelAPI": "https://api.hypixel.net",
     "hypixelAPIkey": "HYPIXEL_API_KEY",
-
-    "skyHelperAPI": "http://192.95.42.73:1924//v1",
-    "skyHelperKey": "DuckySoLucky",
-
     "antiSniperAPI": "https://api.antisniper.net",
     "antiSniperKey": "ANTISNIPER_API_KEY",
-
-    "skyShiiyuAPI": "https://sky.shiiyu.moe/api/v2",
-
     "playerDBAPI": "https://playerdb.co/api/player/minecraft",
-
-    "imgurAPIkey": "IMGUR_CLIENT_ID"
+    "imgurAPIkey": "IMGUR_CLIENT_ID",
+    "pixelicAPI": "https://api.pixelic.de",
+    "pixelicAPIkey": "PIXEL_API_KEY"
   },
   "event": {
     "enabled": true,

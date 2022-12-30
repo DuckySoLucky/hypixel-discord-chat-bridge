@@ -1,15 +1,14 @@
 # Hypixel Discord Chat Bridge
+
 A two-way chat bridge between [Hypixel](https://hypixel.net/) guild chat and a [Discord](https://discord.com/) channel. The application utilizes [discord.js v13](https://github.com/discordjs/discord.js) for communicating with Discord, and [Mineflayer](https://github.com/PrismarineJS/mineflayer) for communicating with Hypixel.
 
-> ⚠️This application will login to Hypixel using Mineflayer which is not a normal Minecraft client, this could result in your Minecraft account getting banned from Hypixel, so use this application at your own risk.
+> ⚠️ This application will login to Hypixel using Mineflayer which is not a normal Minecraft client, this could result in your Minecraft account getting banned from Hypixel, so use this application at your own risk. I am not responsible for any bans that may occur. ⚠️
 
 <hr>
  
 ## Table of Content
 
 - [Installation using NodeJS](#NodeJS)
-- [Installation guide for Git](#installation-guide-for-git)
-- [Installation guide for NodeJS](#installation-guide-for-nodejs)
 - [Installation using Docker](#Docker)
 - [Commands](#Commands)
 - [Configuration](#configuration)
@@ -29,7 +28,7 @@ To get started, clone down the repository using:
 
 Next go into the `hypixel-discord-chat-bridge` folder and install all the dependencies using NPM.
 
-    npm i
+    npm install
 
 While the dependencies are being installed you can edit the configuration file. The configuration file is called `config.example.json`. It is pretty self explanatory, but if you need help with it, you can check out the [Configuration](#configuration) section. Once you are done editing, save it and rename it to `config.json`.
 
@@ -43,7 +42,7 @@ Using the link provided in the console, you sign into the minecraft account that
 
 - Git
 - Docker >= 20<br>
-_Older versions may also work, but have not been tested._
+  _Older versions may also work, but have not been tested._
 - A Minecraft account
 
 ## Configuration
@@ -102,13 +101,23 @@ The `debugChannel` is the ID of the text channel where the bot should send messa
 
 ### API
 
-The API options include information about APIs which are being used, the only one which needs to be changed are `hypixelAPIkey`, `antiSniperKey` and `imgurAPIkey`.
+The API options include information about APIs which are being used, the only one which needs to be changed are `hypixelAPIkey`, `antiSniperKey`, `pixelicAPIkey` and `imgurAPIkey`.
 
 You can receive Hypixel API key by joining Hypixel Network and typing `/api new` command.
 
+> Hypixel API is used for most of the commands.
+
 AntiSniper key can be generated [Here](https://api.antisniper.net/).
 
+> AntiSniper API is used for `!denick` and `!winstreak` commands.
+
 Imgur API can be generated [Here](https://api.imgur.com/oauth2/addclient).
+
+> Imgur API is used for rendering commands like `!armor`, `!pet`, `!equipment` etc.
+
+Pixelic API can be generated [Here](https://app.swaggerhub.com/apis-docs/Pixelicc/Pixelic-API/1.0.0#/).
+
+> Pixelic API is used for `!daily`, `!weekly` and `!monthly` commands.
 
 ### Event
 
@@ -145,7 +154,6 @@ The bot also includes automatic guild accept if the user meets requirements. The
 - `/unmute <user>` - Unmutes the given user.
 - `/uptime` - Shows the uptime of the bot.
 
-
 `Minecraft`
 
 - `!8ball <question>` - Ask an 8ball a question.
@@ -154,6 +162,7 @@ The bot also includes automatic guild accept if the user meets requirements. The
 - `!bedwars [player]` - BedWars stats of specified user.
 - `!catacombs [player]` - Skyblock Dungeons Stats of specified user.
 - `!accessories [player]` - Accessories of specified user.
+- `!daily [player]` - Get daily stats of specified user.
 - `!denick [player]` - Denick username of specified user.
 - `!duels [player]` - Duel stats of specified user.
 - `!equipment [name]` - Renders equipment of specified user.
@@ -163,6 +172,7 @@ The bot also includes automatic guild accept if the user meets requirements. The
 - `!help` - Shows help menu.
 - `!kitty` - Random image of cute cat.
 - `!math <calculation>` - Calculate any kind of math problem.
+- `!monthly [player]` - Get monthly stats of specified user.
 - `!networth [player]` - Networth of specified user.
 - `!pet [player]` - Renders active pet of specified user.
 - `!render [player] [slot]` - Renders item of specified user.
@@ -171,6 +181,7 @@ The bot also includes automatic guild accept if the user meets requirements. The
 - `!skyblock [player]` - Skyblock Stats of specified user.
 - `!slayer [player] [type]` - Slayer of specified user.
 - `!UHC [player]` - UHC Stats of specified user.
+- `!weekly [player]` - Get weekly stats of specified user.
 - `!weight [player]` - Skyblock Stats of specified user.
 - `!winstreak [player]` - Estimated winstreaks of the specified user.
 - `!woolwars [player]` - WoolWars stats of specified user.

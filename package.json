@@ -33,7 +33,7 @@
     "@discordjs/rest": "^1.3.0",
     "axios": "^1.2.1",
     "bad-words": "^3.0.4",
-    "canvas": "^2.10.2",
+    "canvas": "2.10.1",
     "chalk": "^4.1.0",
     "discord-api-types": "^0.37.21",
     "discord.js": "^14.7.1",
@@ -46,7 +46,7 @@
     "mineflayer": "^4.5.1",
     "moment": "^2.29.4",
     "prismarine-nbt": "^2.2.1",
-    "skyhelper-networth": "^1.8.1",
+    "skyhelper-networth": "1.8.5",
     "util": "^0.12.5"
   },
   "devDependencies": {

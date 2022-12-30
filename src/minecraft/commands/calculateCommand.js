@@ -13,13 +13,12 @@ class CalculateCommand extends minecraftCommand {
 
   onCommand(username, message) {
     try {
-      const str = this.getArgs(message)
-        .join(" ")
-        .replace(/[^-()\d/*+.]/g, "");
-      this.send(`/gc ${!isNaN(eval(str)) ? `${eval(str)}` : ""}`);
+      const calculation = this.getArgs(message).join(" ").replace(/[^-()\d/*+.]/g, "");
+
+      this.send(`/gc ${calculation.split("").join(" ")} = ${eval(calculation) === Infinity ? "Something went wrong.." : `${eval(calculation)} (${Math.round(eval(calculation))})` }`);
+
     } catch (error) {
-      console.log(error);
-      this.send("/gc Invalid input!");
+      this.send(`/gc Error: ${error}`);
     }
   }
 }

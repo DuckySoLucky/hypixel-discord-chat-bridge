@@ -2,6 +2,7 @@ const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const {
   getLatestProfile,
 } = require("../../../API/functions/getLatestProfile.js");
+const { formatUsername } = require("../../contracts/helperFunctions.js");
 
 class FairySoulsCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -16,24 +17,18 @@ class FairySoulsCommand extends minecraftCommand {
 
   async onCommand(username, message) {
     try {
-      const msg = this.getArgs(message);
-      if (msg[0]) username = msg[0];
+      username = this.getArgs(message)[0] || username;
 
       const data = await getLatestProfile(username);
-      username = data.profileData?.game_mode ? `♲ ${username}` : username;
-      this.send(
-        `/gc ${username}'s Fairy Souls: ${
-          data.profile.fairy_souls_collected
-        }/238 | Progress: ${
-          (Math.round((data.profile.fairy_souls_collected / 238) * 100) / 100) *
-          100
-        }%`
-      );
+      username = formatUsername(username, data.profileData.game_mode);
+      
+      const total = data.profileData.game_mode === "island" ? 5 : 238;
+
+      this.send(`/gc ${username}'s Fairy Souls: ${data.profile.fairy_souls_collected}/${total} | Progress: ${(data.profile.fairy_souls_collected / total * 100).toFixed(2)}%`);
+    
     } catch (error) {
-      console.log(error);
-      this.send(
-        "/gc There is no player with the given UUID or name or the player has no Skyblock profiles"
-      );
+      this.send(`/gc Error: ${error}`);
+
     }
   }
 }

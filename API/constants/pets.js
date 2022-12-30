@@ -107,6 +107,9 @@ class Pet {
         case "farming_fortune":
           list.push(`§7Farming Fortune: ${formatStat(newStats[stat])}`);
           break;
+        case "fishing_speed":
+          list.push(`§7Fishing Speed: ${formatStat(newStats[stat])}`);
+          break;
         default:
           list.push(`§cUNKNOWN: ${stat}`);
           break;
@@ -517,7 +520,7 @@ class Bat extends Pet {
 class Endermite extends Pet {
   get stats() {
     return {
-      intelligence: this.level * 1,
+      intelligence: this.level * 1.5,
       pet_luck: this.level * 0.1,
     };
   }
@@ -662,7 +665,7 @@ class Rock extends Pet {
     const mult = getValue(this.rarity, { rare: 0.2, epic: 0.25 });
     return {
       name: "§6Fortify",
-      desc: [`§7While sitting on your rock, gain +§a${round(this.level * mult, 1)}% §7defense`],
+      desc: [`§7While sitting on your rock, gain §a+${round(this.level * mult, 1)}% §7defense`],
     };
   }
 
@@ -670,7 +673,7 @@ class Rock extends Pet {
     const mult = getValue(this.rarity, { legendary: 0.3 });
     return {
       name: "§6Steady Ground",
-      desc: [`§7While sitting on your rock, gain +§a${round(this.level * mult, 1)}§7% damage`],
+      desc: [`§7While sitting on your rock, gain §c+${round(this.level * mult, 1)}% §7damage`],
     };
   }
 }
@@ -1009,9 +1012,13 @@ class GoldenDragon extends Pet {
   get stats() {
     const stats = {};
     if (this.level >= 100) {
-      stats.strength = round(Math.max(0, this.level - 100) * 0.25 + 25 - 0.01, 0);
-      stats.bonus_attack_speed = round(Math.max(0, this.level - 100) * 0.25 + 25 - 0.01, 0);
-      stats.magic_find = round(floor(this.level / 10) * 0.5, 2);
+      stats.strength =
+        round(25 + Math.max(0, this.level - 100) * 0.25, 0) +
+        10 * Math.max(Math.floor(Math.log10(Math.abs(this.profile?.collections?.GOLD_INGOT?.totalAmount || 0))), 0);
+      stats.bonus_attack_speed = round(25 + Math.max(0, this.level - 100) * 0.25, 0);
+      stats.magic_find =
+        round(25 + Math.max(0, this.level - 100) * 0.25, 0) +
+        2 * Math.max(Math.floor(Math.log10(Math.abs(this.profile?.collections?.GOLD_INGOT?.totalAmount || 0))), 0);
     }
     return stats;
   }
@@ -2541,7 +2548,7 @@ class FlyingFish extends Pet {
   }
 
   get first() {
-    const mult = getValue(this.rarity, { rare: 0.6, epic: 0.75 });
+    const mult = getValue(this.rarity, { rare: 0.6, epic: 0.8 });
     return {
       name: "§6Quick Reel",
       desc: [`§7Grants §b+${round(this.level * mult, 2)}${symbols.fishing_speed.symbol} Fishing Speed§7.`],
@@ -2880,6 +2887,7 @@ class Bingo extends Pet {
     return {
       health: 25 + this.level * 0.75,
       strength: 5 + this.level * 0.2,
+      speed: 25 + this.level * 0.5,
     };
   }
 
@@ -2912,7 +2920,9 @@ class Bingo extends Pet {
     const mult = getValue(this.rarity, { uncommon: 0.1 });
     return {
       name: "§6Fast Learner",
-      desc: [`§7Gain §c${floor(5 + this.level * mult, 1)}% §7more Skill Experience and §9Slayer §7Experience.`],
+      desc: [
+        `§7Gain §c${floor(5 + this.level * mult, 1)}% §7more Skill Experience, HOTM Experience, and Slayer Experience.`,
+      ],
     };
   }
 
@@ -2933,10 +2943,16 @@ class Bingo extends Pet {
   }
 
   get fifth() {
-    const mult = getValue(this.rarity, { legendary: 0.08 });
+    const mult = getValue(this.rarity, { legendary: 0.5 });
+
     return {
-      name: "§6Scavenger",
-      desc: [`§7Recover §b${round(2 + this.level * mult, 1)} mana §7when using mana.`],
+      name: "§6Recovery",
+      desc: [
+        `§7Upon death, your active potion effects will be retained with §c${round(
+          25 + this.level * mult,
+          1
+        )}% §7of their time.`,
+      ],
     };
   }
 }
@@ -3228,6 +3244,60 @@ class Kuudra extends Pet {
   }
 }
 
+class Reindeer extends Pet {
+  get stats() {
+    return {
+      health: this.level * 1,
+      sea_creature_chance: this.level * 0.05,
+      fishing_speed: this.level * 0.25,
+    };
+  }
+
+  get abilities() {
+    const list = [this.first, this.second, this.third, this.fourth];
+
+    return list;
+  }
+
+  get first() {
+    return {
+      name: "§6Water Sprint",
+      desc: [`§7Gain §ddouble §7pet §aEXP§7.`],
+    };
+  }
+
+  get second() {
+    const mult = getValue(this.rarity, { legendary: 0.75 });
+
+    return {
+      name: "§6Infused",
+      desc: [
+        `§7Gives +§b${round(this.level * mult, 1)}${symbols.fishing_speed.symbol} Fishing Speed §7and §3+10 ${
+          symbols.sea_creature_chance.symbol
+        } Sea Creature Chance §7while on §cJerry's Workshop.`,
+      ],
+    };
+  }
+
+  get third() {
+    const mult = getValue(this.rarity, { legendary: 0.05 });
+
+    return {
+      name: "§6Snow Power",
+      desc: [`§7Grants §a+${round(this.level * mult, 1)}% §7bonus gift chance during the §cGift Attack §7event.`],
+    };
+  }
+
+  get fourth() {
+    const mult = getValue(this.rarity, { legendary: 0.2 });
+
+    return {
+      name: "§6Icy Wind",
+      desc: [`§7Grants a §a+${round(this.level * mult, 1)}% §7chance of getting double §bIce Essence§7.`],
+    };
+  }
+}
+
 class QuestionMark extends Pet {
   get stats() {
     return {};
@@ -3314,6 +3384,7 @@ const petStats = {
   PIGMAN: Pigman,
   RABBIT: Rabbit,
   RAT: Rat,
+  REINDEER: Reindeer,
   ROCK: Rock,
   SCATHA: Scatha,
   SHEEP: Sheep,
@@ -3772,6 +3843,13 @@ const PET_RARITY_OFFSET = {
       obtainsExp: "feed",
       ignoresTierBoost: true,
       typeGroup: "WISP",
+    },
+    REINDEER: {
+      head: "/head/a2df65c6fd19a58bee38252192ac7ce2cf1dc8632c3547a9228b6b697240d098",
+      type: "fishing",
+      maxTier: "legendary",
+      maxLevel: 100,
+      emoji: "🦌",
     },
 };
 

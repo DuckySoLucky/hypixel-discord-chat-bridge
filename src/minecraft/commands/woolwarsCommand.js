@@ -26,15 +26,20 @@ class WoolwarsCommand extends minecraftCommand {
 
   async onCommand(username, message) {
     try {
-      const msg = this.getArgs(message);
-      if (msg[0]) username = msg[0];
+      username = this.getArgs(message)[0] || username;
 
       const uuid = await getUUID(username);
       const woolWars = (
         await axios.get(
           `https://api.hypixel.net/player?key=${config.api.hypixelAPIkey}&uuid=${uuid}`
         )
-      ).data.player.stats.WoolGames;
+      ).data?.player?.stats?.WoolGames;
+
+      if (woolWars === undefined) {
+        // eslint-disable-next-line no-throw-literal
+        throw "This player has never joined Hypixel or has never played WoolWars.";
+      }
+
       const level = getWoolWarsStar(woolWars.progression.experience);
 
       this.send(
@@ -51,9 +56,7 @@ class WoolwarsCommand extends minecraftCommand {
         }`
       );
     } catch (error) {
-      this.send(
-        "There is no player with the given UUID or name or player has never joined Hypixel."
-      );
+      this.send(`/gc Error: ${error}`)
     }
   }
 }

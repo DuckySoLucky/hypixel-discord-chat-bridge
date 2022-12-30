@@ -96,10 +96,7 @@ class DuelsStatsCommand extends minecraftCommand {
         }
       });
     } catch (error) {
-      console.log(error);
-      this.send(
-        "/gc There is no player with the given name or this duel does not exist."
-      );
+      this.send(`/gc ${error.toString().replace("[hypixel-api-reborn] ", "")}`);
     }
   }
 }

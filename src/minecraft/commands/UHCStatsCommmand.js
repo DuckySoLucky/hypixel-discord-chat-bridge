@@ -21,9 +21,7 @@ class UHCStatsCommand extends minecraftCommand {
         `/gc [${player.stats.uhc.starLevel}✫] ${player.nickname}ᐧᐧᐧᐧKDR:${player.stats.uhc.KDRatio}ᐧᐧᐧᐧWLR:${player.stats.uhc.wins}ᐧᐧᐧHeads:${player.stats.uhc.headsEaten}`
       );
     } catch (error) {
-      this.send(
-        "There is no player with the given UUID or name or player has never joined Hypixel."
-      );
+      this.send(`/gc ${error.toString().replace("[hypixel-api-reborn] ", "")}`);
     }
   }
 }

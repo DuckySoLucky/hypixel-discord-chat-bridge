@@ -16,16 +16,12 @@ class GuildInformationCommand extends minecraftCommand {
 
   async onCommand(username, message) {
     try {
-      const args = this.getArgs(message);
-      const guildName = args.map((arg) => capitalize(arg)).join(" ");
-      const guild = await hypixel.getGuild("name", guildName).catch((err) => {
-        return this.send("/gc This guild does not exist.");
-      });
+      const guildName = this.getArgs(message).map((arg) => capitalize(arg)).join(" ");
+      const guild = await hypixel.getGuild("name", guildName)
 
       this.send(`/gc Guild ${guildName} | Tag: ${guild.tag} | Members: ${guild.members.length} | Level: ${guild.level} | Weekly GEXP: ${guild.totalWeeklyGexp}`);
     } catch (error) {
-      console.log(error);
-      this.send("/gc Something went wrong..");
+      this.send(`/gc ${error.toString().replace("[hypixel-api-reborn] ", "")}`);
     }
   }
 }

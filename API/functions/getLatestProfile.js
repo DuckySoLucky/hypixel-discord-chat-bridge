@@ -5,16 +5,13 @@ const axios = require("axios");
 const { getUUID } = require("../../src/contracts/API/PlayerDBAPI.js");
 
 async function getLatestProfile(uuid) {
+  // eslint-disable-next-line no-useless-catch
   try {
     if (!isUuid(uuid)) {
-      try {
-        uuid = await getUUID(uuid);
-      } catch (error) {
-        return error.response.data;
-      }
+      uuid = await getUUID(uuid);
     }
 
-    const [playerRes, profileRes] = await Promise.all([
+    let [playerRes, profileRes] = await Promise.all([
       axios.get(
         `https://api.hypixel.net/player?key=${config.api.hypixelAPIkey}&uuid=${uuid}`
       ),
@@ -23,28 +20,56 @@ async function getLatestProfile(uuid) {
       ),
     ]);
 
-    const player = parseHypixel(playerRes, uuid);
+    playerRes = playerRes?.data ?? {};
+    profileRes = profileRes?.data ?? {};
 
-    if (!profileRes.data.profiles) {
-      return {
-        status: 404,
-        reason: `Found no SkyBlock profiles for a user with a UUID of '${uuid}'.`,
-      };
+    if (playerRes.success === false || profileRes.success === false) {
+      // eslint-disable-next-line no-throw-literal
+      throw "Request to Hypixel API failed. Please try again!";
     }
 
-    const profileData = profileRes.data.profiles.find((a) => a.selected);
+    if (playerRes.player == null) {
+      // eslint-disable-next-line no-throw-literal
+      throw "Player not found. It looks like this player has never joined the Hypixel.";
+    }
+
+    if (profileRes.profiles == null) {
+      // eslint-disable-next-line no-throw-literal
+      throw "Player has no SkyBlock profiles.";
+    }
+
+    if (profileRes.profiles.length == 0) {
+      // eslint-disable-next-line no-throw-literal
+      throw "Player has no SkyBlock profiles.";
+    }
+
+    const player = parseHypixel(playerRes, uuid);
+
+    const profileData = profileRes.profiles.find((a) => a.selected) || null;
     const profile = profileData.members[uuid];
 
+    if (profile === null) {
+      // eslint-disable-next-line no-throw-literal
+      throw "Uh oh, this player is not in this Skyblock profile.";
+    }
+
+    if (profileData == null) {
+      // eslint-disable-next-line no-throw-literal
+      throw "Player does not have selected profile.";
+    }
+
     return {
+      profiles: profileRes.profiles,
       profile: profile,
       profileData: profileData,
-      playerRes: playerRes.data,
+      playerRes: playerRes,
       player: player,
       uuid: uuid,
     };
+
   } catch (error) {
-    console.log(error);
-    return { status: 404, reason: error };
+    
+    throw error;
   }
 }
 

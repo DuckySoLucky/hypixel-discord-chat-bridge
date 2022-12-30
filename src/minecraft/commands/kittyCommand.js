@@ -2,6 +2,7 @@ const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const config = require("../../../config.json");
 // eslint-disable-next-line
 const { ImgurClient } = require("imgur");
+const client = new ImgurClient({ clientId: config.api.imgurAPIkey });
 const axios = require("axios");
 
 class KittyCommand extends minecraftCommand {
@@ -17,15 +18,12 @@ class KittyCommand extends minecraftCommand {
 
   async onCommand(username, message) {
     try {
-      const link = (
-        await axios.get(`https://api.thecatapi.com/v1/images/search`)
-      ).data[0].url;
-      const client = new ImgurClient({ clientId: config.api.imgurAPIkey });
+      const link = (await axios.get(`https://api.thecatapi.com/v1/images/search`)).data[0].url;
       const upload = await client.upload({ image: link, type: "stream" });
       this.send(`/gc Cute Cat » ${upload.data.link}`);
+      
     } catch (error) {
-      console.log(error);
-      this.send("/gc Something went wrong..");
+      this.send(`/gc Error: ${error ?? "Something went wrong.."}`);
     }
   }
 }

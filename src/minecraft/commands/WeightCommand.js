@@ -18,8 +18,7 @@ class StatsCommand extends minecraftCommand {
 
   async onCommand(username, message) {
     try {
-      const arg = this.getArgs(message);
-      if (arg[0]) username = arg[0];
+      username = this.getArgs(message)[0] || username;
       const data = await getLatestProfile(username);
       username = data.profileData?.game_mode ? `♲ ${username}` : username;
       const profile = await getWeight(data.profile, data.uuid);
@@ -55,10 +54,7 @@ class StatsCommand extends minecraftCommand {
       await delay(690);
       this.send(`/gc ${username}'s ${lilyW}`);
     } catch (error) {
-      console.log(error);
-      this.send(
-        "/gc There is no player with the given UUID or name or the player has no Skyblock profiles"
-      );
+      this.send(`/gc Error: ${error}`)
     }
   }
 }

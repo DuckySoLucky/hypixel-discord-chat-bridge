@@ -6,21 +6,12 @@ const {
   addCommas,
 } = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const { getNetworth, getPrices } = require("skyhelper-networth");
+const { getNetworth } = require("skyhelper-networth");
 const getTalismans = require("../../../API/stats/talismans.js");
 const getDungeons = require("../../../API/stats/dungeons.js");
 const getSkills = require("../../../API/stats/skills.js");
 const getSlayer = require("../../../API/stats/slayer.js");
 const getWeight = require("../../../API/stats/weight.js");
-
-let prices;
-getPrices().then((data) => {
-  prices = data;
-});
-
-setInterval(async () => {
-  prices = await getPrices();
-}, 1000 * 60 * 5);
 
 class SkyblockCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -35,16 +26,10 @@ class SkyblockCommand extends minecraftCommand {
 
   async onCommand(username, message) {
     try {
-      const arg = this.getArgs(message);
-      if (arg[0]) username = arg[0];
+username = this.getArgs(message)[0] || username;
       const data = await getLatestProfile(username);
       username = data.profileData?.game_mode ? `♲ ${username}` : username;
 
-      if (!prices) {
-        return this.send(
-          `/gc ${username} Prices are still loading, please try again in a few seconds.`
-        );
-      }
       if (data.status == 404) {
         return this.send(
           "/gc There is no player with the given UUID or name or the player has no Skyblock profiles"
@@ -55,136 +40,49 @@ class SkyblockCommand extends minecraftCommand {
         await Promise.all([
           getSkills(data.profile),
           getSlayer(data.profile),
-          getNetworth(data.profile, data.profileData?.banking?.balance || 0, {
-            prices,
-          }),
-          getWeight(data.profile, data.uuid),
+          getNetworth(
+            data.profile,
+            data.profileData?.banking?.balance || 0,
+            { cache: true, onlyNetworth: true }
+          ),
+          getWeight(data.profile),
           getDungeons(data.player, data.profile),
           getTalismans(data.profile),
         ]);
-      const common = talismans.common?.length,
-        uncommon = talismans.uncommon?.length,
-        rare = talismans.rare?.length,
-        epic = talismans.epic?.length,
-        legendary = talismans.legendary?.length,
-        mythic = talismans.mythic?.length,
-        special = talismans.special?.length,
-        verySpecial = talismans.very?.length;
-      let recombobulated = 0,
-        enrichment = 0;
-      const talismanCount =
-        common +
-        uncommon +
-        rare +
-        epic +
-        legendary +
-        mythic +
-        special +
-        verySpecial;
-      for (const rarity of Object.keys(talismans)) {
-        if (
-          [
-            "talismanBagUpgrades",
-            "curretnReforge",
-            "unlockedReforges",
-            "tuningsSlots",
-            "tunings",
-          ].includes(rarity)
-        ) {
-          continue;
-        }
-        for (const talisman of talismans[rarity]) {
-          if (talisman.recombobulated) recombobulated++;
-          if (talisman.enrichment) enrichment++;
-        }
-      }
-      console.log(
-        `/gc ${username}'s Senither Weight » ${
-          Math.round(weight.weight.senither.total * 100) / 100
-        } | Lily Weight » ${
-          Math.round(weight.weight.lily.total * 100) / 100
-        } | Skill Average » ${
-          Math.round(
-            ((skills.farming.level +
-              skills.mining.level +
-              skills.combat.level +
-              skills.foraging.level +
-              skills.fishing.level +
-              skills.enchanting.level +
-              skills.alchemy.level +
-              skills.taming.level +
-              skills.carpentry.level) /
-              9) *
-              100
-          ) / 100
-        } | Slayer » ${addCommas(
-          slayer?.[Object.keys(slayer)[0]].xp +
-            slayer?.[Object.keys(slayer)[1]].xp +
-            slayer?.[Object.keys(slayer)[2]].xp +
-            slayer?.[Object.keys(slayer)[3]].xp +
-            slayer?.[Object.keys(slayer)[4]].xp
-        )} | ${slayer?.[Object.keys(slayer)[0]].level} ${
-          slayer?.[Object.keys(slayer)[1]].level
-        } ${slayer?.[Object.keys(slayer)[2]].level} ${
-          slayer?.[Object.keys(slayer)[3]].level
-        } ${slayer?.[Object.keys(slayer)[4]].level} | Catacombs » ${
-          dungeons.catacombs.skill.level
-        } | Class Average » ${
-          (dungeons.classes.healer.level +
-            dungeons.classes.mage.level +
-            dungeons.classes.berserk.level +
-            dungeons.classes.archer.level +
-            dungeons.classes.tank.level) /
-          5
-        } | Networth » ${
-          addNotation("oneLetters", networth.networth) ?? 0
-        } | Accessories » ${
-          talismanCount ?? 0
-        } | Recombobulated » ${recombobulated} | Enriched » ${enrichment}`
-      );
+
+      const senitherWeight = Math.floor(weight?.senither?.total || 0);
+      const lilyWeight = Math.floor(weight?.lily?.total || 0);
+      const skillAverage = (Object.keys(skills).filter((skill) => !["runecrafting", "social"].includes(skill)).map((skill) => skills[skill].level).reduce((a, b) => a + b, 0) / (Object.keys(skills).length - 2)).toFixed(1)
+      const slayerXp = addCommas(Object.keys(slayer).map((type) => slayer[type].xp).reduce((a, b) => a + b, 0))
+      const catacombsLevel = dungeons.catacombs.skill.level
+      const classAverage = (Object.keys(dungeons.classes).map((className) => dungeons.classes[className].level).reduce((a, b) => a + b, 0) / Object.keys(dungeons.classes).length)
+      const networthValue = addNotation("oneLetters", Math.floor(networth.networth || 0));
+      const talismanCount = Object.keys(talismans.talismans).map((rarity) => talismans.talismans[rarity].length || 0).reduce((a, b) => a + b, 0)
+      const recombobulatedCount = Object.keys(talismans.talismans).map((rarity) => talismans.talismans[rarity].filter((talisman) => talisman.recombobulated).length).reduce((a, b) => a + b, 0)
+      const enrichmentCount = Object.keys(talismans.talismans).map((rarity) => talismans.talismans[rarity].filter((talisman) => talisman.enrichment !== undefined).length).reduce((a, b) => a + b, 0)
+
       this.send(
         `/gc ${username}'s Senither Weight » ${
-          Math.round(weight.weight.senither.total * 100) / 100
+          senitherWeight
         } | Lily Weight » ${
-          Math.round(weight.weight.lily.total * 100) / 100
+          lilyWeight
         } | Skill Average » ${
-          Math.round(
-            ((skills.farming.level +
-              skills.mining.level +
-              skills.combat.level +
-              skills.foraging.level +
-              skills.fishing.level +
-              skills.enchanting.level +
-              skills.alchemy.level +
-              skills.taming.level +
-              skills.carpentry.level) /
-              9) *
-              100
-          ) / 100
-        } | Slayer » ${addCommas(
-          slayer?.[Object.keys(slayer)[0]].xp +
-            slayer?.[Object.keys(slayer)[1]].xp +
-            slayer?.[Object.keys(slayer)[2]].xp +
-            slayer?.[Object.keys(slayer)[3]].xp +
-            slayer?.[Object.keys(slayer)[4]].xp
-        )} | ${slayer?.[Object.keys(slayer)[0]].level} ${
-          slayer?.[Object.keys(slayer)[1]].level
-        } ${slayer?.[Object.keys(slayer)[2]].level} ${
-          slayer?.[Object.keys(slayer)[3]].level
-        } ${slayer?.[Object.keys(slayer)[4]].level} | Catacombs » ${
-          dungeons.catacombs.skill.level
+          skillAverage
+        } | Slayer » ${
+          slayerXp
+        } | Catacombs » ${
+          catacombsLevel
         } | Class Average » ${
-          (dungeons.classes.healer.level +
-            dungeons.classes.mage.level +
-            dungeons.classes.berserk.level +
-            dungeons.classes.archer.level +
-            dungeons.classes.tank.level) /
-          5
+          classAverage
         } | Networth » ${
-          addNotation("oneLetters", networth.networth) ?? 0
+          networthValue
         } | Accessories » ${
-          talismanCount ?? 0
-        } | Recombobulated » ${recombobulated} | Enriched » ${enrichment}`
+          talismanCount
+        } | Recombobulated » ${
+          recombobulatedCount
+        } | Enriched » ${
+          enrichmentCount
+        }`
       );
     } catch (error) {
       console.log(error);

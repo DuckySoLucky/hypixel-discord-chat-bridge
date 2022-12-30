@@ -4,6 +4,7 @@ const getTalismans = require("../../../API/stats/talismans.js");
 const {
   getLatestProfile,
 } = require("../../../API/functions/getLatestProfile.js");
+const { formatUsername } = require("../../contracts/helperFunctions.js");
 
 class AccessoriesCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -18,65 +19,34 @@ class AccessoriesCommand extends minecraftCommand {
 
   async onCommand(username, message) {
     try {
-      const arg = this.getArgs(message);
-      if (arg[0]) username = arg[0];
+      username = this.getArgs(message)[0] || username;
+
       const data = await getLatestProfile(username);
-      if (data.status === 404) {
-        return this.send(
-          "/gc There is no player with the given UUID or name or the player has no Skyblock profiles."
-        );
-      }
-      username = data.profileData?.game_mode ? `♲ ${username}` : username;
+
+      username = formatUsername(username, data.profileData?.game_mode);
+
       const talismans = await getTalismans(data.profile);
-      const common = talismans?.common?.length,
-        uncommon = talismans?.uncommon?.length,
-        rare = talismans?.rare?.length,
-        epic = talismans?.epic?.length,
-        legendary = talismans?.legendary?.length,
-        mythic = talismans?.mythic?.length,
-        special = talismans?.special?.length,
-        verySpecial = talismans?.very?.length;
-      let recombobulated = 0,
-        enrichment = 0;
-      const talismanCount =
-        common +
-        uncommon +
-        rare +
-        epic +
-        legendary +
-        mythic +
-        special +
-        verySpecial;
 
-      for (const rarity of Object.keys(talismans)) {
-        if (
-          [
-            "talismanBagUpgrades",
-            "curretnReforge",
-            "unlockedReforges",
-            "tuningsSlots",
-            "tunings",
-          ].includes(rarity)
-        ) {
-          continue;
-        }
+      const talismanCount = Object.keys(talismans.talismans)
+        .map((rarity) => talismans.talismans[rarity].length || 0)
+        .reduce((a, b) => a + b, 0);
 
-        for (const talisman of talismans[rarity]) {
-          if (talisman.recombobulated) recombobulated++;
-          if (talisman.enrichment) enrichment++;
-        }
-      }
+      const recombobulatedCount = Object.keys(talismans.talismans)
+        .map((rarity) =>talismans.talismans[rarity].filter((talisman) => talisman.recombobulated).length)
+        .reduce((a, b) => a + b, 0);
 
-      this.send(
-        `/gc ${username}'s Accessories » ${talismanCount} | Recombobulated » ${recombobulated} | Enriched » ${enrichment}`
-      );
+      const enrichmentCount = Object.keys(talismans.talismans)
+        .map((rarity) =>talismans.talismans[rarity].filter((talisman) => talisman.enrichment !== undefined).length)
+        .reduce((a, b) => a + b, 0);
+
+      this.send(`/gc ${username}'s Accessories » ${talismanCount} | Recombobulated » ${recombobulatedCount} | Enriched » ${enrichmentCount}`);
+
       await delay(690);
-      this.send(
-        `/gc ${username}'s Accessories » Common - ${common} | Uncommon - ${uncommon} | Rare - ${rare} | Epic - ${epic} |  Legendary - ${legendary} | Special - ${special} | Very Special - ${verySpecial}`
-      );
+
+      this.send(`/gc ${username}'s Accessories » Common - ${talismans.talismans["common"].length} | Uncommon - ${talismans.talismans["uncommon"].length} | Rare - ${talismans.talismans["rare"].length} | Epic - ${talismans.talismans["epic"].length} |  Legendary - ${talismans.talismans["legendary"].length} | Special - ${talismans.talismans["special"].length} | Very Special - ${talismans.talismans["very"].length}`);
+
     } catch (error) {
-      console.log(error);
-      this.send(`/gc [ERROR] ${error}`);
+      this.send(`/gc Error: ${error}`);
     }
   }
 }

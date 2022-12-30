@@ -21,6 +21,8 @@ class AuctionHouseCommand extends minecraftCommand {
   }
 
   async onCommand(username, message) {
+    // TODO: Rewrite this command, cba rn cuz I have no idea what's going on here and it's 2am so yes
+
     try {
       const arg = this.getArgs(message);
       let string = "";

@@ -19,29 +19,21 @@ class GuildExperienceCommand extends minecraftCommand {
     if (arg[0]) username = arg[0];
 
     try {
-      const [player, guild] = await Promise.all([
+      const [uuid, guild] = await Promise.all([
         getUUID(username),
         hypixel.getGuild("id", config.minecraft.guildID),
       ]);
 
-      for (const member of guild.members) {
-        if (guild.members.indexOf(member) == guild.members.length - 1) {
-          return this.send(`/gc ${username} is not in the Guild.`);
-        }
+      const player = guild.members.find((member) => member.uuid == uuid)
 
-        if (member.uuid != player) continue;
+      // eslint-disable-next-line no-throw-literal
+      if (!player) throw "Player is not in the Guild.";
 
-        return this.send(
-          `/gc ${
-            username == arg[0] ? `${arg[0]}'s` : `Your`
-          } Weekly Guild Experience » ${addCommas(member.weeklyExperience)}.`
-        );
-      }
+      this.send(`/gc ${username == arg[0] ? `${arg[0]}'s` : `Your`} Weekly Guild Experience » ${addCommas(player.weeklyExperience)}.`);
+
+
     } catch (error) {
-      console.log(error);
-      this.send(
-        "There is no player with the given UUID or name or player has never joined Hypixel."
-      );
+      this.send(`/gc ${error.toString().replace("[hypixel-api-reborn] ", "")}`);
     }
   }
 }

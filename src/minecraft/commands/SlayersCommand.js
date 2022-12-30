@@ -3,101 +3,8 @@ const {
   getLatestProfile,
 } = require("../../../API/functions/getLatestProfile.js");
 const getSlayer = require("../../../API/stats/slayer.js");
-const { addCommas } = require("../../contracts/helperFunctions.js");
-
-async function getSlayerData(username, input) {
-  try {
-    // I have no idea what's going on here but it works
-    const data = await getLatestProfile(username);
-    username = data.profileData?.game_mode ? `♲ ${username}` : username;
-    const profile = getSlayer(data.profile);
-    for (let i = 0; i < Object.keys(profile).length; i++) {
-      for (
-        let j = 0;
-        j < Object.keys(profile?.[Object.keys(profile)[i]]).length;
-        j++
-      ) {
-        const total =
-          profile?.[Object.keys(profile)[0]].xp +
-          profile?.[Object.keys(profile)[1]].xp +
-          profile?.[Object.keys(profile)[2]].xp +
-          profile?.[Object.keys(profile)[3]].xp +
-          profile?.[Object.keys(profile)[4]].xp;
-        if (input == "zombie") {
-          return `${username}'s Zombie Slayer Experience: ${addCommas(
-            profile?.[Object.keys(profile)[0]].xp
-          )} | Level: ${profile?.[Object.keys(profile)[0]].level} | T5 - ${
-            profile?.[Object.keys(profile)[0]].kills?.[5]
-          } | T4 - ${profile?.[Object.keys(profile)[0]].kills?.[4]} | T3 - ${
-            profile?.[Object.keys(profile)[0]].kills?.[3]
-          } | T2 - ${profile?.[Object.keys(profile)[0]].kills?.[2]} | T1 - ${
-            profile?.[Object.keys(profile)[0]].kills?.[1]
-          }`;
-        } else if (input == "spider") {
-          return `${username}'s Spider Slayer Experience: ${addCommas(
-            profile?.[Object.keys(profile)[1]].xp
-          )} | Level: ${profile?.[Object.keys(profile)[1]].level} | T5 - ${
-            profile?.[Object.keys(profile)[1]].kills?.[5]
-          } | T4 - ${profile?.[Object.keys(profile)[1]].kills?.[4]} | T3 - ${
-            profile?.[Object.keys(profile)[1]].kills?.[3]
-          } | T2 - ${profile?.[Object.keys(profile)[1]].kills?.[2]} | T1 - ${
-            profile?.[Object.keys(profile)[1]].kills?.[1]
-          }`;
-        } else if (input == "wolf") {
-          return `${username}'s Wolf Slayer Experience: ${addCommas(
-            profile?.[Object.keys(profile)[2]].xp
-          )} | Level: ${profile?.[Object.keys(profile)[2]].level} | T5 - ${
-            profile?.[Object.keys(profile)[2]].kills?.[5]
-          } | T4 - ${profile?.[Object.keys(profile)[2]].kills?.[4]} | T3 - ${
-            profile?.[Object.keys(profile)[2]].kills?.[3]
-          } | T2 - ${profile?.[Object.keys(profile)[2]].kills?.[2]} | T1 - ${
-            profile?.[Object.keys(profile)[2]].kills?.[1]
-          }`;
-        } else if (input == "enderman") {
-          return `${username}'s Enderman Slayer Experience: ${addCommas(
-            profile?.[Object.keys(profile)[3]].xp
-          )} | Level: ${profile?.[Object.keys(profile)[3]].level} | T5 - ${
-            profile?.[Object.keys(profile)[3]].kills?.[5]
-          } | T4 - ${profile?.[Object.keys(profile)[3]].kills?.[4]} | T3 - ${
-            profile?.[Object.keys(profile)[3]].kills?.[3]
-          } | T2 - ${profile?.[Object.keys(profile)[3]].kills?.[2]} | T1 - ${
-            profile?.[Object.keys(profile)[3]].kills?.[1]
-          }`;
-        } else if (input == "blaze") {
-          return `${username}'s Blaze Slayer Experience: ${addCommas(
-            profile?.[Object.keys(profile)[4]].xp
-          )} | Level: ${profile?.[Object.keys(profile)[4]].level} | T5 - ${
-            profile?.[Object.keys(profile)[4]].kills?.[5]
-          } | T4 - ${profile?.[Object.keys(profile)[4]].kills?.[4]} | T3 - ${
-            profile?.[Object.keys(profile)[4]].kills?.[3]
-          } | T2 - ${profile?.[Object.keys(profile)[4]].kills?.[2]} | T1 - ${
-            profile?.[Object.keys(profile)[4]].kills?.[1]
-          }`;
-        } else {
-          return `${username}'s Slayer Experience - ${addCommas(total)} | ${
-            profile?.[Object.keys(profile)[0]].level
-          } ${profile?.[Object.keys(profile)[1]].level} ${
-            profile?.[Object.keys(profile)[2]].level
-          } ${profile?.[Object.keys(profile)[3]].level} ${
-            profile?.[Object.keys(profile)[4]].level
-          }`;
-        }
-      }
-    }
-  } catch (error) {
-    console.log(error);
-    return error
-      .toString()
-      .replaceAll(
-        "Request failed with status code 404",
-        "There is no player with the given UUID or name or the player has no Skyblock profiles"
-      )
-      .replaceAll(
-        "Request failed with status code 500",
-        "There is no player with the given UUID or name or the player has no Skyblock profiles"
-      );
-  }
-}
+const { addCommas, formatUsername } = require("../../contracts/helperFunctions.js");
+const { capitalize } = require("lodash");
 
 class SlayersCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -112,54 +19,27 @@ class SlayersCommand extends minecraftCommand {
 
   async onCommand(username, message) {
     try {
-      let type;
-      const msg = this.getArgs(message);
-      if (msg[0]) {
-        if (
-          [
-            "zombie",
-            "rev",
-            "spider",
-            "tara",
-            "wolf",
-            "sven",
-            "eman",
-            "enderman",
-            "blaze",
-            "demonlord",
-          ].includes(msg[0])
-        ) {
-          type = msg[0];
-        } else {
-          username = msg[0];
-        }
-      }
+      const args = this.getArgs(message);
+      const slayer = ["zombie", "rev", "spider", "tara", "wolf", "sven", "eman", "enderman", "blaze", "demonlord"];
 
-      if (msg[1]) {
-        if (
-          [
-            "zombie",
-            "rev",
-            "spider",
-            "tara",
-            "wolf",
-            "sven",
-            "eman",
-            "enderman",
-            "blaze",
-            "demonlord",
-          ].includes(msg[1])
-        ) {
-          type = msg[1];
-        }
-      }
+      const slayerType = slayer.includes(args[1]) ? args[1] : null;
+      username = args[0] || username;
 
-      this.send(`/gc ${await getSlayerData(username, type)}`);
+      const data = await getLatestProfile(username);
+    
+      username = formatUsername(username, data.profileData.cute_name);
+
+      const profile = getSlayer(data.profile);
+
+      if (slayerType) {
+        this.send(`/gc ${username}'s ${capitalize(slayerType)} - ${profile[slayerType].level} Levels | Experience: ${addCommas(profile[slayerType].xp)}`);
+      } else {
+        const slayer = Object.keys(profile).reduce((acc, slayer) => `${acc} | ${capitalize(slayer)}: Level: ${profile[slayer].level} | Experience: ${addCommas(profile[slayer].xp)}`, "");
+        this.send(`/gc ${username}'s Slayer - ${slayer}`);
+      }
+      
     } catch (error) {
-      console.log(error);
-      this.send(
-        "/gc There is no player with the given UUID or name or the player has no Skyblock profiles"
-      );
+      this.send(`/gc Error: ${error}`);
     }
   }
 }

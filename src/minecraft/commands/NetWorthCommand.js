@@ -1,18 +1,13 @@
+const minecraftCommand = require("../../contracts/minecraftCommand.js");
+const { getNetworth } = require("skyhelper-networth");
 const {
   getLatestProfile,
 } = require("../../../API/functions/getLatestProfile.js");
-const { addNotation, capitalize } = require("../../contracts/helperFunctions.js");
-const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const { getNetworth, getPrices } = require("skyhelper-networth");
-
-let prices;
-getPrices().then((data) => {
-  prices = data;
-});
-
-setInterval(async () => {
-  prices = await getPrices();
-}, 1000 * 60 * 5);
+const {
+  addNotation,
+  capitalize,
+  formatUsername,
+} = require("../../contracts/helperFunctions.js");
 
 class NetWorthCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -27,23 +22,19 @@ class NetWorthCommand extends minecraftCommand {
 
   async onCommand(username, message) {
     try {
-      const arg = this.getArgs(message);
-      if (arg[0]) username = arg[0];
-      if (!prices) {
-        return this.send(
-          `/gc ${username} Prices are still loading, please try again in a few seconds.`
-        );
-      }
+      username = this.getArgs(message)[0] || username;
 
       const data = await getLatestProfile(username);
-      username = data.profileData?.game_mode ? `♲ ${username}` : username;
+
+      username = formatUsername(username, data.profileData?.game_mode);
 
       const profile = await getNetworth(
         data.profile,
         data.profileData?.banking?.balance || 0,
-        { prices }
+        { cache: true, onlyNetworth: true }
       );
-      if (profile.noInventory) {
+
+      if (profile.noInventory === true) {
         return this.send(
           `/gc ${capitalize(username)} has an Inventory API off!`
         );
@@ -54,15 +45,13 @@ class NetWorthCommand extends minecraftCommand {
           addNotation("oneLetters", profile.networth) ?? 0
         } | Unsoulbound Networth: ${
           addNotation("oneLetters", profile.unsoulboundNetworth) ?? 0
-        } | Purse: ${addNotation("oneLetters", profile.purse) || 0} | Bank: ${
-          addNotation("oneLetters", profile.bank) ?? 0
-        }`
+        } | Purse: ${addNotation(
+          "oneLetters",
+          Math.round(profile.purse || 0)
+        )} | Bank: ${addNotation("oneLetters", Math.round(profile.bank || 0))}`
       );
     } catch (error) {
-      console.log(error);
-      this.send(
-        "/gc There is no player with the given UUID or name or the player has no Skyblock profiles"
-      );
+      this.send(`/gc ERROR: ${error}`);
     }
   }
 }

@@ -24,7 +24,15 @@
     "[September 6] Moby's Fishing Speed Chumpdate | https://hypixel.net/threads/september-6-mobys-fishing-speed-chumpdate.5103151/",
     "[September 8] Test Of Control - SkyBlock Dojo Challenge | https://hypixel.net/threads/september-8-test-of-control-skyblock-dojo-challenge.5104568/",
     "[September 11] Profile Actions Cooldown | https://hypixel.net/threads/september-11-profile-actions-cooldown.5107971/",
-    "[0.9.13] Catacombs Floor 7 | https://hypixel.net/threads/0-9-13-catacombs-floor-7.3543616/"
+    "[0.9.13] Catacombs Floor 7 | https://hypixel.net/threads/0-9-13-catacombs-floor-7.3543616/",
+    "[December 14] Winter Follow Up | https://hypixel.net/threads/december-14-winter-follow-up.5200757/",
+    "[December 13] SkyBlock Patch Notes | https://hypixel.net/threads/december-13-skyblock-patch-notes.5199900/",
+    "[November 23] SkyBlock Patch Notes | https://hypixel.net/threads/november-23-skyblock-patch-notes.5178848/",
+    "[November 30] SkyBlock Patch Notes | https://hypixel.net/threads/november-30-skyblock-patch-notes.5185776/",
+    "[December 8] SkyBlock Kuudra Infernal Follow-up Patch Notes 1 | https://hypixel.net/threads/december-8-skyblock-kuudra-infernal-follow-up-patch-notes-1.5193363/",
+    "[November 15] SkyBlock Patch Notes | https://hypixel.net/threads/november-15-skyblock-patch-notes.5171788/",
+    "[November 21] SkyBlock Patch Notes | https://hypixel.net/threads/november-21-skyblock-patch-notes.5177240/",
+    "[July 3] Random Damage Hotfix | https://hypixel.net/threads/july-3-random-damage-hotfix.3081457/"
   ],
   "skyblockStatus": [
     "SkyBlock Dungeons Disabled | Update - We are continuing to work on bringing dungeons back online and have added additional potential fixes to the Alpha Network. | Aug 29, 14:05 EDT",
@@ -144,6 +152,18 @@
     "High latency for Europe connections | Monitoring - Our upstream provider has implemented a fix and we are monitoring. | Oct 3, 17:23 EDT",
     "High latency for Europe connections | Investigating - We are currently investigating an issue with our upstream provider resulting in higher latency for players in Europe. | Oct 3, 13:00 EDT",
     "SkyBlock Bazaar Disabled | Identified - The Bazaar is currently disabled due to exploits, we have identified the issue and are working to resolve it. | Sep 4, 16:57 EDT",
-    "SkyBlock Dungeons Disabled | Resolved - This incident has been resolved. | Sep 1, 11:41 EDT"
+    "SkyBlock Dungeons Disabled | Resolved - This incident has been resolved. | Sep 1, 11:41 EDT",
+    "Housing Browser Unavailable | Resolved - This incident has been resolved. | Dec 10, 18:59 EST",
+    "Housing Browser Unavailable | Monitoring - We have now implemented a fix to improve guild lookup during house browsing, and we have re-enabled the full functionality of the browser and are monitoring. | Dec 10, 16:26 EST",
+    "Housing Browser Unavailable | Update - We have identified an issue causing the Housing browser to fail loading houses. In the meantime, we have disabled the browser looking up Guild information. | Dec 10, 14:03 EST",
+    "Housing Browser Unavailable | Identified - We have identified an issue causing the Housing browser to fail loading houses. In the meantime, we have disabled the browser looking up Guild information. | Dec 10, 13:09 EST",
+    "Housing Browser Unavailable | Investigating - We are currently investigating an issue with the Housing browser being unavailable | Dec 10, 13:01 EST",
+    "Forums and Reward Claiming Unavailable | Resolved - This incident has been resolved. | Dec 8, 21:39 EST",
+    "Forums and Reward Claiming Unavailable | Monitoring - A fix has been implemented and we are monitoring the results. | Dec 8, 21:32 EST",
+    "Forums and Reward Claiming Unavailable | Investigating - We are currently investigating an issue with the Hypixel Forums and Daily Rewards claiming to be unavailable | Dec 8, 20:57 EST",
+    "Emergency Maintenance | Resolved - This incident has been resolved. | Nov 16, 14:40 EST",
+    "Emergency Maintenance | Monitoring - A fix has been implemented and we are monitoring as we re-open the server | Nov 16, 14:21 EST",
+    "Emergency Maintenance | Update - We are continuing to investigate issues with one of our core services and as a result, we are in emergency maintenance. Players will be unable to join and the Public API is unavailable. | Nov 16, 14:04 EST",
+    "Emergency Maintenance | Investigating - We are currently investigating issues with one of our core services and as a result, we are in emergency maintenance. | Nov 16, 13:56 EST"
   ]
 }

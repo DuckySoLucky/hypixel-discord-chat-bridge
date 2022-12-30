@@ -16,27 +16,15 @@ class BedwarsCommand extends minecraftCommand {
 
   async onCommand(username, message) {
     try {
-      const msg = this.getArgs(message);
-      let mode = null;
+      const msg = this.getArgs(message).map((arg) => arg.replaceAll("/", ""));
+      const modes = ["solo", "doubles", "threes", "fours", "4v4"];
 
-      if (["solo", "doubles", "threes", "fours", "4v4"].includes(msg[0])) {
-        mode = msg[0];
-        if (msg[1] && !msg[1].includes("/")) {
-          username = msg[1];
-        }
-      } else {
-        if (msg[0] && !msg[0].includes("/")) {
-          username = msg[0];
-        }
-
-        if (["solo", "doubles", "threes", "fours", "4v4"].includes(msg[1])) {
-          mode = msg[1];
-        }
-      }
+      const mode = modes.includes(msg[0]) ? msg[0] : "overall";
+      username = modes.includes(msg[0]) ? msg[1] : msg[0];
 
       const player = await hypixel.getPlayer(username);
 
-      if (!mode || ["overall", "all"].includes(mode)) {
+      if (["overall", "all"].includes(mode)) {
         this.send(
           `/gc [${player.stats.bedwars.level}✫] ${
             player.nickname
@@ -48,7 +36,7 @@ class BedwarsCommand extends minecraftCommand {
             player.stats.bedwars.beds.BLRatio
           } WS: ${player.stats.bedwars.winstreak}`
         );
-      } else if (mode) {
+      } else if (mode !== undefined) {
         this.send(
           `/gc [${player.stats.bedwars.level}✫] ${player.nickname} ${capitalize(
             mode
@@ -60,12 +48,13 @@ class BedwarsCommand extends minecraftCommand {
             player.stats.bedwars[mode].beds.BLRatio
           } WS: ${player.stats.bedwars[mode].winstreak}`
         );
+      } else {
+        this.send(
+          "/gc Invalid mode. Valid modes: overall, solo, doubles, threes, fours, 4v4"
+        );
       }
     } catch (error) {
-      this.send(
-        "There is no player with the given UUID or name or player has never joined Hypixel."
-      );
-      console.log(error);
+      this.send(`/gc ${error.toString().replace("[hypixel-api-reborn] ", "")}`);
     }
   }
 }
