@@ -1,4 +1,4 @@
-const minecraftCommand = require("../../contracts/minecraftCommand.js");
+const minecraftCommand = require("../../contracts/MinecraftCommand.js");
 const {
   getLatestProfile,
 } = require("../../../API/functions/getLatestProfile.js");
