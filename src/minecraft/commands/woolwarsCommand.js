@@ -47,7 +47,7 @@ class WoolwarsCommand extends minecraftCommand {
         throw "This player has never played WoolWars.";
       }
 
-      const level = getWoolWarsStar(woolWars.progression.experience) || 0;
+      const level = getWoolWarsStar(response?.player?.stats?.WoolGames?.progression?.experience) || 0;
 
       this.send(
         `/gc [${toFixed(level, 0)}✫] ${username} » W: ${

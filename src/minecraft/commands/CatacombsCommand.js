@@ -37,8 +37,6 @@ class CatacombsCommand extends minecraftCommand {
         (floor) => floor.completions
       ).reduce((a, b) => a + b, 0);
 
-      console.log(dungeons.catacombs.skill)
-
       this.send(
         `/gc ${username}'s Catacombs: ${
           dungeons.catacombs.skill.level > 50 ? dungeons.catacombs.skill.levelWithProgress.toFixed(2) : dungeons.catacombs.skill.level

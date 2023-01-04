@@ -139,52 +139,56 @@ The bot also includes automatic guild accept if the user meets requirements. The
 
 `Discord`
 
-- `/blacklist [player]` - Blacklists specified user from using bot.
-- `/demote [player]` - Demotes the given user by one guild rank.
-- `/guildtop [integer]` - Top 10 members with the most guild experience.
-- `/help` - Shows help menu.
-- `/info` - Shows information about bot.
-- `/invite <player>` - Invites the specified user to the guild.
-- `/kick <user> <reason>` - Kicks the specified user from the guild.
-- `/mute <user> <time>` - Mutes the given user for a given amount of time.
-- `/online` - View online player in the guild.
-- `/override <command>` - Executes commands as the minecraft bot.
-- `/ping` - Shows the latency of the bot.
-- `/promote <user>` - Promotes the specified user by 1 rank.
-- `/unmute <user>` - Unmutes the given user.
-- `/uptime` - Shows the uptime of the bot.
+| Command   | Description                                      | Syntax                      | Example                             | Response                           |
+| --------- | ------------------------------------------------ | --------------------------- | ----------------------------------- | ---------------------------------- |
+| blacklist | Blacklists specified user from using bot.        | `/blacklist [arg] [player]` | `/blacklist add DuckySoSkilled`     | ![](https://imgur.com/Ybaj9wj.png) |
+| demote    | Demotes the given user by one guild rank.        | `/demote [player]`          | `/demote DuckySoSkilled`            | ![](https://imgur.com/liHDaOW.png) |
+| guildtop  | Top 10 members with the most guild xp.           | `/guildtop [integer]`       | `/guildtop 5`                       | ![](https://imgur.com/7oV77ey.png) |
+| help      | Shows help menu.                                 | `/help`                     | `/help`                             | ![](https://imgur.com/CLka3pQ.png) |
+| info      | Shows information about bot.                     | `/info`                     | `/info`                             | ![](https://imgur.com/pRONsiE.png) |
+| invite    | Invites the specified user to the guild.         | `/invite [player]`          | `/invite DuckySoSkilled`            | ![](https://imgur.com/DIfzSS7.png) |
+| kick      | Kicks the specified user from the guild.         | `/kick [player] [reason]`   | `/kick DuckySoSkilled`              | ![](https://imgur.com/auMbSD9.png) |
+| mute      | Mutes the given user for a given amount of time. | `/mute [player] [time]`     | `/mute DuckySoSkilled 1h`           | ![](https://imgur.com/fQxoyHv.png) |
+| online    | View online player in the guild.                 | `/online`                   | `/online`                           | ![](https://imgur.com/Ny4vTRQ.png) |
+| execute   | Executes commands as the minecraft bot.          | `/execute [command]`        | `/execute /g unmute DuckySoSkilled` | ![](https://imgur.com/fBi2Bv2.png) |
+| ping      | Shows the latency of the bot.                    | `/ping`                     | `/ping`                             | ![](https://imgur.com/9sHFgGT.png) |
+| promote   | Promotes the specified user by 1 rank.           | `/promote [player]`         | `/promote DuckySoSkilled`           | ![](https://imgur.com/wmMWP5b.png) |
+| unmute    | Unmutes the given user.                          | `/unmute [player]`          | `/unmute DuckySoSkilled`            | ![](https://imgur.com/nlu8lo6.png) |
+| uptime    | Shows the uptime of the bot.                     | `/uptime`                   | `/uptime`                           | ![](https://imgur.com/R1cnJfn.png) |
 
 `Minecraft`
 
-- `!8ball <question>` - Ask an 8ball a question.
-- `!armor [player]` - Renders armor of specified user.
-- `!auction [player]` - Active Auctions of specified user.
-- `!bedwars [player]` - BedWars stats of specified user.
-- `!catacombs [player]` - Skyblock Dungeons Stats of specified user.
-- `!accessories [player]` - Accessories of specified user.
-- `!daily [player]` - Get daily stats of specified user.
-- `!denick [player]` - Denick username of specified user.
-- `!duels [player]` - Duel stats of specified user.
-- `!equipment [name]` - Renders equipment of specified user.
-- `!fairysouls [player]` - Fairy Souls of specified user.
-- `!fetchur` - Information about an item for Fetchur.
-- `!guildexp [player]` - Guilds experience of specified user.
-- `!help` - Shows help menu.
-- `!kitty` - Random image of cute cat.
-- `!math <calculation>` - Calculate any kind of math problem.
-- `!monthly [player]` - Get monthly stats of specified user.
-- `!networth [player]` - Networth of specified user.
-- `!pet [player]` - Renders active pet of specified user.
-- `!render [player] [slot]` - Renders item of specified user.
-- `!skills [player]` - Skills and Skill Average of specified user.
-- `!skywars [player]` - Skywars stats of specified user.
-- `!skyblock [player]` - Skyblock Stats of specified user.
-- `!slayer [player] [type]` - Slayer of specified user.
-- `!UHC [player]` - UHC Stats of specified user.
-- `!weekly [player]` - Get weekly stats of specified user.
-- `!weight [player]` - Skyblock Stats of specified user.
-- `!winstreak [player]` - Estimated winstreaks of the specified user.
-- `!woolwars [player]` - WoolWars stats of specified user.
+| Command     | Description                                 | Syntax                       | Example                       | Response                           |
+| ----------- | ------------------------------------------- | ---------------------------- | ----------------------------- | ---------------------------------- |
+| 8ball       | Ask an 8ball a question.                    | `!8ball <question>`          | `!8ball Is this bot good?`    | ![](https://imgur.com/Z8DUNuv.png) |
+| accessories | Accessories of specified user.              | `!accessories [player]`      | `!accessories DuckySoSkilled` | ![](https://imgur.com/zyLgJFm.png) |
+| armor       | Renders armor of specified user.            | `!armor [player]`            | `!armor DuckySoSkilled`       | ![](https://imgur.com/Mgf069P.png) |
+| auction     | Active Auctions of specified user.          | `!auction [player]`          | `!auction DuckySoSkilled`     | ![](https://imgur.com/NRgdz3I.png) |
+| bedwars     | BedWars stats of specified user.            | `!bedwars [player]`          | `!bedwars DuckySoSkilled`     | ![](https://imgur.com/zNoP49u.png) |
+| catacombs   | Skyblock Dungeons Stats of specified user.  | `!catacombs [player]`        | `!catacombs DuckySoSkilled`   | ![](https://imgur.com/ZBFl6SJ.png) |
+| daily       | Get daily stats of specified user.          | `!daily [player] [gamemode]` | `!daily DuckySoSkilled`       | ![](https://imgur.com/5WmvRej.png) |
+| denick      | Denick username of specified user.          | `!denick [player]`           | `!denick DuckySoSkilled`      | ![](https://imgur.com/vEAVQL6.png) |
+| duels       | Duel stats of specified user.               | `!duels [player]`            | `!duels DuckySoSkilled`       | ![](https://imgur.com/d2Fg1Sc.png) |
+| equipment   | Renders equipment of specified user.        | `!equipment [name]`          | `!equipment DuckySoSkilled`   | ![](https://imgur.com/3AbJ5gj.png) |
+| fairysouls  | Fairy Souls of specified user.              | `!fairysouls [player]`       | `!fairysouls DuckySoSkilled`  | ![](https://imgur.com/2v3CIHV.png) |
+| fetchur     | Information about an item for Fetchur.      | `!fetchur [item]`            | `!fetchur DuckySoSkilled`     | ![](https://imgur.com/B7Q8d1o.png) |
+| guildexp    | Guilds experience of specified user.        | `!guildexp [player]`         | `!guildexp DuckySoSkilled`    | ![](https://imgur.com/N2abg1f.png) |
+| help        | Shows help menu.                            | `!help`                      | `!help`                       | ![](https://imgur.com/rhZGGdb.png) |
+| kitty       | Random image of cute cat.                   | `!kitty`                     | `!kitty`                      | ![](https://imgur.com/bYa8xIp.png) |
+| math        | Calculate any kind of math problem.         | `!math <calculation>`        | `!math 6 * 9 + 6 + 9`         | ![](https://imgur.com/q7Zvl0j.png) |
+| monthly     | Get monthly stats of specified user.        | `!monthly [player]`          | `!monthly DuckySoSkilled`     | ![](https://imgur.com/P7pcOip.png) |
+| networth    | Networth of specified user.                 | `!networth [player]`         | `!networth DuckySoSkilled`    | ![](https://imgur.com/kdgPWaJ.png) |
+| pet         | Renders active pet of specified user.       | `!pet [player]`              | `!pet DuckySoSkilled`         | ![](https://imgur.com/cxKH7HB.png) |
+| render      | Renders item of specified user.             | `!render [player] [slot]`    | `!render DuckySoSkilled`      | ![](https://imgur.com/MEiqsrf.png) |
+| skills      | Skills and Skill Average of specified user. | `!skills [player]`           | `!skills DuckySoSkilled`      | ![](https://imgur.com/fQEPde5.png) |
+| skywars     | Skywars stats of specified user.            | `!skywars [player]`          | `!skywars DuckySoSkilled`     | ![](https://imgur.com/TultFVr.png) |
+| skyblock    | Skyblock Stats of specified user.           | `!skyblock [player]`         | `!skyblock DuckySoSkilled`    | ![](https://imgur.com/RtRMuYY.png) |
+| slayer      | Slayer of specified user.                   | `!slayer [player] [type]`    | `!slayer DuckySoSkilled`      | ![](https://imgur.com/EsO2DTB.png) |
+| UHC         | UHC Stats of specified user.                | `!UHC [player]`              | `!UHC DuckySoSkilled`         | ![](https://imgur.com/n5ZFSjY.png) |
+| weekly      | Get weekly stats of specified user.         | `!weekly [player]`           | `!weekly DuckySoSkilled`      | ![](https://imgur.com/UnwwPIV.png) |
+| weight      | Skyblock Stats of specified user.           | `!weight [player]`           | `!weight DuckySoSkilled`      | ![](https://imgur.com/Wpegpuy.png) |
+| winstreak   | Estimated winstreaks of the specified user. | `!winstreak [player]`        | `!winstreak DuckySoSkilled`   | ![](https://imgur.com/1km1kTC.png) |
+| woolwars    | WoolWars stats of specified user.           | `!woolwars [player]`         | `!woolwars DuckySoSkilled`    | ![](https://imgur.com/u4N0bJL.png) |
 
 ### Chat Triggers Module
 

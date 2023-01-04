@@ -77,15 +77,15 @@ module.exports = {
             config.discord.guildChatChannel
               ? `<#${config.discord.guildChatChannel}>`
               : "None"
-          }>\nOfficer Channel: ${
+          }\nOfficer Channel: ${
             config.discord.officerChannel
               ? `<#${config.discord.officerChannel}>`
               : "None"
-          }>\nGuild Logs Channel: ${
+          }\nGuild Logs Channel: ${
             config.discord.loggingChannel
               ? `<#${config.discord.loggingChannel}>`
               : "None"
-          }>\nDebugging Channel: ${
+          }\nDebugging Channel: ${
             config.console.debugChannel
               ? `<#${config.console.debugChannel}>`
               : "None"
