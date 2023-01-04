@@ -205,14 +205,14 @@ The bot also includes an integrated frag bot that can be used by the guild.
 - [ ] Fragbot Whitelist
   - Ability to make frag bot be used only by specified users or by guild members only.
 
-## Powered by
+## Credits
 
-- [AltPapier](https://github.com/Altpapier)
+- [Altpapier](https://github.com/altpapier/hypixel-discord-guild-bridge/)
 - [DawJaw](https://dawjaw.net/jacobs)
 - [Hypixel API Reborn](https://hypixel.stavzdev.me/#/)
 - [Hypixel Network API](http://api.hypixel.net/)
 - [PlayerDB API](https://playerdb.co/)
 - [SkyHelper API](https://github.com/Altpapier/SkyHelperAPI)
-- [SkyShiiyu API](https://github.com/SkyCryptWebsite/SkyCrypt)
-- [SlothPixel API](https://github.com/slothpixel)
+- [SkyCrypt](https://github.com/SkyCryptWebsite/SkyCrypt)
 - [Senither](https://github.com/Senither)
+- [LilyWeight](https://github.com/Antonio32A/lilyweight)
