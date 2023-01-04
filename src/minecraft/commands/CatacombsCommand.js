@@ -31,18 +31,28 @@ class CatacombsCommand extends minecraftCommand {
         throw `${username} has never played dungeons on ${data.profileData.cute_name}.`
       }
 
+      const completions = Object.values(dungeons.catacombs.MASTER_MODE_FLOORS).map(
+        (floor) => floor.completions
+      ).reduce((a, b) => a + b, 0) + Object.values(dungeons.catacombs.floors).map(
+        (floor) => floor.completions
+      ).reduce((a, b) => a + b, 0);
+
+      console.log(dungeons.catacombs.skill)
+
       this.send(
         `/gc ${username}'s Catacombs: ${
-          dungeons.catacombs.skill.level
+          dungeons.catacombs.skill.level > 50 ? dungeons.catacombs.skill.levelWithProgress.toFixed(2) : dungeons.catacombs.skill.level
         } | Class Average: ${
           (Object.keys(dungeons.classes).map((className) => dungeons.classes[className].level).reduce((a, b) => a + b, 0) / Object.keys(dungeons.classes).length)
         } | Secrets Found: ${numberWithCommas(
           dungeons.secrets_found || 0
-        )} | Classes: H-${dungeons.classes.healer.level} M-${
+        )} (${
+          (dungeons.secrets_found / completions).toFixed(2)
+        } SPR) | Classes: H - ${dungeons.classes.healer.level} M - ${
           dungeons.classes.mage.level
-        } B-${dungeons.classes.berserk.level} A-${
+        } B - ${dungeons.classes.berserk.level} A - ${
           dungeons.classes.archer.level
-        } T-${dungeons.classes.tank.level}`
+        } T - ${dungeons.classes.tank.level}`
       );
     } catch (error) {
       console.log(error)

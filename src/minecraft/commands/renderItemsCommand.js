@@ -29,6 +29,7 @@ class RenderCommand extends minecraftCommand {
       }
       if (!isNaN(Number(arg[0]))) {
         itemNumber = arg[0];
+        username = arg[1] || username;
       } else {
         username = arg[0];
         if (!isNaN(Number(arg[1]))) {

@@ -246,7 +246,7 @@ async function getStats(player, uuid, mode, time) {
         response.data.player.karma - response24H.data.General.karma
       } karma and gained ${(
         getLevel(response.data.player) - response24H.data.General.levelRaw
-      ).toFixed(3)} levels in the last 24 hours.`;
+      ).toFixed(3)} levels in the last ${time === 'daily' ? 'day' : time.replace('ly', '')}.`;
     } else if (
       ["bw", "bedwars", "bedwar", "bws"].includes(mode.toLowerCase())
     ) {

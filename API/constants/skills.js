@@ -2,7 +2,7 @@
 /*eslint-disable */
 const xp_tables = require("./xp_tables");
 
-module.exports = function calcSkill(skill, experience) {
+module.exports = function calcSkill(skill, experience, type) {
   let table = "normal";
   if (skill === "runecrafting") table = "runecrafting";
   if (skill === "social") table = "social";
@@ -36,15 +36,25 @@ module.exports = function calcSkill(skill, experience) {
     }
   }
 
+  if (type && (experience - xp) >= 200000000) {
+    while ((experience - xp) >= 200000000) {
+      level += 1;
+      xp += 200000000;
+    }
+
+    xpForNext = 200000000;
+  }
+
   let xpCurrent = Math.floor(experience - xp);
 
   let totalXp = experience;
 
   if (level < maxLevel) {
-    xpForNext = Math.ceil(xp_tables[table][level]);
+    xpForNext = Math.ceil(xp_tables[table][level] || 200000000);
   }
+  
   progress =
-    level >= maxLevel ? 0 : Math.max(0, Math.min(xpCurrent / xpForNext, 1));
+    level >= maxLevel && type === undefined ? 0 : Math.max(0, Math.min(xpCurrent / xpForNext, 1));
 
   return {
     totalXp,
@@ -53,6 +63,6 @@ module.exports = function calcSkill(skill, experience) {
     xpCurrent,
     xpForNext,
     progress,
-    levelWithProgress: level < maxLevel ? level + progress : level,
+    levelWithProgress: (level + progress) || 0,
   };
 };

@@ -4,10 +4,10 @@ const { ImgurClient } = require("imgur");
 const imgurClient = new ImgurClient({ clientId: config.api.imgurAPIkey });
 const { addCommas, timeSince } = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const { decodeData } = require("../../contracts/helperFunctions.js");
 const { renderLore } = require("../../contracts/renderItem.js");
 const getRank = require("../../../API/stats/rank.js");
 const axios = require("axios");
+const { getUUID } = require("../../contracts/API/PlayerDBAPI.js");
 
 class AuctionHouseCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -24,90 +24,63 @@ class AuctionHouseCommand extends minecraftCommand {
     // TODO: Rewrite this command, cba rn cuz I have no idea what's going on here and it's 2am so yes
 
     try {
-      const arg = this.getArgs(message);
+      username = this.getArgs(message)[0] || username;
       let string = "";
-      let bidder;
-      if (arg[0]) username = arg[0];
 
-      // Could have been done better and faster using Promise.all(), I'm lazy
-      const uuid = (await axios.get(`${config.api.playerDBAPI}/${username}`))
-        .data.data.player.raw_id;
-      const response = (
-        await axios.get(
-          `${config.api.hypixelAPI}/skyblock/auction?key=${config.api.hypixelAPIkey}&player=${uuid}`
-        )
-      ).data;
-      const data = (
-        await axios.get(
-          `${config.api.hypixelAPI}/player?key=${config.api.hypixelAPIkey}&uuid=${uuid}`
-        )
-      ).data.player;
 
-      for (let i = 0; i < response.auctions.length; i++) {
-        if (response.auctions[i].end >= Date.now()) {
-          const auctionInfromation = (
-            await decodeData(
-              Buffer.from(response.auctions[i].item_bytes.data, "base64")
+      const uuid = await getUUID(username);
+      const response = (await axios.get(`${config.api.hypixelAPI}/skyblock/auction?key=${config.api.hypixelAPIkey}&player=${uuid}`)).data?.auctions || [];
+      const player = (await axios.get(`${config.api.hypixelAPI}/player?key=${config.api.hypixelAPIkey}&uuid=${uuid}`)).data?.player || {};
+
+      const activeAuctions = response.filter((auction) => auction.end >= Date.now())
+
+      for (const auction of activeAuctions) {
+        const lore = auction.item_lore.split("\n");
+
+        lore.push(
+          "§8§m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯",
+          `§7Seller: ${getRank(player)} ${player.displayname}`
+        );
+
+        if (auction.bin === undefined) {
+          if (auction.bids.length === 0) {
+            lore.push(
+              `§7Starting Bid: §6${addCommas(auction.starting_bid)} coins`,
+              `§7`,
+            )   
+          } else if (auction.bids.length > 0) {
+            const bidder = (await axios.get(`${config.api.hypixelAPI}/player?key=${config.api.hypixelAPIkey}&uuid=${auction.bids[auction.bids.length - 1].bidder}`)).data?.player || {};
+            lore.push(
+              `§7Bids: §a${auction.bids.length} ${auction.bids.length === 1 ? 'bid' : 'bids'}`,
+              `§7`,
+              `§7Top Bid: §6${addCommas(auction.bids[auction.bids.length - 1].amount)} coins`,
+              `§7Bidder: ${getRank(bidder)} ${bidder.displayname}`,
+              `§7`,
             )
-          ).i;
-          if (!response.auctions[i].bin) {
-            bidder = (
-              await axios.get(
-                `${config.api.hypixelAPI}/player?key=${
-                  config.api.hypixelAPIkey
-                }&uuid=${
-                  response.auctions[i].bids[
-                    response.auctions[i].bids.length - 1
-                  ].bidder
-                }`
-              )
-            ).data.player;
           }
-          const lore = response.auctions[i].item_lore.split("\n");
+        } else {
           lore.push(
-            "§8§m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯",
-            `§7Seller: ${getRank(data)} ${data.displayname}`
-          );
-          if (response.auctions[i].bin) {
-            lore.push(
-              `§7Buy it now: §6${addCommas(
-                response.auctions[i].starting_bid
-              )} coins`
-            );
-          }
-          if (!response.auctions[i].bin) {
-            lore.push(
-              `§7Bids: §a${response.auctions[i].bids.length} bids`,
-              ` `,
-              `§7Top Bid: §6${addCommas(
-                response.auctions[i].highest_bid_amount
-              )} coins`,
-              `§7Bidder: ${getRank(bidder)}${bidder.displayname}`
-            );
-          }
+            `§7Buy it now: §6${addCommas(auction.starting_bid)} coins`,
+            `§7`,
+          )
+        }
 
-          lore.push(" ", `§7Ends in: §e${timeSince(response.auctions[i].end)}`);
-          const renderedItem = await renderLore(
-            auctionInfromation[0].tag.display.Name,
-            lore
-          );
-          const upload = await imgurClient.upload({
-            image: renderedItem,
-            type: "stream",
-          });
-          if (!upload.data.link) {
-            this.send(`/gc There was an error with Imgur, try again.`);
-          }
-          string += string == "" ? upload.data.link : " | " + upload.data.link;
-        }
-        if (i == response.auctions.length - 1 && string != "") {
-          this.send(`/gc ${username}'s Active Auctions » ${string}`);
-          break;
-        }
+        lore.push(
+          `§7Ends in: §e${timeSince(auction.end)}`,
+          `§7`,
+          `§eClick to inspect`,
+        );
+
+        const renderedItem = await renderLore(` ${auction.item_name}`, lore);
+        const upload = await imgurClient.upload({
+          image: renderedItem,
+          type: "stream",
+        });
+
+        string += string === "" ? upload.data.link : " | "  + upload.data.link;
       }
-      if (string == "") {
-        this.send("/gc This player does not have any auctions active.");
-      }
+
+      this.send(`/gc ${string === "" ? "This player does not have any auctions active" : `${username}'s Active Auctions » ${string}`}`);
     } catch (error) {
       console.log(error);
       this.send(`/gc [ERROR] ${error}`);

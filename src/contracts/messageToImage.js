@@ -1,4 +1,4 @@
-// Credits https://github.com/Altpapier/ (Modified)
+// Credits https://github.com/Altpapier/hypixel-discord-guild-bridge/blob/master/helper/messageToImage.js
 // eslint-disable-next-line
 const Canvas = require("canvas");
 Canvas.registerFont("src/contracts/Fonts/MinecraftRegular-Bmg3.ttf", {

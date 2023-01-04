@@ -34,16 +34,16 @@ class SkillsCommand extends minecraftCommand {
               .map((skill) => profile[skill].level)
               .reduce((a, b) => a + b, 0) /
             (Object.keys(profile).length - 2)
-          ).toFixed(1) || 0
-        } | Farming - ${profile.farming.levelWithProgress || 0} | Mining - ${
-          profile.mining.levelWithProgress || 0
-        } | Combat - ${profile.combat.levelWithProgress || 0} | Enchanting - ${
-          profile.enchanting.levelWithProgress || 0
-        } | Fishing - ${profile.fishing.levelWithProgress || 0} | Foraging - ${
-          profile.foraging.levelWithProgress || 0
-        } | Alchemy - ${profile.alchemy.levelWithProgress || 0} | Taming - ${
-          profile.taming.levelWithProgress || 0
-        } | Carpentry - ${profile.carpentry.levelWithProgress || 0}`
+          ).toFixed(2) || 0
+        } | Farming - ${profile.farming.levelWithProgress.toFixed(2) || 0} | Mining - ${
+          profile.mining.levelWithProgress.toFixed(2) || 0
+        } | Combat - ${profile.combat.levelWithProgress.toFixed(2) || 0} | Enchanting - ${
+          profile.enchanting.levelWithProgress.toFixed(2) || 0
+        } | Fishing - ${profile.fishing.levelWithProgress.toFixed(2) || 0} | Foraging - ${
+          profile.foraging.levelWithProgress.toFixed(2) || 0
+        } | Alchemy - ${profile.alchemy.levelWithProgress.toFixed(2) || 0} | Taming - ${
+          profile.taming.levelWithProgress.toFixed(2) || 0
+        } | Carpentry - ${profile.carpentry.levelWithProgress.toFixed(2) || 0}`
       );
     } catch (error) {
       this.send(`Error: ${error}}`);

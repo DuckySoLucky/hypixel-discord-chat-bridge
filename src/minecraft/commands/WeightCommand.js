@@ -23,42 +23,28 @@ class StatsCommand extends minecraftCommand {
       const data = await getLatestProfile(username);
 
       username = formatUsername(data.profileData?.displayname || username);
-      
+
       const profile = await getWeight(data.profile, data.uuid);
 
-      const lilyW = `Lily Weight » ${
-        Math.round(profile.lily.total * 100) / 100
-      } | Skills » ${
-        Math.round(profile.lily.skills.total * 100) / 100
-      } | Slayer » ${
-        Math.round(profile.lily.slayer.total * 100) / 100
-      } | Dungeons » ${
-        Math.round(profile.lily.catacombs.total * 100) / 100
-      }`;
-      const senitherW = `Senither Weight » ${
-        Math.round(profile.senither.total * 100) / 100
-      } | Skills: ${
-        Math.round(
-          (profile.senither.skills.alchemy.total +
-            profile.senither.skills.combat.total +
-            profile.senither.skills.enchanting.total +
-            profile.senither.skills.farming.total +
-            profile.senither.skills.fishing.total +
-            profile.senither.skills.foraging.total +
-            profile.senither.skills.mining.total +
-            profile.senither.skills.taming.total) *
-            100
-        ) / 100
-      } | Slayer: ${
-        Math.round(profile.senither.slayer.total * 100) / 100
-      } | Dungeons: ${
-        Math.round(profile.senither.dungeons.total * 100) / 100
-      }`;
+      const lilyW = `Lily Weight » ${profile.lily.total.toFixed(
+        2
+      )} | Skills » ${profile.lily.skills.total.toFixed(
+        2
+      )} | Slayer » ${profile.lily.slayer.total.toFixed(
+        2
+      )} | Dungeons » ${profile.lily.catacombs.total.toFixed(2)}`;
+      const senitherW = `Senither Weight » ${profile.senither.total.toFixed(
+        2
+      )} | Skills: ${Object.keys(profile.senither.skills)
+        .map((skill) => profile.senither.skills[skill].total)
+        .reduce((a, b) => a + b, 0)
+        .toFixed(2)
+      } | Dungeons: ${profile.senither.dungeons.total.toFixed(2)}`;
       this.send(`/gc ${username}'s ${senitherW}`);
       await delay(690);
       this.send(`/gc ${username}'s ${lilyW}`);
     } catch (error) {
-      this.send(`/gc Error: ${error}`)
+      this.send(`/gc Error: ${error}`);
     }
   }
 }

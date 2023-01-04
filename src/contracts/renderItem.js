@@ -1,3 +1,4 @@
+// Credits https://github.com/Altpapier/hypixel-discord-guild-bridge/blob/master/helper/loreRenderer.js
 // eslint-disable-next-line
 const Canvas = require("canvas");
 Canvas.registerFont("src/contracts/Fonts/2_Minecraft-Italic.otf", {

@@ -29,30 +29,37 @@ class WoolwarsCommand extends minecraftCommand {
       username = this.getArgs(message)[0] || username;
 
       const uuid = await getUUID(username);
-      const woolWars = (
+      const response = (
         await axios.get(
           `https://api.hypixel.net/player?key=${config.api.hypixelAPIkey}&uuid=${uuid}`
         )
-      ).data?.player?.stats?.WoolGames;
+      ).data;
 
-      if (woolWars === undefined) {
+      if (response.player === null) {
         // eslint-disable-next-line no-throw-literal
-        throw "This player has never joined Hypixel or has never played WoolWars.";
+        throw "This player has never joined Hypixel.";
       }
 
-      const level = getWoolWarsStar(woolWars.progression.experience);
+      const woolWars = response?.player?.stats?.WoolGames?.wool_wars;
+
+      if (woolWars == undefined) {
+        // eslint-disable-next-line no-throw-literal
+        throw "This player has never played WoolWars.";
+      }
+
+      const level = getWoolWarsStar(woolWars.progression.experience) || 0;
 
       this.send(
         `/gc [${toFixed(level, 0)}✫] ${username} » W: ${
-          woolWars.wool_wars.stats.wins
+          woolWars.stats.wins
         } | WLR: ${toFixed(
-          woolWars.wool_wars.stats.wins / woolWars.wool_wars.stats.games_played,
+          woolWars.stats.wins / woolWars.stats.games_played,
           2
         )} | KDR: ${toFixed(
-          woolWars.wool_wars.stats.kills / woolWars.wool_wars.stats.deaths,
+          woolWars.stats.kills / woolWars.stats.deaths,
           2
-        )} | BB: ${woolWars.wool_wars.stats.blocks_broken} | WP: ${
-          woolWars.wool_wars.stats.wool_placed
+        )} | BB: ${woolWars.stats.blocks_broken} | WP: ${
+          woolWars.stats.wool_placed
         }`
       );
     } catch (error) {

@@ -17,11 +17,10 @@ class WeeklyStatsCommand extends minecraftCommand {
 
   async onCommand(username, message) {
     const modes = ["bw", "bedwars", "bedwar", "bws", "sw", "skywars", "skywar", "sws", "duels", "duel", "d"];
-    const args = this.getArgs(message).map((arg) => arg.replaceAll("/", " "))
-    username = this.getArgs(message)[0] || username;
+    const args = this.getArgs(message).map((arg) => arg.replaceAll("/", ""))
 
     const mode = modes.includes(args[0]) ? args[0] : modes.includes(args[1]) ? args[1] : null;
-    username = mode ? args[0] == mode ? args[1] : args[0] : username;
+    username = (args[0] == mode ? args[1] === "" ? username : args[1] : args[0] === "" ? username : args[0]) || username;
 
     try {
       const uuid = await getUUID(username);
