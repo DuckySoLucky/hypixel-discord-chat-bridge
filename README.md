@@ -115,7 +115,7 @@ Imgur API can be generated [Here](https://api.imgur.com/oauth2/addclient).
 
 > Imgur API is used for rendering commands like `!armor`, `!pet`, `!equipment` etc.
 
-Pixelic API can be generated [Here](https://app.swaggerhub.com/apis-docs/Pixelicc/Pixelic-API/1.0.0#/).
+Pixelic API can be generated [Here](https://api.pixelic.de).
 
 > Pixelic API is used for `!daily`, `!weekly` and `!monthly` commands.
 
