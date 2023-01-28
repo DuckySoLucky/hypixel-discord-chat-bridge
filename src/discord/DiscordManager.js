@@ -109,8 +109,9 @@ class DiscordManager extends CommunicationBridge {
   async onBroadcast({ fullMessage, username, message, guildRank, chat }) {
     if (message == "debug_temp_message_ignore" && config.discord.messageMode != "minecraft") return;
     if (chat != "debugChannel") {
-      Logger.broadcastMessage(`${username} [${guildRank}]: ${message}`,`Discord`);
+      Logger.broadcastMessage(`${username} [${guildRank}]: ${message}`, `Discord`);
     }
+
     channel = await this.getChannel(chat);
     switch (config.discord.messageMode.toLowerCase()) {
       case "bot":
@@ -154,16 +155,14 @@ class DiscordManager extends CommunicationBridge {
           ],
         });
 
-        channel = await this.getChannel(chat);
-        if (fullMessage.includes("http://")) {
-          const msg = fullMessage.replaceAll("§r", "").split(" ");
-          for (const message of msg.length) {
-            if (message.startsWith("https://" || "http://")) {
-              await channel.send({ content: message });
-            }
-          }
+        if (fullMessage.includes("https://")) {
+          const link = fullMessage.match(/https?:\/\/[^\s]+/g)[0];
+          channel = await this.getChannel(chat);
+          await channel.send(link);
         }
+
         break;
+        
       default:
         throw new Error(
           "Invalid message mode: must be bot, webhook or minecraft"

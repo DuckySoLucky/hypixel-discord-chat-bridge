@@ -11,45 +11,37 @@ class MessageHandler {
   async onMessage(message) {
     if (message.author.id === client.user.id || !this.shouldBroadcastMessage(message)) {
       return;
-    }  
-    const url = message.attachments.values().url ?? null;
+    }
 
     const content = this.stripDiscordContent(message.content).trim();
-    if (content.length == 0) return;
+    if (content.length === 0) return;
 
-    this.discord.broadcastMessage({
+  
+    const messageData = {
       member: message.member.user,
       channel: message.channel.id,
       username: message.member.displayName,
-      message: this.stripDiscordContent(message.content),
-      replyingTo: await this.fetchReply(message),
-    });
+      message: content,
+      replyingTo: await this.fetchReply(message)
+    };
 
-    if (url) {
-      await delay(100);
-      this.discord.broadcastMessage({
-        member: message.member.user,
-        channel: message.channel.id,
-        username: message.member.displayName,
-        message: `${url} - ${generateID(config.minecraft.messageRepeatBypassLength)}`,
-        replyingTo: await this.fetchReply(message),
-      });
+    this.discord.broadcastMessage(messageData);
+
+    for (const attachment of message.attachments.values()) {
+      await delay(1000)
+      messageData.message = `${attachment.url} - ${generateID(config.minecraft.messageRepeatBypassLength)}`;
+      this.discord.broadcastMessage(messageData);
     }
   }
-
+  
   async fetchReply(message) {
     try {
-      if (!message.reference) return null;
+      if (message.reference === undefined) return null;
       
-      const [attachment] = ( await client.channels.cache.get(message.reference.channelId).messages.fetch(message.reference.messageId)).attachments.values() ?? null;
-      const reference = (await message.channel.messages.fetch(message.reference.messageId)) ?? null;
-      return config.discord.messageMode == "minecraft"
-        ? attachment?.name.slice(0, -4) ??
-            reference.member.displayName ??
-            reference.author.username
-        : reference.member
-        ? reference.member.displayName
-        : reference.author.username;
+      const reference = await message.channel.messages.fetch(message.reference.messageId);
+      
+      return reference.author.username;
+
     } catch (error) {
       return null;
     }
@@ -60,25 +52,15 @@ class MessageHandler {
       .split("\n")
       .map((part) => {
         part = part.trim();
-        return part.length == 0 ? "" : part + " ";
+        return part.length === 0 ? "" : part.replace(/@(everyone|here)/gi, "").trim() + " ";
       })
       .join("");
   }
 
   shouldBroadcastMessage(message) {
-    message.content = message.content.replaceAll("@", "")
-    return (!message.author.bot &&
-      message.channel.id == config.discord.officerChannel &&
-      message.content.length > 0 &&
-      message.content) ||
-      (!message.author.bot &&
-        message.channel.id == config.discord.guildChatChannel &&
-        message.content.length > 0 &&
-        message.content) ||
-      (!message.author.bot &&
-        message.channel.id == config.console.debugChannel &&
-        message.content.length > 0 &&
-        message.content);
+    const isValid = !message.author.bot && message.content.length > 0;
+
+    return (isValid && (message.channel.id == config.discord.officerChannel || message.channel.id == config.discord.guildChatChannel || message.channel.id == config.console.debugChannel));
   }
 }
 

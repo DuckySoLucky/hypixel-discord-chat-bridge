@@ -128,7 +128,7 @@ function timeSince(timeStamp) {
   }
 }
 
-function writeAt(filePath, jsonPath, value) {
+async function writeAt(filePath, jsonPath, value) {
   mkdirp.sync(getDirName(filePath));
 
   return fs

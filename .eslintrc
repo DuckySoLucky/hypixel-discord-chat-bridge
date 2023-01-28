@@ -1,15 +1,13 @@
 {
-  "extends": ["eslint:recommended", "plugin:import/recommended", "prettier"],
-  "plugins": ["deprecation", "@typescript-eslint"],
   "env": {
     "commonjs": true,
     "es2021": true,
     "node": true
   },
-  "parser": "@typescript-eslint/parser",
+  "extends": "eslint:recommended",
+  "overrides": [],
   "parserOptions": {
-    "ecmaVersion": 12,
-    "project": "./tsconfig.json"
+    "ecmaVersion": "latest"
   },
   "globals": {
     "bot": true,
@@ -25,13 +23,6 @@
     "no-constant-condition": ["error", { "checkLoops": false }],
     "import/extensions": ["warn", "always", { "ts": "never" }],
     "deprecation/deprecation": "warn",
-    "no-throw-literal": "error",
-    "@typescript-eslint/naming-convention": [
-      "warn",
-      { "selector": "variableLike", "format": ["camelCase"] },
-      { "selector": "variable", "modifiers": ["const"], "format": ["camelCase", "UPPER_CASE"] },
-      { "selector": "variable", "modifiers": ["const", "exported"], "format": ["UPPER_CASE"] },
-      { "selector": "typeLike", "format": ["PascalCase"] }
-    ]
+    "no-throw-literal": "error"
   }
 }
