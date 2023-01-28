@@ -19,7 +19,7 @@ specifiers:
   nodemon: ^2.0.19
   prettier: 2.8.3
   prismarine-nbt: ^2.2.1
-  skyhelper-networth: 1.10.0
+  skyhelper-networth: 1.11.0
   util: ^0.12.5
 
 dependencies:
@@ -37,7 +37,7 @@ dependencies:
   mineflayer: 4.6.0
   moment: 2.29.4
   prismarine-nbt: 2.2.1
-  skyhelper-networth: 1.10.0
+  skyhelper-networth: 1.11.0
   util: 0.12.5
 
 devDependencies:
@@ -367,7 +367,7 @@ packages:
   /axios/0.21.4_debug@4.3.4:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
     dependencies:
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@4.3.4
     transitivePeerDependencies:
       - debug
     dev: false
@@ -375,7 +375,7 @@ packages:
   /axios/0.25.0:
     resolution: {integrity: sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==}
     dependencies:
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@4.3.4
     transitivePeerDependencies:
       - debug
     dev: false
@@ -383,7 +383,7 @@ packages:
   /axios/0.27.2:
     resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
     dependencies:
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@4.3.4
       form-data: 4.0.0
     transitivePeerDependencies:
       - debug
@@ -392,7 +392,7 @@ packages:
   /axios/1.2.2:
     resolution: {integrity: sha512-bz/J4gS2S3I7mpN/YZfGFTqhXTYzRho8Ay38w2otuuDR322KzFIWm/4W2K6gIwvWaws5n+mnb7D1lN9uD+QH6Q==}
     dependencies:
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@4.3.4
       form-data: 4.0.0
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -1133,7 +1133,7 @@ packages:
     resolution: {integrity: sha512-5nqDSxl8nn5BSNxyR3n4I6eDmbolI6WT+QqR547RwxQapgjQBmtktdP+HTBb/a/zLsbzERTONyUB5pefh5TtjQ==}
     dev: true
 
-  /follow-redirects/1.15.2:
+  /follow-redirects/1.15.2_debug@4.3.4:
     resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
     engines: {node: '>=4.0'}
     peerDependencies:
@@ -1141,6 +1141,8 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
+    dependencies:
+      debug: 4.3.4
     dev: false
 
   /for-each/0.3.3:
@@ -2518,8 +2520,8 @@ packages:
       semver: 7.0.0
     dev: true
 
-  /skyhelper-networth/1.10.0:
-    resolution: {integrity: sha512-QFoBQOspac2TUsA4XL6rt1X89fzBnVkCx00k0F6GCz66my2FWt7ZLKPGACeRF9L/k69YYSTTIL1cXAQg74TFKA==}
+  /skyhelper-networth/1.11.0:
+    resolution: {integrity: sha512-8hWuibHUtcca99N+KaxaJcC+rkgjM020QrGioyN+pPxd+TsKhWdDmh1F4sD78p8HfRX22OTch3trOMgHksZsaQ==}
     dependencies:
       axios: 0.27.2
       prismarine-nbt: 2.2.1
