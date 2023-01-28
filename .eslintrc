@@ -21,7 +21,7 @@
     "no-unused-vars": ["error", { "args": "none" }],
     "prefer-const": ["warn", { "destructuring": "all" }],
     "no-constant-condition": ["error", { "checkLoops": false }],
-    "deprecation/deprecation": "warn",
+    "import/extensions": ["warn", "always", { "ts": "never" }],
     "no-throw-literal": "error"
   }
 }
