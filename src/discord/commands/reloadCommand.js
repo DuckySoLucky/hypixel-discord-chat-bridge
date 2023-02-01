@@ -8,14 +8,19 @@ const { Routes } = require('discord-api-types/v9')
 module.exports = {
   name: 'reload',
   description: 'Reloads all the commands',
-  execute: async (interaction) => {
+  execute: async(interaction, message, args, client) => {
     if ((await interaction.guild.members.fetch(interaction.user)).roles.cache.has(config.discord.commandRole)) {
         const commands = []
         const _commandFiles = fs.readdirSync(path.join(__dirname,)).filter(file => file.endsWith('.js'));
 
         for (const file of _commandFiles) {
             delete require.cache[require.resolve(`./${file}`)];
-            const command = require(`./${file}`);
+            delete require.cache[require.resolve(`../../../src/discord/commands/${file}`)];
+            delete require.cache[require.resolve(`../../../src/discord/commands/${file}`)];
+            delete require.cache[require.resolve(`../../../src/discord/commands/${file}`)];
+            delete require.cache[require.resolve(`../../../src/discord/commands/${file}`)];
+            const command = require(`../../../src/discord/commands/${file}`);
+            client.commands.set(command.name, command);
             commands.push(command)
         }
         const rest = new REST({ version: '10' }).setToken(config.discord.token)
