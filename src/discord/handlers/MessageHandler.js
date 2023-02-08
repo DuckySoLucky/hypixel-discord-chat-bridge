@@ -13,6 +13,17 @@ class MessageHandler {
       return;
     }
 
+    if (message.content.includes("<@")) {
+      message.content = message.content.replace(/<@!?(\d+)>/g, (match, id) => {
+        const user = client.users.cache.get(id);
+        if (user) {
+          return `@${user.username}`;
+        }
+
+        return match;
+      });
+    }
+
     const content = this.stripDiscordContent(message.content).trim();
     if (content.length === 0) return;
 

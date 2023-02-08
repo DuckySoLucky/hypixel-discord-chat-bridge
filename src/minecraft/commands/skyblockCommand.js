@@ -62,7 +62,9 @@ username = this.getArgs(message)[0] || username;
       const enrichmentCount = Object.keys(talismans.talismans).map((rarity) => talismans.talismans[rarity].filter((talisman) => talisman.enrichment !== undefined).length).reduce((a, b) => a + b, 0)
 
       this.send(
-        `/gc ${username}'s Senither Weight » ${
+        `/gc ${username}'s Level » ${
+          data.profile.leveling.experience / 100
+        } | Senither Weight » ${
           senitherWeight
         } | Lily Weight » ${
           lilyWeight
