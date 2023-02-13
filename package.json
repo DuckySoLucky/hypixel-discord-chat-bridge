@@ -51,7 +51,7 @@
     "eslint": "^8.33.0",
     "eslint-plugin-import": "^2.27.5",
     "nodemon": "^2.0.19",
-    "prettier": "2.8.3"
+    "prettier": "2.8.4"
   },
   "eslintConfig": {
     "globals": {
