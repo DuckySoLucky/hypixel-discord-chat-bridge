@@ -48,7 +48,7 @@
     "util": "^0.12.5"
   },
   "devDependencies": {
-    "eslint": "^8.33.0",
+    "eslint": "^8.34.0",
     "eslint-plugin-import": "^2.27.5",
     "nodemon": "^2.0.19",
     "prettier": "2.8.4"
