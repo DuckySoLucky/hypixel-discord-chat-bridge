@@ -1,5 +1,3 @@
-const { toFixed } = require("../../contracts/helperFunctions.js");
-const { version } = require("../../../package.json");
 // eslint-disable-next-line
 const { EmbedBuilder } = require("discord.js");
 const config = require("../../../config.json");

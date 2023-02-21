@@ -1,5 +1,4 @@
 const { EmbedBuilder } = require("discord.js");
-const { replaceAllRanks } = require("../../contracts/helperFunctions");
 
 module.exports = {
   name: "online",
@@ -28,55 +27,33 @@ module.exports = {
 
     try {
       const messages = await promise;
-      messages.map((message) => message.trim());
-      let onlineMembers = messages.find((message) =>
-        message.startsWith("Online Members: ")
-      );
-      onlineMembers =
-        onlineMembers.split(": ")[0] +
-        ": " +
-        `\`${onlineMembers.split(": ")[1]}\``;
+      const trimmedMessages = messages.map(message => message.trim());
 
-      let offlineMembers = messages.find((message) =>
-        message.startsWith("Offline Members: ")
-      );
-      offlineMembers =
-        offlineMembers.split(": ")[0] +
-        ": " +
-        `\`${offlineMembers.split(": ")[1]}\``;
-
-      let totalMembers = messages.find((message) =>
-        message.startsWith("Total Members: ")
-      );
-      totalMembers =
-        totalMembers.split(": ")[0] +
-        ": " +
-        `\`${totalMembers.split(": ")[1]}\``;
-
-      const onlineMembersList = messages
-
-      let description = `**ONLINE**\n${onlineMembers}\n${offlineMembers}\n${totalMembers}\n\n`;
-      let online = [];
-      for (const [index, item] of Object.entries(onlineMembersList)) {
+      const onlineMembersMessage = trimmedMessages.find(message => message.startsWith("Online Members: "));
+      const onlineMembers = `${onlineMembersMessage.split(": ")[0]}: \`${onlineMembersMessage.split(": ")[1]}\``;
+      
+      const offlineMembersMessage = trimmedMessages.find(message => message.startsWith("Offline Members: "));
+      const offlineMembers = `${offlineMembersMessage.split(": ")[0]}: \`${offlineMembersMessage.split(": ")[1]}\``;
+      
+      const totalMembersMessage = trimmedMessages.find(message => message.startsWith("Total Members: "));
+      const totalMembers = `${totalMembersMessage.split(": ")[0]}: \`${totalMembersMessage.split(": ")[1]}\``;
+      
+      const onlineMembersList = trimmedMessages;
+      
+      let description = `\n${onlineMembers}\n${offlineMembers}\n${totalMembers}\n\n**ONLINE**`;
+      
+      let online = onlineMembersList.flatMap((item, index) => {
         if (item.includes("-- ")) {
           const nextLine = onlineMembersList[parseInt(index) + 1];
-          if (nextLine) {
-            if (nextLine.includes("●")) {
-              online = online.concat(
-                nextLine.split("●").map((item) => item.trim())
-              );
-            }
+          if (nextLine && nextLine.includes("●")) {
+            return nextLine.split("●").map(item => item.trim());
           }
         }
-      }
-
-      online = online.filter((item) => item);
-
-      description += online
-        .map((item) => {
-          return `\`${item}\``;
-        })
-        .join(", ");
+        return [];
+      });
+      
+      online = online.filter(item => item);
+      description += online.map(item => `\`${item}\``).join(", ");
 
       const embed = new EmbedBuilder()
         .setColor("#2ECC71")
