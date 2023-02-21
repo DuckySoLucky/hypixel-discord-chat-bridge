@@ -18,25 +18,8 @@ class DuelsStatsCommand extends minecraftCommand {
         name: "duel",
         description: "Type of duel",
         required: false,
-        choices: [
-          { name: "Blitz", value: "blitz" },
-          { name: "UHC", value: "uhc" },
-          { name: "Parkour", value: "parkour" },
-          { name: "Boxing", value: "boxing" },
-          { name: "Bow Spleef", value: "bowspleef" },
-          { name: "Spleef", value: "spleef" },
-          { name: "Arena", value: "arena" },
-          { name: "Mega Walls", value: "megawalls" },
-          { name: "OP", value: "op" },
-          { name: "Sumo", value: "sumo" },
-          { name: "Classic", value: "classic" },
-          { name: "Combo", value: "combo" },
-          { name: "Bridge", value: "bridge" },
-          { name: "No Debuff", value: "nodebuff" },
-          { name: "Bow", value: "bow" },
-        ],
       },
-    ]
+    ];
   }
 
   async onCommand(username, message) {

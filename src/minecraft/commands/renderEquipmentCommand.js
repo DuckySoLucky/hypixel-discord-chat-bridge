@@ -4,7 +4,9 @@ const {
   getLatestProfile,
 } = require("../../../API/functions/getLatestProfile.js");
 const config = require("../../../config.json");
-const imgurClient = new ImgurClient({ clientId: config.api.imgurAPIkey });
+const imgurClient = new ImgurClient({
+  clientId: config.minecraft.API.imgurAPIkey,
+});
 const {
   decodeData,
   formatUsername,
@@ -67,7 +69,7 @@ class EquipmentCommand extends minecraftCommand {
 
       response == ""
         ? this.send(`/gc ${username} has no equipment equiped.`)
-        : this.send(`/gc ${username}'s Equipment » ${response}`);
+        : this.send(`/gc ${username}'s Equipment: ${response}`);
     } catch (error) {
       this.send(`/gc Error: ${error}`);
     }

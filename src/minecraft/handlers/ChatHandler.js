@@ -1,4 +1,4 @@
-const { replaceAllRanks, toFixed, addCommas } = require('../../contracts/helperFunctions.js')
+const { replaceAllRanks } = require('../../contracts/helperFunctions.js')
 const { getLatestProfile } = require('../../../API/functions/getLatestProfile.js')
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
 const hypixel = require('../../contracts/API/HypixelRebornAPI.js')
@@ -11,7 +11,6 @@ const { EmbedBuilder } = require('discord.js')
 const config = require('../../../config.json')
 const Logger = require('../../Logger.js')
 /*eslint-enable */
-const fs = require('fs')
 let guildTop = [];
 
 class StateHandler extends eventHandler {
@@ -31,7 +30,7 @@ class StateHandler extends eventHandler {
     const message = event.toString();
     const colouredMessage = event.toMotd();
 
-    if (config.console.debug === true) {
+    if (config.discord.channels.debugMode === true) {
       this.minecraft.broadcastMessage({
         fullMessage: colouredMessage,
         chat: 'debugChannel'
@@ -75,14 +74,14 @@ class StateHandler extends eventHandler {
     if (this.isRequestMessage(message)) {
       const username = replaceAllRanks(message.split('has')[0].replaceAll('-----------------------------------------------------\n', ''))
       const uuid = await getUUID(username);
-      if (config.guildRequirement.enabled) {
+      if (config.minecraft.guildRequirement.enabled) {
         const [player, profile] = await Promise.all([
           hypixel.getPlayer(uuid),
           getLatestProfile(uuid)
         ])
         let meetRequirements = false;
 
-        const weight = (await getWeight(profile.profile, profile.uuid)).weight.senither.total
+        const weight = (await getWeight(profile.profile, profile.uuid))?.weight?.senither?.total || 0;
         const skyblockLevel = ((profile.profile?.leveling?.experience || 0) / 100) ?? 0;
 
         const bwLevel = player.stats.bedwars.level;
@@ -94,23 +93,27 @@ class StateHandler extends eventHandler {
         const duelsWins = player.stats.duels.wins;
         const dWLR = player.stats.duels.WLRatio;
 
-        if (weight > config.guildRequirement.requirements.senitherWeight) meetRequirements = true;
+        if (weight > config.minecraft.guildRequirement.requirements.senitherWeight) meetRequirements = true;
 
-        if (skyblockLevel > config.guildRequirement.requirements.skyblockLevel) meetRequirements = true;
+        if (skyblockLevel > config.minecraft.guildRequirement.requirements.skyblockLevel) meetRequirements = true;
 
-        if (bwLevel > config.guildRequirement.requirements.bedwarsStars) meetRequirements = true;
-        if (bwLevel > config.guildRequirement.requirements.bedwarsStarsWithFKDR && bwFKDR > config.guildRequirement.requirements.bedwarsFKDR) meetRequirements = true;
+        if (bwLevel > config.minecraft.guildRequirement.requirements.bedwarsStars) meetRequirements = true;
+        if (bwLevel > config.minecraft.guildRequirement.requirements.bedwarsStarsWithFKDR && bwFKDR > config.minecraft.guildRequirement.requirements.bedwarsFKDR) meetRequirements = true;
 
-        if (swLevel > config.guildRequirement.requirements.skywarsStars) meetRequirements = true;
-        if (swLevel > config.guildRequirement.requirements.skywarsStarsWithKDR && swKDR > config.guildRequirement.requirements.skywarsStarsWithKDR) meetRequirements = true;
+        if (swLevel > config.minecraft.guildRequirement.requirements.skywarsStars) meetRequirements = true;
+        if (swLevel > config.minecraft.guildRequirement.requirements.skywarsStarsWithKDR && swKDR > config.minecraft.guildRequirement.requirements.skywarsStarsWithKDR) meetRequirements = true;
 
-        if (duelsWins > config.guildRequirement.requirements.duelsWins) meetRequirements = true;
-        if (duelsWins > config.guildRequirement.requirements.duelsWinsWithWLR && dWLR > config.guildRequirement.requirements.duelsWinsWithWLR) meetRequirements = true;
+        if (duelsWins > config.minecraft.guildRequirement.requirements.duelsWins) meetRequirements = true;
+        if (duelsWins > config.minecraft.guildRequirement.requirements.duelsWinsWithWLR && dWLR > config.minecraft.guildRequirement.requirements.duelsWinsWithWLR) meetRequirements = true;
 
 
         bot.chat(`/oc ${username} ${meetRequirements ? 'Does' : 'Doesn\'t'} meet Requirements. [BW] [${player.stats.bedwars.level.toLocaleString()}✫] FKDR:${player.stats.bedwars.finalKDRatio.toLocaleString()} | [SW] [${player.stats.skywars.level.toLocaleString()}✫] KDR:${player.stats.skywars.KDRatio.toLocaleString()} | [Duels] Wins: ${player.stats.duels.wins.toLocaleString()} WLR: ${player.stats.duels.WLRatio.toLocaleString()} | SB Weight: ${weight.toFixed(0)} | SB Level: ${skyblockLevel.toFixed(0)}}`)
 
         if (meetRequirements) {
+          if (config.minecraft.guildRequirement.autoAccept === true) {
+            bot.chat(`/guild accept ${username}`)
+          } 
+
           const statsEmbed = new EmbedBuilder()
             .setColor(2067276)
             .setTitle(`${player.nickname} has requested to join the Guild!`)
@@ -128,14 +131,13 @@ class StateHandler extends eventHandler {
             .setThumbnail(`https://www.mc-heads.net/avatar/${player.nickname}`) 
             .setFooter({ text: `by DuckySoLucky#5181 | /help [command] for more information`, iconURL: 'https://imgur.com/tgwQJTX.png' });
   
-          await client.channels.cache.get(`${config.discord.loggingChannel}`).send({ embeds: [statsEmbed] });   
+          await client.channels.cache.get(`${config.discord.channels.loggingChannel}`).send({ embeds: [statsEmbed] });   
         }
       }
     }
   
     if (this.isLoginMessage(message)) {
-      const data = JSON.parse(fs.readFileSync('config.json'));
-      if (data.discord.joinMessage) { 
+      if (config.discord.other.joinMessage === true) { 
         const user = message.split('>')[1].trim().split('joined.')[0].trim()
         return this.minecraft.broadcastPlayerToggle({ 
           fullMessage: colouredMessage,
@@ -148,8 +150,7 @@ class StateHandler extends eventHandler {
     }
 
     if (this.isLogoutMessage(message)) {
-      const data = JSON.parse(fs.readFileSync('config.json'));
-      if (data.discord.joinMessage) { 
+      if (config.discord.other.joinMessage === true) { 
         const user = message.split('>')[1].trim().split('left.')[0].trim()
         return this.minecraft.broadcastPlayerToggle({ 
           fullMessage: colouredMessage,
@@ -434,7 +435,6 @@ class StateHandler extends eventHandler {
     if (this.isGuildQuestCompletion(message)) { 
       this.minecraft.broadcastHeadedEmbed({ 
         title: 'Guild Quest Completion', 
-        icon: `https://hypixel.paniek.de/guild/${config.minecraft.guildID}/banner.png`, 
         message: `${message}`,
         color: 15844367, 
         channel: 'Guild'
@@ -519,15 +519,15 @@ class StateHandler extends eventHandler {
     if (!this.isGuildMessage(message) && !this.isOfficerChatMessage(message) || playerMessage.length == 0) return
 
     if (this.isMessageFromBot(username)) { 
-      if (config.minecraft.messageRepeatBypass === true) {
-        const lastString = playerMessage.slice(-config.minecraft.messageRepeatBypassLength)
+      if (config.minecraft.bot.messageRepeatBypass === true) {
+        const lastString = playerMessage.slice(-config.minecraft.bot.messageRepeatBypassLength)
         if (lastString.includes(" ") === false) {
-          playerMessage = playerMessage.slice(0, -config.minecraft.messageRepeatBypassLength - 2)
+          playerMessage = playerMessage.slice(0, -config.minecraft.bot.messageRepeatBypassLength - 2)
         } 
       }
     }
 
-    if (this.isMessageFromBot(username) && message.includes(config.minecraft.messageFormat) === true) return
+    if (this.isMessageFromBot(username) && message.split(": ")[1].split(config.minecraft.bot.messageFormat).length === 1) return
 
     this.command.handle(username, playerMessage)
 

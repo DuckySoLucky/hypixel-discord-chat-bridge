@@ -98,9 +98,9 @@ class SkyblockCommand extends minecraftCommand {
         .reduce((a, b) => a + b, 0);
 
       this.send(
-        `/gc ${username}'s Level » ${
+        `/gc ${username}'s Level: ${
           data.profile.leveling.experience / 100
-        } | Senither Weight » ${senitherWeight} | Lily Weight » ${lilyWeight} | Skill Average » ${skillAverage} | Slayer » ${slayerXp} | Catacombs » ${catacombsLevel} | Class Average » ${classAverage} | Networth » ${networthValue} | Accessories » ${talismanCount} | Recombobulated » ${recombobulatedCount} | Enriched » ${enrichmentCount}`
+        } | Senither Weight: ${senitherWeight} | Lily Weight: ${lilyWeight} | Skill Average: ${skillAverage} | Slayer: ${slayerXp} | Catacombs: ${catacombsLevel} | Class Average: ${classAverage} | Networth: ${networthValue} | Accessories: ${talismanCount} | Recombobulated: ${recombobulatedCount} | Enriched: ${enrichmentCount}`
       );
     } catch (error) {
       console.log(error);

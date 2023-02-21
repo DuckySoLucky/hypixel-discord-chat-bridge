@@ -27,7 +27,7 @@ class GuildExperienceCommand extends minecraftCommand {
     try {
       const [uuid, guild] = await Promise.all([
         getUUID(username),
-        hypixel.getGuild("id", config.minecraft.guildID),
+        hypixel.getGuild("player", username),
       ]);
 
       const player = guild.members.find((member) => member.uuid == uuid);
@@ -38,7 +38,7 @@ class GuildExperienceCommand extends minecraftCommand {
       this.send(
         `/gc ${
           username == arg[0] ? `${arg[0]}'s` : `Your`
-        } Weekly Guild Experience » ${addCommas(player.weeklyExperience)}.`
+        } Weekly Guild Experience: ${addCommas(player.weeklyExperience)}.`
       );
     } catch (error) {
       this.send(`/gc ${error.toString().replace("[hypixel-api-reborn] ", "")}`);

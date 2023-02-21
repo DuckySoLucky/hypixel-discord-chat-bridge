@@ -27,7 +27,7 @@ class WoolwarsCommand extends minecraftCommand {
       const uuid = await getUUID(username);
       const response = (
         await axios.get(
-          `https://api.hypixel.net/player?key=${config.api.hypixelAPIkey}&uuid=${uuid}`
+          `https://api.hypixel.net/player?key=${config.minecraft.API.hypixelAPIkey}&uuid=${uuid}`
         )
       ).data;
 
@@ -49,7 +49,7 @@ class WoolwarsCommand extends minecraftCommand {
         ) || 0;
 
       this.send(
-        `/gc [${toFixed(level, 0)}✫] ${username} » W: ${
+        `/gc [${toFixed(level, 0)}✫] ${username}: W: ${
           woolWars.stats.wins
         } | WLR: ${toFixed(
           woolWars.stats.wins / woolWars.stats.games_played,

@@ -234,10 +234,10 @@ async function getStats(player, uuid, mode, time) {
   try {
     const [response, response24H] = await Promise.all([
       axios.get(
-        `https://api.hypixel.net/player?uuid=${uuid}&key=${config.api.hypixelAPIkey}`
+        `https://api.hypixel.net/player?uuid=${uuid}&key=${config.minecraft.API.hypixelAPIkey}`
       ),
       axios.get(
-        `${config.api.pixelicAPI}/v1/player/${time}/${uuid}?key=${config.api.pixelicAPIkey}`
+        `${config.minecraft.API.pixelicAPI}/v1/player/${time}/${uuid}?key=${config.minecraft.API.pixelicAPIkey}`
       ),
     ]);
 
@@ -246,7 +246,9 @@ async function getStats(player, uuid, mode, time) {
         response.data.player.karma - response24H.data.General.karma
       } karma and gained ${(
         getLevel(response.data.player) - response24H.data.General.levelRaw
-      ).toFixed(3)} levels in the last ${time === 'daily' ? 'day' : time.replace('ly', '')}.`;
+      ).toFixed(3)} levels in the last ${
+        time === "daily" ? "day" : time.replace("ly", "")
+      }.`;
     } else if (
       ["bw", "bedwars", "bedwar", "bws"].includes(mode.toLowerCase())
     ) {
@@ -434,8 +436,8 @@ const parseTimestamp = function (text) {
 
 function formatUsername(username, gamemode) {
   if (gamemode === "ironman") return `♲ ${username}`;
-  if (gamemode === "bingo") return `Ⓑ ${username}`
-  if (gamemode === "island") return `	☀ ${username}`
+  if (gamemode === "bingo") return `Ⓑ ${username}`;
+  if (gamemode === "island") return `	☀ ${username}`;
 
   return username;
 }
@@ -457,4 +459,3 @@ module.exports = {
   parseTimestamp,
   formatUsername,
 };
-

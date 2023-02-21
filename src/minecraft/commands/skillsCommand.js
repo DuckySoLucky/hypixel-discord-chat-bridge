@@ -32,7 +32,7 @@ class SkillsCommand extends minecraftCommand {
       const profile = getSkills(data.profile);
 
       this.send(
-        `/gc Skill Average » ${
+        `/gc Skill Average: ${
           (
             Object.keys(profile)
               .filter((skill) => !["runecrafting", "social"].includes(skill))

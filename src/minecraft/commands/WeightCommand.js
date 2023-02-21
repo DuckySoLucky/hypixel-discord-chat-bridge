@@ -31,14 +31,14 @@ class StatsCommand extends minecraftCommand {
 
       const profile = await getWeight(data.profile, data.uuid);
 
-      const lilyW = `Lily Weight » ${profile.lily.total.toFixed(
+      const lilyW = `Lily Weight: ${profile.lily.total.toFixed(
         2
-      )} | Skills » ${profile.lily.skills.total.toFixed(
+      )} | Skills: ${profile.lily.skills.total.toFixed(
         2
-      )} | Slayer » ${profile.lily.slayer.total.toFixed(
+      )} | Slayer: ${profile.lily.slayer.total.toFixed(
         2
-      )} | Dungeons » ${profile.lily.catacombs.total.toFixed(2)}`;
-      const senitherW = `Senither Weight » ${profile.senither.total.toFixed(
+      )} | Dungeons: ${profile.lily.catacombs.total.toFixed(2)}`;
+      const senitherW = `Senither Weight: ${profile.senither.total.toFixed(
         2
       )} | Skills: ${Object.keys(profile.senither.skills)
         .map((skill) => profile.senither.skills[skill].total)

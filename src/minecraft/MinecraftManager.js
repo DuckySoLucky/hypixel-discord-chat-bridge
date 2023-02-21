@@ -36,8 +36,8 @@ class MinecraftManager extends CommunicationBridge {
 
   createBotConnection() {
     return mineflayer.createBot({
-      host: "mc.hypixel.net",
-      port: 25565,
+      host: "game3.falixserver.net",
+      port: 11556,
       auth: "microsoft",
       version: "1.8.9",
       viewDistance: "tiny",
@@ -50,14 +50,14 @@ class MinecraftManager extends CommunicationBridge {
     bridgeChat = channel;
     if (!this.bot.player) return;
 
-    if (channel === config.console.debugChannel) {
+    if (channel === config.discord.channels.debugChannel && config.discord.channels.debugMode === true) {
       return this.bot.chat(message);
     }
 
-    const symbol = config.minecraft.messageFormat;
+    const symbol = config.minecraft.bot.messageFormat;
 
-    if (channel === config.discord.guildChatChannel) {
-      return config.discord.filterMessages
+    if (channel === config.discord.channels.guildChatChannel) {
+      return config.discord.other.filterMessages
         ? this.bot.chat(
             filter.clean(
               `/gc ${
@@ -76,8 +76,8 @@ class MinecraftManager extends CommunicationBridge {
           );
     }
 
-    if (channel === config.discord.officerChannel) {
-      return config.discord.filterMessages
+    if (channel === config.discord.channels.officerChannel) {
+      return config.discord.other.filterMessages
         ? this.bot.chat(
             filter.clean(
               `/oc ${

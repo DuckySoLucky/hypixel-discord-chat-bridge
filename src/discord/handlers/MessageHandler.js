@@ -1,7 +1,9 @@
 const { demojify } = require("discord-emoji-converter");
 const config = require("../../../config.json");
 const { ImgurClient } = require("imgur");
-const imgurClient = new ImgurClient({ clientId: config.api.imgurAPIkey });
+const imgurClient = new ImgurClient({
+  clientId: config.minecraft.API.imgurAPIkey,
+});
 
 class MessageHandler {
   constructor(discord, command) {
@@ -54,14 +56,14 @@ class MessageHandler {
         message.reference.messageId
       );
 
-      const mentionedUserName = message?.mentions?.repliedUser?.username
-      if (config.discord.messageMode === "bot") {
+      const mentionedUserName = message?.mentions?.repliedUser?.username;
+      if (config.discord.other.messageMode === "bot") {
         const embedAuthorName = reference?.embeds?.[0]?.author?.name;
 
         return embedAuthorName ?? mentionedUserName;
       }
 
-      if (config.discord.messageMode === "minecraft") {
+      if (config.discord.other.messageMode === "minecraft") {
         const attachmentName = reference?.attachments?.values()?.next()
           ?.value?.name;
 
@@ -70,8 +72,8 @@ class MessageHandler {
           : mentionedUserName;
       }
 
-      if (config.discord.messageMode === "webhook") {
-        return reference.author.username ?? mentionedUserName
+      if (config.discord.other.messageMode === "webhook") {
+        return reference.author.username ?? mentionedUserName;
       }
     } catch (error) {
       return null;
@@ -121,9 +123,9 @@ class MessageHandler {
   shouldBroadcastMessage(message) {
     const isValid = !message.author.bot && message.content.length > 0;
     const validChannelIds = [
-      config.discord.officerChannel,
-      config.discord.guildChatChannel,
-      config.console.debugChannel,
+      config.discord.channels.officerChannel,
+      config.discord.channels.guildChatChannel,
+      config.discord.channels.debugChannel,
     ];
 
     return isValid && validChannelIds.includes(message.channel.id);

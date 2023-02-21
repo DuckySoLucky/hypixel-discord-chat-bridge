@@ -9,7 +9,7 @@ class CommandHandler {
   constructor(minecraft) {
     this.minecraft = minecraft;
 
-    this.prefix = config.minecraft.prefix;
+    this.prefix = config.minecraft.bot.prefix;
     this.commands = new Collection();
 
     const commandFiles = fs.readdirSync("./src/minecraft/commands").filter((file) => file.endsWith(".js"));

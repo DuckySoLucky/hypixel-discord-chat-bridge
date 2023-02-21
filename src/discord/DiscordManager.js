@@ -45,7 +45,7 @@ class DiscordManager extends CommunicationBridge {
       this.messageHandler.onMessage(message)
     );
 
-    this.client.login(config.discord.token).catch((error) => {
+    this.client.login(config.discord.bot.token).catch((error) => {
       Logger.errorMessage(error);
     });
 
@@ -72,7 +72,7 @@ class DiscordManager extends CommunicationBridge {
         : client.on(event.name, (...args) => event.execute(...args));
     }
 
-    global.guild = await client.guilds.fetch(config.discord.serverID);
+    global.guild = await client.guilds.fetch(config.discord.bot.serverID);
 
     process.on("SIGINT", () => {
       this.stateHandler.onClose().then(() => {
@@ -86,19 +86,19 @@ class DiscordManager extends CommunicationBridge {
     switch (type) {
       case "Officer":
         return this.app.discord.client.channels.cache.get(
-          config.discord.officerChannel
+          config.discord.channels.officerChannel
         );
       case "Logger":
         return this.app.discord.client.channels.cache.get(
-          config.discord.loggingChannel
+          config.discord.channels.loggingChannel
         );
       case "debugChannel":
         return this.app.discord.client.channels.cache.get(
-          config.console.debugChannel
+          config.discord.channels.debugChannel
         );
       default:
         return this.app.discord.client.channels.cache.get(
-          config.discord.guildChatChannel
+          config.discord.channels.guildChatChannel
         );
     }
   }
@@ -127,9 +127,9 @@ class DiscordManager extends CommunicationBridge {
     chat,
     color = 1752220,
   }) {
-    let mode = config.discord.messageMode.toLowerCase();
+    let mode = config.discord.other.messageMode.toLowerCase();
     if (message === undefined) {
-      if (config.console.debug === false) {
+      if (config.discord.channels.debugMode === false) {
         return;
       }
 
@@ -199,10 +199,7 @@ class DiscordManager extends CommunicationBridge {
   }
 
   async onBroadcastCleanEmbed({ message, color, channel }) {
-    if (message.length < config.console.maxEventSize) {
-      Logger.broadcastMessage(message, "Event");
-    }
-
+    Logger.broadcastMessage(message, "Event");
     channel = await this.getChannel(channel);
     channel.send({
       embeds: [
@@ -215,9 +212,7 @@ class DiscordManager extends CommunicationBridge {
   }
 
   async onBroadcastHeadedEmbed({ message, title, icon, color, channel }) {
-    if (message && message.length < config.console.maxEventSize) {
-      Logger.broadcastMessage(message, "Event");
-    }
+    Logger.broadcastMessage(message, "Event");
     channel = await this.getChannel(channel);
     channel.send({
       embeds: [
@@ -236,7 +231,7 @@ class DiscordManager extends CommunicationBridge {
   async onPlayerToggle({ fullMessage, username, message, color, channel }) {
     Logger.broadcastMessage(username + " " + message, "Event");
     channel = await this.getChannel(channel);
-    switch (config.discord.messageMode.toLowerCase()) {
+    switch (config.discord.other.messageMode.toLowerCase()) {
       case "bot":
         channel.send({
           embeds: [

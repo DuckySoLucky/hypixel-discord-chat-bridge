@@ -55,13 +55,13 @@ class AccessoriesCommand extends minecraftCommand {
         .reduce((a, b) => a + b, 0);
 
       this.send(
-        `/gc ${username}'s Accessories » ${talismanCount} | Recombobulated » ${recombobulatedCount} | Enriched » ${enrichmentCount}`
+        `/gc ${username}'s Accessories: ${talismanCount} | Recombobulated: ${recombobulatedCount} | Enriched: ${enrichmentCount}`
       );
 
       await delay(690);
 
       this.send(
-        `/gc ${username}'s Accessories » Common - ${talismans.talismans["common"].length} | Uncommon - ${talismans.talismans["uncommon"].length} | Rare - ${talismans.talismans["rare"].length} | Epic - ${talismans.talismans["epic"].length} |  Legendary - ${talismans.talismans["legendary"].length} | Special - ${talismans.talismans["special"].length} | Very Special - ${talismans.talismans["very"].length}`
+        `/gc ${username}'s Accessories: Common - ${talismans.talismans["common"].length} | Uncommon - ${talismans.talismans["uncommon"].length} | Rare - ${talismans.talismans["rare"].length} | Epic - ${talismans.talismans["epic"].length} |  Legendary - ${talismans.talismans["legendary"].length} | Special - ${talismans.talismans["special"].length} | Very Special - ${talismans.talismans["very"].length}`
       );
     } catch (error) {
       this.send(`/gc Error: ${error}`);

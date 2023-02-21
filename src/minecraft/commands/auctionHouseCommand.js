@@ -1,7 +1,9 @@
 const config = require("../../../config.json");
 // eslint-disable-next-line
 const { ImgurClient } = require("imgur");
-const imgurClient = new ImgurClient({ clientId: config.api.imgurAPIkey });
+const imgurClient = new ImgurClient({
+  clientId: config.minecraft.API.imgurAPIkey,
+});
 const { addCommas, timeSince } = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { renderLore } = require("../../contracts/renderItem.js");
@@ -36,13 +38,13 @@ class AuctionHouseCommand extends minecraftCommand {
       const response =
         (
           await axios.get(
-            `${config.api.hypixelAPI}/skyblock/auction?key=${config.api.hypixelAPIkey}&player=${uuid}`
+            `${config.minecraft.API.hypixelAPI}/skyblock/auction?key=${config.minecraft.API.hypixelAPIkey}&player=${uuid}`
           )
         ).data?.auctions || [];
       const player =
         (
           await axios.get(
-            `${config.api.hypixelAPI}/player?key=${config.api.hypixelAPIkey}&uuid=${uuid}`
+            `${config.minecraft.API.hypixelAPI}/player?key=${config.minecraft.API.hypixelAPIkey}&uuid=${uuid}`
           )
         ).data?.player || {};
 
@@ -68,8 +70,8 @@ class AuctionHouseCommand extends minecraftCommand {
             const bidder =
               (
                 await axios.get(
-                  `${config.api.hypixelAPI}/player?key=${
-                    config.api.hypixelAPIkey
+                  `${config.minecraft.API.hypixelAPI}/player?key=${
+                    config.minecraft.API.hypixelAPIkey
                   }&uuid=${auction.bids[auction.bids.length - 1].bidder}`
                 )
               ).data?.player || {};
@@ -111,7 +113,7 @@ class AuctionHouseCommand extends minecraftCommand {
         `/gc ${
           string === ""
             ? "This player does not have any auctions active"
-            : `${username}'s Active Auctions » ${string}`
+            : `${username}'s Active Auctions: ${string}`
         }`
       );
     } catch (error) {

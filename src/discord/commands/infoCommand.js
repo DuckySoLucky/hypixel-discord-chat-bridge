@@ -58,7 +58,9 @@ module.exports = {
             config.console.debugChannel
               ? `<#${config.console.debugChannel}>`
               : "None"
-          }\nCommand Role: <@&${config.discord.commandRole}>\nMessage Mode: \`${
+          }\nCommand Role: <@&${
+            config.discord.roles.commandRole
+          }>\nMessage Mode: \`${
             config.discord.messageMode ? "enabled" : "disabled"
           }\`\nFilter: \`${config.discord.filterMessages}\`\nJoin Messages: \`${
             config.discord.joinMessage ? "enabled" : "disabled"

@@ -1,7 +1,9 @@
 // eslint-disable-next-line
 const { ImgurClient } = require("imgur");
 const config = require("../../../config.json");
-const imgurClient = new ImgurClient({ clientId: config.api.imgurAPIkey });
+const imgurClient = new ImgurClient({
+  clientId: config.minecraft.API.imgurAPIkey,
+});
 const {
   getRarityColor,
   formatUsername,
@@ -74,7 +76,7 @@ class RenderCommand extends minecraftCommand {
           });
 
           return this.send(
-            `/gc ${username}'s Active Pet » ${
+            `/gc ${username}'s Active Pet: ${
               upload.data.link ?? "Something went Wrong.."
             }`
           );
