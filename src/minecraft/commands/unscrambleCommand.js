@@ -11,7 +11,13 @@ class unscrambleCommand extends minecraftCommand {
     this.name = "unscramble";
     this.aliases = ["unscramble", "unscrambleme", "unscrambleme", "us"];
     this.description = "Unscramble the word and type it in chat to win!";
-    this.options = [];
+    this.options = [
+      {
+        name: "length",
+        description: "Length of the word to unscramble",
+        required: false,
+      }
+    ];
   }
 
   async onCommand(username, message) {
