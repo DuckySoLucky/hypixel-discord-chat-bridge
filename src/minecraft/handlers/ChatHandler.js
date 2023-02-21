@@ -83,6 +83,7 @@ class StateHandler extends eventHandler {
         let meetRequirements = false;
 
         const weight = (await getWeight(profile.profile, profile.uuid)).weight.senither.total
+        const skyblockLevel = ((profile.profile?.leveling?.experience || 0) / 100) ?? 0;
 
         const bwLevel = player.stats.bedwars.level;
         const bwFKDR = player.stats.bedwars.finalKDRatio;
@@ -95,6 +96,8 @@ class StateHandler extends eventHandler {
 
         if (weight > config.guildRequirement.requirements.senitherWeight) meetRequirements = true;
 
+        if (skyblockLevel > config.guildRequirement.requirements.skyblockLevel) meetRequirements = true;
+
         if (bwLevel > config.guildRequirement.requirements.bedwarsStars) meetRequirements = true;
         if (bwLevel > config.guildRequirement.requirements.bedwarsStarsWithFKDR && bwFKDR > config.guildRequirement.requirements.bedwarsFKDR) meetRequirements = true;
 
@@ -105,7 +108,7 @@ class StateHandler extends eventHandler {
         if (duelsWins > config.guildRequirement.requirements.duelsWinsWithWLR && dWLR > config.guildRequirement.requirements.duelsWinsWithWLR) meetRequirements = true;
 
 
-        bot.chat(`/oc ${username} ${meetRequirements ? 'Does' : 'Doesn\'t'} meet Requirements. [BW] [${player.stats.bedwars.level}✫] FKDR:${player.stats.bedwars.finalKDRatio} | [SW] [${player.stats.skywars.level}✫] KDR:${player.stats.skywars.KDRatio} | [Duels] Wins: ${player.stats.duels.wins} WLR: ${player.stats.duels.WLRatio} | Skyblock: ${weight}`)
+        bot.chat(`/oc ${username} ${meetRequirements ? 'Does' : 'Doesn\'t'} meet Requirements. [BW] [${player.stats.bedwars.level.toLocaleString()}✫] FKDR:${player.stats.bedwars.finalKDRatio.toLocaleString()} | [SW] [${player.stats.skywars.level.toLocaleString()}✫] KDR:${player.stats.skywars.KDRatio.toLocaleString()} | [Duels] Wins: ${player.stats.duels.wins.toLocaleString()} WLR: ${player.stats.duels.WLRatio.toLocaleString()} | SB Weight: ${weight.toFixed(0)} | SB Level: ${skyblockLevel.toFixed(0)}}`)
 
         if (meetRequirements) {
           const statsEmbed = new EmbedBuilder()
@@ -119,7 +122,8 @@ class StateHandler extends eventHandler {
                 { name: 'Bedwars FKDR', value: `${player.stats.bedwars.finalKDRatio}`, inline: true },
                 { name: 'Skywars KDR', value: `${player.stats.skywars.KDRatio}`, inline: true },
                 { name: 'Duels WLR', value: `${player.stats.duels.KDRatio}`, inline: true },
-                { name: 'Senither Weight', value: `${addCommas(toFixed((weight), 2))}`, inline: true },
+                { name: 'Senither Weight', value: `${weight.toLocaleString()}`, inline: true },
+                { name: 'Skyblock Level', value: `${skyblockLevel.toLocaleString()}`, inline: true },
             )
             .setThumbnail(`https://www.mc-heads.net/avatar/${player.nickname}`) 
             .setFooter({ text: `by DuckySoLucky#5181 | /help [command] for more information`, iconURL: 'https://imgur.com/tgwQJTX.png' });
