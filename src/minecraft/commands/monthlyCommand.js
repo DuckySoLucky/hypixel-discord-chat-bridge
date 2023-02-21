@@ -11,8 +11,18 @@ class MonthlyStatsCommand extends minecraftCommand {
     this.name = "monthly";
     this.aliases = [""];
     this.description = "Get monthly stats of specified user.";
-    this.options = ["name", "gamemode"];
-    this.optionsDescription = ["Minecraft Username", "Hypixel Gamemode"];
+    this.options = [
+      {
+        name: "username",
+        description: "Minecraft username",
+        required: false,
+      },
+      {
+        name: "gamemode",
+        description: "Gamemode",
+        required: false,
+      }
+    ]
   }
 
   async onCommand(username, message) {

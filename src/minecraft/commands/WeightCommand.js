@@ -1,4 +1,4 @@
-const minecraftCommand = require("../../contracts/MinecraftCommand.js");
+const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const {
   getLatestProfile,
 } = require("../../../API/functions/getLatestProfile.js");
@@ -13,8 +13,13 @@ class StatsCommand extends minecraftCommand {
     this.name = "weight";
     this.aliases = ["w"];
     this.description = "Skyblock Weight of specified user.";
-    this.options = ["name"];
-    this.optionsDescription = ["Minecraft Username"];
+    this.options = [
+      {
+        name: "username",
+        description: "Minecraft username",
+        required: false,
+      },
+    ];
   }
 
   async onCommand(username, message) {
@@ -38,8 +43,7 @@ class StatsCommand extends minecraftCommand {
       )} | Skills: ${Object.keys(profile.senither.skills)
         .map((skill) => profile.senither.skills[skill].total)
         .reduce((a, b) => a + b, 0)
-        .toFixed(2)
-      } | Dungeons: ${profile.senither.dungeons.total.toFixed(2)}`;
+        .toFixed(2)} | Dungeons: ${profile.senither.dungeons.total.toFixed(2)}`;
       this.send(`/gc ${username}'s ${senitherW}`);
       await delay(690);
       this.send(`/gc ${username}'s ${lilyW}`);

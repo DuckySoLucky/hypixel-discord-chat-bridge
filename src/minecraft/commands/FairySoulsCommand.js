@@ -11,8 +11,13 @@ class FairySoulsCommand extends minecraftCommand {
     this.name = "fairysouls";
     this.aliases = ["fs"];
     this.description = "Fairy Souls of specified user.";
-    this.options = ["name"];
-    this.optionsDescription = ["Minecraft Username"];
+    this.options = [
+      {
+        name: "username",
+        description: "Minecraft username",
+        required: false,
+      },
+    ];
   }
 
   async onCommand(username, message) {
@@ -21,14 +26,19 @@ class FairySoulsCommand extends minecraftCommand {
 
       const data = await getLatestProfile(username);
       username = formatUsername(username, data.profileData.game_mode);
-      
+
       const total = data.profileData.game_mode === "island" ? 5 : 238;
 
-      this.send(`/gc ${username}'s Fairy Souls: ${data.profile.fairy_souls_collected}/${total} | Progress: ${(data.profile.fairy_souls_collected / total * 100).toFixed(2)}%`);
-    
+      this.send(
+        `/gc ${username}'s Fairy Souls: ${
+          data.profile.fairy_souls_collected
+        }/${total} | Progress: ${(
+          (data.profile.fairy_souls_collected / total) *
+          100
+        ).toFixed(2)}%`
+      );
     } catch (error) {
       this.send(`/gc Error: ${error}`);
-
     }
   }
 }

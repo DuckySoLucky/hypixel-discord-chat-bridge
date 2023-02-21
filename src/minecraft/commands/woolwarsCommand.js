@@ -4,15 +4,6 @@ const axios = require("axios");
 const { toFixed } = require("../../contracts/helperFunctions.js");
 const { getUUID } = require("../../contracts/API/PlayerDBAPI.js");
 
-function getWoolWarsStar(exp) {
-  const minimalExp = [0, 1e3, 3e3, 6e3, 1e4, 15e3];
-  const baseLevel = minimalExp.length;
-  const baseExp = minimalExp[minimalExp.length - 1];
-  if (exp >= baseExp) return (exp - baseExp) / 5e3 + baseLevel;
-  const lvl = minimalExp.findIndex((x) => exp < x);
-  return lvl + exp / minimalExp[lvl];
-}
-
 class WoolwarsCommand extends minecraftCommand {
   constructor(minecraft) {
     super(minecraft);
@@ -20,8 +11,13 @@ class WoolwarsCommand extends minecraftCommand {
     this.name = "woolwars";
     this.aliases = ["ww"];
     this.description = "WoolWars stats of specified user.";
-    this.options = ["name"];
-    this.optionsDescription = ["Minecraft Username"];
+    this.options = [
+      {
+        name: "username",
+        description: "Minecraft username",
+        required: false,
+      },
+    ];
   }
 
   async onCommand(username, message) {
@@ -47,7 +43,10 @@ class WoolwarsCommand extends minecraftCommand {
         throw "This player has never played WoolWars.";
       }
 
-      const level = getWoolWarsStar(response?.player?.stats?.WoolGames?.progression?.experience) || 0;
+      const level =
+        getWoolWarsStar(
+          response?.player?.stats?.WoolGames?.progression?.experience
+        ) || 0;
 
       this.send(
         `/gc [${toFixed(level, 0)}✫] ${username} » W: ${
@@ -63,9 +62,18 @@ class WoolwarsCommand extends minecraftCommand {
         }`
       );
     } catch (error) {
-      this.send(`/gc Error: ${error}`)
+      this.send(`/gc Error: ${error}`);
     }
   }
+}
+
+function getWoolWarsStar(exp) {
+  const minimalExp = [0, 1e3, 3e3, 6e3, 1e4, 15e3];
+  const baseLevel = minimalExp.length;
+  const baseExp = minimalExp[minimalExp.length - 1];
+  if (exp >= baseExp) return (exp - baseExp) / 5e3 + baseLevel;
+  const lvl = minimalExp.findIndex((x) => exp < x);
+  return lvl + exp / minimalExp[lvl];
 }
 
 module.exports = WoolwarsCommand;

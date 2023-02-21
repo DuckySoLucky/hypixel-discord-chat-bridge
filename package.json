@@ -1,6 +1,6 @@
 {
   "name": "hypixel-discord-chat-bridge",
-  "version": "2.7",
+  "version": "3.1.12",
   "description": "A Hypixel guild chat and Discord chat bridge",
   "main": "index.js",
   "scripts": {
@@ -31,11 +31,12 @@
   "homepage": "https://github.com/DuckySoLucky/hypixel-discord-chat-bridge#readme",
   "dependencies": {
     "@discordjs/rest": "^1.5.0",
-    "axios": "^1.2.1",
+    "axios": "0.27.2",
     "bad-words": "^3.0.4",
     "canvas": "2.10.1",
     "chalk": "^4.1.0",
     "discord-api-types": "^0.37.33",
+    "discord-emoji-converter": "^1.2.8",
     "discord.js": "^14.7.1",
     "express": "^4.18.1",
     "hypixel-api-reborn": "^10.0.0",
@@ -57,8 +58,6 @@
     "globals": {
       "bot": true,
       "client": true,
-      "minecraftCommandList": true,
-      "uptime": true,
       "bridgeChat": true
     }
   }

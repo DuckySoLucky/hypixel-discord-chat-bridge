@@ -5,7 +5,10 @@ const {
 } = require("../../../API/functions/getLatestProfile.js");
 const config = require("../../../config.json");
 const imgurClient = new ImgurClient({ clientId: config.api.imgurAPIkey });
-const { decodeData, formatUsername } = require("../../contracts/helperFunctions.js");
+const {
+  decodeData,
+  formatUsername,
+} = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { renderLore } = require("../../contracts/renderItem.js");
 
@@ -16,8 +19,13 @@ class ArmorCommand extends minecraftCommand {
     this.name = "armor";
     this.aliases = [];
     this.description = "Renders armor of specified user.";
-    this.options = ["name"];
-    this.optionsDescription = ["Minecraft Username"];
+    this.options = [
+      {
+        name: "username",
+        description: "Minecraft username",
+        required: false,
+      },
+    ];
   }
 
   async onCommand(username, message) {
@@ -25,14 +33,16 @@ class ArmorCommand extends minecraftCommand {
       username = this.getArgs(message)[0] || username;
 
       const profile = await getLatestProfile(username);
-      
+
       username = formatUsername(username, profile.profileData?.game_mode);
 
       if (!profile.profile.inv_armor?.data) {
         return this.send(`/gc This player has an Inventory API off.`);
       }
-      
-      const inventoryData = (await decodeData(Buffer.from(profile.profile.inv_armor.data, "base64"))).i;
+
+      const inventoryData = (
+        await decodeData(Buffer.from(profile.profile.inv_armor.data, "base64"))
+      ).i;
 
       let response = "";
       for (const piece of Object.values(inventoryData)) {
@@ -42,13 +52,20 @@ class ArmorCommand extends minecraftCommand {
           piece?.tag?.display?.Name,
           piece?.tag?.display?.Lore
         );
-        const upload = await imgurClient.upload({ image: renderedItem, type: "stream", });
+        const upload = await imgurClient.upload({
+          image: renderedItem,
+          type: "stream",
+        });
 
-        response += response.split(" | ").length == 4 ? upload.data.link: `${upload.data.link} | `;
+        response +=
+          response.split(" | ").length == 4
+            ? upload.data.link
+            : `${upload.data.link} | `;
       }
 
-      response == "" ? this.send(`/gc ${username} has no armor equiped.`) : this.send(`/gc ${username}'s armor » ${response}`);
-
+      response == ""
+        ? this.send(`/gc ${username} has no armor equiped.`)
+        : this.send(`/gc ${username}'s armor » ${response}`);
     } catch (error) {
       this.send(`/gc Error: ${error}`);
     }

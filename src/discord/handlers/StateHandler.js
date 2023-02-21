@@ -18,7 +18,6 @@ class StateHandler {
     });
     const channel = await getChannel("Guild");
     global.bridgeChat = config.discord.guildChatChannel;
-    global.uptime = new Date().getTime();
 
     channel.send({
       embeds: [

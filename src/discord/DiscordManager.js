@@ -1,5 +1,10 @@
 /*eslint-disable */
-const { Client, Collection, AttachmentBuilder, GatewayIntentBits } = require("discord.js");
+const {
+  Client,
+  Collection,
+  AttachmentBuilder,
+  GatewayIntentBits,
+} = require("discord.js");
 const CommunicationBridge = require("../contracts/CommunicationBridge.js");
 const messageToImage = require("../contracts/messageToImage.js");
 const MessageHandler = require("./handlers/MessageHandler.js");
@@ -36,9 +41,13 @@ class DiscordManager extends CommunicationBridge {
     this.client = client;
 
     this.client.on("ready", () => this.stateHandler.onReady());
-    this.client.on("messageCreate", (message) => this.messageHandler.onMessage(message));
+    this.client.on("messageCreate", (message) =>
+      this.messageHandler.onMessage(message)
+    );
 
-    this.client.login(config.discord.token).catch((error) => {Logger.errorMessage(error)});
+    this.client.login(config.discord.token).catch((error) => {
+      Logger.errorMessage(error);
+    });
 
     client.commands = new Collection();
     const commandFiles = fs
@@ -58,14 +67,16 @@ class DiscordManager extends CommunicationBridge {
     for (const file of eventFiles) {
       const filePath = path.join(eventsPath, file);
       const event = require(filePath);
-      event.once ? client.once(event.name, (...args) => event.execute(...args)) : client.on(event.name, (...args) => event.execute(...args));
+      event.once
+        ? client.once(event.name, (...args) => event.execute(...args))
+        : client.on(event.name, (...args) => event.execute(...args));
     }
 
     global.guild = await client.guilds.fetch(config.discord.serverID);
 
     process.on("SIGINT", () => {
       this.stateHandler.onClose().then(() => {
-        client.destroy()
+        client.destroy();
         kill(process.pid);
       });
     });
@@ -95,31 +106,48 @@ class DiscordManager extends CommunicationBridge {
   async getWebhook(discord, type) {
     channel = await this.getChannel(type);
     const webhooks = await channel.fetchWebhooks();
-    if (webhooks.first()) {
-      return webhooks.first();
-    } else {
-      const response = await channel.createWebhook(
-        discord.client.user.username,
-        { avatar: discord.client.user.avatarURL() }
-      );
-      return response;
+
+    if (webhooks.size === 0) {
+      channel.createWebhook({
+        name: "Hypixel Chat Bridge",
+        avatar: "https://i.imgur.com/AfFp7pu.png",
+      });
+
+      await this.getWebhook(discord, type);
     }
+
+    return webhooks.first();
   }
 
-  async onBroadcast({ fullMessage, username, message, guildRank, chat }) {
-    if (message == "debug_temp_message_ignore" && config.discord.messageMode != "minecraft") return;
-    if (chat != "debugChannel") {
+  async onBroadcast({
+    fullMessage,
+    username,
+    message,
+    guildRank,
+    chat,
+    color = 1752220,
+  }) {
+    let mode = config.discord.messageMode.toLowerCase();
+    if (message === undefined) {
+      if (config.console.debug === false) {
+        return;
+      }
+
+      mode = "minecraft";
+    }
+
+    if (username !== undefined) {
       Logger.broadcastMessage(`${username} [${guildRank}]: ${message}`, `Discord`);
     }
 
-    channel = await this.getChannel(chat);
-    switch (config.discord.messageMode.toLowerCase()) {
+    channel = await this.getChannel(chat || "Guild");
+    switch (mode) {
       case "bot":
         channel.send({
           embeds: [
             {
               description: message,
-              color: 3447003,
+              color: this.hexToDec(color),
               timestamp: new Date(),
               footer: {
                 text: guildRank,
@@ -162,7 +190,7 @@ class DiscordManager extends CommunicationBridge {
         }
 
         break;
-        
+
       default:
         throw new Error(
           "Invalid message mode: must be bot, webhook or minecraft"
@@ -252,6 +280,10 @@ class DiscordManager extends CommunicationBridge {
       default:
         throw new Error("Invalid message mode: must be bot or webhook");
     }
+  }
+
+  hexToDec(hex) {
+    return parseInt(hex.replace("#", ""), 16);
   }
 }
 

@@ -11,8 +11,13 @@ class CatacombsCommand extends minecraftCommand {
     this.name = "level";
     this.aliases = ["lvl"];
     this.description = "Skyblock Level of specified user.";
-    this.options = ["name"];
-    this.optionsDescription = ["Minecraft Username"];
+    this.options = [
+      {
+        name: "username",
+        description: "Minecraft username",
+        required: false,
+      },
+    ];
   }
 
   async onCommand(username, message) {
@@ -23,13 +28,15 @@ class CatacombsCommand extends minecraftCommand {
 
       username = formatUsername(username, data.profileData?.game_mode);
 
-      this.send(`/gc ${username}'s Skyblock Level » ${data.profile.leveling.experience / 100}`);
-    } catch (error) {
-      console.log(error)
-
       this.send(
-        `/gc Error: ${error}`
+        `/gc ${username}'s Skyblock Level » ${
+          data.profile.leveling.experience / 100
+        }`
       );
+    } catch (error) {
+      console.log(error);
+
+      this.send(`/gc Error: ${error}`);
     }
   }
 }

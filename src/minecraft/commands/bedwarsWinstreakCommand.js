@@ -10,8 +10,13 @@ class DenickerCommand extends minecraftCommand {
     this.name = "winstreak";
     this.aliases = ["ws"];
     this.description = "Estimated winstreaks of the specified user.";
-    this.options = ["name"];
-    this.optionsDescription = ["Minecraft Username"];
+    this.options = [
+      {
+        name: "username",
+        description: "Minecraft username",
+        required: false,
+      },
+    ];
   }
 
   async onCommand(username, message) {
@@ -40,7 +45,9 @@ class DenickerCommand extends minecraftCommand {
       );
     } catch (error) {
       if (error.player == null) {
-        this.send("/gc Error: This player does not exist in AntiSniper database.");
+        this.send(
+          "/gc Error: This player does not exist in AntiSniper database."
+        );
       } else {
         this.send(`/gc Error: ${error?.response?.data?.error}`);
       }

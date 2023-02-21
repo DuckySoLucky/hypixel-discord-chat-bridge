@@ -27,5 +27,6 @@
   "blacklistMessage": " has been successfully blacklisted.",
   "blacklistRemoveMessage": " has been successfully removed from the blacklist.",
   "alreadyBlacklistedMessage": "Player is already blacklisted.",
-  "cannotMuteMoreThanOneMonthMessage": "You cannot mute someone for more than one month"
+  "cannotMuteMoreThanOneMonthMessage": "You cannot mute someone for more than one month",
+  "guildLevelUpMessage": "The guild has reached level"
 }

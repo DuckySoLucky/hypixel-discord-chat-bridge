@@ -13,7 +13,6 @@ class KittyCommand extends minecraftCommand {
     this.aliases = ["cat", "cutecat"];
     this.description = "Random image of cute cat.";
     this.options = [];
-    this.optionsDescription = [];
   }
 
   async onCommand(username, message) {

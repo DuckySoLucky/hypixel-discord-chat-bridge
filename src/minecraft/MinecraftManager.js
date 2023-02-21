@@ -54,22 +54,24 @@ class MinecraftManager extends CommunicationBridge {
       return this.bot.chat(message);
     }
 
+    const symbol = config.minecraft.messageFormat;
+
     if (channel === config.discord.guildChatChannel) {
       return config.discord.filterMessages
         ? this.bot.chat(
             filter.clean(
               `/gc ${
                 replyingTo
-                  ? `${username} replying to ${replyingTo} »`
-                  : `${username} »`
+                  ? `${username} replying to ${replyingTo}${symbol}`
+                  : `${username}${symbol}`
               } ${message}`
             )
           )
         : this.bot.chat(
             `/gc ${
               replyingTo
-                ? `${username} replying to ${replyingTo} »`
-                : `${username} »`
+                ? `${username} replying to ${replyingTo}${symbol}`
+                : `${username}${symbol}`
             } ${message}`
           );
     }
@@ -80,16 +82,16 @@ class MinecraftManager extends CommunicationBridge {
             filter.clean(
               `/oc ${
                 replyingTo
-                  ? `${username} replying to ${replyingTo} »`
-                  : `${username} »`
+                  ? `${username} replying to ${replyingTo}${symbol}`
+                  : `${username}${symbol}`
               } ${message}`
             )
           )
         : this.bot.chat(
             `/oc ${
               replyingTo
-                ? `${username} replying to ${replyingTo} »`
-                : `${username} »`
+                ? `${username} replying to ${replyingTo}${symbol}`
+                : `${username}${symbol}`
             } ${message}`
           );
     }

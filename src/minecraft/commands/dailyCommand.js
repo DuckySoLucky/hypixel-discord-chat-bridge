@@ -11,8 +11,18 @@ class DailyStatsCommand extends minecraftCommand {
     this.name = "daily";
     this.aliases = [""];
     this.description = "Get your daily stats.";
-    this.options = ["name", "gamemode"];
-    this.optionsDescription = ["Minecraft Username", "Hypixel Gamemode"];
+    this.options = [
+      {
+        name: "username",
+        description: "Minecraft username",
+        required: false,
+      },
+      {
+        name: "mode",
+        description: "Gamemode",
+        required: false,
+      }
+    ];
   }
 
   async onCommand(username, message) {
@@ -29,10 +39,21 @@ class DailyStatsCommand extends minecraftCommand {
       "duel",
       "d",
     ];
-    const args = this.getArgs(message).map((arg) => arg.replaceAll("/", ""))
+    const args = this.getArgs(message).map((arg) => arg.replaceAll("/", ""));
 
-    const mode = modes.includes(args[0]) ? args[0] : modes.includes(args[1]) ? args[1] : null;
-    username = (args[0] == mode ? args[1] === "" ? username : args[1] : args[0] === "" ? username : args[0]) || username;
+    const mode = modes.includes(args[0])
+      ? args[0]
+      : modes.includes(args[1])
+      ? args[1]
+      : null;
+    username =
+      (args[0] == mode
+        ? args[1] === ""
+          ? username
+          : args[1]
+        : args[0] === ""
+        ? username
+        : args[0]) || username;
 
     try {
       const uuid = await getUUID(username);

@@ -4,7 +4,8 @@
     "guildID": "HYPIXEL_GUILD_ID",
     "guildExp": 0,
     "messageRepeatBypass": true,
-    "messageRepeatBypassLength": 24
+    "messageRepeatBypassLength": 24,
+    "messageFormat": " »"
   },
   "discord": {
     "token": "TOKEN",

@@ -8,7 +8,6 @@ class HelpCommand extends minecraftCommand {
     this.aliases = ["info"];
     this.description = "Shows help menu";
     this.options = [];
-    this.optionsDescription = [];
   }
 
   onCommand(username, message) {

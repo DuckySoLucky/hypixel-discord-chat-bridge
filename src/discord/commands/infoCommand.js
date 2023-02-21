@@ -10,41 +10,9 @@ module.exports = {
   description: "Shows information about the bot.",
 
   execute: async (interaction, client) => {
-    let discordCommands = "",
-      minecraftCommands = "";
-    const discordCommandFiles = fs
-      .readdirSync("src/discord/commands")
-      .filter((file) => file.endsWith(".js"));
-    for (const file of discordCommandFiles) {
-      const command = require(`./${file}`);
-      let discordOptions = "";
-      if (!command.options) {
-        discordCommands += `- \`${command.name}\`\n`;
-        continue;
-      }
-      for (let i = 0; i < command.options.length; i++) {
-        for (let j = 0; j < command.options.length; j++) {
-          discordOptions += ` [${command.options[j].name}]`;
-        }
-        discordCommands += `- \`${command.name}${discordOptions}\`\n`;
-        break;
-      }
-    }
-    for (let i = 0; i < minecraftCommandList.length; i++) {
-      if (minecraftCommandList[i].options.length < 1) {
-        minecraftCommands += `- \`${minecraftCommandList[i].name}${
-          minecraftCommandList[i].options != ""
-            ? ` [${minecraftCommandList[i].options}]\`\n`
-            : `\`\n`
-        }`;
-      } else {
-        let options = "";
-        for (let j = 0; j < minecraftCommandList[i].options.length; j++) {
-          options += ` [${minecraftCommandList[i].options[j]}]`;
-        }
-        minecraftCommands += `- \`${minecraftCommandList[i].name}${options}\`\n`;
-      }
-    }
+    const commands = interaction.client.commands;
+
+    const { discordCommands, minecraftCommands } = getCommands(commands);
 
     const infoEmbed = new EmbedBuilder()
       .setColor(0x0099ff)
@@ -63,12 +31,15 @@ module.exports = {
         { name: "\u200B", value: "\u200B" },
         {
           name: "**Minecraft Information**:",
-          value: `Bot: \`${bot.username}\`\nPrefix: \`${
+          value: `Bot Username: \`${bot.username}\`\nPrefix: \`${
             config.minecraft.prefix
-          }\`\nUptime: Online since <t:${toFixed(
-            uptime / 1000,
-            0
-          )}:R>\nVersion: \`${version}\``,
+          }\`\nSkyBlock Events: \`${
+            config.event.enabled ? "enabled" : "disabled"
+          }\`\nAuto Accept: \`${
+            config.guildRequirement.autoAccept ? "enabled" : "disabled"
+          }\`\nGuild Experience Requirement: \`${config.minecraft.guildExp.toLocaleString()}\`\nUptime: Online since <t:${Math.floor(
+            (Date.now() - client.uptime) / 1000
+          )}:R>\nVersion: \`${require("../../../package.json").version}\`\n`,
           inline: true,
         },
         {
@@ -90,9 +61,9 @@ module.exports = {
               ? `<#${config.console.debugChannel}>`
               : "None"
           }\nCommand Role: <@&${config.discord.commandRole}>\nMessage Mode: \`${
-            config.discord.messageMode
+            config.discord.messageMode ? "enabled" : "disabled"
           }\`\nFilter: \`${config.discord.filterMessages}\`\nJoin Messages: \`${
-            config.discord.joinMessage
+            config.discord.joinMessage ? "enabled" : "disabled"
           }\``,
           inline: true,
         }
@@ -104,3 +75,45 @@ module.exports = {
     await interaction.followUp({ embeds: [infoEmbed] });
   },
 };
+
+function getCommands(commands) {
+  let discordCommands = "";
+  commands.map((command) => {
+    if (command.options !== undefined) {
+      discordCommands += `- \`${command.name}`;
+      command.options.map((option) => {
+        if (option.required === true) {
+          discordCommands += ` (${option.name})`;
+        } else {
+          discordCommands += ` [${option.name}]`;
+        }
+      });
+      discordCommands += `\`\n`;
+    } else {
+      discordCommands += `- \`${command.name}\`\n`;
+    }
+  });
+
+  let minecraftCommands = "";
+  const minecraftCommandFiles = fs
+    .readdirSync("./src/minecraft/commands")
+    .filter((file) => file.endsWith(".js"));
+  for (const file of minecraftCommandFiles) {
+    const command = new (require(`../../minecraft/commands/${file}`))();
+
+    minecraftCommands += `- \`${command.name}`;
+
+    if (command.options !== undefined) {
+      command.options.map((option) => {
+        if (option.required === true) {
+          minecraftCommands += ` (${option.name})`;
+        } else {
+          minecraftCommands += ` [${option.name}]`;
+        }
+      });
+      minecraftCommands += `\`\n`;
+    }
+  }
+
+  return { discordCommands, minecraftCommands };
+}

@@ -2,7 +2,10 @@
 const { ImgurClient } = require("imgur");
 const config = require("../../../config.json");
 const imgurClient = new ImgurClient({ clientId: config.api.imgurAPIkey });
-const { getRarityColor, formatUsername } = require("../../contracts/helperFunctions.js");
+const {
+  getRarityColor,
+  formatUsername,
+} = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { renderLore } = require("../../contracts/renderItem.js");
 const {
@@ -17,8 +20,13 @@ class RenderCommand extends minecraftCommand {
     this.name = "pet";
     this.aliases = ["pets"];
     this.description = "Renders active pet of specified user.";
-    this.options = ["name"];
-    this.optionsDescription = ["Minecraft Username"];
+    this.options = [
+      {
+        name: "username",
+        description: "Minecraft username",
+        required: false,
+      },
+    ];
   }
 
   async onCommand(username, message) {
@@ -54,18 +62,26 @@ class RenderCommand extends minecraftCommand {
           }
 
           const renderedItem = await renderLore(
-            `§7[Lvl ${pet.level}] §${getRarityColor(pet.tier)}${pet.display_name}`,
+            `§7[Lvl ${pet.level}] §${getRarityColor(pet.tier)}${
+              pet.display_name
+            }`,
             newLore
           );
 
-          const upload = await imgurClient.upload({ image: renderedItem, type: "stream" });
-          
-          return this.send(`/gc ${username}'s Active Pet » ${upload.data.link ?? "Something went Wrong.."}`);
+          const upload = await imgurClient.upload({
+            image: renderedItem,
+            type: "stream",
+          });
+
+          return this.send(
+            `/gc ${username}'s Active Pet » ${
+              upload.data.link ?? "Something went Wrong.."
+            }`
+          );
         }
       }
 
       this.send(`/gc ${username} does not have pet equiped.`);
-
     } catch (error) {
       this.send(`/gc Error: ${error}`);
     }

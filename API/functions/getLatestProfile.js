@@ -18,7 +18,12 @@ async function getLatestProfile(uuid) {
       axios.get(
         `https://api.hypixel.net/skyblock/profiles?key=${config.api.hypixelAPIkey}&uuid=${uuid}`
       ),
-    ]);
+    ]).catch(
+      (error) => { 
+        // eslint-disable-next-line no-throw-literal
+        throw error?.response?.data?.cause ?? "Request to Hypixel API failed. Please try again!";
+      }
+    )
 
     playerRes = playerRes?.data ?? {};
     profileRes = profileRes?.data ?? {};
@@ -68,7 +73,6 @@ async function getLatestProfile(uuid) {
     };
 
   } catch (error) {
-    
     throw error;
   }
 }

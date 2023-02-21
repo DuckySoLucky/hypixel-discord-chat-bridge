@@ -9,17 +9,25 @@ class GuildInformationCommand extends minecraftCommand {
     this.name = "guild";
     this.aliases = ["g"];
     this.description = "View information of a guild";
-    
-    this.options = ["name"];
-    this.optionsDescription = ["Name of the Guild"];
+    this.options = [
+      {
+        name: "guild",
+        description: "Guild name",
+        required: true,
+      },
+    ];
   }
 
   async onCommand(username, message) {
     try {
-      const guildName = this.getArgs(message).map((arg) => capitalize(arg)).join(" ");
-      const guild = await hypixel.getGuild("name", guildName)
+      const guildName = this.getArgs(message)
+        .map((arg) => capitalize(arg))
+        .join(" ");
+      const guild = await hypixel.getGuild("name", guildName);
 
-      this.send(`/gc Guild ${guildName} | Tag: ${guild.tag} | Members: ${guild.members.length} | Level: ${guild.level} | Weekly GEXP: ${guild.totalWeeklyGexp}`);
+      this.send(
+        `/gc Guild ${guildName} | Tag: ${guild.tag} | Members: ${guild.members.length} | Level: ${guild.level} | Weekly GEXP: ${guild.totalWeeklyGexp}`
+      );
     } catch (error) {
       this.send(`/gc ${error.toString().replace("[hypixel-api-reborn] ", "")}`);
     }

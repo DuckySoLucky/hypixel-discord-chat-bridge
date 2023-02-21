@@ -31,6 +31,13 @@ class StateHandler extends eventHandler {
     const message = event.toString();
     const colouredMessage = event.toMotd();
 
+    if (config.console.debug === true) {
+      this.minecraft.broadcastMessage({
+        fullMessage: colouredMessage,
+        chat: 'debugChannel'
+      }
+    )}
+
     if (this.isLobbyJoinMessage(message)) {
       return bot.chat('\u00a7')
     }
@@ -121,51 +128,7 @@ class StateHandler extends eventHandler {
         }
       }
     }
-
-    if (this.isGuildListMessage(message)) {
-      if(!message.includes('Online Members')) {
-        if (message.includes('Guild Name') || message.includes('Total Members') || message.includes('Online Members')) {
-          guildInfo.push(message)
-        } else if (message.includes('--')) {
-          guildRanks.push(message)
-        } else {
-          members.push(message)
-        }
-      } else {
-        guildInfo.push(message)
-        const guildInfoSplit = guildInfo[0].split(' ');
-        const guildInfoSplit2 = guildInfo[1].split(' ');
-        const guildInfoSplit3 = guildInfo[2].split(' ');
-        for (let i = 0; i < members.length; i++) {
-          members[i] = replaceAllRanks(members[i])
-          members[i] = members[i].replaceAll('  ', ' ')
-          members[i] = members[i].replaceAll(' ● ', '` ᛫ `')
-          String.prototype.reverse = function () {return this.split('').reverse().join('')}
-          String.prototype.replaceLast = function (what, replacement) {return this.reverse().replace(new RegExp(what.reverse()), replacement.reverse()).reverse()}
-          members[i] = members[i].replaceLast(' ●', '`')
-          members[i] = members[i].replaceLast('᛫ `', '')
-        }
-        let description = `Member Count: **${guildInfoSplit2[2]}/125**\nOnline Members: **${guildInfoSplit3[2]}**\n`
-        for (let i = 0; i < guildRanks.length; i++) {
-          description+= `\n`
-          guildRanks[i] = guildRanks[i].replaceAll('--', '**')
-          description+= `${guildRanks[i]}\n \`${members[i]}`
-        }
-
-        this.minecraft.broadcastHeadedEmbed({
-          message: `${description}`,
-          title: guildInfoSplit[2],
-          icon: `https://hypixel.paniek.de/guild/${config.minecraft.guildID}/banner.png`,
-          color: 2067276,
-          channel: 'Guild'
-        })
-        guildInfo = [];
-        guildRanks = [];
-        members = [];
-      }
-  }
   
-
     if (this.isLoginMessage(message)) {
       const data = JSON.parse(fs.readFileSync('config.json'));
       if (data.discord.joinMessage) { 
@@ -520,6 +483,15 @@ class StateHandler extends eventHandler {
       })
     }
 
+    if (this.isGuildLevelUpMessage(message)) {
+      const level = message.replace(/\[(.*?)\]/g, '').trim().split(/ +/g)[5]
+      return this.minecraft.broadcastCleanEmbed({
+        message: `${messages.guildLevelUpMessage} ${level}`,
+        color: 16766720,
+        channel: 'Guild'
+      })
+    }
+
     /*if (this.isPartyMessage(message)) {
       this.minecraft.broadcastCleanEmbed({ 
         message: `${message}`, 
@@ -528,29 +500,32 @@ class StateHandler extends eventHandler {
       })  
     }*/
 
-    if (config.console.debug) {
-      this.minecraft.broadcastMessage({
-        fullMessage: colouredMessage,
-        message: 'debug_temp_message_ignore',
-        chat: 'debugChannel'
-      }
-    )}
-
-    const parts = message.split(':')
-    const group = parts.shift().trim()
+    const [group, ...parts] = message.split(':').map(s => s.trim())
     const hasRank = group.endsWith(']')
-    const chat = message.split('>')
-    const chatType = chat.shift().trim()
+    const [chatType] = group.split('>').map(s => s.trim())
     const userParts = group.split(' ')
     const username = userParts[userParts.length - (hasRank ? 2 : 1)]
-    let guildRank = userParts[userParts.length - 1].replace('[', '').replace(']', '')
-    const playerMessage = parts.join(':').trim()
+    const guildRank = userParts.pop().replace(/[[\]]/g, '') || 'Member'
+    let playerMessage = parts.join(':').trim()
 
-    if (!this.isGuildMessage(message) && !this.isOfficerChatMessage(message)) return
-    if (guildRank == username) guildRank = 'Member'
-    if (this.isMessageFromBot(username)) return
-    if (playerMessage.length == 0 || this.command.handle(username, playerMessage)) return
-    if (playerMessage == '@') return
+    const playerRankColor = colouredMessage.split(' ')[2]?.replace(/[[\]]/g, '')?.split('§')[1]
+    const playerRankPlusColor = colouredMessage.split(' ')[2]?.replace(/[[\]]/g, '')?.split('§')[2]
+    const embedColor = playerRankPlusColor?.[0] || playerRankColor?.[0] || '7'
+
+    if (!this.isGuildMessage(message) && !this.isOfficerChatMessage(message) || playerMessage.length == 0) return
+
+    if (this.isMessageFromBot(username)) { 
+      if (config.minecraft.messageRepeatBypass === true) {
+        const lastString = playerMessage.slice(-config.minecraft.messageRepeatBypassLength)
+        if (lastString.includes(" ") === false) {
+          playerMessage = playerMessage.slice(0, -config.minecraft.messageRepeatBypassLength - 2)
+        } 
+      }
+    }
+
+    if (this.isMessageFromBot(username) && message.includes(config.minecraft.messageFormat) === true) return
+
+    this.command.handle(username, playerMessage)
 
     this.minecraft.broadcastMessage({
       fullMessage: colouredMessage,
@@ -558,6 +533,7 @@ class StateHandler extends eventHandler {
       message: playerMessage,
       guildRank: guildRank,
       chat: chatType,
+      color: this.minecraftChatColorToHex(embedColor)
     })
     
   }
@@ -612,12 +588,9 @@ class StateHandler extends eventHandler {
   isGuildTopMessage(message) {
     return message.includes('Guild Experience') && !message.includes('●') && !message.includes(':')
   }
+  
   isPartyMessage(message) {
     return message.includes('has invited you to join their party!') && !message.includes(':')
-  }
-
-  isGuildListMessage(message) {
-    return message.includes('●') || message.includes(' -- ') && message.includes(' -- ') || message.startsWith('Online Members: ') || message.includes('Online Members: ') || message.startsWith('Total Members:') ||  message.startsWith('Guild Name:')
   }
 
   isPromotionMessage(message) {
@@ -641,7 +614,7 @@ class StateHandler extends eventHandler {
   }
 
   isNoPermission(message) {
-    return (message.includes('You must be the Guild Master to use that command!') || message.includes('You do not have permission to use this command!') || message.includes("I'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error.") || message.includes("You cannot mute a guild member with a higher guild rank!") || message.includes("You cannot kick this player!") || message.includes("You can only promote up to your own rank!") || message.includes("You cannot mute yourself from the guild!") || message.includes("is the guild master so can't be demoted!") || message.includes("is the guild master so can't be promoted anymore!")) && !message.includes(":")
+    return (message.includes('You must be the Guild Master to use that command!') || message.includes('You do not have permission to use this command!') || message.includes("I'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error.") || message.includes("You cannot mute a guild member with a higher guild rank!") || message.includes("You cannot kick this player!") || message.includes("You can only promote up to your own rank!") || message.includes("You cannot mute yourself from the guild!") || message.includes("is the guild master so can't be demoted!") || message.includes("is the guild master so can't be promoted anymore!") || message.includes("You do not have permission to kick people from the guild!")) && !message.includes(":")
   }
 
   isIncorrectUsage(message) {
@@ -710,6 +683,32 @@ class StateHandler extends eventHandler {
 
   isPlayerNotFound(message) {
     return message.startsWith(`Can't find a player by the name of`)
+  }
+
+  isGuildLevelUpMessage(message) {
+    return message.includes("The guild has reached Level") && !message.includes(':')
+  }
+
+  minecraftChatColorToHex(color) {
+    switch(color) {
+      case '0': return '#000000'
+      case '1': return '#0000AA'
+      case '2': return '#00AA00'
+      case '3': return '#00AAAA'
+      case '4': return '#AA0000'
+      case '5': return '#AA00AA'
+      case '6': return '#FFAA00'
+      case '7': return '#AAAAAA'
+      case '8': return '#555555'
+      case '9': return '#5555FF'
+      case 'a': return '#55FF55'
+      case 'b': return '#55FFFF'
+      case 'c': return '#FF5555'
+      case 'd': return '#FF55FF'
+      case 'e': return '#FFFF55'
+      case 'f': return '#FFFFFF'
+      default: return '#FFFFFF'
+    }
   }
 }
 

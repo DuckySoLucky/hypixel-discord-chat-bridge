@@ -13,11 +13,21 @@ class RenderCommand extends minecraftCommand {
   constructor(minecraft) {
     super(minecraft);
 
-    this.name = "inventory";
-    this.aliases = ["inv", "i", "render", "i"];
+    this.name = "render";
+    this.aliases = ["inv", "i", "inventory", "i"];
     this.description = "Renders item of specified user.";
-    this.options = ["name", "slot"];
-    this.optionsDescription = ["Minecraft Username", "Number between 1 and 36"];
+    this.options = [
+      {
+        name: "username",
+        description: "Minecraft username",
+        required: false,
+      },
+      {
+        name: "slot",
+        description: "Slot number of item to render (1-36)",
+        required: false,
+      },
+    ]
   }
 
   async onCommand(username, message) {

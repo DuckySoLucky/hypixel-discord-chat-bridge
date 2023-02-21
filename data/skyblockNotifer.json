@@ -94,7 +94,10 @@
     "Minecraft Server and Public API Unavailable | Monitoring - A fix has been implemented and we are slowly re-opening the server to players. | Feb  6, 18:58 EST",
     "Minecraft Server and Public API Unavailable | Investigating - We are currently investigating a major issue with our backend systems causing the Minecraft Server and Public API to be unavailable. | Feb  6, 17:41 EST",
     "SkyBlock Profiles API | Resolved - We have made some backend changes with the aim to improve the recent issues of increased response times on the SkyBlock profiles API and it is now operating normally. We will be monitoring the results over the coming days and will made additional changes if needed. | Feb  4, 17:49 EST",
-    "SkyBlock Profiles API | Investigating - We are investigating issues with the SkyBlock Profiles endpoints on the Hypixel Public API. During this time the endpoint may be disabled while we attempt to investigate and work on a solution. | Feb  4, 14:32 EST"
+    "SkyBlock Profiles API | Investigating - We are investigating issues with the SkyBlock Profiles endpoints on the Hypixel Public API. During this time the endpoint may be disabled while we attempt to investigate and work on a solution. | Feb  4, 14:32 EST",
+    "SkyBlock Update 0.18 | Completed - The scheduled maintenance has been completed. | Feb 14, 12:18 EST",
+    "SkyBlock Update 0.18 | In progress - SkyBlock is currently undergoing maintenance for the release of 0.18. | Feb 14, 09:56 EST",
+    "SkyBlock Update 0.18 | Scheduled - SkyBlock will be undergoing maintenance for the release of 0.18. | Feb 14, 09:51 EST"
   ],
   "skyblockUpdates": [
     "[December 13] SkyBlock Patch Notes | https://hypixel.net/threads/december-13-skyblock-patch-notes.5199900/ | Tue, 10 Jan 2023 23:14:20 +0000",
@@ -120,6 +123,11 @@
     "[February 3] Autopet Changes | https://hypixel.net/threads/february-3-autopet-changes.5262861/ | Wed, 08 Feb 2023 05:11:13 +0000",
     "[February 6] SkyBlock Patch Notes | https://hypixel.net/threads/february-6-skyblock-patch-notes.5266045/ | Wed, 08 Feb 2023 05:10:43 +0000",
     "[February 2] Patch 0.17.3 Bug Fixes | https://hypixel.net/threads/february-2-patch-0-17-3-bug-fixes.5261361/ | Wed, 08 Feb 2023 04:59:09 +0000",
-    "[January 10th] Some Bug Fixes | https://hypixel.net/threads/january-10th-some-bug-fixes.5233523/ | Sun, 29 Jan 2023 11:32:32 +0000"
+    "[January 10th] Some Bug Fixes | https://hypixel.net/threads/january-10th-some-bug-fixes.5233523/ | Sun, 29 Jan 2023 11:32:32 +0000",
+    "[February 16] Final Dungeon Journals | https://hypixel.net/threads/february-16-final-dungeon-journals.5276354/ | Mon, 20 Feb 2023 14:27:42 +0000",
+    "[February 3] Autopet Changes | https://hypixel.net/threads/february-3-autopet-changes.5262861/ | Wed, 15 Feb 2023 13:47:12 +0000",
+    "[February 2] Patch 0.17.3 Bug Fixes | https://hypixel.net/threads/february-2-patch-0-17-3-bug-fixes.5261361/ | Tue, 14 Feb 2023 22:27:01 +0000",
+    "[February 6] SkyBlock Patch Notes | https://hypixel.net/threads/february-6-skyblock-patch-notes.5266045/ | Sun, 12 Feb 2023 07:12:37 +0000",
+    "[February 16] Final Dungeon Journals | https://hypixel.net/threads/february-16-final-dungeon-journals.5276354/ | Tue, 21 Feb 2023 01:47:54 +0000"
   ]
 }

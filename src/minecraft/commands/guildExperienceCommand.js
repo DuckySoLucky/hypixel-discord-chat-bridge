@@ -11,7 +11,13 @@ class GuildExperienceCommand extends minecraftCommand {
     this.name = "guildexp";
     this.aliases = ["gexp"];
     this.description = "Guilds experience of specified user.";
-    this.options = ["name"];
+    this.options = [
+      {
+        name: "username",
+        description: "Minecraft username",
+        required: false,
+      },
+    ];
   }
 
   async onCommand(username, message) {
@@ -24,14 +30,16 @@ class GuildExperienceCommand extends minecraftCommand {
         hypixel.getGuild("id", config.minecraft.guildID),
       ]);
 
-      const player = guild.members.find((member) => member.uuid == uuid)
+      const player = guild.members.find((member) => member.uuid == uuid);
 
       // eslint-disable-next-line no-throw-literal
       if (!player) throw "Player is not in the Guild.";
 
-      this.send(`/gc ${username == arg[0] ? `${arg[0]}'s` : `Your`} Weekly Guild Experience » ${addCommas(player.weeklyExperience)}.`);
-
-
+      this.send(
+        `/gc ${
+          username == arg[0] ? `${arg[0]}'s` : `Your`
+        } Weekly Guild Experience » ${addCommas(player.weeklyExperience)}.`
+      );
     } catch (error) {
       this.send(`/gc ${error.toString().replace("[hypixel-api-reborn] ", "")}`);
     }
