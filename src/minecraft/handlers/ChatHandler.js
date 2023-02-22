@@ -28,7 +28,7 @@ class StateHandler extends eventHandler {
 
   async onMessage(event) {
     const message = event.toString();
-    const colouredMessage = event.toMotd();
+    let colouredMessage = event.toMotd();
 
     if (config.discord.channels.debugMode === true) {
       this.minecraft.broadcastMessage({
@@ -523,6 +523,7 @@ class StateHandler extends eventHandler {
         const lastString = playerMessage.slice(-config.minecraft.bot.messageRepeatBypassLength)
         if (lastString.includes(" ") === false) {
           playerMessage = playerMessage.slice(0, -config.minecraft.bot.messageRepeatBypassLength - 2)
+          colouredMessage = colouredMessage.slice(0, -config.minecraft.bot.messageRepeatBypassLength - 2)
         } 
       }
     }
