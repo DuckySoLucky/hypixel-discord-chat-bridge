@@ -1,16 +1,14 @@
-const { replaceAllRanks } = require('../../contracts/helperFunctions.js')
-const { getLatestProfile } = require('../../../API/functions/getLatestProfile.js')
-const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
-const hypixel = require('../../contracts/API/HypixelRebornAPI.js')
-const { getUUID } = require('../../contracts/API/PlayerDBAPI.js')
-const eventHandler = require('../../contracts/EventHandler.js')
-const getWeight = require('../../../API/stats/weight.js')
-const messages = require('../../../messages.json')
-/*eslint-disable */
-const { EmbedBuilder } = require('discord.js')
-const config = require('../../../config.json')
-const Logger = require('../../Logger.js')
-/*eslint-enable */
+const { getLatestProfile } = require('../../../API/functions/getLatestProfile.js');
+const { replaceAllRanks } = require('../../contracts/helperFunctions.js');
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+const hypixel = require('../../contracts/API/HypixelRebornAPI.js');
+const { getUUID } = require('../../contracts/API/PlayerDBAPI.js');
+const eventHandler = require('../../contracts/EventHandler.js');
+const getWeight = require('../../../API/stats/weight.js');
+const messages = require('../../../messages.json');
+const { EmbedBuilder } = require('discord.js');
+const config = require('../../../config.json');
+const Logger = require('../../Logger.js');
 let guildTop = [];
 
 class StateHandler extends eventHandler {
@@ -528,10 +526,16 @@ class StateHandler extends eventHandler {
       }
     }
 
+    if (playerMessage.includes(config.minecraft.bot.prefix) && playerMessage.includes(config.minecraft.bot.messageFormat)) {      
+      const [player, command] = playerMessage.split(`${config.minecraft.bot.messageFormat} `)
+      this.command.handle(player.trim(), command.trim())
+    } else {
+      this.command.handle(username, playerMessage)
+    }
+
     const betweenMessage = message.split(": ")[1].split(config.minecraft.bot.messageFormat)
     if (this.isMessageFromBot(username) && betweenMessage.length == 2) return
 
-    this.command.handle(username, playerMessage)
 
     this.minecraft.broadcastMessage({
       fullMessage: colouredMessage,

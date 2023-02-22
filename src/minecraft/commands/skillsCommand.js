@@ -36,27 +36,27 @@ class SkillsCommand extends minecraftCommand {
           (
             Object.keys(profile)
               .filter((skill) => !["runecrafting", "social"].includes(skill))
-              .map((skill) => profile[skill].level)
+              .map((skill) => profile[skill].level || 0)
               .reduce((a, b) => a + b, 0) /
             (Object.keys(profile).length - 2)
           ).toFixed(2) || 0
         } | Farming - ${
-          profile.farming.levelWithProgress.toFixed(2) || 0
+          Math.floor(profile.farming.levelWithProgress || 0)
         } | Mining - ${
-          profile.mining.levelWithProgress.toFixed(2) || 0
+          Math.floor(profile.mining.levelWithProgress || 0)
         } | Combat - ${
-          profile.combat.levelWithProgress.toFixed(2) || 0
+          Math.floor(profile.combat.levelWithProgress || 0)
         } | Enchanting - ${
-          profile.enchanting.levelWithProgress.toFixed(2) || 0
+          Math.floor(profile.enchanting.levelWithProgress || 0)
         } | Fishing - ${
-          profile.fishing.levelWithProgress.toFixed(2) || 0
+          Math.floor(profile.fishing.levelWithProgress || 0)
         } | Foraging - ${
-          profile.foraging.levelWithProgress.toFixed(2) || 0
+          Math.floor(profile.foraging.levelWithProgress || 0)
         } | Alchemy - ${
-          profile.alchemy.levelWithProgress.toFixed(2) || 0
+          Math.floor(profile.alchemy.levelWithProgress || 0)
         } | Taming - ${
-          profile.taming.levelWithProgress.toFixed(2) || 0
-        } | Carpentry - ${profile.carpentry.levelWithProgress.toFixed(2) || 0}`
+          Math.floor(profile.taming.levelWithProgress || 0)
+        } | Carpentry - ${Math.floor(profile.carpentry.levelWithProgress || 0)}`
       );
     } catch (error) {
       this.send(`Error: ${error}}`);

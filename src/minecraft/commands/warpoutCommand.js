@@ -22,7 +22,7 @@ class warpoutCommand extends minecraftCommand {
       if (user === undefined) throw "Please provide a username!";
       let warped = false;
 
-      const listener = async (message) => {
+      const warpoutListener = async (message) => {
         message = message.toString();
 
         if (
@@ -48,7 +48,7 @@ class warpoutCommand extends minecraftCommand {
           this.send(
             `/gc ${user} joined the party! Warping him out of the game..`
           );
-          bot.removeListener("message", listener);
+          bot.removeListener("message", warpoutListener);
           await delay(1100);
 
           bot.chat("/p warp");
@@ -56,14 +56,16 @@ class warpoutCommand extends minecraftCommand {
 
           await delay(1000);
           bot.chat("/p disband");
+          await delay(690)
+          bot.chat('\u00a7')
         }
       };
 
-      await bot.on("message", listener);
+      await bot.on("message", warpoutListener);
       bot.chat(`/p ${user}`);
 
       setTimeout(async () => {
-        bot.removeListener("message", listener);
+        bot.removeListener("message", warpoutListener);
 
         if (!warped) {
           this.send("/gc Party timedout");
