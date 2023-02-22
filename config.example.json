@@ -83,5 +83,9 @@
       "filterMessages": true,
       "joinMessage": false
     }
+  },
+  "web": {
+    "enabled": true,
+    "port": 1439
   }
 }
