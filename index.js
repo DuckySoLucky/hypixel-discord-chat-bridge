@@ -1,14 +1,13 @@
-process.on('uncaughtException', function (error) {console.log(error)})
-const webServer = require('./src/web/server.js'); 
-const app = require('./src/Application.js')
+process.on("uncaughtException", (error) => console.log(error));
+const app = require("./src/Application.js");
 
-'use strict'; 
+("use strict");
 
-app.register().then(() => {
-  app.connect()
-}).catch(error => {
-  console.error(error) 
-})
-
-webServer.start()
-  
+app
+  .register()
+  .then(() => {
+    app.connect();
+  })
+  .catch((error) => {
+    console.error(error);
+  });
