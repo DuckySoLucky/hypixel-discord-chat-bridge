@@ -12,15 +12,17 @@ specifiers:
   eslint: ^8.34.0
   eslint-plugin-import: ^2.27.5
   express: ^4.18.1
+  fs-promise: ^2.0.3
   hypixel-api-reborn: ^10.0.0
   imgur: ^2.2.0
   lilyweight: ^2.7.0
   mineflayer: ^4.8.1
+  mkdirp: ^2.1.3
   moment: ^2.29.4
   nodemon: ^2.0.19
   prettier: 2.8.4
   prismarine-nbt: ^2.2.1
-  skyhelper-networth: 1.11.0
+  skyhelper-networth: 1.11.4
   util: ^0.12.5
 
 dependencies:
@@ -33,13 +35,15 @@ dependencies:
   discord-emoji-converter: 1.2.8
   discord.js: 14.7.1
   express: 4.18.2
+  fs-promise: 2.0.3
   hypixel-api-reborn: 10.0.0
   imgur: 2.2.0
   lilyweight: 2.7.0
   mineflayer: 4.8.1
+  mkdirp: 2.1.3
   moment: 2.29.4
   prismarine-nbt: 2.2.1
-  skyhelper-networth: 1.11.0
+  skyhelper-networth: 1.11.4
   util: 0.12.5
 
 devDependencies:
@@ -294,6 +298,10 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       color-convert: 2.0.1
+
+  /any-promise/1.3.0:
+    resolution: {integrity: sha512-7UvmKalWRt1wgjL1RrGxoSJW/0QZFIegpeGvZG9kjp8vrRu55XTHbwnqq2GpXm9uLbcuhxm3IqX9OB4MZR1b2A==}
+    dev: false
 
   /anymatch/3.1.3:
     resolution: {integrity: sha512-KMReFUr0B4t+D+OBkjR3KYqvocp2XaSzO55UcB6mgQMd3KbcE+mWTyvVV7D/zsdEbNnV6acZUutkiHQXvTr1Rw==}
@@ -1165,11 +1173,28 @@ packages:
     engines: {node: '>= 0.6'}
     dev: false
 
+  /fs-extra/2.1.2:
+    resolution: {integrity: sha512-9ztMtDZtSKC78V8mev+k31qaTabbmuH5jatdvPBMikrFHvw5BqlYnQIn/WGK3WHeRooSTkRvLa2IPlaHjPq5Sg==}
+    dependencies:
+      graceful-fs: 4.2.10
+      jsonfile: 2.4.0
+    dev: false
+
   /fs-minipass/2.1.0:
     resolution: {integrity: sha512-V/JgOLFCS+R6Vcq0slCuaeWEdNC3ouDlJMNIsacH2VtALiu9mV4LPrHc5cDl8k5aw6J8jwgWWpiTo5RYhmIzvg==}
     engines: {node: '>= 8'}
     dependencies:
       minipass: 3.3.6
+    dev: false
+
+  /fs-promise/2.0.3:
+    resolution: {integrity: sha512-oDrTLBQAcRd+p/tSRWvqitKegLPsvqr7aehs5N9ILWFM9az5y5Uh71jKdZ/DTMC4Kel7+GNCQyFCx/IftRv8yg==}
+    deprecated: Use mz or fs-extra^3.0 with Promise Support
+    dependencies:
+      any-promise: 1.3.0
+      fs-extra: 2.1.2
+      mz: 2.7.0
+      thenify-all: 1.6.0
     dev: false
 
   /fs.realpath/1.0.0:
@@ -1272,6 +1297,10 @@ packages:
     resolution: {integrity: sha512-d65bNlIadxvpb/A2abVdlqKqV563juRnZ1Wtk6s1sIR8uNsXR70xqIzVqxVf1eTqDunwT2MkczEeaezCKTZhwA==}
     dependencies:
       get-intrinsic: 1.1.3
+
+  /graceful-fs/4.2.10:
+    resolution: {integrity: sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==}
+    dev: false
 
   /grapheme-splitter/1.0.4:
     resolution: {integrity: sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==}
@@ -1597,6 +1626,12 @@ packages:
       minimist: 1.2.7
     dev: true
 
+  /jsonfile/2.4.0:
+    resolution: {integrity: sha512-PKllAqbgLgxHaj8TElYymKCAgrASebJrWpTnEkOaTowt23VKXXN0sUeriJ+eh7y6ufb/CC5ap11pz71/cM0hUw==}
+    optionalDependencies:
+      graceful-fs: 4.2.10
+    dev: false
+
   /jsonwebtoken/8.5.1:
     resolution: {integrity: sha512-XjwVfRS6jTMsqYs0EsuJ4LGxXV14zQybNd4L2r0UvbVnSF9Af8x7p5MzbJ90Ioz/9TI41/hTCvznF/loiSzn8w==}
     engines: {node: '>=4', npm: '>=1.4.28'}
@@ -1851,6 +1886,12 @@ packages:
     hasBin: true
     dev: false
 
+  /mkdirp/2.1.3:
+    resolution: {integrity: sha512-sjAkg21peAG9HS+Dkx7hlG9Ztx7HLeKnvB3NQRcu/mltCVmvkF0pisbiTSfDVYTT86XEfZrTUosLdZLStquZUw==}
+    engines: {node: '>=10'}
+    hasBin: true
+    dev: false
+
   /mojangson/2.0.2:
     resolution: {integrity: sha512-iGPRE1Ez+W+42Dt4Ao91c9VVs+FmuRUlAFDef76xRX3mbZrTNuezDtFI0PbfYqheg/B0fSiq0Q0V1emZNt37cw==}
     dependencies:
@@ -1874,6 +1915,14 @@ packages:
 
   /ms/2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
+
+  /mz/2.7.0:
+    resolution: {integrity: sha512-z81GNO7nnYMEhrGh9LeymoE4+Yr0Wn5McHIZMK5cfQCl+NDX08sCZgUc9/6MHni9IWuFLm1Z3HTCXu2z9fN62Q==}
+    dependencies:
+      any-promise: 1.3.0
+      object-assign: 4.1.1
+      thenify-all: 1.6.0
+    dev: false
 
   /nan/2.17.0:
     resolution: {integrity: sha512-2ZTgtl0nJsO0KQCjEpxcIr5D+Yv90plTitZt9JBfQvVJDS5seMl3FOvsh3+9CoYWXf/1l5OaZzzF6nDm4cagaQ==}
@@ -2523,8 +2572,8 @@ packages:
       semver: 7.0.0
     dev: true
 
-  /skyhelper-networth/1.11.0:
-    resolution: {integrity: sha512-8hWuibHUtcca99N+KaxaJcC+rkgjM020QrGioyN+pPxd+TsKhWdDmh1F4sD78p8HfRX22OTch3trOMgHksZsaQ==}
+  /skyhelper-networth/1.11.4:
+    resolution: {integrity: sha512-QaiQY74JMVN83mm8QLPu5/Dy6/41EgpPzkRgm9xlD5eA6VYYGQH4lVnSPAz74WpiwOg+SJRnCno4xJHlpqVpzQ==}
     dependencies:
       axios: 0.27.2
       prismarine-nbt: 2.2.1
@@ -2639,6 +2688,19 @@ packages:
   /text-table/0.2.0:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}
     dev: true
+
+  /thenify-all/1.6.0:
+    resolution: {integrity: sha512-RNxQH/qI8/t3thXJDwcstUO4zeqo64+Uy/+sNVRBx4Xn2OX+OZ9oP+iJnNFqplFra2ZUVeKCSa2oVWi3T4uVmA==}
+    engines: {node: '>=0.8'}
+    dependencies:
+      thenify: 3.3.1
+    dev: false
+
+  /thenify/3.3.1:
+    resolution: {integrity: sha512-RVZSIV5IG10Hk3enotrhvz0T9em6cyHBLkH/YAZuKqd8hRkKhSfCGIcP2KUY0EPxndzANBmNllzWPwak+bheSw==}
+    dependencies:
+      any-promise: 1.3.0
+    dev: false
 
   /to-regex-range/5.0.1:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
