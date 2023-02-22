@@ -106,10 +106,10 @@ class StateHandler extends eventHandler {
         if (duelsWins > config.minecraft.guildRequirement.requirements.duelsWins) meetRequirements = true;
         if (duelsWins > config.minecraft.guildRequirement.requirements.duelsWinsWithWLR && dWLR > config.minecraft.guildRequirement.requirements.duelsWinsWithWLR) meetRequirements = true;
 
+        bot.chat(`/oc ${username} ${meetRequirements ? 'meets' : 'Doesn\'t meet'} Requirements. [BW] [${player.stats.bedwars.level}✫] FKDR: ${player.stats.bedwars.finalKDRatio} | [SW] [${player.stats.skywars.level}✫] KDR: ${player.stats.skywars.KDRatio} | [Duels] Wins: ${player.stats.duels.wins.toLocaleString()} WLR: ${player.stats.duels.WLRatio.toLocaleString()} | SB Weight: ${weight.toLocaleString()} | SB Level: ${skyblockLevel.toLocaleString()}`)
+        await delay(1000);
 
-        bot.chat(`/oc ${username} ${meetRequirements ? 'Does' : 'Doesn\'t'} meet Requirements. [BW] [${player.stats.bedwars.level.toLocaleString()}✫] FKDR:${player.stats.bedwars.finalKDRatio.toLocaleString()} | [SW] [${player.stats.skywars.level.toLocaleString()}✫] KDR:${player.stats.skywars.KDRatio.toLocaleString()} | [Duels] Wins: ${player.stats.duels.wins.toLocaleString()} WLR: ${player.stats.duels.WLRatio.toLocaleString()} | SB Weight: ${weight.toFixed(0)} | SB Level: ${skyblockLevel.toFixed(0)}}`)
-
-        if (meetRequirements) {
+        if (meetRequirements === true) {
           if (config.minecraft.guildRequirement.autoAccept === true) {
             bot.chat(`/guild accept ${username}`)
           } 
