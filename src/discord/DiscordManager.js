@@ -141,6 +141,8 @@ class DiscordManager extends CommunicationBridge {
     }
 
     channel = await this.getChannel(chat || "Guild");
+    if (channel === undefined) return;
+
     switch (mode) {
       case "bot":
         channel.send({

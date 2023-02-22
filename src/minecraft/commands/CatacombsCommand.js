@@ -60,9 +60,9 @@ class CatacombsCommand extends minecraftCommand {
           dungeons.secrets_found / completions
         ).toFixed(2)} SPR) | Classes: H - ${
           dungeons.classes.healer.level
-        } M - ${dungeons.classes.mage.level} B - ${
+        }, M - ${dungeons.classes.mage.level}, B - ${
           dungeons.classes.berserk.level
-        } A - ${dungeons.classes.archer.level} T - ${
+        }, A - ${dungeons.classes.archer.level}, T - ${
           dungeons.classes.tank.level
         }`
       );

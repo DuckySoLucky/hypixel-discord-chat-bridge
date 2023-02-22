@@ -527,7 +527,8 @@ class StateHandler extends eventHandler {
       }
     }
 
-    if (this.isMessageFromBot(username) && message.split(": ")[1].split(config.minecraft.bot.messageFormat).length === 1) return
+    const betweenMessage = message.split(": ")[1].split(config.minecraft.bot.messageFormat)
+    if (this.isMessageFromBot(username) && betweenMessage.length == 2) return
 
     this.command.handle(username, playerMessage)
 
