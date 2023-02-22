@@ -81,7 +81,7 @@ class StateHandler extends eventHandler {
         ])
         let meetRequirements = false;
 
-        const weight = (await getWeight(profile.profile, profile.uuid))?.weight?.senither?.total || 0;
+        const weight = getWeight(profile.profile, profile.uuid)?.weight?.senither?.total || 0;
         const skyblockLevel = ((profile.profile?.leveling?.experience || 0) / 100) ?? 0;
 
         const bwLevel = player.stats.bedwars.level;

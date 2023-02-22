@@ -29,7 +29,7 @@ class StatsCommand extends minecraftCommand {
 
       username = formatUsername(data.profileData?.displayname || username);
 
-      const profile = await getWeight(data.profile, data.uuid);
+      const profile = getWeight(data.profile, data.uuid);
 
       const lilyW = `Lily Weight: ${profile.lily.total.toFixed(
         2
