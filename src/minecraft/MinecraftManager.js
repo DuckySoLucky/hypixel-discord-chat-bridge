@@ -36,8 +36,8 @@ class MinecraftManager extends CommunicationBridge {
 
   createBotConnection() {
     return mineflayer.createBot({
-      host: "game3.falixserver.net",
-      port: 11556,
+      host: "mc.hypixel.net",
+      port: 25565,
       auth: "microsoft",
       version: "1.8.9",
       viewDistance: "tiny",
