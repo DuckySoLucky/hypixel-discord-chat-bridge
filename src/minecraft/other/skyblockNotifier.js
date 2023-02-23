@@ -36,9 +36,9 @@ async function checkForSkyblockUpdates() {
     const feed = await parser.parseURL('https://hypixel.net/forums/skyblock-patch-notes.158/index.rss');
     for (const data of feed.items) {
       const currentUpdates = (JSON.parse(fs.readFileSync('data/skyblockNotifer.json'))).skyblockUpdates;
-      if (currentUpdates.includes(`${data.title} | ${data.link} | ${data.pubDate}`) === true) continue;
+      if (currentUpdates.includes(`${data.title} | ${data.link}`) === true) continue;
 
-      currentUpdates.push(`${data.title} | ${data.link} | ${data.pubDate}`);
+      currentUpdates.push(`${data.title} | ${data.link}`);
       await writeAt('data/skyblockNotifer.json', 'skyblockUpdates', currentUpdates);
       bot.chat(`/gc [SKYBLOCK UPDATE] ${data.title} | ${data.link}`);
     }
