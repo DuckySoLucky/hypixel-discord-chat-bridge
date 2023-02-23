@@ -9,18 +9,26 @@ class warpoutCommand extends minecraftCommand {
     this.aliases = ["warp"];
     this.description = "Warp player out of the game";
     this.options = [];
+
+    this.isOnCooldown = false;
   }
 
   async onCommand(username, message) {
     try {
-      bot.chat("/lobby");
-      await delay(1000);
-      bot.chat("/play skyblock");
-      const user = this.getArgs(message)[0];
+      if (this.isOnCooldown) {
+        return this.send(`/gc ${username} Command is on cooldown`);
+      }
 
+      this.isOnCooldown = true;
+
+      const user = this.getArgs(message)[0];
       // eslint-disable-next-line no-throw-literal
       if (user === undefined) throw "Please provide a username!";
       let warped = false;
+      bot.chat("/lobby");
+
+      await delay(1000);
+      bot.chat("/play skyblock");
 
       const warpoutListener = async (message) => {
         message = message.toString();
@@ -58,6 +66,8 @@ class warpoutCommand extends minecraftCommand {
           bot.chat("/p disband");
           await delay(690)
           bot.chat('\u00a7')
+
+          this.isOnCooldown = false;
         }
       };
 
@@ -71,10 +81,14 @@ class warpoutCommand extends minecraftCommand {
           this.send("/gc Party timedout");
           await delay(1000);
           bot.chat("/p disband");
+
+          this.isOnCooldown = false;
         }
       }, 30000);
     } catch (error) {
       this.send(`/gc ${username} Error: ${error || "Something went wrong.."}`);
+
+      this.isOnCooldown = false;
     }
   }
 }
