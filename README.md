@@ -221,3 +221,4 @@ The bot also includes an integrated frag bot that can be used by the guild.
 - [SkyCrypt](https://github.com/SkyCryptWebsite/SkyCrypt)
 - [Senither](https://github.com/Senither)
 - [LilyWeight](https://github.com/Antonio32A/lilyweight)
+- [Pixelic API](https://docs.pixelic.de/)
