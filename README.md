@@ -115,7 +115,7 @@ Imgur API can be generated [Here](https://api.imgur.com/oauth2/addclient).
 
 > Imgur API is used for rendering commands like `!armor`, `!pet`, `!equipment` etc.
 
-Pixelic API can be generated [Here](https://api.pixelic.de).
+Pixelic API can be generated [Here](https://docs.pixelic.de/).
 
 > Pixelic API is used for `!daily`, `!weekly` and `!monthly` commands.
 
@@ -221,3 +221,4 @@ The bot also includes an integrated frag bot that can be used by the guild.
 - [SkyCrypt](https://github.com/SkyCryptWebsite/SkyCrypt)
 - [Senither](https://github.com/Senither)
 - [LilyWeight](https://github.com/Antonio32A/lilyweight)
+- [Pixelic API](https://docs.pixelic.de/)
