@@ -24,7 +24,6 @@ class warpoutCommand extends minecraftCommand {
       const user = this.getArgs(message)[0];
       // eslint-disable-next-line no-throw-literal
       if (user === undefined) throw "Please provide a username!";
-      let warped = false;
       bot.chat("/lobby");
 
       await delay(1000);
@@ -39,10 +38,12 @@ class warpoutCommand extends minecraftCommand {
           )
         ) {
           this.send(`/gc ${user} is not online!`);
+          this.isOnCooldown = false;
         }
 
         if (message.includes("You cannot invite that player.")) {
           this.send(`/gc ${user} has party requests disabled!`);
+          this.isOnCooldown = false;
         }
 
         if (
@@ -56,18 +57,32 @@ class warpoutCommand extends minecraftCommand {
           this.send(
             `/gc ${user} joined the party! Warping him out of the game..`
           );
-          bot.removeListener("message", warpoutListener);
           await delay(1100);
 
           bot.chat("/p warp");
-          warped = true;
+        }
+
+        if (message.includes(" is not allowed on your server!")) {
+          this.send(
+            `/gc ${user} is not allowed on my server! Disbanding party..`
+          );
+          this.isOnCooldown = false;
 
           await delay(1000);
           bot.chat("/p disband");
-          await delay(690)
-          bot.chat('\u00a7')
+          await delay(690);
+          bot.chat("\u00a7");
+        }
 
+        if (message.includes("warped to your server")) {
+          bot.removeListener("message", warpoutListener);
           this.isOnCooldown = false;
+          this.send(`/gc ${user} warped out of the game! Disbanding party..`);
+
+          await delay(1000);
+          bot.chat("/p disband");
+          await delay(690);
+          bot.chat("\u00a7");
         }
       };
 
@@ -77,7 +92,7 @@ class warpoutCommand extends minecraftCommand {
       setTimeout(async () => {
         bot.removeListener("message", warpoutListener);
 
-        if (!warped) {
+        if (this.isOnCooldown === true) {
           this.send("/gc Party timedout");
           await delay(1000);
           bot.chat("/p disband");
