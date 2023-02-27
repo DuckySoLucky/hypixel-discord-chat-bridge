@@ -517,7 +517,7 @@ class StateHandler extends eventHandler {
     if (!this.isGuildMessage(message) && !this.isOfficerChatMessage(message) || playerMessage.length == 0) return
 
     if (this.isMessageFromBot(username)) { 
-      if (config.minecraft.bot.messageRepeatBypass === true) {
+      if (config.minecraft.bot.messageRepeatBypass === true && message.includes("[HYPIXEL ") === false) {
         const lastString = playerMessage.slice(-config.minecraft.bot.messageRepeatBypassLength)
         if (lastString.includes(" ") === false) {
           playerMessage = playerMessage.slice(0, -config.minecraft.bot.messageRepeatBypassLength - 2)
