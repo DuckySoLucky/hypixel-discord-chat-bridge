@@ -9,7 +9,6 @@ const messages = require('../../../messages.json');
 const { EmbedBuilder } = require('discord.js');
 const config = require('../../../config.json');
 const Logger = require('../../Logger.js');
-let guildTop = [];
 
 class StateHandler extends eventHandler {
   constructor(minecraft, command, discord) {
@@ -45,28 +44,6 @@ class StateHandler extends eventHandler {
       this.send(`/party accept ${username}`)
       await delay(5000)
       this.send(`/party leave`)        
-    }
-
-    if (this.isGuildTopMessage(message)) {
-      if (!message.includes('10.')) {
-        guildTop.push(message)
-      } else {
-        guildTop.push(message)
-        let description = '', guildTopInfo = []
-        for (let i = 1; i < guildTop.length; i++) {
-          guildTop[i] = replaceAllRanks(guildTop[i])
-          guildTopInfo = guildTop[i].split(' ')
-          description = `${description}\n${guildTopInfo[0]} \`${guildTopInfo[1]}\` ${guildTopInfo[2]} ${guildTopInfo[3]} ${guildTopInfo[4]}`
-        }
-
-        this.minecraft.broadcastHeadedEmbed({
-          message: `${description}`,
-          title: 'Top Guild Experience',
-          color: 2067276,
-          channel: 'Guild'
-        })
-        guildTop = [], guildTopInfo = [], description = ''
-      }
     }
 
     if (this.isRequestMessage(message)) {
@@ -593,10 +570,6 @@ class StateHandler extends eventHandler {
 
   isKickMessage(message) {
     return message.includes('was kicked from the guild by') && !message.includes(':')
-  }
-
-  isGuildTopMessage(message) {
-    return message.includes('Guild Experience') && !message.includes('●') && !message.includes(':')
   }
   
   isPartyMessage(message) {
