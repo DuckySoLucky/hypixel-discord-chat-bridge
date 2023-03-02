@@ -28,33 +28,45 @@ module.exports = {
     try {
       const messages = await promise;
       const trimmedMessages = messages.map(message => message.trim());
-
-      const onlineMembersMessage = trimmedMessages.find(message => message.startsWith("Online Members: "));
+      
+      const onlineMembersMessage = trimmedMessages.find(message =>
+        message.startsWith("Online Members: ")
+      );
       const onlineMembers = `${onlineMembersMessage.split(": ")[0]}: \`${onlineMembersMessage.split(": ")[1]}\``;
       
-      const offlineMembersMessage = trimmedMessages.find(message => message.startsWith("Offline Members: "));
-      const offlineMembers = `${offlineMembersMessage.split(": ")[0]}: \`${offlineMembersMessage.split(": ")[1]}\``;
-      
-      const totalMembersMessage = trimmedMessages.find(message => message.startsWith("Total Members: "));
+      const totalMembersMessage = trimmedMessages.find(message =>
+        message.startsWith("Total Members: ")
+      );
       const totalMembers = `${totalMembersMessage.split(": ")[0]}: \`${totalMembersMessage.split(": ")[1]}\``;
       
       const onlineMembersList = trimmedMessages;
       
-      let description = `\n${onlineMembers}\n${offlineMembers}\n${totalMembers}\n\n**ONLINE**`;
+      let description = `${totalMembers}\n${onlineMembers}\n\n`;
       
       let online = onlineMembersList.flatMap((item, index) => {
         if (item.includes("-- ")) {
           const nextLine = onlineMembersList[parseInt(index) + 1];
-          if (nextLine && nextLine.includes("●")) {
-            return nextLine.split("●").map(item => item.trim());
+          if (nextLine?.includes("●")) {
+            return [item, nextLine.split("●").map(item => item.trim())];
           }
         }
         return [];
       });
       
       online = online.filter(item => item);
-      description += online.map(item => `\`${item}\``).join(", ");
-
+      
+      description += online.map(item => {
+        if (item.length === 0) return;
+        
+        if (item.includes("--")) {
+          item = item.replaceAll("--", "").trim();
+          return `**${item}**\n`;
+        } else {
+          return `\`${item.filter(item => item !== "").join(", ")}\`\n`;
+        }
+      }).join(" ");
+      
+    
       const embed = new EmbedBuilder()
         .setColor("#2ECC71")
         .setTitle("Online Members")
