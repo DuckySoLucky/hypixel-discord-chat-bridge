@@ -67,7 +67,7 @@ class DailyStatsCommand extends minecraftCommand {
 
         const uuid = await getUUID(username);
         const res = await axios.post(
-          `https://api.pixelic.de/v1/player/register/${uuid}?key=${config.minecraft.API.pixelicAPIkey}`
+          `https://api.pixelic.de/player/register/${uuid}?key=${config.minecraft.API.pixelicAPIkey}`
         );
 
         if (res.status == 201) {
