@@ -237,7 +237,7 @@ async function getStats(player, uuid, mode, time) {
         `https://api.hypixel.net/player?uuid=${uuid}&key=${config.minecraft.API.hypixelAPIkey}`
       ),
       axios.get(
-        `${config.minecraft.API.pixelicAPI}/v1/player/${time}/${uuid}?key=${config.minecraft.API.pixelicAPIkey}`
+        `${config.minecraft.API.pixelicAPI}/player/${time}/${uuid}?key=${config.minecraft.API.pixelicAPIkey}`
       ),
     ]);
 
