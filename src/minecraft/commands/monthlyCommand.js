@@ -68,9 +68,16 @@ class MonthlyStatsCommand extends minecraftCommand {
         );
 
         const uuid = await getUUID(username);
-        const res = await axios.post(
-          `https://api.pixelic.de/player/register/${uuid}?key=${config.minecraft.API.pixelicAPIkey}`
-        );
+        let res;
+        if (["sb", "skyblock"].includes(mode)) {
+          res = await axios.post(
+            `https://api.pixelic.de/player/skyblock/register/${uuid}?key=${config.minecraft.API.pixelicAPIkey}`
+          );
+        } else {
+          res = await axios.post(
+            `https://api.pixelic.de/player/register/${uuid}?key=${config.minecraft.API.pixelicAPIkey}`
+          );
+        }
 
         if (res.status == 201) {
           this.send(`/gc Successfully registered ${username} in the database!`);
