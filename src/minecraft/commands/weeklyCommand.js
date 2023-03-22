@@ -38,6 +38,8 @@ class WeeklyStatsCommand extends minecraftCommand {
       "duels",
       "duel",
       "d",
+      "sb",
+      "skyblock",
     ];
     const args = this.getArgs(message).map((arg) => arg.replaceAll("/", ""));
 

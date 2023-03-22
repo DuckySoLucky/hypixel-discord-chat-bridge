@@ -37,4 +37,27 @@ async function getUsername(uuid) {
   }
 }
 
-module.exports = { getUUID, getUsername };
+async function resolveUsernameOrUUID(username) {
+  try {
+    const { data } = await axios.get(
+      `${config.minecraft.API.playerDBAPI}/${username}`
+    );
+
+    if (data.success === false || data.error === true) {
+      throw data.message == "Mojang API lookup failed."
+        ? "Invalid username."
+        : data.message;
+    }
+
+    if (data.data?.player?.raw_id === undefined) {
+      // eslint-disable-next-line no-throw-literal
+      throw "No UUID found for that username.";
+    }
+
+    return { username: data.data.player.username, uuid: data.data.player.raw_id };
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+module.exports = { getUUID, getUsername, resolveUsernameOrUUID };

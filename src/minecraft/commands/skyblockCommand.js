@@ -2,7 +2,7 @@ const {
   getLatestProfile,
 } = require("../../../API/functions/getLatestProfile.js");
 const {
-  addNotation,
+  formatNumber,
   addCommas,
 } = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
@@ -54,8 +54,8 @@ class SkyblockCommand extends minecraftCommand {
           getTalismans(data.profile),
         ]);
 
-      const senitherWeight = Math.floor(weight?.senither?.total || 0);
-      const lilyWeight = Math.floor(weight?.lily?.total || 0);
+      const senitherWeight = Math.floor(weight?.senither?.total || 0).toLocaleString();
+      const lilyWeight = Math.floor(weight?.lily?.total || 0).toLocaleString();
       const skillAverage = (
         Object.keys(skills)
           .filter((skill) => !["runecrafting", "social"].includes(skill))
@@ -73,9 +73,8 @@ class SkyblockCommand extends minecraftCommand {
         Object.keys(dungeons.classes)
           .map((className) => dungeons.classes[className].level)
           .reduce((a, b) => a + b, 0) / Object.keys(dungeons.classes).length;
-      const networthValue = addNotation(
-        "oneLetters",
-        Math.floor(networth.networth || 0)
+      const networthValue = formatNumber(
+        networth.networth
       );
       const talismanCount = Object.keys(talismans.talismans)
         .map((rarity) => talismans.talismans[rarity].length || 0)

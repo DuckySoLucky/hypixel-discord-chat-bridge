@@ -88,16 +88,17 @@
     "Players unable to connect | Resolved - This incident has been resolved. | Jun  3, 15:17 EDT",
     "Players unable to connect | Monitoring - A fix has been implemented and we are monitoring the results. | Jun  3, 14:39 EDT",
     "Players unable to connect | Identified - The issue has been identified and a fix is being implemented. | Jun  3, 12:21 EDT",
-    "Players unable to connect | Update - We are currently investigating an issue where players are unable to connect to the Hypixel Minecraft Server. | Jun  3, 11:41 EDT",
-    "Players unable to connect | Investigating - We are currently investigating an issue where players are unable to connect to the Hypixel Minecraft Server. | Jun  3, 11:39 EDT",
-    "Minecraft Server and Public API Unavailable | Resolved - This incident has been resolved. | Feb  6, 22:10 EST",
     "Minecraft Server and Public API Unavailable | Monitoring - A fix has been implemented and we are slowly re-opening the server to players. | Feb  6, 18:58 EST",
     "Minecraft Server and Public API Unavailable | Investigating - We are currently investigating a major issue with our backend systems causing the Minecraft Server and Public API to be unavailable. | Feb  6, 17:41 EST",
     "SkyBlock Profiles API | Resolved - We have made some backend changes with the aim to improve the recent issues of increased response times on the SkyBlock profiles API and it is now operating normally. We will be monitoring the results over the coming days and will made additional changes if needed. | Feb  4, 17:49 EST",
     "SkyBlock Profiles API | Investigating - We are investigating issues with the SkyBlock Profiles endpoints on the Hypixel Public API. During this time the endpoint may be disabled while we attempt to investigate and work on a solution. | Feb  4, 14:32 EST",
-    "SkyBlock Update 0.18 | Completed - The scheduled maintenance has been completed. | Feb 14, 12:18 EST",
     "SkyBlock Update 0.18 | In progress - SkyBlock is currently undergoing maintenance for the release of 0.18. | Feb 14, 09:56 EST",
-    "SkyBlock Update 0.18 | Scheduled - SkyBlock will be undergoing maintenance for the release of 0.18. | Feb 14, 09:51 EST"
+    "SkyBlock Update 0.18 | Scheduled - SkyBlock will be undergoing maintenance for the release of 0.18. | Feb 14, 09:51 EST",
+    "Minecraft Server and Public API Unavailable | Resolved - This incident has been resolved. | Feb  6, 22:10 EST",
+    "Hypixel Store Maintenance | Completed - The scheduled maintenance has been completed. | Mar 14, 04:31 EDT",
+    "Hypixel Store Maintenance | In progress - Scheduled maintenance is currently in progress. We will provide updates as necessary. | Mar 14, 03:31 EDT",
+    "Hypixel Store Maintenance | Scheduled - The Hypixel Store (store.hypixel.net) will be undergoing routine maintenance at the specified time for about 1 hour. The in-game store is unaffected. | Mar 13, 12:40 EDT",
+    "SkyBlock Update 0.18 | Completed - The scheduled maintenance has been completed. | Feb 14, 12:18 EST"
   ],
   "skyblockUpdates": [
     "[February 22] SkyBlock Patch Notes | https://hypixel.net/threads/february-22-skyblock-patch-notes.5276871/",
@@ -140,6 +141,14 @@
     "Alpha Net - A new way to test SkyBlock Updates | https://hypixel.net/threads/alpha-net-a-new-way-to-test-skyblock-updates.4326510/",
     "2022 Roundup - Generate your unique stats on Hypixel | https://hypixel.net/threads/2022-roundup-generate-your-unique-stats-on-hypixel.5206859/",
     "Translation Update - Swedish and Romanian! | https://hypixel.net/threads/translation-update-swedish-and-romanian.5143286/",
-    "[February 28] SkyBlock Patch Notes | https://hypixel.net/threads/february-28-skyblock-patch-notes.5290534/"
+    "[February 28] SkyBlock Patch Notes | https://hypixel.net/threads/february-28-skyblock-patch-notes.5290534/",
+    "Housing Update - Housing+, New Placeholders, and more! | https://hypixel.net/threads/housing-update-housing-new-placeholders-and-more.5271605/",
+    "Hypixel Tournaments - Blitz Duo 3rd Iteration | https://hypixel.net/threads/hypixel-tournaments-blitz-duo-3rd-iteration.5304290/",
+    "Bug Fixes - March 2023 | https://hypixel.net/threads/bug-fixes-march-2023.5285394/",
+    "Upcoming Blitz Survival Games kit changes | https://hypixel.net/threads/upcoming-blitz-survival-games-kit-changes.104241/",
+    "Easter Event on Hypixel | https://hypixel.net/threads/easter-event-on-hypixel.4903080/",
+    "Player Account Status - Know Where You Stand | https://hypixel.net/threads/player-account-status-know-where-you-stand.4376642/",
+    "[March 21] SkyBlock Patch Notes | https://hypixel.net/threads/march-21-skyblock-patch-notes.5311515/",
+    "SkyBlock Patch 0.18.1 - Achievements & Bug Fixes | https://hypixel.net/threads/skyblock-patch-0-18-1-achievements-bug-fixes.5298274/"
   ]
 }

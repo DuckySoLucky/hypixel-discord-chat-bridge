@@ -4,8 +4,7 @@ const {
   getLatestProfile,
 } = require("../../../API/functions/getLatestProfile.js");
 const {
-  addNotation,
-  capitalize,
+  formatNumber,
   formatUsername,
 } = require("../../contracts/helperFunctions.js");
 
@@ -22,7 +21,7 @@ class NetWorthCommand extends minecraftCommand {
         description: "Minecraft username",
         required: false,
       },
-    ]
+    ];
   }
 
   async onCommand(username, message) {
@@ -40,22 +39,19 @@ class NetWorthCommand extends minecraftCommand {
       );
 
       if (profile.noInventory === true) {
-        return this.send(
-          `/gc ${capitalize(username)} has an Inventory API off!`
-        );
+        return this.send(`/gc ${username} has an Inventory API off!`);
       }
 
       this.send(
-        `/gc ${capitalize(username)}'s Networth is ${
-          addNotation("oneLetters", profile.networth) ?? 0
-        } | Unsoulbound Networth: ${
-          addNotation("oneLetters", profile.unsoulboundNetworth) ?? 0
-        } | Purse: ${addNotation(
-          "oneLetters",
-          Math.round(profile.purse || 0)
-        )} | Bank: ${addNotation("oneLetters", Math.round(profile.bank || 0))}`
+        `/gc ${username}'s Networth is ${formatNumber(
+          profile.networth
+        )} | Unsoulbound Networth: ${formatNumber(
+          profile.unsoulboundNetworth
+        )} | Purse: ${formatNumber(profile.purse)}
+        | Bank: ${formatNumber(profile.bank)}`
       );
     } catch (error) {
+      console.log(error)
       this.send(`/gc ERROR: ${error}`);
     }
   }

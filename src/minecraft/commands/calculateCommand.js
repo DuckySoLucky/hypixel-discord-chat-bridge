@@ -1,6 +1,6 @@
 const {
   addCommas,
-  addNotation,
+  formatNumber,
 } = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 class CalculateCommand extends minecraftCommand {
@@ -35,9 +35,9 @@ class CalculateCommand extends minecraftCommand {
       }
 
       this.send(
-        `/gc ${calculation} = ${addNotation("oneLetters", answer)} (${addCommas(
+        `/gc ${calculation} = ${formatNumber(
           answer
-        )})`
+        )} (${answer.toLocaleString()})`
       );
     } catch (error) {
       this.send(`/gc Error: ${error}`);
