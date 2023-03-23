@@ -42,16 +42,9 @@ class NetWorthCommand extends minecraftCommand {
         return this.send(`/gc ${username} has an Inventory API off!`);
       }
 
-      this.send(
-        `/gc ${username}'s Networth is ${formatNumber(
-          profile.networth
-        )} | Unsoulbound Networth: ${formatNumber(
-          profile.unsoulboundNetworth
-        )} | Purse: ${formatNumber(profile.purse)}
-        | Bank: ${formatNumber(profile.bank)}`
-      );
+      this.send(`/gc ${username}'s Networth is ${formatNumber(profile.networth)} | Unsoulbound Networth: ${formatNumber(profile.unsoulboundNetworth)} | Purse: ${formatNumber(profile.purse)} | Bank: ${formatNumber(profile.bank)}`);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       this.send(`/gc ERROR: ${error}`);
     }
   }

@@ -3,7 +3,6 @@
     "bot": {
       "prefix": "!",
       "messageFormat": " »",
-      "messageRepeatBypass": true,
       "messageRepeatBypassLength": 24
     },
     "guild": {

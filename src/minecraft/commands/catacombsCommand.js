@@ -1,7 +1,7 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const getDungeons = require("../../../API/stats/dungeons.js");
 const {
-  numberWithCommas,
+  formatNumber,
   formatUsername,
 } = require("../../contracts/helperFunctions.js");
 const {
@@ -47,25 +47,11 @@ class CatacombsCommand extends minecraftCommand {
           .map((floor) => floor.completions)
           .reduce((a, b) => a + b, 0);
 
-      this.send(
-        `/gc ${username}'s Catacombs: ${
-          dungeons.catacombs.skill.level > 50
-            ? dungeons.catacombs.skill.levelWithProgress.toFixed(2)
-            : dungeons.catacombs.skill.level
-        } | Class Average: ${
-          Object.keys(dungeons.classes)
-            .map((className) => dungeons.classes[className].level)
-            .reduce((a, b) => a + b, 0) / Object.keys(dungeons.classes).length
-        } | Secrets Found: ${numberWithCommas(dungeons.secrets_found || 0)} (${(
-          dungeons.secrets_found / completions
-        ).toFixed(2)} SPR) | Classes: H - ${
-          dungeons.classes.healer.level
-        }, M - ${dungeons.classes.mage.level}, B - ${
-          dungeons.classes.berserk.level
-        }, A - ${dungeons.classes.archer.level}, T - ${
-          dungeons.classes.tank.level
-        }`
-      );
+      const classAvrg = Object.keys(dungeons.classes).map((className) => dungeons.classes[className].levelWithProgress).reduce((a, b) => a + b, 0) / Object.keys(dungeons.classes).length
+      const level = dungeons.catacombs.skill.levelWithProgress.toFixed(1);
+
+      this.send(`/gc ${username}'s Catacombs: ${level} | Class Average: ${classAvrg.toFixed(1)} (${dungeons.classes.healer.level}H, ${dungeons.classes.mage.level}M, ${dungeons.classes.berserk.level}B, ${dungeons.classes.archer.level}A, ${dungeons.classes.tank.level}T) | Secrets: ${formatNumber(dungeons.secrets_found || 0, 1)} (${(dungeons.secrets_found / completions).toFixed(1)} S/R)`);
+    
     } catch (error) {
       console.log(error);
 

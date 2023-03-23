@@ -1,5 +1,6 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
+const { formatNumber } = require("../../contracts/helperFunctions.js");
 
 class DuelsStatsCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -65,7 +66,7 @@ class DuelsStatsCommand extends minecraftCommand {
 
       if (!duel) {
         this.send(
-          `/gc [Duels] [${player.stats.duels.division}] ${username} Wins: ${player.stats.duels.wins} | CWS: ${player.stats.duels.winstreak} | BWS: ${player.stats.duels.bestWinstreak} | WLR: ${player.stats.duels.WLRatio}`
+          `/gc [Duels] [${player.stats.duels.division}] ${username} Wins: ${formatNumber(player.stats.duels.wins)} | CWS: ${player.stats.duels.winstreak} | BWS: ${player.stats.duels.bestWinstreak} | WLR: ${player.stats.duels.WLRatio}`
         );
       } else {
         const duelData = player.stats.duels?.[duel]?.[Object.keys(player.stats.duels[duel])[0]];

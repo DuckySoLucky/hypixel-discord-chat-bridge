@@ -4,11 +4,21 @@ const { parseHypixel } = require("../utils/hypixel.js");
 const axios = require("axios");
 const { getUUID } = require("../../src/contracts/API/PlayerDBAPI.js");
 
+const cache = new Map();
+
 async function getLatestProfile(uuid) {
   // eslint-disable-next-line no-useless-catch
   try {
     if (!isUuid(uuid)) {
       uuid = await getUUID(uuid);
+    }
+
+    if (cache.has(uuid)) {
+      const data = cache.get(uuid);
+
+      if (data.last_save + 300000 > Date.now()) { // 5 minutes
+        return data;
+      }
     }
 
     let [playerRes, profileRes] = await Promise.all([
@@ -64,14 +74,19 @@ async function getLatestProfile(uuid) {
       throw "Player does not have selected profile.";
     }
 
-    return {
+    const output = {
+      last_save: Date.now(),
       profiles: profileRes.profiles,
       profile: profile,
       profileData: profileData,
       playerRes: playerRes,
       player: player,
       uuid: uuid,
-    };
+    }
+
+    cache.set(uuid, output);
+
+    return output;
   } catch (error) {
     throw error;
   }

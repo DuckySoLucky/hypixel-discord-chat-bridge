@@ -484,7 +484,7 @@ function formatNumber(number, decimals = 2) {
 
   if (number < 100000) return parseInt(number).toLocaleString();
 
-  const abbrev = ["", "K", "M", "B", "T"];
+  const abbrev = ["", "K", "M", "B", "T", "Q", "S", "O", "N", "D"];
   const unformattedNumber = Math.abs(number);
 
   const abbrevIndex = Math.floor(Math.log10(unformattedNumber) / 3);

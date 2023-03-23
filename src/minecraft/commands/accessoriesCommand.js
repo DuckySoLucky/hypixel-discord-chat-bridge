@@ -1,5 +1,4 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const getTalismans = require("../../../API/stats/talismans.js");
 const {
   getLatestProfile,
@@ -11,7 +10,7 @@ class AccessoriesCommand extends minecraftCommand {
     super(minecraft);
 
     this.name = "accessories";
-    this.aliases = ["talismans", "talisman"];
+    this.aliases = ["acc", "talismans", "talisman"];
     this.description = "Accessories of specified user.";
     this.options = [
       {
@@ -55,13 +54,7 @@ class AccessoriesCommand extends minecraftCommand {
         .reduce((a, b) => a + b, 0);
 
       this.send(
-        `/gc ${username}'s Accessories: ${talismanCount} | Recombobulated: ${recombobulatedCount} | Enriched: ${enrichmentCount}`
-      );
-
-      await delay(690);
-
-      this.send(
-        `/gc ${username}'s Accessories: Common - ${talismans.talismans["common"].length} | Uncommon - ${talismans.talismans["uncommon"].length} | Rare - ${talismans.talismans["rare"].length} | Epic - ${talismans.talismans["epic"].length} |  Legendary - ${talismans.talismans["legendary"].length} | Special - ${talismans.talismans["special"].length} | Very Special - ${talismans.talismans["very"].length}`
+        `/gc ${username}'s Accessories: ${talismanCount} (${talismans.talismans["very"].length}V, ${talismans.talismans["special"].length}S, ${talismans.talismans["mythic"].length}M, ${talismans.talismans["legendary"].length}L, ${talismans.talismans["epic"].length}E, ${talismans.talismans["rare"].length}R, ${talismans.talismans["uncommon"].length}U, ${talismans.talismans["common"].length}C), Recombed: ${recombobulatedCount}, Enriched: ${enrichmentCount}`
       );
     } catch (error) {
       this.send(`/gc Error: ${error}`);

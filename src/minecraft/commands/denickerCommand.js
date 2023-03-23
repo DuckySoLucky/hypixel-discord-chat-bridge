@@ -14,7 +14,7 @@ class DenickerCommand extends minecraftCommand {
       {
         name: "username",
         description: "Minecraft username",
-        required: false,
+        required: true,
       },
     ];
   }
@@ -23,7 +23,7 @@ class DenickerCommand extends minecraftCommand {
     try {
       username = this.getArgs(message)[0];
       const { data } = await axios.get(
-        `${config.minecraft.API.antiSniperAPI}/denick?key=${config.minecraft.API.antiSniperKey}&nick=${username}`
+        `${config.minecraft.API.antiSniperAPI}/v2/other/denick?key=${config.minecraft.API.antiSniperKey}&nick=${username}`
       );
 
       if (data.player?.ign == null) {

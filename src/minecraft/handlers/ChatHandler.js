@@ -25,7 +25,10 @@ class StateHandler extends eventHandler {
 
   async onMessage(event) {
     const message = event.toString();
-    let colouredMessage = event.toMotd();
+    const colouredMessage = event.toMotd();
+
+    // NOTE: fixes "100/100❤     100/100✎ Mana" spam in the debug channel
+    if (message.includes("✎ Mana") && message.includes("❤") && message.includes("/")) return;
 
     if (config.discord.channels.debugMode === true) {
       this.minecraft.broadcastMessage({
@@ -493,16 +496,6 @@ class StateHandler extends eventHandler {
     const embedColor = playerRankPlusColor?.[0] || playerRankColor?.[0] || '7'
 
     if (!this.isGuildMessage(message) && !this.isOfficerChatMessage(message) || playerMessage.length == 0) return
-
-    if (this.isMessageFromBot(username)) { 
-      if (config.minecraft.bot.messageRepeatBypass === true && message.includes("[HYPIXEL ") === false) {
-        const lastString = playerMessage.slice(-config.minecraft.bot.messageRepeatBypassLength)
-        if (lastString.includes(" ") === false) {
-          playerMessage = playerMessage.slice(0, -config.minecraft.bot.messageRepeatBypassLength - 2)
-          colouredMessage = colouredMessage.slice(0, -config.minecraft.bot.messageRepeatBypassLength - 2)
-        } 
-      }
-    }
 
     if (playerMessage.includes(config.minecraft.bot.prefix) && playerMessage.includes(config.minecraft.bot.messageFormat)) {      
       const [player, command] = playerMessage.split(`${config.minecraft.bot.messageFormat} `)

@@ -53,9 +53,7 @@ The `prefix` is the command prefixed used for all the commands in the bot on the
 
 `guildID` is ID of the hypixel guild required for Hypixel API, `guildExp` is integer value required for `!gexp` command which is used for checking how much more Guild experience user has to collect to meet requirements of the guild.
 
-`messageRepeatBypass` is ability to toggle bypass for users to use same command back to back without bot getting stopped by hypixel chat, I recommend you keep it on.
-
-`messageRepeatBypassLength` is length of message which will be sent to bypass message repeat, I recommend you to keep it on at least 16.
+`messageRepeatBypassLength` is length of message which will be sent to bypass message repeat, I recommend you to keep it on at least 24.
 
 #### Discord
 
