@@ -43,10 +43,17 @@ class StateHandler extends eventHandler {
 
     if (this.isPartyMessage(message)) {
       const username = replaceAllRanks(message.substr(54))
-      await delay(69)
-      this.send(`/party accept ${username}`)
-      await delay(5000)
-      this.send(`/party leave`)        
+      const uuid = await getUUID(username)
+      const guild = await hypixel.getGuild('id', config.minecraft.guild.id)
+      const playerIsInGuild = guild.members.find(member => member.uuid == uuid)
+      if (playerIsInGuild) {
+        await delay(69)
+        this.send(`/party accept ${username}`)
+        await delay(5000)
+        this.send(`/party leave`)
+      } else {
+        return
+      }
     }
 
     if (this.isRequestMessage(message)) {
