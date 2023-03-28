@@ -44,7 +44,7 @@ class StateHandler extends eventHandler {
     if (this.isPartyMessage(message)) {
       const username = replaceAllRanks(message.substr(54))
       const uuid = await getUUID(username)
-      const guild = await hypixel.getGuild('id', config.minecraft.guild.id)
+      const guild = await hypixel.getGuild('player', bot.username)
       const playerIsInGuild = guild.members.find(member => member.uuid == uuid)
       if (playerIsInGuild) {
         await delay(69)
