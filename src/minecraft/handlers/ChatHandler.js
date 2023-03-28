@@ -9,7 +9,7 @@ const messages = require('../../../messages.json');
 const { EmbedBuilder } = require('discord.js');
 const config = require('../../../config.json');
 const Logger = require('../../Logger.js');
-
+const fs = require('fs')
 class StateHandler extends eventHandler {
   constructor(minecraft, command, discord) {
     super()
@@ -44,9 +44,8 @@ class StateHandler extends eventHandler {
     if (this.isPartyMessage(message)) {
       const username = replaceAllRanks(message.substr(54))
       const uuid = await getUUID(username)
-      const guild = await hypixel.getGuild('player', bot.username)
-      const playerIsInGuild = guild.members.find(member => member.uuid == uuid)
-      if (playerIsInGuild) {
+      const guildList = JSON.parse(fs.readFileSync('data/guildList.json', 'utf8'));
+      if (guildList[uuid]) {
         await delay(69)
         this.send(`/party accept ${username}`)
         await delay(5000)
