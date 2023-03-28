@@ -44,6 +44,8 @@ class DiscordManager extends CommunicationBridge {
     this.client.on("messageCreate", (message) =>
       this.messageHandler.onMessage(message)
     );
+    
+    require('./other/updateGuildList.js')
 
     this.client.login(config.discord.bot.token).catch((error) => {
       Logger.errorMessage(error);
