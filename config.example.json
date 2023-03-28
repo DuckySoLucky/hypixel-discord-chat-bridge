@@ -6,8 +6,7 @@
       "messageRepeatBypassLength": 24
     },
     "guild": {
-      "guildExp": 50000,
-      "id": "GUILD_ID"
+      "guildExp": 50000
     },
     "API": {
       "hypixelAPI": "https://api.hypixel.net",
