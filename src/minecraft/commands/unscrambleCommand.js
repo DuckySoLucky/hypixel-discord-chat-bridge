@@ -23,6 +23,7 @@ class unscrambleCommand extends minecraftCommand {
 
   async onCommand(username, message) {
     try {
+      const userUsername = username;
       const length = this.getArgs(message)[0];
       const answer = getRandomWord(length);
       const scrambledWord = scrambleWord(answer);
@@ -42,14 +43,8 @@ class unscrambleCommand extends minecraftCommand {
       let answered = false;
       cooldowns.set(this.name, Date.now());
       const listener = (username, message) => {
-        if (username === bot.username) return;
-
         if (getWord(message) === answer) {
-          this.send(
-            `/gc ${username} guessed it right! Time elapsed: ${
-              Date.now() - startTime
-            }ms!`
-          );
+          this.send(`/gc ${userUsername} guessed it right! Time elapsed: ${Date.now() - startTime}ms!`);
 
           bot.removeListener("chat", listener);
           answered = true;

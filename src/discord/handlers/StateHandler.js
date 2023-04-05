@@ -16,7 +16,7 @@ class StateHandler {
         { name: `/help | by DuckySoLucky#5181`, type: ActivityType.Playing },
       ],
     });
-    const channel = await getChannel("Guild");
+    const channel = await this.getChannel("Guild");
     global.bridgeChat = config.discord.channels.guildChatChannel;
 
     channel.send({
@@ -30,7 +30,7 @@ class StateHandler {
   }
 
   async onClose() {
-    const channel = await getChannel("Guild");
+    const channel = await this.getChannel("Guild");
     channel.send({
       embeds: [
         {
@@ -40,17 +40,17 @@ class StateHandler {
       ],
     });
   }
-}
 
-async function getChannel(type) {
-  if (type == "Officer") {
-    return client.channels.fetch(config.discord.channels.officerChannel);
-  } else if (type == "Logger") {
-    return client.channels.fetch(config.discord.channels.loggingChannel);
-  } else if (type == "debugChannel") {
-    return client.channels.fetch(config.console.channels.debugChannel);
-  } else {
-    return client.channels.fetch(config.discord.channels.guildChatChannel);
+  async getChannel(type) {
+    if (type == "Officer") {
+      return client.channels.fetch(config.discord.channels.officerChannel);
+    } else if (type == "Logger") {
+      return client.channels.fetch(config.discord.channels.loggingChannel);
+    } else if (type == "debugChannel") {
+      return client.channels.fetch(config.discord.channels.debugChannel);
+    } else {
+      return client.channels.fetch(config.discord.channels.guildChatChannel);
+    }
   }
 }
 
