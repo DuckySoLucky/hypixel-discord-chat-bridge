@@ -81,7 +81,7 @@ class DailyStatsCommand extends minecraftCommand {
 
         if (res.status == 201) {
           this.send(`/gc Successfully registered ${username} in the database!`);
-        } else if (res.status == 400) {
+        } else if (res.status == 404) {
           this.send(
             `/gc Uh oh, somehow this player is already registered in the database! Please try again in few seconds..`
           );
