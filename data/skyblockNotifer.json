@@ -98,7 +98,12 @@
     "Hypixel Store Maintenance | Completed - The scheduled maintenance has been completed. | Mar 14, 04:31 EDT",
     "Hypixel Store Maintenance | In progress - Scheduled maintenance is currently in progress. We will provide updates as necessary. | Mar 14, 03:31 EDT",
     "Hypixel Store Maintenance | Scheduled - The Hypixel Store (store.hypixel.net) will be undergoing routine maintenance at the specified time for about 1 hour. The in-game store is unaffected. | Mar 13, 12:40 EDT",
-    "SkyBlock Update 0.18 | Completed - The scheduled maintenance has been completed. | Feb 14, 12:18 EST"
+    "SkyBlock Update 0.18 | Completed - The scheduled maintenance has been completed. | Feb 14, 12:18 EST",
+    "Hypixel Forums Maintenance | Completed - The scheduled maintenance has been completed. | Apr 13, 09:05 EDT",
+    "Hypixel Forums Maintenance | In progress - Scheduled maintenance is currently in progress. We will provide updates as necessary. | Apr 13, 08:51 EDT",
+    "Hypixel Forums Maintenance | Scheduled - We will be undergoing routine maintenance during the specified duration. | Apr 13, 08:51 EDT",
+    "Hypixel Forums Unavailable | Resolved - This incident has been resolved. | Apr 12, 16:08 EDT",
+    "Hypixel Forums Unavailable | Investigating - We are currently investigating an issue with the Hypixel Forums being offline and unavailable | Apr 12, 16:01 EDT"
   ],
   "skyblockUpdates": [
     "[February 22] SkyBlock Patch Notes | https://hypixel.net/threads/february-22-skyblock-patch-notes.5276871/",
@@ -157,6 +162,7 @@
     "Introducing the Hypixel Battle Pass + Statuses! | https://hypixel.net/threads/introducing-the-hypixel-battle-pass-statuses.2010087/",
     "Blitz Duo 3rd Iteration Tournament Results! | https://hypixel.net/threads/blitz-duo-3rd-iteration-tournament-results.5318905/",
     "SkyBlock Update 0.18.2 - Garden and Stranded Update | https://hypixel.net/threads/skyblock-update-0-18-2-garden-and-stranded-update.5317809/",
-    "[March 24] Various Grammatical Fixes | https://hypixel.net/threads/march-24-various-grammatical-fixes.5314082/"
+    "[March 24] Various Grammatical Fixes | https://hypixel.net/threads/march-24-various-grammatical-fixes.5314082/",
+    "10 Year Anniversary Contests - Results + Surprise Gift! | https://hypixel.net/threads/10-year-anniversary-contests-results-surprise-gift.5333726/"
   ]
 }

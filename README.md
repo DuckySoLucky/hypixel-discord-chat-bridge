@@ -49,87 +49,128 @@ Using the link provided in the console, you sign into the minecraft account that
 
 #### Minecraft
 
-The `prefix` is the command prefixed used for all the commands in the bot on the Discord side, by default this is set it `!`.
+#### Bot
 
-`guildID` is ID of the hypixel guild required for Hypixel API, `guildExp` is integer value required for `!gexp` command which is used for checking how much more Guild experience user has to collect to meet requirements of the guild.
+The `bot` section contains configuration options for the bot, including the `prefix`, `messageFormat`, and `messageRepeatBypassLength`.
 
-`messageRepeatBypassLength` is length of message which will be sent to bypass message repeat, I recommend you to keep it on at least 24.
+The prefix option determines the command prefix used for minecraft commands. By default, this is set to `!`.
+
+The messageFormat option is a string that will be appended to the beginning of every message sent by the bot. By default, this is set to `»`.
+
+The messageRepeatBypassLength option is an integer value that determines the length of a string that will be sent after message in case `You cannot say the same message twice!` occurs.
+
+### Frag Bot
+
+The fragBot section contains options for the bot's fragBot feature, which manages a whitelist and blacklist of users.
+
+The `enabled` option determines whether the fragBot is enabled. By default, this is set to true.
+
+The `whitelist` option determines whether the whitelist feature is enabled. By default, this is set to false.
+
+The `customWhitelist` option is an array of user usernames or UUIDs that will be added to the whitelist which already includes Guild members. By default, this is set to an empty array.
+
+The `blacklist` option determines whether the blacklist feature is enabled. By default, this is set to false.
+
+The `blacklisted` option is an array of user usernames or UUIDs, blacklisted played won't be able to use fragBot. By default, this is set to an empty array.
+
+### Guild
+
+The guild section contains options related to the Hypixel guild.
+
+The `guildExp` option is an integer value required for the `!gexp` command, which is used to check how much more guild experience a user needs to collect to meet the guild's requirements. By default, this is set to 50,000.
+
+### API
+
+The API options include information about APIs which are being used, the only values which needs to be changed are `hypixelAPIkey`, `antiSniperKey`, `pixelicAPIkey` and `imgurAPIkey`.
+
+You can receive Hypixel API key by joining Hypixel Network and typing `/api new` command.
+> Hypixel API is used for most of stats related commands.
+
+AntiSniper key can be generated [Here](https://api.antisniper.net/).
+> AntiSniper API is used for `!denick` and `!winstreak` commands.
+
+Imgur API can be generated [Here](https://api.imgur.com/oauth2/addclient).
+> Imgur API is used for rendering commands like `!armor`, `!pet`, `!equipment` etc.
+
+Pixelic API can be generated [Here](https://docs.pixelic.de/).
+> Pixelic API is used for `!daily`, `!weekly` and `!monthly` commands.
+
+### guildRequirements
+
+The `guildRequirements` section contains options related to the Hypixel Guild's requirements.
+
+The `enabled` option determines whether guild requirements are enabled. By default, this is set to false.
+
+The `autoAccept` option determines whether guild invites should be automatically accepted if the user meets the guild's requirements. By default, this is set to false.
+
+The requirements option is an object containing various requirements for joining the guild, including `bedwarsStars`, `bedwarsStarsWithFKDR`, `bedwarsFKDR`, `skywarsStars`, `skywarsStarsWithKDR`, `skywarsKDR`, `duelsWins`, `duelsWinsWithWLR`, `duelsWLR`, `senitherWeight`, `lilyWeight`, and `skyblockLevel`. By default, all of these requirements are set to 0.
+
+
+### skyblockEventsNotifications
+
+The `skyblockEventsNotifications` object contains the settings related to Skyblock events notifications.
+
+The `enabled` property determines whether the feature is enabled or not. If it's set to true, the bot will send a message to the Guild chat 30 and 5 minutes before an event occurs
+
+The `notifiers` object contains a list of events that the bot will notify for, and whether each event is enabled or not. By default, all events are enabled. You can disable an event by setting its value to false.
+
+Here's a list of the supported events:
+- BANK_INTEREST: When bank interest is given to players.
+- DARK_AUCTION: When the Dark Auction event starts.
+- ELECTION_BOOTH_OPENS: When the election booth opens.
+- ELECTION_OVER: When the election is over and the results are announced.
+- FALLEN_STAR_CULT: When the Fallen Star Cult event starts.
+- FEAR_MONGERER: When the Fear Mongerer event starts.
+- JACOBS_CONTEST: When the Jacob's Contest event starts.
+- JERRYS_WORKSHOP: When Jerry's Workshop event starts.
+- NEW_YEAR_CELEBRATION: When the New Year's Celebration event starts.
+- SEASON_OF_JERRY: When the Season of Jerry event starts.
+- SPOOKY_FESTIVAL: When the Spooky Festival event starts.
+- TRAVELING_ZOO: When the Traveling Zoo event starts.
+
 
 #### Discord
 
-The Discord options includes the `token`, `clientID`, `serverID`, `guildChatChannel`, `officerChannel`, `loggingChannel`, `commandRole`, `prefix`, `messageMode`, `joinMessage` and `filterMessages` options.
+### Bot
+
+The `bot` options include the `token`,  and `serverID` options.
 
 The `token` is the Discord application token, if you don't already have a Discord App, you can [create a new app](https://discordapp.com/developers), then convert the app to a Discord bot, and then get your Discord bot token on the "Bot" page.
 
-The `clientID` is the Discord ID of the Discord Bot. First you have to enable Developer Mode which can be located inside Settings under Advanced tag, you can get Client ID by right clicking on discord bot and clicking Copy ID.
-
 The `serverID` is same as `clientID` but it's ID of the server. you can get it by right clicking on server and clicking on Copy ID.
+
+### Channels
 
 The `guildChatChannel` is the ID of the text channel the bot should be linked with, the bot will only send and listen to messages in the channel defined in the config.
 
 The `officerChannel` is the ID of the text channel the bot should be linked with for the Officer Chat, the bot will only send and listen to messages in the channel defined in the config.
 
-The `loggingChannel` is the ID of the text channel the bot should be linked with for the Logging Chat, the bot will only send and listen to guild managment stuff like kicks, mutes, promotions, demotions etc.
+The `loggingChannel` is the ID of the text channel the bot should be linked with for the Logs Chat, the bot will only send and listen to guild managment stuff like kicks, mutes, promotions, demotions etc.
+
+The `debugMode` is a boolean setting which is an ability to toggle `debugChannel`
+
+The `debugChannel` is the ID of text channel the bot should be linked with for the chat, the bot will send every single minecraft message here, anyone can send and execute commands from this channel
+
+### Roles
 
 The `commandRole` is the ID of any role on the server the bot is hosted for, any user with the role will be able to run all the Discord commands built into the bot, like `/kick` and `/promote`.
 
-> Note: Any user can run the `/online` and `/guildtop` commands, however all the other commands requires the user has the command role.
+
+### Other
 
 The `messageMode` can either be `bot`, `webhook` or `minecraft`. This selects how the messages should be displayed when sent from Minecraft to Discord. If webhook mode is selected the bot requires the `Manage Webhooks` permission in the channel it's running in. The bot always requires the `Send Messages` and `View Channel` permissions in the channel you're using it in.
 
-- [View Webhook example](https://imgur.com/DttmVtQ)
-- [View Bot Mode example](https://imgur.com/WvRAeZc)
-- [View Minecraft Mode example](https://imgur.com/MAAMpiT)
+- Webhook Example
+![View Webhook example](https://imgur.com/DttmVtQ.png)
+- Bot Example
+![View Bot Mode example](https://imgur.com/WvRAeZc.png)
+- Minecraft Example
+![View Minecraft Mode example](https://imgur.com/MAAMpiT.png)
+> Note - The Discord rate limit for webhooks is 30 requests every 60 seconds, whereas for bot and minecraft messages it's 5 messages every 5 seconds. Using webhooks effectively halves the number of messages the bot can send per minute which may cause issues in an active guild.
 
-> Note - The Discord rate limit for webhooks is 30 requests every 60 seconds, whereas for normal bot messages it's 5 messages every 5 seconds. Using webhooks effectively halves the number of messages the bot can send per minute which may cause issues in an active guild.
+The filterMessage is ability to toggle filtering messages. This should be set to `true` otherwise bot might get banned.
 
-The filterMessage is ability to toggle filtering messages. This should be set to `false` otherwise bot might get banned.
-
-The joinMessage is ability to toggle join and leave message being sent to the discord channel. This should be set to `false` in an inactive guilds since messages can be spammy.
-
-### Console
-
-The Discord options includes the `maxEventSize`, `debug`, and `debugChannel` options.
-
-The `maxEventSize` is max length of message which can be logged. I recommend you not touching this unless u know what you are doing.
-
-The `debug` is option to toggle logging all messags on discord, even public chat. This is useful for checking something but you can't get on the PC or you are lazy to launch minecraft.
-
-The `debugChannel` is the ID of the text channel where the bot should send messages.
-
-### API
-
-The API options include information about APIs which are being used, the only one which needs to be changed are `hypixelAPIkey`, `antiSniperKey`, `pixelicAPIkey` and `imgurAPIkey`.
-
-You can receive Hypixel API key by joining Hypixel Network and typing `/api new` command.
-
-> Hypixel API is used for most of the commands.
-
-AntiSniper key can be generated [Here](https://api.antisniper.net/).
-
-> AntiSniper API is used for `!denick` and `!winstreak` commands.
-
-Imgur API can be generated [Here](https://api.imgur.com/oauth2/addclient).
-
-> Imgur API is used for rendering commands like `!armor`, `!pet`, `!equipment` etc.
-
-Pixelic API can be generated [Here](https://docs.pixelic.de/).
-
-> Pixelic API is used for `!daily`, `!weekly` and `!monthly` commands.
-
-### Event
-
-The Event options include various events which will be notified by bot 30 and 5 minutes before event starts. If you do not like one of the events just change value from `true` to `false`. There is also ability to toggle off bot notifier fully in `enabled` option
-
-### Guild Requirements
-
-The bot also includes automatic guild accept if the user meets requirements. The requirements are set in the config.json, is requirement's value is 0 or below 0, it will not be accounted.
-
-`enabled` is option, should it check requirements of person who tries to join Guild or not. If this is enabled, request will be sent to the Logging Channel on the discord.
-
-`autoAccept` is option to enable automatic Guild accept or not, if the user meets requirements he will be automatically accepted by the bot.
-
-`requirements` option has suboptions, which are requirements.
+The joinMessage is ability to toggle join and leave message being sent to the discord channel.
 
 ### Commands
 
@@ -205,18 +246,16 @@ The bot also includes an integrated frag bot that can be used by the guild.
 
 - [ ] `!pet` Command lore splitting
   - Lore of pet can sometimes be very long, to solve this issue there should be lore formatter function which will split lore every x characters so it looks better.
-- [ ] Fragbot Whitelist
-  - Ability to make frag bot be used only by specified users or by guild members only.
 
 ## Credits
 
-- [Altpapier](https://github.com/altpapier/hypixel-discord-guild-bridge/)
-- [DawJaw](https://dawjaw.net/jacobs)
-- [Hypixel API Reborn](https://hypixel.stavzdev.me/#/)
-- [Hypixel Network API](http://api.hypixel.net/)
-- [PlayerDB API](https://playerdb.co/)
+- [Hypixel API Reborn](https://github.com/Hypixel-API-Reborn/hypixel-api-reborn)
 - [SkyHelper API](https://github.com/Altpapier/SkyHelperAPI)
+- [PlayerDB API](https://playerdb.co/)
+- [Hypixel API](http://api.hypixel.net/)
+- [Pixelic API](https://docs.pixelic.de/)
+- [LilyWeight](https://github.com/Antonio32A/lilyweight)
+- [Altpapier](https://github.com/altpapier/hypixel-discord-guild-bridge/)
 - [SkyCrypt](https://github.com/SkyCryptWebsite/SkyCrypt)
 - [Senither](https://github.com/Senither)
-- [LilyWeight](https://github.com/Antonio32A/lilyweight)
-- [Pixelic API](https://docs.pixelic.de/)
+- [DawJaw](https://dawjaw.net/jacobs)

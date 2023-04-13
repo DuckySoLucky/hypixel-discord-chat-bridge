@@ -5,6 +5,13 @@
       "messageFormat": " »",
       "messageRepeatBypassLength": 24
     },
+    "fragBot": {
+      "enabled": true,
+      "whitelist": false,
+      "customWhitelist": [],
+      "blacklist": false,
+      "blacklisted": []
+    },
     "guild": {
       "guildExp": 50000
     },
@@ -22,7 +29,7 @@
 
       "imgurAPIkey": "IMGUR_API_KEY"
     },
-    "guildRequirement": {
+    "guildRequirements": {
       "enabled": false,
       "autoAccept": false,
       "requirements": {
@@ -64,7 +71,6 @@
   "discord": {
     "bot": {
       "token": "DISCORD_BOT_TOKEN",
-      "clientID": "DISCORD_BOT_CLIENT_ID",
       "serverID": "DISCORD_SERVER_ID"
     },
     "channels": {

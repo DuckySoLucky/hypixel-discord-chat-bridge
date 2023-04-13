@@ -12,6 +12,7 @@ const moment = require("moment");
 const { getLatestProfile } = require("../../API/functions/getLatestProfile.js");
 const getSkills = require("../../API/stats/skills.js");
 const getSlayer = require("../../API/stats/slayer.js");
+const { getNetworth } = require("skyhelper-networth");
 
 function replaceAllRanks(input) {
   input = input.replaceAll("[OWNER] ", "");
@@ -342,6 +343,7 @@ async function getStats(player, uuid, mode, time) {
       const oldProfile =
         response24H.data.Profiles[response.profileData.profile_id];
 
+      const networth = await getNetworth(profile, response.profileData?.banking?.balance || 0, { cache: true, onlyNetworth: true });
       const experience = profile.leveling.experience;
       const skills = getSkills(profile);
       const slayer = getSlayer(profile);
@@ -350,42 +352,40 @@ async function getStats(player, uuid, mode, time) {
       Object.keys(skills).map((skill) => {
         output.push(
           `${capitalize(skill)}: ${
-            skills[skill].totalXp - oldProfile.skills[skill].EXP ?? 0
+            (skills[skill].totalXp - oldProfile.skills[skill]?.EXP) ?? 0
           }`
         );
       });
       Object.keys(slayer).map((type) => {
         output.push(
           `${capitalize(type)}: ${
-            slayer[type].xp - oldProfile.slayer[type]?.EXP ?? 0
+            (slayer[type].xp - oldProfile.slayer[type]?.EXP) ?? 0
           }`
         );
       });
       output.push(`SB Experience: ${experience - oldProfile.EXP}`);
       output.push(
         `Catacombs: ${
-          profile?.dungeons?.dungeon_types?.catacombs?.experience -
-            oldProfile.dungeons.catacombs?.EXP ??
-          0 ??
-          0
+          (profile?.dungeons?.dungeon_types?.catacombs?.experience - oldProfile.dungeons.catacombs?.EXP) ?? 0
         }`
       );
+      output.push(`Networth: ${(networth.networth - oldProfile.networth?.networth) ?? 0}`)
 
       let description = "";
       output.sort((a, b) => {
-        if (a.split(": ")[0] === "SB Experience") return -1;
+        if (["SB Experience", "Networth"].includes(a.split(": ")[0])) return -1;
 
         return parseInt(b.split(": ")[1]) - parseInt(a.split(": ")[1]);
       });
 
       for (const item of output) {
         const [type, value] = item.split(": ");
-        if (parseInt(value) === 0) continue;
+        if (parseInt(value) === 0 || isNaN(value)) continue;
 
         description += `${type}: ${formatNumber(value)} | `;
       }
 
-      return `/gc ${capitalize(time)} SB stats: ${
+      return `/gc ${player}'s ${capitalize(time)} SB stats: ${
         description === "" ? "No changes" : description.slice(0, -3)
       }`;
     }
@@ -513,7 +513,9 @@ function formatUsername(username, gamemode) {
 function formatNumber(number, decimals = 2) {
   if (number === undefined || number === 0) return 0;
 
-  if (number < 100000) return parseInt(number).toLocaleString();
+  const isNegative = number < 0;
+
+  if (number < 100000 && number > -100000) return parseInt(number).toLocaleString();
 
   const abbrev = ["", "K", "M", "B", "T", "Qa", "Qi", "S", "O", "N", "D"];
   const unformattedNumber = Math.abs(number);
@@ -523,7 +525,7 @@ function formatNumber(number, decimals = 2) {
     unformattedNumber / Math.pow(10, abbrevIndex * 3)
   ).toFixed(decimals);
 
-  return `${shortNumber}${abbrev[abbrevIndex]}`;
+  return `${isNegative ? '-' : ''}${shortNumber}${abbrev[abbrevIndex]}`;
 }
 
 module.exports = {

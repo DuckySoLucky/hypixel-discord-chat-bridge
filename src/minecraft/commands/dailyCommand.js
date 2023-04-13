@@ -62,35 +62,27 @@ class DailyStatsCommand extends minecraftCommand {
 
       this.send(await getStats(username, uuid, mode, "daily"));
     } catch (error) {
+      console.log("catch", error);
       if (error === "Player not in database") {
-        this.send(
-          `/gc ${username} is not registered in the database! Adding them now..`
-        );
+        this.send(`/gc ${username} is not registered in the database! Adding them now..`);
 
-        const uuid = await getUUID(username);
-        let res;
-        if (["sb", "skyblock"].includes(mode)) {
-          res = await axios.post(
-            `https://api.pixelic.de/player/skyblock/register/${uuid}?key=${config.minecraft.API.pixelicAPIkey}`
+        try {
+          const uuid = await getUUID(username);
+          const res = await axios.post(
+            ["sb", "skyblock"].includes(mode)
+              ? `https://api.pixelic.de/player/skyblock/register/${uuid}?key=${config.minecraft.API.pixelicAPIkey}`
+              : `https://api.pixelic.de/player/register/${uuid}?key=${config.minecraft.API.pixelicAPIkey}`
           );
-        } else {
-          res = await axios.post(
-            `https://api.pixelic.de/player/register/${uuid}?key=${config.minecraft.API.pixelicAPIkey}`
-          );
-        }
 
-        if (res.status == 201) {
-          this.send(`/gc Successfully registered ${username} in the database!`);
-        } else if (res.status == 404) {
-          this.send(
-            `/gc Uh oh, somehow this player is already registered in the database! Please try again in few seconds..`
-          );
-        } else {
-          this.send(
-            `/gc Error: ${res.status} ${
-              res?.statusText || "Something went wrong.."
-            }`
-          );
+
+          if (res.status == 201) {
+            this.send(`/gc Successfully registered ${username} in the database!`);
+          } else {
+            this.send(`/gc Error: ${res.status} ${res?.statusText || "Something went wrong.."}`);
+          }
+        } catch (e) {
+          console.group(e.response.data)
+          this.send(`/gc Error: ${e.response.data.cause}`);
         }
       } else {
         this.send(`/gc Error: ${error}`);
