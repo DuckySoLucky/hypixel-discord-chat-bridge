@@ -1,11 +1,12 @@
 // Credits https://github.com/Altpapier/hypixel-discord-guild-bridge/blob/master/helper/messageToImage.js
 // eslint-disable-next-line
-const Canvas = require("canvas");
-Canvas.registerFont("src/contracts/Fonts/MinecraftRegular-Bmg3.ttf", {
+const { createCanvas, registerFont, loadImage } = require("canvas");
+const { getUUID } = require("../contracts/API/PlayerDBAPI");
+registerFont("src/contracts/Fonts/MinecraftRegular-Bmg3.ttf", {
   family: "Minecraft",
 });
-Canvas.registerFont('src/contracts/Fonts/unifont.ttf', { 
-  family: 'MinecraftUnicode',
+registerFont("src/contracts/Fonts/unifont.ttf", {
+  family: "MinecraftUnicode",
 });
 
 const RGBA_COLOR = {
@@ -28,7 +29,7 @@ const RGBA_COLOR = {
 };
 
 function getHeight(message) {
-  const canvas = Canvas.createCanvas(1, 1);
+  const canvas = createCanvas(1, 1);
   const ctx = canvas.getContext("2d");
   const splitMessageSpace = message.split(" ");
   for (const [i, msg] of Object.entries(splitMessageSpace)) {
@@ -36,17 +37,14 @@ function getHeight(message) {
   }
   const splitMessage = splitMessageSpace.join(" ").split(/§|\n/g);
   splitMessage.shift();
-  ctx.font = '40px Minecraft, MinecraftUnicode';
+  ctx.font = "40px Minecraft, MinecraftUnicode";
 
   let width = 5;
   let height = 35;
 
   for (const msg of splitMessage) {
     const currentMessage = msg.substring(1);
-    if (
-      width + ctx.measureText(currentMessage).width > 1000 ||
-      msg.charAt(0) === "n"
-    ) {
+    if (width + ctx.measureText(currentMessage).width > 1000 || msg.charAt(0) === "n") {
       width = 5;
       height += 40;
     }
@@ -57,9 +55,9 @@ function getHeight(message) {
   return height + 10;
 }
 
-function generateMessageImage(message) {
+async function generateMessageImage(message) {
   const canvasHeight = getHeight(message);
-  const canvas = Canvas.createCanvas(1000, canvasHeight);
+  const canvas = createCanvas(1000, canvasHeight);
   const ctx = canvas.getContext("2d");
   const splitMessageSpace = message.split(" ");
   for (const [i, msg] of Object.entries(splitMessageSpace)) {
@@ -70,17 +68,33 @@ function generateMessageImage(message) {
   ctx.shadowOffsetX = 4;
   ctx.shadowOffsetY = 4;
   ctx.shadowColor = "#131313";
-  ctx.font = '40px Minecraft, MinecraftUnicode';
+  ctx.font = "40px Minecraft, MinecraftUnicode";
 
   let width = 5;
   let height = 35;
+
+  var originalPlayer = message
+    .slice(0, message.indexOf(":"))
+    .slice(0, message.slice(0, message.indexOf(":")).lastIndexOf(" "))
+    .slice(
+      message
+        .slice(0, message.indexOf(":"))
+        .slice(0, message.slice(0, message.indexOf(":")).lastIndexOf(" "))
+        .lastIndexOf(" ") + 1
+    ); // Probably there is a better way to do this but it works atleast i think ~Pixelic
+
+  if (originalPlayer.includes("§")) originalPlayer = null; // Bot does not get an Avatar
+
   for (const msg of splitMessage) {
+    if (msg === splitMessage[2]) {
+      if (originalPlayer !== null) {
+        ctx.drawImage(await loadImage(`https://crafatar.com/avatars/${await getUUID(originalPlayer)}?size=32.5`), width, height - 30);
+        width += 50;
+      }
+    }
     const colorCode = RGBA_COLOR[msg.charAt(0)];
     const currentMessage = msg.substring(1);
-    if (
-      width + ctx.measureText(currentMessage).width > 1000 ||
-      msg.charAt(0) === "n"
-    ) {
+    if (width + ctx.measureText(currentMessage).width > 1000 || msg.charAt(0) === "n") {
       width = 5;
       height += 40;
     }
@@ -90,7 +104,7 @@ function generateMessageImage(message) {
     ctx.fillText(currentMessage, width, height);
     width += ctx.measureText(currentMessage).width;
   }
-  return canvas.toBuffer()
+  return canvas.toBuffer();
 }
 
 module.exports = generateMessageImage;
