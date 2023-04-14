@@ -158,7 +158,7 @@ class DiscordManager extends CommunicationBridge {
       case "minecraft":
         channel.send({
           files: [
-            new AttachmentBuilder(messageToImage(fullMessage), {
+            new AttachmentBuilder(await messageToImage(fullMessage), {
               name: `${username}.png`,
             }),
           ],
