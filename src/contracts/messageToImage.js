@@ -1,7 +1,6 @@
 // Credits https://github.com/Altpapier/hypixel-discord-guild-bridge/blob/master/helper/messageToImage.js
 // eslint-disable-next-line
 const { createCanvas, registerFont, loadImage } = require("canvas");
-const { getUUID } = require("../contracts/API/PlayerDBAPI");
 registerFont("src/contracts/Fonts/MinecraftRegular-Bmg3.ttf", {
   family: "Minecraft",
 });
