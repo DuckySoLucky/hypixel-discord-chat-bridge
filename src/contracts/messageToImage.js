@@ -55,7 +55,7 @@ function getHeight(message) {
   return height + 10;
 }
 
-async function generateMessageImage(message) {
+async function generateMessageImage(message,username) {
   const canvasHeight = getHeight(message);
   const canvas = createCanvas(1000, canvasHeight);
   const ctx = canvas.getContext("2d");
@@ -73,24 +73,10 @@ async function generateMessageImage(message) {
   let width = 5;
   let height = 35;
 
-  var originalPlayer = message
-    .slice(0, message.indexOf(":"))
-    .slice(0, message.slice(0, message.indexOf(":")).lastIndexOf(" "))
-    .slice(
-      message
-        .slice(0, message.indexOf(":"))
-        .slice(0, message.slice(0, message.indexOf(":")).lastIndexOf(" "))
-        .lastIndexOf(" ") + 1
-    ); // Probably there is a better way to do this but it works atleast i think ~Pixelic
-
-  if (originalPlayer.includes("§")) originalPlayer = null; // Bot does not get an Avatar
-
   for (const msg of splitMessage) {
     if (msg === splitMessage[2]) {
-      if (originalPlayer !== null) {
-        ctx.drawImage(await loadImage(`https://crafatar.com/avatars/${await getUUID(originalPlayer)}?size=32.5`), width, height - 30);
-        width += 50;
-      }
+      ctx.drawImage(await loadImage(`https://www.mc-heads.net/avatar/${username}/32`), width, height - 30);
+      width += 50;
     }
     const colorCode = RGBA_COLOR[msg.charAt(0)];
     const currentMessage = msg.substring(1);
