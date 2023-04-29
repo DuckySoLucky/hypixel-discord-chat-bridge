@@ -30,7 +30,9 @@ class CatacombsCommand extends minecraftCommand {
 
       this.send(
         `/gc ${username}'s Skyblock Level: ${
-          data.profile.leveling.experience / 100
+          data.profile.leveling?.experience
+            ? data.profile.leveling.experience / 100
+            : 0
         }`
       );
     } catch (error) {
