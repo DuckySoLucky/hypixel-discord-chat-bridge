@@ -53,7 +53,7 @@
     "util": "^0.12.5"
   },
   "devDependencies": {
-    "eslint": "^8.36.0",
+    "eslint": "^8.40.0",
     "eslint-plugin-import": "^2.27.5",
     "nodemon": "^2.0.22",
     "prettier": "2.8.7"
