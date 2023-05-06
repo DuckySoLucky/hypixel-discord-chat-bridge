@@ -32,15 +32,30 @@ class MessageHandler {
 
     this.discord.broadcastMessage(messageData);
 
-    if (message.attachments.values().length === 0) return;
-
-    messageData.message = "";
+    // handle images
+    const images = content.split(" ").filter((line) => line.startsWith("http"));
     for (const attachment of message.attachments.values()) {
+      images.push(attachment.url);
+    }
+
+    if (images.length === 0) return;
+    
+    for (const attachment of images) {
       const imgurLink = await imgurClient.upload({
-        image: attachment.url,
+        image: attachment,
         type: "url",
       });
-      messageData.message += `${imgurLink.data.link} `;
+
+      if (imgurLink.success === false) continue;
+
+      messageData.message = messageData.message.replace(
+        attachment,
+        imgurLink.data.link
+      );
+
+      if (messageData.message.includes(imgurLink.data.link) === false) {
+        messageData.message += ` ${imgurLink.data.link}`;
+      }
     }
 
     if (messageData.message.length === 0) return;
@@ -120,8 +135,8 @@ class MessageHandler {
     // ? demojify() function has a bug. It throws an error when it encounters channel with emoji in its name. Example: #💬・guild-chat
     try {
       return demojify(output);
-    } catch(e) {
-      return output
+    } catch (e) {
+      return output;
     }
   }
 

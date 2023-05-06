@@ -103,7 +103,11 @@
     "Hypixel Forums Maintenance | In progress - Scheduled maintenance is currently in progress. We will provide updates as necessary. | Apr 13, 08:51 EDT",
     "Hypixel Forums Maintenance | Scheduled - We will be undergoing routine maintenance during the specified duration. | Apr 13, 08:51 EDT",
     "Hypixel Forums Unavailable | Resolved - This incident has been resolved. | Apr 12, 16:08 EDT",
-    "Hypixel Forums Unavailable | Investigating - We are currently investigating an issue with the Hypixel Forums being offline and unavailable | Apr 12, 16:01 EDT"
+    "Hypixel Forums Unavailable | Investigating - We are currently investigating an issue with the Hypixel Forums being offline and unavailable | Apr 12, 16:01 EDT",
+    "SkyBlock Profiles Maintenance | May  5, 15:23 EDT | THIS IS A SCHEDULED EVENT May 9, 05:00 - 17:00 EDT",
+    "SkyBlock Profiles API disabled | Resolved - This incident has been resolved. | Apr 29, 15:04 EDT",
+    "SkyBlock Profiles API disabled | Monitoring - We have re-enabled the SkyBlock profiles endpoints and are monitoring. | Apr 29, 12:13 EDT",
+    "SkyBlock Profiles API disabled | Investigating - We are currently investigating issues with the SkyBlock profiles API and as a result, we have disabled the profile endpoints. We do not currently have an ETA for when they will be enabled. | Apr 29, 10:31 EDT"
   ],
   "skyblockUpdates": [
     "[February 22] SkyBlock Patch Notes | https://hypixel.net/threads/february-22-skyblock-patch-notes.5276871/",
@@ -165,6 +169,9 @@
     "[March 24] Various Grammatical Fixes | https://hypixel.net/threads/march-24-various-grammatical-fixes.5314082/",
     "10 Year Anniversary Contests - Results + Surprise Gift! | https://hypixel.net/threads/10-year-anniversary-contests-results-surprise-gift.5333726/",
     "SkyBlock Patch 0.18.3 - Garden Crop Growth & Presets, Bazaar & Sack Additions, Bug Fixes, & More | https://hypixel.net/threads/skyblock-patch-0-18-3-garden-crop-growth-presets-bazaar-sack-additions-bug-fixes-more.5324136/",
-    "UHC Modifiers, Achievements & Bug fixes | https://hypixel.net/threads/uhc-modifiers-achievements-bug-fixes.4035874/"
+    "UHC Modifiers, Achievements & Bug fixes | https://hypixel.net/threads/uhc-modifiers-achievements-bug-fixes.4035874/",
+    "Bed Wars Update - New Practice Modes, QoL Changes & More! | https://hypixel.net/threads/bed-wars-update-new-practice-modes-qol-changes-more.5339873/",
+    "Balancing, Replay Support, Pregame Parkours and Bug Fixes - Mega Walls Patch April 2023 | https://hypixel.net/threads/balancing-replay-support-pregame-parkours-and-bug-fixes-mega-walls-patch-april-2023.5318734/",
+    "Achievement Update | New Rewards, Balancing, and More! | https://hypixel.net/threads/achievement-update-new-rewards-balancing-and-more.1866948/"
   ]
 }

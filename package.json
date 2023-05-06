@@ -33,11 +33,11 @@
     "@discordjs/rest": "^1.5.0",
     "axios": "0.27.2",
     "bad-words": "^3.0.4",
-    "canvas": "2.10.1",
+    "canvas": "^2.10.1",
     "chalk": "^4.1.0",
     "discord-api-types": "^0.37.37",
     "discord-emoji-converter": "^1.2.8",
-    "discord.js": "^14.9.0",
+    "discord.js": "^14.11.0",
     "express": "^4.18.1",
     "fs-promise": "^2.0.3",
     "hypixel-api-reborn": "^10.0.0",
@@ -49,7 +49,7 @@
     "moment": "^2.29.4",
     "prismarine-nbt": "^2.2.1",
     "rss-parser": "^3.13.0",
-    "skyhelper-networth": "1.12.3",
+    "skyhelper-networth": "1.12.10",
     "util": "^0.12.5"
   },
   "devDependencies": {

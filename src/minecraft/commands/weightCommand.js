@@ -38,9 +38,9 @@ class StatsCommand extends minecraftCommand {
         profile.lily.total
       )} | Skills: ${formatNumber(
         profile.lily.skills.total
-      )} | Slayer: ${formatNumber(profile.lily.slayer.total)} | Dungeons: ${
-        profile.lily.catacombs.total
-      }`;
+      )} | Slayer: ${formatNumber(
+        profile.lily.slayer.total
+      )} | Dungeons: ${formatNumber(profile.lily.catacombs.total)}`;
       const senitherW = `Senither Weight: ${formatNumber(
         profile.senither.total
       )} | Skills: ${formatNumber(
