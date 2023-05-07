@@ -118,6 +118,12 @@ class warpoutCommand extends minecraftCommand {
           this.isOnCooldown = false;
 
           this.send(`/gc I cannot party yourself!`);
+        } else if (message.includes("didn't warp correctly!")) {
+          bot.removeListener("message", warpoutListener);
+          this.isOnCooldown = false;
+
+          this.send(`/gc ${user} didn't warp correctly! Please try again..`);
+          this.send("/p disband");
         }
       };
 
