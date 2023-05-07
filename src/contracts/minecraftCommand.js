@@ -17,9 +17,9 @@ class minecraftCommand {
 
   send(message, n = 1) {
     if (this.minecraft.bot.player === undefined) return;
-    
+
     const listener = async (msg) => {
-      if (msg.toString().includes('You are sending commands too fast! Please slow down.') && !msg.toString().includes(':')) {
+      if (msg.toString().includes("You are sending commands too fast! Please slow down.") && !msg.toString().includes(":")) {
         bot.removeListener("message", listener);
         n++;
 
@@ -44,13 +44,11 @@ class minecraftCommand {
 
     };
 
-    bot.on("message", listener);
+    bot.once("message", listener);
     bot.chat(message);
 
     setTimeout(() => {
-      if (bot.listenerCount("message") > 0) {
-        bot.removeListener("message", listener);
-      }
+      bot.removeListener("message", listener);
     }, 500);
   }
 
