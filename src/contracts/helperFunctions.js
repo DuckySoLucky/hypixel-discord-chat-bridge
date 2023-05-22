@@ -332,18 +332,17 @@ async function getStats(player, uuid, mode, time) {
         ).toFixed(2)}`;
       }
     } else {
-      const [response, response24H] = await Promise.all([
+      const [{ profile, profileData }, { data: response24H }] = await Promise.all([
         getLatestProfile(uuid),
         axios.get(
           `${config.minecraft.API.pixelicAPI}/player/skyblock/${time}/${uuid}?key=${config.minecraft.API.pixelicAPIkey}`
         ),
       ]);
 
-      const profile = response.profile;
       const oldProfile =
-        response24H.data.Profiles[response.profileData.profile_id];
+        response24H.Profiles[profileData.profile_id.replaceAll("-", "")];
 
-      const networth = await getNetworth(profile, response.profileData?.banking?.balance || 0, { cache: true, onlyNetworth: true });
+      const networth = await getNetworth(profile, profileData?.banking?.balance || 0, { cache: true, onlyNetworth: true });
       const experience = profile.leveling.experience;
       const skills = getSkills(profile);
       const slayer = getSlayer(profile);
