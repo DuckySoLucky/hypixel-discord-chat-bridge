@@ -1,6 +1,6 @@
 # Hypixel Discord Chat Bridge
 
-A two-way chat bridge between [Hypixel](https://hypixel.net/) guild chat and a [Discord](https://discord.com/) channel. The application utilizes [discord.js v13](https://github.com/discordjs/discord.js) for communicating with Discord, and [Mineflayer](https://github.com/PrismarineJS/mineflayer) for communicating with Hypixel.
+A two-way chat bridge between [Hypixel](https://hypixel.net/) guild chat and a [Discord](https://discord.com/) channel. The application utilizes [discord.js v14](https://github.com/discordjs/discord.js) for communicating with Discord, and [Mineflayer](https://github.com/PrismarineJS/mineflayer) for communicating with Hypixel.
 
 > ⚠️ This application will login to Hypixel using Mineflayer which is not a normal Minecraft client, this could result in your Minecraft account getting banned from Hypixel, so use this application at your own risk. I am not responsible for any bans that may occur. ⚠️
 
@@ -49,89 +49,128 @@ Using the link provided in the console, you sign into the minecraft account that
 
 #### Minecraft
 
-The `prefix` is the command prefixed used for all the commands in the bot on the Discord side, by default this is set it `!`.
+#### Bot
 
-`guildID` is ID of the hypixel guild required for Hypixel API, `guildExp` is integer value required for `!gexp` command which is used for checking how much more Guild experience user has to collect to meet requirements of the guild.
+The `bot` section contains configuration options for the bot, including the `prefix`, `messageFormat`, and `messageRepeatBypassLength`.
 
-`messageRepeatBypass` is ability to toggle bypass for users to use same command back to back without bot getting stopped by hypixel chat, I recommend you keep it on.
+The prefix option determines the command prefix used for minecraft commands. By default, this is set to `!`.
 
-`messageRepeatBypassLength` is length of message which will be sent to bypass message repeat, I recommend you to keep it on at least 16.
+The messageFormat option is a string that will be appended to the beginning of every message sent by the bot. By default, this is set to `»`.
+
+The messageRepeatBypassLength option is an integer value that determines the length of a string that will be sent after message in case `You cannot say the same message twice!` occurs.
+
+### Frag Bot
+
+The fragBot section contains options for the bot's fragBot feature, which manages a whitelist and blacklist of users.
+
+The `enabled` option determines whether the fragBot is enabled. By default, this is set to true.
+
+The `whitelist` option determines whether the whitelist feature is enabled. By default, this is set to false.
+
+The `customWhitelist` option is an array of user usernames or UUIDs that will be added to the whitelist which already includes Guild members. By default, this is set to an empty array.
+
+The `blacklist` option determines whether the blacklist feature is enabled. By default, this is set to false.
+
+The `blacklisted` option is an array of user usernames or UUIDs, blacklisted played won't be able to use fragBot. By default, this is set to an empty array.
+
+### Guild
+
+The guild section contains options related to the Hypixel guild.
+
+The `guildExp` option is an integer value required for the `!gexp` command, which is used to check how much more guild experience a user needs to collect to meet the guild's requirements. By default, this is set to 50,000.
+
+### API
+
+The API options include information about APIs which are being used, the only values which needs to be changed are `hypixelAPIkey`, `antiSniperKey`, `pixelicAPIkey` and `imgurAPIkey`.
+
+You can receive Hypixel API key by joining Hypixel Network and typing `/api new` command.
+> Hypixel API is used for most of stats related commands.
+
+AntiSniper key can be generated [Here](https://api.antisniper.net/).
+> AntiSniper API is used for `!denick` and `!winstreak` commands.
+
+Imgur API can be generated [Here](https://api.imgur.com/oauth2/addclient).
+> Imgur API is used for rendering commands like `!armor`, `!pet`, `!equipment` etc.
+
+Pixelic API can be generated [Here](https://docs.pixelic.de/).
+> Pixelic API is used for `!daily`, `!weekly` and `!monthly` commands.
+
+### guildRequirements
+
+The `guildRequirements` section contains options related to the Hypixel Guild's requirements.
+
+The `enabled` option determines whether guild requirements are enabled. By default, this is set to false.
+
+The `autoAccept` option determines whether guild invites should be automatically accepted if the user meets the guild's requirements. By default, this is set to false.
+
+The requirements option is an object containing various requirements for joining the guild, including `bedwarsStars`, `bedwarsStarsWithFKDR`, `bedwarsFKDR`, `skywarsStars`, `skywarsStarsWithKDR`, `skywarsKDR`, `duelsWins`, `duelsWinsWithWLR`, `duelsWLR`, `senitherWeight`, `lilyWeight`, and `skyblockLevel`. By default, all of these requirements are set to 0.
+
+
+### skyblockEventsNotifications
+
+The `skyblockEventsNotifications` object contains the settings related to Skyblock events notifications.
+
+The `enabled` property determines whether the feature is enabled or not. If it's set to true, the bot will send a message to the Guild chat 30 and 5 minutes before an event occurs
+
+The `notifiers` object contains a list of events that the bot will notify for, and whether each event is enabled or not. By default, all events are enabled. You can disable an event by setting its value to false.
+
+Here's a list of the supported events:
+- BANK_INTEREST: When bank interest is given to players.
+- DARK_AUCTION: When the Dark Auction event starts.
+- ELECTION_BOOTH_OPENS: When the election booth opens.
+- ELECTION_OVER: When the election is over and the results are announced.
+- FALLEN_STAR_CULT: When the Fallen Star Cult event starts.
+- FEAR_MONGERER: When the Fear Mongerer event starts.
+- JACOBS_CONTEST: When the Jacob's Contest event starts.
+- JERRYS_WORKSHOP: When Jerry's Workshop event starts.
+- NEW_YEAR_CELEBRATION: When the New Year's Celebration event starts.
+- SEASON_OF_JERRY: When the Season of Jerry event starts.
+- SPOOKY_FESTIVAL: When the Spooky Festival event starts.
+- TRAVELING_ZOO: When the Traveling Zoo event starts.
+
 
 #### Discord
 
-The Discord options includes the `token`, `clientID`, `serverID`, `guildChatChannel`, `officerChannel`, `loggingChannel`, `commandRole`, `prefix`, `messageMode`, `joinMessage` and `filterMessages` options.
+### Bot
+
+The `bot` options include the `token`,  and `serverID` options.
 
 The `token` is the Discord application token, if you don't already have a Discord App, you can [create a new app](https://discordapp.com/developers), then convert the app to a Discord bot, and then get your Discord bot token on the "Bot" page.
 
-The `clientID` is the Discord ID of the Discord Bot. First you have to enable Developer Mode which can be located inside Settings under Advanced tag, you can get Client ID by right clicking on discord bot and clicking Copy ID.
-
 The `serverID` is same as `clientID` but it's ID of the server. you can get it by right clicking on server and clicking on Copy ID.
+
+### Channels
 
 The `guildChatChannel` is the ID of the text channel the bot should be linked with, the bot will only send and listen to messages in the channel defined in the config.
 
 The `officerChannel` is the ID of the text channel the bot should be linked with for the Officer Chat, the bot will only send and listen to messages in the channel defined in the config.
 
-The `loggingChannel` is the ID of the text channel the bot should be linked with for the Logging Chat, the bot will only send and listen to guild managment stuff like kicks, mutes, promotions, demotions etc.
+The `loggingChannel` is the ID of the text channel the bot should be linked with for the Logs Chat, the bot will only send and listen to guild managment stuff like kicks, mutes, promotions, demotions etc.
+
+The `debugMode` is a boolean setting which is an ability to toggle `debugChannel`
+
+The `debugChannel` is the ID of text channel the bot should be linked with for the chat, the bot will send every single minecraft message here, anyone can send and execute commands from this channel
+
+### Roles
 
 The `commandRole` is the ID of any role on the server the bot is hosted for, any user with the role will be able to run all the Discord commands built into the bot, like `/kick` and `/promote`.
 
-> Note: Any user can run the `/online` and `/guildtop` commands, however all the other commands requires the user has the command role.
+
+### Other
 
 The `messageMode` can either be `bot`, `webhook` or `minecraft`. This selects how the messages should be displayed when sent from Minecraft to Discord. If webhook mode is selected the bot requires the `Manage Webhooks` permission in the channel it's running in. The bot always requires the `Send Messages` and `View Channel` permissions in the channel you're using it in.
 
-- [View Webhook example](https://imgur.com/DttmVtQ)
-- [View Bot Mode example](https://imgur.com/WvRAeZc)
-- [View Minecraft Mode example](https://imgur.com/MAAMpiT)
+- Webhook Example
+![View Webhook example](https://imgur.com/DttmVtQ.png)
+- Bot Example
+![View Bot Mode example](https://imgur.com/WvRAeZc.png)
+- Minecraft Example
+![View Minecraft Mode example](https://imgur.com/MAAMpiT.png)
+> Note - The Discord rate limit for webhooks is 30 requests every 60 seconds, whereas for bot and minecraft messages it's 5 messages every 5 seconds. Using webhooks effectively halves the number of messages the bot can send per minute which may cause issues in an active guild.
 
-> Note - The Discord rate limit for webhooks is 30 requests every 60 seconds, whereas for normal bot messages it's 5 messages every 5 seconds. Using webhooks effectively halves the number of messages the bot can send per minute which may cause issues in an active guild.
+The filterMessage is ability to toggle filtering messages. This should be set to `true` otherwise bot might get banned.
 
-The filterMessage is ability to toggle filtering messages. This should be set to `false` otherwise bot might get banned.
-
-The joinMessage is ability to toggle join and leave message being sent to the discord channel. This should be set to `false` in an inactive guilds since messages can be spammy.
-
-### Console
-
-The Discord options includes the `maxEventSize`, `debug`, and `debugChannel` options.
-
-The `maxEventSize` is max length of message which can be logged. I recommend you not touching this unless u know what you are doing.
-
-The `debug` is option to toggle logging all messags on discord, even public chat. This is useful for checking something but you can't get on the PC or you are lazy to launch minecraft.
-
-The `debugChannel` is the ID of the text channel where the bot should send messages.
-
-### API
-
-The API options include information about APIs which are being used, the only one which needs to be changed are `hypixelAPIkey`, `antiSniperKey`, `pixelicAPIkey` and `imgurAPIkey`.
-
-You can receive Hypixel API key by joining Hypixel Network and typing `/api new` command.
-
-> Hypixel API is used for most of the commands.
-
-AntiSniper key can be generated [Here](https://api.antisniper.net/).
-
-> AntiSniper API is used for `!denick` and `!winstreak` commands.
-
-Imgur API can be generated [Here](https://api.imgur.com/oauth2/addclient).
-
-> Imgur API is used for rendering commands like `!armor`, `!pet`, `!equipment` etc.
-
-Pixelic API can be generated [Here](https://api.pixelic.de).
-
-> Pixelic API is used for `!daily`, `!weekly` and `!monthly` commands.
-
-### Event
-
-The Event options include various events which will be notified by bot 30 and 5 minutes before event starts. If you do not like one of the events just change value from `true` to `false`. There is also ability to toggle off bot notifier fully in `enabled` option
-
-### Guild Requirements
-
-The bot also includes automatic guild accept if the user meets requirements. The requirements are set in the config.json, is requirement's value is 0 or below 0, it will not be accounted.
-
-`enabled` is option, should it check requirements of person who tries to join Guild or not. If this is enabled, request will be sent to the Logging Channel on the discord.
-
-`autoAccept` is option to enable automatic Guild accept or not, if the user meets requirements he will be automatically accepted by the bot.
-
-`requirements` option has suboptions, which are requirements.
+The joinMessage is ability to toggle join and leave message being sent to the discord channel.
 
 ### Commands
 
@@ -158,37 +197,38 @@ The bot also includes automatic guild accept if the user meets requirements. The
 
 `Minecraft`
 
-| Command     | Description                                 | Syntax                       | Example                       | Response                           |
-| ----------- | ------------------------------------------- | ---------------------------- | ----------------------------- | ---------------------------------- |
-| 8ball       | Ask an 8ball a question.                    | `!8ball <question>`          | `!8ball Is this bot good?`    | ![](https://imgur.com/Z8DUNuv.png) |
-| accessories | Accessories of specified user.              | `!accessories [player]`      | `!accessories DuckySoSkilled` | ![](https://imgur.com/zyLgJFm.png) |
-| armor       | Renders armor of specified user.            | `!armor [player]`            | `!armor DuckySoSkilled`       | ![](https://imgur.com/Mgf069P.png) |
-| auction     | Active Auctions of specified user.          | `!auction [player]`          | `!auction DuckySoSkilled`     | ![](https://imgur.com/NRgdz3I.png) |
-| bedwars     | BedWars stats of specified user.            | `!bedwars [player]`          | `!bedwars DuckySoSkilled`     | ![](https://imgur.com/zNoP49u.png) |
-| catacombs   | Skyblock Dungeons Stats of specified user.  | `!catacombs [player]`        | `!catacombs DuckySoSkilled`   | ![](https://imgur.com/ZBFl6SJ.png) |
-| daily       | Get daily stats of specified user.          | `!daily [player] [gamemode]` | `!daily DuckySoSkilled`       | ![](https://imgur.com/5WmvRej.png) |
-| denick      | Denick username of specified user.          | `!denick [player]`           | `!denick DuckySoSkilled`      | ![](https://imgur.com/vEAVQL6.png) |
-| duels       | Duel stats of specified user.               | `!duels [player]`            | `!duels DuckySoSkilled`       | ![](https://imgur.com/d2Fg1Sc.png) |
-| equipment   | Renders equipment of specified user.        | `!equipment [name]`          | `!equipment DuckySoSkilled`   | ![](https://imgur.com/3AbJ5gj.png) |
-| fairysouls  | Fairy Souls of specified user.              | `!fairysouls [player]`       | `!fairysouls DuckySoSkilled`  | ![](https://imgur.com/2v3CIHV.png) |
-| fetchur     | Information about an item for Fetchur.      | `!fetchur [item]`            | `!fetchur DuckySoSkilled`     | ![](https://imgur.com/B7Q8d1o.png) |
-| guildexp    | Guilds experience of specified user.        | `!guildexp [player]`         | `!guildexp DuckySoSkilled`    | ![](https://imgur.com/N2abg1f.png) |
-| help        | Shows help menu.                            | `!help`                      | `!help`                       | ![](https://imgur.com/rhZGGdb.png) |
-| kitty       | Random image of cute cat.                   | `!kitty`                     | `!kitty`                      | ![](https://imgur.com/bYa8xIp.png) |
-| math        | Calculate any kind of math problem.         | `!math <calculation>`        | `!math 6 * 9 + 6 + 9`         | ![](https://imgur.com/q7Zvl0j.png) |
-| monthly     | Get monthly stats of specified user.        | `!monthly [player]`          | `!monthly DuckySoSkilled`     | ![](https://imgur.com/P7pcOip.png) |
-| networth    | Networth of specified user.                 | `!networth [player]`         | `!networth DuckySoSkilled`    | ![](https://imgur.com/kdgPWaJ.png) |
-| pet         | Renders active pet of specified user.       | `!pet [player]`              | `!pet DuckySoSkilled`         | ![](https://imgur.com/cxKH7HB.png) |
-| render      | Renders item of specified user.             | `!render [player] [slot]`    | `!render DuckySoSkilled`      | ![](https://imgur.com/MEiqsrf.png) |
-| skills      | Skills and Skill Average of specified user. | `!skills [player]`           | `!skills DuckySoSkilled`      | ![](https://imgur.com/fQEPde5.png) |
-| skywars     | Skywars stats of specified user.            | `!skywars [player]`          | `!skywars DuckySoSkilled`     | ![](https://imgur.com/TultFVr.png) |
-| skyblock    | Skyblock Stats of specified user.           | `!skyblock [player]`         | `!skyblock DuckySoSkilled`    | ![](https://imgur.com/RtRMuYY.png) |
-| slayer      | Slayer of specified user.                   | `!slayer [player] [type]`    | `!slayer DuckySoSkilled`      | ![](https://imgur.com/EsO2DTB.png) |
-| UHC         | UHC Stats of specified user.                | `!UHC [player]`              | `!UHC DuckySoSkilled`         | ![](https://imgur.com/n5ZFSjY.png) |
-| weekly      | Get weekly stats of specified user.         | `!weekly [player]`           | `!weekly DuckySoSkilled`      | ![](https://imgur.com/UnwwPIV.png) |
-| weight      | Skyblock Stats of specified user.           | `!weight [player]`           | `!weight DuckySoSkilled`      | ![](https://imgur.com/Wpegpuy.png) |
-| winstreak   | Estimated winstreaks of the specified user. | `!winstreak [player]`        | `!winstreak DuckySoSkilled`   | ![](https://imgur.com/1km1kTC.png) |
-| woolwars    | WoolWars stats of specified user.           | `!woolwars [player]`         | `!woolwars DuckySoSkilled`    | ![](https://imgur.com/u4N0bJL.png) |
+| Command     | Description                                 | Syntax                       | Example                     | Response                                                                                                                                                                                                                     |
+| ----------- | ------------------------------------------- | ---------------------------- | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 8ball       | Ask an 8ball a question.                    | `!8ball <question>`          | `!8ball Is this bot good?`  | `Yes definitely.`                                                                                                                                                                                                            |
+| accessories | Accessories of specified user.              | `!accessories [player]`      | `!accessories Refraction`   | `Refraction's Accessories » 98 Recombobulated » 97 Enriched » 43` & `Refraction's Accessories » Common - 0 Uncommon - 16 Rare - 13 Epic - 26 Legendary - 16 Special - 0  Very Special - 2`                                   |
+| armor       | Renders armor of specified user.            | `!armor [player]`            | `!armor DeathStreeks`       | `DeathStreeks's armor » https://i.imgur.com/JdijFmo.png https://i.imgur.com/8uBpRrY.png https://i.imgur.com/oVQl6WV.png https://i.imgur.com/x7wlfnk.png`                                                                     |
+| auction     | Active Auctions of specified user.          | `!auction [player]`          | `!auction DuckySoSkilled`   | `DuckySoSkilled's Active Auctions » https://i.imgur.com/9Jw8zCK.png`                                                                                                                                                         |
+| bedwars     | BedWars stats of specified user.            | `!bedwars [player]`          | `!bedwars Refraction`       | `[13✫] Refraction FK: 358 FKDR: 7.31 Wins: 83 WLR: 1.54 BB: 216 BLR: 3.09 WS: 3`                                                                                                                                             |
+| catacombs   | Skyblock Dungeons Stats of specified user.  | `!catacombs [player]`        | `!catacombs DeathStreeks`   | `DeathStreeks's Catacombs: 62.29 Class Average: 50 Secrets Found: 279,088 (8.50 SPR) Classes: H - 50 M - 50 B - 50 A - 50 T - 50`                                                                                            |
+| daily       | Get daily stats of specified user.          | `!daily [player] [gamemode]` | `!daily DuckySoSkilled`     | `DuckySoSkilled has gained 0 karma and gained 0.1 levels in the last day.`                                                                                                                                                   |
+| denick      | Denick username of specified user.          | `!denick [player]`           | `!denick the_good_anime`    | `[MVP++] rajas0423 is nicked as the_good_anime`                                                                                                                                                                              |
+| duels       | Duel stats of specified user.               | `!duels [player]`            | `!duels DuckySoSkilled`     | `[Duels] [Godlike II] DuckySoSkilled Wins: 27044 CWS: 6 BWS: 536 WLR: 4.95`                                                                                                                                                  |
+| equipment   | Renders equipment of specified user.        | `!equipment [name]`          | `!equipment Refraction`     | `Refraction's Equipment » https://i.imgur.com/QOU2r0O.png https://i.imgur.com/dUrotYa.png https://i.imgur.com/0Fxnkjd.png https://i.imgur.com/wIEcrZX.png`                                                                   |
+| fairysouls  | Fairy Souls of specified user.              | `!fairysouls [player]`       | `!fairysouls DeathStreeks`  | `DeathStreeks's Fairy Souls: 238/238  Progress: 100.00%`                                                                                                                                                                     |
+| fetchur     | Information about an item for Fetchur.      | `!fetchur [item]`            | `!fetchur`                  | `Fetchur Requests » 1x Superboom TNT Description: This item can be purchased from the Auction House or found in dungeons`                                                                                                    |
+| guildexp    | Guilds experience of specified user.        | `!guildexp [player]`         | `!guildexp DuckySoSkilled`  | `Your Weekly Guild Experience » 1,495`                                                                                                                                                                                       |
+| help        | Shows help menu.                            | `!help`                      | `!help`                     | `https://imgur.com/BQBQXwN.png`                                                                                                                                                                                              |
+| kitty       | Random image of cute cat.                   | `!kitty`                     | `!kitty`                    | `https://i.imgur.com/jgUI7KO.jpg`                                                                                                                                                                                            |
+| level       | Skyblock Level of specified user.           | `level [player]`             | `!level DeathStreeks`       | `DeathStreek's Skyblock Level » 354.59`                                                                                                                                                                                      |
+| math        | Calculate any kind of math problem.         | `!math <calculation>`        | `!math 6 * 9 + 6 + 9`       | `6*9+6+9 = 69`                                                                                                                                                                                                               |
+| monthly     | Get monthly stats of specified user.        | `!monthly [player]`          | `!monthly DuckySoSkilled`   | `DuckySoSkilled has gained 0 karma and gained 0.1 levels in the last month.`                                                                                                                                                 |
+| networth    | Networth of specified user.                 | `!networth [player]`         | `!networth Refraction  `    | `Refraction's Networth is 114 B Unsoulbound Networth: 61.9 B Purse: 3.56 B Bank: 1.07 B`                                                                                                                                     |
+| pet         | Renders active pet of specified user.       | `!pet [player]`              | `!pet Refraction`           | `Refraction's Active Pet » https://i.imgur.com/FVuLQk4.png`                                                                                                                                                                  |
+| render      | Renders item of specified user.             | `!render [player] [slot]`    | `!render DuckySoSkilled`    | `DuckySoSkilled's item at slot 1 » https://i.imgur.com/U2dIcSc.png`                                                                                                                                                          |
+| skills      | Skills and Skill Average of specified user. | `!skills [player]`           | `!skills DuckySoSkilled`    | `Skill Average » 54.44 Farming - 60.00 Mining - 60.00 Combat - 60.00 Enchanting - 60.00 Fishing - 50.00 Foraging - 50.00 Alchemy - 50.00 Taming - 50.00 Carpentry - 50.00`                                                   |
+| skywars     | Skywars stats of specified user.            | `!skywars [player]`          | `!skywars DuckySoSkilled`   | `[38✫] Refraction KDR: 6.04 WLR: 1.01 WS: 0`                                                                                                                                                                                 |
+| skyblock    | Skyblock Stats of specified user.           | `!skyblock [player]`         | `!skyblock DeathStreeks`    | `DeathStreeks's Level » 354.59 Senither Weight » 44,455 Lily Weight » 39,268 Skill Average » 54.4 Slayer » 7,918,100 Catacombs » 62 Class Average » 50 Networth » 133 B Accessories » 98 Recombobulated » 97 Enriched » 44`  |
+| slayer      | Slayer of specified user.                   | `!slayer [player] [type]`    | `!slayer DeathStreeks`      | `DeathStreeks's Slayer -  Zombie: Level: 9 Experience: 3,165,000 Spider: Level: 9 Experience: 1,000,625 Wolf: Level: 9 Experience: 1,002,000 Enderman: Level: 9 Experience: 1,715,475 Blaze: Level: 9 Experience: 1,035,000` |
+| UHC         | UHC Stats of specified user.                | `!UHC [player]`              | `!UHC DuckySoSkilled`       | `[6✫] Refraction KDR: 2.54 WLR: 69 Heads: 578`                                                                                                                                                                               |
+| weekly      | Get weekly stats of specified user.         | `!weekly [player]`           | `!weekly DuckySoSkilled`    | `DuckySoSkilled has gained 0 karma and gained 0.1 levels in the last week.`                                                                                                                                                  |
+| weight      | Skyblock Stats of specified user.           | `!weight [player]`           | `!weight DuckySoSkilled`    | `Refraction's Senither Weight » 27721.82 Skills: 12991.95 Dungeons: 11353.90` & `Refraction's Lily Weight » 28342.24 Skills » 12310.84 Slayer » 4476.85 Dungeons » 11554.55`                                                 |
+| winstreak   | Estimated winstreaks of the specified user. | `!winstreak [player]`        | `!winstreak DuckySoSkilled` | `[3395✫] Manhal_IQ_: Accurrate » No Overall » 10 Solo » 9 Doubles » 1 Trios » 2 Fours » 0 4v4  » 74`                                                                                                                         |
+| woolwars    | WoolWars stats of specified user.           | `!woolwars [player]`         | `!woolwars DuckySoSkilled`  | `[2✫] DuckySoSkilled » W: 5 WLR: 0.5 KDR: 1.19 BB: 37 WP: 45`                                                                                                                                                                |
 
 ### Chat Triggers Module
 
@@ -206,17 +246,16 @@ The bot also includes an integrated frag bot that can be used by the guild.
 
 - [ ] `!pet` Command lore splitting
   - Lore of pet can sometimes be very long, to solve this issue there should be lore formatter function which will split lore every x characters so it looks better.
-- [ ] Fragbot Whitelist
-  - Ability to make frag bot be used only by specified users or by guild members only.
 
 ## Credits
 
-- [Altpapier](https://github.com/altpapier/hypixel-discord-guild-bridge/)
-- [DawJaw](https://dawjaw.net/jacobs)
-- [Hypixel API Reborn](https://hypixel.stavzdev.me/#/)
-- [Hypixel Network API](http://api.hypixel.net/)
-- [PlayerDB API](https://playerdb.co/)
+- [Hypixel API Reborn](https://github.com/Hypixel-API-Reborn/hypixel-api-reborn)
 - [SkyHelper API](https://github.com/Altpapier/SkyHelperAPI)
+- [PlayerDB API](https://playerdb.co/)
+- [Hypixel API](http://api.hypixel.net/)
+- [Pixelic API](https://docs.pixelic.de/)
+- [LilyWeight](https://github.com/Antonio32A/lilyweight)
+- [Altpapier](https://github.com/altpapier/hypixel-discord-guild-bridge/)
 - [SkyCrypt](https://github.com/SkyCryptWebsite/SkyCrypt)
 - [Senither](https://github.com/Senither)
-- [LilyWeight](https://github.com/Antonio32A/lilyweight)
+- [DawJaw](https://dawjaw.net/jacobs)

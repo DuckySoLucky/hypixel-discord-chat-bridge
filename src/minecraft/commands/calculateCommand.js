@@ -1,22 +1,44 @@
+const {
+  addCommas,
+  formatNumber,
+} = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
-
 class CalculateCommand extends minecraftCommand {
   constructor(minecraft) {
     super(minecraft);
 
-    this.name = "math";
-    this.aliases = ["calc", "calculate"];
+    this.name = "calculate";
+    this.aliases = ["calc", "math"];
     this.description = "Calculate.";
-    this.options = ["calculation"];
-    this.optionsDescription = ["Any kind of math equation"];
+    this.options = [
+      {
+        name: "calculation",
+        description: "Any kind of math equation",
+        required: true,
+      },
+    ];
   }
 
   onCommand(username, message) {
     try {
-      const calculation = this.getArgs(message).join(" ").replace(/[^-()\d/*+.]/g, "");
+      const calculation = this.getArgs(message)
+        .join(" ")
+        .replace(/[^-()\d/*+.]/g, "");
+      const answer = eval(calculation);
 
-      this.send(`/gc ${calculation.split("").join(" ")} = ${eval(calculation) === Infinity ? "Something went wrong.." : `${eval(calculation)} (${Math.round(eval(calculation))})` }`);
+      if (answer === Infinity) {
+        return this.send(`/gc Something went wrong..`);
+      }
 
+      if (answer < 100000) {
+        return this.send(`/gc ${calculation} = ${addCommas(answer)}`);
+      }
+
+      this.send(
+        `/gc ${calculation} = ${formatNumber(
+          answer
+        )} (${answer.toLocaleString()})`
+      );
     } catch (error) {
       this.send(`/gc Error: ${error}`);
     }

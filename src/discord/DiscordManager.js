@@ -1,5 +1,9 @@
-/*eslint-disable */
-const { Client, Collection, AttachmentBuilder, GatewayIntentBits } = require("discord.js");
+const {
+  Client,
+  Collection,
+  AttachmentBuilder,
+  GatewayIntentBits,
+} = require("discord.js");
 const CommunicationBridge = require("../contracts/CommunicationBridge.js");
 const messageToImage = require("../contracts/messageToImage.js");
 const MessageHandler = require("./handlers/MessageHandler.js");
@@ -7,11 +11,9 @@ const StateHandler = require("./handlers/StateHandler.js");
 const CommandHandler = require("./CommandHandler.js");
 const config = require("../../config.json");
 const Logger = require(".././Logger.js");
-/*eslint-enable */
+const { kill } = require("node:process");
 const path = require("node:path");
 const fs = require("fs");
-const { kill } = require("node:process");
-let channel;
 
 class DiscordManager extends CommunicationBridge {
   constructor(app) {
@@ -36,9 +38,13 @@ class DiscordManager extends CommunicationBridge {
     this.client = client;
 
     this.client.on("ready", () => this.stateHandler.onReady());
-    this.client.on("messageCreate", (message) => this.messageHandler.onMessage(message));
+    this.client.on("messageCreate", (message) =>
+      this.messageHandler.onMessage(message)
+    );
 
-    this.client.login(config.discord.token).catch((error) => {Logger.errorMessage(error)});
+    this.client.login(config.discord.bot.token).catch((error) => {
+      Logger.errorMessage(error);
+    });
 
     client.commands = new Collection();
     const commandFiles = fs
@@ -58,68 +64,71 @@ class DiscordManager extends CommunicationBridge {
     for (const file of eventFiles) {
       const filePath = path.join(eventsPath, file);
       const event = require(filePath);
-      event.once ? client.once(event.name, (...args) => event.execute(...args)) : client.on(event.name, (...args) => event.execute(...args));
+      event.once
+        ? client.once(event.name, (...args) => event.execute(...args))
+        : client.on(event.name, (...args) => event.execute(...args));
     }
 
-    global.guild = await client.guilds.fetch(config.discord.serverID);
+    global.guild = await client.guilds.fetch(config.discord.bot.serverID);
 
     process.on("SIGINT", () => {
       this.stateHandler.onClose().then(() => {
-        client.destroy()
+        client.destroy();
         kill(process.pid);
       });
     });
   }
 
-  async getChannel(type) {
-    switch (type) {
-      case "Officer":
-        return this.app.discord.client.channels.cache.get(
-          config.discord.officerChannel
-        );
-      case "Logger":
-        return this.app.discord.client.channels.cache.get(
-          config.discord.loggingChannel
-        );
-      case "debugChannel":
-        return this.app.discord.client.channels.cache.get(
-          config.console.debugChannel
-        );
-      default:
-        return this.app.discord.client.channels.cache.get(
-          config.discord.guildChatChannel
-        );
-    }
-  }
-
   async getWebhook(discord, type) {
-    channel = await this.getChannel(type);
+    const channel = await this.stateHandler.getChannel(type);
     const webhooks = await channel.fetchWebhooks();
-    if (webhooks.first()) {
-      return webhooks.first();
-    } else {
-      const response = await channel.createWebhook(
-        discord.client.user.username,
-        { avatar: discord.client.user.avatarURL() }
-      );
-      return response;
+
+    if (webhooks.size === 0) {
+      channel.createWebhook({
+        name: "Hypixel Chat Bridge",
+        avatar: "https://i.imgur.com/AfFp7pu.png",
+      });
+
+      await this.getWebhook(discord, type);
     }
+
+    return webhooks.first();
   }
 
-  async onBroadcast({ fullMessage, username, message, guildRank, chat }) {
-    if (message == "debug_temp_message_ignore" && config.discord.messageMode != "minecraft") return;
-    if (chat != "debugChannel") {
-      Logger.broadcastMessage(`${username} [${guildRank}]: ${message}`, `Discord`);
+  async onBroadcast({
+    fullMessage,
+    username,
+    message,
+    guildRank,
+    chat,
+    color = 1752220,
+  }) {
+    let mode = config.discord.other.messageMode.toLowerCase();
+    if (message === undefined) {
+      if (config.discord.channels.debugMode === false) {
+        return;
+      }
+
+      mode = "minecraft";
     }
 
-    channel = await this.getChannel(chat);
-    switch (config.discord.messageMode.toLowerCase()) {
+    if (message !== undefined) {
+      Logger.broadcastMessage(
+        `${username} [${guildRank}]: ${message}`,
+        `Discord`
+      );
+    }
+
+    const channel = await this.stateHandler.getChannel(chat || "Guild");
+    if (channel === undefined) return;
+
+    switch (mode) {
       case "bot":
         channel.send({
           embeds: [
             {
               description: message,
-              color: 3447003,
+              color: this.hexToDec(color),
               timestamp: new Date(),
               footer: {
                 text: guildRank,
@@ -131,6 +140,17 @@ class DiscordManager extends CommunicationBridge {
             },
           ],
         });
+
+        if (message.includes("https://")) {
+          let link = message.match(/https?:\/\/[^\s]+/g)[0];
+
+          if (link.endsWith("§r")) {
+            link = link.substring(0, link.length - 2);
+          }
+
+          channel.send(link);
+        }
+        
         break;
 
       case "webhook":
@@ -147,7 +167,7 @@ class DiscordManager extends CommunicationBridge {
         break;
 
       case "minecraft":
-        await channel.send({
+        channel.send({
           files: [
             new AttachmentBuilder(messageToImage(fullMessage), {
               name: `${username}.png`,
@@ -156,13 +176,17 @@ class DiscordManager extends CommunicationBridge {
         });
 
         if (fullMessage.includes("https://")) {
-          const link = fullMessage.match(/https?:\/\/[^\s]+/g)[0];
-          channel = await this.getChannel(chat);
-          await channel.send(link);
+          let link = fullMessage.match(/https?:\/\/[^\s]+/g)[0];
+
+          if (link.endsWith("§r")) {
+            link = link.substring(0, link.length - 2);
+          }
+
+          channel.send(link);
         }
 
         break;
-        
+
       default:
         throw new Error(
           "Invalid message mode: must be bot, webhook or minecraft"
@@ -171,11 +195,9 @@ class DiscordManager extends CommunicationBridge {
   }
 
   async onBroadcastCleanEmbed({ message, color, channel }) {
-    if (message.length < config.console.maxEventSize) {
-      Logger.broadcastMessage(message, "Event");
-    }
+    Logger.broadcastMessage(message, "Event");
 
-    channel = await this.getChannel(channel);
+    channel = await this.stateHandler.getChannel(channel);
     channel.send({
       embeds: [
         {
@@ -187,10 +209,9 @@ class DiscordManager extends CommunicationBridge {
   }
 
   async onBroadcastHeadedEmbed({ message, title, icon, color, channel }) {
-    if (message && message.length < config.console.maxEventSize) {
-      Logger.broadcastMessage(message, "Event");
-    }
-    channel = await this.getChannel(channel);
+    Logger.broadcastMessage(message, "Event");
+
+    channel = await this.stateHandler.getChannel(channel);
     channel.send({
       embeds: [
         {
@@ -206,9 +227,10 @@ class DiscordManager extends CommunicationBridge {
   }
 
   async onPlayerToggle({ fullMessage, username, message, color, channel }) {
-    Logger.broadcastMessage(username + " " + message, "Event");
-    channel = await this.getChannel(channel);
-    switch (config.discord.messageMode.toLowerCase()) {
+    Logger.broadcastMessage(message, "Event");
+
+    channel = await this.stateHandler.getChannel(channel);
+    switch (config.discord.other.messageMode.toLowerCase()) {
       case "bot":
         channel.send({
           embeds: [
@@ -216,7 +238,7 @@ class DiscordManager extends CommunicationBridge {
               color: color,
               timestamp: new Date(),
               author: {
-                name: `${username} ${message}`,
+                name: `${message}`,
                 icon_url: `https://www.mc-heads.net/avatar/${username}`,
               },
             },
@@ -234,7 +256,7 @@ class DiscordManager extends CommunicationBridge {
           embeds: [
             {
               color: color,
-              description: `${username} ${message}`,
+              description: `${message}`,
             },
           ],
         });
@@ -252,6 +274,10 @@ class DiscordManager extends CommunicationBridge {
       default:
         throw new Error("Invalid message mode: must be bot or webhook");
     }
+  }
+
+  hexToDec(hex) {
+    return parseInt(hex.replace("#", ""), 16);
   }
 }
 

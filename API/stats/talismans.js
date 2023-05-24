@@ -37,7 +37,7 @@ module.exports = async (profile) => {
                         reforge: reforge ?? 'None',
                         rarity: getRarity(talisman.tag?.display.Lore).toUpperCase(),
                         recombobulated: isRecombed,
-                        enrichment: talisman.tag?.ExtraAttributes?.talisman_enrichment ?? 'None'
+                        enrichment: talisman.tag?.ExtraAttributes?.talisman_enrichment
                     };
                 } else {
                     new_talisman = {

@@ -1,5 +1,5 @@
 // CREDIT: https://github.com/slothpixel/core/ (util/calculateLevel.js)
-module.exports = (player) => {
+module.exports = (xp) => {
   const BASE = 10000;
   const GROWTH = 2500;
 
@@ -7,7 +7,7 @@ module.exports = (player) => {
   const REVERSE_CONST = REVERSE_PQ_PREFIX * REVERSE_PQ_PREFIX;
   const GROWTH_DIVIDES_2 = 2 / GROWTH;
 
-  const experience = player?.networkExp || 0;
+  const experience = xp || 0;
 
   const level =
     experience <= 1

@@ -50,46 +50,48 @@ class MinecraftManager extends CommunicationBridge {
     bridgeChat = channel;
     if (!this.bot.player) return;
 
-    if (channel === config.console.debugChannel) {
+    if (channel === config.discord.channels.debugChannel && config.discord.channels.debugMode === true) {
       return this.bot.chat(message);
     }
 
-    if (channel === config.discord.guildChatChannel) {
-      return config.discord.filterMessages
+    const symbol = config.minecraft.bot.messageFormat;
+
+    if (channel === config.discord.channels.guildChatChannel) {
+      return config.discord.other.filterMessages
         ? this.bot.chat(
             filter.clean(
               `/gc ${
                 replyingTo
-                  ? `${username} replying to ${replyingTo} »`
-                  : `${username} »`
+                  ? `${username} replying to ${replyingTo}${symbol}`
+                  : `${username}${symbol}`
               } ${message}`
             )
           )
         : this.bot.chat(
             `/gc ${
               replyingTo
-                ? `${username} replying to ${replyingTo} »`
-                : `${username} »`
+                ? `${username} replying to ${replyingTo}${symbol}`
+                : `${username}${symbol}`
             } ${message}`
           );
     }
 
-    if (channel === config.discord.officerChannel) {
-      return config.discord.filterMessages
+    if (channel === config.discord.channels.officerChannel) {
+      return config.discord.other.filterMessages
         ? this.bot.chat(
             filter.clean(
               `/oc ${
                 replyingTo
-                  ? `${username} replying to ${replyingTo} »`
-                  : `${username} »`
+                  ? `${username} replying to ${replyingTo}${symbol}`
+                  : `${username}${symbol}`
               } ${message}`
             )
           )
         : this.bot.chat(
             `/oc ${
               replyingTo
-                ? `${username} replying to ${replyingTo} »`
-                : `${username} »`
+                ? `${username} replying to ${replyingTo}${symbol}`
+                : `${username}${symbol}`
             } ${message}`
           );
     }

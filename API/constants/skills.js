@@ -36,11 +36,9 @@ module.exports = function calcSkill(skill, experience, type) {
     }
   }
 
-  if (type && (experience - xp) >= 200000000) {
-    while ((experience - xp) >= 200000000) {
-      level += 1;
-      xp += 200000000;
-    }
+  if (skill === "dungeoneering") {
+    level += Math.floor((experience - xp) / 200_000_000);
+    xp += Math.floor((experience - xp) / 200_000_000) * 200_000_000;
 
     xpForNext = 200000000;
   }
@@ -54,7 +52,7 @@ module.exports = function calcSkill(skill, experience, type) {
   }
   
   progress =
-    level >= maxLevel && type === undefined ? 0 : Math.max(0, Math.min(xpCurrent / xpForNext, 1));
+    level >= maxLevel && skill !== "dungeoneering" ? 0 : Math.max(0, Math.min(xpCurrent / xpForNext, 1));
 
   return {
     totalXp,

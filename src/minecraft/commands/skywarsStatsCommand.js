@@ -7,8 +7,13 @@ class SkywarsCommand extends minecraftCommand {
     this.name = "skywars";
     this.aliases = ["sw"];
     this.description = "Skywars stats of specified user.";
-    this.options = ["name"];
-    this.optionsDescription = ["Minecraft Username"];
+    this.options = [
+      {
+        name: "username",
+        description: "Minecraft username",
+        required: false,
+      },
+    ];
   }
 
   async onCommand(username, message) {

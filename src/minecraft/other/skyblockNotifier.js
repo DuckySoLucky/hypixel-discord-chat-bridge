@@ -20,9 +20,13 @@ async function checkForIncidents() {
 
         if (currentStatus.includes(`${data.title} | ${content} | ${date}`) === true) continue;
 
+        const dateToUnix = new Date(data.pubDate).getTime();
+        if (dateToUnix / 1000 + 43200 > Date.now() / 1000) {
+          bot.chat(`/gc [HYPIXEL STATUS] ${data.title} - ${content.split(' - ')[1]} | ${data.link}`);
+        }
+
         currentStatus.push(`${data.title} | ${content} | ${date}`);
         await writeAt('data/skyblockNotifer.json', 'skyblockStatus', currentStatus);
-        bot.chat(`/gc [SKYBLOCK STATUS] ${data.title} - ${content.split(' - ')[1]} | ${data.link}`);
       }
     }
 
@@ -33,14 +37,23 @@ async function checkForIncidents() {
 
 async function checkForSkyblockUpdates() {
   try {
-    const feed = await parser.parseURL('https://hypixel.net/forums/skyblock-patch-notes.158/index.rss');
-    for (const data of feed.items) {
-      const currentUpdates = (JSON.parse(fs.readFileSync('data/skyblockNotifer.json'))).skyblockUpdates;
-      if (currentUpdates.includes(`${data.title} | ${data.link} | ${data.pubDate}`) === true) continue;
+    const [ response, response1 ] = await Promise.all([
+      parser.parseURL('https://hypixel.net/forums/news-and-announcements.4/index.rss'),
+      parser.parseURL('https://hypixel.net/forums/skyblock-patch-notes.158/index.rss')
+    ]);
 
-      currentUpdates.push(`${data.title} | ${data.link} | ${data.pubDate}`);
+    const feed = response.items.concat(response1.items);
+    for (const data of feed) {
+      const currentUpdates = (JSON.parse(fs.readFileSync('data/skyblockNotifer.json'))).skyblockUpdates;
+      if (currentUpdates.includes(`${data.title} | ${data.link}`) === true) continue;
+
+      const dateToUnix = new Date(data.pubDate).getTime();
+      if (dateToUnix / 1000 + 43200 > Date.now() / 1000) {
+        bot.chat(`/gc [HYPIXEL UPDATE] ${data.title} | ${data.link}`);
+      }
+
+      currentUpdates.push(`${data.title} | ${data.link}`);
       await writeAt('data/skyblockNotifer.json', 'skyblockUpdates', currentUpdates);
-      bot.chat(`/gc [SKYBLOCK UPDATE] ${data.title} | ${data.link}`);
     }
 
   } catch (error) {

@@ -11,8 +11,18 @@ class DailyStatsCommand extends minecraftCommand {
     this.name = "daily";
     this.aliases = [""];
     this.description = "Get your daily stats.";
-    this.options = ["name", "gamemode"];
-    this.optionsDescription = ["Minecraft Username", "Hypixel Gamemode"];
+    this.options = [
+      {
+        name: "username",
+        description: "Minecraft username",
+        required: false,
+      },
+      {
+        name: "mode",
+        description: "Gamemode",
+        required: false,
+      },
+    ];
   }
 
   async onCommand(username, message) {
@@ -28,39 +38,51 @@ class DailyStatsCommand extends minecraftCommand {
       "duels",
       "duel",
       "d",
+      "skyblock",
+      "sb",
     ];
-    const args = this.getArgs(message).map((arg) => arg.replaceAll("/", ""))
+    const args = this.getArgs(message).map((arg) => arg.replaceAll("/", ""));
 
-    const mode = modes.includes(args[0]) ? args[0] : modes.includes(args[1]) ? args[1] : null;
-    username = (args[0] == mode ? args[1] === "" ? username : args[1] : args[0] === "" ? username : args[0]) || username;
+    const mode = modes.includes(args[0])
+      ? args[0]
+      : modes.includes(args[1])
+      ? args[1]
+      : null;
+    username =
+      (args[0] == mode
+        ? args[1] === ""
+          ? username
+          : args[1]
+        : args[0] === ""
+        ? username
+        : args[0]) || username;
 
     try {
       const uuid = await getUUID(username);
 
       this.send(await getStats(username, uuid, mode, "daily"));
     } catch (error) {
+      console.log("catch", error);
       if (error === "Player not in database") {
-        this.send(
-          `/gc ${username} is not registered in the database! Adding them now..`
-        );
+        this.send(`/gc ${username} is not registered in the database! Adding them now..`);
 
-        const uuid = await getUUID(username);
-        const res = await axios.post(
-          `https://api.pixelic.de/v1/player/register/${uuid}?key=${config.api.pixelicAPIkey}`
-        );
+        try {
+          const uuid = await getUUID(username);
+          const res = await axios.post(
+            ["sb", "skyblock"].includes(mode)
+              ? `https://api.pixelic.de/player/skyblock/register/${uuid}?key=${config.minecraft.API.pixelicAPIkey}`
+              : `https://api.pixelic.de/player/register/${uuid}?key=${config.minecraft.API.pixelicAPIkey}`
+          );
 
-        if (res.status == 201) {
-          this.send(`/gc Successfully registered ${username} in the database!`);
-        } else if (res.status == 400) {
-          this.send(
-            `/gc Uh oh, somehow this player is already registered in the database! Please try again in few seconds..`
-          );
-        } else {
-          this.send(
-            `/gc Error: ${res.status} ${
-              res?.statusText || "Something went wrong.."
-            }`
-          );
+
+          if (res.status == 201) {
+            this.send(`/gc Successfully registered ${username} in the database!`);
+          } else {
+            this.send(`/gc Error: ${res.status} ${res?.statusText || "Something went wrong.."}`);
+          }
+        } catch (e) {
+          console.group(e.response.data)
+          this.send(`/gc Error: ${e.response.data.cause}`);
         }
       } else {
         this.send(`/gc Error: ${error}`);

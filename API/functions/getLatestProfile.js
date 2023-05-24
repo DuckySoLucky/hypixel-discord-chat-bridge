@@ -4,6 +4,8 @@ const { parseHypixel } = require("../utils/hypixel.js");
 const axios = require("axios");
 const { getUUID } = require("../../src/contracts/API/PlayerDBAPI.js");
 
+const cache = new Map();
+
 async function getLatestProfile(uuid) {
   // eslint-disable-next-line no-useless-catch
   try {
@@ -11,14 +13,28 @@ async function getLatestProfile(uuid) {
       uuid = await getUUID(uuid);
     }
 
+    if (cache.has(uuid)) {
+      const data = cache.get(uuid);
+
+      if (data.last_save + 300000 > Date.now()) { // 5 minutes
+        return data;
+      }
+    }
+
     let [playerRes, profileRes] = await Promise.all([
       axios.get(
-        `https://api.hypixel.net/player?key=${config.api.hypixelAPIkey}&uuid=${uuid}`
+        `https://api.hypixel.net/player?key=${config.minecraft.API.hypixelAPIkey}&uuid=${uuid}`
       ),
       axios.get(
-        `https://api.hypixel.net/skyblock/profiles?key=${config.api.hypixelAPIkey}&uuid=${uuid}`
+        `https://api.hypixel.net/skyblock/profiles?key=${config.minecraft.API.hypixelAPIkey}&uuid=${uuid}`
       ),
-    ]);
+    ]).catch((error) => {
+      // eslint-disable-next-line no-throw-literal
+      throw (
+        error?.response?.data?.cause ??
+        "Request to Hypixel API failed. Please try again!"
+      );
+    });
 
     playerRes = playerRes?.data ?? {};
     profileRes = profileRes?.data ?? {};
@@ -58,17 +74,20 @@ async function getLatestProfile(uuid) {
       throw "Player does not have selected profile.";
     }
 
-    return {
+    const output = {
+      last_save: Date.now(),
       profiles: profileRes.profiles,
       profile: profile,
       profileData: profileData,
       playerRes: playerRes,
       player: player,
       uuid: uuid,
-    };
+    }
 
+    cache.set(uuid, output);
+
+    return output;
   } catch (error) {
-    
     throw error;
   }
 }

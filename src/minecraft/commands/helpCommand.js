@@ -8,12 +8,11 @@ class HelpCommand extends minecraftCommand {
     this.aliases = ["info"];
     this.description = "Shows help menu";
     this.options = [];
-    this.optionsDescription = [];
   }
 
   onCommand(username, message) {
     try {
-      this.send(`/gc https://imgur.com/BQBQXwN.png`);
+      this.send(`/gc https://imgur.com/lXwXJhd.png`);
     } catch (error) {
       this.send("/gc Something went wrong..");
     }

@@ -8,18 +8,30 @@ class EightBallCommand extends minecraftCommand {
     this.name = "megawalls";
     this.aliases = ["mw"];
     this.description = "View the Megawalls stats of a player";
-    this.options = ["username"];
-    this.optionsDescription = ["Minecraft username"];
+    this.options = [
+      {
+        name: "username",
+        description: "Minecraft username",
+        required: false,
+      },
+    ];
   }
-
 
   async onCommand(username, message) {
     try {
-        username = this.getArgs(message)[0] || username;
+      username = this.getArgs(message)[0] || username;
 
       const megawalls = (await hypixel.getPlayer(username)).stats.megawalls;
 
-      this.send(`/gc ${username}'s Megawalls: Class: ${megawalls.selectedClass || "None"} | FK: ${megawalls.finalKills} | FKDR: ${megawalls.finalKDRatio} | W: ${megawalls.wins} | WLR: ${megawalls.WLRatio} | K: ${megawalls.kills} | KDR: ${megawalls.KDRatio} | A: ${megawalls.assists}`)
+      this.send(
+        `/gc ${username}'s Megawalls: Class: ${
+          megawalls.selectedClass || "None"
+        } | FK: ${megawalls.finalKills} | FKDR: ${
+          megawalls.finalKDRatio
+        } | W: ${megawalls.wins} | WLR: ${megawalls.WLRatio} | K: ${
+          megawalls.kills
+        } | KDR: ${megawalls.KDRatio} | A: ${megawalls.assists}`
+      );
     } catch (error) {
       this.send(`/gc ${error.toString().replace("[hypixel-api-reborn] ", "")}`);
     }
