@@ -70,15 +70,27 @@ class DailyStatsCommand extends minecraftCommand {
           const uuid = await getUUID(username);
           const res = await axios.post(
             ["sb", "skyblock"].includes(mode)
-              ? `https://api.pixelic.de/player/skyblock/register/${uuid}?key=${config.minecraft.API.pixelicAPIkey}`
-              : `https://api.pixelic.de/player/register/${uuid}?key=${config.minecraft.API.pixelicAPIkey}`
+              ? `https://api.pixelic.de/player/skyblock/${uuid}/register?key=${config.minecraft.API.pixelicAPIkey}`
+              : `https://api.pixelic.de/player/${uuid}/register?key=${config.minecraft.API.pixelicAPIkey}`
           );
 
 
           if (res.status == 201) {
             this.send(`/gc Successfully registered ${username} in the database!`);
+          } else if (res.status == 404) {
+            this.send(
+              `/gc Uh oh, somehow this player is already registered in the database! Please try again in few seconds..`
+            );
+          } else if (res.status == 409) {
+            this.send(
+              `/gc Uh oh, this player is already queued to be registered! Please be patient and try again later.`
+            );
           } else {
-            this.send(`/gc Error: ${res.status} ${res?.statusText || "Something went wrong.."}`);
+            this.send(
+              `/gc Error: ${res.status} ${
+                res?.statusText || "Something went wrong.."
+              }`
+            );
           }
         } catch (e) {
           console.group(e.response.data)
