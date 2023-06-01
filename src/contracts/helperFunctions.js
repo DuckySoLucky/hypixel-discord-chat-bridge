@@ -242,7 +242,7 @@ async function getStats(player, uuid, mode, time) {
           `https://api.hypixel.net/player?uuid=${uuid}&key=${config.minecraft.API.hypixelAPIkey}`
         ),
         axios.get(
-          `${config.minecraft.API.pixelicAPI}/player/${time}/${uuid}?key=${config.minecraft.API.pixelicAPIkey}`
+          `${config.minecraft.API.pixelicAPI}/player/${uuid}/${time}?key=${config.minecraft.API.pixelicAPIkey}`
         ),
       ]);
 
@@ -335,7 +335,7 @@ async function getStats(player, uuid, mode, time) {
       const [{ profile, profileData }, { data: response24H }] = await Promise.all([
         getLatestProfile(uuid),
         axios.get(
-          `${config.minecraft.API.pixelicAPI}/player/skyblock/${time}/${uuid}?key=${config.minecraft.API.pixelicAPIkey}`
+          `${config.minecraft.API.pixelicAPI}/player/skyblock/${uuid}/${time}?key=${config.minecraft.API.pixelicAPIkey}`
         ),
       ]);
 
