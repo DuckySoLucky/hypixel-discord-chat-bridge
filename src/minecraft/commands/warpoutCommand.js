@@ -1,5 +1,7 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
+const {getUUID} = require("../../contracts/API/PlayerDBAPI.js");
 
 class warpoutCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -24,6 +26,11 @@ class warpoutCommand extends minecraftCommand {
       const user = this.getArgs(message)[0];
       // eslint-disable-next-line no-throw-literal
       if (user === undefined) throw "Please provide a username!";
+      const uuid = await getUUID(user)
+      const members = await hypixel
+      .getGuild("player", bot.username)
+      .then(async (guild) => guild.members.map((member) => member.uuid));
+      if(members.includes(uuid)) throw "You cannot warp out Guild Members."
       bot.chat("/lobby megawalls");
       await delay(250);
       this.send("/play skyblock");
