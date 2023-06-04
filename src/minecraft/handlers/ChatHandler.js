@@ -56,7 +56,7 @@ class StateHandler extends eventHandler {
         ? message.substr(54).split(" ")[1].trim()
         : message.substr(54).split(" ")[0].trim();
 
-      const { blacklist, blacklisted, whitelist, whitelisted } =
+      const { blacklist, blacklisted, whitelist, customWhitelist } =
         config.minecraft.fragBot;
       if (blacklist || whitelist) {
         const uuid = await getUUID(username);
@@ -70,19 +70,25 @@ class StateHandler extends eventHandler {
         const members = await hypixel
           .getGuild("player", bot.username)
           .then(async (guild) => guild.members.map((member) => member.uuid));
+          while(isPartyActive === true){
+            await delay(2000)
+          }
+          isPartyActive = true
         if (
           (config.minecraft.fragBot.whitelist &&
-            whitelisted.includes(username)) ||
+            customWhitelist.includes(username)) ||
           members.includes(uuid)
         ) {
           this.send(`/party accept ${username}`);
           await delay(Math.floor(Math.random() * (6900 - 4200 + 1)) + 4200);
           this.send(`/party leave`);
+          isPartyActive = false
         }
       } else {
         this.send(`/party accept ${username}`);
         await delay(Math.floor(Math.random() * (6900 - 4200 + 1)) + 4200);
         this.send(`/party leave`);
+        isPartyActive = false
       }
     }
 
