@@ -2,7 +2,7 @@ const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
 const {getUUID} = require("../../contracts/API/PlayerDBAPI.js");
-
+global.isPartyActive = false;
 class warpoutCommand extends minecraftCommand {
   constructor(minecraft) {
     super(minecraft);
@@ -20,7 +20,10 @@ class warpoutCommand extends minecraftCommand {
       if (this.isOnCooldown) {
         return this.send(`/gc ${username} Command is on cooldown`);
       }
-
+      while(isPartyActive === true){
+        await delay(2000)
+      }
+      isPartyActive = true;
       this.isOnCooldown = true;
 
       const user = this.getArgs(message)[0];
@@ -144,13 +147,13 @@ class warpoutCommand extends minecraftCommand {
           this.send("/gc Party timedout");
           this.send("/p disband");
           this.send("\u00a7");
-
+          isPartyActive = false;
           this.isOnCooldown = false;
         }
       }, 30000);
     } catch (error) {
       this.send(`/gc ${username} Error: ${error || "Something went wrong.."}`);
-
+      isPartyActive = false;
       this.isOnCooldown = false;
     }
   }
