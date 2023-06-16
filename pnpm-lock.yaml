@@ -67,7 +67,7 @@ dependencies:
 
 devDependencies:
   eslint:
-    specifier: ^8.40.0
+    specifier: ^8.42.0
     version: 8.42.0
   eslint-plugin-import:
     specifier: ^2.27.5
