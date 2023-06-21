@@ -24,9 +24,6 @@
 
       "playerDBAPI": "https://playerdb.co/api/player/minecraft",
 
-      "pixelicAPI": "https://api.pixelic.de",
-      "pixelicAPIkey": "PIXELIC_API_KEY",
-
       "imgurAPIkey": "IMGUR_API_KEY"
     },
     "guildRequirements": {
