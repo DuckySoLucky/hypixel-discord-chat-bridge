@@ -302,7 +302,6 @@ module.exports = {
   capitalize,
   decodeData,
   numberWithCommas,
-  getStats,
   nth,
   parseTimestamp,
   formatUsername,
