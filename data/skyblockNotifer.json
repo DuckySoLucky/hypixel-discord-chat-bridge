@@ -107,7 +107,20 @@
     "SkyBlock Profiles Maintenance | May  5, 15:23 EDT | THIS IS A SCHEDULED EVENT May 9, 05:00 - 17:00 EDT",
     "SkyBlock Profiles API disabled | Resolved - This incident has been resolved. | Apr 29, 15:04 EDT",
     "SkyBlock Profiles API disabled | Monitoring - We have re-enabled the SkyBlock profiles endpoints and are monitoring. | Apr 29, 12:13 EDT",
-    "SkyBlock Profiles API disabled | Investigating - We are currently investigating issues with the SkyBlock profiles API and as a result, we have disabled the profile endpoints. We do not currently have an ETA for when they will be enabled. | Apr 29, 10:31 EDT"
+    "SkyBlock Profiles API disabled | Investigating - We are currently investigating issues with the SkyBlock profiles API and as a result, we have disabled the profile endpoints. We do not currently have an ETA for when they will be enabled. | Apr 29, 10:31 EDT",
+    "SkyBlock Profiles Maintenance | Resolved - SkyBlock is now open to all players. We are not aware of any issues after the profile changes, if you come across any bugs please report them https://hypixel.net/bug-reports/create | May 16, 19:31 EDT",
+    "SkyBlock Profiles Maintenance | Monitoring - SkyBlock is still undergoing maintenance for profile structure changes and migration and we are monitoring the results. | May 16, 17:03 EDT",
+    "SkyBlock Profiles Maintenance | Completed - The scheduled maintenance has been completed. | May 16, 17:00 EDT",
+    "SkyBlock Profiles Maintenance | Update - We have now re-enabled some features, such as the Dark Auction and Museum. We have also enabled the SkyBlock profile endpoints, these endpoints will only return data for players who have logged in and migrated to the new profile system. | May 16, 16:26 EDT",
+    "SkyBlock Profiles Maintenance | Verifying - We are now allowing some players into SkyBlock as we further monitor the migration of profiles to the new system. Some features are disabled during this time, and the SkyBlock Profiles API is still currently unavailable. | May 16, 15:36 EDT",
+    "SkyBlock Profiles Maintenance | In progress - We are currently investigating issues related to players who have been invited or kicked from a coop since the migration, and as a result we have disabled joining SkyBlock. | May 16, 13:30 EDT",
+    "SkyBlock Profiles Maintenance | Verifying - We are now starting to allow some players into SkyBlock as we monitor the migration of profiles to the new system. Some features are disabled during this time, and the SkyBlock Profiles API is still currently unavailable. | May 16, 11:44 EDT",
+    "SkyBlock Profiles Maintenance | In progress - Scheduled maintenance is currently in progress. We will provide updates as necessary. | May 16, 05:00 EDT",
+    "SkyBlock Profiles Maintenance | Update - Due to unforeseen issues, we are delaying this maintenance to next week to allow further validation of the changes. | May  8, 17:11 EDT",
+    "SkyBlock Profiles Maintenance | Scheduled - SkyBlock will be undergoing maintenance to migrate profile data to a new system. During this time SkyBlock and related Public API endpoints will be unavailable. We are estimating this maintenance to take up to 12 hours, assuming no unforeseen issues occur. | May  5, 15:23 EDT",
+    "Increased Public API response times for SkyBlock profiles | Resolved - This incident has been resolved. | May 13, 12:14 EDT",
+    "Increased Public API response times for SkyBlock profiles | Monitoring - A fix has been implemented and we are monitoring the results. | May 13, 11:02 EDT",
+    "Increased Public API response times for SkyBlock profiles | Investigating - We are currently investigating an issue causing increased response times for SkyBlock profile requests on the Public API. | May 13, 09:53 EDT"
   ],
   "skyblockUpdates": [
     "[February 22] SkyBlock Patch Notes | https://hypixel.net/threads/february-22-skyblock-patch-notes.5276871/",
@@ -172,6 +185,7 @@
     "UHC Modifiers, Achievements & Bug fixes | https://hypixel.net/threads/uhc-modifiers-achievements-bug-fixes.4035874/",
     "Bed Wars Update - New Practice Modes, QoL Changes & More! | https://hypixel.net/threads/bed-wars-update-new-practice-modes-qol-changes-more.5339873/",
     "Balancing, Replay Support, Pregame Parkours and Bug Fixes - Mega Walls Patch April 2023 | https://hypixel.net/threads/balancing-replay-support-pregame-parkours-and-bug-fixes-mega-walls-patch-april-2023.5318734/",
-    "Achievement Update | New Rewards, Balancing, and More! | https://hypixel.net/threads/achievement-update-new-rewards-balancing-and-more.1866948/"
+    "Achievement Update | New Rewards, Balancing, and More! | https://hypixel.net/threads/achievement-update-new-rewards-balancing-and-more.1866948/",
+    "SkyBlock Patch 0.18.4 - Sack Additions & Bug Fixes | https://hypixel.net/threads/skyblock-patch-0-18-4-sack-additions-bug-fixes.5360095/"
   ]
 }

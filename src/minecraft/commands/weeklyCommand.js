@@ -71,11 +71,11 @@ class WeeklyStatsCommand extends minecraftCommand {
         let res;
         if (["sb", "skyblock"].includes(mode)) {
           res = await axios.post(
-            `https://api.pixelic.de/player/skyblock/register/${uuid}?key=${config.minecraft.API.pixelicAPIkey}`
+            `https://api.pixelic.de/player/skyblock/${uuid}/register?key=${config.minecraft.API.pixelicAPIkey}`
           );
         } else {
           res = await axios.post(
-            `https://api.pixelic.de/player/register/${uuid}?key=${config.minecraft.API.pixelicAPIkey}`
+            `https://api.pixelic.de/player/${uuid}/register?key=${config.minecraft.API.pixelicAPIkey}`
           );
         }
 
@@ -84,6 +84,10 @@ class WeeklyStatsCommand extends minecraftCommand {
         } else if (res.status == 404) {
           this.send(
             `/gc Uh oh, somehow this player is already registered in the database! Please try again in few seconds..`
+          );
+        } else if (res.status == 409) {
+          this.send(
+            `/gc Uh oh, this player is already queued to be registered! Please be patient and try again later.`
           );
         } else {
           this.send(
