@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   '@discordjs/rest':
     specifier: ^1.5.0
@@ -59,8 +63,8 @@ dependencies:
     specifier: ^3.13.0
     version: 3.13.0
   skyhelper-networth:
-    specifier: 1.13.1
-    version: 1.13.1
+    specifier: 1.14.2
+    version: 1.14.2
   util:
     specifier: ^0.12.5
     version: 0.12.5
@@ -2655,8 +2659,8 @@ packages:
       semver: 7.0.0
     dev: true
 
-  /skyhelper-networth@1.13.1:
-    resolution: {integrity: sha512-gG4xDLCah0GgBkEsns+RObpC3qf+prdZiNYFWMpf3BBr9Mp0iq17L7TieOuH0MmTciOS/dacAqgrAnhRShjQeQ==}
+  /skyhelper-networth@1.14.2:
+    resolution: {integrity: sha512-/PK03DBiZFpJKET0DtHtEy8XHED7gaD6JPSK1HrvkSjE0eseyjhhDaIHWqv5vsp1076YvmQVg0+MvSOEK8l1Pw==}
     dependencies:
       axios: 0.27.2
       prismarine-nbt: 2.2.1
