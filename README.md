@@ -81,7 +81,7 @@ The `guildExp` option is an integer value required for the `!gexp` command, whic
 
 ### API
 
-The API options include information about APIs which are being used, the only values which needs to be changed are `hypixelAPIkey`, `antiSniperKey`, `pixelicAPIkey` and `imgurAPIkey`.
+The API options include information about APIs which are being used, the only values which needs to be changed are `hypixelAPIkey`, `antiSniperKey` and `imgurAPIkey`.
 
 You can receive Hypixel API key by joining Hypixel Network and typing `/api new` command.
 > Hypixel API is used for most of stats related commands.
@@ -91,9 +91,6 @@ AntiSniper key can be generated [Here](https://api.antisniper.net/).
 
 Imgur API can be generated [Here](https://api.imgur.com/oauth2/addclient).
 > Imgur API is used for rendering commands like `!armor`, `!pet`, `!equipment` etc.
-
-Pixelic API can be generated [Here](https://docs.pixelic.de/).
-> Pixelic API is used for `!daily`, `!weekly` and `!monthly` commands.
 
 ### guildRequirements
 
@@ -253,7 +250,6 @@ The bot also includes an integrated frag bot that can be used by the guild.
 - [SkyHelper API](https://github.com/Altpapier/SkyHelperAPI)
 - [PlayerDB API](https://playerdb.co/)
 - [Hypixel API](http://api.hypixel.net/)
-- [Pixelic API](https://docs.pixelic.de/)
 - [LilyWeight](https://github.com/Antonio32A/lilyweight)
 - [Altpapier](https://github.com/altpapier/hypixel-discord-guild-bridge/)
 - [SkyCrypt](https://github.com/SkyCryptWebsite/SkyCrypt)
