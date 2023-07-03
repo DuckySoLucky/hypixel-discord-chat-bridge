@@ -45,6 +45,17 @@ class MinecraftManager extends CommunicationBridge {
     });
   }
 
+  async sendSafeMessage(message) {
+    let length_allowed = 200;
+    let safe_message = message.substring(0, length_allowed+1);
+    if(message.length > length_allowed){
+      this.bot.chat("/gc Following message might be cropped, as it exceeds allowed character limit of 200 characters.");
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+
+    return this.bot.chat(safe_message);
+  }
+
   async onBroadcast({ channel, username, message, replyingTo }) {
     Logger.broadcastMessage(`${username}: ${message}`, "Minecraft");
     bridgeChat = channel;
@@ -58,7 +69,7 @@ class MinecraftManager extends CommunicationBridge {
 
     if (channel === config.discord.channels.guildChatChannel) {
       return config.discord.other.filterMessages
-        ? this.bot.chat(
+        ? this.sendSafeMessage(
             filter.clean(
               `/gc ${
                 replyingTo
@@ -67,7 +78,7 @@ class MinecraftManager extends CommunicationBridge {
               } ${message}`
             )
           )
-        : this.bot.chat(
+        : this.sendSafeMessage(
             `/gc ${
               replyingTo
                 ? `${username} replying to ${replyingTo}${symbol}`
@@ -78,7 +89,7 @@ class MinecraftManager extends CommunicationBridge {
 
     if (channel === config.discord.channels.officerChannel) {
       return config.discord.other.filterMessages
-        ? this.bot.chat(
+        ? this.sendSafeMessage(
             filter.clean(
               `/oc ${
                 replyingTo
@@ -87,7 +98,7 @@ class MinecraftManager extends CommunicationBridge {
               } ${message}`
             )
           )
-        : this.bot.chat(
+        : this.sendSafeMessage(
             `/oc ${
               replyingTo
                 ? `${username} replying to ${replyingTo}${symbol}`
