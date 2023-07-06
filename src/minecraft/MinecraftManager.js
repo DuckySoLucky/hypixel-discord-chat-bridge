@@ -45,15 +45,36 @@ class MinecraftManager extends CommunicationBridge {
     });
   }
 
-  async sendSafeMessage(message) {
-    let length_allowed = 200;
-    let safe_message = message.substring(0, length_allowed+1);
-    if(message.length > length_allowed){
-      this.bot.chat("/gc Following message might be cropped, as it exceeds allowed character limit of 200 characters.");
-      await new Promise(resolve => setTimeout(resolve, 1000));
+  async sendSafeMessage(command, prefix, message) {
+    let max_length = 250;
+    let max_messages = 5;
+
+    if(prefix.length >= max_length){
+      this.bot.chat(`/${command} [ERROR] Failed to send message, as prefix is too large.`);
+      return false;
     }
 
-    return this.bot.chat(safe_message);
+    let max_message_allowed = max_length - prefix.length;
+
+    let amount_of_chunks = Math.ceil(message.length / max_message_allowed);
+
+    if(amount_of_chunks > max_messages){
+      this.bot.chat(`/${command} [ERROR] Failed to send message, as it is too large.`);
+      return false;
+    }
+
+    let chunks = [];
+    
+    for (let i = 0, o = 0; i < amount_of_chunks; ++i, o += max_message_allowed) {
+      let message_text = message.substring(o, o+max_message_allowed);
+      chunks[i] = `/${command} ${prefix} ${message_text}`;
+    }
+
+    for (let safe_message of chunks) {
+      this.bot.chat(safe_message);
+      await new Promise(resolve => setTimeout(resolve, 400));
+    }
+    return true;
   }
 
   async onBroadcast({ channel, username, message, replyingTo }) {
@@ -68,43 +89,29 @@ class MinecraftManager extends CommunicationBridge {
     const symbol = config.minecraft.bot.messageFormat;
 
     if (channel === config.discord.channels.guildChatChannel) {
-      return config.discord.other.filterMessages
-        ? this.sendSafeMessage(
-            filter.clean(
-              `/gc ${
-                replyingTo
-                  ? `${username} replying to ${replyingTo}${symbol}`
-                  : `${username}${symbol}`
-              } ${message}`
-            )
-          )
-        : this.sendSafeMessage(
-            `/gc ${
-              replyingTo
-                ? `${username} replying to ${replyingTo}${symbol}`
-                : `${username}${symbol}`
-            } ${message}`
-          );
+      let prefix = replyingTo
+      ? `${username} replying to ${replyingTo}${symbol}`
+      : `${username}${symbol}`;
+      
+      if(config.discord.other.filterMessages){
+        prefix = filter.clean(prefix);
+        message = filter.clean(message);
+      }
+
+      return this.sendSafeMessage('gc', prefix, message);
     }
 
     if (channel === config.discord.channels.officerChannel) {
-      return config.discord.other.filterMessages
-        ? this.sendSafeMessage(
-            filter.clean(
-              `/oc ${
-                replyingTo
-                  ? `${username} replying to ${replyingTo}${symbol}`
-                  : `${username}${symbol}`
-              } ${message}`
-            )
-          )
-        : this.sendSafeMessage(
-            `/oc ${
-              replyingTo
-                ? `${username} replying to ${replyingTo}${symbol}`
-                : `${username}${symbol}`
-            } ${message}`
-          );
+      let prefix = replyingTo
+      ? `${username} replying to ${replyingTo}${symbol}`
+      : `${username}${symbol}`;
+      
+      if(config.discord.other.filterMessages){
+        prefix = filter.clean(prefix);
+        message = filter.clean(message);
+      }
+
+      return this.sendSafeMessage('oc', prefix, message);
     }
   }
 }
