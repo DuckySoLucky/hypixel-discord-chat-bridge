@@ -34,8 +34,9 @@ class StateHandler extends eventHandler {
       message.includes("✎ Mana") &&
       message.includes("❤") &&
       message.includes("/")
-    )
+    ) {
       return;
+    }
 
     if (config.discord.channels.debugMode === true) {
       this.minecraft.broadcastMessage({
@@ -121,51 +122,59 @@ class StateHandler extends eventHandler {
         if (
           weight >
           config.minecraft.guildRequirements.requirements.senitherWeight
-        )
+        ) {
           meetRequirements = true;
+        }
 
         if (
           skyblockLevel >
           config.minecraft.guildRequirements.requirements.skyblockLevel
-        )
+        ) {
           meetRequirements = true;
+        }
 
         if (
           bwLevel > config.minecraft.guildRequirements.requirements.bedwarsStars
-        )
+        ) {
           meetRequirements = true;
+        }
         if (
           bwLevel >
             config.minecraft.guildRequirements.requirements
               .bedwarsStarsWithFKDR &&
           bwFKDR > config.minecraft.guildRequirements.requirements.bedwarsFKDR
-        )
+        ) {
           meetRequirements = true;
+        }
 
         if (
           swLevel > config.minecraft.guildRequirements.requirements.skywarsStars
-        )
+        ) {
           meetRequirements = true;
+        }
         if (
           swLevel >
             config.minecraft.guildRequirements.requirements
               .skywarsStarsWithKDR &&
           swKDR >
             config.minecraft.guildRequirements.requirements.skywarsStarsWithKDR
-        )
+        ) {
           meetRequirements = true;
+        }
 
         if (
           duelsWins > config.minecraft.guildRequirements.requirements.duelsWins
-        )
+        ) {
           meetRequirements = true;
+        }
         if (
           duelsWins >
             config.minecraft.guildRequirements.requirements.duelsWinsWithWLR &&
           dWLR >
             config.minecraft.guildRequirements.requirements.duelsWinsWithWLR
-        )
+        ) {
           meetRequirements = true;
+        }
 
         bot.chat(
           `/oc ${username} ${
@@ -762,7 +771,7 @@ class StateHandler extends eventHandler {
     const userParts = group.split(" ");
     const username = userParts[userParts.length - (hasRank ? 2 : 1)];
     const guildRank = userParts.pop().replace(/[[\]]/g, "") || "Member";
-    let playerMessage = parts.join(":").trim();
+    const playerMessage = parts.join(":").trim();
 
     const playerRankColor = colouredMessage
       .split(" ")[2]
@@ -777,8 +786,9 @@ class StateHandler extends eventHandler {
     if (
       (!this.isGuildMessage(message) && !this.isOfficerChatMessage(message)) ||
       playerMessage.length == 0
-    )
+    ) {
       return;
+    }
 
     if (
       playerMessage.includes(config.minecraft.bot.prefix) &&

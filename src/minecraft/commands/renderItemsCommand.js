@@ -71,7 +71,8 @@ class RenderCommand extends minecraftCommand {
         );
       }
 
-      const { Name, Lore } = inventoryData[itemNumber - 1]?.tag?.display;
+      const Name = inventoryData[itemNumber - 1]?.tag?.display;
+      const Lore = inventoryData[itemNumber - 1]?.tag?.display;
 
       const renderedItem = await renderLore(Name, Lore);
 

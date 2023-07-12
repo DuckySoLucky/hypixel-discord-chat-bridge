@@ -50,7 +50,8 @@ class EquipmentCommand extends minecraftCommand {
           continue;
         }
 
-        const { Name, Lore } = piece?.tag?.display;
+        const Name = piece?.tag?.display?.Name;
+        const Lore = piece?.tag?.display?.Lore;
 
         const renderedItem = await renderLore(Name, Lore);
 
