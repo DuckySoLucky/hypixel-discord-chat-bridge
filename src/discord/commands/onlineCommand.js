@@ -27,52 +27,57 @@ module.exports = {
 
     try {
       const messages = await promise;
-      const trimmedMessages = messages.map(message => message.trim());
-      
-      const onlineMembersMessage = trimmedMessages.find(message =>
+      const trimmedMessages = messages.map((message) => message.trim());
+
+      const onlineMembersMessage = trimmedMessages.find((message) =>
         message.startsWith("Online Members: ")
       );
-      const onlineMembers = `${onlineMembersMessage.split(": ")[0]}: \`${onlineMembersMessage.split(": ")[1]}\``;
-      
-      const totalMembersMessage = trimmedMessages.find(message =>
+      const onlineMembers = `${onlineMembersMessage.split(": ")[0]}: \`${
+        onlineMembersMessage.split(": ")[1]
+      }\``;
+
+      const totalMembersMessage = trimmedMessages.find((message) =>
         message.startsWith("Total Members: ")
       );
-      const totalMembers = `${totalMembersMessage.split(": ")[0]}: \`${totalMembersMessage.split(": ")[1]}\``;
-      
+      const totalMembers = `${totalMembersMessage.split(": ")[0]}: \`${
+        totalMembersMessage.split(": ")[1]
+      }\``;
+
       const onlineMembersList = trimmedMessages;
-      
+
       let description = `${totalMembers}\n${onlineMembers}\n\n`;
-      
+
       let online = onlineMembersList.flatMap((item, index) => {
         if (item.includes("-- ")) {
           const nextLine = onlineMembersList[parseInt(index) + 1];
           if (nextLine?.includes("●")) {
-            return [item, nextLine.split("●").map(item => item.trim())];
+            return [item, nextLine.split("●").map((item) => item.trim())];
           }
         }
         return [];
       });
-      
-      online = online.filter(item => item);
-      
-      description += online.map(item => {
-        if (item.length === 0) return;
-        
-        if (item.includes("--")) {
-          item = item.replaceAll("--", "").trim();
-          return `**${item}**\n`;
-        } else {
-          return `\`${item.filter(item => item !== "").join(", ")}\`\n`;
-        }
-      }).join(" ");
-      
-    
+
+      online = online.filter((item) => item);
+
+      description += online
+        .map((item) => {
+          if (item.length === 0) return;
+
+          if (item.includes("--")) {
+            item = item.replaceAll("--", "").trim();
+            return `**${item}**\n`;
+          } else {
+            return `\`${item.filter((item) => item !== "").join(", ")}\`\n`;
+          }
+        })
+        .join(" ");
+
       const embed = new EmbedBuilder()
         .setColor("#2ECC71")
         .setTitle("Online Members")
         .setDescription(description)
         .setFooter({
-          text: "by DuckySoLucky#5181 | /help [command] for more information",
+          text: "by @duckysolucky | /help [command] for more information",
           iconURL: "https://imgur.com/tgwQJTX.png",
         });
 
@@ -84,7 +89,7 @@ module.exports = {
         .setTitle("Error")
         .setDescription(`\`\`\`${error}\`\`\``)
         .setFooter({
-          text: "by DuckySoLucky#5181 | /help [command] for more information",
+          text: "by @duckysolucky | /help [command] for more information",
           iconURL: "https://imgur.com/tgwQJTX.png",
         });
 

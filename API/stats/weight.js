@@ -1,4 +1,4 @@
-const { calculateTotalSenitherWeight } = require('../constants/weight');
+const { calculateTotalSenitherWeight } = require('../constants/weight.js');
 const { getWeightRaw } = require("lilyweight");
 const getSkills = require('../stats/skills.js');
 const getDungeons = require('../stats/dungeons.js');

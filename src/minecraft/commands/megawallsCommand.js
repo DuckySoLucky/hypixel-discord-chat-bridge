@@ -21,16 +21,25 @@ class EightBallCommand extends minecraftCommand {
     try {
       username = this.getArgs(message)[0] || username;
 
-      const megawalls = (await hypixel.getPlayer(username)).stats.megawalls;
+      const {
+        stats: { megawalls },
+      } = await hypixel.getPlayer(username);
+
+      const {
+        selectedClass = "None",
+        finalKills,
+        finalKDRatio,
+        wins,
+        WLRatio,
+        kills,
+        KDRatio,
+        assists,
+      } = megawalls;
 
       this.send(
         `/gc ${username}'s Megawalls: Class: ${
-          megawalls.selectedClass || "None"
-        } | FK: ${megawalls.finalKills} | FKDR: ${
-          megawalls.finalKDRatio
-        } | W: ${megawalls.wins} | WLR: ${megawalls.WLRatio} | K: ${
-          megawalls.kills
-        } | KDR: ${megawalls.KDRatio} | A: ${megawalls.assists}`
+          selectedClass ?? "None"
+        } | FK: ${finalKills} | FKDR: ${finalKDRatio} | W: ${wins} | WLR: ${WLRatio} | K: ${kills} | KDR: ${KDRatio} | A: ${assists}`
       );
     } catch (error) {
       this.send(`/gc ${error.toString().replace("[hypixel-api-reborn] ", "")}`);

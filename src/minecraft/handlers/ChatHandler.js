@@ -231,7 +231,7 @@ class StateHandler extends eventHandler {
             )
             .setThumbnail(`https://www.mc-heads.net/avatar/${player.nickname}`)
             .setFooter({
-              text: `by DuckySoLucky#5181 | /help [command] for more information`,
+              text: `by @duckysolucky | /help [command] for more information`,
               iconURL: "https://imgur.com/tgwQJTX.png",
             });
 
@@ -278,7 +278,7 @@ class StateHandler extends eventHandler {
         .trim()
         .split(/ +/g)[0];
       await delay(1000);
-      bot.chat(`/gc ${messages.guildJoinMessage} | By DuckySoLucky#5181`);
+      bot.chat(`/gc ${messages.guildJoinMessage} | By @duckysolucky`);
       return [
         this.minecraft.broadcastHeadedEmbed({
           message: this.replaceVariables(messages.joinMessage, { username }),

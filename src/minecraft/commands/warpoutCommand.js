@@ -22,8 +22,10 @@ class warpoutCommand extends minecraftCommand {
       this.isOnCooldown = true;
 
       const user = this.getArgs(message)[0];
-      // eslint-disable-next-line no-throw-literal
-      if (user === undefined) throw "Please provide a username!";
+      if (user === undefined) {
+        // eslint-disable-next-line no-throw-literal
+        throw "Please provide a username!";
+      }
       bot.chat("/lobby megawalls");
       await delay(250);
       this.send("/play skyblock");

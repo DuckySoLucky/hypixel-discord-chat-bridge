@@ -1,12 +1,8 @@
 // eslint-disable-next-line
-const { ImgurClient } = require("imgur");
 const {
   getLatestProfile,
 } = require("../../../API/functions/getLatestProfile.js");
-const config = require("../../../config.json");
-const imgurClient = new ImgurClient({
-  clientId: config.minecraft.API.imgurAPIkey,
-});
+const { uploadImage } = require("../../contracts/API/imgurAPI.js");
 const {
   decodeData,
   formatUsername,
@@ -38,36 +34,43 @@ class ArmorCommand extends minecraftCommand {
 
       username = formatUsername(username, profile.profileData?.game_mode);
 
-      if (!profile.profile.inv_armor?.data) {
+      if (profile.profile.inv_armor?.data === undefined) {
         return this.send(`/gc This player has an Inventory API off.`);
       }
 
-      const inventoryData = (
-        await decodeData(Buffer.from(profile.profile.inv_armor.data, "base64"))
-      ).i;
+      const { i: inventoryData } = await decodeData(
+        Buffer.from(profile.profile.inv_armor.data, "base64")
+      );
+
+      if (
+        inventoryData === undefined ||
+        inventoryData.filter((x) => JSON.stringify(x) === JSON.stringify({}))
+          .length === 4
+      ) {
+        return this.send(`/gc ${username} has no armor equipped.`);
+      }
 
       let response = "";
       for (const piece of Object.values(inventoryData)) {
-        if (piece?.tag?.display?.Name === undefined) continue;
+        if (
+          piece?.tag?.display?.Name === undefined ||
+          piece?.tag?.display?.Lore === undefined
+        ) {
+          continue;
+        }
 
-        const renderedItem = await renderLore(
-          piece?.tag?.display?.Name,
-          piece?.tag?.display?.Lore
-        );
-        const upload = await imgurClient.upload({
-          image: renderedItem,
-          type: "stream",
-        });
+        const { Name, Lore } = piece?.tag?.display;
 
-        response +=
-          response.split(" | ").length == 4
-            ? upload.data.link
-            : `${upload.data.link} | `;
+        const renderedItem = await renderLore(Name, Lore);
+
+        const upload = await uploadImage(renderedItem);
+
+        const link = upload.data.link;
+
+        response += response.split(" | ").length == 4 ? link : `${link} | `;
       }
 
-      response == ""
-        ? this.send(`/gc ${username} has no armor equiped.`)
-        : this.send(`/gc ${username}'s armor: ${response}`);
+      this.send(`/gc ${username}'s armor: ${response}`);
     } catch (error) {
       this.send(`/gc Error: ${error}`);
     }

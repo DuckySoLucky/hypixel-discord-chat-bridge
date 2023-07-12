@@ -64,5 +64,6 @@ module.exports = (profile) => {
     wolf: getSlayer("wolf"),
     enderman: getSlayer("enderman"),
     blaze: getSlayer("blaze"),
+    vampire: getSlayer("vampire"),
   };
 };

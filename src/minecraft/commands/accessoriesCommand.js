@@ -35,23 +35,16 @@ class AccessoriesCommand extends minecraftCommand {
         .map((rarity) => talismans.talismans[rarity].length || 0)
         .reduce((a, b) => a + b, 0);
 
-      const recombobulatedCount = Object.keys(talismans.talismans)
-        .map(
-          (rarity) =>
-            talismans.talismans[rarity].filter(
-              (talisman) => talisman.recombobulated
-            ).length
-        )
-        .reduce((a, b) => a + b, 0);
-
-      const enrichmentCount = Object.keys(talismans.talismans)
-        .map(
-          (rarity) =>
-            talismans.talismans[rarity].filter(
-              (talisman) => talisman.enrichment !== undefined
-            ).length
-        )
-        .reduce((a, b) => a + b, 0);
+      let recombobulatedCount = 0;
+      let enrichmentCount = 0;
+      Object.values(talismans.talismans).forEach((talismansByRarity) => {
+        recombobulatedCount += talismansByRarity.filter(
+          (talisman) => talisman.recombobulated !== undefined
+        ).length;
+        enrichmentCount += talismansByRarity.filter(
+          (talisman) => talisman.enrichment !== undefined
+        ).length;
+      });
 
       this.send(
         `/gc ${username}'s Accessories: ${talismanCount} (${talismans.talismans["very"].length}V, ${talismans.talismans["special"].length}S, ${talismans.talismans["mythic"].length}M, ${talismans.talismans["legendary"].length}L, ${talismans.talismans["epic"].length}E, ${talismans.talismans["rare"].length}R, ${talismans.talismans["uncommon"].length}U, ${talismans.talismans["common"].length}C), Recombed: ${recombobulatedCount}, Enriched: ${enrichmentCount}`

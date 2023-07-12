@@ -39,7 +39,7 @@ class MessageHandler {
     }
 
     if (images.length === 0) return;
-    
+
     for (const attachment of images) {
       const imgurLink = await imgurClient.upload({
         image: attachment,
@@ -131,6 +131,10 @@ class MessageHandler {
       const emojiMentionPattern = /<a?:(\w+):\d+>/g;
       output = output.replace(emojiMentionPattern, ":$1:");
     }
+
+    // Replace IP Adresses with [IP Address Removed]
+    const IPAdressPattern = /(?:\d{1,3}\s?){4}/g;
+    output = output.replaceAll(IPAdressPattern, "[IP Address Removed]");
 
     // ? demojify() function has a bug. It throws an error when it encounters channel with emoji in its name. Example: #💬・guild-chat
     try {

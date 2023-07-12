@@ -1,6 +1,5 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
-const { addCommas } = require("../../contracts/helperFunctions.js");
 const { capitalize } = require("../../contracts/helperFunctions.js");
 
 class BedwarsCommand extends minecraftCommand {
@@ -30,28 +29,25 @@ class BedwarsCommand extends minecraftCommand {
       const player = await hypixel.getPlayer(username);
 
       if (["overall", "all"].includes(mode)) {
+        const { level, finalKills, finalKDRatio, wins, WLRatio, winstreak } =
+          player.stats.bedwars;
+        const { broken, BLRatio } = player.stats.bedwars.beds;
+
         this.send(
-          `/gc [${player.stats.bedwars.level}✫] ${
+          `/gc [${level}✫] ${
             player.nickname
-          } FK: ${addCommas(player.stats.bedwars.finalKills)} FKDR: ${
-            player.stats.bedwars.finalKDRatio
-          } Wins: ${player.stats.bedwars.wins} WLR: ${
-            player.stats.bedwars.WLRatio
-          } BB: ${player.stats.bedwars.beds.broken} BLR: ${
-            player.stats.bedwars.beds.BLRatio
-          } WS: ${player.stats.bedwars.winstreak}`
+          } FK: ${finalKills.toLocaleString()} FKDR: ${finalKDRatio} W: ${wins} WLR: ${WLRatio} BB: ${broken} BLR: ${BLRatio} WS: ${winstreak}`
         );
       } else if (mode !== undefined) {
+        const { level } = player.stats.bedwars;
+        const { finalKills, finalKDRatio, wins, WLRatio, winstreak } =
+          player.stats.bedwars[mode];
+        const { broken, BLRatio } = player.stats.bedwars[mode].beds;
+
         this.send(
-          `/gc [${player.stats.bedwars.level}✫] ${player.nickname} ${capitalize(
+          `/gc [${level}✫] ${player.nickname} ${capitalize(
             mode
-          )} FK: ${addCommas(player.stats.bedwars[mode].finalKills)} FKDR: ${
-            player.stats.bedwars[mode].finalKDRatio
-          } Wins: ${player.stats.bedwars[mode].wins} WLR: ${
-            player.stats.bedwars[mode].WLRatio
-          } BB: ${player.stats.bedwars[mode].beds.broken} BLR: ${
-            player.stats.bedwars[mode].beds.BLRatio
-          } WS: ${player.stats.bedwars[mode].winstreak}`
+          )} FK: ${finalKills.toLocaleString()} FKDR: ${finalKDRatio} Wins: ${wins} WLR: ${WLRatio} BB: ${broken} BLR: ${BLRatio} WS: ${winstreak}`
         );
       } else {
         this.send(

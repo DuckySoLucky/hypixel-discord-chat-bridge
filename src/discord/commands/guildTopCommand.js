@@ -45,21 +45,21 @@ module.exports = {
         .map((message) => message.trim())
         .filter((message) => message.includes("Guild Experience"));
 
-      const description = trimmedMessages.map(
-        (message) => {
+      const description = trimmedMessages
+        .map((message) => {
           if (trimmedMessages.indexOf(message) === 0) return;
 
           const [position, , name, guildExperience] = message.split(" ");
-          return `\`${position}\` **${name}** - \`${guildExperience}\` Guild Experience\n`
-        }
-      ).join("");
+          return `\`${position}\` **${name}** - \`${guildExperience}\` Guild Experience\n`;
+        })
+        .join("");
 
       const embed = new EmbedBuilder()
         .setColor("#2ECC71")
         .setTitle("Top 10 Guild Members")
         .setDescription(description)
         .setFooter({
-          text: "by DuckySoLucky#5181 | /help [command] for more information",
+          text: "by @duckysolucky | /help [command] for more information",
           iconURL: "https://imgur.com/tgwQJTX.png",
         });
 
@@ -71,7 +71,7 @@ module.exports = {
         .setTitle("Error")
         .setDescription(`\`\`\`${error}\`\`\``)
         .setFooter({
-          text: "by DuckySoLucky#5181 | /help [command] for more information",
+          text: "by @duckysolucky | /help [command] for more information",
           iconURL: "https://imgur.com/tgwQJTX.png",
         });
 

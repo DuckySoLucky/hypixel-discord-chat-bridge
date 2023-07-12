@@ -27,7 +27,7 @@ module.exports = {
         .setTitle("Command has been executed successfully")
         .setDescription(`\`/${command}\`\n`)
         .setFooter({
-          text: "by DuckySoLucky#5181",
+          text: "by @duckysolucky",
           iconURL: "https://imgur.com/tgwQJTX.png",
         });
       await interaction.followUp({ embeds: [commandMessage], ephemeral: true });

@@ -75,7 +75,7 @@ module.exports = {
         }
       )
       .setFooter({
-        text: "by DuckySoLucky#5181 | /help [command] for more information",
+        text: "by @duckysolucky | /help [command] for more information",
         iconURL: "https://imgur.com/tgwQJTX.png",
       });
     await interaction.followUp({ embeds: [infoEmbed] });

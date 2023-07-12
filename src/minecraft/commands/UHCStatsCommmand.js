@@ -19,11 +19,14 @@ class UHCStatsCommand extends minecraftCommand {
 
   async onCommand(username, message) {
     try {
-      const msg = this.getArgs(message);
-      if (msg[0]) username = msg[0];
+      username = this.getArgs(message)[0] || username;
+
       const player = await hypixel.getPlayer(username);
+
+      const { starLevel, KDRatio, wins, headsEaten } = player.stats.uhc;
+
       this.send(
-        `/gc [${player.stats.uhc.starLevel}✫] ${player.nickname}ᐧᐧᐧᐧKDR:${player.stats.uhc.KDRatio}ᐧᐧᐧᐧWLR:${player.stats.uhc.wins}ᐧᐧᐧHeads:${player.stats.uhc.headsEaten}`
+        `/gc [${starLevel}✫] ${player.nickname} | KDR: ${KDRatio} | W: ${wins} | Heads: ${headsEaten}`
       );
     } catch (error) {
       this.send(`/gc ${error.toString().replace("[hypixel-api-reborn] ", "")}`);

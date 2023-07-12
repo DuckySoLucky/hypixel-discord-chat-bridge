@@ -13,12 +13,10 @@ class FetchurCommand extends minecraftCommand {
 
   async onCommand(username, message) {
     try {
-      const fetchur = getFetchur();
+      const { text, description } = getFetchur();
 
-      this.send(`/gc Fetchur Requests: ${fetchur.text} | Description: ${fetchur.description}`);
-
+      this.send(`/gc Fetchur Requests: ${text} | Description: ${description}`);
     } catch (error) {
-      
       this.send(`/gc Error: ${error || "Something went wrong.."}`);
     }
   }

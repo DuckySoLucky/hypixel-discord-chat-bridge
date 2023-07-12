@@ -22,8 +22,10 @@ class SkywarsCommand extends minecraftCommand {
 
       const player = await hypixel.getPlayer(username);
 
+      const { level, KDRatio, WLRatio, winstreak } = player.stats.skywars;
+
       this.send(
-        `/gc [${player.stats.skywars.level}✫] ${player.nickname}ᐧᐧᐧᐧKDR:${player.stats.skywars.KDRatio}ᐧᐧᐧᐧWLR:${player.stats.skywars.WLRatio}ᐧᐧᐧᐧWS:${player.stats.skywars.winstreak}`
+        `/gc [${level}✫] ${player.nickname} | KDR: ${KDRatio} | WLR: ${WLRatio} | WS: ${winstreak}`
       );
     } catch (error) {
       this.send(`/gc ${error.toString().replace("[hypixel-api-reborn] ", "")}`);

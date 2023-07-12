@@ -1,9 +1,3 @@
-// eslint-disable-next-line
-const { ImgurClient } = require("imgur");
-const config = require("../../../config.json");
-const imgurClient = new ImgurClient({
-  clientId: config.minecraft.API.imgurAPIkey,
-});
 const {
   getRarityColor,
   formatUsername,
@@ -14,6 +8,7 @@ const {
   getLatestProfile,
 } = require("../../../API/functions/getLatestProfile.js");
 const getPets = require("../../../API/stats/pets.js");
+const { uploadImage } = require("../../contracts/API/imgurAPI.js");
 
 class RenderCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -41,50 +36,26 @@ class RenderCommand extends minecraftCommand {
 
       const profile = getPets(data.profile);
 
-      for (const pet of profile.pets) {
-        if (pet.active) {
-          const lore = pet.lore;
-          const newLore = [];
-          let newLine = [];
+      const pet = profile.pets.find((pet) => pet.active === true);
 
-          // Lore splitting
-          for (const line of lore) {
-            if (!line.includes("Total XP")) {
-              newLine = line.split(". ");
-              if (newLine.length > 0) {
-                for (const l of newLine) {
-                  newLore.push(l);
-                }
-              } else {
-                newLore.push(newLine);
-              }
-            } else {
-              newLore.push(line);
-            }
-          }
-
-          const renderedItem = await renderLore(
-            `§7[Lvl ${pet.level}] §${getRarityColor(pet.tier)}${
-              pet.display_name
-            }`,
-            newLore
-          );
-
-          const upload = await imgurClient.upload({
-            image: renderedItem,
-            type: "stream",
-          });
-
-          return this.send(
-            `/gc ${username}'s Active Pet: ${
-              upload.data.link ?? "Something went Wrong.."
-            }`
-          );
-        }
+      if (pet === undefined) {
+        return this.send(`/gc ${username} does not have pet equiped.`);
       }
 
-      this.send(`/gc ${username} does not have pet equiped.`);
+      const renderedItem = await renderLore(
+        `§7[Lvl ${pet.level}] §${getRarityColor(pet.tier)}${pet.display_name}`,
+        pet.lore
+      );
+
+      const upload = await uploadImage(renderedItem);
+
+      return this.send(
+        `/gc ${username}'s Active Pet: ${
+          upload.data.link ?? "Something went Wrong.."
+        }`
+      );
     } catch (error) {
+      console.log(error);
       this.send(`/gc Error: ${error}`);
     }
   }
