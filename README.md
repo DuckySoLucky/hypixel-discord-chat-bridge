@@ -38,12 +38,66 @@ Once edited and the dependencies are installed, you can start the application us
 
 Using the link provided in the console, you sign into the minecraft account that you want to use.
 
+
 ## Docker
+
+### Requirements
 
 - Git
 - Docker >= 20<br>
   _Older versions may also work, but have not been tested._
 - A Minecraft account
+
+### Setup
+
+In here we are going to clone the repository, set up the configuration file, volume directory, build the image, and run the container.
+- Clone the repository and enter the directory:
+
+      git clone https://github.com/DuckySoLucky/hypixel-discord-chat-bridge.git
+      cd hypixel-discord-chat-bridge
+
+- Configure the volume directories in /opt/ as `root`:
+
+      mkdir -p /opt/docker/hypixel-discord-chat-bridge/data/
+      mkdir -p /opt/docker/hypixel-discord-chat-bridge/auth-cache/
+
+- Move the following files into the directory using:
+
+      mv config.example.json /opt/docker/hypixel-discord-chat-bridge/config.json
+      mv messages.json /opt/docker/hypixel-discord-chat-bridge/messages.json
+      mv data/* /opt/docker/hypixel-discord-chat-bridge/data
+
+- Change the ownership of the directory to the user you want to run the container as using:
+
+      chown -R 1000:1000 /opt/docker/hypixel-discord-chat-bridge/ 
+
+- Edit the configuration file called `config.json` in `/opt/docker/hypixel-discord-chat-bridge/` using the [Configuration](#configuration) section.
+
+- Build the image using:
+
+      docker build . -t hypixel-discord-chat-bridge:latest
+
+- Once the image is built, you can run the container for the first time using:
+
+      docker run -it \
+          -v /opt/docker/hypixel-discord-chat-bridge/data:/usr/src/app/data \
+          -v /opt/docker/hypixel-discord-chat-bridge/auth-cache:/usr/src/app/auth-cache \
+          -v /opt/docker/hypixel-discord-chat-bridge/config.json:/usr/src/app/config.json \
+          -v /opt/docker/hypixel-discord-chat-bridge/messages.json:/usr/src/app/messages.json \
+          -v /etc/localtime:/etc/localtime:ro \
+          --restart unless-stopped \
+          --name hypixel-discord-chat-bridge \
+          hypixel-discord-chat-bridge:latest
+
+- Using the link provided in the console, sign in to the minecraft account that you want to use.
+
+- Once you are signed in, you can stop the container using:
+
+      Ctrl + C
+
+- Now you can start the container using:
+
+      docker start hypixel-discord-chat-bridge
 
 ## Configuration
 
@@ -155,12 +209,15 @@ The `commandRole` is the ID of any role on the server the bot is hosted for, any
 The `messageMode` can either be `bot`, `webhook` or `minecraft`. This selects how the messages should be displayed when sent from Minecraft to Discord. If webhook mode is selected the bot requires the `Manage Webhooks` permission in the channel it's running in. The bot always requires the `Send Messages` and `View Channel` permissions in the channel you're using it in.
 
 - Webhook Example
-![View Webhook example](https://imgur.com/DttmVtQ.png)
+> ![image](https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/assets/75372052/f53e46d0-fae5-49f5-bdda-c6f6520e1921)
+
 - Bot Example
-![View Bot Mode example](https://imgur.com/WvRAeZc.png)
+> ![image](https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/assets/75372052/7e693926-1408-4f7c-8da8-5f4984fd6ac2)
+
 - Minecraft Example
-![View Minecraft Mode example](https://imgur.com/MAAMpiT.png)
-> Note - The Discord rate limit for webhooks is 30 requests every 60 seconds, whereas for bot and minecraft messages it's 5 messages every 5 seconds. Using webhooks effectively halves the number of messages the bot can send per minute which may cause issues in an active guild.
+> ![image](https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/assets/75372052/5954245a-fc72-49c0-9a33-c3040788225b)
+
+> Note - The Discord rate limit for webhooks is 30 requests every 60 seconds, where as for bot and minecraft messages it's 5 messages every 5 seconds. Using webhooks effectively halves the number of messages the bot can send per minute which may cause issues in an active guild.
 
 The filterMessage is ability to toggle filtering messages. This should be set to `true` otherwise bot might get banned.
 
@@ -199,8 +256,6 @@ The joinMessage is ability to toggle join and leave message being sent to the di
 | auction     | Active Auctions of specified user.          | `!auction [player]`          | `!auction DuckySoSkilled`   | `DuckySoSkilled's Active Auctions » https://i.imgur.com/9Jw8zCK.png`                                                                                                                                                         |
 | bedwars     | BedWars stats of specified user.            | `!bedwars [player]`          | `!bedwars Refraction`       | `[13✫] Refraction FK: 358 FKDR: 7.31 Wins: 83 WLR: 1.54 BB: 216 BLR: 3.09 WS: 3`                                                                                                                                             |
 | catacombs   | Skyblock Dungeons Stats of specified user.  | `!catacombs [player]`        | `!catacombs DeathStreeks`   | `DeathStreeks's Catacombs: 62.29 Class Average: 50 Secrets Found: 279,088 (8.50 SPR) Classes: H - 50 M - 50 B - 50 A - 50 T - 50`                                                                                            |
-| daily       | Get daily stats of specified user.          | `!daily [player] [gamemode]` | `!daily DuckySoSkilled`     | `DuckySoSkilled has gained 0 karma and gained 0.1 levels in the last day.`                                                                                                                                                   |
-| denick      | Denick username of specified user.          | `!denick [player]`           | `!denick the_good_anime`    | `[MVP++] rajas0423 is nicked as the_good_anime`                                                                                                                                                                              |
 | duels       | Duel stats of specified user.               | `!duels [player]`            | `!duels DuckySoSkilled`     | `[Duels] [Godlike II] DuckySoSkilled Wins: 27044 CWS: 6 BWS: 536 WLR: 4.95`                                                                                                                                                  |
 | equipment   | Renders equipment of specified user.        | `!equipment [name]`          | `!equipment Refraction`     | `Refraction's Equipment » https://i.imgur.com/QOU2r0O.png https://i.imgur.com/dUrotYa.png https://i.imgur.com/0Fxnkjd.png https://i.imgur.com/wIEcrZX.png`                                                                   |
 | fairysouls  | Fairy Souls of specified user.              | `!fairysouls [player]`       | `!fairysouls DeathStreeks`  | `DeathStreeks's Fairy Souls: 238/238  Progress: 100.00%`                                                                                                                                                                     |
@@ -219,18 +274,20 @@ The joinMessage is ability to toggle join and leave message being sent to the di
 | skyblock    | Skyblock Stats of specified user.           | `!skyblock [player]`         | `!skyblock DeathStreeks`    | `DeathStreeks's Level » 354.59 Senither Weight » 44,455 Lily Weight » 39,268 Skill Average » 54.4 Slayer » 7,918,100 Catacombs » 62 Class Average » 50 Networth » 133 B Accessories » 98 Recombobulated » 97 Enriched » 44`  |
 | slayer      | Slayer of specified user.                   | `!slayer [player] [type]`    | `!slayer DeathStreeks`      | `DeathStreeks's Slayer -  Zombie: Level: 9 Experience: 3,165,000 Spider: Level: 9 Experience: 1,000,625 Wolf: Level: 9 Experience: 1,002,000 Enderman: Level: 9 Experience: 1,715,475 Blaze: Level: 9 Experience: 1,035,000` |
 | UHC         | UHC Stats of specified user.                | `!UHC [player]`              | `!UHC DuckySoSkilled`       | `[6✫] Refraction KDR: 2.54 WLR: 69 Heads: 578`                                                                                                                                                                               |
-| weekly      | Get weekly stats of specified user.         | `!weekly [player]`           | `!weekly DuckySoSkilled`    | `DuckySoSkilled has gained 0 karma and gained 0.1 levels in the last week.`                                                                                                                                                  |
-| weight      | Skyblock Stats of specified user.           | `!weight [player]`           | `!weight DuckySoSkilled`    | `Refraction's Senither Weight » 27721.82 Skills: 12991.95 Dungeons: 11353.90` & `Refraction's Lily Weight » 28342.24 Skills » 12310.84 Slayer » 4476.85 Dungeons » 11554.55`                                                 |
-| winstreak   | Estimated winstreaks of the specified user. | `!winstreak [player]`        | `!winstreak DuckySoSkilled` | `[3395✫] Manhal_IQ_: Accurrate » No Overall » 10 Solo » 9 Doubles » 1 Trios » 2 Fours » 0 4v4  » 74`                                                                                                                         |
+| weight      | Skyblock Stats of specified user.           | `!weight [player]`           | `!weight DuckySoSkilled`    | `Refraction's Senither Weight » 27721.82 Skills: 12991.95 Dungeons: 11353.90` & `Refraction's Lily Weight » 28342.24 Skills » 12310.84 Slayer » 4476.85 Dungeons » 11554.55`                                                 |                                                                       |
 | woolwars    | WoolWars stats of specified user.           | `!woolwars [player]`         | `!woolwars DuckySoSkilled`  | `[2✫] DuckySoSkilled » W: 5 WLR: 0.5 KDR: 1.19 BB: 37 WP: 45`                                                                                                                                                                |
 
 ### Chat Triggers Module
 
 If you think that message format is boring, you can check out my repository for ChatTriggers module which changes the way messages from Bot look like. [Click Here](https://github.com/DuckySoLucky/Hypixel-Guild-Chat-Format)
+> This CTJS module is currently outdated and doesn't fully supprot all minecraft chat formats and bugs might occur.
 
 ### Events Notifier
 
 The bot also includes event notifier that can be used to send message in guild 30 & 5 minutes before the event starts, by the default all of the events are toggled on. Feel free to disable events which you do not like in config.
+> Preview
+
+> ![image](https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/assets/75372052/0fc99431-3213-40fa-949b-6acca62ef63c)
 
 #### Frag Bot
 
