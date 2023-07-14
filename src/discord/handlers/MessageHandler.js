@@ -1,9 +1,6 @@
+const { uploadImage } = require("../../contracts/API/imgurAPI.js");
 const { demojify } = require("discord-emoji-converter");
 const config = require("../../../config.json");
-const { ImgurClient } = require("imgur");
-const imgurClient = new ImgurClient({
-  clientId: config.minecraft.API.imgurAPIkey,
-});
 
 class MessageHandler {
   constructor(discord, command) {
@@ -29,32 +26,30 @@ class MessageHandler {
 
     this.discord.broadcastMessage(messageData);
 
-    // handle images
-    const images = content.split(" ").filter((line) => line.startsWith("http"));
-    for (const attachment of message.attachments.values()) {
-      images.push(attachment.url);
-    }
-
-    if (images.length === 0) return;
-
-    for (const attachment of images) {
-      const imgurLink = await imgurClient.upload({
-        image: attachment,
-        type: "url",
-      });
-
-      if (imgurLink.success === false) continue;
-
-      messageData.message = messageData.message.replace(attachment, imgurLink.data.link);
-
-      if (messageData.message.includes(imgurLink.data.link) === false) {
-        messageData.message += ` ${imgurLink.data.link}`;
+    try {
+      const images = content.split(" ").filter((line) => line.startsWith("http"));
+      for (const attachment of message.attachments.values()) {
+        images.push(attachment.url);
       }
+
+      if (images.length === 0) return;
+
+      for (const attachment of images) {
+        const imgurLink = await uploadImage(attachment);
+
+        messageData.message = messageData.message.replace(attachment, imgurLink.data.link);
+
+        if (messageData.message.includes(imgurLink.data.link) === false) {
+          messageData.message += ` ${imgurLink.data.link}`;
+        }
+      }
+
+      if (messageData.message.length === 0) return;
+
+      this.discord.broadcastMessage(messageData);
+    } catch (error) {
+      console.log(error);
     }
-
-    if (messageData.message.length === 0) return;
-
-    this.discord.broadcastMessage(messageData);
   }
 
   async fetchReply(message) {
