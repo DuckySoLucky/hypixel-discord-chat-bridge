@@ -728,12 +728,9 @@ class StateHandler extends eventHandler {
       return;
     }
 
-    if (
-      playerMessage.includes(config.minecraft.bot.prefix) &&
-      playerMessage.includes(config.minecraft.bot.messageFormat)
-    ) {
-      const [player, command] = playerMessage.split(`${config.minecraft.bot.messageFormat} `);
-      this.command.handle(player.trim(), command.trim());
+    const [discordUsername, discordMessage] = playerMessage && playerMessage.split(`${config.minecraft.bot.messageFormat} `);
+    if (discordMessage && (discordMessage.startsWith(config.minecraft.bot.prefix) || discordMessage.startsWith("-"))) {
+      this.command.handle(discordUsername, discordMessage);
     } else {
       this.command.handle(username, playerMessage);
     }
