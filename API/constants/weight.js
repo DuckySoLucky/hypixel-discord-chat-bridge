@@ -78,16 +78,7 @@ const skill_weights = {
 function calculateSenitherWeight(type, level = null, experience) {
   const slayers = ["revenant", "tarantula", "sven", "enderman"];
   const dungeons = ["catacombs", "healer", "mage", "berserk", "archer", "tank"];
-  const skills = [
-    "mining",
-    "foraging",
-    "enchanting",
-    "farming",
-    "combat",
-    "fishing",
-    "alchemy",
-    "taming",
-  ];
+  const skills = ["mining", "foraging", "enchanting", "farming", "combat", "fishing", "alchemy", "taming"];
   if (slayers.includes(type)) {
     return calculateSlayerWeight(type, experience);
   } else if (dungeons.includes(type)) {
@@ -130,8 +121,7 @@ function calculateSkillWeight(type, level, experience) {
 
   const maxSkillLevelXP = skillGroup.maxLevel == 60 ? 111672425 : 55172425;
 
-  let base =
-    Math.pow(level * 10, 0.5 + skillGroup.exponent + level / 100) / 1250;
+  let base = Math.pow(level * 10, 0.5 + skillGroup.exponent + level / 100) / 1250;
   if (experience > maxSkillLevelXP) {
     base = Math.round(base);
   }
@@ -144,10 +134,7 @@ function calculateSkillWeight(type, level, experience) {
 
   return {
     weight: base,
-    weight_overflow: Math.pow(
-      (experience - maxSkillLevelXP) / skillGroup.divider,
-      0.968
-    ),
+    weight_overflow: Math.pow((experience - maxSkillLevelXP) / skillGroup.divider, 0.968),
   };
 }
 
@@ -170,10 +157,7 @@ function calculateSlayerWeight(type, experience) {
   while (remaining > 0) {
     const left = Math.min(remaining, 1000000);
 
-    overflow += Math.pow(
-      left / (slayerWeight.divider * (1.5 + modifier)),
-      0.942
-    );
+    overflow += Math.pow(left / (slayerWeight.divider * (1.5 + modifier)), 0.942);
     modifier += slayerWeight.modifier;
     remaining -= left;
   }
@@ -191,123 +175,81 @@ function calculateTotalSenitherWeight(profile) {
     skills: {
       farming: calculateSenitherWeight(
         "farming",
-        calcSkill("farming", profile?.experience_skill_farming || 0)
-          .levelWithProgress,
+        calcSkill("farming", profile?.experience_skill_farming || 0).levelWithProgress,
         profile?.experience_skill_farming || 0
       ),
       mining: calculateSenitherWeight(
         "mining",
-        calcSkill("mining", profile?.experience_skill_mining || 0)
-          .levelWithProgress,
+        calcSkill("mining", profile?.experience_skill_mining || 0).levelWithProgress,
         profile?.experience_skill_mining || 0
       ),
       combat: calculateSenitherWeight(
         "combat",
-        calcSkill("combat", profile?.experience_skill_combat || 0)
-          .levelWithProgress,
+        calcSkill("combat", profile?.experience_skill_combat || 0).levelWithProgress,
         profile?.experience_skill_combat || 0
       ),
       foraging: calculateSenitherWeight(
         "foraging",
-        calcSkill("foraging", profile?.experience_skill_foraging || 0)
-          .levelWithProgress,
+        calcSkill("foraging", profile?.experience_skill_foraging || 0).levelWithProgress,
         profile?.experience_skill_foraging || 0
       ),
       fishing: calculateSenitherWeight(
         "fishing",
-        calcSkill("fishing", profile?.experience_skill_fishing || 0)
-          .levelWithProgress,
+        calcSkill("fishing", profile?.experience_skill_fishing || 0).levelWithProgress,
         profile?.experience_skill_fishing || 0
       ),
       enchanting: calculateSenitherWeight(
         "enchanting",
-        calcSkill("enchanting", profile?.experience_skill_enchanting || 0)
-          .levelWithProgress,
+        calcSkill("enchanting", profile?.experience_skill_enchanting || 0).levelWithProgress,
         profile?.experience_skill_enchanting || 0
       ),
       alchemy: calculateSenitherWeight(
         "alchemy",
-        calcSkill("alchemy", profile?.experience_skill_alchemy || 0)
-          .levelWithProgress,
+        calcSkill("alchemy", profile?.experience_skill_alchemy || 0).levelWithProgress,
         profile?.experience_skill_alchemy || 0
       ),
       taming: calculateSenitherWeight(
         "taming",
-        calcSkill("taming", profile?.experience_skill_taming || 0)
-          .levelWithProgress,
+        calcSkill("taming", profile?.experience_skill_taming || 0).levelWithProgress,
         profile?.experience_skill_taming || 0
       ),
     },
     slayer: {
-      revenant: calculateSenitherWeight(
-        "revenant",
-        null,
-        profile.slayer_bosses?.zombie?.xp || 0
-      ),
-      tarantula: calculateSenitherWeight(
-        "tarantula",
-        null,
-        profile.slayer_bosses?.spider?.xp || 0
-      ),
-      sven: calculateSenitherWeight(
-        "sven",
-        null,
-        profile.slayer_bosses?.wolf?.xp || 0
-      ),
-      enderman: calculateSenitherWeight(
-        "enderman",
-        null,
-        profile.slayer_bosses?.enderman?.xp || 0
-      ),
+      revenant: calculateSenitherWeight("revenant", null, profile.slayer_bosses?.zombie?.xp || 0),
+      tarantula: calculateSenitherWeight("tarantula", null, profile.slayer_bosses?.spider?.xp || 0),
+      sven: calculateSenitherWeight("sven", null, profile.slayer_bosses?.wolf?.xp || 0),
+      enderman: calculateSenitherWeight("enderman", null, profile.slayer_bosses?.enderman?.xp || 0),
     },
     dungeons: {
       catacombs: calculateSenitherWeight(
         "catacombs",
-        calcSkill(
-          "dungeoneering",
-          profile.dungeons?.dungeon_types?.catacombs?.experience || 0
-        ).levelWithProgress,
+        calcSkill("dungeoneering", profile.dungeons?.dungeon_types?.catacombs?.experience || 0).levelWithProgress,
         profile.dungeons?.dungeon_types?.catacombs?.experience || 0
       ),
       classes: {
         healer: calculateSenitherWeight(
           "healer",
-          calcSkill(
-            "dungeoneering",
-            profile.dungeons?.player_classes?.healer?.experience || 0
-          ).levelWithProgress,
+          calcSkill("dungeoneering", profile.dungeons?.player_classes?.healer?.experience || 0).levelWithProgress,
           profile.dungeons?.player_classes?.healer?.experience || 0
         ),
         mage: calculateSenitherWeight(
           "mage",
-          calcSkill(
-            "dungeoneering",
-            profile.dungeons?.player_classes?.mage?.experience || 0
-          ).levelWithProgress,
+          calcSkill("dungeoneering", profile.dungeons?.player_classes?.mage?.experience || 0).levelWithProgress,
           profile.dungeons?.player_classes?.mage?.experience || 0
         ),
         berserk: calculateSenitherWeight(
           "berserk",
-          calcSkill(
-            "dungeoneering",
-            profile.dungeons?.player_classes?.berserk?.experience || 0
-          ).levelWithProgress,
+          calcSkill("dungeoneering", profile.dungeons?.player_classes?.berserk?.experience || 0).levelWithProgress,
           profile.dungeons?.player_classes?.berserk?.experience || 0
         ),
         archer: calculateSenitherWeight(
           "archer",
-          calcSkill(
-            "dungeoneering",
-            profile.dungeons?.player_classes?.archer?.experience || 0
-          ).levelWithProgress,
+          calcSkill("dungeoneering", profile.dungeons?.player_classes?.archer?.experience || 0).levelWithProgress,
           profile.dungeons?.player_classes?.archer?.experience || 0
         ),
         tank: calculateSenitherWeight(
           "tank",
-          calcSkill(
-            "dungeoneering",
-            profile.dungeons?.player_classes?.tank?.experience || 0
-          ).levelWithProgress,
+          calcSkill("dungeoneering", profile.dungeons?.player_classes?.tank?.experience || 0).levelWithProgress,
           profile.dungeons?.player_classes?.tank?.experience || 0
         ),
       },

@@ -21,11 +21,7 @@ module.exports = {
   execute: async (interaction, client) => {
     const name = interaction.options.getString("name");
     const reason = interaction.options.getString("reason");
-    if (
-      (await interaction.guild.members.fetch(interaction.user)).roles.cache.has(
-        config.discord.roles.commandRole
-      )
-    ) {
+    if ((await interaction.guild.members.fetch(interaction.user)).roles.cache.has(config.discord.roles.commandRole)) {
       bot.chat(`/g kick ${name} ${reason}`);
       await interaction.followUp({
         content: "Command has been executed successfully.",

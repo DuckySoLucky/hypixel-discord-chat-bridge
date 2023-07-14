@@ -1,8 +1,6 @@
-/*eslint-disable */
 const { Collection } = require("discord.js");
-const Logger = require("../Logger");
-/*eslint-enable */
 const config = require("../../config.json");
+const Logger = require("../Logger.js");
 const fs = require("fs");
 
 class CommandHandler {
@@ -25,7 +23,8 @@ class CommandHandler {
 
     const args = message.slice(this.prefix.length).trim().split(/ +/);
     const commandName = args.shift().toLowerCase();
-    const command = this.commands.get(commandName) || this.commands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
+    const command =
+      this.commands.get(commandName) ?? this.commands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
 
     if (!command) return false;
 

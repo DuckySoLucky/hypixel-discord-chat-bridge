@@ -1,11 +1,6 @@
-const {
-  getLatestProfile,
-} = require("../../../API/functions/getLatestProfile.js");
+const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const { uploadImage } = require("../../contracts/API/imgurAPI.js");
-const {
-  decodeData,
-  formatUsername,
-} = require("../../contracts/helperFunctions.js");
+const { decodeData, formatUsername } = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { renderLore } = require("../../contracts/renderItem.js");
 
@@ -37,16 +32,11 @@ class EquipmentCommand extends minecraftCommand {
         return this.send(`/gc This player has an Inventory API off.`);
       }
 
-      const { i: inventoryData } = await decodeData(
-        Buffer.from(profile.profile.equippment_contents.data, "base64")
-      );
+      const { i: inventoryData } = await decodeData(Buffer.from(profile.profile.equippment_contents.data, "base64"));
 
       let response = "";
       for (const piece of Object.values(inventoryData)) {
-        if (
-          piece?.tag?.display?.Name === undefined ||
-          piece?.tag?.display?.Lore === undefined
-        ) {
+        if (piece?.tag?.display?.Name === undefined || piece?.tag?.display?.Lore === undefined) {
           continue;
         }
 

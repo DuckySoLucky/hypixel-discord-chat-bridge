@@ -1,12 +1,7 @@
-const {
-  getRarityColor,
-  formatUsername,
-} = require("../../contracts/helperFunctions.js");
+const { getRarityColor, formatUsername } = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { renderLore } = require("../../contracts/renderItem.js");
-const {
-  getLatestProfile,
-} = require("../../../API/functions/getLatestProfile.js");
+const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const getPets = require("../../../API/stats/pets.js");
 const { uploadImage } = require("../../contracts/API/imgurAPI.js");
 
@@ -49,11 +44,7 @@ class RenderCommand extends minecraftCommand {
 
       const upload = await uploadImage(renderedItem);
 
-      return this.send(
-        `/gc ${username}'s Active Pet: ${
-          upload.data.link ?? "Something went Wrong.."
-        }`
-      );
+      return this.send(`/gc ${username}'s Active Pet: ${upload.data.link ?? "Something went Wrong.."}`);
     } catch (error) {
       console.log(error);
       this.send(`/gc Error: ${error}`);

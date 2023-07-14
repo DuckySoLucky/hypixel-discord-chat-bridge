@@ -1,13 +1,7 @@
-// eslint-disable-next-line
-const {
-  getLatestProfile,
-} = require("../../../API/functions/getLatestProfile.js");
-const { uploadImage } = require("../../contracts/API/imgurAPI.js");
-const {
-  decodeData,
-  formatUsername,
-} = require("../../contracts/helperFunctions.js");
+const { decodeData, formatUsername } = require("../../contracts/helperFunctions.js");
+const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
+const { uploadImage } = require("../../contracts/API/imgurAPI.js");
 const { renderLore } = require("../../contracts/renderItem.js");
 
 class ArmorCommand extends minecraftCommand {
@@ -38,24 +32,18 @@ class ArmorCommand extends minecraftCommand {
         return this.send(`/gc This player has an Inventory API off.`);
       }
 
-      const { i: inventoryData } = await decodeData(
-        Buffer.from(profile.profile.inv_armor.data, "base64")
-      );
+      const { i: inventoryData } = await decodeData(Buffer.from(profile.profile.inv_armor.data, "base64"));
 
       if (
         inventoryData === undefined ||
-        inventoryData.filter((x) => JSON.stringify(x) === JSON.stringify({}))
-          .length === 4
+        inventoryData.filter((x) => JSON.stringify(x) === JSON.stringify({})).length === 4
       ) {
         return this.send(`/gc ${username} has no armor equipped.`);
       }
 
       let response = "";
       for (const piece of Object.values(inventoryData)) {
-        if (
-          piece?.tag?.display?.Name === undefined ||
-          piece?.tag?.display?.Lore === undefined
-        ) {
+        if (piece?.tag?.display?.Name === undefined || piece?.tag?.display?.Lore === undefined) {
           continue;
         }
 

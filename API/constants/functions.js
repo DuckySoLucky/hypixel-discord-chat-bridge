@@ -50,17 +50,9 @@ module.exports = {
       return String(Math.floor(number));
     } else if (number < 10000) {
       if (floor) {
-        return (
-          (Math.floor((number / 1000) * rounding) / rounding).toFixed(
-            rounding.toString().length - 1
-          ) + "K"
-        );
+        return (Math.floor((number / 1000) * rounding) / rounding).toFixed(rounding.toString().length - 1) + "K";
       } else {
-        return (
-          (Math.ceil((number / 1000) * rounding) / rounding).toFixed(
-            rounding.toString().length - 1
-          ) + "K"
-        );
+        return (Math.ceil((number / 1000) * rounding) / rounding).toFixed(rounding.toString().length - 1) + "K";
       }
     } else if (number < 1000000) {
       if (floor) {
@@ -70,31 +62,21 @@ module.exports = {
       }
     } else if (number < 1000000000) {
       if (floor) {
-        return (
-          (Math.floor((number / 1000 / 1000) * rounding) / rounding).toFixed(
-            rounding.toString().length - 1
-          ) + "M"
-        );
+        return (Math.floor((number / 1000 / 1000) * rounding) / rounding).toFixed(rounding.toString().length - 1) + "M";
       } else {
-        return (
-          (Math.ceil((number / 1000 / 1000) * rounding) / rounding).toFixed(
-            rounding.toString().length - 1
-          ) + "M"
-        );
+        return (Math.ceil((number / 1000 / 1000) * rounding) / rounding).toFixed(rounding.toString().length - 1) + "M";
       }
     } else if (floor) {
       return (
-        (
-          Math.floor((number / 1000 / 1000 / 1000) * rounding * 10) /
-          (rounding * 10)
-        ).toFixed(rounding.toString().length) + "B"
+        (Math.floor((number / 1000 / 1000 / 1000) * rounding * 10) / (rounding * 10)).toFixed(
+          rounding.toString().length
+        ) + "B"
       );
     } else {
       return (
-        (
-          Math.ceil((number / 1000 / 1000 / 1000) * rounding * 10) /
-          (rounding * 10)
-        ).toFixed(rounding.toString().length) + "B"
+        (Math.ceil((number / 1000 / 1000 / 1000) * rounding * 10) / (rounding * 10)).toFixed(
+          rounding.toString().length
+        ) + "B"
       );
     }
   },
@@ -110,11 +92,7 @@ module.exports = {
       if (+arr[1] + scale > 0) {
         sig = "+";
       }
-      return +(
-        Math.round(+arr[0] + "e" + sig + (+arr[1] + scale)) +
-        "e-" +
-        scale
-      );
+      return +(Math.round(+arr[0] + "e" + sig + (+arr[1] + scale)) + "e-" + scale);
     }
   },
 };

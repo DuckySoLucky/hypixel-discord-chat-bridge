@@ -4,16 +4,14 @@ module.exports = {
     quantity: 50,
     text: "50x Red Wool",
     image: "https://sky.shiiyu.moe/item/WOOL:14",
-    description:
-      "This item can be purchased from the Wool Merchant at the Builder's House in the Hub",
+    description: "This item can be purchased from the Wool Merchant at the Builder's House in the Hub",
   },
   1: {
     name: "Yellow Stained Glass",
     quantity: 20,
     text: "20x Yellow Stained Glass",
     image: "https://sky.shiiyu.moe/item/STAINED_GLASS:4",
-    description:
-      "This item can be purchased from the Builder at the Builder's House in the Hub",
+    description: "This item can be purchased from the Builder at the Builder's House in the Hub",
   },
   2: {
     name: "Compass",
@@ -27,8 +25,7 @@ module.exports = {
     quantity: 20,
     text: "20x Mithril",
     image: "https://sky.shiiyu.moe/item/MITHRIL_ORE",
-    description:
-      "This item can be mined in the Dwarven Mines/Crystal Hollows or purchased from the Bazaar",
+    description: "This item can be mined in the Dwarven Mines/Crystal Hollows or purchased from the Bazaar",
   },
   4: {
     name: "Firework Rocket",
@@ -56,24 +53,21 @@ module.exports = {
     quantity: 3,
     text: "3x Rabbit's Feet",
     image: "https://sky.shiiyu.moe/item/RABBIT_FOOT",
-    description:
-      "This item can be dropped when killing an Rabbit or buying it from the Bazaar.",
+    description: "This item can be dropped when killing an Rabbit or buying it from the Bazaar.",
   },
   8: {
     name: "Superboom TNT",
     quantity: 1,
     text: "1x Superboom TNT",
     image: "https://sky.shiiyu.moe/item/SUPERBOOM_TNT",
-    description:
-      "This item can be purchased from the Auction House or found in dungeons",
+    description: "This item can be purchased from the Auction House or found in dungeons",
   },
   9: {
     name: "Pumpkin",
     quantity: 1,
     text: "1x Pumpkin",
     image: "https://sky.shiiyu.moe/item/PUMPKIN",
-    description:
-      "This item can be farmed in the Barn or purchased from the Bazaar",
+    description: "This item can be farmed in the Barn or purchased from the Bazaar",
   },
   10: {
     name: "Flint and Steel",
@@ -87,15 +81,13 @@ module.exports = {
     quantity: 50,
     text: "50x Nether Quartz Ore",
     image: "https://sky.shiiyu.moe/item/QUARTZ_ORE",
-    description:
-      "This item can be mined in the Crimson Isle using a Pickaxe enchanted with Silk Touch",
+    description: "This item can be mined in the Crimson Isle using a Pickaxe enchanted with Silk Touch",
   },
   12: {
     name: "Red Wool",
     quantity: 50,
     text: "50x Red Wool",
     image: "https://sky.shiiyu.moe/item/WOOL:14",
-    description:
-      "This item can be purchased from the Wool Merchant at the Builder's House in the Hub",
+    description: "This item can be purchased from the Wool Merchant at the Builder's House in the Hub",
   },
 };

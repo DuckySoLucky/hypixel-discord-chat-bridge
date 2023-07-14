@@ -1,5 +1,4 @@
 const config = require("../../../config.json");
-// eslint-disable-next-line
 const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
@@ -15,11 +14,7 @@ module.exports = {
   ],
 
   execute: async (interaction, client) => {
-    if (
-      (await interaction.guild.members.fetch(interaction.user)).roles.cache.has(
-        config.discord.roles.commandRole
-      )
-    ) {
+    if ((await interaction.guild.members.fetch(interaction.user)).roles.cache.has(config.discord.roles.commandRole)) {
       const command = interaction.options.getString("command");
       bot.chat(`/${command}`);
       const commandMessage = new EmbedBuilder()

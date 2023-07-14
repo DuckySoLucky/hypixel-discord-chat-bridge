@@ -16,24 +16,18 @@ async function getLatestProfile(uuid) {
     if (cache.has(uuid)) {
       const data = cache.get(uuid);
 
-      if (data.last_save + 300000 > Date.now()) { // 5 minutes
+      if (data.last_save + 300000 > Date.now()) {
+        // 5 minutes
         return data;
       }
     }
 
     let [playerRes, profileRes] = await Promise.all([
-      axios.get(
-        `https://api.hypixel.net/player?key=${config.minecraft.API.hypixelAPIkey}&uuid=${uuid}`
-      ),
-      axios.get(
-        `https://api.hypixel.net/skyblock/profiles?key=${config.minecraft.API.hypixelAPIkey}&uuid=${uuid}`
-      ),
+      axios.get(`https://api.hypixel.net/player?key=${config.minecraft.API.hypixelAPIkey}&uuid=${uuid}`),
+      axios.get(`https://api.hypixel.net/skyblock/profiles?key=${config.minecraft.API.hypixelAPIkey}&uuid=${uuid}`),
     ]).catch((error) => {
       // eslint-disable-next-line no-throw-literal
-      throw (
-        error?.response?.data?.cause ??
-        "Request to Hypixel API failed. Please try again!"
-      );
+      throw error?.response?.data?.cause ?? "Request to Hypixel API failed. Please try again!";
     });
 
     playerRes = playerRes?.data ?? {};
@@ -82,7 +76,7 @@ async function getLatestProfile(uuid) {
       playerRes: playerRes,
       player: player,
       uuid: uuid,
-    }
+    };
 
     cache.set(uuid, output);
 

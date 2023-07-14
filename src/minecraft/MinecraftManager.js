@@ -1,4 +1,3 @@
-/*eslint-disable */
 const CommunicationBridge = require("../contracts/CommunicationBridge.js");
 const StateHandler = require("./handlers/StateHandler.js");
 const ErrorHandler = require("./handlers/ErrorHandler.js");
@@ -6,9 +5,8 @@ const ChatHandler = require("./handlers/ChatHandler.js");
 const CommandHandler = require("./CommandHandler.js");
 const config = require("../../config.json");
 const mineflayer = require("mineflayer");
+const Logger = require("../Logger.js");
 const Filter = require("bad-words");
-const Logger = require("../Logger");
-/*eslint-enable */
 const filter = new Filter();
 
 class MinecraftManager extends CommunicationBridge {
@@ -61,19 +59,11 @@ class MinecraftManager extends CommunicationBridge {
       return config.discord.other.filterMessages
         ? this.bot.chat(
             filter.clean(
-              `/gc ${
-                replyingTo
-                  ? `${username} replying to ${replyingTo}${symbol}`
-                  : `${username}${symbol}`
-              } ${message}`
+              `/gc ${replyingTo ? `${username} replying to ${replyingTo}${symbol}` : `${username}${symbol}`} ${message}`
             )
           )
         : this.bot.chat(
-            `/gc ${
-              replyingTo
-                ? `${username} replying to ${replyingTo}${symbol}`
-                : `${username}${symbol}`
-            } ${message}`
+            `/gc ${replyingTo ? `${username} replying to ${replyingTo}${symbol}` : `${username}${symbol}`} ${message}`
           );
     }
 
@@ -81,19 +71,11 @@ class MinecraftManager extends CommunicationBridge {
       return config.discord.other.filterMessages
         ? this.bot.chat(
             filter.clean(
-              `/oc ${
-                replyingTo
-                  ? `${username} replying to ${replyingTo}${symbol}`
-                  : `${username}${symbol}`
-              } ${message}`
+              `/oc ${replyingTo ? `${username} replying to ${replyingTo}${symbol}` : `${username}${symbol}`} ${message}`
             )
           )
         : this.bot.chat(
-            `/oc ${
-              replyingTo
-                ? `${username} replying to ${replyingTo}${symbol}`
-                : `${username}${symbol}`
-            } ${message}`
+            `/oc ${replyingTo ? `${username} replying to ${replyingTo}${symbol}` : `${username}${symbol}`} ${message}`
           );
     }
   }

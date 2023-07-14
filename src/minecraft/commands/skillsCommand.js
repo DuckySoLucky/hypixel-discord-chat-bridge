@@ -1,7 +1,5 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const {
-  getLatestProfile,
-} = require("../../../API/functions/getLatestProfile.js");
+const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const getSkills = require("../../../API/stats/skills.js");
 const { formatUsername } = require("../../contracts/helperFunctions.js");
 
@@ -43,21 +41,13 @@ class SkillsCommand extends minecraftCommand {
       this.send(
         `/gc Skill Average: ${skillAverage ?? 0} | Farming - ${Math.floor(
           profile.farming.levelWithProgress ?? 0
-        )} | Mining - ${Math.floor(
-          profile.mining.levelWithProgress ?? 0
-        )} | Combat - ${Math.floor(
+        )} | Mining - ${Math.floor(profile.mining.levelWithProgress ?? 0)} | Combat - ${Math.floor(
           profile.combat.levelWithProgress ?? 0
-        )} | Enchanting - ${Math.floor(
-          profile.enchanting.levelWithProgress ?? 0
-        )} | Fishing - ${Math.floor(
+        )} | Enchanting - ${Math.floor(profile.enchanting.levelWithProgress ?? 0)} | Fishing - ${Math.floor(
           profile.fishing.levelWithProgress ?? 0
-        )} | Foraging - ${Math.floor(
-          profile.foraging.levelWithProgress ?? 0
-        )} | Alchemy - ${Math.floor(
+        )} | Foraging - ${Math.floor(profile.foraging.levelWithProgress ?? 0)} | Alchemy - ${Math.floor(
           profile.alchemy.levelWithProgress ?? 0
-        )} | Taming - ${Math.floor(
-          profile.taming.levelWithProgress ?? 0
-        )} | Carpentry - ${Math.floor(
+        )} | Taming - ${Math.floor(profile.taming.levelWithProgress ?? 0)} | Carpentry - ${Math.floor(
           profile.carpentry.levelWithProgress ?? 0
         )}`
       );

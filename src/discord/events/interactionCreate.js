@@ -1,5 +1,4 @@
-// eslint-disable-next-line
-const Logger = require("../.././Logger");
+const Logger = require("../.././Logger.js");
 
 module.exports = {
   name: "interactionCreate",
@@ -18,7 +17,7 @@ module.exports = {
         await command.execute(interaction, interaction.client);
       } catch (error) {
         console.log(error);
-        
+
         await interaction.reply({
           content: "There was an error while executing this command!",
           ephemeral: true,

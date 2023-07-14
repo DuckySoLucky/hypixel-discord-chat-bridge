@@ -19,9 +19,7 @@ class StateHandler extends eventHandler {
     if (this.isConnectionResetError(error)) return;
 
     if (this.isConnectionRefusedError(error)) {
-      return Logger.errorMessage(
-        "Connection refused while attempting to login via the Minecraft client"
-      );
+      return Logger.errorMessage("Connection refused while attempting to login via the Minecraft client");
     }
 
     Logger.warnMessage(error);

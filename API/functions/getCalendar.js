@@ -3,13 +3,7 @@ const { buildSkyblockCalendar } = require("../constants/calendar.js");
 
 function getSkyblockCalendar() {
   try {
-    const calendar = buildSkyblockCalendar(
-      null,
-      Date.now(),
-      Date.now() + 10710000000,
-      1,
-      false
-    );
+    const calendar = buildSkyblockCalendar(null, Date.now(), Date.now() + 10710000000, 1, false);
 
     return { status: 200, data: calendar };
   } catch (error) {

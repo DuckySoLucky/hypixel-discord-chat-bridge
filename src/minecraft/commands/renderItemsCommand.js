@@ -1,11 +1,6 @@
-const {
-  getLatestProfile,
-} = require("../../../API/functions/getLatestProfile.js");
+const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const { uploadImage } = require("../../contracts/API/imgurAPI.js");
-const {
-  decodeData,
-  formatUsername,
-} = require("../../contracts/helperFunctions.js");
+const { decodeData, formatUsername } = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { renderLore } = require("../../contracts/renderItem.js");
 
@@ -58,17 +53,13 @@ class RenderCommand extends minecraftCommand {
         return this.send(`/gc This player has an Inventory API off.`);
       }
 
-      const { i: inventoryData } = await decodeData(
-        Buffer.from(profile.profile.inv_contents.data, "base64")
-      );
+      const { i: inventoryData } = await decodeData(Buffer.from(profile.profile.inv_contents.data, "base64"));
 
       if (
         inventoryData[itemNumber - 1] === undefined ||
         Object.keys(inventoryData[itemNumber - 1] || {}).length === 0
       ) {
-        return this.send(
-          `/gc Player does not have an item at slot ${itemNumber}.`
-        );
+        return this.send(`/gc Player does not have an item at slot ${itemNumber}.`);
       }
 
       const Name = inventoryData[itemNumber - 1]?.tag?.display;
@@ -78,9 +69,7 @@ class RenderCommand extends minecraftCommand {
 
       const upload = await uploadImage(renderedItem);
 
-      this.send(
-        `/gc ${username}'s item at slot ${itemNumber}: ${upload.data.link}`
-      );
+      this.send(`/gc ${username}'s item at slot ${itemNumber}: ${upload.data.link}`);
     } catch (error) {
       this.send(`/gc Error: ${error}`);
     }

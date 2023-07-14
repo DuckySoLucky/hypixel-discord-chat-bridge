@@ -25,9 +25,7 @@ class UHCStatsCommand extends minecraftCommand {
 
       const { starLevel, KDRatio, wins, headsEaten } = player.stats.uhc;
 
-      this.send(
-        `/gc [${starLevel}✫] ${player.nickname} | KDR: ${KDRatio} | W: ${wins} | Heads: ${headsEaten}`
-      );
+      this.send(`/gc [${starLevel}✫] ${player.nickname} | KDR: ${KDRatio} | W: ${wins} | Heads: ${headsEaten}`);
     } catch (error) {
       this.send(`/gc ${error.toString().replace("[hypixel-api-reborn] ", "")}`);
     }

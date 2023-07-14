@@ -9,11 +9,6 @@ module.exports = (xp) => {
 
   const experience = xp || 0;
 
-  const level =
-    experience <= 1
-      ? 1
-      : 1 +
-        REVERSE_PQ_PREFIX +
-        Math.sqrt(REVERSE_CONST + GROWTH_DIVIDES_2 * experience);
+  const level = experience <= 1 ? 1 : 1 + REVERSE_PQ_PREFIX + Math.sqrt(REVERSE_CONST + GROWTH_DIVIDES_2 * experience);
   return level;
 };

@@ -14,9 +14,7 @@ class KittyCommand extends minecraftCommand {
 
   async onCommand(username, message) {
     try {
-      const { data } = await axios.get(
-        `https://api.thecatapi.com/v1/images/search`
-      );
+      const { data } = await axios.get(`https://api.thecatapi.com/v1/images/search`);
 
       if (data === undefined) {
         // eslint-disable-next-line no-throw-literal

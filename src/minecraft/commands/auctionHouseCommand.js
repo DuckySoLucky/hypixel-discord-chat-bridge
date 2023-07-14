@@ -34,9 +34,7 @@ class AuctionHouseCommand extends minecraftCommand {
       const { hypixelAPI, hypixelAPIkey } = config.minecraft.API;
 
       const [auctionResponse, playerResponse] = await Promise.all([
-        axios.get(
-          `${hypixelAPI}/skyblock/auction?key=${hypixelAPIkey}&player=${uuid}`
-        ),
+        axios.get(`${hypixelAPI}/skyblock/auction?key=${hypixelAPIkey}&player=${uuid}`),
         axios.get(`${hypixelAPI}/player?key=${hypixelAPIkey}&uuid=${uuid}`),
       ]);
 
@@ -47,30 +45,20 @@ class AuctionHouseCommand extends minecraftCommand {
         return this.send(`/gc This player has no active auctions.`);
       }
 
-      const activeAuctions = auctions.filter(
-        (auction) => auction.end >= Date.now()
-      );
+      const activeAuctions = auctions.filter((auction) => auction.end >= Date.now());
 
       for (const auction of activeAuctions) {
         const lore = auction.item_lore.split("\n");
 
-        lore.push(
-          "§8§m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯",
-          `§7Seller: ${getRank(player)} ${player.displayname}`
-        );
+        lore.push("§8§m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯", `§7Seller: ${getRank(player)} ${player.displayname}`);
 
         if (auction.bin === undefined) {
           if (auction.bids.length === 0) {
-            lore.push(
-              `§7Starting Bid: §6${addCommas(auction.starting_bid)} coins`,
-              `§7`
-            );
+            lore.push(`§7Starting Bid: §6${addCommas(auction.starting_bid)} coins`, `§7`);
           } else if (auction.bids.length > 0) {
             const bidderUUID = auction.bids[auction.bids.length - 1].bidder;
 
-            const bidderResponse = await axios.get(
-              `${hypixelAPI}/player?key=${hypixelAPIkey}&uuid=${bidderUUID}`
-            );
+            const bidderResponse = await axios.get(`${hypixelAPI}/player?key=${hypixelAPIkey}&uuid=${bidderUUID}`);
 
             const bidder = bidderResponse.data?.player || {};
             if (bidder === undefined) {
@@ -90,17 +78,10 @@ class AuctionHouseCommand extends minecraftCommand {
             );
           }
         } else {
-          lore.push(
-            `§7Buy it now: §6${auction.starting_bid.toLocaleString()} coins`,
-            `§7`
-          );
+          lore.push(`§7Buy it now: §6${auction.starting_bid.toLocaleString()} coins`, `§7`);
         }
 
-        lore.push(
-          `§7Ends in: §e${timeSince(auction.end)}`,
-          `§7`,
-          `§eClick to inspect`
-        );
+        lore.push(`§7Ends in: §e${timeSince(auction.end)}`, `§7`, `§eClick to inspect`);
 
         const renderedItem = await renderLore(` ${auction.item_name}`, lore);
         const upload = await uploadImage(renderedItem);

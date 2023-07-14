@@ -1,11 +1,11 @@
 // Credits https://github.com/Altpapier/hypixel-discord-guild-bridge/blob/master/helper/messageToImage.js
-// eslint-disable-next-line
+
 const Canvas = require("canvas");
 Canvas.registerFont("src/contracts/Fonts/MinecraftRegular-Bmg3.ttf", {
   family: "Minecraft",
 });
-Canvas.registerFont('src/contracts/Fonts/unifont.ttf', { 
-  family: 'MinecraftUnicode',
+Canvas.registerFont("src/contracts/Fonts/unifont.ttf", {
+  family: "MinecraftUnicode",
 });
 
 const RGBA_COLOR = {
@@ -36,17 +36,14 @@ function getHeight(message) {
   }
   const splitMessage = splitMessageSpace.join(" ").split(/§|\n/g);
   splitMessage.shift();
-  ctx.font = '40px Minecraft, MinecraftUnicode';
+  ctx.font = "40px Minecraft, MinecraftUnicode";
 
   let width = 5;
   let height = 35;
 
   for (const msg of splitMessage) {
     const currentMessage = msg.substring(1);
-    if (
-      width + ctx.measureText(currentMessage).width > 1000 ||
-      msg.charAt(0) === "n"
-    ) {
+    if (width + ctx.measureText(currentMessage).width > 1000 || msg.charAt(0) === "n") {
       width = 5;
       height += 40;
     }
@@ -70,17 +67,14 @@ function generateMessageImage(message) {
   ctx.shadowOffsetX = 4;
   ctx.shadowOffsetY = 4;
   ctx.shadowColor = "#131313";
-  ctx.font = '40px Minecraft, MinecraftUnicode';
+  ctx.font = "40px Minecraft, MinecraftUnicode";
 
   let width = 5;
   let height = 35;
   for (const msg of splitMessage) {
     const colorCode = RGBA_COLOR[msg.charAt(0)];
     const currentMessage = msg.substring(1);
-    if (
-      width + ctx.measureText(currentMessage).width > 1000 ||
-      msg.charAt(0) === "n"
-    ) {
+    if (width + ctx.measureText(currentMessage).width > 1000 || msg.charAt(0) === "n") {
       width = 5;
       height += 40;
     }
@@ -90,7 +84,7 @@ function generateMessageImage(message) {
     ctx.fillText(currentMessage, width, height);
     width += ctx.measureText(currentMessage).width;
   }
-  return canvas.toBuffer()
+  return canvas.toBuffer();
 }
 
 module.exports = generateMessageImage;

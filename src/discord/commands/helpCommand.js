@@ -1,4 +1,3 @@
-// eslint-disable-next-line
 const { EmbedBuilder } = require("discord.js");
 const config = require("../../../config.json");
 const fs = require("fs");
@@ -37,9 +36,7 @@ module.exports = {
         }
       });
       let minecraftCommands = "";
-      const minecraftCommandFiles = fs
-        .readdirSync("./src/minecraft/commands")
-        .filter((file) => file.endsWith(".js"));
+      const minecraftCommandFiles = fs.readdirSync("./src/minecraft/commands").filter((file) => file.endsWith(".js"));
       for (const file of minecraftCommandFiles) {
         const command = new (require(`../../minecraft/commands/${file}`))();
 
@@ -84,17 +81,9 @@ module.exports = {
         .readdirSync("./src/minecraft/commands")
         .filter((file) => file.endsWith(".js"))
         .map((file) => new (require(`../../minecraft/commands/${file}`))())
-        .find(
-          (command) =>
-            command.name === commandName ||
-            command.aliases.includes(commandName)
-        );
-      const command =
-        commands.find((command) => command.name === commandName) ||
-        minecraftCommand;
-      const type = commands.find((command) => command.name === commandName)
-        ? "discord"
-        : "minecraft";
+        .find((command) => command.name === commandName || command.aliases.includes(commandName));
+      const command = commands.find((command) => command.name === commandName) || minecraftCommand;
+      const type = commands.find((command) => command.name === commandName) ? "discord" : "minecraft";
 
       if (command === undefined) {
         const errorEmbed = new EmbedBuilder()
@@ -124,11 +113,7 @@ module.exports = {
 
       const embed = new EmbedBuilder()
         .setColor(0x0099ff)
-        .setTitle(
-          `**${type === "discord" ? "/" : config.minecraft.prefix}${
-            command.name
-          }**`
-        )
+        .setTitle(`**${type === "discord" ? "/" : config.minecraft.prefix}${command.name}**`)
         .setDescription(description + "\n")
         .setFooter({
           text: "by @duckysolucky | () = required, [] = optional",

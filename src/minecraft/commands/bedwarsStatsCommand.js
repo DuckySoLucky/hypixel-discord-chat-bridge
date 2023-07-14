@@ -29,8 +29,7 @@ class BedwarsCommand extends minecraftCommand {
       const player = await hypixel.getPlayer(username);
 
       if (["overall", "all"].includes(mode)) {
-        const { level, finalKills, finalKDRatio, wins, WLRatio, winstreak } =
-          player.stats.bedwars;
+        const { level, finalKills, finalKDRatio, wins, WLRatio, winstreak } = player.stats.bedwars;
         const { broken, BLRatio } = player.stats.bedwars.beds;
 
         this.send(
@@ -40,8 +39,7 @@ class BedwarsCommand extends minecraftCommand {
         );
       } else if (mode !== undefined) {
         const { level } = player.stats.bedwars;
-        const { finalKills, finalKDRatio, wins, WLRatio, winstreak } =
-          player.stats.bedwars[mode];
+        const { finalKills, finalKDRatio, wins, WLRatio, winstreak } = player.stats.bedwars[mode];
         const { broken, BLRatio } = player.stats.bedwars[mode].beds;
 
         this.send(
@@ -50,9 +48,7 @@ class BedwarsCommand extends minecraftCommand {
           )} FK: ${finalKills.toLocaleString()} FKDR: ${finalKDRatio} Wins: ${wins} WLR: ${WLRatio} BB: ${broken} BLR: ${BLRatio} WS: ${winstreak}`
         );
       } else {
-        this.send(
-          "/gc Invalid mode. Valid modes: overall, solo, doubles, threes, fours, 4v4"
-        );
+        this.send("/gc Invalid mode. Valid modes: overall, solo, doubles, threes, fours, 4v4");
       }
     } catch (error) {
       this.send(`/gc ${error.toString().replace("[hypixel-api-reborn] ", "")}`);

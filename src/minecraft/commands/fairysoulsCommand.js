@@ -1,7 +1,5 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const {
-  getLatestProfile,
-} = require("../../../API/functions/getLatestProfile.js");
+const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const { formatUsername } = require("../../contracts/helperFunctions.js");
 
 class FairySoulsCommand extends minecraftCommand {

@@ -1,10 +1,5 @@
-const {
-  getLatestProfile,
-} = require("../../../API/functions/getLatestProfile.js");
-const {
-  formatNumber,
-  formatUsername,
-} = require("../../contracts/helperFunctions.js");
+const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
+const { formatNumber, formatUsername } = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { getNetworth } = require("skyhelper-networth");
 const getTalismans = require("../../../API/stats/talismans.js");
@@ -37,27 +32,22 @@ class SkyblockCommand extends minecraftCommand {
       username = formatUsername(username, data.profileData.game_mode);
 
       if (data.status == 404) {
-        return this.send(
-          "/gc There is no player with the given UUID or name or the player has no Skyblock profiles"
-        );
+        return this.send("/gc There is no player with the given UUID or name or the player has no Skyblock profiles");
       }
 
-      const [skills, slayer, networth, weight, dungeons, talismans] =
-        await Promise.all([
-          getSkills(data.profile),
-          getSlayer(data.profile),
-          getNetworth(data.profile, data.profileData?.banking?.balance || 0, {
-            cache: true,
-            onlyNetworth: true,
-          }),
-          getWeight(data.profile),
-          getDungeons(data.player, data.profile),
-          getTalismans(data.profile),
-        ]);
+      const [skills, slayer, networth, weight, dungeons, talismans] = await Promise.all([
+        getSkills(data.profile),
+        getSlayer(data.profile),
+        getNetworth(data.profile, data.profileData?.banking?.balance || 0, {
+          cache: true,
+          onlyNetworth: true,
+        }),
+        getWeight(data.profile),
+        getDungeons(data.player, data.profile),
+        getTalismans(data.profile),
+      ]);
 
-      const senitherWeight = Math.floor(
-        weight?.senither?.total || 0
-      ).toLocaleString();
+      const senitherWeight = Math.floor(weight?.senither?.total || 0).toLocaleString();
       const lilyWeight = Math.floor(weight?.lily?.total || 0).toLocaleString();
       const skillAverage = (
         Object.keys(skills)
@@ -83,26 +73,18 @@ class SkyblockCommand extends minecraftCommand {
       let recombobulatedCount = 0;
       let enrichmentCount = 0;
       Object.values(talismans.talismans).forEach((talismansByRarity) => {
-        recombobulatedCount += talismansByRarity.filter(
-          (talisman) => talisman.recombobulated !== undefined
-        ).length;
-        enrichmentCount += talismansByRarity.filter(
-          (talisman) => talisman.enrichment !== undefined
-        ).length;
+        recombobulatedCount += talismansByRarity.filter((talisman) => talisman.recombobulated !== undefined).length;
+        enrichmentCount += talismansByRarity.filter((talisman) => talisman.enrichment !== undefined).length;
       });
 
       this.send(
         `/gc ${username}'s Level: ${
-          data.profile.leveling?.experience
-            ? data.profile.leveling.experience / 100
-            : 0
+          data.profile.leveling?.experience ? data.profile.leveling.experience / 100 : 0
         } | Senither Weight: ${senitherWeight} | Lily Weight: ${lilyWeight} | Skill Average: ${skillAverage} | Slayer: ${slayerXp} | Catacombs: ${catacombsLevel} | Class Average: ${classAverage} | Networth: ${networthValue} | Accessories: ${talismanCount} | Recombobulated: ${recombobulatedCount} | Enriched: ${enrichmentCount}`
       );
     } catch (error) {
       console.log(error);
-      this.send(
-        "/gc There is no player with the given UUID or name or the player has no Skyblock profiles"
-      );
+      this.send("/gc There is no player with the given UUID or name or the player has no Skyblock profiles");
     }
   }
 }

@@ -1,8 +1,6 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const getTalismans = require("../../../API/stats/talismans.js");
-const {
-  getLatestProfile,
-} = require("../../../API/functions/getLatestProfile.js");
+const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const { formatUsername } = require("../../contracts/helperFunctions.js");
 
 class AccessoriesCommand extends minecraftCommand {
@@ -38,12 +36,8 @@ class AccessoriesCommand extends minecraftCommand {
       let recombobulatedCount = 0;
       let enrichmentCount = 0;
       Object.values(talismans.talismans).forEach((talismansByRarity) => {
-        recombobulatedCount += talismansByRarity.filter(
-          (talisman) => talisman.recombobulated !== undefined
-        ).length;
-        enrichmentCount += talismansByRarity.filter(
-          (talisman) => talisman.enrichment !== undefined
-        ).length;
+        recombobulatedCount += talismansByRarity.filter((talisman) => talisman.recombobulated !== undefined).length;
+        enrichmentCount += talismansByRarity.filter((talisman) => talisman.enrichment !== undefined).length;
       });
 
       this.send(

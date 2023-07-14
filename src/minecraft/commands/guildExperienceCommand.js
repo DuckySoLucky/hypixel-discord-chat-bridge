@@ -22,10 +22,7 @@ class GuildExperienceCommand extends minecraftCommand {
     username = this.getArgs(message)[0] || username;
 
     try {
-      const [uuid, guild] = await Promise.all([
-        getUUID(username),
-        hypixel.getGuild("player", username),
-      ]);
+      const [uuid, guild] = await Promise.all([getUUID(username), hypixel.getGuild("player", username)]);
 
       const player = guild.members.find((member) => member.uuid == uuid);
 
@@ -34,9 +31,7 @@ class GuildExperienceCommand extends minecraftCommand {
         throw "Player is not in the Guild.";
       }
 
-      this.send(
-        `/gc ${username}'s Weekly Guild Experience: ${player.weeklyExperience.toLocaleString()}.`
-      );
+      this.send(`/gc ${username}'s Weekly Guild Experience: ${player.weeklyExperience.toLocaleString()}.`);
     } catch (error) {
       this.send(`/gc ${error.toString().replace("[hypixel-api-reborn] ", "")}`);
     }

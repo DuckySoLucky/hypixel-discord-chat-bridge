@@ -44,7 +44,9 @@ class unscrambleCommand extends minecraftCommand {
       cooldowns.set(this.name, Date.now());
       const listener = (username, message) => {
         if (getWord(message) === answer) {
-          this.send(`/gc ${userUsername} guessed it right! Time elapsed: ${(Date.now() - startTime).toLocaleString()}ms!`);
+          this.send(
+            `/gc ${userUsername} guessed it right! Time elapsed: ${(Date.now() - startTime).toLocaleString()}ms!`
+          );
 
           bot.removeListener("chat", listener);
           answered = true;

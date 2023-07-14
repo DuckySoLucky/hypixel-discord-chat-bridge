@@ -2,14 +2,10 @@ const axios = require("axios");
 
 async function getUUID(username) {
   try {
-    const { data } = await axios.get(
-      `https://playerdb.co/api/player/minecraft/${username}`
-    );
+    const { data } = await axios.get(`https://playerdb.co/api/player/minecraft/${username}`);
 
     if (data.success === false || data.error === true) {
-      throw data.message == "Mojang API lookup failed."
-        ? "Invalid username."
-        : data.message;
+      throw data.message == "Mojang API lookup failed." ? "Invalid username." : data.message;
     }
 
     if (data.data?.player?.raw_id === undefined) {
@@ -27,9 +23,7 @@ async function getUUID(username) {
 
 async function getUsername(uuid) {
   try {
-    const response = await axios.get(
-      `https://playerdb.co/api/player/minecraft/${uuid}`
-    );
+    const response = await axios.get(`https://playerdb.co/api/player/minecraft/${uuid}`);
     return response.data.data.player.username;
   } catch (error) {
     console.log(error);
@@ -38,14 +32,10 @@ async function getUsername(uuid) {
 
 async function resolveUsernameOrUUID(username) {
   try {
-    const { data } = await axios.get(
-      `https://playerdb.co/api/player/minecraft/${username}`
-    );
+    const { data } = await axios.get(`https://playerdb.co/api/player/minecraft/${username}`);
 
     if (data.success === false || data.error === true) {
-      throw data.message == "Mojang API lookup failed."
-        ? "Invalid username."
-        : data.message;
+      throw data.message == "Mojang API lookup failed." ? "Invalid username." : data.message;
     }
 
     if (data.data?.player?.raw_id === undefined) {

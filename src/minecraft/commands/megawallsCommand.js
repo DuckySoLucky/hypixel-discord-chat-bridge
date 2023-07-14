@@ -25,16 +25,7 @@ class EightBallCommand extends minecraftCommand {
         stats: { megawalls },
       } = await hypixel.getPlayer(username);
 
-      const {
-        selectedClass = "None",
-        finalKills,
-        finalKDRatio,
-        wins,
-        WLRatio,
-        kills,
-        KDRatio,
-        assists,
-      } = megawalls;
+      const { selectedClass = "None", finalKills, finalKDRatio, wins, WLRatio, kills, KDRatio, assists } = megawalls;
 
       this.send(
         `/gc ${username}'s Megawalls: Class: ${

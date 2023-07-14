@@ -21,10 +21,7 @@ module.exports = {
         cachedMessages.push(message.toString());
         console.log(message.toString());
 
-        if (
-          message.toString().startsWith("10.") &&
-          message.toString().endsWith("Guild Experience")
-        ) {
+        if (message.toString().startsWith("10.") && message.toString().endsWith("Guild Experience")) {
           bot.removeListener("message", listener);
           resolve(cachedMessages);
         }

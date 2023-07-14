@@ -1,5 +1,4 @@
 //CREDIT: https://github.com/SkyCrypt/SkyCryptWebsite (Modified)
-/*eslint-disable */
 const xp_tables = require("./xp_tables");
 
 module.exports = function calcSkill(skill, experience, type) {
@@ -50,9 +49,8 @@ module.exports = function calcSkill(skill, experience, type) {
   if (level < maxLevel) {
     xpForNext = Math.ceil(xp_tables[table][level] || 200000000);
   }
-  
-  progress =
-    level >= maxLevel && skill !== "dungeoneering" ? 0 : Math.max(0, Math.min(xpCurrent / xpForNext, 1));
+
+  progress = level >= maxLevel && skill !== "dungeoneering" ? 0 : Math.max(0, Math.min(xpCurrent / xpForNext, 1));
 
   return {
     totalXp,
@@ -61,6 +59,6 @@ module.exports = function calcSkill(skill, experience, type) {
     xpCurrent,
     xpForNext,
     progress,
-    levelWithProgress: (level + progress) || 0,
+    levelWithProgress: level + progress || 0,
   };
 };

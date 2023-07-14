@@ -35,20 +35,17 @@ class WoolwarsCommand extends minecraftCommand {
         throw "This player has never played WoolWars.";
       }
 
-      const experience =
-        response.player?.stats?.WoolGames?.progression?.experience ?? 0;
+      const experience = response.player?.stats?.WoolGames?.progression?.experience ?? 0;
       const level = getWoolWarsStar(experience);
 
       this.send(
         `/gc [${Math.floor(level)}✫] ${username}: W: ${woolWars.wins} | WLR: ${(
           woolWars.wins / woolWars.games_played
-        ).toFixed(2)} | KDR: ${(woolWars.kills / woolWars.deaths).toFixed(
-          2
-        )} | BB: ${woolWars.blocks_broken} | WP: ${
+        ).toFixed(2)} | KDR: ${(woolWars.kills / woolWars.deaths).toFixed(2)} | BB: ${woolWars.blocks_broken} | WP: ${
           woolWars.wool_placed
-        } | WPP: ${(woolWars.wool_placed / woolWars.games_played).toFixed(
-          2
-        )} | WPG: ${(woolWars.wool_placed / woolWars.blocks_broken).toFixed(2)}
+        } | WPP: ${(woolWars.wool_placed / woolWars.games_played).toFixed(2)} | WPG: ${(
+          woolWars.wool_placed / woolWars.blocks_broken
+        ).toFixed(2)}
           `
       );
     } catch (error) {

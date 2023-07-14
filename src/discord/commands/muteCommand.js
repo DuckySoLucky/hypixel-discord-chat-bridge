@@ -21,11 +21,7 @@ module.exports = {
   execute: async (interaction, client) => {
     const name = interaction.options.getString("name");
     const time = interaction.options.getString("time");
-    if (
-      (await interaction.guild.members.fetch(interaction.user)).roles.cache.has(
-        config.discord.roles.commandRole
-      )
-    ) {
+    if ((await interaction.guild.members.fetch(interaction.user)).roles.cache.has(config.discord.roles.commandRole)) {
       bot.chat(`/g mute ${name} ${time}`);
       await interaction.followUp({
         content: "Command has been executed successfully.",
