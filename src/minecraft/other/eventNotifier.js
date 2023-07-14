@@ -46,7 +46,7 @@ if (config.minecraft.skyblockEventsNotifications.enabled) {
     } catch (e) {
       /* empty */
     }
-  }, 10000);
+  }, 60000);
 }
 
 function getCustomTime(events, value) {
