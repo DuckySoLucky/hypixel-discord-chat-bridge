@@ -1,5 +1,5 @@
 //CREDIT: https://github.com/SkyCrypt/SkyCryptWebsite (Modified)
-const xp_tables = require("./xp_tables");
+const xp_tables = require("./xp_tables.js");
 
 module.exports = function calcSkill(skill, experience, type) {
   let table = "normal";
@@ -42,9 +42,9 @@ module.exports = function calcSkill(skill, experience, type) {
     xpForNext = 200000000;
   }
 
-  let xpCurrent = Math.floor(experience - xp);
+  const xpCurrent = Math.floor(experience - xp);
 
-  let totalXp = experience;
+  const totalXp = experience;
 
   if (level < maxLevel) {
     xpForNext = Math.ceil(xp_tables[table][level] || 200000000);

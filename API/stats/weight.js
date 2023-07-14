@@ -279,7 +279,7 @@ function formatLilyDungeons(dungeons) {
     Object.assign(catacombs, { [formattedFloor]: dungeons.catacombs.floors[floor].completions });
   }
 
-  let master_mode = {};
+  const master_mode = {};
   for (const floor of Object.keys(dungeons.catacombs?.master_mode_floors || {})) {
     Object.assign(master_mode, { [floor.split("_")[1]]: dungeons.catacombs.master_mode_floors[floor].completions });
   }
