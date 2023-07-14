@@ -18,12 +18,7 @@
     "API": {
       "hypixelAPI": "https://api.hypixel.net",
       "hypixelAPIkey": "HYPIXEL_API_KEY",
-
-      "antiSniperAPI": "https://api.antisniper.net",
-      "antiSniperKey": "ANTISNIPER_API_KEY",
-
-      "playerDBAPI": "https://playerdb.co/api/player/minecraft",
-
+      
       "imgurAPIkey": "IMGUR_API_KEY"
     },
     "guildRequirements": {
@@ -62,6 +57,9 @@
         "SEASON_OF_JERRY": true,
         "SPOOKY_FESTIVAL": true,
         "TRAVELING_ZOO": true
+      },
+      "customTime": {
+        "2": ["BANK_INTEREST", "DARK_AUCTION", "JACOBS_CONTEST"]
       }
     }
   },

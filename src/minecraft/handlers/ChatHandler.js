@@ -1,6 +1,4 @@
-const {
-  getLatestProfile,
-} = require("../../../API/functions/getLatestProfile.js");
+const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const { replaceAllRanks } = require("../../contracts/helperFunctions.js");
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
@@ -30,11 +28,7 @@ class StateHandler extends eventHandler {
     const colouredMessage = event.toMotd();
 
     // NOTE: fixes "100/100❤     100/100✎ Mana" spam in the debug channel
-    if (
-      message.includes("✎ Mana") &&
-      message.includes("❤") &&
-      message.includes("/")
-    ) {
+    if (message.includes("✎ Mana") && message.includes("❤") && message.includes("/")) {
       return;
     }
 
@@ -49,16 +43,12 @@ class StateHandler extends eventHandler {
       return bot.chat("\u00a7");
     }
 
-    if (
-      this.isPartyMessage(message) &&
-      config.minecraft.fragBot.enabled === true
-    ) {
+    if (this.isPartyMessage(message) && config.minecraft.fragBot.enabled === true) {
       const username = message.substr(54).startsWith("[")
         ? message.substr(54).split(" ")[1].trim()
         : message.substr(54).split(" ")[0].trim();
 
-      const { blacklist, blacklisted, whitelist, customWhitelist } =
-        config.minecraft.fragBot;
+      const { blacklist, blacklisted, whitelist, customWhitelist } = config.minecraft.fragBot;
       if (blacklist || whitelist) {
         const uuid = await getUUID(username);
 
@@ -71,11 +61,7 @@ class StateHandler extends eventHandler {
         const members = await hypixel
           .getGuild("player", bot.username)
           .then(async (guild) => guild.members.map((member) => member.uuid));
-        if (
-          (config.minecraft.fragBot.whitelist &&
-            customWhitelist.includes(username)) ||
-          members.includes(uuid)
-        ) {
+        if ((config.minecraft.fragBot.whitelist && customWhitelist.includes(username)) || members.includes(uuid)) {
           this.send(`/party accept ${username}`);
           await delay(Math.floor(Math.random() * (6900 - 4200 + 1)) + 4200);
           this.send(`/party leave`);
@@ -89,26 +75,15 @@ class StateHandler extends eventHandler {
 
     if (this.isRequestMessage(message)) {
       const username = replaceAllRanks(
-        message
-          .split("has")[0]
-          .replaceAll(
-            "-----------------------------------------------------\n",
-            ""
-          )
+        message.split("has")[0].replaceAll("-----------------------------------------------------\n", "")
       );
       const uuid = await getUUID(username);
       if (config.minecraft.guildRequirements.enabled) {
-        const [player, profile] = await Promise.all([
-          hypixel.getPlayer(uuid),
-          getLatestProfile(uuid),
-        ]);
+        const [player, profile] = await Promise.all([hypixel.getPlayer(uuid), getLatestProfile(uuid)]);
         let meetRequirements = false;
 
-        const weight =
-          getWeight(profile.profile, profile.uuid)?.weight?.senither?.total ||
-          0;
-        const skyblockLevel =
-          (profile.profile?.leveling?.experience || 0) / 100 ?? 0;
+        const weight = getWeight(profile.profile, profile.uuid)?.weight?.senither?.total || 0;
+        const skyblockLevel = (profile.profile?.leveling?.experience || 0) / 100 ?? 0;
 
         const bwLevel = player.stats.bedwars.level;
         const bwFKDR = player.stats.bedwars.finalKDRatio;
@@ -119,69 +94,48 @@ class StateHandler extends eventHandler {
         const duelsWins = player.stats.duels.wins;
         const dWLR = player.stats.duels.WLRatio;
 
-        if (
-          weight >
-          config.minecraft.guildRequirements.requirements.senitherWeight
-        ) {
+        if (weight > config.minecraft.guildRequirements.requirements.senitherWeight) {
           meetRequirements = true;
         }
 
-        if (
-          skyblockLevel >
-          config.minecraft.guildRequirements.requirements.skyblockLevel
-        ) {
+        if (skyblockLevel > config.minecraft.guildRequirements.requirements.skyblockLevel) {
           meetRequirements = true;
         }
 
-        if (
-          bwLevel > config.minecraft.guildRequirements.requirements.bedwarsStars
-        ) {
+        if (bwLevel > config.minecraft.guildRequirements.requirements.bedwarsStars) {
           meetRequirements = true;
         }
         if (
-          bwLevel >
-            config.minecraft.guildRequirements.requirements
-              .bedwarsStarsWithFKDR &&
+          bwLevel > config.minecraft.guildRequirements.requirements.bedwarsStarsWithFKDR &&
           bwFKDR > config.minecraft.guildRequirements.requirements.bedwarsFKDR
         ) {
           meetRequirements = true;
         }
 
-        if (
-          swLevel > config.minecraft.guildRequirements.requirements.skywarsStars
-        ) {
+        if (swLevel > config.minecraft.guildRequirements.requirements.skywarsStars) {
           meetRequirements = true;
         }
         if (
-          swLevel >
-            config.minecraft.guildRequirements.requirements
-              .skywarsStarsWithKDR &&
-          swKDR >
-            config.minecraft.guildRequirements.requirements.skywarsStarsWithKDR
+          swLevel > config.minecraft.guildRequirements.requirements.skywarsStarsWithKDR &&
+          swKDR > config.minecraft.guildRequirements.requirements.skywarsStarsWithKDR
         ) {
           meetRequirements = true;
         }
 
-        if (
-          duelsWins > config.minecraft.guildRequirements.requirements.duelsWins
-        ) {
+        if (duelsWins > config.minecraft.guildRequirements.requirements.duelsWins) {
           meetRequirements = true;
         }
         if (
-          duelsWins >
-            config.minecraft.guildRequirements.requirements.duelsWinsWithWLR &&
-          dWLR >
-            config.minecraft.guildRequirements.requirements.duelsWinsWithWLR
+          duelsWins > config.minecraft.guildRequirements.requirements.duelsWinsWithWLR &&
+          dWLR > config.minecraft.guildRequirements.requirements.duelsWinsWithWLR
         ) {
           meetRequirements = true;
         }
 
         bot.chat(
-          `/oc ${username} ${
-            meetRequirements ? "meets" : "Doesn't meet"
-          } Requirements. [BW] [${player.stats.bedwars.level}✫] FKDR: ${
-            player.stats.bedwars.finalKDRatio
-          } | [SW] [${player.stats.skywars.level}✫] KDR: ${
+          `/oc ${username} ${meetRequirements ? "meets" : "Doesn't meet"} Requirements. [BW] [${
+            player.stats.bedwars.level
+          }✫] FKDR: ${player.stats.bedwars.finalKDRatio} | [SW] [${player.stats.skywars.level}✫] KDR: ${
             player.stats.skywars.KDRatio
           } | [Duels] Wins: ${player.stats.duels.wins.toLocaleString()} WLR: ${player.stats.duels.WLRatio.toLocaleString()} | SB Weight: ${weight.toLocaleString()} | SB Level: ${skyblockLevel.toLocaleString()}`
         );
@@ -244,20 +198,14 @@ class StateHandler extends eventHandler {
               iconURL: "https://imgur.com/tgwQJTX.png",
             });
 
-          await client.channels.cache
-            .get(`${config.discord.channels.loggingChannel}`)
-            .send({ embeds: [statsEmbed] });
+          await client.channels.cache.get(`${config.discord.channels.loggingChannel}`).send({ embeds: [statsEmbed] });
         }
       }
     }
 
     if (this.isLoginMessage(message)) {
       if (config.discord.other.joinMessage === true) {
-        const username = message
-          .split(">")[1]
-          .trim()
-          .split("joined.")[0]
-          .trim();
+        const username = message.split(">")[1].trim().split("joined.")[0].trim();
         return this.minecraft.broadcastPlayerToggle({
           fullMessage: colouredMessage,
           username: username,
@@ -457,8 +405,7 @@ class StateHandler extends eventHandler {
     if (this.isMuted(message)) {
       const formattedMessage = message.split(" ").slice(1).join(" ");
       this.minecraft.broadcastHeadedEmbed({
-        message:
-          formattedMessage.charAt(0).toUpperCase() + formattedMessage.slice(1),
+        message: formattedMessage.charAt(0).toUpperCase() + formattedMessage.slice(1),
 
         title: `Bot is currently muted for a Major Chat infraction.`,
         color: 15548997,
@@ -773,20 +720,11 @@ class StateHandler extends eventHandler {
     const guildRank = userParts.pop().replace(/[[\]]/g, "") || "Member";
     const playerMessage = parts.join(":").trim();
 
-    const playerRankColor = colouredMessage
-      .split(" ")[2]
-      ?.replace(/[[\]]/g, "")
-      ?.split("§")[1];
-    const playerRankPlusColor = colouredMessage
-      .split(" ")[2]
-      ?.replace(/[[\]]/g, "")
-      ?.split("§")[2];
+    const playerRankColor = colouredMessage.split(" ")[2]?.replace(/[[\]]/g, "")?.split("§")[1];
+    const playerRankPlusColor = colouredMessage.split(" ")[2]?.replace(/[[\]]/g, "")?.split("§")[2];
     const embedColor = playerRankPlusColor?.[0] || playerRankColor?.[0] || "7";
 
-    if (
-      (!this.isGuildMessage(message) && !this.isOfficerChatMessage(message)) ||
-      playerMessage.length == 0
-    ) {
+    if ((!this.isGuildMessage(message) && !this.isOfficerChatMessage(message)) || playerMessage.length == 0) {
       return;
     }
 
@@ -794,17 +732,13 @@ class StateHandler extends eventHandler {
       playerMessage.includes(config.minecraft.bot.prefix) &&
       playerMessage.includes(config.minecraft.bot.messageFormat)
     ) {
-      const [player, command] = playerMessage.split(
-        `${config.minecraft.bot.messageFormat} `
-      );
+      const [player, command] = playerMessage.split(`${config.minecraft.bot.messageFormat} `);
       this.command.handle(player.trim(), command.trim());
     } else {
       this.command.handle(username, playerMessage);
     }
 
-    const betweenMessage = message
-      .split(": ")[1]
-      .split(config.minecraft.bot.messageFormat);
+    const betweenMessage = message.split(": ")[1].split(config.minecraft.bot.messageFormat);
     if (this.isMessageFromBot(username) && betweenMessage.length == 2) return;
 
     this.minecraft.broadcastMessage({
@@ -823,25 +757,16 @@ class StateHandler extends eventHandler {
 
   isAlreadyBlacklistedMessage(message) {
     return (
-      message.includes(
-        `You've already ignored that player! /ignore remove Player to unignore them!`
-      ) && !message.includes(":")
+      message.includes(`You've already ignored that player! /ignore remove Player to unignore them!`) &&
+      !message.includes(":")
     );
   }
   isBlacklistRemovedMessage(message) {
-    return (
-      message.startsWith("Removed") &&
-      message.includes("from your ignore list.") &&
-      !message.includes(":")
-    );
+    return message.startsWith("Removed") && message.includes("from your ignore list.") && !message.includes(":");
   }
 
   isBlacklistMessage(message) {
-    return (
-      message.startsWith("Added") &&
-      message.includes("to your ignore list.") &&
-      !message.includes(":")
-    );
+    return message.startsWith("Added") && message.includes("to your ignore list.") && !message.includes(":");
   }
 
   isGuildMessage(message) {
@@ -853,27 +778,15 @@ class StateHandler extends eventHandler {
   }
 
   isGuildQuestCompletion(message) {
-    return (
-      message.includes("GUILD QUEST TIER ") &&
-      message.includes("COMPLETED") &&
-      !message.includes(":")
-    );
+    return message.includes("GUILD QUEST TIER ") && message.includes("COMPLETED") && !message.includes(":");
   }
 
   isLoginMessage(message) {
-    return (
-      message.startsWith("Guild >") &&
-      message.endsWith("joined.") &&
-      !message.includes(":")
-    );
+    return message.startsWith("Guild >") && message.endsWith("joined.") && !message.includes(":");
   }
 
   isLogoutMessage(message) {
-    return (
-      message.startsWith("Guild >") &&
-      message.endsWith("left.") &&
-      !message.includes(":")
-    );
+    return message.startsWith("Guild >") && message.endsWith("left.") && !message.includes(":");
   }
 
   isJoinMessage(message) {
@@ -885,16 +798,11 @@ class StateHandler extends eventHandler {
   }
 
   isKickMessage(message) {
-    return (
-      message.includes("was kicked from the guild by") && !message.includes(":")
-    );
+    return message.includes("was kicked from the guild by") && !message.includes(":");
   }
 
   isPartyMessage(message) {
-    return (
-      message.includes("has invited you to join their party!") &&
-      !message.includes(":")
-    );
+    return message.includes("has invited you to join their party!") && !message.includes(":");
   }
 
   isPromotionMessage(message) {
@@ -910,9 +818,7 @@ class StateHandler extends eventHandler {
   }
 
   isBlockedMessage(message) {
-    return (
-      message.includes("We blocked your comment") && !message.includes(":")
-    );
+    return message.includes("We blocked your comment") && !message.includes(":");
   }
 
   isRepeatMessage(message) {
@@ -926,17 +832,13 @@ class StateHandler extends eventHandler {
         message.includes(
           "I'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error."
         ) ||
-        message.includes(
-          "You cannot mute a guild member with a higher guild rank!"
-        ) ||
+        message.includes("You cannot mute a guild member with a higher guild rank!") ||
         message.includes("You cannot kick this player!") ||
         message.includes("You can only promote up to your own rank!") ||
         message.includes("You cannot mute yourself from the guild!") ||
         message.includes("is the guild master so can't be demoted!") ||
         message.includes("is the guild master so can't be promoted anymore!") ||
-        message.includes(
-          "You do not have permission to kick people from the guild!"
-        )) &&
+        message.includes("You do not have permission to kick people from the guild!")) &&
       !message.includes(":")
     );
   }
@@ -956,9 +858,7 @@ class StateHandler extends eventHandler {
   isOfflineInvite(message) {
     return (
       message.includes("You sent an offline invite to") &&
-      message.includes(
-        "They will have 5 minutes to accept once they come online!"
-      ) &&
+      message.includes("They will have 5 minutes to accept once they come online!") &&
       !message.includes(":")
     );
   }
@@ -967,19 +867,14 @@ class StateHandler extends eventHandler {
     return (
       (message.includes("is already in another guild!") ||
         message.includes("You cannot invite this player to your guild!") ||
-        (message.includes("You've already invited") &&
-          message.includes("to your guild! Wait for them to accept!")) ||
+        (message.includes("You've already invited") && message.includes("to your guild! Wait for them to accept!")) ||
         message.includes("is already in your guild!")) &&
       !message.includes(":")
     );
   }
 
   isUserMuteMessage(message) {
-    return (
-      message.includes("has muted") &&
-      message.includes("for") &&
-      !message.includes(":")
-    );
+    return message.includes("has muted") && message.includes("for") && !message.includes(":");
   }
 
   isUserUnmuteMessage(message) {
@@ -987,36 +882,23 @@ class StateHandler extends eventHandler {
   }
 
   isCannotMuteMoreThanOneMonth(message) {
-    return (
-      message.includes("You cannot mute someone for more than one month") &&
-      !message.includes(":")
-    );
+    return message.includes("You cannot mute someone for more than one month") && !message.includes(":");
   }
 
   isGuildMuteMessage(message) {
-    return (
-      message.includes("has muted the guild chat for") && !message.includes(":")
-    );
+    return message.includes("has muted the guild chat for") && !message.includes(":");
   }
 
   isGuildUnmuteMessage(message) {
-    return (
-      message.includes("has unmuted the guild chat!") && !message.includes(":")
-    );
+    return message.includes("has unmuted the guild chat!") && !message.includes(":");
   }
 
   isSetrankFail(message) {
-    return (
-      message.includes("I couldn't find a rank by the name of ") &&
-      !message.includes(":")
-    );
+    return message.includes("I couldn't find a rank by the name of ") && !message.includes(":");
   }
 
   isAlreadyMuted(message) {
-    return (
-      message.includes("This player is already muted!") &&
-      !message.includes(":")
-    );
+    return message.includes("This player is already muted!") && !message.includes(":");
   }
 
   isNotInGuild(message) {
@@ -1024,38 +906,23 @@ class StateHandler extends eventHandler {
   }
 
   isLowestRank(message) {
-    return (
-      message.includes("is already the lowest rank you've created!") &&
-      !message.includes(":")
-    );
+    return message.includes("is already the lowest rank you've created!") && !message.includes(":");
   }
 
   isAlreadyHasRank(message) {
-    return (
-      message.includes("They already have that rank!") && !message.includes(":")
-    );
+    return message.includes("They already have that rank!") && !message.includes(":");
   }
 
   isLobbyJoinMessage(message) {
-    return (
-      (message.endsWith(" the lobby!") ||
-        message.endsWith(" the lobby! <<<")) &&
-      message.includes("[MVP+")
-    );
+    return (message.endsWith(" the lobby!") || message.endsWith(" the lobby! <<<")) && message.includes("[MVP+");
   }
 
   isTooFast(message) {
-    return (
-      message.includes(
-        "You are sending commands too fast! Please slow down."
-      ) && !message.includes(":")
-    );
+    return message.includes("You are sending commands too fast! Please slow down.") && !message.includes(":");
   }
 
   isMuted(message) {
-    return (
-      message.includes("Your mute will expire in") && !message.includes(":")
-    );
+    return message.includes("Your mute will expire in") && !message.includes(":");
   }
 
   isPlayerNotFound(message) {
@@ -1063,9 +930,7 @@ class StateHandler extends eventHandler {
   }
 
   isGuildLevelUpMessage(message) {
-    return (
-      message.includes("The guild has reached Level") && !message.includes(":")
-    );
+    return message.includes("The guild has reached Level") && !message.includes(":");
   }
 
   minecraftChatColorToHex(color) {

@@ -1,10 +1,9 @@
 const axios = require("axios");
-const config = require("../../../config.json");
 
 async function getUUID(username) {
   try {
     const { data } = await axios.get(
-      `${config.minecraft.API.playerDBAPI}/${username}`
+      `https://playerdb.co/api/player/minecraft/${username}`
     );
 
     if (data.success === false || data.error === true) {
@@ -29,7 +28,7 @@ async function getUUID(username) {
 async function getUsername(uuid) {
   try {
     const response = await axios.get(
-      `${config.minecraft.API.playerDBAPI}/${uuid}`
+      `https://playerdb.co/api/player/minecraft/${uuid}`
     );
     return response.data.data.player.username;
   } catch (error) {
@@ -40,7 +39,7 @@ async function getUsername(uuid) {
 async function resolveUsernameOrUUID(username) {
   try {
     const { data } = await axios.get(
-      `${config.minecraft.API.playerDBAPI}/${username}`
+      `https://playerdb.co/api/player/minecraft/${username}`
     );
 
     if (data.success === false || data.error === true) {
@@ -54,7 +53,10 @@ async function resolveUsernameOrUUID(username) {
       throw "No UUID found for that username.";
     }
 
-    return { username: data.data.player.username, uuid: data.data.player.raw_id };
+    return {
+      username: data.data.player.username,
+      uuid: data.data.player.raw_id,
+    };
   } catch (error) {
     console.log(error);
   }
