@@ -45,7 +45,7 @@ class MinecraftManager extends CommunicationBridge {
     });
   }
 
-  async sendSafeMessage(command, prefix, message) {
+  async sendSafeMessage(command, prefix, message, should_clean) {
     let max_length = 250;
     let max_messages = 5;
 
@@ -67,7 +67,11 @@ class MinecraftManager extends CommunicationBridge {
     
     for (let i = 0, o = 0; i < amount_of_chunks; ++i, o += max_message_allowed) {
       let message_text = message.substring(o, o+max_message_allowed);
-      chunks[i] = `/${command} ${prefix} ${message_text}`;
+      let final_message = `${prefix} ${message_text}`;
+      if(should_clean){
+        final_message = filter.clean(final_message);
+      }
+      chunks[i] = `/${command} ${final_message}`;
     }
 
     for (let safe_message of chunks) {
@@ -92,26 +96,16 @@ class MinecraftManager extends CommunicationBridge {
       let prefix = replyingTo
       ? `${username} replying to ${replyingTo}${symbol}`
       : `${username}${symbol}`;
-      
-      if(config.discord.other.filterMessages){
-        prefix = filter.clean(prefix);
-        message = filter.clean(message);
-      }
 
-      return this.sendSafeMessage('gc', prefix, message);
+      return this.sendSafeMessage('gc', prefix, message, config.discord.other.filterMessages);
     }
 
     if (channel === config.discord.channels.officerChannel) {
       let prefix = replyingTo
       ? `${username} replying to ${replyingTo}${symbol}`
       : `${username}${symbol}`;
-      
-      if(config.discord.other.filterMessages){
-        prefix = filter.clean(prefix);
-        message = filter.clean(message);
-      }
 
-      return this.sendSafeMessage('oc', prefix, message);
+      return this.sendSafeMessage('oc', prefix, message, config.discord.other.filterMessages);
     }
   }
 }
