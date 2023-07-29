@@ -114,8 +114,8 @@ class MessageHandler {
     }
 
     // Replace IP Adresses with [IP Address Removed]
-    const IPAdressPattern = /(?:\d{1,3}\s?){4}/g;
-    output = output.replaceAll(IPAdressPattern, "[IP Address Removed]");
+    const IPAddressPattern = /(?:\d{1,3}\s*\s\s*){3}\d{1,3}/g;
+    output = output.replaceAll(IPAddressPattern, "[IP Address Removed]");
 
     // ? demojify() function has a bug. It throws an error when it encounters channel with emoji in its name. Example: #💬・guild-chat
     try {
