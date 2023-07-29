@@ -1,31 +1,36 @@
-const { writeAt } = require("../../contracts/helperFunctions.js");
 const Rss = require("rss-parser");
-const fs = require("fs");
 const parser = new Rss();
 
-setInterval(checkForSkyblockUpdates, 10000);
-setInterval(checkForIncidents, 10000);
+setInterval(checkForSkyblockUpdates, 1000);
+setInterval(checkForIncidents, 1000);
 
+const hypixelIncidents = {};
 async function checkForIncidents() {
   try {
-    const status = await parser.parseURL("https://status.hypixel.net/history.rss");
-    for (const data of status.items) {
-      const currentStatus = JSON.parse(fs.readFileSync("data/skyblockNotifer.json")).skyblockStatus;
-      const contents = JSON.stringify(data.contentSnippet).trim().replaceAll('"', "").split("\\n");
-      for (const content of contents) {
-        if (contents.indexOf(content) % 2 === 0) continue;
+    const { items: status } = await parser.parseURL("https://status.hypixel.net/history.rss");
 
-        const date = contents[contents.indexOf(content) - 1];
+    const latestIcidents = status.filter(
+      (data) => new Date(data.pubDate).getTime() / 1000 + 43200 > Date.now() / 1000
+    );
 
-        if (currentStatus.includes(`${data.title} | ${content} | ${date}`) === true) continue;
+    for (const incident of latestIcidents) {
+      const { title, link } = incident;
 
-        const dateToUnix = new Date(data.pubDate).getTime();
-        if (dateToUnix / 1000 + 43200 > Date.now() / 1000) {
-          bot.chat(`/gc [HYPIXEL STATUS] ${data.title} - ${content.split(" - ")[1]} | ${data.link}`);
-        }
+      if (hypixelIncidents[title]?.notified !== true) {
+        hypixelIncidents[title] = { notified: true };
+        bot.chat(`/gc [HYPIXEL STATUS] ${title} | ${link}`);
+      }
 
-        currentStatus.push(`${data.title} | ${content} | ${date}`);
-        await writeAt("data/skyblockNotifer.json", "skyblockStatus", currentStatus);
+      const updates = JSON.stringify(incident.contentSnippet)
+        .split("\\n")
+        .filter((_, index) => index % 2 !== 0);
+
+      for (const update of updates) {
+        if (hypixelIncidents[title]?.updates?.includes(update) === true) continue;
+
+        hypixelIncidents[title].updates ??= [];
+        hypixelIncidents[title].updates.push(update);
+        bot.chat(`/gc [HYPIXEL STATUS UPDATE] ${title} | ${update}`);
       }
     }
   } catch (error) {
@@ -33,25 +38,25 @@ async function checkForIncidents() {
   }
 }
 
+const hypixelUpdates = {};
 async function checkForSkyblockUpdates() {
   try {
-    const [response, response1] = await Promise.all([
+    const [{ items: news }, { items: skyblockNews }] = await Promise.all([
       parser.parseURL("https://hypixel.net/forums/news-and-announcements.4/index.rss"),
       parser.parseURL("https://hypixel.net/forums/skyblock-patch-notes.158/index.rss"),
     ]);
 
-    const feed = response.items.concat(response1.items);
-    for (const data of feed) {
-      const currentUpdates = JSON.parse(fs.readFileSync("data/skyblockNotifer.json")).skyblockUpdates;
-      if (currentUpdates.includes(`${data.title} | ${data.link}`) === true) continue;
+    const latestFeed = news
+      .concat(skyblockNews)
+      .filter((data) => new Date(data.pubDate).getTime() / 1000 + 43200 > Date.now() / 1000);
 
-      const dateToUnix = new Date(data.pubDate).getTime();
-      if (dateToUnix / 1000 + 43200 > Date.now() / 1000) {
-        bot.chat(`/gc [HYPIXEL UPDATE] ${data.title} | ${data.link}`);
-      }
+    for (const news of latestFeed) {
+      const { title, link } = news;
 
-      currentUpdates.push(`${data.title} | ${data.link}`);
-      await writeAt("data/skyblockNotifer.json", "skyblockUpdates", currentUpdates);
+      if (hypixelUpdates[title] === true) continue;
+
+      hypixelUpdates[title] = true;
+      bot.chat(`/gc [HYPIXEL UPDATE] ${title} | ${link}`);
     }
   } catch (error) {
     console.log(error);
