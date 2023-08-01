@@ -12,9 +12,9 @@ class StateHandler {
     this.discord.client.user.setPresence({
       activities: [{ name: `/help | by @duckysolucky`, type: ActivityType.Playing }],
     });
-    const channel = await this.getChannel("Guild");
     global.bridgeChat = config.discord.channels.guildChatChannel;
 
+    const channel = await this.getChannel("Guild");
     channel.send({
       embeds: [
         {

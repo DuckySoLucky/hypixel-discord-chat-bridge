@@ -1,5 +1,5 @@
-const config = require("../../../config.json");
 const { EmbedBuilder } = require("discord.js");
+const config = require("../../../config.json");
 
 module.exports = {
   name: "execute",
@@ -13,24 +13,24 @@ module.exports = {
     },
   ],
 
-  execute: async (interaction, client) => {
-    if ((await interaction.guild.members.fetch(interaction.user)).roles.cache.has(config.discord.roles.commandRole)) {
-      const command = interaction.options.getString("command");
-      bot.chat(`/${command}`);
-      const commandMessage = new EmbedBuilder()
-        .setColor(2067276)
-        .setTitle("Command has been executed successfully")
-        .setDescription(`\`/${command}\`\n`)
-        .setFooter({
-          text: "by @duckysolucky",
-          iconURL: "https://imgur.com/tgwQJTX.png",
-        });
-      await interaction.followUp({ embeds: [commandMessage], ephemeral: true });
-    } else {
-      await interaction.followUp({
-        content: "You do not have permission to run this command.",
-        ephemeral: true,
-      });
+  execute: async (interaction) => {
+    const user = interaction.member;
+    if (user.roles.cache.has(config.discord.roles.commandRole) === false) {
+      throw new Error("You do not have permission to use this command.");
     }
+
+    const command = interaction.options.getString("command");
+    bot.chat(`/${command}`);
+
+    const commandMessage = new EmbedBuilder()
+      .setColor(2067276)
+      .setTitle("Command has been executed successfully")
+      .setDescription(`\`/${command}\`\n`)
+      .setFooter({
+        text: "by @duckysolucky",
+        iconURL: "https://imgur.com/tgwQJTX.png",
+      });
+
+    await interaction.followUp({ embeds: [commandMessage], ephemeral: true });
   },
 };

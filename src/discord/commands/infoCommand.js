@@ -6,7 +6,7 @@ module.exports = {
   name: "info",
   description: "Shows information about the bot.",
 
-  execute: async (interaction, client) => {
+  execute: async (interaction) => {
     const commands = interaction.client.commands;
 
     const { discordCommands, minecraftCommands } = getCommands(commands);
@@ -49,7 +49,7 @@ module.exports = {
             config.discord.channels.debugChannel ? `<#${config.discord.channels.debugChannel}>` : "None"
           }\nCommand Role: <@&${config.discord.roles.commandRole}>\nMessage Mode: \`${
             config.discord.other.messageMode ? "enabled" : "disabled"
-          }\`\nFilter: \`${config.discord.other.filterMessages}\`\nJoin Messages: \`${
+          }\`\nFilter: \`${config.discord.other.filterMessages ? "enabled" : "disabled"}\`\nJoin Messages: \`${
             config.discord.other.joinMessage ? "enabled" : "disabled"
           }\``,
           inline: true,
@@ -64,41 +64,25 @@ module.exports = {
 };
 
 function getCommands(commands) {
-  let discordCommands = "";
-  commands.map((command) => {
-    if (command.options !== undefined) {
-      discordCommands += `- \`${command.name}`;
-      command.options.map((option) => {
-        if (option.required === true) {
-          discordCommands += ` (${option.name})`;
-        } else {
-          discordCommands += ` [${option.name}]`;
-        }
-      });
-      discordCommands += `\`\n`;
-    } else {
-      discordCommands += `- \`${command.name}\`\n`;
-    }
-  });
+  const discordCommands = commands
+    .map(({ name, options }) => {
+      const optionsString = options?.map(({ name, required }) => (required ? ` (${name})` : ` [${name}]`)).join("");
+      return `- \`${name}${optionsString ? optionsString : ""}\`\n`;
+    })
+    .join("");
 
-  let minecraftCommands = "";
-  const minecraftCommandFiles = fs.readdirSync("./src/minecraft/commands").filter((file) => file.endsWith(".js"));
-  for (const file of minecraftCommandFiles) {
-    const command = new (require(`../../minecraft/commands/${file}`))();
+  const minecraftCommands = fs
+    .readdirSync("./src/minecraft/commands")
+    .filter((file) => file.endsWith(".js"))
+    .map((file) => {
+      const command = new (require(`../../minecraft/commands/${file}`))();
+      const optionsString = command.options
+        ?.map(({ name, required }) => (required ? ` (${name})` : ` [${name}]`))
+        .join("");
 
-    minecraftCommands += `- \`${command.name}`;
-
-    if (command.options !== undefined) {
-      command.options.map((option) => {
-        if (option.required === true) {
-          minecraftCommands += ` (${option.name})`;
-        } else {
-          minecraftCommands += ` [${option.name}]`;
-        }
-      });
-      minecraftCommands += `\`\n`;
-    }
-  }
+      return `- \`${command.name}${optionsString}\`\n`;
+    })
+    .join("");
 
   return { discordCommands, minecraftCommands };
 }

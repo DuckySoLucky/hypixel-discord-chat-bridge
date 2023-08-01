@@ -1,17 +1,15 @@
 const Rss = require("rss-parser");
 const parser = new Rss();
 
-setInterval(checkForSkyblockUpdates, 1000);
-setInterval(checkForIncidents, 1000);
+setInterval(checkForSkyblockUpdates, 10000);
+setInterval(checkForIncidents, 10000);
 
 const hypixelIncidents = {};
 async function checkForIncidents() {
   try {
     const { items: status } = await parser.parseURL("https://status.hypixel.net/history.rss");
 
-    const latestIcidents = status.filter(
-      (data) => new Date(data.pubDate).getTime() / 1000 + 43200 > Date.now() / 1000
-    );
+    const latestIcidents = status.filter((data) => new Date(data.pubDate).getTime() / 1000 + 43200 > Date.now() / 1000);
 
     for (const incident of latestIcidents) {
       const { title, link } = incident;
@@ -30,7 +28,9 @@ async function checkForIncidents() {
 
         hypixelIncidents[title].updates ??= [];
         hypixelIncidents[title].updates.push(update);
-        bot.chat(`/gc [HYPIXEL STATUS UPDATE] ${title} | ${update}`);
+        if (bot !== undefined && bot._client.chat !== undefined) {
+          bot.chat(`/gc [HYPIXEL STATUS UPDATE] ${title} | ${update}`);
+        }
       }
     }
   } catch (error) {
@@ -56,7 +56,9 @@ async function checkForSkyblockUpdates() {
       if (hypixelUpdates[title] === true) continue;
 
       hypixelUpdates[title] = true;
-      bot.chat(`/gc [HYPIXEL UPDATE] ${title} | ${link}`);
+      if (bot !== undefined && bot._client.chat !== undefined) {
+        bot.chat(`/gc [HYPIXEL UPDATE] ${title} | ${link}`);
+      }
     }
   } catch (error) {
     console.log(error);
