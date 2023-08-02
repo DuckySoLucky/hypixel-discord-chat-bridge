@@ -1,3 +1,4 @@
+const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 const { EmbedBuilder } = require("discord.js");
 const config = require("../../../config.json");
 const fs = require("fs");
@@ -71,7 +72,7 @@ module.exports = {
 
       const command = interaction.client.commands.find((command) => command.name === commandName) ?? minecraftCommand;
       if (command === undefined) {
-        throw new Error(`Command ${commandName} not found.`);
+        throw new HypixelDiscordChatBridgeError(`Command ${commandName} not found.`);
       }
 
       const description = `${command.description}\n\n${

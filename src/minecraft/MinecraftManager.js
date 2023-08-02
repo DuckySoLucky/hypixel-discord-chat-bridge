@@ -46,7 +46,6 @@ class MinecraftManager extends CommunicationBridge {
 
   async onBroadcast({ channel, username, message, replyingTo }) {
     Logger.broadcastMessage(`${username}: ${message}`, "Minecraft");
-    bridgeChat = channel;
     if (!this.bot.player) return;
 
     if (channel === config.discord.channels.debugChannel && config.discord.channels.debugMode === true) {

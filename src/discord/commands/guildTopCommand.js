@@ -36,40 +36,26 @@ module.exports = {
       }, 5000);
     });
 
-    try {
-      const message = await messages;
+    const message = await messages;
 
-      const trimmedMessages = message.map((message) => message.trim()).filter((message) => message.includes("."));
-      const description = trimmedMessages
-        .map((message) => {
-          const [position, , name, guildExperience] = message.split(" ");
+    const trimmedMessages = message.map((message) => message.trim()).filter((message) => message.includes("."));
+    const description = trimmedMessages
+      .map((message) => {
+        const [position, , name, guildExperience] = message.split(" ");
 
-          return `\`${position}\` **${name}** - \`${guildExperience}\` Guild Experience\n`;
-        })
-        .join("");
+        return `\`${position}\` **${name}** - \`${guildExperience}\` Guild Experience\n`;
+      })
+      .join("");
 
-      const embed = new EmbedBuilder()
-        .setColor("#2ECC71")
-        .setTitle("Top 10 Guild Members")
-        .setDescription(description)
-        .setFooter({
-          text: "by @duckysolucky | /help [command] for more information",
-          iconURL: "https://imgur.com/tgwQJTX.png",
-        });
+    const embed = new EmbedBuilder()
+      .setColor("#2ECC71")
+      .setTitle("Top 10 Guild Members")
+      .setDescription(description)
+      .setFooter({
+        text: "by @duckysolucky | /help [command] for more information",
+        iconURL: "https://imgur.com/tgwQJTX.png",
+      });
 
-      return await interaction.followUp({ embeds: [embed] });
-    } catch (error) {
-      console.log(error);
-      const errorEmbed = new EmbedBuilder()
-        .setColor("#E74C3C")
-        .setTitle("Error")
-        .setDescription(`\`\`\`${error}\`\`\``)
-        .setFooter({
-          text: "by @duckysolucky | /help [command] for more information",
-          iconURL: "https://imgur.com/tgwQJTX.png",
-        });
-
-      return await interaction.followUp({ embeds: [errorEmbed] });
-    }
+    return await interaction.followUp({ embeds: [embed] });
   },
 };

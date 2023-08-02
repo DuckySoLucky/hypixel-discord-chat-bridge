@@ -384,7 +384,7 @@ class StateHandler extends eventHandler {
     }
 
     if (this.isRepeatMessage(message)) {
-      return client.channels.cache.get(bridgeChat).send({
+      return client.channels.cache.get(config.discord.channels.guildChatChannel).send({
         embeds: [
           {
             color: 15548997,
@@ -728,7 +728,8 @@ class StateHandler extends eventHandler {
       return;
     }
 
-    const [discordUsername, discordMessage] = playerMessage && playerMessage.split(`${config.minecraft.bot.messageFormat} `);
+    const [discordUsername, discordMessage] =
+      playerMessage && playerMessage.split(`${config.minecraft.bot.messageFormat} `);
     if (discordMessage && (discordMessage.startsWith(config.minecraft.bot.prefix) || discordMessage.startsWith("-"))) {
       this.command.handle(discordUsername, discordMessage);
     } else {
