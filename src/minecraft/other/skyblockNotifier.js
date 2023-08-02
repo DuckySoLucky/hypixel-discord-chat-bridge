@@ -27,9 +27,10 @@ async function checkForIncidents() {
         if (hypixelIncidents[title]?.updates?.includes(update) === true) continue;
 
         hypixelIncidents[title].updates ??= [];
-        hypixelIncidents[title].updates.push(update);
         if (bot !== undefined && bot._client.chat !== undefined) {
+          hypixelIncidents[title].updates.push(update);
           bot.chat(`/gc [HYPIXEL STATUS UPDATE] ${title} | ${update}`);
+          await new Promise((resolve) => setTimeout(resolve, 1500));
         }
       }
     }
@@ -55,9 +56,10 @@ async function checkForSkyblockUpdates() {
 
       if (hypixelUpdates[title] === true) continue;
 
-      hypixelUpdates[title] = true;
       if (bot !== undefined && bot._client.chat !== undefined) {
+        hypixelUpdates[title] = true;
         bot.chat(`/gc [HYPIXEL UPDATE] ${title} | ${link}`);
+        await new Promise((resolve) => setTimeout(resolve, 1500));
       }
     }
   } catch (error) {
