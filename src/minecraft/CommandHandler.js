@@ -21,17 +21,26 @@ class CommandHandler {
 
   handle(player, message) {
     if (message.startsWith(this.prefix)) {
+      if (config.minecraft.commands.normal === false) {
+        return;
+      }
+
       const args = message.slice(this.prefix.length).trim().split(/ +/);
       const commandName = args.shift().toLowerCase();
       const command =
         this.commands.get(commandName) ?? this.commands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
 
-      if (!command) return false;
+      if (command === undefined) {
+        return;
+      }
 
       Logger.minecraftMessage(`${player} - [${command.name}] ${message}`);
       command.onCommand(player, message);
-      return true;
     } else if (message.startsWith("-")) {
+      if (config.minecraft.commands.soopy === false || message.at(1) === "-") {
+        return;
+      }
+
       bot.chat(`/gc [SOOPY V2] ${message}`);
 
       const command = message.slice(1).split(" ")[0];
@@ -53,8 +62,6 @@ class CommandHandler {
         }
       })();
     }
-
-    return true;
   }
 }
 

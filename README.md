@@ -121,7 +121,7 @@ The `enabled` option determines whether the fragBot is enabled. By default, this
 
 The `whitelist` option determines whether the whitelist feature is enabled. By default, this is set to false.
 
-The `customWhitelist` option is an array of user usernames or UUIDs that will be added to the whitelist which already includes Guild members. By default, this is set to an empty array.
+The `whitelisted` option is an array of user usernames or UUIDs that will be added to the whitelist which already includes Guild members. By default, this is set to an empty array.
 
 The `blacklist` option determines whether the blacklist feature is enabled. By default, this is set to false.
 
@@ -137,7 +137,7 @@ The `guildExp` option is an integer value required for the `!gexp` command, whic
 
 The API options include information about APIs which are being used, the only values which needs to be changed are `hypixelAPIkey` and `imgurAPIkey`.
 
-You can receive Hypixel API key by joining Hypixel Network and typing `/api new` command.
+You can receive Hypixel API key by going to [Hypixel Developer Dashboard](https://developer.hypixel.net/dashboard/) and creating new application.
 
 > Hypixel API is used for most of stats related commands.
 

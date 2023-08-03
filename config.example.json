@@ -5,10 +5,14 @@
       "messageFormat": " »",
       "messageRepeatBypassLength": 24
     },
+    "commands": {
+      "normal": true,
+      "soopy": true
+    },
     "fragBot": {
       "enabled": true,
       "whitelist": false,
-      "customWhitelist": [],
+      "whitelisted": [],
       "blacklist": false,
       "blacklisted": []
     },
@@ -16,7 +20,6 @@
       "guildExp": 50000
     },
     "API": {
-      "hypixelAPI": "https://api.hypixel.net",
       "hypixelAPIkey": "HYPIXEL_API_KEY",
 
       "imgurAPIkey": "IMGUR_API_KEY"
