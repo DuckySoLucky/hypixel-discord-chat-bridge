@@ -21,7 +21,7 @@ class EightBallCommand extends minecraftCommand {
     try {
       if (this.getArgs(message).length === 0) {
         // eslint-disable-next-line no-throw-literal
-        throw "You must provide a question."
+        throw "You must provide a question.";
       }
 
       const { data } = await axios.get(`https://www.eightballapi.com/api`);

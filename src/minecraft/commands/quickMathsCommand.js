@@ -16,18 +16,14 @@ class QuickMathsCommand extends minecraftCommand {
 
     this.name = "quickmaths";
     this.aliases = ["qm"];
-    this.description =
-      "Solve the equation in less than 10 seconds! Test your math skills!";
+    this.description = "Solve the equation in less than 10 seconds! Test your math skills!";
     this.options = [];
   }
 
   async onCommand(username, message) {
     try {
       const userUsername = username;
-      const operands = [
-        Math.floor(Math.random() * 10),
-        Math.floor(Math.random() * 10),
-      ];
+      const operands = [Math.floor(Math.random() * 10), Math.floor(Math.random() * 10)];
       const operators = ["+", "-", "*"];
       const operator = operators[Math.floor(Math.random() * operators.length)];
 

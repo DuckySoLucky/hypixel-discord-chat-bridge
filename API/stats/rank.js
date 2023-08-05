@@ -21,26 +21,17 @@ const colorToCode = {
 };
 
 module.exports = (player) => {
-  const rank = getPlayerRank(
-    player.rank,
-    player.packageRank,
-    player.newPackageRank,
-    player.monthlyPackageRank
-  );
+  const rank = getPlayerRank(player.rank, player.packageRank, player.newPackageRank, player.monthlyPackageRank);
   const plusColor = `§${colorToCode[player.rankPlusColor || "RED"]}`;
   const plusPlusColor = `§${colorToCode[player.monthlyRankColor || "GOLD"]}`;
-  const prefix = player.prefix
-    ? player.prefix.replace(/Â§/g, "§").replace(/§/g, "&")
-    : null;
+  const prefix = player.prefix ? player.prefix.replace(/Â§/g, "§").replace(/§/g, "&") : null;
 
   return generateFormattedRank(rank, plusColor, plusPlusColor, prefix);
 };
 
 function getPlayerRank(rank, packageRank, newPackageRank, monthlyPackageRank) {
   let playerRank =
-    rank === "NORMAL"
-      ? newPackageRank || packageRank || null
-      : rank || newPackageRank || packageRank || null;
+    rank === "NORMAL" ? newPackageRank || packageRank || null : rank || newPackageRank || packageRank || null;
   if (playerRank === "MVP_PLUS" && monthlyPackageRank === "SUPERSTAR") {
     playerRank = "MVP_PLUS_PLUS";
   }

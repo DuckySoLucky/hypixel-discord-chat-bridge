@@ -1,3 +1,5 @@
+const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
+const { EmbedBuilder } = require("discord.js");
 const config = require("../../../config.json");
 
 module.exports = {
@@ -18,24 +20,26 @@ module.exports = {
     },
   ],
 
-  execute: async (interaction, client) => {
-    const name = interaction.options.getString("name");
-    const time = interaction.options.getString("time");
-    if (
-      (await interaction.guild.members.fetch(interaction.user)).roles.cache.has(
-        config.discord.roles.commandRole
-      )
-    ) {
-      bot.chat(`/g mute ${name} ${time}`);
-      await interaction.followUp({
-        content: "Command has been executed successfully.",
-        ephemeral: true,
-      });
-    } else {
-      await interaction.followUp({
-        content: "You do not have permission to run this command.",
-        ephemeral: true,
-      });
+  execute: async (interaction) => {
+    const user = interaction.member;
+    if (user.roles.cache.has(config.discord.roles.commandRole) === false) {
+      throw new HypixelDiscordChatBridgeError("You do not have permission to use this command.");
     }
+
+    const [name, time] = [interaction.options.getString("name"), interaction.options.getString("time")];
+    bot.chat(`/g mute ${name} ${time}`);
+
+    const embed = new EmbedBuilder()
+      .setColor(5763719)
+      .setAuthor({ name: "Mute" })
+      .setDescription(`Successfully executed \`/g mute ${name} ${time}\``)
+      .setFooter({
+        text: `by @duckysolucky | /help [command] for more information`,
+        iconURL: "https://imgur.com/tgwQJTX.png",
+      });
+
+    await interaction.followUp({
+      embeds: [embed],
+    });
   },
 };

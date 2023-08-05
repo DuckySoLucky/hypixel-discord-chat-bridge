@@ -35,17 +35,15 @@ class DenickerCommand extends minecraftCommand {
           response.data.player.accurate ? "Yes" : "No"
         } | Overall: ${response.data.player.data.overall_winstreak} | Solo: ${
           response.data.player.data.eight_one_winstreak
-        } | Doubles: ${
-          response.data.player.data.eight_two_winstreak
-        } | Trios: ${response.data.player.data.four_three_winstreak} | Fours: ${
-          response.data.player.data.four_four_winstreak
-        } | 4v4: ${response.data.player.data.two_four_winstreak}`
+        } | Doubles: ${response.data.player.data.eight_two_winstreak} | Trios: ${
+          response.data.player.data.four_three_winstreak
+        } | Fours: ${response.data.player.data.four_four_winstreak} | 4v4: ${
+          response.data.player.data.two_four_winstreak
+        }`
       );
     } catch (error) {
       if (error.player == null) {
-        this.send(
-          "/gc Error: This player does not exist in AntiSniper database."
-        );
+        this.send("/gc Error: This player does not exist in AntiSniper database.");
       } else {
         this.send(`/gc Error: ${error?.response?.data?.error}`);
       }

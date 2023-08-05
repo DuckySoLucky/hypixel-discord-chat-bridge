@@ -1,9 +1,4 @@
-const {
-  Client,
-  Collection,
-  AttachmentBuilder,
-  GatewayIntentBits,
-} = require("discord.js");
+const { Client, Collection, AttachmentBuilder, GatewayIntentBits } = require("discord.js");
 const CommunicationBridge = require("../contracts/CommunicationBridge.js");
 const messageToImage = require("../contracts/messageToImage.js");
 const MessageHandler = require("./handlers/MessageHandler.js");
@@ -28,28 +23,20 @@ class DiscordManager extends CommunicationBridge {
 
   async connect() {
     global.client = new Client({
-      intents: [
-        GatewayIntentBits.Guilds,
-        GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.MessageContent,
-      ],
+      intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent],
     });
 
     this.client = client;
 
     this.client.on("ready", () => this.stateHandler.onReady());
-    this.client.on("messageCreate", (message) =>
-      this.messageHandler.onMessage(message)
-    );
+    this.client.on("messageCreate", (message) => this.messageHandler.onMessage(message));
 
     this.client.login(config.discord.bot.token).catch((error) => {
       Logger.errorMessage(error);
     });
 
     client.commands = new Collection();
-    const commandFiles = fs
-      .readdirSync("src/discord/commands")
-      .filter((file) => file.endsWith(".js"));
+    const commandFiles = fs.readdirSync("src/discord/commands").filter((file) => file.endsWith(".js"));
 
     for (const file of commandFiles) {
       const command = require(`./commands/${file}`);
@@ -57,9 +44,7 @@ class DiscordManager extends CommunicationBridge {
     }
 
     const eventsPath = path.join(__dirname, "events");
-    const eventFiles = fs
-      .readdirSync(eventsPath)
-      .filter((file) => file.endsWith(".js"));
+    const eventFiles = fs.readdirSync(eventsPath).filter((file) => file.endsWith(".js"));
 
     for (const file of eventFiles) {
       const filePath = path.join(eventsPath, file);
@@ -95,14 +80,7 @@ class DiscordManager extends CommunicationBridge {
     return webhooks.first();
   }
 
-  async onBroadcast({
-    fullMessage,
-    username,
-    message,
-    guildRank,
-    chat,
-    color = 1752220,
-  }) {
+  async onBroadcast({ fullMessage, username, message, guildRank, chat, color = 1752220 }) {
     let mode = config.discord.other.messageMode.toLowerCase();
     if (message === undefined) {
       if (config.discord.channels.debugMode === false) {
@@ -113,10 +91,7 @@ class DiscordManager extends CommunicationBridge {
     }
 
     if (message !== undefined) {
-      Logger.broadcastMessage(
-        `${username} [${guildRank}]: ${message}`,
-        `Discord`
-      );
+      Logger.broadcastMessage(`${username} [${guildRank}]: ${message}`, `Discord`);
     }
 
     const channel = await this.stateHandler.getChannel(chat || "Guild");
@@ -150,15 +125,12 @@ class DiscordManager extends CommunicationBridge {
 
           channel.send(link);
         }
-        
+
         break;
 
       case "webhook":
         message = message.replace(/@/g, "");
-        this.app.discord.webhook = await this.getWebhook(
-          this.app.discord,
-          chat
-        );
+        this.app.discord.webhook = await this.getWebhook(this.app.discord, chat);
         this.app.discord.webhook.send({
           content: message,
           username: username,
@@ -188,9 +160,7 @@ class DiscordManager extends CommunicationBridge {
         break;
 
       default:
-        throw new Error(
-          "Invalid message mode: must be bot, webhook or minecraft"
-        );
+        throw new Error("Invalid message mode: must be bot, webhook or minecraft");
     }
   }
 
@@ -246,10 +216,7 @@ class DiscordManager extends CommunicationBridge {
         });
         break;
       case "webhook":
-        this.app.discord.webhook = await this.getWebhook(
-          this.app.discord,
-          channel
-        );
+        this.app.discord.webhook = await this.getWebhook(this.app.discord, channel);
         this.app.discord.webhook.send({
           username: username,
           avatarURL: `https://www.mc-heads.net/avatar/${username}`,

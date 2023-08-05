@@ -24,11 +24,12 @@ class GuildInformationCommand extends minecraftCommand {
         .map((arg) => capitalize(arg))
         .join(" ");
 
-      console.log(guildName)
       const guild = await hypixel.getGuild("name", guildName);
 
       this.send(
-        `/gc Guild ${guildName} | Tag: [${guild.tag}] | Members: ${guild.members.length} | Level: ${guild.level} | Weekly GEXP: ${formatNumber(guild.totalWeeklyGexp)}`
+        `/gc Guild ${guildName} | Tag: [${guild.tag}] | Members: ${guild.members.length} | Level: ${
+          guild.level
+        } | Weekly GEXP: ${formatNumber(guild.totalWeeklyGexp)}`
       );
     } catch (error) {
       this.send(`/gc ${error.toString().replace("[hypixel-api-reborn] ", "")}`);

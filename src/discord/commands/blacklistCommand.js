@@ -1,3 +1,5 @@
+const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
+const { EmbedBuilder } = require("discord.js");
 const config = require("../../../config.json");
 
 module.exports = {
@@ -9,6 +11,16 @@ module.exports = {
       description: "Add or Remove",
       type: 3,
       required: true,
+      choices: [
+        {
+          name: "Add",
+          value: "add",
+        },
+        {
+          name: "Remove",
+          value: "remove",
+        },
+      ],
     },
     {
       name: "name",
@@ -18,34 +30,34 @@ module.exports = {
     },
   ],
 
-  execute: async (interaction, client) => {
-    if ((await interaction.guild.members.fetch(interaction.user)).roles.cache.has(config.discord.roles.commandRole)) {
-      const name = interaction.options.getString("name");
-      const arg = interaction.options.getString("arg");
-
-      if (arg.toLowerCase() == "add") {
-        bot.chat(`/ignore add ${name}`);
-        await interaction.followUp({
-          content: "Command has been executed successfully.",
-          ephemeral: true,
-        });
-      } else if (arg.toLowerCase() == "remove") {
-        bot.chat(`/ignore remove ${name}`);
-        await interaction.followUp({
-          content: "Command has been executed successfully.",
-          ephemeral: true,
-        });
-      } else {
-        await interaction.followUp({
-          content: "Invalid Usage: `/ignore [add/remove] [name]`.",
-          ephemeral: true,
-        });
-      }
-    } else {
-      await interaction.followUp({
-        content: "You do not have permission to run this command.",
-        ephemeral: true,
-      });
+  execute: async (interaction) => {
+    const user = interaction.member;
+    if (user.roles.cache.has(config.discord.roles.commandRole) === false) {
+      throw new HypixelDiscordChatBridgeError("You do not have permission to use this command.");
     }
+
+    const name = interaction.options.getString("name");
+    const arg = interaction.options.getString("arg").toLowerCase();
+
+    if (arg == "add") {
+      bot.chat(`/ignore add ${name}`);
+    } else if (arg == "remove") {
+      bot.chat(`/ignore remove ${name}`);
+    } else {
+      throw new HypixelDiscordChatBridgeError("Invalid Usage: `/ignore [add/remove] [name]`.");
+    }
+
+    const embed = new EmbedBuilder()
+      .setColor(5763719)
+      .setAuthor({ name: "Blacklist" })
+      .setDescription(`Successfully executed \`/ignore ${arg} ${name}\``)
+      .setFooter({
+        text: `by @duckysolucky | /help [command] for more information`,
+        iconURL: "https://imgur.com/tgwQJTX.png",
+      });
+
+    await interaction.followUp({
+      embeds: [embed],
+    });
   },
 };

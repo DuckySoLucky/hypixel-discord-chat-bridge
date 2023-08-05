@@ -1,4 +1,3 @@
-/*eslint-disable */
 const xp_tables = require("../constants/xp_tables.js");
 
 module.exports = (profile) => {
@@ -18,7 +17,7 @@ module.exports = (profile) => {
     let level = 0;
     let xpForNext = 0;
     let progress = 0;
-    let maxLevel = 9;
+    const maxLevel = 9;
 
     for (let i = 0; i < xp_tables.slayer[slayer].length; i++) {
       if (xp_tables.slayer[slayer][i] <= experience) {
@@ -30,8 +29,7 @@ module.exports = (profile) => {
       xpForNext = Math.ceil(xp_tables.slayer[slayer][level]);
     }
 
-    progress =
-      level >= maxLevel ? 0 : Math.max(0, Math.min(experience / xpForNext, 1));
+    progress = level >= maxLevel ? 0 : Math.max(0, Math.min(experience / xpForNext, 1));
 
     const kills = {};
     let total = 0;
@@ -40,11 +38,8 @@ module.exports = (profile) => {
       if (Object.keys(slayers)[i].startsWith("boss_kills_tier_")) {
         // This indeed looks pretty bad I know... (kills[boss tier number])
         total += Object.values(slayers)[i];
-        kills[
-          Number(
-            Object.keys(slayers)[i].charAt(Object.keys(slayers)[i].length - 1)
-          ) + 1
-        ] = Object.values(slayers)[i];
+        kills[Number(Object.keys(slayers)[i].charAt(Object.keys(slayers)[i].length - 1)) + 1] =
+          Object.values(slayers)[i];
       }
     }
 
@@ -64,5 +59,6 @@ module.exports = (profile) => {
     wolf: getSlayer("wolf"),
     enderman: getSlayer("enderman"),
     blaze: getSlayer("blaze"),
+    vampire: getSlayer("vampire"),
   };
 };

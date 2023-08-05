@@ -1,8 +1,8 @@
-/*eslint-disable */
-const DiscordManager = require("./discord/DiscordManager.js");
+// eslint-disable-next-line no-unused-vars
+const Configuration = require("./Configuration.js");
 const MinecraftManager = require("./minecraft/MinecraftManager.js");
+const DiscordManager = require("./discord/DiscordManager.js");
 const webManager = require("./web/WebsiteManager.js");
-/*eslint-enable */
 
 class Application {
   async register() {

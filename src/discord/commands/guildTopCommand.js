@@ -12,19 +12,16 @@ module.exports = {
     },
   ],
 
-  execute: async (interaction, client) => {
+  execute: async (interaction) => {
     const time = interaction.options.getString("time");
 
     const cachedMessages = [];
-    const promise = new Promise((resolve, reject) => {
+    const messages = new Promise((resolve, reject) => {
       const listener = (message) => {
-        cachedMessages.push(message.toString());
-        console.log(message.toString());
+        message = message.toString();
+        cachedMessages.push(message);
 
-        if (
-          message.toString().startsWith("10.") &&
-          message.toString().endsWith("Guild Experience")
-        ) {
+        if (message.startsWith("10.") && message.endsWith("Guild Experience")) {
           bot.removeListener("message", listener);
           resolve(cachedMessages);
         }
@@ -39,43 +36,26 @@ module.exports = {
       }, 5000);
     });
 
-    try {
-      const messages = await promise;
-      const trimmedMessages = messages
-        .map((message) => message.trim())
-        .filter((message) => message.includes("Guild Experience"));
+    const message = await messages;
 
-      const description = trimmedMessages.map(
-        (message) => {
-          if (trimmedMessages.indexOf(message) === 0) return;
+    const trimmedMessages = message.map((message) => message.trim()).filter((message) => message.includes("."));
+    const description = trimmedMessages
+      .map((message) => {
+        const [position, , name, guildExperience] = message.split(" ");
 
-          const [position, , name, guildExperience] = message.split(" ");
-          return `\`${position}\` **${name}** - \`${guildExperience}\` Guild Experience\n`
-        }
-      ).join("");
+        return `\`${position}\` **${name}** - \`${guildExperience}\` Guild Experience\n`;
+      })
+      .join("");
 
-      const embed = new EmbedBuilder()
-        .setColor("#2ECC71")
-        .setTitle("Top 10 Guild Members")
-        .setDescription(description)
-        .setFooter({
-          text: "by DuckySoLucky#5181 | /help [command] for more information",
-          iconURL: "https://imgur.com/tgwQJTX.png",
-        });
+    const embed = new EmbedBuilder()
+      .setColor("#2ECC71")
+      .setTitle("Top 10 Guild Members")
+      .setDescription(description)
+      .setFooter({
+        text: "by @duckysolucky | /help [command] for more information",
+        iconURL: "https://imgur.com/tgwQJTX.png",
+      });
 
-      return await interaction.followUp({ embeds: [embed] });
-    } catch (error) {
-      console.log(error);
-      const errorEmbed = new EmbedBuilder()
-        .setColor("#E74C3C")
-        .setTitle("Error")
-        .setDescription(`\`\`\`${error}\`\`\``)
-        .setFooter({
-          text: "by DuckySoLucky#5181 | /help [command] for more information",
-          iconURL: "https://imgur.com/tgwQJTX.png",
-        });
-
-      return await interaction.followUp({ embeds: [errorEmbed] });
-    }
+    return await interaction.followUp({ embeds: [embed] });
   },
 };

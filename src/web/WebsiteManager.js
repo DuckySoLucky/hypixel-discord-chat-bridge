@@ -18,7 +18,7 @@ class WebServer {
     this.web = express();
     this.web.use(express.json());
 
-    this.endpointHandler.registerEvents();  
+    this.endpointHandler.registerEvents();
 
     this.web.listen(this.port, () => {
       webMessage(`Server running at http://localhost:${this.port}/`);
