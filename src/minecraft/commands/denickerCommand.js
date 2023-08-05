@@ -21,8 +21,6 @@ class DenickerCommand extends minecraftCommand {
 
   async onCommand(username, message) {
     try {
-        return this.send("/gc Denick has been disabled by the Bot's Admin.");
-        /*
       username = this.getArgs(message)[0];
       const { data } = await axios.get(
         `${config.minecraft.API.antiSniperAPI}/v2/other/denick?key=${config.minecraft.API.antiSniperKey}&nick=${username}`
@@ -38,7 +36,7 @@ class DenickerCommand extends minecraftCommand {
         `/gc ${player.rank ? `[${player.rank}] ` : ``}${
           data.player?.ign
         } is nicked as ${data.player.queried_nick}`
-      ); */
+      );
     } catch (error) {
       this.send(`/gc Error: ${error?.response?.data?.error || error}`);
     }
