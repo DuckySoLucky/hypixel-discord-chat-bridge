@@ -1,12 +1,12 @@
-const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const { formatNumber, formatUsername } = require("../../contracts/helperFunctions.js");
+const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const { getNetworth } = require("skyhelper-networth");
 const getTalismans = require("../../../API/stats/talismans.js");
 const getDungeons = require("../../../API/stats/dungeons.js");
 const getSkills = require("../../../API/stats/skills.js");
 const getSlayer = require("../../../API/stats/slayer.js");
 const getWeight = require("../../../API/stats/weight.js");
+const { getNetworth } = require("skyhelper-networth");
 
 class SkyblockCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -31,10 +31,6 @@ class SkyblockCommand extends minecraftCommand {
       const data = await getLatestProfile(username);
       username = formatUsername(username, data.profileData.game_mode);
 
-      if (data.status == 404) {
-        return this.send("/gc There is no player with the given UUID or name or the player has no Skyblock profiles");
-      }
-
       const [skills, slayer, networth, weight, dungeons, talismans] = await Promise.all([
         getSkills(data.profile),
         getSlayer(data.profile),
@@ -56,26 +52,19 @@ class SkyblockCommand extends minecraftCommand {
           .reduce((a, b) => a + b, 0) /
         (Object.keys(skills).length - 2)
       ).toFixed(1);
-      const slayerXp = Object.keys(slayer)
-        .map((type) => slayer[type].xp)
+      const slayerXp = Object.value(slayer)
+        .map((slayerData) => slayerData.xp)
         .reduce((a, b) => a + b, 0)
         .toLocaleString();
       const catacombsLevel = dungeons.catacombs.skill.level;
       const classAverage =
-        Object.keys(dungeons.classes)
-          .map((className) => dungeons.classes[className].level)
+        Object.values(dungeons.classes)
+          .map((value) => value.level)
           .reduce((a, b) => a + b, 0) / Object.keys(dungeons.classes).length;
       const networthValue = formatNumber(networth.networth);
-      const talismanCount = Object.keys(talismans.talismans)
-        .map((rarity) => talismans.talismans[rarity].length || 0)
-        .reduce((a, b) => a + b, 0);
-
-      let recombobulatedCount = 0;
-      let enrichmentCount = 0;
-      Object.values(talismans.talismans).forEach((talismansByRarity) => {
-        recombobulatedCount += talismansByRarity.filter((talisman) => talisman.recombobulated !== undefined).length;
-        enrichmentCount += talismansByRarity.filter((talisman) => talisman.enrichment !== undefined).length;
-      });
+      const talismanCount = talismans.total;
+      const recombobulatedCount = talismans.recombed;
+      const enrichmentCount = talismans.enriched;
 
       this.send(
         `/gc ${username}'s Level: ${

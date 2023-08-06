@@ -1,6 +1,6 @@
 //CREDIT: https://github.com/Senither/hypixel-skyblock-facade (Modified)
 function isUuid(uuid) {
-  if (!uuid) {
+  if (uuid === undefined || uuid === null || typeof uuid !== "string") {
     return false;
   }
 
@@ -10,27 +10,6 @@ function isUuid(uuid) {
   );
 }
 
-function validateUuid(uuid, res) {
-  if (uuid == undefined) {
-    res.status(400).json({
-      status: 400,
-      reason: "Invalid UUID provided, you must provide a valid UUID",
-    });
-    return;
-  }
-
-  if (!isUuid(uuid)) {
-    res.status(400).json({
-      status: 400,
-      reason: "Invalid UUID provided, you must provide a valid UUID",
-    });
-    return;
-  }
-
-  return uuid;
-}
-
 module.exports = {
   isUuid,
-  validateUuid,
 };
