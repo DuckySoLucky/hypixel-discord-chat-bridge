@@ -29,6 +29,9 @@ class EightBallCommand extends minecraftCommand {
       username = formatUsername(username, data.profileData?.game_mode);
 
       const bestiary = getBestiary(data.profile);
+      if (bestiary === null) {
+        return this.send(`/gc This player has not yet joined SkyBlock since the bestiary update.`);
+      }
 
       this.send(
         `/gc ${username}'s Bestiary Milestone: ${bestiary.milestone} / ${bestiary.maxMilestone} | Unlocked Tiers: ${bestiary.tiersUnlocked} / ${bestiary.totalTiers}`
