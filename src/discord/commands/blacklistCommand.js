@@ -4,7 +4,7 @@ const config = require("../../../config.json");
 
 module.exports = {
   name: "blacklist",
-  description: "Demotes the given user by one guild rank.",
+  description: "Blacklists user from the fragbot.",
   options: [
     {
       name: "arg",
@@ -32,7 +32,7 @@ module.exports = {
 
   execute: async (interaction) => {
     const user = interaction.member;
-    if (user.roles.cache.has(config.discord.roles.commandRole) === false) {
+    if (user.roles.cache.has(config.discord.roles.adminRole) === false) {
       throw new HypixelDiscordChatBridgeError("You do not have permission to use this command.");
     }
 

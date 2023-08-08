@@ -79,7 +79,9 @@
       "debugChannel": "DEBUG_CHANNEL_ID"
     },
     "roles": {
-      "commandRole": "COMMAND_ROLE_ID"
+      "adminRole": "COMMAND_ROLE_ID",
+      "modRole": "MOD_ROLE_ID",
+      "helperRole": "HELPER_ROLE_ID"
     },
     "other": {
       "messageMode": "minecraft",

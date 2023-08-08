@@ -14,7 +14,7 @@ module.exports = {
   ],
 
   execute: async (interaction) => {
-    if (interaction.member.roles.cache.has(config.discord.roles.commandRole) === false) {
+    if (interaction.member.roles.cache.has(config.discord.roles.adminRole) === false) {
       throw new HypixelDiscordChatBridgeError("You do not have permission to use this command.");
     }
 
