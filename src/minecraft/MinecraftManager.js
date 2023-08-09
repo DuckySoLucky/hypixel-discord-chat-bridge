@@ -20,7 +20,6 @@ class MinecraftManager extends CommunicationBridge {
     this.chatHandler = new ChatHandler(this, new CommandHandler(this));
 
     require("./other/eventNotifier.js");
-    require("./other/skyblockNotifier.js");
   }
 
   connect() {
