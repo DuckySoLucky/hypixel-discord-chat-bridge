@@ -742,7 +742,7 @@ class StateHandler extends eventHandler {
     this.minecraft.broadcastMessage({
       fullMessage: colouredMessage,
       username: username,
-      message: playerMessage,
+      message: message.split(": ").slice(1).join(": "),
       guildRank: guildRank,
       chat: chatType,
       color: this.minecraftChatColorToHex(embedColor),
