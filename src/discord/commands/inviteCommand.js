@@ -3,7 +3,7 @@ const { EmbedBuilder } = require("discord.js");
 const config = require("../../../config.json");
 
 module.exports = {
-  name: "invite",
+  name: `${config.minecraft.guild.guildName}-invite`,
   description: "Invites the given user to the guild.",
   options: [
     {

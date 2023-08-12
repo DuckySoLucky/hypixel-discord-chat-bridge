@@ -3,7 +3,7 @@ const { EmbedBuilder } = require("discord.js");
 const config = require("../../../config.json");
 
 module.exports = {
-  name: "execute",
+  name: `${config.minecraft.guild.guildName}-execute`,
   description: "Executes commands as the minecraft bot.",
   options: [
     {

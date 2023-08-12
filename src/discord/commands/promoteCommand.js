@@ -3,7 +3,7 @@ const { EmbedBuilder } = require("discord.js");
 const config = require("../../../config.json");
 
 module.exports = {
-  name: "promote",
+  name: `${config.minecraft.guild.guildName}-promote`,
   description: "Promotes the given user by one guild rank.",
   options: [
     {

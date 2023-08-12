@@ -3,7 +3,7 @@ const { EmbedBuilder } = require("discord.js");
 const config = require("../../../config.json");
 
 module.exports = {
-  name: "boop",
+  name: `${config.minecraft.guild.guildName}-boop`,
   description: "Boops the given user.",
   options: [
     {

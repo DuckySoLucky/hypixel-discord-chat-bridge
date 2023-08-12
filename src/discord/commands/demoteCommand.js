@@ -3,7 +3,7 @@ const { EmbedBuilder } = require("discord.js");
 const config = require("../../../config.json");
 
 module.exports = {
-  name: "demote",
+  name: `${config.minecraft.guild.guildName}-demote`,
   description: "Demotes the given user by one guild rank.",
   options: [
     {

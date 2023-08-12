@@ -1,7 +1,7 @@
 const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
-  name: "guildtop",
+  name: `${config.minecraft.guild.guildName}-guildtop`,
   description: "Top 10 members with the most guild experience.",
   options: [
     {

@@ -2,7 +2,7 @@ const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js")
 const config = require("../../../config.json");
 
 module.exports = {
-  name: "purge",
+  name: `${config.minecraft.guild.guildName}-purge`,
   description: "Purge x messages from a channel.",
   options: [
     {

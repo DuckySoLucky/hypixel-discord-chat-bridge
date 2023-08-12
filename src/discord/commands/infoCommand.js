@@ -3,7 +3,7 @@ const config = require("../../../config.json");
 const fs = require("fs");
 
 module.exports = {
-  name: "info",
+  name: `${config.minecraft.guild.guildName}-info`,
   description: "Shows information about the bot.",
 
   execute: async (interaction) => {

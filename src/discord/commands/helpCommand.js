@@ -4,7 +4,7 @@ const config = require("../../../config.json");
 const fs = require("fs");
 
 module.exports = {
-  name: "help",
+  name: `${config.minecraft.guild.guildName}-help`,
   description: "Shows help menu.",
   options: [
     {

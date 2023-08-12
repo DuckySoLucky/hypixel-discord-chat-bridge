@@ -3,7 +3,7 @@ const { EmbedBuilder } = require("discord.js");
 const config = require("../../../config.json");
 
 module.exports = {
-  name: "kick",
+  name: `${config.minecraft.guild.guildName}-kick`,
   description: "Kick the given user from the Guild.",
   options: [
     {

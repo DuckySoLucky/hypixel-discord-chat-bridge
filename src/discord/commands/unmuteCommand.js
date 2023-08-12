@@ -3,7 +3,7 @@ const { EmbedBuilder } = require("discord.js");
 const config = require("../../../config.json");
 
 module.exports = {
-  name: "unmute",
+  name: `${config.minecraft.guild.guildName}-unmute`,
   description: "Unmutes the given user.",
   options: [
     {

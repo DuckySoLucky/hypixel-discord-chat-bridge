@@ -3,7 +3,7 @@ const { EmbedBuilder } = require("discord.js");
 const config = require("../../../config.json");
 
 module.exports = {
-  name: "blacklist",
+  name: `${config.minecraft.guild.guildName}-blacklist`,
   description: "Blacklists user from the fragbot.",
   options: [
     {

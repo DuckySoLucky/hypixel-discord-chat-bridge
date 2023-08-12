@@ -3,7 +3,7 @@ const { EmbedBuilder } = require("discord.js");
 const config = require("../../../config.json");
 
 module.exports = {
-  name: "mute",
+  name: `${config.minecraft.guild.guildName}-mute`,
   description: "Mutes the given user for a given amount of time.",
   options: [
     {

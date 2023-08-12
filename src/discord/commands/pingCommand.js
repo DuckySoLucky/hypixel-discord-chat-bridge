@@ -1,7 +1,7 @@
 const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
-  name: "ping",
+  name: `${config.minecraft.guild.guildName}-ping`,
   description: "Shows the latency of the bot.",
 
   execute: async (interaction) => {
