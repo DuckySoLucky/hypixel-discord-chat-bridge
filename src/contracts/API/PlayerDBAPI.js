@@ -2,18 +2,18 @@ const axios = require("axios");
 
 async function getUUID(username) {
   try {
-    const { data } = await axios.get(`https://playerdb.co/api/player/minecraft/${username}`);
+    const { data } = await axios.get(`https://api.mojang.com/users/profiles/minecraft/${username}`);
 
     if (data.success === false || data.error === true) {
       throw data.message == "Mojang API lookup failed." ? "Invalid username." : data.message;
     }
 
-    if (data.data?.player?.raw_id === undefined) {
+    if (data.id === undefined) {
       // eslint-disable-next-line no-throw-literal
       throw "No UUID found for that username.";
     }
 
-    return data.data.player.raw_id;
+    return data.id;
   } catch (error) {
     throw error?.response?.data?.message == "Mojang API lookup failed."
       ? "Invalid username."
@@ -23,8 +23,8 @@ async function getUUID(username) {
 
 async function getUsername(uuid) {
   try {
-    const response = await axios.get(`https://playerdb.co/api/player/minecraft/${uuid}`);
-    return response.data.data.player.username;
+    const response = await axios.get(`https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`);
+    return response.data.name;
   } catch (error) {
     console.log(error);
   }
@@ -32,20 +32,20 @@ async function getUsername(uuid) {
 
 async function resolveUsernameOrUUID(username) {
   try {
-    const { data } = await axios.get(`https://playerdb.co/api/player/minecraft/${username}`);
+    const { data } = await axios.get(`https://sessionserver.mojang.com/session/minecraft/profile/${username}`);
 
     if (data.success === false || data.error === true) {
       throw data.message == "Mojang API lookup failed." ? "Invalid username." : data.message;
     }
 
-    if (data.data?.player?.raw_id === undefined) {
+    if (data.data?.id === undefined) {
       // eslint-disable-next-line no-throw-literal
       throw "No UUID found for that username.";
     }
 
     return {
-      username: data.data.player.username,
-      uuid: data.data.player.raw_id,
+      username: data.name,
+      uuid: data.id,
     };
   } catch (error) {
     console.log(error);
