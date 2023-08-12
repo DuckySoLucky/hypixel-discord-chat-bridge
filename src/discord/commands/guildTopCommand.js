@@ -1,4 +1,6 @@
 const { EmbedBuilder } = require("discord.js");
+const config = require("../../../config.json");
+
 
 module.exports = {
   name: `${config.minecraft.guild.guildName}-guildtop`,
