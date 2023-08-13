@@ -17,7 +17,8 @@
       "blacklisted": []
     },
     "guild": {
-      "guildExp": 50000
+      "guildExp": 50000,
+      "guildName": ""
     },
     "API": {
       "hypixelAPIkey": "HYPIXEL_API_KEY",
