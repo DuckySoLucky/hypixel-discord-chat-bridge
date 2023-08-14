@@ -2,22 +2,18 @@ const axios = require("axios");
 
 async function getUUID(username) {
   try {
-    const { data } = await axios.get(`https://playerdb.co/api/player/minecraft/${username}`);
+    const { data } = await axios.get(`https://api.mojang.com/users/profiles/minecraft/${username}`);
 
-    if (data.success === false || data.error === true) {
-      throw data.message == "Mojang API lookup failed." ? "Invalid username." : data.message;
+    if (data.errorMessage || data.id === undefined) {
+      throw data.errorMessage ?? "Invalid username.";
     }
 
-    if (data.data?.player?.raw_id === undefined) {
-      // eslint-disable-next-line no-throw-literal
-      throw "No UUID found for that username.";
-    }
-
-    return data.data.player.raw_id;
+    return data.id;
   } catch (error) {
-    throw error?.response?.data?.message == "Mojang API lookup failed."
+    console.log(error);
+    throw error?.response?.data?.errorMessage === `Couldn't find any profile with name ${username}`
       ? "Invalid username."
-      : error?.response?.data?.message;
+      : error?.response?.data?.errorMessage ?? "Request to Mojang API failed. Please try again!";
   }
 }
 
