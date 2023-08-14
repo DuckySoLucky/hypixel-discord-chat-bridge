@@ -39,7 +39,7 @@ class MinecraftManager extends CommunicationBridge {
       version: "1.8.9",
       viewDistance: "tiny",
       chatLengthLimit: 256,
-      profilesFolder: "../../auth-cache",
+      profilesFolder: "./auth-cache",
     });
   }
 
