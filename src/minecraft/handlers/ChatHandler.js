@@ -8,6 +8,8 @@ const messages = require("../../../messages.json");
 const { EmbedBuilder } = require("discord.js");
 const config = require("../../../config.json");
 const Logger = require("../../Logger.js");
+const Skykings = require("../../../API/utils/skykings")
+const Blacklist = require("../../../API/utils/blacklist")
 
 class StateHandler extends eventHandler {
   constructor(minecraft, command, discord) {
@@ -84,8 +86,24 @@ class StateHandler extends eventHandler {
         await delay(1000);
 
         if (meetRequirements === true) {
+          let skykings_scammer = false;
+          let blacklisted = null;
+          let accepted = false;
           if (config.minecraft.guildRequirements.autoAccept === true) {
-            bot.chat(`/guild accept ${username}`);
+            try {
+              skykings_scammer = Skykings.lookupUUID(player.uuid);
+            } catch {
+              return;
+            }
+            try {
+              blacklisted = Blacklist.checkBlacklist(player.uuid);
+            } catch {
+              return;
+            }
+            if (!skykings_scammer && blacklisted == null){
+              bot.chat(`/guild accept ${username}`);
+              accepted = true;
+            }
           }
 
           const statsEmbed = new EmbedBuilder()
@@ -95,14 +113,19 @@ class StateHandler extends eventHandler {
             .addFields(
               {
                 name: "Skykings Scammer Check",
-                value: `${player.stats.bedwars.level}`,
+                value: `${skykings_scammer}`,
                 inline: true,
               },
               {
                 name: "Blacklist Check",
-                value: `${player.stats.skywars.level}`,
+                value: `${blacklisted == null ? "False" : "True"}`,
                 inline: true,
-              }
+              },
+                {
+                  name: "Accepted",
+                  value: `${accepted}`,
+                  inline: true,
+                }
             )
             .setThumbnail(`https://www.mc-heads.net/avatar/${player.nickname}`)
             .setFooter({
