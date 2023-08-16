@@ -81,60 +81,38 @@ class StateHandler extends eventHandler {
       const uuid = await getUUID(username);
       if (config.minecraft.guildRequirements.enabled) {
         const [player] = await Promise.all([hypixel.getPlayer(uuid), getLatestProfile(uuid)]);
-        let meetRequirements = true;
-
-        await delay(1000);
-
-        if (meetRequirements === true) {
-          let skykings_scammer = false;
-          let blacklisted = false;
-          let accepted = false;
-          if (config.minecraft.guildRequirements.autoAccept === true) {
-            try {
-              skykings_scammer = Skykings.lookupUUID(player.uuid);
-            } catch {
-              return;
-            }
-            try {
-              blacklisted = Blacklist.checkBlacklist(player.uuid);
-            } catch {
-              return;
-            }
-            if (blacklisted == false){
+        let accepted = false;
+        const skykings_scammer = await Skykings.lookupUUID(player.uuid);
+        const blacklisted = await Blacklist.checkBlacklist(player.uuid);
+        if (skykings_scammer !== true && blacklisted !== true) {
               bot.chat(`/guild accept ${username}`);
               accepted = true;
-            }
-          }
+        }
 
-          const statsEmbed = new EmbedBuilder()
+        const statsEmbed = new EmbedBuilder()
             .setColor(2067276)
             .setTitle(`${player.nickname} has requested to join the Guild!`)
             .setDescription(`**Hypixel Network Level**\n${player.level}\n`)
             .addFields(
               {
                 name: "Skykings Scammer Check",
-                value: `${skykings_scammer}`,
-                inline: true,
+                value: `${skykings_scammer}`
               },
               {
                 name: "Blacklist Check",
-                value: `${blacklisted == null ? "False" : "True"}`,
-                inline: true,
+                value: `${blacklisted}`
               },
                 {
                   name: "Accepted",
-                  value: `${accepted}`,
-                  inline: true,
+                  value: `${accepted}`
                 }
             )
             .setThumbnail(`https://www.mc-heads.net/avatar/${player.nickname}`)
             .setFooter({
-              text: `by @duckysolucky | /help [command] for more information`,
+              text: `/help [command] for more information`,
               iconURL: "https://imgur.com/tgwQJTX.png",
             });
-
-          await client.channels.cache.get(`${config.discord.channels.loggingChannel}`).send({ embeds: [statsEmbed] });
-        }
+        await client.channels.cache.get(`${config.discord.channels.loggingChannel}`).send({ embeds: [statsEmbed] });
       }
     }
 
@@ -170,7 +148,7 @@ class StateHandler extends eventHandler {
         .trim()
         .split(/ +/g)[0];
       await delay(1000);
-      bot.chat(`/gc ${messages.guildJoinMessage} | By @duckysolucky`);
+      bot.chat(`/gc ${messages.guildJoinMessage}`);
       return [
         this.minecraft.broadcastHeadedEmbed({
           message: this.replaceVariables(messages.joinMessage, { username }),

@@ -1,6 +1,5 @@
 const config = require("../../config.json");
 const sqlite3 = require('sqlite3');
-const Logger = require("../../src/Logger.js");
 
 const databasePath = config.database.path;
 async function checkBlacklist(uuid) {
@@ -11,10 +10,10 @@ async function checkBlacklist(uuid) {
         database.all(query, uuid, function(err, rows) {
             console.log(rows);
             if (err) {
-                reject(err);
+                console.log(err);
+                throw err;
             } else {
-                const isBlacklisted = rows.length > 0;
-                resolve(isBlacklisted);
+                resolve(rows.length > 0);
             }
             database.close();
         });
