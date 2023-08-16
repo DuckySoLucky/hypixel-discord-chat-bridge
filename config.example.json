@@ -78,7 +78,8 @@
       "debugMode": true,
       "debugChannel": "DEBUG_CHANNEL_ID"
     },
-    "roles": {
+    "commands": {
+      "checkPerms": false,
       "commandRole": "COMMAND_ROLE_ID"
     },
     "other": {
@@ -88,7 +89,7 @@
     }
   },
   "web": {
-    "enabled": true,
+    "enabled": false,
     "port": 1439
   }
 }
