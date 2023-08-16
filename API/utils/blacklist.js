@@ -1,23 +1,27 @@
 const config = require("../../config.json");
 const sqlite3 = require('sqlite3');
-const Logger = require("../.././Logger.js");
+const Logger = require("../../src/Logger.js");
 
+const databasePath = config.database.path;
 async function checkBlacklist(uuid) {
-    const databasePath = config.database.path;
-    const database = sqlite3.Database(databasePath, (err) => {
-        Logger.error(err.message);
-    });
-    let sql = ` SELECT * FROM "BANNED" WHERE uuid=?`;
-    database.get(sql, uuid, (err, row) => {
-        if (err != null) {
-            Logger.error(err.message)
-        }
-        return row
-            ? row
-            : null
+    return new Promise((resolve, reject) => {
+        const database = new sqlite3.Database(databasePath);
+        const query = `SELECT * FROM "BANNED" WHERE uuid=?`;
+
+        database.all(query, uuid, function(err, rows) {
+            console.log(rows);
+            if (err) {
+                reject(err);
+            } else {
+                const isBlacklisted = rows.length > 0;
+                resolve(isBlacklisted);
+            }
+            database.close();
+        });
     });
 }
 
 module.exports = {
     checkBlacklist
 };
+

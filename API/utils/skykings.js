@@ -1,5 +1,5 @@
 const config = require("../../config.json");
-const Logger = require("../.././Logger.js");
+const Logger = require("../../src/Logger.js");
 const axios = require('axios');
 
 const key = config.minecraft.API.skykingsAPIkey;

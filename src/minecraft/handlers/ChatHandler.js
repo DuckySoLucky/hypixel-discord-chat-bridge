@@ -81,13 +81,13 @@ class StateHandler extends eventHandler {
       const uuid = await getUUID(username);
       if (config.minecraft.guildRequirements.enabled) {
         const [player] = await Promise.all([hypixel.getPlayer(uuid), getLatestProfile(uuid)]);
-        let meetRequirements = false;
+        let meetRequirements = true;
 
         await delay(1000);
 
         if (meetRequirements === true) {
           let skykings_scammer = false;
-          let blacklisted = null;
+          let blacklisted = false;
           let accepted = false;
           if (config.minecraft.guildRequirements.autoAccept === true) {
             try {
@@ -100,7 +100,7 @@ class StateHandler extends eventHandler {
             } catch {
               return;
             }
-            if (!skykings_scammer && blacklisted == null){
+            if (blacklisted == false){
               bot.chat(`/guild accept ${username}`);
               accepted = true;
             }
