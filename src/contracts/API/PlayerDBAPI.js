@@ -4,27 +4,23 @@ async function getUUID(username) {
   try {
     const { data } = await axios.get(`https://api.mojang.com/users/profiles/minecraft/${username}`);
 
-    if (data.success === false || data.error === true) {
-      throw data.message == "Mojang API lookup failed." ? "Invalid username." : data.message;
-    }
-
-    if (data.id === undefined) {
-      // eslint-disable-next-line no-throw-literal
-      throw "No UUID found for that username.";
+    if (data.errorMessage || data.id === undefined) {
+      throw data.errorMessage ?? "Invalid username.";
     }
 
     return data.id;
   } catch (error) {
-    throw error?.response?.data?.message == "Mojang API lookup failed."
+    console.log(error);
+    throw error?.response?.data?.errorMessage === `Couldn't find any profile with name ${username}`
       ? "Invalid username."
-      : error?.response?.data?.message;
+      : error?.response?.data?.errorMessage ?? "Request to Mojang API failed. Please try again!";
   }
 }
 
 async function getUsername(uuid) {
   try {
-    const response = await axios.get(`https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`);
-    return response.data.name;
+    const response = await axios.get(`https://playerdb.co/api/player/minecraft/${uuid}`);
+    return response.data.data.player.username;
   } catch (error) {
     console.log(error);
   }
@@ -32,20 +28,20 @@ async function getUsername(uuid) {
 
 async function resolveUsernameOrUUID(username) {
   try {
-    const { data } = await axios.get(`https://sessionserver.mojang.com/session/minecraft/profile/${username}`);
+    const { data } = await axios.get(`https://playerdb.co/api/player/minecraft/${username}`);
 
     if (data.success === false || data.error === true) {
       throw data.message == "Mojang API lookup failed." ? "Invalid username." : data.message;
     }
 
-    if (data.data?.id === undefined) {
+    if (data.data?.player?.raw_id === undefined) {
       // eslint-disable-next-line no-throw-literal
       throw "No UUID found for that username.";
     }
 
     return {
-      username: data.name,
-      uuid: data.id,
+      username: data.data.player.username,
+      uuid: data.data.player.raw_id,
     };
   } catch (error) {
     console.log(error);
