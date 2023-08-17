@@ -7,7 +7,7 @@ const key = config.minecraft.API.skykingsAPIkey;
 async function lookupUUID(uuid) {
     try {
         const response = await axios.get(
-            `https://skykings.net/api/lookup?uuid=key=${key}&${uuid}`
+            `https://skykings.net/api/lookup?key=${key}&uuid=${uuid}`
         );
         return response.data.entries.length > 0;
     } catch (error) {
