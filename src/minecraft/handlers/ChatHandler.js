@@ -4,11 +4,12 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
 const { getUUID } = require("../../contracts/API/PlayerDBAPI.js");
 const eventHandler = require("../../contracts/EventHandler.js");
-const getWeight = require("../../../API/stats/weight.js");
 const messages = require("../../../messages.json");
 const { EmbedBuilder } = require("discord.js");
 const config = require("../../../config.json");
 const Logger = require("../../Logger.js");
+const Skykings = require("../../../API/utils/skykings")
+const Blacklist = require("../../../API/utils/blacklist")
 
 class StateHandler extends eventHandler {
   constructor(minecraft, command, discord) {
@@ -79,127 +80,39 @@ class StateHandler extends eventHandler {
       );
       const uuid = await getUUID(username);
       if (config.minecraft.guildRequirements.enabled) {
-        const [player, profile] = await Promise.all([hypixel.getPlayer(uuid), getLatestProfile(uuid)]);
-        let meetRequirements = false;
-
-        const weight = getWeight(profile.profile, profile.uuid)?.weight?.senither?.total || 0;
-        const skyblockLevel = (profile.profile?.leveling?.experience || 0) / 100 ?? 0;
-
-        const bwLevel = player.stats.bedwars.level;
-        const bwFKDR = player.stats.bedwars.finalKDRatio;
-
-        const swLevel = player.stats.skywars.level / 5;
-        const swKDR = player.stats.skywars.KDRatio;
-
-        const duelsWins = player.stats.duels.wins;
-        const dWLR = player.stats.duels.WLRatio;
-
-        if (weight > config.minecraft.guildRequirements.requirements.senitherWeight) {
-          meetRequirements = true;
+        const [player] = await Promise.all([hypixel.getPlayer(uuid), getLatestProfile(uuid)]);
+        let accepted = false;
+        const skykings_scammer = await Skykings.lookupUUID(player.uuid);
+        const blacklisted = await Blacklist.checkBlacklist(player.uuid);
+        if (skykings_scammer !== true && blacklisted !== true) {
+              bot.chat(`/guild accept ${username}`);
+              accepted = true;
         }
 
-        if (skyblockLevel > config.minecraft.guildRequirements.requirements.skyblockLevel) {
-          meetRequirements = true;
-        }
-
-        if (bwLevel > config.minecraft.guildRequirements.requirements.bedwarsStars) {
-          meetRequirements = true;
-        }
-        if (
-          bwLevel > config.minecraft.guildRequirements.requirements.bedwarsStarsWithFKDR &&
-          bwFKDR > config.minecraft.guildRequirements.requirements.bedwarsFKDR
-        ) {
-          meetRequirements = true;
-        }
-
-        if (swLevel > config.minecraft.guildRequirements.requirements.skywarsStars) {
-          meetRequirements = true;
-        }
-        if (
-          swLevel > config.minecraft.guildRequirements.requirements.skywarsStarsWithKDR &&
-          swKDR > config.minecraft.guildRequirements.requirements.skywarsStarsWithKDR
-        ) {
-          meetRequirements = true;
-        }
-
-        if (duelsWins > config.minecraft.guildRequirements.requirements.duelsWins) {
-          meetRequirements = true;
-        }
-        if (
-          duelsWins > config.minecraft.guildRequirements.requirements.duelsWinsWithWLR &&
-          dWLR > config.minecraft.guildRequirements.requirements.duelsWinsWithWLR
-        ) {
-          meetRequirements = true;
-        }
-
-        bot.chat(
-          `/oc ${username} ${meetRequirements ? "meets" : "Doesn't meet"} Requirements. [BW] [${
-            player.stats.bedwars.level
-          }✫] FKDR: ${player.stats.bedwars.finalKDRatio} | [SW] [${player.stats.skywars.level}✫] KDR: ${
-            player.stats.skywars.KDRatio
-          } | [Duels] Wins: ${player.stats.duels.wins.toLocaleString()} WLR: ${player.stats.duels.WLRatio.toLocaleString()} | SB Weight: ${weight.toLocaleString()} | SB Level: ${skyblockLevel.toLocaleString()}`
-        );
-        await delay(1000);
-
-        if (meetRequirements === true) {
-          if (config.minecraft.guildRequirements.autoAccept === true) {
-            bot.chat(`/guild accept ${username}`);
-          }
-
-          const statsEmbed = new EmbedBuilder()
+        const statsEmbed = new EmbedBuilder()
             .setColor(2067276)
             .setTitle(`${player.nickname} has requested to join the Guild!`)
             .setDescription(`**Hypixel Network Level**\n${player.level}\n`)
             .addFields(
               {
-                name: "Bedwars Level",
-                value: `${player.stats.bedwars.level}`,
-                inline: true,
+                name: "Skykings Scammer Check",
+                value: `${skykings_scammer}`
               },
               {
-                name: "Skywars Level",
-                value: `${player.stats.skywars.level}`,
-                inline: true,
+                name: "Blacklist Check",
+                value: `${blacklisted}`
               },
-              {
-                name: "Duels Wins",
-                value: `${player.stats.duels.wins}`,
-                inline: true,
-              },
-              {
-                name: "Bedwars FKDR",
-                value: `${player.stats.bedwars.finalKDRatio}`,
-                inline: true,
-              },
-              {
-                name: "Skywars KDR",
-                value: `${player.stats.skywars.KDRatio}`,
-                inline: true,
-              },
-              {
-                name: "Duels WLR",
-                value: `${player.stats.duels.KDRatio}`,
-                inline: true,
-              },
-              {
-                name: "Senither Weight",
-                value: `${weight.toLocaleString()}`,
-                inline: true,
-              },
-              {
-                name: "Skyblock Level",
-                value: `${skyblockLevel.toLocaleString()}`,
-                inline: true,
-              }
+                {
+                  name: "Accepted",
+                  value: `${accepted}`
+                }
             )
             .setThumbnail(`https://www.mc-heads.net/avatar/${player.nickname}`)
             .setFooter({
-              text: `by @duckysolucky | /help [command] for more information`,
+              text: `/help [command] for more information`,
               iconURL: "https://imgur.com/tgwQJTX.png",
             });
-
-          await client.channels.cache.get(`${config.discord.channels.loggingChannel}`).send({ embeds: [statsEmbed] });
-        }
+        await client.channels.cache.get(`${config.discord.channels.loggingChannel}`).send({ embeds: [statsEmbed] });
       }
     }
 
@@ -235,7 +148,7 @@ class StateHandler extends eventHandler {
         .trim()
         .split(/ +/g)[0];
       await delay(1000);
-      bot.chat(`/gc ${messages.guildJoinMessage} | By @duckysolucky`);
+      bot.chat(`/gc ${messages.guildJoinMessage}`);
       return [
         this.minecraft.broadcastHeadedEmbed({
           message: this.replaceVariables(messages.joinMessage, { username }),

@@ -22,7 +22,7 @@
     },
     "API": {
       "hypixelAPIkey": "HYPIXEL_API_KEY",
-
+      "skykingsAPIkey": "SKYKINGS_API_KEY",
       "imgurAPIkey": "IMGUR_API_KEY"
     },
     "guildRequirements": {
@@ -93,5 +93,8 @@
   "web": {
     "enabled": true,
     "port": 1439
+  },
+  "database": {
+    "path": "path/to/database"
   }
 }

@@ -25,6 +25,7 @@ class MessageHandler {
     };
 
     this.discord.broadcastMessage(messageData);
+    message.react("✅");
 
     try {
       const images = content.split(" ").filter((line) => line.startsWith("http"));
