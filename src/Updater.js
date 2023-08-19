@@ -1,18 +1,21 @@
-const cron = require("node-cron");
 const { exec } = require("child_process");
-const nodemon = require("nodemon");
+const Logger = require("./Logger.js");
+const cron = require("node-cron");
 
 function updateCode() {
   exec("git pull", (error, stdout, stderr) => {
-    console.log(error, stdout, stderr);
     if (error) {
       console.error(`Git pull error: ${error}`);
       return;
     }
 
-    console.log(`Git pull output: ${stdout}`);
+    // console.log(`Git pull output: ${stdout}`);
 
-    nodemon.restart();
+    if (stdout === "Already up to date.\n") {
+      return;
+    }
+
+    Logger.updateMessage();
   });
 }
 

@@ -49,6 +49,19 @@ async function configUpdateMessage(message) {
   );
 }
 
+async function updateMessage() {
+  const columns = process.stdout.columns;
+  const warning = "IMPORTANT!";
+  const message2 = "Bot has updated, please restart the bot to apply changes!";
+  const padding = " ".repeat(Math.floor((columns - warning.length + 1) / 2));
+  const padding2 = " ".repeat(Math.floor((columns - message2.length + 1) / 2));
+
+  console.log(chalk.bgRed.black(" ".repeat(columns).repeat(3)));
+  console.log(chalk.bgRed.black(padding + warning + padding));
+  console.log(chalk.bgRed.black(padding2 + message2 + padding2));
+  console.log(chalk.bgRed.black(" ".repeat(columns).repeat(3)));
+}
+
 module.exports = {
   discordMessage,
   minecraftMessage,
@@ -58,4 +71,5 @@ module.exports = {
   broadcastMessage,
   getCurrentTime,
   configUpdateMessage,
+  updateMessage,
 };

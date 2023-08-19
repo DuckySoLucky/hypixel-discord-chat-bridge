@@ -68,7 +68,7 @@ async function checkForSkyblockUpdates() {
   }
 }
 
-let skyblockVersion = "0.19.118";
+let skyblockVersion;
 async function checkForSkyblockVersion() {
   try {
     const { data } = await axios.get("https://api.hypixel.net/resources/skyblock/skills");
