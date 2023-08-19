@@ -318,3 +318,4 @@ The bot also includes an integrated frag bot that can be used by the guild.
 - [Senither](https://github.com/Senither)
 - [DawJaw](https://dawjaw.net/jacobs)
 - [Soopy](https://soopy.dev/)
+- 
