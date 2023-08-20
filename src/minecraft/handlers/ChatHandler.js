@@ -307,7 +307,7 @@ class StateHandler extends eventHandler {
         .replace(/\[(.*?)\]/g, "")
         .trim()
         .split(/ +/g)[0];
-      const newRank = message
+      const rank = message
         .replace(/\[(.*?)\]/g, "")
         .trim()
         .split(" to ")
@@ -317,7 +317,7 @@ class StateHandler extends eventHandler {
         this.minecraft.broadcastCleanEmbed({
           message: this.replaceVariables(messages.promotionMessage, {
             username,
-            newRank,
+            rank,
           }),
           color: 2067276,
           channel: "Guild",
@@ -325,7 +325,7 @@ class StateHandler extends eventHandler {
         this.minecraft.broadcastCleanEmbed({
           message: this.replaceVariables(messages.promotionMessage, {
             username,
-            newRank,
+            rank,
           }),
           color: 2067276,
           channel: "Logger",
@@ -338,7 +338,7 @@ class StateHandler extends eventHandler {
         .replace(/\[(.*?)\]/g, "")
         .trim()
         .split(/ +/g)[0];
-      const newRank = message
+      const rank = message
         .replace(/\[(.*?)\]/g, "")
         .trim()
         .split(" to ")
@@ -348,7 +348,7 @@ class StateHandler extends eventHandler {
         this.minecraft.broadcastCleanEmbed({
           message: this.replaceVariables(messages.demotionMessage, {
             username,
-            newRank,
+            rank,
           }),
           color: 15548997,
           channel: "Guild",
@@ -356,7 +356,7 @@ class StateHandler extends eventHandler {
         this.minecraft.broadcastCleanEmbed({
           message: this.replaceVariables(messages.demotionMessage, {
             username,
-            newRank,
+            rank,
           }),
           color: 15548997,
           channel: "Logger",

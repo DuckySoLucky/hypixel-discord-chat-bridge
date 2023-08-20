@@ -6,7 +6,6 @@ const StateHandler = require("./handlers/StateHandler.js");
 const CommandHandler = require("./CommandHandler.js");
 const config = require("../../config.json");
 const Logger = require(".././Logger.js");
-const { kill } = require("node:process");
 const path = require("node:path");
 const fs = require("fs");
 
@@ -54,13 +53,10 @@ class DiscordManager extends CommunicationBridge {
         : client.on(event.name, (...args) => event.execute(...args));
     }
 
-    global.guild = await client.guilds.fetch(config.discord.bot.serverID);
+    process.on("SIGINT", async () => {
+      await this.stateHandler.onClose();
 
-    process.on("SIGINT", () => {
-      this.stateHandler.onClose().then(() => {
-        client.destroy();
-        kill(process.pid);
-      });
+      process.kill(process.pid, "SIGTERM");
     });
   }
 

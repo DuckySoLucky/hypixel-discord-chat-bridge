@@ -2,7 +2,7 @@ const Rss = require("rss-parser");
 const axios = require("axios");
 const parser = new Rss();
 
-setInterval(checkForSkyblockUpdates, 10000);
+setInterval(checkForHypixelUpdates, 10000);
 setInterval(checkForIncidents, 10000);
 setInterval(checkForSkyblockVersion, 10000);
 
@@ -42,7 +42,7 @@ async function checkForIncidents() {
 }
 
 const hypixelUpdates = {};
-async function checkForSkyblockUpdates() {
+async function checkForHypixelUpdates() {
   try {
     const [{ items: news }, { items: skyblockNews }] = await Promise.all([
       parser.parseURL("https://hypixel.net/forums/news-and-announcements.4/index.rss"),

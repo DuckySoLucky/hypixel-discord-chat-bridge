@@ -35,18 +35,16 @@ class WoolwarsCommand extends minecraftCommand {
         throw "This player has never played WoolWars.";
       }
 
+      const { wins = 0, games_played = 0, kills = 0, deaths = 0, blocks_broken = 0, wool_placed = 0 } = woolWars;
       const experience = response.player?.stats?.WoolGames?.progression?.experience ?? 0;
       const level = getWoolWarsStar(experience);
 
       this.send(
-        `/gc [${Math.floor(level)}✫] ${username}: W: ${woolWars.wins} | WLR: ${(
-          woolWars.wins / woolWars.games_played
-        ).toFixed(2)} | KDR: ${(woolWars.kills / woolWars.deaths).toFixed(2)} | BB: ${woolWars.blocks_broken} | WP: ${
-          woolWars.wool_placed
-        } | WPP: ${(woolWars.wool_placed / woolWars.games_played).toFixed(2)} | WPG: ${(
-          woolWars.wool_placed / woolWars.blocks_broken
-        ).toFixed(2)}
-          `
+        `/gc [${Math.floor(level)}✫] ${username}: W: ${wins ?? 0} | WLR: ${(wins / games_played).toFixed(2)} | KDR: ${(
+          kills / deaths
+        ).toFixed(2)} | BB: ${blocks_broken} | WP: ${wool_placed} | WPP: ${(wool_placed / games_played).toFixed(
+          2
+        )} | WPG: ${(wool_placed / blocks_broken).toFixed(2)}`
       );
     } catch (error) {
       this.send(`/gc Error: ${error}`);
@@ -58,7 +56,10 @@ function getWoolWarsStar(exp) {
   const minimalExp = [0, 1e3, 3e3, 6e3, 1e4, 15e3];
   const baseLevel = minimalExp.length;
   const baseExp = minimalExp[minimalExp.length - 1];
-  if (exp >= baseExp) return (exp - baseExp) / 5e3 + baseLevel;
+  if (exp >= baseExp) {
+    return (exp - baseExp) / 5e3 + baseLevel;
+  }
+
   const lvl = minimalExp.findIndex((x) => exp < x);
   return lvl + exp / minimalExp[lvl];
 }
