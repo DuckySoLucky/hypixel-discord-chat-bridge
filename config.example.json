@@ -79,7 +79,7 @@
       "debugChannel": "DEBUG_CHANNEL_ID"
     },
     "commands": {
-      "checkPerms": false,
+      "checkPerms": true,
       "commandRole": "COMMAND_ROLE_ID"
     },
     "other": {
