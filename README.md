@@ -105,7 +105,7 @@ In here we are going to clone the repository, set up the configuration file, vol
 
 #### Bot
 
-The `bot` section contains configuration options for the bot, including the `prefix`, `messageFormat`, and `messageRepeatBypassLength`.
+The `bot` section contains configuration options for the minecraft bot, including the `prefix`, `messageFormat`, and `messageRepeatBypassLength`.
 
 The prefix option determines the command prefix used for minecraft commands. By default, this is set to `!`.
 
@@ -159,7 +159,7 @@ The requirements option is an object containing various requirements for joining
 
 The `skyblockEventsNotifications` object contains the settings related to Skyblock events notifications.
 
-The `enabled` property determines whether the feature is enabled or not. If it's set to true, the bot will send a message to the Guild chat 30 and 5 minutes before an event occurs
+The `enabled` property determines whether the feature is enabled or not. If it's set to true, the bot will send a message to the Guild chat 5 minutes and moment before the event starts.
 
 The `notifiers` object contains a list of events that the bot will notify for, and whether each event is enabled or not. By default, all events are enabled. You can disable an event by setting its value to false.
 
@@ -178,6 +178,16 @@ Here's a list of the supported events:
 - SPOOKY_FESTIVAL: When the Spooky Festival event starts.
 - TRAVELING_ZOO: When the Traveling Zoo event starts.
 
+The `customTime` is object that has key with minute amount and value with events which will be sent key minutes before event occurs. For example `"10": ["JACOBS_CONTEST"]` will send message 10 minutes before Jacob's Contest event starts
+
+### Commands
+
+The `commands` object contains the settings related to the bot's commands.
+
+The `normal` property determines whether the normal commands are enabled or not. If it's set to true, the bot will listen for commands in the guild chat.
+
+The `soopy` property determines whether the Soopy commands are enabled or not. If it's set to true, the bot will listen for commands in the guild chat.
+
 #### Discord
 
 ### Bot
@@ -186,23 +196,25 @@ The `bot` options include the `token`, and `serverID` options.
 
 The `token` is the Discord application token, if you don't already have a Discord App, you can [create a new app](https://discordapp.com/developers), then convert the app to a Discord bot, and then get your Discord bot token on the "Bot" page.
 
-The `serverID` is same as `clientID` but it's ID of the server. you can get it by right clicking on server and clicking on Copy ID.
+The `serverID` is the ID of the server. You can get it by right clicking on server and clicking on Copy ID. You need to enable Developer Mode in Discord to do this, You can enable it by going to `Settings > App > Advanced > Developer Mode`.
 
 ### Channels
 
-The `guildChatChannel` is the ID of the text channel the bot should be linked with, the bot will only send and listen to messages in the channel defined in the config.
+The `guildChatChannel` is the ID of the text channel where the bot is gonna send messages from Guild Chat.
 
-The `officerChannel` is the ID of the text channel the bot should be linked with for the Officer Chat, the bot will only send and listen to messages in the channel defined in the config.
+The `officerChannel` is the ID of the text channel where the bot is gonna send messages from Officer Chat.
 
-The `loggingChannel` is the ID of the text channel the bot should be linked with for the Logs Chat, the bot will only send and listen to guild managment stuff like kicks, mutes, promotions, demotions etc.
+The `loggingChannel` is the ID of the text channel where the bot is gonna send guild logs, for example guild kicks, invites, mutes etc.
 
 The `debugMode` is a boolean setting which is an ability to toggle `debugChannel`
 
-The `debugChannel` is the ID of text channel the bot should be linked with for the chat, the bot will send every single minecraft message here, anyone can send and execute commands from this channel
+The `debugChannel` is the ID of text channel the bot should be linked with for the chat, the bot will send every single minecraft message here, anyone can send and execute commands from this channel and it will be executed in minecraft. This is useful for debugging and testing purposes.
 
-### Roles
+### Commands
 
-The `commandRole` is the ID of any role on the server the bot is hosted for, any user with the role will be able to run all the Discord commands built into the bot, like `/kick` and `/promote`.
+The `checkPerms` is ability to toggle checking permissions for commands, if it's set to `true` the bot will check if user has required role to execute the command.
+
+The `commandRole` is the ID of any role on the server , any user with the role will be able to run all the Discord commands built into the bot, like `/kick` and `/promote`.
 
 ### Other
 
@@ -279,6 +291,7 @@ The joinMessage is ability to toggle join and leave message being sent to the di
 | weight      | Skyblock Stats of specified user.           | `!weight [player]`        | `!weight DuckySoSkilled`   | `Refraction's Senither Weight » 27721.82 Skills: 12991.95 Dungeons: 11353.90` & `Refraction's Lily Weight » 28342.24 Skills » 12310.84 Slayer » 4476.85 Dungeons » 11554.55` |
 | woolwars    | WoolWars stats of specified user.           | `!woolwars [player]`      | `!woolwars DuckySoSkilled` | `[2✫] DuckySoSkilled » W: 5 WLR: 0.5 KDR: 1.19 BB: 37 WP: 45` |
 
+### Soopy V2 Commands
 Bot also supports Soopy V2 commands, prefix is same as mod's prefix. 
 > ![image](https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/assets/75372052/7de05d26-6b2d-4c42-b5d1-1ef0da7edafa)
 
@@ -293,8 +306,7 @@ If you think that message format is boring, you can check out my repository for 
 
 The bot also includes event notifier that can be used to send message in guild 30 & 5 minutes before the event starts, by the default all of the events are toggled on. Feel free to disable events which you do not like in config.
 
-> Preview
-
+Preview
 > ![image](https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/assets/75372052/0fc99431-3213-40fa-949b-6acca62ef63c)
 
 #### Frag Bot
