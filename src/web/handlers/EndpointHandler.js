@@ -1,3 +1,6 @@
+const config = require("../../../config.json");
+const webHandler = require("../../minecraft/handlers/WebHandler.js")()
+
 class EndpointHandler {
   constructor(server) {
     this.server = server;
@@ -5,17 +8,21 @@ class EndpointHandler {
 
   registerEvents() {
     const { web } = this.server;
-
-    web.get("*", this.get.bind(this));
-    web.post("*", this.post.bind(this));
-  }
-
-  async get(req, res) {
-    res.send("API is running.");
-  }
-
-  async post(req, res) {
-    res.json({ success: true });
+    const guild = config.minecraft.guild.guildName;
+    web.post("/" + guild + "/invite", async (req, res) => {
+      const username = req.body.username;
+      const success = await webHandler.inviteMember(username);
+      if(!success) {
+        res.send({
+          "success": success,
+          "reason": "Player lookup failed OR another internal error occured"
+        });
+        return;
+      }
+      res.send({
+        "success": success
+      });
+    });
   }
 }
 
