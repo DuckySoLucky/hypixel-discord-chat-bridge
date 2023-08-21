@@ -47,8 +47,8 @@ module.exports = {
             config.discord.channels.loggingChannel ? `<#${config.discord.channels.loggingChannel}>` : "None"
           }\nDebugging Channel: ${
             config.discord.channels.debugChannel ? `<#${config.discord.channels.debugChannel}>` : "None"
-          }\nCommand Role: <@&${config.discord.roles.commandRole}>\nMessage Mode: \`${
-            config.discord.other.messageMode ? "enabled" : "disabled"
+          }\nCommand Role: <@&${config.discord.commands.officerRoleID}>\nMessage Mode: \`${
+            config.discord.other.messageMode
           }\`\nFilter: \`${config.discord.other.filterMessages ? "enabled" : "disabled"}\`\nJoin Messages: \`${
             config.discord.other.joinMessage ? "enabled" : "disabled"
           }\``,

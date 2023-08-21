@@ -79,10 +79,12 @@
       "debugMode": true,
       "debugChannel": "DEBUG_CHANNEL_ID"
     },
-    "roles": {
+    "commands": {
+      "checkPerms": true,
       "adminRole": "COMMAND_ROLE_ID",
       "modRole": "MOD_ROLE_ID",
-      "helperRole": "HELPER_ROLE_ID"
+      "helperRole": "HELPER_ROLE_ID",
+      "commandRole": "COMMAND_ROLE_ID"
     },
     "other": {
       "messageMode": "minecraft",
@@ -91,7 +93,7 @@
     }
   },
   "web": {
-    "enabled": true,
+    "enabled": false,
     "port": 1439
   },
   "database": {

@@ -6,7 +6,6 @@ const StateHandler = require("./handlers/StateHandler.js");
 const CommandHandler = require("./CommandHandler.js");
 const config = require("../../config.json");
 const Logger = require(".././Logger.js");
-const { kill } = require("node:process");
 const path = require("node:path");
 const fs = require("fs");
 
@@ -54,13 +53,10 @@ class DiscordManager extends CommunicationBridge {
         : client.on(event.name, (...args) => event.execute(...args));
     }
 
-    global.guild = await client.guilds.fetch(config.discord.bot.serverID);
+    process.on("SIGINT", async () => {
+      await this.stateHandler.onClose();
 
-    process.on("SIGINT", () => {
-      this.stateHandler.onClose().then(() => {
-        client.destroy();
-        kill(process.pid);
-      });
+      process.kill(process.pid, "SIGTERM");
     });
   }
 
@@ -71,7 +67,7 @@ class DiscordManager extends CommunicationBridge {
     if (webhooks.size === 0) {
       channel.createWebhook({
         name: "Hypixel Chat Bridge",
-        avatar: "https://i.imgur.com/AfFp7pu.png",
+        avatar: "https://imgur.com/tgwQJTX.png",
       });
 
       await this.getWebhook(discord, type);
@@ -117,11 +113,17 @@ class DiscordManager extends CommunicationBridge {
         });
 
         if (message.includes("https://")) {
-          let link = message.match(/https?:\/\/[^\s]+/g)[0];
+          const links = fullMessage.match(/https?:\/\/[^\s]+/g);
 
-          if (link.endsWith("§r")) {
-            link = link.substring(0, link.length - 2);
-          }
+          const link = links
+            .map((link) => {
+              if (link.endsWith("§r")) {
+                link = link.substring(0, link.length - 2);
+              }
+
+              return link;
+            })
+            .join("\n");
 
           channel.send(link);
         }
@@ -148,11 +150,17 @@ class DiscordManager extends CommunicationBridge {
         });
 
         if (fullMessage.includes("https://")) {
-          let link = fullMessage.match(/https?:\/\/[^\s]+/g)[0];
+          const links = fullMessage.match(/https?:\/\/[^\s]+/g);
 
-          if (link.endsWith("§r")) {
-            link = link.substring(0, link.length - 2);
-          }
+          const link = links
+            .map((link) => {
+              if (link.endsWith("§r")) {
+                link = link.substring(0, link.length - 2);
+              }
+
+              return link;
+            })
+            .join("\n");
 
           channel.send(link);
         }
