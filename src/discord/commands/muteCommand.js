@@ -22,7 +22,7 @@ module.exports = {
 
   execute: async (interaction) => {
     const user = interaction.member;
-    if (user.roles.cache.has(config.discord.roles.helperRole) === false) {
+    if (config.discord.commands.checkPerms === true && user.roles.cache.has(config.discord.commands.modRole) === false) {
       throw new HypixelDiscordChatBridgeError("You do not have permission to use this command.");
     }
 

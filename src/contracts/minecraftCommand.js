@@ -30,12 +30,11 @@ class minecraftCommand {
           return this.send("/gc Command failed to send message after 5 attempts. Please try again later.");
         }
 
-        await delay(69.42);
+        await delay(250);
         return this.send(message);
       } else if (
         msg.toString().includes("You cannot say the same message twice!") === true &&
-        msg.toString().includes(":") === false &&
-        message.startsWith("/gc") === true
+        msg.toString().includes(":") === false
       ) {
         bot.removeListener("message", listener);
         n++;
@@ -44,6 +43,7 @@ class minecraftCommand {
           return this.send("/gc Command failed to send message after 5 attempts. Please try again later.");
         }
 
+        await delay(250);
         return this.send(
           `${message} - ${helperFunctions.generateID(config.minecraft.bot.messageRepeatBypassLength)}`,
           n + 1

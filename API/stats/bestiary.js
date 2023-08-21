@@ -47,7 +47,7 @@ function getBestiary(userProfile) {
             name: value.name,
           };
 
-          output[category][key].mobs = formatBestiaryMobs(userProfile, value);
+          output[category][key].mobs = formatBestiaryMobs(userProfile, value.mobs);
 
           tiersUnlocked += output[category][key].mobs.reduce((acc, cur) => acc + cur.tier, 0);
           totalTiers += output[category][key].mobs.reduce((acc, cur) => acc + cur.maxTier, 0);

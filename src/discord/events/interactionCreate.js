@@ -53,7 +53,7 @@ module.exports = {
           });
 
         interaction.client.channels.cache.get(config.discord.channels.loggingChannel).send({
-          content: `<@&${config.discord.roles.commandRole}>`,
+          content: `<@&${config.discord.commands.commandRole}>`,
           embeds: [errorLog],
         });
       }
