@@ -9,42 +9,44 @@ class MessageHandler {
   }
 
   async onMessage(message) {
-    if (message.author.id === client.user.id || !this.shouldBroadcastMessage(message)) {
-      return;
-    }
-
-    const content = this.stripDiscordContent(message).trim();
-    if (content.length === 0) return;
-
-    const messageData = {
-      member: message.member.user,
-      channel: message.channel.id,
-      username: message.member.displayName,
-      message: content,
-      replyingTo: await this.fetchReply(message),
-    };
-
-    this.discord.broadcastMessage(messageData);
-
     try {
+      if (message.author.id === client.user.id || !this.shouldBroadcastMessage(message)) {
+        return;
+      }
+
+      const content = this.stripDiscordContent(message).trim();
+      if (content.length === 0) {
+        return;
+      }
+
+      const messageData = {
+        member: message.member.user,
+        channel: message.channel.id,
+        username: message.member.displayName,
+        message: content,
+        replyingTo: await this.fetchReply(message),
+      };
+
       const images = content.split(" ").filter((line) => line.startsWith("http"));
       for (const attachment of message.attachments.values()) {
         images.push(attachment.url);
       }
 
-      if (images.length === 0) return;
+      if (images.length > 0) {
+        for (const attachment of images) {
+          const imgurLink = await uploadImage(attachment);
 
-      for (const attachment of images) {
-        const imgurLink = await uploadImage(attachment);
+          messageData.message = messageData.message.replace(attachment, imgurLink.data.link);
 
-        messageData.message = messageData.message.replace(attachment, imgurLink.data.link);
-
-        if (messageData.message.includes(imgurLink.data.link) === false) {
-          messageData.message += ` ${imgurLink.data.link}`;
+          if (messageData.message.includes(imgurLink.data.link) === false) {
+            messageData.message += ` ${imgurLink.data.link}`;
+          }
         }
       }
 
-      if (messageData.message.length === 0) return;
+      if (messageData.message.length === 0) {
+        return;
+      }
 
       this.discord.broadcastMessage(messageData);
     } catch (error) {
