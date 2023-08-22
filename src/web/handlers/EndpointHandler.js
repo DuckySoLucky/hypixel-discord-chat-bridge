@@ -1,5 +1,5 @@
 const config = require("../../../config.json");
-const webHandler = require("../../minecraft/handlers/WebHandler.js")()
+const webHandler = require("../../minecraft/handlers/WebHandler.js");
 
 class EndpointHandler {
   constructor(server) {
