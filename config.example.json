@@ -94,6 +94,9 @@
   },
   "web": {
     "enabled": false,
+    "endpoints": {
+      "invite": false
+    },
     "port": 1439
   },
   "database": {
