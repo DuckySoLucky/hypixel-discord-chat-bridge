@@ -1,6 +1,8 @@
 const Rss = require("rss-parser");
 const axios = require("axios");
+const path = require("path");
 const parser = new Rss();
+const fs = require("fs");
 
 setInterval(checkForHypixelUpdates, 10000);
 setInterval(checkForIncidents, 10000);
@@ -41,8 +43,8 @@ async function checkForIncidents() {
   }
 }
 
-const hypixelUpdates = {};
-async function checkForHypixelUpdates() {
+const hypixelUpdates = JSON.parse(fs.readFileSync(path.join(__dirname, ".", "hypixelUpdates.json"), "utf-8") || "[]");
+async function checkForHypixelUpdates(firstTime = false) {
   try {
     const [{ items: news }, { items: skyblockNews }] = await Promise.all([
       parser.parseURL("https://hypixel.net/forums/news-and-announcements.4/index.rss"),
@@ -52,13 +54,18 @@ async function checkForHypixelUpdates() {
     const latestFeed = news.concat(skyblockNews);
     for (const news of latestFeed) {
       const { pubDate, title, link } = news;
-      if (hypixelUpdates[title] === true || new Date(pubDate).getTime() + 43200000 < Date.now()) {
-        hypixelUpdates[title] = true;
+      if (hypixelUpdates.includes(title) === true) {
         continue;
       }
 
-      if (bot !== undefined && bot._client.chat !== undefined) {
-        hypixelUpdates[title] = true;
+      hypixelUpdates.push(title);
+      fs.writeFileSync(path.join(__dirname, ".", "hypixelUpdates.json"), JSON.stringify(hypixelUpdates, null, 2));
+
+      if (bot !== undefined && bot._client.chat !== undefined && firstTime === false) {
+        if (new Date(pubDate).getTime() + 43200000 < Date.now()) {
+          continue;
+        }
+
         bot.chat(`/gc [HYPIXEL UPDATE] ${title} | ${link}`);
         await new Promise((resolve) => setTimeout(resolve, 1500));
       }
@@ -67,6 +74,8 @@ async function checkForHypixelUpdates() {
     console.log(error);
   }
 }
+
+checkForHypixelUpdates(true);
 
 let skyblockVersion;
 async function checkForSkyblockVersion() {
