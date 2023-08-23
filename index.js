@@ -25,3 +25,4 @@ var waitForUserInput = function() {
     }
   });
 }
+waitForUserInput();
