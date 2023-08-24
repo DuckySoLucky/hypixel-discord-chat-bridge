@@ -19,7 +19,7 @@ class EndpointHandler {
       const skykings_scammer = await Skykings.lookupUUID(uuid);
       const blacklisted = await Blacklist.checkBlacklist(uuid);
       if (skykings_scammer !== true && blacklisted !== true) {
-        bot.chat(`/guild accept ${username}`);
+        bot.chat(`/guild invite ${username}`);
         success = true;
       }
       if(!success) {
