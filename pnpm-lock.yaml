@@ -21,8 +21,8 @@ dependencies:
     specifier: ^4.1.0
     version: 4.1.2
   discord-api-types:
-    specifier: ^0.37.45
-    version: 0.37.45
+    specifier: ^0.37.55
+    version: 0.37.55
   discord-emoji-converter:
     specifier: ^1.2.8
     version: 1.2.8
@@ -140,7 +140,7 @@ packages:
       '@discordjs/util': 0.1.0
       '@sapphire/async-queue': 1.5.0
       '@sapphire/snowflake': 3.4.0
-      discord-api-types: 0.37.45
+      discord-api-types: 0.37.55
       file-type: 18.0.0
       tslib: 2.4.1
       undici: 5.14.0
@@ -792,12 +792,12 @@ packages:
     resolution: {integrity: sha512-c68LpLbO+7kP/b1Hr1qs8/BJ09F5khZGTxqxZuhzxpmwJKOgRFHJWIb9/KmqnqHhLdO55aOxFH/EGBvUQbL/RQ==}
     dev: false
 
-  /discord-api-types@0.37.45:
-    resolution: {integrity: sha512-r9m/g+YQfo7XWMrl645jvMlYoWF8lvns/ch4NCxsz/FbingrECu97LFSD2zKOvgHaSc90BHP8wgshaMcA2/c6Q==}
-    dev: false
-
   /discord-api-types@0.37.50:
     resolution: {integrity: sha512-X4CDiMnDbA3s3RaUXWXmgAIbY1uxab3fqe3qwzg5XutR3wjqi7M3IkgQbsIBzpqBN2YWr/Qdv7JrFRqSgb4TFg==}
+    dev: false
+
+  /discord-api-types@0.37.55:
+    resolution: {integrity: sha512-XIf8AELxg76AH1WzrgB5ziFyIxSs4tLK1XGjFs4oE6t7M7r1B0Chdylaz76ALhvRXAUBGHGFXu/pKAa5Q+LbQg==}
     dev: false
 
   /discord-emoji-converter@1.2.8:
