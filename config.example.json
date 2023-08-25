@@ -83,8 +83,7 @@
       "checkPerms": true,
       "adminRole": "COMMAND_ROLE_ID",
       "modRole": "MOD_ROLE_ID",
-      "helperRole": "HELPER_ROLE_ID",
-      "commandRole": "COMMAND_ROLE_ID"
+      "helperRole": "HELPER_ROLE_ID"
     },
     "other": {
       "messageMode": "minecraft",
