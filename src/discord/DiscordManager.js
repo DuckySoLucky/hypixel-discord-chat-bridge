@@ -79,7 +79,7 @@ class DiscordManager extends CommunicationBridge {
   async onBroadcast({ fullMessage, username, message, guildRank, chat, color = 1752220 }) {
     const mode = chat === "debugChannel" ? "minecraft" : config.discord.other.messageMode.toLowerCase();
     if (message !== undefined && chat !== "debugChannel") {
-      Logger.broadcastMessage(`${username} [${guildRank}]: ${message}`, `Discord onBroadcast`);
+      Logger.broadcastMessage(`${username} [${guildRank}]: ${message}`, `Discord`);
     }
 
     const channel = await this.stateHandler.getChannel(chat || "Guild");
