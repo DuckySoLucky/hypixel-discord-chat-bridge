@@ -35,6 +35,7 @@ class StateHandler extends eventHandler {
     if (config.discord.channels.debugMode === true) {
       this.minecraft.broadcastMessage({
         fullMessage: colouredMessage,
+        message: message,
         chat: "debugChannel",
       });
     }
@@ -235,7 +236,11 @@ class StateHandler extends eventHandler {
         .trim()
         .split(/ +/g)[0];
       await delay(1000);
-      bot.chat(`/gc ${messages.guildJoinMessage} | By @duckysolucky`);
+      bot.chat(
+        `/gc ${this.replaceVariables(messages.guildJoinMessage, {
+          prefix: config.minecraft.bot.prefix,
+        })} | by @duckysolucky`
+      );
       return [
         this.minecraft.broadcastHeadedEmbed({
           message: this.replaceVariables(messages.joinMessage, { username }),
@@ -739,10 +744,15 @@ class StateHandler extends eventHandler {
     const betweenMessage = message.split(": ")[1].split(config.minecraft.bot.messageFormat);
     if (this.isMessageFromBot(username) && betweenMessage.length == 2) return;
 
+    const safeMessage = message.split(": ").slice(1).join(": ");
+    if (safeMessage.length == 0) {
+      return;
+    }
+
     this.minecraft.broadcastMessage({
       fullMessage: colouredMessage,
       username: username,
-      message: message.split(": ").slice(1).join(": "),
+      message: safeMessage,
       guildRank: guildRank,
       chat: chatType,
       color: this.minecraftChatColorToHex(embedColor),

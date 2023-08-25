@@ -56,27 +56,43 @@ class MessageHandler {
 
   async fetchReply(message) {
     try {
-      if (message.reference === undefined) return null;
+      if (message.reference?.messageId === undefined || message.mentions === undefined) {
+        return null;
+      }
 
       const reference = await message.channel.messages.fetch(message.reference.messageId);
 
-      const mentionedUserName = message?.mentions?.repliedUser?.username;
-      if (config.discord.other.messageMode === "bot") {
-        const embedAuthorName = reference?.embeds?.[0]?.author?.name;
+      const mentionedUserName = message.mentions.repliedUser.globalName ?? message.mentions.repliedUser.username;
 
-        return embedAuthorName ?? mentionedUserName;
+      if (config.discord.other.messageMode === "bot" && reference.embed !== null) {
+        const name = reference.embeds[0]?.author?.name;
+        if (name === undefined) {
+          return mentionedUserName;
+        }
+
+        return name;
       }
 
-      if (config.discord.other.messageMode === "minecraft") {
-        const attachmentName = reference?.attachments?.values()?.next()?.value?.name;
+      if (config.discord.other.messageMode === "minecraft" && reference.attachments !== null) {
+        const name = reference.attachments.values()?.next()?.value?.name;
+        if (name === undefined) {
+          return mentionedUserName;
+        }
 
-        return attachmentName ? attachmentName.split(".")[0] : mentionedUserName;
+        return name.split(".")[0];
       }
 
       if (config.discord.other.messageMode === "webhook") {
-        return reference.author.username ?? mentionedUserName;
+        if (reference.author.username === undefined) {
+          return mentionedUserName;
+        }
+
+        return reference.author.username;
       }
+
+      return mentionedUserName ?? null;
     } catch (error) {
+      console.log(error);
       return null;
     }
   }
