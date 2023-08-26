@@ -21,7 +21,6 @@
     },
     "API": {
       "hypixelAPIkey": "HYPIXEL_API_KEY",
-
       "imgurAPIkey": "IMGUR_API_KEY"
     },
     "guildRequirements": {
@@ -85,7 +84,7 @@
     "other": {
       "messageMode": "minecraft",
       "filterMessages": true,
-      "joinMessage": false
+      "joinMessage": true
     }
   },
   "web": {
