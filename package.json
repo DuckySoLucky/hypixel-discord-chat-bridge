@@ -50,7 +50,7 @@
     "node-cron": "^3.0.2",
     "prismarine-nbt": "^2.2.1",
     "rss-parser": "^3.13.0",
-    "skyhelper-networth": "1.15.1",
+    "skyhelper-networth": "1.16.0",
     "util": "^0.12.5"
   },
   "devDependencies": {
