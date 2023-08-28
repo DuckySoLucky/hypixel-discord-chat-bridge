@@ -1,8 +1,7 @@
+const cheerio = require("cheerio");
 const Rss = require("rss-parser");
 const axios = require("axios");
-const path = require("path");
 const parser = new Rss();
-const fs = require("fs");
 
 setInterval(checkForHypixelUpdates, 10000);
 setInterval(checkForIncidents, 10000);
@@ -43,7 +42,7 @@ async function checkForIncidents() {
   }
 }
 
-const hypixelUpdates = JSON.parse(fs.readFileSync(path.join(__dirname, ".", "hypixelUpdates.json"), "utf-8") || "[]");
+const hypixelUpdates = [];
 async function checkForHypixelUpdates(firstTime = false) {
   try {
     const [{ items: news }, { items: skyblockNews }] = await Promise.all([
@@ -53,21 +52,30 @@ async function checkForHypixelUpdates(firstTime = false) {
 
     const latestFeed = news.concat(skyblockNews);
     for (const news of latestFeed) {
-      const { pubDate, title, link } = news;
+      const { title, link } = news;
       if (hypixelUpdates.includes(title) === true) {
         continue;
       }
 
-      hypixelUpdates.push(title);
-      fs.writeFileSync(path.join(__dirname, ".", "hypixelUpdates.json"), JSON.stringify(hypixelUpdates, null, 2));
-
       if (bot !== undefined && bot._client.chat !== undefined && firstTime === false) {
-        if (new Date(pubDate).getTime() + 43200000 < Date.now()) {
+        const response = await axios.get(link, {
+          headers: {
+            "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0",
+          },
+        });
+
+        const $ = cheerio.load(response.data);
+        const time = parseInt($("time.u-dt").eq(0).attr("data-time"));
+        if (time + 43200 < Math.floor(Date.now() / 1000)) {
           continue;
         }
 
         bot.chat(`/gc [HYPIXEL UPDATE] ${title} | ${link}`);
+
         await new Promise((resolve) => setTimeout(resolve, 1500));
+      } else if (firstTime === true) {
+        console.log(`Adding ${title} to hypixelUpdates`)
+        hypixelUpdates.push(title);
       }
     }
   } catch (error) {

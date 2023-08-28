@@ -35,6 +35,7 @@
     "bad-words": "^3.0.4",
     "canvas": "^2.10.1",
     "chalk": "^4.1.0",
+    "cheerio": "1.0.0-rc.12",
     "discord-api-types": "^0.37.55",
     "discord-emoji-converter": "^1.2.8",
     "discord.js": "^14.13.0",
@@ -50,7 +51,7 @@
     "node-cron": "^3.0.2",
     "prismarine-nbt": "^2.2.1",
     "rss-parser": "^3.13.0",
-    "skyhelper-networth": "1.16.0",
+    "skyhelper-networth": "1.16.1",
     "util": "^0.12.5"
   },
   "devDependencies": {
