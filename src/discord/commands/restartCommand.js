@@ -15,7 +15,7 @@ module.exports = {
           const restartEmbed = new EmbedBuilder()
           .setColor(0x0099ff)
           .setTitle("⭕Restarting!")
-          .setDescription(`**Bot will restart ingame and on discord.`)
+          .setDescription(`**Bot will restart ingame and on discord.**`)
           .setFooter({
             text: `by @duckysolucky | /help [command] for more information`,
             iconURL: "https://imgur.com/tgwQJTX.png",
