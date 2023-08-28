@@ -1,5 +1,7 @@
 const app = require("./../../Application.js");
 const config = require("./../../../config.json")
+const { EmbedBuilder } = require("discord.js");
+const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 
 module.exports = {
     name: "restart",
