@@ -54,7 +54,7 @@ async function getLatestProfile(uuid, options = { museum: false }) {
     profiles: profileRes.profiles,
     profile: profile,
     profileData: profileData,
-    playerRes: playerRes,
+    playerRes: playerRes.player,
     uuid: uuid,
     ...(options.museum ? await getMuseum(profileData.profile_id, uuid) : {}),
   };

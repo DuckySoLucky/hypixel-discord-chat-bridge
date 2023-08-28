@@ -27,7 +27,7 @@ class CatacombsCommand extends minecraftCommand {
 
       username = formatUsername(username, data.profileData?.game_mode);
 
-      const dungeons = getDungeons(data.player, data.profile);
+      const dungeons = getDungeons(data.playerRes, data.profile);
 
       if (dungeons == null) {
         // eslint-disable-next-line no-throw-literal
@@ -35,22 +35,23 @@ class CatacombsCommand extends minecraftCommand {
       }
 
       const completions = Object.values(dungeons.catacombs)
-        .flatMap((floors) => Object.values(floors))
+        .flatMap((floors) => Object.values(floors || {}))
         .reduce((total, floor) => total + (floor.completions || 0), 0);
 
-      const level = dungeons.catacombs.skill.levelWithProgress.toFixed(1);
-      const classAvrg =
-        Object.values(dungeons.classes).reduce((total, { levelWithProgress }) => total + levelWithProgress, 0) /
-        Object.keys(dungeons.classes).length;
+      const level = (dungeons.catacombs.skill.levelWithProgress || 0).toFixed(1);
+      const classAvrg = (
+        Object.values(dungeons.classes).reduce((total, { levelWithProgress = 0 }) => total + levelWithProgress, 0) /
+        Object.keys(dungeons.classes).length
+      ).toFixed(1);
+
+      const SR = isNaN(dungeons.secrets_found / completions) ? 0 : (dungeons.secrets_found / completions).toFixed(2);
 
       this.send(
-        `/gc ${username}'s Catacombs: ${level} | Class Average: ${classAvrg.toFixed(1)} (${
-          dungeons.classes.healer.level
-        }H, ${dungeons.classes.mage.level}M, ${dungeons.classes.berserk.level}B, ${dungeons.classes.archer.level}A, ${
+        `/gc ${username}'s Catacombs: ${level} | Class Average: ${classAvrg} (${dungeons.classes.healer.level}H, ${
+          dungeons.classes.mage.level
+        }M, ${dungeons.classes.berserk.level}B, ${dungeons.classes.archer.level}A, ${
           dungeons.classes.tank.level
-        }T) | Secrets: ${formatNumber(dungeons.secrets_found ?? 0, 1)} (${(
-          dungeons.secrets_found / completions
-        ).toFixed(1)} S/R)`
+        }T) | Secrets: ${formatNumber(dungeons.secrets_found ?? 0, 1)} (${SR} S/R)`
       );
     } catch (error) {
       console.log(error);

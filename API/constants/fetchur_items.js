@@ -53,14 +53,14 @@ module.exports = {
     quantity: 3,
     text: "3x Rabbit's Feet",
     image: "https://sky.shiiyu.moe/item/RABBIT_FOOT",
-    description: "This item can be dropped when killing an Rabbit or buying it from the Bazaar.",
+    description: "This item can be dropped when killing an Rabbit or buying it from the Bazaar",
   },
   8: {
     name: "Superboom TNT",
     quantity: 1,
     text: "1x Superboom TNT",
     image: "https://sky.shiiyu.moe/item/SUPERBOOM_TNT",
-    description: "This item can be purchased from the Auction House or found in dungeons",
+    description: "This item can be purchased from the Bazaar or found in dungeons",
   },
   9: {
     name: "Pumpkin",

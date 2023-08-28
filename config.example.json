@@ -10,14 +10,14 @@
       "soopy": true
     },
     "fragBot": {
-      "enabled": true,
+      "enabled": false,
       "whitelist": false,
       "whitelisted": [],
       "blacklist": false,
       "blacklisted": []
     },
     "guild": {
-      "guildExp": 50000,
+      "guildExp": 0,
       "guildName": ""
     },
     "API": {
@@ -47,7 +47,7 @@
       }
     },
     "skyblockEventsNotifications": {
-      "enabled": true,
+      "enabled": false,
       "notifiers": {
         "BANK_INTEREST": true,
         "DARK_AUCTION": true,
@@ -76,7 +76,7 @@
       "guildChatChannel": "GUILD_CHAT_CHANNEL_ID",
       "officerChannel": "OFFICER_CHANNEL_ID",
       "loggingChannel": "LOGGING_CHANNEL_ID",
-      "debugMode": true,
+      "debugMode": false,
       "debugChannel": "DEBUG_CHANNEL_ID"
     },
     "commands": {
@@ -88,7 +88,7 @@
     "other": {
       "messageMode": "minecraft",
       "filterMessages": true,
-      "joinMessage": false
+      "joinMessage": true
     }
   },
   "web": {
