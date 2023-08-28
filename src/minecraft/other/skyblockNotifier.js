@@ -74,7 +74,6 @@ async function checkForHypixelUpdates(firstTime = false) {
 
         await new Promise((resolve) => setTimeout(resolve, 1500));
       } else if (firstTime === true) {
-        console.log(`Adding ${title} to hypixelUpdates`)
         hypixelUpdates.push(title);
       }
     }
