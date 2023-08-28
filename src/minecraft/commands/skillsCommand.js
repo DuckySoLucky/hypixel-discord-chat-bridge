@@ -29,28 +29,23 @@ class SkillsCommand extends minecraftCommand {
 
       const profile = getSkills(data.profile);
 
-      // i have no idea but yes
       const skillAverage = (
         Object.keys(profile)
           .filter((skill) => !["runecrafting", "social"].includes(skill))
-          .map((skill) => profile[skill].level || 0)
+          .map((skill) => profile[skill].levelWithProgress || 0)
           .reduce((a, b) => a + b, 0) /
         (Object.keys(profile).length - 2)
       ).toFixed(2);
 
-      this.send(
-        `/gc Skill Average: ${skillAverage ?? 0} | Farming: ${Math.floor(
-          profile.farming.levelWithProgress ?? 0
-        )} | Mining: ${Math.floor(profile.mining.levelWithProgress ?? 0)} | Combat: ${Math.floor(
-          profile.combat.levelWithProgress ?? 0
-        )} | Enchanting: ${Math.floor(profile.enchanting.levelWithProgress ?? 0)} | Fishing: ${Math.floor(
-          profile.fishing.levelWithProgress ?? 0
-        )} | Foraging: ${Math.floor(profile.foraging.levelWithProgress ?? 0)} | Alchemy: ${Math.floor(
-          profile.alchemy.levelWithProgress ?? 0
-        )} | Taming: ${Math.floor(profile.taming.levelWithProgress ?? 0)} | Carpentry: ${Math.floor(
-          profile.carpentry.levelWithProgress ?? 0
-        )}`
-      );
+      const skillsFormatted = Object.keys(profile)
+        .map((skill) => {
+          const level = Math.floor(profile[skill].levelWithProgress ?? 0);
+          const skillName = skill[0].toUpperCase() + skill[1];
+          return `${level}${skillName}`;
+        })
+        .join(", ");
+
+      this.send(`/gc ${username}'s Skill Average: ${skillAverage ?? 0} (${skillsFormatted})`);
     } catch (error) {
       this.send(`Error: ${error}}`);
     }
