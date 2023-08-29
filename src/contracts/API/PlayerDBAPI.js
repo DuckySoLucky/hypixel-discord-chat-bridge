@@ -1,12 +1,27 @@
 const axios = require("axios");
 
+const cache = new Map();
+
 async function getUUID(username) {
   try {
+    if (cache.has(username)) {
+      const data = cache.get(username);
+
+      if (data.last_save + 43200000 > Date.now()) {
+        return data.id;
+      }
+    }
+
     const { data } = await axios.get(`https://api.mojang.com/users/profiles/minecraft/${username}`);
 
     if (data.errorMessage || data.id === undefined) {
       throw data.errorMessage ?? "Invalid username.";
     }
+
+    cache.set(username, {
+      last_save: Date.now(),
+      id: data.id,
+    });
 
     return data.id;
   } catch (error) {
