@@ -717,46 +717,83 @@ class StateHandler extends eventHandler {
       })  
     }*/
 
-    const [group, ...parts] = message.split(":").map((s) => s.trim());
-    const hasRank = group.endsWith("]");
-    const [chatType] = group.split(">").map((s) => s.trim());
-    const userParts = group.split(" ");
-    const username = userParts[userParts.length - (hasRank ? 2 : 1)];
-    const guildRank = userParts.pop().replace(/[[\]]/g, "") || "Member";
-    const playerMessage = parts.join(":").trim();
-
-    const playerRankColor = colouredMessage.split(" ")[2]?.replace(/[[\]]/g, "")?.split("§")[1];
-    const playerRankPlusColor = colouredMessage.split(" ")[2]?.replace(/[[\]]/g, "")?.split("§")[2];
-    const embedColor = playerRankPlusColor?.[0] || playerRankColor?.[0] || "7";
-
-    if ((!this.isGuildMessage(message) && !this.isOfficerChatMessage(message)) || playerMessage.length == 0) {
+    const regex =
+      /^(?<chatType>\w+) > (?:(?:\[(?<rank>[^\]]+)\] )?(?:(?<username>\w+)(?: \[(?<guildRank>[^\]]+)\])?: )?)?(?<message>.+)$/;
+    const match = message.match(regex);
+    if (!match) {
       return;
     }
 
-    const [discordUsername, discordMessage] =
-      playerMessage && playerMessage.split(`${config.minecraft.bot.messageFormat} `);
-    if (discordMessage && (discordMessage.startsWith(config.minecraft.bot.prefix) || discordMessage.startsWith("-"))) {
-      this.command.handle(discordUsername, discordMessage);
-    } else {
-      this.command.handle(username, playerMessage);
+    if (match && this.isDiscordMessage(message) === false) {
+      const { chatType, /* rank, */ username, guildRank = "Member", message } = match.groups;
+
+      // TODO: fix regex so there's no need for this
+      if (this.isLoginMessage(`Guild > ${message}`) || this.isLogoutMessage(`Guild > ${message}`)) {
+        return;
+      }
+
+      this.minecraft.broadcastMessage({
+        fullMessage: colouredMessage,
+        username,
+        message,
+        guildRank,
+        chat: chatType,
+        color: this.minecraftChatColorToHex(this.getRankColor(colouredMessage)),
+      });
     }
 
-    const betweenMessage = message.split(": ")[1].split(config.minecraft.bot.messageFormat);
-    if (this.isMessageFromBot(username) && betweenMessage.length == 2) return;
+    if (this.isCommand(match.groups.message)) {
+      const { username = match?.groups?.username, prefix, command, args } = this.getCommandData(match.groups.message);
 
-    const safeMessage = message.split(": ").slice(1).join(": ");
-    if (safeMessage.length == 0) {
-      return;
+      if (this.isDiscordMessage(message) === true) {
+        return this.command.handle(username, `${prefix}${command} ${args ?? ""}`);
+      }
+
+      this.command.handle(username, match.groups.message);
+    }
+  }
+
+  isDiscordMessage(message) {
+    const regex = new RegExp(`^(?<username>.+?)${config.minecraft.bot.messageFormat}\\s*(?<message>.+?)\\s*$`);
+
+    return regex.test(message);
+  }
+
+  isCommand(message) {
+    const regex = new RegExp(
+      `^(?:(?<username>.+?)${config.minecraft.bot.messageFormat}\\s*)?(?<prefix>[${config.minecraft.bot.prefix}-])(?<command>\\S+)(?:\\s+(?<args>.+))?\\s*$`
+    );
+
+    return regex.test(message);
+  }
+
+  getCommandData(message) {
+    const regex = new RegExp(
+      `^(?:(?<username>.+?)${config.minecraft.bot.messageFormat}\\s*)?(?<prefix>[${config.minecraft.bot.prefix}-])(?<command>\\S+)(?:\\s+(?<args>.+))?\\s*$`
+    );
+
+    const match = message.match(regex);
+    if (match === null) {
+      return null;
     }
 
-    this.minecraft.broadcastMessage({
-      fullMessage: colouredMessage,
-      username: username,
-      message: safeMessage,
-      guildRank: guildRank,
-      chat: chatType,
-      color: this.minecraftChatColorToHex(embedColor),
-    });
+    return match.groups;
+  }
+
+  getRankColor(message) {
+    const regex = /§\w*\[(\w*[a-zA-Z0-9]+§?\w*(?:\+{0,2})?§?\w*)\] /g;
+
+    const match = message.match(regex);
+    if (match) {
+      const color = match[0]
+        .match(/§(\w)/g)
+        .filter((value, index, self) => self.indexOf(value) === index)
+        .at(-1);
+
+      return color.slice(1);
+    }
+
+    return "7";
   }
 
   isMessageFromBot(username) {

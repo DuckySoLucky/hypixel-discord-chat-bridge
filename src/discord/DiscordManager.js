@@ -134,12 +134,11 @@ class DiscordManager extends CommunicationBridge {
         }
 
         await channel.send({
-          /*files: [
+          files: [
             new AttachmentBuilder(messageToImage(fullMessage), {
               name: `${username}.png`,
             }),
-          ],*/
-          content: `${fullMessage.replace(/§[0-9a-fk-or]/g, "") + " - "}`,
+          ],
         });
 
         if (message.includes("https://")) {
@@ -188,7 +187,6 @@ class DiscordManager extends CommunicationBridge {
 
   async onPlayerToggle({ fullMessage, username, message, color, channel }) {
     Logger.broadcastMessage(message, "Event");
-
     channel = await this.stateHandler.getChannel(channel);
     switch (config.discord.other.messageMode.toLowerCase()) {
       case "bot":
@@ -241,6 +239,10 @@ class DiscordManager extends CommunicationBridge {
   hexToDec(hex) {
     if (hex === undefined) {
       return 1752220;
+    }
+
+    if (typeof hex === "number") {
+      return hex;
     }
 
     return parseInt(hex.replace("#", ""), 16);
