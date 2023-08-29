@@ -16,7 +16,9 @@ class minecraftCommand {
   }
 
   send(message, n = 1) {
-    if (this.minecraft.bot.player === undefined) return;
+    if (bot === undefined && bot._client.chat === undefined) {
+      return;
+    }
 
     const listener = async (msg) => {
       if (

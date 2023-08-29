@@ -1,4 +1,5 @@
 const { getSkyblockCalendar } = require("../../../API/functions/getCalendar.js");
+const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const config = require("../../../config.json");
 const axios = require("axios");
@@ -8,6 +9,7 @@ if (config.minecraft.skyblockEventsNotifications.enabled) {
 
   setInterval(async () => {
     try {
+      const eventBOT = new minecraftCommand(bot);
       const EVENTS = getSkyblockCalendar();
       for (const event in EVENTS.data.events) {
         const eventData = EVENTS.data.events[event];
@@ -35,15 +37,17 @@ if (config.minecraft.skyblockEventsNotifications.enabled) {
 
         const cTime = getCustomTime(customTime, event);
         if (cTime.length !== 0 && cTime.includes(minutes.toString())) {
-          bot.chat(`/gc [EVENT] ${eventData.name}${extraInfo} » ${minutes}m`);
-          await delay(1000);
+          eventBOT.send(`/gc [EVENT] ${eventData.name}${extraInfo}: ${minutes}m`);
+          await delay(1500);
         }
 
         if (minutes == 0) {
-          bot.chat(`/gc [EVENT] ${eventData.name}${extraInfo} » NOW`);
+          eventBOT.send(`/gc [EVENT] ${eventData.name}${extraInfo}: NOW`);
+          await delay(1500);
         }
       }
     } catch (e) {
+      console.log(e);
       /* empty */
     }
   }, 60000);

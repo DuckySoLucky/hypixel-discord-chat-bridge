@@ -20,7 +20,7 @@ class DiscordManager extends CommunicationBridge {
     this.commandHandler = new CommandHandler(this);
   }
 
-  async connect() {
+  connect() {
     global.client = new Client({
       intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent],
     });
@@ -129,12 +129,17 @@ class DiscordManager extends CommunicationBridge {
         break;
 
       case "minecraft":
+        if (fullMessage.length === 0) {
+          return;
+        }
+
         await channel.send({
-          files: [
+          /*files: [
             new AttachmentBuilder(messageToImage(fullMessage), {
               name: `${username}.png`,
             }),
-          ],
+          ],*/
+          content: `${fullMessage.replace(/§[0-9a-fk-or]/g, "") + " - "}`,
         });
 
         if (message.includes("https://")) {
