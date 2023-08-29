@@ -1,3 +1,4 @@
+const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const cheerio = require("cheerio");
 const Rss = require("rss-parser");
 const axios = require("axios");
@@ -6,6 +7,18 @@ const parser = new Rss();
 setInterval(checkForHypixelUpdates, 10000);
 setInterval(checkForIncidents, 10000);
 setInterval(checkForSkyblockVersion, 10000);
+
+let updateBOT;
+(async () => {
+  while (updateBOT === undefined) {
+    if (bot === undefined) {
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      continue;
+    }
+
+    updateBOT = new minecraftCommand(bot);
+  }
+})();
 
 const hypixelIncidents = {};
 async function checkForIncidents() {
@@ -19,7 +32,7 @@ async function checkForIncidents() {
 
       if (hypixelIncidents[title]?.notified !== true) {
         hypixelIncidents[title] = { notified: true };
-        bot.chat(`/gc [HYPIXEL STATUS] ${title} | ${link}`);
+        updateBOT.send(`/gc [HYPIXEL STATUS] ${title} | ${link}`);
       }
 
       const updates = JSON.stringify(incident.contentSnippet)
@@ -32,7 +45,7 @@ async function checkForIncidents() {
         hypixelIncidents[title].updates ??= [];
         if (bot !== undefined && bot._client.chat !== undefined) {
           hypixelIncidents[title].updates.push(update);
-          bot.chat(`/gc [HYPIXEL STATUS UPDATE] ${title} | ${update}`);
+          updateBOT.send(`/gc [HYPIXEL STATUS UPDATE] ${title} | ${update}`);
           await new Promise((resolve) => setTimeout(resolve, 1500));
         }
       }
@@ -57,7 +70,8 @@ async function checkForHypixelUpdates(firstTime = false) {
         continue;
       }
 
-      if (bot !== undefined && bot._client.chat !== undefined && firstTime === false) {
+      if (bot !== undefined && firstTime === false) {
+        console.log(`fetching ${link}`);
         const response = await axios.get(link, {
           headers: {
             "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0",
@@ -67,10 +81,11 @@ async function checkForHypixelUpdates(firstTime = false) {
         const $ = cheerio.load(response.data);
         const time = parseInt($("time.u-dt").eq(0).attr("data-time"));
         if (time + 43200 < Math.floor(Date.now() / 1000)) {
+          hypixelUpdates.push(link);
           continue;
         }
 
-        bot.chat(`/gc [HYPIXEL UPDATE] ${title} | ${link}`);
+        updateBOT.send(`/gc [HYPIXEL UPDATE] ${title} | ${link}`);
         hypixelUpdates.push(link);
 
         await new Promise((resolve) => setTimeout(resolve, 1500));
@@ -92,7 +107,7 @@ async function checkForSkyblockVersion() {
 
     if (skyblockVersion !== data.version) {
       if (skyblockVersion !== undefined) {
-        bot.chat(
+        updateBOT.send(
           `/gc [HYPIXEL SKYBLOCK] Skyblock version has been updated to ${data.version}! Server restarts might occur!`
         );
       }
