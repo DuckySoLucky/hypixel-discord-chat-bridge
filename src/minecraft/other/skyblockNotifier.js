@@ -53,7 +53,7 @@ async function checkForHypixelUpdates(firstTime = false) {
     const latestFeed = news.concat(skyblockNews);
     for (const news of latestFeed) {
       const { title, link } = news;
-      if (hypixelUpdates.includes(title) === true) {
+      if (hypixelUpdates.includes(link) === true) {
         continue;
       }
 
@@ -71,11 +71,11 @@ async function checkForHypixelUpdates(firstTime = false) {
         }
 
         bot.chat(`/gc [HYPIXEL UPDATE] ${title} | ${link}`);
-        hypixelUpdates.push(title);
+        hypixelUpdates.push(link);
 
         await new Promise((resolve) => setTimeout(resolve, 1500));
       } else if (firstTime === true) {
-        hypixelUpdates.push(title);
+        hypixelUpdates.push(link);
       }
     }
   } catch (error) {
