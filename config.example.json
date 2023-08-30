@@ -63,6 +63,12 @@
       "customTime": {
         "2": ["BANK_INTEREST", "DARK_AUCTION", "JACOBS_CONTEST"]
       }
+    },
+    "hypixelUpdates": {
+      "enabled": true,
+      "hypixelNews": true,
+      "statusUpdates": true,
+      "skyblockVersion": true
     }
   },
   "discord": {

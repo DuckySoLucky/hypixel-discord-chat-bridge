@@ -180,6 +180,18 @@ Here's a list of the supported events:
 
 The `customTime` is object that has key with minute amount and value with events which will be sent key minutes before event occurs. For example `"10": ["JACOBS_CONTEST"]` will send message 10 minutes before Jacob's Contest event starts
 
+### hypixelUpdates
+
+This configuration enables Hypixel updates and includes settings for Hypixel news, status updates, and skyblock version changes.
+
+The `enabled` property determines whether the feature is enabled or not. If it's set to true, the bot will send a message to the Guild chat when a new Hypixel news article is posted, when Hypixel's status changes, and when the Skyblock version changes.
+
+The `hypixelNews` property determines whether the bot should send a message when a new Hypixel news article is posted.
+
+The `statusUpdates` property determines whether the bot should send a message when new incident occurs or update regarding it is posted.
+
+The `skyblockVersion` property determines whether the bot should send a message when the Skyblock version changes.
+
 ### Commands
 
 The `commands` object contains the settings related to the bot's commands.
