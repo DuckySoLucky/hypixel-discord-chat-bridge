@@ -25,9 +25,12 @@ class StateHandler extends eventHandler {
     this.exactDelay = 0;
   }
 
-  onEnd() {
-    const loginDelay = this.exactDelay > 60000 ? 60000 : (this.loginAttempts + 1) * 5000;
+  onEnd(reason) {
+    if (reason === "restart") {
+      return;
+    }
 
+    const loginDelay = this.exactDelay > 60000 ? 60000 : (this.loginAttempts + 1) * 5000;
     Logger.warnMessage(`Minecraft bot has disconnected! Attempting reconnect in ${loginDelay / 1000} seconds`);
 
     setTimeout(() => this.minecraft.connect(), loginDelay);
