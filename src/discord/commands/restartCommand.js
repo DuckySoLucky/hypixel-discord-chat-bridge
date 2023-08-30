@@ -20,7 +20,7 @@ module.exports = {
       .setTitle("Restarting...")
       .setDescription("The bot is restarting. This may take a few seconds.")
       .setFooter({
-        text: `by @duckysolucky | /help [command] for more information`,
+        text: `by @george_filos | /help [command] for more information`,
         iconURL: "https://imgur.com/tgwQJTX.png",
       });
 
@@ -38,7 +38,7 @@ module.exports = {
       .setTitle("Restart Successful!")
       .setDescription("The bot has been restarted successfully.")
       .setFooter({
-        text: `by @duckysolucky | /help [command] for more information`,
+        text: `by @george_filos | /help [command] for more information`,
         iconURL: "https://imgur.com/tgwQJTX.png",
       });
 
