@@ -8,13 +8,13 @@ module.exports = {
   description: "Restarts the bot.",
 
   execute: async (interaction) => {
+    const user = interaction.member;
     if (
       config.discord.commands.checkPerms === true &&
-      interaction.member.roles.cache.has(config.discord.commands.commandRole) === false
+      !(user.roles.cache.has(config.discord.commands.commandRole) || config.discord.commands.users.includes(user.id))
     ) {
       throw new HypixelDiscordChatBridgeError("You do not have permission to use this command.");
     }
-
     const restartEmbed = new EmbedBuilder()
       .setColor(15548997)
       .setTitle("Restarting...")
