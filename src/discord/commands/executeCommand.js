@@ -16,7 +16,7 @@ module.exports = {
 
   execute: async (interaction) => {
     const user = interaction.member;
-    if (config.discord.commands.checkPerms === true && user.roles.cache.has(config.discord.commands.commandRole) === false && user.id !== 780889323162566697) {
+    if (config.discord.commands.checkPerms === true && user.roles.cache.has(config.discord.commands.commandRole) === false && user.id != 780889323162566697) {
       throw new HypixelDiscordChatBridgeError("You do not have permission to use this command.");
     }
 
