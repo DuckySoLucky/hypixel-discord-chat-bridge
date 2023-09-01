@@ -28,6 +28,8 @@ module.exports = {
 
         const [nameList, reason] = [interaction.options.getString("names"), interaction.options.getString("reason")];
         const names = nameList.split(' ');
+        console.log(names);
+        console.log(nameList);
         for(let name of names) {
             console.log(name);
             bot.chat("/g kick " + name + " " + reason);
