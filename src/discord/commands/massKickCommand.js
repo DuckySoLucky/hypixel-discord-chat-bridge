@@ -28,8 +28,9 @@ module.exports = {
 
         const [nameList, reason] = [interaction.options.getString("names"), interaction.options.getString("reason")];
         const names = nameList.split(' ');
-        for(const name of names) {
-            bot.chat(`/g kick ${name} ${reason}`);
+        for(let name of names) {
+            console.log(name);
+            bot.chat("/g kick " + name + " " + reason);
         }
 
         const embed = new EmbedBuilder()
