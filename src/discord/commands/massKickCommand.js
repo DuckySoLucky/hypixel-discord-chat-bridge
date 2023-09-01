@@ -31,7 +31,7 @@ module.exports = {
         console.log(names);
         console.log(nameList);
         for(let name of names) {
-            console.log(name);
+            console.log("/g kick " + name + " " + reason);
             bot.chat("/g kick " + name + " " + reason);
         }
 
