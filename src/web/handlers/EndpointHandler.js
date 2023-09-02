@@ -33,6 +33,24 @@ class EndpointHandler {
         "success": success
       });
     });
+
+    web.post("/" + guild + "/kick", async (req, res) => {
+      if(config.web.endpoints.kick === false) return;
+      const username = req.body.username;
+      let success = false;
+      bot.chat("/g kick " + username);
+      success = true;
+      if(!success) {
+        res.send({
+          "success": success,
+          "reason": "Player lookup failed OR another internal error occured"
+        });
+        return;
+      }
+      res.send({
+        "success": success
+      });
+    });
   }
 }
 
