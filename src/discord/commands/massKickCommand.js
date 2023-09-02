@@ -36,9 +36,9 @@ module.exports = {
         const embed = new EmbedBuilder()
             .setColor(5763719)
             .setAuthor({ name: "Kick" })
-            .setDescription(`Successfully executed \`/g kick ${name} ${reason}\``)
+            .setDescription(`Successfully kicked {names}`)
             .setFooter({
-                text: `by @duckysolucky | /help [command] for more information`,
+                text: `by @phoenix.owo | /help [command] for more information`,
                 iconURL: "https://imgur.com/tgwQJTX.png",
             });
 
