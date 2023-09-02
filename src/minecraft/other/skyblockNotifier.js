@@ -82,6 +82,7 @@ async function checkForHypixelUpdates(firstTime = false) {
         }
 
         bot.chat(`/gc [HYPIXEL UPDATE] ${title} | ${link}`);
+        hypixelUpdates.push(title);
 
         await new Promise((resolve) => setTimeout(resolve, 1500));
       } else if (firstTime === true) {
