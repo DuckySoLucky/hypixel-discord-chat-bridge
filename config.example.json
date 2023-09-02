@@ -86,7 +86,7 @@
     "commands": {
       "checkPerms": true,
       "commandRole": "COMMAND_ROLE_ID",
-      "users": ["486155512568741900", "USER_ID"]
+      "users": ["486155512568741900"]
     },
     "other": {
       "messageMode": "minecraft",
