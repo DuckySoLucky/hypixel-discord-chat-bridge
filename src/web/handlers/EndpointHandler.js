@@ -37,8 +37,9 @@ class EndpointHandler {
     web.post("/" + guild + "/kick", async (req, res) => {
       if(config.web.endpoints.kick === false) return;
       const username = req.body.username;
+      const reason = req.body.reason;
       let success = false;
-      bot.chat("/g kick " + username);
+      bot.chat("/g kick " + username + " " + reason);
       success = true;
       if(!success) {
         res.send({
