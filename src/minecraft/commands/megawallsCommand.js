@@ -33,7 +33,12 @@ class EightBallCommand extends minecraftCommand {
         } | FK: ${finalKills} | FKDR: ${finalKDRatio} | W: ${wins} | WLR: ${WLRatio} | K: ${kills} | KDR: ${KDRatio} | A: ${assists}`
       );
     } catch (error) {
-      this.send(`/gc ${error.toString().replace("[hypixel-api-reborn] ", "")}`);
+      this.send(
+        `/gc ${error
+          .toString()
+          .replace("[hypixel-api-reborn] ", "")
+          .replace("For help join our Discord Server https://discord.gg/NSEBNMM", "")}`
+      );
     }
   }
 }

@@ -724,7 +724,7 @@ class StateHandler extends eventHandler {
       return;
     }
 
-    if (match && this.isDiscordMessage(message) === false) {
+    if (this.bot.username !== match.groups.username || (match && this.isDiscordMessage(message) === false)) {
       const { chatType, /* rank, */ username, guildRank = "Member", message } = match.groups;
 
       // TODO: fix regex so there's no need for this
@@ -754,9 +754,17 @@ class StateHandler extends eventHandler {
   }
 
   isDiscordMessage(message) {
-    const regex = new RegExp(`^(?<username>.+?)${config.minecraft.bot.messageFormat}\\s*(?<message>.+?)\\s*$`);
+    const regex = new RegExp(`^[^:]+:\\s*(?<message>.+)$`);
+    const match = message.match(regex);
+    if (match.groups === undefined) {
+      return false;
+    }
 
-    return regex.test(message);
+    const isDiscordMessage = new RegExp(
+      `^(?<username>.+?)${config.minecraft.bot.messageFormat}\\s*(?<message>.+?)\\s*$`
+    );
+
+    return isDiscordMessage.test(match.groups.message ?? message);
   }
 
   isCommand(message) {
