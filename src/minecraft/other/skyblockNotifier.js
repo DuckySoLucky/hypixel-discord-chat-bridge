@@ -6,15 +6,15 @@ const parser = new Rss();
 
 if (config.minecraft.hypixelUpdates.enabled === true) {
   if (config.minecraft.hypixelUpdates.hypixelNews === true) {
-    // setInterval(checkForHypixelUpdates, 10000);
+    setInterval(checkForHypixelUpdates, 10000);
   }
 
   if (config.minecraft.hypixelUpdates.statusUpdates === true) {
-    // setInterval(checkForIncidents, 10000);
+    setInterval(checkForIncidents, 10000);
   }
 
   if (config.minecraft.hypixelUpdates.skyblockVersion === true) {
-    // setInterval(checkForSkyblockVersion, 10000);
+    setInterval(checkForSkyblockVersion, 10000);
   }
 }
 
