@@ -43,7 +43,7 @@ class AccessoriesCommand extends minecraftCommand {
         }, Enriched: ${talismans?.enriched ?? 0}`
       );
     } catch (error) {
-      this.send(`/gc Error: ${error}`);
+      this.send(`/gc [ERROR] ${error}`);
     }
   }
 }

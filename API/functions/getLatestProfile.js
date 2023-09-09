@@ -9,7 +9,9 @@ const cache = new Map();
 
 async function getLatestProfile(uuid, options = { museum: false }) {
   if (!isUuid(uuid)) {
-    uuid = await getUUID(uuid);
+    uuid = await getUUID(uuid).catch((error) => {
+      throw error;
+    });
   }
 
   if (cache.has(uuid)) {

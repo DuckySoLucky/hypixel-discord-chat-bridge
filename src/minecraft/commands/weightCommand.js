@@ -43,7 +43,7 @@ class StatsCommand extends minecraftCommand {
       await delay(690);
       this.send(`/gc ${username}'s ${lilyW}`);
     } catch (error) {
-      this.send(`/gc Error: ${error}`);
+      this.send(`/gc [ERROR] ${error}`);
     }
   }
 }

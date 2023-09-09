@@ -47,7 +47,7 @@ class WoolwarsCommand extends minecraftCommand {
         )} | WPG: ${(wool_placed / blocks_broken).toFixed(2)}`
       );
     } catch (error) {
-      this.send(`/gc Error: ${error}`);
+      this.send(`/gc [ERROR] ${error}`);
     }
   }
 }

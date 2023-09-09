@@ -64,7 +64,7 @@ class EightBallCommand extends minecraftCommand {
       }
     } catch (error) {
       console.log(error);
-      this.send(`/gc Error: ${error}`);
+      this.send(`/gc [ERROR] ${error}`);
     }
   }
 }

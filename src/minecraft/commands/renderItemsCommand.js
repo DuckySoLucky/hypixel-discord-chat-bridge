@@ -71,7 +71,7 @@ class RenderCommand extends minecraftCommand {
 
       this.send(`/gc ${username}'s item at slot ${itemNumber}: ${upload.data.link}`);
     } catch (error) {
-      this.send(`/gc Error: ${error}`);
+      this.send(`/gc [ERROR] ${error}`);
     }
   }
 }

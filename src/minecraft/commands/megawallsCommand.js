@@ -37,7 +37,8 @@ class EightBallCommand extends minecraftCommand {
         `/gc ${error
           .toString()
           .replace("[hypixel-api-reborn] ", "")
-          .replace("For help join our Discord Server https://discord.gg/NSEBNMM", "")}`
+          .replace("For help join our Discord Server https://discord.gg/NSEBNMM", "")
+          .replace("Error:", "[ERROR]")}`
       );
     }
   }

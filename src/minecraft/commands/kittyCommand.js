@@ -26,7 +26,7 @@ class KittyCommand extends minecraftCommand {
 
       this.send(`/gc Cute Cat: ${upload.data.link}`);
     } catch (error) {
-      this.send(`/gc Error: ${error ?? "Something went wrong.."}`);
+      this.send(`/gc [ERROR] ${error ?? "Something went wrong.."}`);
     }
   }
 }

@@ -47,7 +47,7 @@ class SkillsCommand extends minecraftCommand {
 
       this.send(`/gc ${username}'s Skill Average: ${skillAverage ?? 0} (${skillsFormatted})`);
     } catch (error) {
-      this.send(`Error: ${error}}`);
+      this.send(`[ERROR] ${error}}`);
     }
   }
 }

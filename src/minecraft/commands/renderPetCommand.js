@@ -47,7 +47,7 @@ class RenderCommand extends minecraftCommand {
       return this.send(`/gc ${username}'s Active Pet: ${upload.data.link ?? "Something went Wrong.."}`);
     } catch (error) {
       console.log(error);
-      this.send(`/gc Error: ${error}`);
+      this.send(`/gc [ERROR] ${error}`);
     }
   }
 }

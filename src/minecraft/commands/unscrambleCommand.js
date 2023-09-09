@@ -67,7 +67,7 @@ class unscrambleCommand extends minecraftCommand {
         }
       }, 30000);
     } catch (error) {
-      this.send(`/gc Error: ${error || "Something went wrong.."}`);
+      this.send(`/gc [ERROR] ${error || "Something went wrong.."}`);
     }
   }
 }
