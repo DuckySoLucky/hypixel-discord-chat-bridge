@@ -144,7 +144,7 @@ class MessageHandler {
   }
 
   shouldBroadcastMessage(message) {
-    const isBot = message.author.bot ? (config.discord.channels.allowedBots).includes(message.author.id) ? false  : true
+    const isBot = message.author.bot ? (config.discord.channels.allowedBots).includes(message.author.id) ? false : true : true
     const isValid = !isBot && message.content.length > 0;
     const validChannelIds = [
       config.discord.channels.officerChannel,
