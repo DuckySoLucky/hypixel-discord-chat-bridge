@@ -222,11 +222,15 @@ The `debugMode` is a boolean setting which is an ability to toggle `debugChannel
 
 The `debugChannel` is the ID of text channel the bot should be linked with for the chat, the bot will send every single minecraft message here, anyone can send and execute commands from this channel and it will be executed in minecraft. This is useful for debugging and testing purposes.
 
+The `allowedBots` are the IDs of any bot on the server , these bots will be able to send messages through the Bridge channels without being ignored.
+
 ### Commands
 
 The `checkPerms` is ability to toggle checking permissions for commands, if it's set to `true` the bot will check if user has required role to execute the command.
 
 The `commandRole` is the ID of any role on the server , any user with the role will be able to run all the Discord commands built into the bot, like `/kick` and `/promote`.
+
+The `users` are the IDs of any member on the server , these users will be able to run all the Discord commands built into the bot, like `/kick` and `/promote` regardless of their roles.
 
 ### Other
 
@@ -269,6 +273,7 @@ The joinMessage is ability to toggle join and leave message being sent to the di
 | execute   | Executes commands as the minecraft bot.          | `/execute [command]`        | `/execute /g unmute DuckySoSkilled` | ![](https://imgur.com/fBi2Bv2.png) |
 | ping      | Shows the latency of the bot.                    | `/ping`                     | `/ping`                             | ![](https://imgur.com/9sHFgGT.png) |
 | promote   | Promotes the specified user by 1 rank.           | `/promote [player]`         | `/promote DuckySoSkilled`           | ![](https://imgur.com/wmMWP5b.png) |
+| restart   | Restarts the ingame and discord bot instances.   | `/restart`                  | `/restart                           | ![](https://imgur.com/Zn1xnBc.png) |
 | unmute    | Unmutes the given user.                          | `/unmute [player]`          | `/unmute DuckySoSkilled`            | ![](https://imgur.com/nlu8lo6.png) |
 | uptime    | Shows the uptime of the bot.                     | `/uptime`                   | `/uptime`                           | ![](https://imgur.com/R1cnJfn.png) |
 
