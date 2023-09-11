@@ -120,7 +120,7 @@ class DiscordManager extends CommunicationBridge {
           return;
         }
 
-        this.app.discord.webhook = await this.getWebhook(this.app.discord, channel);
+        this.app.discord.webhook = await this.getWebhook(this.app.discord, chat);
         this.app.discord.webhook.send({
           content: message,
           username: username,
