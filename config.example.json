@@ -97,5 +97,9 @@
   "web": {
     "enabled": false,
     "port": 1439
+  },
+  "other": {
+    "autoUpdater": true,
+    "autoUpdaterInterval": 12
   }
 }
