@@ -31,6 +31,7 @@ async function checkForIncidents() {
       if (hypixelIncidents[title]?.notified !== true) {
         hypixelIncidents[title] = { notified: true };
         bot.chat(`/gc [HYPIXEL STATUS] ${title} | ${link}`);
+        await new Promise((resolve) => setTimeout(resolve, 1500));
       }
 
       const updates = JSON.stringify(incident.contentSnippet)
