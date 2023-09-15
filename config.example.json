@@ -90,7 +90,7 @@
     },
     "other": {
       "messageMode": "minecraft",
-      "messageFormat": "{guildPrefix} > {rank} {username} {guildRank}: {message}",
+      "messageFormat": "{chatType} > {skin} {rank} {username} {guildRank}§f: {message}",
       "filterMessages": true,
       "joinMessage": true
     }

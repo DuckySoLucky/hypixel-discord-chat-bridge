@@ -153,7 +153,7 @@ class DiscordManager extends CommunicationBridge {
 
         await channel.send({
           files: [
-            new AttachmentBuilder(messageToImage(message), {
+            new AttachmentBuilder(await messageToImage(message, username), {
               name: `${username}.png`,
             }),
           ],

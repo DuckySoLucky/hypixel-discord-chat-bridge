@@ -282,7 +282,7 @@ function formatNumber(number, decimals = 2) {
 }
 
 function replaceVariables(template, variables) {
-  return template.replace(/\{(\w+)\}/g, (match, name) => variables[name]);
+  return template.replace(/\{(\w+)\}/g, (match, name) => variables[name] ?? match);
 }
 
 module.exports = {
