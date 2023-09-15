@@ -88,9 +88,10 @@ class DiscordManager extends CommunicationBridge {
     const mode = chat === "debugChannel" ? "minecraft" : config.discord.other.messageMode.toLowerCase();
     message = chat === "debugChannel" ? fullMessage : message;
     if (message !== undefined && chat !== "debugChannel") {
-      guildRank = guildRank.replace(/§[0-9a-fk-or]/g, "").replace(/^\[|\]$/g, "");
-
-      Logger.broadcastMessage(`${username} [${guildRank}]: ${message}`, `Discord`);
+      Logger.broadcastMessage(
+        `${username} [${guildRank.replace(/§[0-9a-fk-or]/g, "").replace(/^\[|\]$/g, "")}]: ${message}`,
+        `Discord`
+      );
     }
 
     // ? custom message format (config.discord.other.messageFormat)
