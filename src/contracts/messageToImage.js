@@ -81,7 +81,7 @@ async function generateMessageImage(message, username) {
 
     // Credits to https://github.com/Pixelicc for an idea and code
     if (currentMessage.trim() === "{skin}") {
-      ctx.drawImage(await loadImage(`https://www.mc-heads.net/avatar/${username}/35`), width, height - 32);
+      ctx.drawImage(await loadImage(`https://www.mc-heads.net/avatar/${username}/35`), width, height - 35);
 
       width += 55;
 
