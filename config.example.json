@@ -2,7 +2,7 @@
   "minecraft": {
     "bot": {
       "prefix": "!",
-      "messageFormat": " »",
+      "messageFormat": "{username} » {message}",
       "messageRepeatBypassLength": 24
     },
     "commands": {
@@ -90,6 +90,7 @@
     },
     "other": {
       "messageMode": "minecraft",
+      "messageFormat": "{guildPrefix} > {rank} {username} {guildRank}: {message}",
       "filterMessages": true,
       "joinMessage": true
     }

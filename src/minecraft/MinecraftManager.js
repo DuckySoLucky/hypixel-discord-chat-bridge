@@ -1,4 +1,5 @@
 const CommunicationBridge = require("../contracts/CommunicationBridge.js");
+const { replaceVariables } = require("../contracts/helperFunctions.js");
 const StateHandler = require("./handlers/StateHandler.js");
 const ErrorHandler = require("./handlers/ErrorHandler.js");
 const ChatHandler = require("./handlers/ChatHandler.js");
@@ -41,6 +42,7 @@ class MinecraftManager extends CommunicationBridge {
       viewDistance: "tiny",
       chatLengthLimit: 256,
       profilesFolder: "../../auth-cache",
+      username: "MinecraftDiscordBot",
     });
   }
 
@@ -54,23 +56,19 @@ class MinecraftManager extends CommunicationBridge {
       return this.bot.chat(message);
     }
 
-    const symbol = config.minecraft.bot.messageFormat;
-
     if (config.discord.other.filterMessages) {
       message = filter.clean(message);
     }
 
-    if (channel === config.discord.channels.guildChatChannel) {
-      return this.bot.chat(
-        `/gc ${replyingTo ? `${username} replying to ${replyingTo}${symbol}` : `${username}${symbol}`} ${message}`
-      );
+    message = replaceVariables(config.minecraft.bot.messageFormat, { username, message });
+
+    const chat = channel === config.discord.channels.officerChannel ? "/oc" : "/gc";
+
+    if (replyingTo) {
+      message = message.replace(username, `${username} replying to ${replyingTo}`);
     }
 
-    if (channel === config.discord.channels.officerChannel) {
-      return this.bot.chat(
-        `/oc ${replyingTo ? `${username} replying to ${replyingTo}${symbol}` : `${username}${symbol}`} ${message}`
-      );
-    }
+    this.bot.chat(`${chat} ${message}`);
   }
 }
 

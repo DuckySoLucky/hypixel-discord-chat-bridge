@@ -22,7 +22,7 @@ class MessageHandler {
       const messageData = {
         member: message.member.user,
         channel: message.channel.id,
-        username: message.member.displayName,
+        username: message.member.displayName.replaceAll(" ", ""),
         message: content,
         replyingTo: await this.fetchReply(message),
       };

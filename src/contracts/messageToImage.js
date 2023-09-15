@@ -1,10 +1,10 @@
 // Credits https://github.com/Altpapier/hypixel-discord-guild-bridge/blob/master/helper/messageToImage.js
 
-const Canvas = require("canvas");
-Canvas.registerFont("src/contracts/Fonts/MinecraftRegular-Bmg3.ttf", {
+const { registerFont, createCanvas } = require("canvas");
+registerFont("src/contracts/Fonts/MinecraftRegular-Bmg3.ttf", {
   family: "Minecraft",
 });
-Canvas.registerFont("src/contracts/Fonts/unifont.ttf", {
+registerFont("src/contracts/Fonts/unifont.ttf", {
   family: "MinecraftUnicode",
 });
 
@@ -28,7 +28,7 @@ const RGBA_COLOR = {
 };
 
 function getHeight(message) {
-  const canvas = Canvas.createCanvas(1, 1);
+  const canvas = createCanvas(1, 1);
   const ctx = canvas.getContext("2d");
   const splitMessageSpace = message.split(" ");
   for (const [i, msg] of Object.entries(splitMessageSpace)) {
@@ -56,7 +56,7 @@ function getHeight(message) {
 
 function generateMessageImage(message) {
   const canvasHeight = getHeight(message);
-  const canvas = Canvas.createCanvas(1000, canvasHeight);
+  const canvas = createCanvas(1000, canvasHeight);
   const ctx = canvas.getContext("2d");
   const splitMessageSpace = message.split(" ");
   for (const [i, msg] of Object.entries(splitMessageSpace)) {

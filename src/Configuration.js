@@ -4,15 +4,19 @@ const fs = require("fs");
 const exampleConfig = JSON.parse(fs.readFileSync("config.example.json"));
 const config = JSON.parse(fs.readFileSync("config.json"));
 
-function checkConfig(object, examppleObject) {
-  for (const [key, value] of Object.entries(examppleObject)) {
+function checkConfig(object, exampleObject) {
+  for (const [key, value] of Object.entries(exampleObject)) {
+    if (key === "messageFormat" && object[key].length <= 2) {
+      object[key] = value;
+    }
+
     if (object[key] === undefined) {
       object[key] = value;
       Logger.configUpdateMessage(`${key}: ${JSON.stringify(value)}`);
     }
 
     if (typeof value === "object") {
-      checkConfig(object[key], examppleObject[key]);
+      checkConfig(object[key], exampleObject[key]);
     }
   }
 }
