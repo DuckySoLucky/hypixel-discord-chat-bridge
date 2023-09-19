@@ -46,7 +46,7 @@ class MinecraftManager extends CommunicationBridge {
     });
   }
 
-  async onBroadcast({ channel, username, message, replyingTo }) {
+  async onBroadcast({ channel, username, message, replyingTo, discord }) {
     Logger.broadcastMessage(`${username}: ${message}`, "Minecraft");
     if (this.bot.player === undefined) {
       return;
@@ -68,7 +68,30 @@ class MinecraftManager extends CommunicationBridge {
       message = message.replace(username, `${username} replying to ${replyingTo}`);
     }
 
+    let successfullySent = false;
+    const messageListener = (receivedMessage) => {
+      receivedMessage = receivedMessage.toString();
+
+      if (
+        receivedMessage.includes(message) &&
+        (this.chatHandler.isGuildMessage(receivedMessage) || this.chatHandler.isOfficerMessage(receivedMessage))
+      ) {
+        bot.removeListener("message", messageListener);
+        successfullySent = true;
+      }
+    };
+
+    bot.on("message", messageListener);
     this.bot.chat(`${chat} ${message}`);
+
+    setTimeout(() => {
+      bot.removeListener("message", messageListener);
+      if (successfullySent === true) {
+        return;
+      }
+
+      discord.react("❌");
+    }, 500);
   }
 }
 

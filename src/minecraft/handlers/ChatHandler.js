@@ -729,7 +729,10 @@ class StateHandler extends eventHandler {
     }
 
     if (this.isDiscordMessage(match.groups.message) === false) {
-      const { chatType, rank, username, guildRank = "Member", message } = match.groups;
+      const { chatType, rank, username, guildRank = "[Member]", message } = match.groups;
+      if (message.includes("replying to") && username === this.bot.username) {
+        return;
+      }
 
       this.minecraft.broadcastMessage({
         fullMessage: colouredMessage,
@@ -826,7 +829,7 @@ class StateHandler extends eventHandler {
     return message.startsWith("Guild >") && message.includes(":");
   }
 
-  isOfficerChatMessage(message) {
+  isOfficerMessage(message) {
     return message.startsWith("Officer >") && message.includes(":");
   }
 

@@ -33,8 +33,8 @@ class warpoutCommand extends minecraftCommand {
         return this.send(`/gc ${username} Command is on cooldown`);
       }
 
-      const user = this.getArgs(message)[0];
-      if (user === undefined || user === bot.username) {
+      username = this.getArgs(message)[0];
+      if (username === undefined || username === bot.username) {
         // eslint-disable-next-line no-throw-literal
         throw "Please provide a username!";
       }
@@ -48,7 +48,8 @@ class warpoutCommand extends minecraftCommand {
         message = message.toString();
 
         if (this.getWarpoutMessage(message) !== null) {
-          this.send(`/gc ${username} ${replaceVariables(this.getWarpoutMessage(message), { username: user })}`);
+          this.send(`/gc ${replaceVariables(this.getWarpoutMessage(message), { username })}`);
+          await new Promise((resolve) => setTimeout(resolve, 1500));
           this.send(this.getWarpoutCommand(message));
 
           if (this.resetCooldown(message)) {
@@ -58,7 +59,7 @@ class warpoutCommand extends minecraftCommand {
       };
 
       bot.on("message", warpoutListener);
-      this.send(`/p ${user} `);
+      this.send(`/p ${username} `);
 
       setTimeout(() => {
         bot.removeListener("message", warpoutListener);
@@ -69,7 +70,7 @@ class warpoutCommand extends minecraftCommand {
         }
       }, 30000);
     } catch (error) {
-      this.send(`/gc ${username} [ERROR] ${error || "Something went wrong.."}`);
+      this.send(`/gc [ERROR] ${error || "Something went wrong.."}`);
 
       this.isOnCooldown = false;
     }

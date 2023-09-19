@@ -43,10 +43,7 @@ function getHeight(message) {
 
   for (const msg of splitMessage) {
     const currentMessage = msg.substring(1);
-    if (
-      splitMessage.indexOf(msg) !== splitMessage.length - 1 &&
-      (width + ctx.measureText(currentMessage).width > 1000 || msg.charAt(0) === "n")
-    ) {
+    if (width + ctx.measureText(currentMessage).width > 1000 || msg.charAt(0) === "n") {
       width = 5;
       height += 40;
     }

@@ -6,7 +6,7 @@ const config = JSON.parse(fs.readFileSync("config.json"));
 
 function checkConfig(object, exampleObject) {
   for (const [key, value] of Object.entries(exampleObject)) {
-    if (key === "messageFormat" && object[key].length <= 2) {
+    if (key === "messageFormat" && object[key] && object[key].length <= 2) {
       object[key] = value;
     }
 
