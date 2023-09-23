@@ -42,7 +42,6 @@ class MinecraftManager extends CommunicationBridge {
       viewDistance: "tiny",
       chatLengthLimit: 256,
       profilesFolder: "./auth-cache",
-      username: "MinecraftDiscordBot",
     });
   }
 
