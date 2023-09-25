@@ -23,7 +23,7 @@ class warpoutCommand extends minecraftCommand {
         // eslint-disable-next-line no-throw-literal
         throw "Please provide a username!";
       }
-      bot.chat("/lobby megawalls");
+      this.send("/lobby megawalls");
       await delay(250);
       this.send("/play skyblock");
 
