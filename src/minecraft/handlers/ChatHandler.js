@@ -758,7 +758,7 @@ class StateHandler extends eventHandler {
   }
 
   isDiscordMessage(message) {
-    const isDiscordMessage = /^(?<username>[^\s»:>]+)\s*[»:>]\s*(?<message>.*)/;
+    const isDiscordMessage = /^(?<username>(?!https?:\/\/)[^\s»:>]+)\s*[»:>]\s*(?<message>.*)/;
 
     return isDiscordMessage.test(message);
   }
@@ -767,7 +767,7 @@ class StateHandler extends eventHandler {
     const regex = new RegExp(`^(?<prefix>[${config.minecraft.bot.prefix}-])(?<command>\\S+)(?:\\s+(?<args>.+))?\\s*$`);
 
     if (regex.test(message) === false) {
-      const getMessage = /^(?<username>[^\s»:>]+)\s*[»:>]\s*(?<message>.*)/;
+      const getMessage = /^(?<username>(?!https?:\/\/)[^\s»:>]+)\s*[»:>]\s*(?<message>.*)/;
 
       const match = message.match(getMessage);
       if (match === null || match.groups.message === undefined) {

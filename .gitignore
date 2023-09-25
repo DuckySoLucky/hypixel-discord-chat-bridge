@@ -2,3 +2,4 @@ node_modules/
 .prettierrc.json
 config.json
 test/
+auth-cache/
