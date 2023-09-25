@@ -1,102 +1,129 @@
-const { replaceVariables } = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-const doNotResetCooldown = ["to the party! They have 60 seconds to accept.", "joined the party."];
-const warpoutMessages = {
-  "You cannot invite that player since they're not online.": "{username} is not online!",
-  "You cannot invite that player!": "{username} has party invites disabled!",
-  invited: "{username} succesfully invited",
-  "joined the party.": "{username} joined the party! Trying to warp them out of the game.",
-  "warped to your server": "{username} warped out of the game! Trying to disband party.",
-  "cannot warp from Limbo": "somehow I'm inside of limbo. Please try again later.",
-  "is not allowed on your server!": "{username} is not allowed on my server!",
-  "You are not allowed to invite players.": "I'm not allowed to invite that player.",
-  "You are not allowed to disband this party.": "I'm in someone else's party. Please try again later.",
-};
 
 class warpoutCommand extends minecraftCommand {
   constructor(minecraft) {
     super(minecraft);
-
     this.name = "warpout";
     this.aliases = ["warp"];
     this.description = "Warp player out of the game";
     this.options = [];
-
     this.isOnCooldown = false;
   }
-
   async onCommand(username, message) {
     try {
       if (this.isOnCooldown) {
         return this.send(`/gc ${username} Command is on cooldown`);
       }
 
-      username = this.getArgs(message)[0];
-      if (username === undefined || username === bot.username) {
+      this.isOnCooldown = true;
+
+      const user = this.getArgs(message)[0];
+      if (user === undefined) {
         // eslint-disable-next-line no-throw-literal
         throw "Please provide a username!";
       }
-
-      this.send("/lobby megawalls");
-      await delay(1000);
+      bot.chat("/lobby megawalls");
+      await delay(250);
       this.send("/play skyblock");
 
-      this.isOnCooldown = true;
       const warpoutListener = async (message) => {
         message = message.toString();
 
-        if (this.getWarpoutMessage(message) !== null) {
-          this.send(`/gc ${replaceVariables(this.getWarpoutMessage(message), { username })}`);
-          await new Promise((resolve) => setTimeout(resolve, 1500));
-          this.send(this.getWarpoutCommand(message));
+        if (message.includes("You cannot invite that player since they're not online.")) {
+          bot.removeListener("message", warpoutListener);
+          this.isOnCooldown = false;
 
-          if (this.resetCooldown(message)) {
-            this.resetWarpout(warpoutListener);
-          }
+          this.send(`/gc ${user} is not online!`);
+        } else if (message.includes("You cannot invite that player!")) {
+          bot.removeListener("message", warpoutListener);
+          this.isOnCooldown = false;
+
+          this.send(`/gc ${user} has party requests disabled!`);
+        } else if (message.includes("invited") && message.includes("to the party! They have 60 seconds to accept.")) {
+          this.send(`/gc Succesfully invited ${user} to the party!`);
+        } else if (message.includes(" joined the party.")) {
+          this.send(`/gc ${user} joined the party! Warping them out of the game..`);
+          this.send("/p warp");
+        } else if (message.includes("warped to your server")) {
+          bot.removeListener("message", warpoutListener);
+          this.isOnCooldown = false;
+          this.send(`/gc ${user} warped out of the game! Disbanding party..`);
+          this.send("/p disband");
+
+          await delay(1500);
+          this.send("\u00a7");
+        } else if (message.includes(" cannot warp from Limbo")) {
+          bot.removeListener("message", warpoutListener);
+          this.isOnCooldown = false;
+          this.send(`/gc ${user} cannot be warped from Limbo! Disbanding party..`);
+          this.send("/p disband");
+        } else if (message.includes(" is not allowed on your server!")) {
+          bot.removeListener("message", warpoutListener);
+          this.isOnCooldown = false;
+          this.send(`/gc ${user} is not allowed on my server! Disbanding party..`);
+
+          this.send("/p leave");
+          await delay(1500);
+          this.send("\u00a7");
+        } else if (message.includes("You are not allowed to invite players.")) {
+          bot.removeListener("message", warpoutListener);
+          this.isOnCooldown = false;
+          this.send(`/gc Somehow I'm not allowed to invite players? Disbanding party..`);
+
+          this.send("/p disband");
+          await delay(1500);
+          this.send("\u00a7");
+        } else if (message.includes("You are not allowed to disband this party.")) {
+          bot.removeListener("message", warpoutListener);
+          this.isOnCooldown = false;
+          this.send(`/gc Somehow I'm not allowed to disband this party? Leaving party..`);
+
+          this.send("/p leave");
+          await delay(1500);
+          this.send("\u00a7");
+        } else if (message.includes("You can't party warp into limbo!")) {
+          bot.removeListener("message", warpoutListener);
+          this.isOnCooldown = false;
+          this.send(`/gc Somehow I'm inside in limbo? Disbanding party..`);
+          this.send("/p disband");
+        } else if (message.includes("Couldn't find a player with that name!")) {
+          bot.removeListener("message", warpoutListener);
+          this.isOnCooldown = false;
+
+          this.send(`/gc Couldn't find a player with that name!`);
+          this.send("/p disband");
+        } else if (message.includes("You cannot party yourself!")) {
+          bot.removeListener("message", warpoutListener);
+          this.isOnCooldown = false;
+
+          this.send(`/gc I cannot party yourself!`);
+        } else if (message.includes("didn't warp correctly!")) {
+          bot.removeListener("message", warpoutListener);
+          this.isOnCooldown = false;
+
+          this.send(`/gc ${user} didn't warp correctly! Please try again..`);
+          this.send("/p disband");
         }
       };
 
       bot.on("message", warpoutListener);
-      this.send(`/p ${username} `);
-
+      this.send(`/p ${user} `);
       setTimeout(() => {
         bot.removeListener("message", warpoutListener);
 
         if (this.isOnCooldown === true) {
-          this.send(this.getWarpoutCommand(message));
-          this.resetWarpout(warpoutListener);
+          this.send("/gc Party timed out");
+          this.send("/p disband");
+          this.send("\u00a7");
+
+          this.isOnCooldown = false;
         }
       }, 30000);
     } catch (error) {
-      this.send(`/gc [ERROR] ${error || "Something went wrong.."}`);
-
+      this.send(`/gc ${username} [ERROR] ${error || "Something went wrong.."}`);
       this.isOnCooldown = false;
     }
-  }
-
-  getWarpoutMessage(message) {
-    for (const [key, value] of Object.entries(warpoutMessages)) {
-      if (message.includes(key) && message.includes(":") === false) {
-        return value;
-      }
-    }
-
-    return null;
-  }
-
-  getWarpoutCommand(message) {
-    return message.includes("joined the party.") ? "/p warp" : "/p leave";
-  }
-
-  resetCooldown(message) {
-    return doNotResetCooldown.some((element) => message.includes(element)) === false;
-  }
-
-  resetWarpout(warpoutListener) {
-    bot.removeListener("message", warpoutListener);
-    this.isOnCooldown = false;
   }
 }
 
