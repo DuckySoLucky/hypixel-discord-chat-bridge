@@ -273,7 +273,7 @@ The joinMessage is ability to toggle join and leave message being sent to the di
 | execute   | Executes commands as the minecraft bot.          | `/execute [command]`        | `/execute /g unmute DuckySoSkilled` | ![](https://imgur.com/fBi2Bv2.png) |
 | ping      | Shows the latency of the bot.                    | `/ping`                     | `/ping`                             | ![](https://imgur.com/9sHFgGT.png) |
 | promote   | Promotes the specified user by 1 rank.           | `/promote [player]`         | `/promote DuckySoSkilled`           | ![](https://imgur.com/wmMWP5b.png) |
-| restart   | Restarts the ingame and discord bot instances.   | `/restart`                  | `/restart                           | ![](https://imgur.com/Zn1xnBc.png) |
+| restart   | Restarts the bot.   | `/restart`                  | `/restart                           | ![](https://imgur.com/Zn1xnBc.png) |
 | unmute    | Unmutes the given user.                          | `/unmute [player]`          | `/unmute DuckySoSkilled`            | ![](https://imgur.com/nlu8lo6.png) |
 | uptime    | Shows the uptime of the bot.                     | `/uptime`                   | `/uptime`                           | ![](https://imgur.com/R1cnJfn.png) |
 
