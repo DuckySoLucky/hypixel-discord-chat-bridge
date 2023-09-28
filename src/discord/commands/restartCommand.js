@@ -18,10 +18,10 @@ module.exports = {
     const restartEmbed = new EmbedBuilder()
       .setColor(15548997)
       .setTitle("Restarting...")
-      .setDescription("The bot is restarting. This may take a few seconds.")
+      .setDescription("The bot is restarting. This might take few seconds.")
       .setFooter({
         text: `by @george_filos | /help [command] for more information`,
-        iconURL: "https://imgur.com/tgwQJTX.png",
+        iconURL: "https://cdn.discordapp.com/avatars/177083022305263616/4ee1d5f278a36a61aa9164b9263c8722.webp",
       });
 
     interaction.followUp({ embeds: [restartEmbed] });
@@ -39,9 +39,9 @@ module.exports = {
       .setDescription("The bot has been restarted successfully.")
       .setFooter({
         text: `by @george_filos | /help [command] for more information`,
-        iconURL: "https://imgur.com/tgwQJTX.png",
+        iconURL: "https://cdn.discordapp.com/avatars/177083022305263616/4ee1d5f278a36a61aa9164b9263c8722.webp",
       });
 
-    interaction.editReply({ embeds: [successfulRestartEmbed] });
+    interaction.followUp({ embeds: [successfulRestartEmbed] });
   },
 };
