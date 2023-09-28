@@ -81,7 +81,8 @@
       "officerChannel": "OFFICER_CHANNEL_ID",
       "loggingChannel": "LOGGING_CHANNEL_ID",
       "debugMode": true,
-      "debugChannel": "DEBUG_CHANNEL_ID"
+      "debugChannel": "DEBUG_CHANNEL_ID",
+      "allowedBots": ["BOT_USER_ID"]
     },
     "commands": {
       "checkPerms": true,
