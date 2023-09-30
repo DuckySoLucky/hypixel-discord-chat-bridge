@@ -29,11 +29,11 @@ class BoopCommand extends minecraftCommand {
         return this.send(`/gc ${this.name} Command is on cooldown`);
       }
 
-      this.send(`/gc Booped ${this.getArgs(message)[0]}!`)
-      await delay(690);
       this.send(`/boop ${this.getArgs(message)[0]}`);
       await delay(690);
       this.send(`/msg ${this.getArgs(message)[0]} ${username} Booped You!`);
+      await delay(690);
+      this.send(`/gc Booped ${this.getArgs(message)[0]}!`)
       this.isOnCooldown = true;
       setTimeout(() => {
         if (this.isOnCooldown === true) {
