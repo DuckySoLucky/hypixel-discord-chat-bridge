@@ -48,7 +48,7 @@ class NetWorthCommand extends minecraftCommand {
       );
     } catch (error) {
       console.log(error);
-      this.send(`/gc ERROR: ${error}`);
+      this.send(`/gc [ERROR] ${error}`);
     }
   }
 }

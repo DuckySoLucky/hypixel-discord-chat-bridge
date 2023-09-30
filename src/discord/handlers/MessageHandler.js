@@ -22,9 +22,10 @@ class MessageHandler {
       const messageData = {
         member: message.member.user,
         channel: message.channel.id,
-        username: message.member.displayName,
+        username: message.member.displayName.replaceAll(" ", ""),
         message: content,
         replyingTo: await this.fetchReply(message),
+        discord: message,
       };
 
       const images = content.split(" ").filter((line) => line.startsWith("http"));
@@ -144,7 +145,9 @@ class MessageHandler {
   }
 
   shouldBroadcastMessage(message) {
-    const isValid = !message.author.bot && message.content.length > 0;
+    const isBot =
+      message.author.bot && config.discord.channels.allowedBots.includes(message.author.id) === false ? true : false;
+    const isValid = !isBot && message.content.length > 0;
     const validChannelIds = [
       config.discord.channels.officerChannel,
       config.discord.channels.guildChatChannel,

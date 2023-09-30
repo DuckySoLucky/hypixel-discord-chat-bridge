@@ -51,7 +51,13 @@ class BedwarsCommand extends minecraftCommand {
         this.send("/gc Invalid mode. Valid modes: overall, solo, doubles, threes, fours, 4v4");
       }
     } catch (error) {
-      this.send(`/gc ${error.toString().replace("[hypixel-api-reborn] ", "")}`);
+      this.send(
+        `/gc ${error
+          .toString()
+          .replace("[hypixel-api-reborn] ", "")
+          .replace("For help join our Discord Server https://discord.gg/NSEBNMM", "")
+          .replace("Error:", "[ERROR]")}`
+      );
     }
   }
 }

@@ -62,8 +62,8 @@ class RenderCommand extends minecraftCommand {
         return this.send(`/gc Player does not have an item at slot ${itemNumber}.`);
       }
 
-      const Name = inventoryData[itemNumber - 1]?.tag?.display;
-      const Lore = inventoryData[itemNumber - 1]?.tag?.display;
+      const Name = inventoryData[itemNumber - 1]?.tag?.display?.Name;
+      const Lore = inventoryData[itemNumber - 1]?.tag?.display?.Lore;
 
       const renderedItem = await renderLore(Name, Lore);
 
@@ -71,7 +71,8 @@ class RenderCommand extends minecraftCommand {
 
       this.send(`/gc ${username}'s item at slot ${itemNumber}: ${upload.data.link}`);
     } catch (error) {
-      this.send(`/gc Error: ${error}`);
+      console.log(error);
+      this.send(`/gc [ERROR] ${error}`);
     }
   }
 }

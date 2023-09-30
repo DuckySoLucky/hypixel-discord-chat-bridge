@@ -27,7 +27,13 @@ class UHCStatsCommand extends minecraftCommand {
 
       this.send(`/gc [${starLevel}✫] ${player.nickname} | KDR: ${KDRatio} | W: ${wins} | Heads: ${headsEaten}`);
     } catch (error) {
-      this.send(`/gc ${error.toString().replace("[hypixel-api-reborn] ", "")}`);
+      this.send(
+        `/gc ${error
+          .toString()
+          .replace("[hypixel-api-reborn] ", "")
+          .replace("For help join our Discord Server https://discord.gg/NSEBNMM", "")
+          .replace("Error:", "[ERROR]")}`
+      );
     }
   }
 }

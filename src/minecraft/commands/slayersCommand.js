@@ -67,7 +67,7 @@ class SlayersCommand extends minecraftCommand {
         this.send(`/gc ${username}'s Slayer: ${slayer.slice(3)}`);
       }
     } catch (error) {
-      this.send(`/gc Error: ${error}`);
+      this.send(`/gc [ERROR] ${error}`);
     }
   }
 }

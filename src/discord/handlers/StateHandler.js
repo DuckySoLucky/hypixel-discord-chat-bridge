@@ -13,6 +13,10 @@ class StateHandler {
     });
 
     const channel = await this.getChannel("Guild");
+    if (channel === undefined) {
+      return Logger.errorMessage(`Channel "Guild" not found!`);
+    }
+
     channel.send({
       embeds: [
         {
@@ -25,6 +29,10 @@ class StateHandler {
 
   async onClose() {
     const channel = await this.getChannel("Guild");
+    if (channel === undefined) {
+      return Logger.errorMessage(`Channel "Guild" not found!`);
+    }
+
     await channel.send({
       embeds: [
         {
@@ -36,14 +44,19 @@ class StateHandler {
   }
 
   async getChannel(type) {
-    if (type == "Officer") {
-      return client.channels.fetch(config.discord.channels.officerChannel);
-    } else if (type == "Logger") {
-      return client.channels.fetch(config.discord.channels.loggingChannel);
-    } else if (type == "debugChannel") {
-      return client.channels.fetch(config.discord.channels.debugChannel);
-    } else {
-      return client.channels.fetch(config.discord.channels.guildChatChannel);
+    if (typeof type !== "string" || type === undefined) {
+      return Logger.errorMessage(`Channel type must be a string!`);
+    }
+
+    switch (type.replace(/§[0-9a-fk-or]/g, "").trim()) {
+      case "Guild":
+        return this.discord.client.channels.cache.get(config.discord.channels.guildChatChannel);
+      case "Officer":
+        return this.discord.client.channels.cache.get(config.discord.channels.officerChannel);
+      case "Logger":
+        return this.discord.client.channels.cache.get(config.discord.channels.loggingChannel);
+      default:
+        return this.discord.client.channels.cache.get(config.discord.channels.debugChannel);
     }
   }
 }

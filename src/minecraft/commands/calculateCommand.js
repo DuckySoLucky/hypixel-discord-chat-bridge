@@ -28,7 +28,7 @@ class CalculateCommand extends minecraftCommand {
 
       this.send(`/gc ${calculation} = ${formatNumber(answer)} (${answer.toLocaleString()})`);
     } catch (error) {
-      this.send(`/gc Error: ${error}`);
+      this.send(`/gc [ERROR] ${error}`);
     }
   }
 }

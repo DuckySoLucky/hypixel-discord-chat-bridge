@@ -1,4 +1,5 @@
 const CommunicationBridge = require("../contracts/CommunicationBridge.js");
+const { replaceVariables } = require("../contracts/helperFunctions.js");
 const StateHandler = require("./handlers/StateHandler.js");
 const ErrorHandler = require("./handlers/ErrorHandler.js");
 const ChatHandler = require("./handlers/ChatHandler.js");
@@ -40,43 +41,56 @@ class MinecraftManager extends CommunicationBridge {
       version: "1.8.9",
       viewDistance: "tiny",
       chatLengthLimit: 256,
-      profilesFolder: "../../auth-cache",
+      profilesFolder: "./auth-cache",
     });
   }
 
-  async onBroadcast({ channel, username, message, replyingTo }) {
+  async onBroadcast({ channel, username, message, replyingTo, discord }) {
     Logger.broadcastMessage(`${username}: ${message}`, "Minecraft");
-    if (!this.bot.player) return;
+    if (this.bot.player === undefined) {
+      return;
+    }
 
     if (channel === config.discord.channels.debugChannel && config.discord.channels.debugMode === true) {
       return this.bot.chat(message);
     }
 
-    const symbol = config.minecraft.bot.messageFormat;
-
-    if (channel === config.discord.channels.guildChatChannel) {
-      return config.discord.other.filterMessages
-        ? this.bot.chat(
-            filter.clean(
-              `/gc ${replyingTo ? `${username} replying to ${replyingTo}${symbol}` : `${username}${symbol}`} ${message}`
-            )
-          )
-        : this.bot.chat(
-            `/gc ${replyingTo ? `${username} replying to ${replyingTo}${symbol}` : `${username}${symbol}`} ${message}`
-          );
+    if (config.discord.other.filterMessages) {
+      message = filter.clean(message);
     }
 
-    if (channel === config.discord.channels.officerChannel) {
-      return config.discord.other.filterMessages
-        ? this.bot.chat(
-            filter.clean(
-              `/oc ${replyingTo ? `${username} replying to ${replyingTo}${symbol}` : `${username}${symbol}`} ${message}`
-            )
-          )
-        : this.bot.chat(
-            `/oc ${replyingTo ? `${username} replying to ${replyingTo}${symbol}` : `${username}${symbol}`} ${message}`
-          );
+    message = replaceVariables(config.minecraft.bot.messageFormat, { username, message });
+
+    const chat = channel === config.discord.channels.officerChannel ? "/oc" : "/gc";
+
+    if (replyingTo) {
+      message = message.replace(username, `${username} replying to ${replyingTo}`);
     }
+
+    let successfullySent = false;
+    const messageListener = (receivedMessage) => {
+      receivedMessage = receivedMessage.toString();
+
+      if (
+        receivedMessage.includes(message) &&
+        (this.chatHandler.isGuildMessage(receivedMessage) || this.chatHandler.isOfficerMessage(receivedMessage))
+      ) {
+        bot.removeListener("message", messageListener);
+        successfullySent = true;
+      }
+    };
+
+    bot.on("message", messageListener);
+    this.bot.chat(`${chat} ${message}`);
+
+    setTimeout(() => {
+      bot.removeListener("message", messageListener);
+      if (successfullySent === true) {
+        return;
+      }
+
+      discord.react("❌");
+    }, 500);
   }
 }
 

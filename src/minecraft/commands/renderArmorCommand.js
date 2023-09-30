@@ -61,7 +61,7 @@ class ArmorCommand extends minecraftCommand {
 
       this.send(`/gc ${username}'s Armor: ${response}`);
     } catch (error) {
-      this.send(`/gc Error: ${error}`);
+      this.send(`/gc [ERROR] ${error}`);
     }
   }
 }

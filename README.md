@@ -5,12 +5,12 @@ A two-way chat bridge between [Hypixel](https://hypixel.net/) guild chat and a [
 > ⚠️ This application will login to Hypixel using Mineflayer which is not a normal Minecraft client, this could result in your Minecraft account getting banned from Hypixel, so use this application at your own risk. I am not responsible for any bans that may occur. ⚠️
 
 <hr>
- 
+
 ## Table of Content
 
-- [Installation using NodeJS](#NodeJS)
-- [Installation using Docker](#Docker)
-- [Commands](#Commands)
+- [Installation using NodeJS](#nodejs)
+- [Installation using Docker](#docker)
+- [Commands](#commands)
 - [Configuration](#configuration)
 - [To-Do List](#to-do-list)
 
@@ -109,7 +109,8 @@ The `bot` section contains configuration options for the minecraft bot, includin
 
 The prefix option determines the command prefix used for minecraft commands. By default, this is set to `!`.
 
-The messageFormat option is a string that will be appended to the beginning of every message sent by the bot. By default, this is set to `»`.
+The messageFormat option is a format for the chat message on the minecraft side, this can be customized to whatever you want, default format is `{username} » {message}`, some of the popular formats are `{username} > {message}` and `{username}: {message}`.
+> Possible options for this are `{username}` and `{message}`.
 
 The messageRepeatBypassLength option is an integer value that determines the length of a string that will be sent after message in case `You cannot say the same message twice!` occurs.
 
@@ -222,11 +223,15 @@ The `debugMode` is a boolean setting which is an ability to toggle `debugChannel
 
 The `debugChannel` is the ID of text channel the bot should be linked with for the chat, the bot will send every single minecraft message here, anyone can send and execute commands from this channel and it will be executed in minecraft. This is useful for debugging and testing purposes.
 
+The `allowedBots` is a list of discord bot IDs which are allowed to send messages in the guild chat, their messages will not be blocked.
+
 ### Commands
 
 The `checkPerms` is ability to toggle checking permissions for commands, if it's set to `true` the bot will check if user has required role to execute the command.
 
 The `commandRole` is the ID of any role on the server , any user with the role will be able to run all the Discord commands built into the bot, like `/kick` and `/promote`.
+
+The `users` is a list of user IDs which are allowed to run all the Discord commands, this is an alternative to the `commandRole` option.
 
 ### Other
 
@@ -240,10 +245,20 @@ The `messageMode` can either be `bot`, `webhook` or `minecraft`. This selects ho
 
   > ![image](https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/assets/75372052/7e693926-1408-4f7c-8da8-5f4984fd6ac2)
 
-- Minecraft Example
-  > ![image](https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/assets/75372052/5954245a-fc72-49c0-9a33-c3040788225b)
+- Minecraft Example (Default)
+  > ![image](https://cdn.discordapp.com/attachments/1072863636596465726/1152304997824999554/Qwack_Bot.png)
 
 > Note - The Discord rate limit for webhooks is 30 requests every 60 seconds, where as for bot and minecraft messages it's 5 messages every 5 seconds. Using webhooks effectively halves the number of messages the bot can send per minute which may cause issues in an active guild.
+
+The messageFormat option is a format for the chat message on the discord side, this can be customized to whatever you want, default format is `{chatType} > {skin} {rank} {username} {guildRank}§f: {message}`.
+> Possible options for this are `{chatType}`, `{skin}`, `{rank}`, `{username}`, `{guildRank}` and `{message}`. They're self explanation but here's in case you don't know what they are:
+>
+> - `{chatType}` - Type of chat message, the only possible cases are `Guild` and `Officer`
+> - `{skin}` - Skin of the player who sent the message
+> - `{rank}` - Hypixel Rank of the player who sent the message
+> - `{username}` - Username of the player who sent the message
+> - `{guildRank}` - Guild rank of the player who sent the message
+> - `{message}` - Message sent by the player
 
 The filterMessage is ability to toggle filtering messages. This should be set to `true` otherwise bot might get banned.
 
@@ -269,6 +284,7 @@ The joinMessage is ability to toggle join and leave message being sent to the di
 | execute   | Executes commands as the minecraft bot.          | `/execute [command]`        | `/execute /g unmute DuckySoSkilled` | ![](https://imgur.com/fBi2Bv2.png) |
 | ping      | Shows the latency of the bot.                    | `/ping`                     | `/ping`                             | ![](https://imgur.com/9sHFgGT.png) |
 | promote   | Promotes the specified user by 1 rank.           | `/promote [player]`         | `/promote DuckySoSkilled`           | ![](https://imgur.com/wmMWP5b.png) |
+| restart   | Restarts the bot.   | `/restart`                  | `/restart                           | ![](https://imgur.com/Zn1xnBc.png) |
 | unmute    | Unmutes the given user.                          | `/unmute [player]`          | `/unmute DuckySoSkilled`            | ![](https://imgur.com/nlu8lo6.png) |
 | uptime    | Shows the uptime of the bot.                     | `/uptime`                   | `/uptime`                           | ![](https://imgur.com/R1cnJfn.png) |
 
@@ -304,9 +320,9 @@ The joinMessage is ability to toggle join and leave message being sent to the di
 | woolwars    | WoolWars stats of specified user.           | `!woolwars [player]`      | `!woolwars DuckySoSkilled` | `[2✫] DuckySoSkilled » W: 5 WLR: 0.5 KDR: 1.19 BB: 37 WP: 45` |
 
 ### Soopy V2 Commands
-Bot also supports Soopy V2 commands, prefix is same as mod's prefix. 
-> ![image](https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/assets/75372052/7de05d26-6b2d-4c42-b5d1-1ef0da7edafa)
 
+Bot also supports Soopy V2 commands, prefix is same as mod's prefix.
+> ![image](https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/assets/75372052/7de05d26-6b2d-4c42-b5d1-1ef0da7edafa)
 
 ### Chat Triggers Module
 
@@ -321,14 +337,10 @@ The bot also includes event notifier that can be used to send message in guild 3
 Preview
 > ![image](https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/assets/75372052/0fc99431-3213-40fa-949b-6acca62ef63c)
 
-#### Frag Bot
-
-The bot also includes an integrated frag bot that can be used by the guild.
 
 ### To-Do List
 
-- [ ] `!pet` Command lore splitting
-  - Lore of pet can sometimes be very long, to solve this issue there should be lore formatter function which will split lore every x characters so it looks better.
+- [x] Nothing.
 
 ## Credits
 
@@ -340,5 +352,6 @@ The bot also includes an integrated frag bot that can be used by the guild.
 - [Altpapier](https://github.com/altpapier/hypixel-discord-guild-bridge/)
 - [SkyCrypt](https://github.com/SkyCryptWebsite/SkyCrypt)
 - [Senither](https://github.com/Senither)
+- [Pixelicc](https://github.com/Pixelicc)
 - [DawJaw](https://dawjaw.net/jacobs)
 - [Soopy](https://soopy.dev/)

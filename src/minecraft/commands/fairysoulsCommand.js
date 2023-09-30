@@ -36,7 +36,7 @@ class FairySoulsCommand extends minecraftCommand {
         ).toFixed(2)}%`
       );
     } catch (error) {
-      this.send(`/gc Error: ${error}`);
+      this.send(`/gc [ERROR] ${error}`);
     }
   }
 }

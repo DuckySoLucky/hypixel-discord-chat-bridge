@@ -72,8 +72,7 @@ class SkyblockCommand extends minecraftCommand {
         } | Senither Weight: ${senitherWeight} | Lily Weight: ${lilyWeight} | Skill Average: ${skillAverage} | Slayer: ${slayerXp} | Catacombs: ${catacombsLevel} | Class Average: ${classAverage} | Networth: ${networthValue} | Accessories: ${talismanCount} | Recombobulated: ${recombobulatedCount} | Enriched: ${enrichmentCount}`
       );
     } catch (error) {
-      console.log(error);
-      this.send(`/gc ${error}`);
+      this.send(`/gc [ERROR] ${error}`);
     }
   }
 }

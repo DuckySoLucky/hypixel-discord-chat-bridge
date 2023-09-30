@@ -26,7 +26,13 @@ class SkywarsCommand extends minecraftCommand {
 
       this.send(`/gc [${level}✫] ${player.nickname} | KDR: ${KDRatio} | WLR: ${WLRatio} | WS: ${winstreak}`);
     } catch (error) {
-      this.send(`/gc ${error.toString().replace("[hypixel-api-reborn] ", "")}`);
+      this.send(
+        `/gc ${error
+          .toString()
+          .replace("[hypixel-api-reborn] ", "")
+          .replace("For help join our Discord Server https://discord.gg/NSEBNMM", "")
+          .replace("Error:", "[ERROR]")}`
+      );
     }
   }
 }

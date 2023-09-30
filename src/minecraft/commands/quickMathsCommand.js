@@ -57,7 +57,7 @@ class QuickMathsCommand extends minecraftCommand {
         }
       }, 10000);
     } catch (error) {
-      this.send(`/gc ${username} Error: ${error || "Something went wrong.."}`);
+      this.send(`/gc ${username} [ERROR] ${error || "Something went wrong.."}`);
     }
   }
 }

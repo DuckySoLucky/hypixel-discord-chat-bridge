@@ -4,15 +4,12 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 class warpoutCommand extends minecraftCommand {
   constructor(minecraft) {
     super(minecraft);
-
     this.name = "warpout";
     this.aliases = ["warp"];
     this.description = "Warp player out of the game";
     this.options = [];
-
     this.isOnCooldown = false;
   }
-
   async onCommand(username, message) {
     try {
       if (this.isOnCooldown) {
@@ -26,7 +23,7 @@ class warpoutCommand extends minecraftCommand {
         // eslint-disable-next-line no-throw-literal
         throw "Please provide a username!";
       }
-      bot.chat("/lobby megawalls");
+      this.send("/lobby megawalls");
       await delay(250);
       this.send("/play skyblock");
 
@@ -112,12 +109,11 @@ class warpoutCommand extends minecraftCommand {
 
       bot.on("message", warpoutListener);
       this.send(`/p ${user} `);
-
       setTimeout(() => {
         bot.removeListener("message", warpoutListener);
 
         if (this.isOnCooldown === true) {
-          this.send("/gc Party timedout");
+          this.send("/gc Party timed out");
           this.send("/p disband");
           this.send("\u00a7");
 
@@ -125,8 +121,7 @@ class warpoutCommand extends minecraftCommand {
         }
       }, 30000);
     } catch (error) {
-      this.send(`/gc ${username} Error: ${error || "Something went wrong.."}`);
-
+      this.send(`/gc ${username} [ERROR] ${error || "Something went wrong.."}`);
       this.isOnCooldown = false;
     }
   }
