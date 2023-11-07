@@ -33,7 +33,7 @@ module.exports = {
     bot.chat(`/g kick ${name} ${reason}`);
 
     const embed = new EmbedBuilder()
-      .setColor(5763719)
+      .setColor("#57F287")
       .setAuthor({ name: "Kick" })
       .setDescription(`Successfully executed \`/g kick ${name} ${reason}\``)
       .setFooter({

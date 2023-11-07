@@ -9,7 +9,7 @@ module.exports = {
     const apiLatency = interaction.client.ws.ping;
 
     const embed = new EmbedBuilder()
-      .setColor(0x0099ff)
+      .setColor("#0099ff")
       .setTitle("🏓 Pong!")
       .setDescription(`Client Latency: \`${clientLatency}ms\`\nAPI Latency: \`${apiLatency}ms\``)
       .setFooter({

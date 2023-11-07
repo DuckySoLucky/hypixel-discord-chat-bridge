@@ -21,7 +21,7 @@ class StateHandler {
       embeds: [
         {
           author: { name: `Chat Bridge is Online` },
-          color: 2067276,
+          color: "#57F287",
         },
       ],
     });
@@ -37,7 +37,7 @@ class StateHandler {
       embeds: [
         {
           author: { name: `Chat Bridge is Offline` },
-          color: 15548997,
+          color: "#ED4245",
         },
       ],
     });

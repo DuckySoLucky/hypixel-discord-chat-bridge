@@ -53,7 +53,7 @@ module.exports = {
 
     const description = `${totalMembers}\n${onlineMembers}\n\n${online.join("\n")}`;
     const embed = new EmbedBuilder()
-      .setColor("#2ECC71")
+      .setColor("#57F287")
       .setTitle("Online Members")
       .setDescription(description)
       .setFooter({

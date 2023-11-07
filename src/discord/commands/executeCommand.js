@@ -27,7 +27,7 @@ module.exports = {
     bot.chat(`/${command}`);
 
     const commandMessage = new EmbedBuilder()
-      .setColor(2067276)
+      .setColor("#57F287")
       .setTitle("Command has been executed successfully")
       .setDescription(`\`/${command}\`\n`)
       .setFooter({

@@ -27,7 +27,7 @@ module.exports = {
     bot.chat(`/g invite ${name}`);
 
     const embed = new EmbedBuilder()
-      .setColor(5763719)
+      .setColor("#57F287")
       .setAuthor({ name: "Invite" })
       .setDescription(`Successfully executed \`/g invite ${name}\``)
       .setFooter({

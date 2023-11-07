@@ -16,7 +16,7 @@ module.exports = {
       throw new HypixelDiscordChatBridgeError("You do not have permission to use this command.");
     }
     const restartEmbed = new EmbedBuilder()
-      .setColor(15548997)
+      .setColor("#ED4245")
       .setTitle("Restarting...")
       .setDescription("The bot is restarting. This might take few seconds.")
       .setFooter({
@@ -34,7 +34,7 @@ module.exports = {
     });
 
     const successfulRestartEmbed = new EmbedBuilder()
-      .setColor(2067276)
+      .setColor("#57F287")
       .setTitle("Restart Successful!")
       .setDescription("The bot has been restarted successfully.")
       .setFooter({

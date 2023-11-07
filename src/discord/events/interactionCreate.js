@@ -26,7 +26,7 @@ module.exports = {
           ? "Please try again later. The error has been sent to the Developers.\n\n"
           : "";
       const errorEmbed = new EmbedBuilder()
-        .setColor(15548997)
+        .setColor("#ED4245")
         .setAuthor({ name: "An Error has occurred" })
         .setDescription(`${errrorMessage}\`\`\`${error}\`\`\``)
         .setFooter({

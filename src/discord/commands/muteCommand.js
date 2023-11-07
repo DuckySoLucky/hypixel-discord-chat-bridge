@@ -33,7 +33,7 @@ module.exports = {
     bot.chat(`/g mute ${name} ${time}`);
 
     const embed = new EmbedBuilder()
-      .setColor(5763719)
+      .setColor("#57F287")
       .setAuthor({ name: "Mute" })
       .setDescription(`Successfully executed \`/g mute ${name} ${time}\``)
       .setFooter({

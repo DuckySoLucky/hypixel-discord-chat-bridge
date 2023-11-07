@@ -51,7 +51,7 @@ module.exports = {
     }
 
     const embed = new EmbedBuilder()
-      .setColor(5763719)
+      .setColor("#57F287")
       .setAuthor({ name: "Blacklist" })
       .setDescription(`Successfully executed \`/ignore ${arg} ${name}\``)
       .setFooter({

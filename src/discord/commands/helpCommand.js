@@ -40,7 +40,7 @@ module.exports = {
         .join("");
 
       const helpMenu = new EmbedBuilder()
-        .setColor(0x0099ff)
+        .setColor("#0099ff")
         .setTitle("Hypixel Discord Chat Bridge Commands")
         .setDescription("() = required argument, [] = optional argument")
         .addFields(
@@ -85,7 +85,7 @@ module.exports = {
       }`;
 
       const embed = new EmbedBuilder()
-        .setColor(0x0099ff)
+        .setColor("#0099ff")
         .setTitle(`**${type === "discord" ? "/" : config.minecraft.bot.prefix}${command.name}**`)
         .setDescription(description + "\n")
         .setFooter({

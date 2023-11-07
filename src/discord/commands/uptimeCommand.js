@@ -6,7 +6,7 @@ module.exports = {
 
   execute: async (interaction) => {
     const uptimeEmbed = new EmbedBuilder()
-      .setColor(0x0099ff)
+      .setColor("#0099ff")
       .setTitle("🕐 Uptime!")
       .setDescription(`Online since <t:${Math.floor((Date.now() - interaction.client.uptime) / 1000)}:R>`)
       .setFooter({

@@ -12,7 +12,7 @@ module.exports = {
     const { discordCommands, minecraftCommands } = getCommands(commands);
 
     const infoEmbed = new EmbedBuilder()
-      .setColor(0x0099ff)
+      .setColor("#0099ff")
       .setTitle("Hypixel Bridge Bot Commands")
       .addFields(
         {

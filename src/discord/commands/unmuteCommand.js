@@ -27,7 +27,7 @@ module.exports = {
     bot.chat(`/g unmute ${name}`);
 
     const embed = new EmbedBuilder()
-      .setColor(5763719)
+      .setColor("#57F287")
       .setAuthor({ name: "Unmute" })
       .setDescription(`Successfully executed \`/g unmute ${name}\``)
       .setFooter({

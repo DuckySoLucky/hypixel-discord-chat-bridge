@@ -27,7 +27,7 @@ module.exports = {
     bot.chat(`/g promote ${name}`);
 
     const embed = new EmbedBuilder()
-      .setColor(5763719)
+      .setColor("#57F287")
       .setAuthor({ name: "Promote" })
       .setDescription(`Successfully executed \`/g promote ${name}\``)
       .setFooter({

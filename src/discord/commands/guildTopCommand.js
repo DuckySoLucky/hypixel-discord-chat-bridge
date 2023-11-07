@@ -48,7 +48,7 @@ module.exports = {
       .join("");
 
     const embed = new EmbedBuilder()
-      .setColor("#2ECC71")
+      .setColor("#57F287")
       .setTitle("Top 10 Guild Members")
       .setDescription(description)
       .setFooter({
