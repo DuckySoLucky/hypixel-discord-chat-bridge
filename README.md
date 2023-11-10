@@ -6,6 +6,9 @@ A two-way chat bridge between [Hypixel](https://hypixel.net/) guild chat and a [
 
 <hr>
 
+
+If you found this project helpful or interesting, please consider giving it a star. It helps other developers find the project and shows your appreciation for the work that went into it. Thank you!
+
 ## Table of Content
 
 - [Installation using NodeJS](#nodejs)
