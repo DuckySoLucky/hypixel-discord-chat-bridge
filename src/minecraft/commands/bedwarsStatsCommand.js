@@ -1,6 +1,6 @@
+const { capitalize, formatNumber } = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
-const { capitalize } = require("../../contracts/helperFunctions.js");
 
 class BedwarsCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -33,9 +33,9 @@ class BedwarsCommand extends minecraftCommand {
         const { broken, BLRatio } = player.stats.bedwars.beds;
 
         this.send(
-          `/gc [${level}✫] ${
-            player.nickname
-          } FK: ${finalKills.toLocaleString()} FKDR: ${finalKDRatio} W: ${wins} WLR: ${WLRatio} BB: ${broken} BLR: ${BLRatio} WS: ${winstreak}`
+          `/gc [${level}✫] ${player.nickname} FK: ${formatNumber(finalKills)} FKDR: ${finalKDRatio} W: ${formatNumber(
+            wins
+          )} WLR: ${WLRatio} BB: ${formatNumber(broken)} BLR: ${BLRatio} WS: ${winstreak}`
         );
       } else if (mode !== undefined) {
         const { level } = player.stats.bedwars;
@@ -43,9 +43,11 @@ class BedwarsCommand extends minecraftCommand {
         const { broken, BLRatio } = player.stats.bedwars[mode].beds;
 
         this.send(
-          `/gc [${level}✫] ${player.nickname} ${capitalize(
-            mode
-          )} FK: ${finalKills.toLocaleString()} FKDR: ${finalKDRatio} Wins: ${wins} WLR: ${WLRatio} BB: ${broken} BLR: ${BLRatio} WS: ${winstreak}`
+          `/gc [${level}✫] ${player.nickname} ${capitalize(mode)} FK: ${formatNumber(
+            finalKills
+          )} FKDR: ${finalKDRatio} Wins: ${formatNumber(wins)} WLR: ${WLRatio} BB: ${formatNumber(
+            broken
+          )} BLR: ${BLRatio} WS: ${winstreak}`
         );
       } else {
         this.send("/gc Invalid mode. Valid modes: overall, solo, doubles, threes, fours, 4v4");
