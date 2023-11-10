@@ -45,7 +45,7 @@ class CatacombsCommand extends minecraftCommand {
       ).toFixed(1);
 
       const SRValue = dungeons.secrets_found / completions;
-      const SR = isNaN(SRValue) || SRValue === Infinity ? 0 : (SRValue).toFixed(2);
+      const SR = isNaN(SRValue) || SRValue === Infinity ? 0 : SRValue.toFixed(2);
 
       this.send(
         `/gc ${username}'s Catacombs: ${level} | Class Average: ${classAvrg} (${dungeons.classes.healer.level}H, ${
