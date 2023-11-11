@@ -227,7 +227,7 @@ class DiscordManager extends CommunicationBridge {
           return;
         }
 
-        this.app.discord.webhook = await this.getWebhook(this.app.discord, channel);
+        this.app.discord.webhook = await this.getWebhook(this.app.discord, "Guild");
         this.app.discord.webhook.send({
           username: username,
           avatarURL: `https://www.mc-heads.net/avatar/${username}`,
