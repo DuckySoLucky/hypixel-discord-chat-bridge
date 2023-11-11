@@ -75,7 +75,7 @@ class DuelsStatsCommand extends minecraftCommand {
       } else {
         const duelData = player.stats.duels?.[duel]?.[Object.keys(player.stats.duels[duel])[0]];
         const division = duelData?.division ?? player.stats.duels?.[duel]?.division ?? "Unknown";
-        const wins = duelData?.wins ?? 0;
+        const wins = formatNumber(duelData?.wins ?? 0);
         const winstreak = duelData?.winstreak ?? 0;
         const bestWinstreak = duelData?.bestWinstreak ?? 0;
         const WLRatio = duelData?.WLRatio ?? 0;

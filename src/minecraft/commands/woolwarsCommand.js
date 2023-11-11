@@ -1,4 +1,5 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
+const { formatNumber } = require("../../contracts/helperFunctions.js");
 const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
 
 class WoolwarsCommand extends minecraftCommand {
@@ -40,11 +41,11 @@ class WoolwarsCommand extends minecraftCommand {
       const level = getWoolWarsStar(experience);
 
       this.send(
-        `/gc [${Math.floor(level)}✫] ${username}: W: ${wins ?? 0} | WLR: ${(wins / games_played).toFixed(2)} | KDR: ${(
-          kills / deaths
-        ).toFixed(2)} | BB: ${blocks_broken} | WP: ${wool_placed} | WPP: ${(wool_placed / games_played).toFixed(
+        `/gc [${Math.floor(level)}✫] ${username}: W: ${formatNumber(wins ?? 0)} | WLR: ${(wins / games_played).toFixed(
           2
-        )} | WPG: ${(wool_placed / blocks_broken).toFixed(2)}`
+        )} | KDR: ${(kills / deaths).toFixed(2)} | BB: ${formatNumber(blocks_broken)} | WP: ${formatNumber(
+          wool_placed
+        )} | WPP: ${(wool_placed / games_played).toFixed(2)} | WPG: ${(wool_placed / blocks_broken).toFixed(2)}`
       );
     } catch (error) {
       this.send(`/gc [ERROR] ${error}`);
