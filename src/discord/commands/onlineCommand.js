@@ -52,15 +52,14 @@ module.exports = {
       .filter((item) => item);
 
     const description = `${totalMembers}\n${onlineMembers}\n\n${online.join("\n")}`;
-    const embed = new EmbedBuilder()
-      .setColor("#57F287")
-      .setTitle("Online Members")
-      .setDescription(description)
-      .setFooter({
-        text: "by @duckysolucky | /help [command] for more information",
-        iconURL: "https://imgur.com/tgwQJTX.png",
-      });
 
-    return await interaction.followUp({ embeds: [embed] });
+    return await interaction.followUp({
+      embeds: [
+        new EmbedBuilder().setColor("#57F287").setTitle("Online Members").setDescription(description).setFooter({
+          text: "by @duckysolucky | /help [command] for more information",
+          iconURL: "https://imgur.com/tgwQJTX.png",
+        }),
+      ],
+    });
   },
 };

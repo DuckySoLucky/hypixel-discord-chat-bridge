@@ -1,3 +1,4 @@
+const { EmbedBuilder } = require("discord.js");
 const config = require("../../../config.json");
 const Logger = require("../../Logger.js");
 
@@ -18,12 +19,7 @@ class StateHandler {
     }
 
     channel.send({
-      embeds: [
-        {
-          author: { name: `Chat Bridge is Online` },
-          color: "#57F287",
-        },
-      ],
+      embeds: [new EmbedBuilder().setAuthor({ name: `Chat Bridge is Online` }).setColor("#57F287")],
     });
   }
 
@@ -34,12 +30,7 @@ class StateHandler {
     }
 
     await channel.send({
-      embeds: [
-        {
-          author: { name: `Chat Bridge is Offline` },
-          color: "#ED4245",
-        },
-      ],
+      embeds: [new EmbedBuilder().setAuthor({ name: `Chat Bridge is Offline` }).setColor("#ED4245")],
     });
   }
 

@@ -26,15 +26,18 @@ module.exports = {
     const command = interaction.options.getString("command");
     bot.chat(`/${command}`);
 
-    const commandMessage = new EmbedBuilder()
-      .setColor("#57F287")
-      .setTitle("Command has been executed successfully")
-      .setDescription(`\`/${command}\`\n`)
-      .setFooter({
-        text: "by @duckysolucky",
-        iconURL: "https://imgur.com/tgwQJTX.png",
-      });
-
-    await interaction.followUp({ embeds: [commandMessage], ephemeral: true });
+    await interaction.followUp({
+      embeds: [
+        new EmbedBuilder()
+          .setColor("#57F287")
+          .setTitle("Command has been executed successfully")
+          .setDescription(`\`/${command}\`\n`)
+          .setFooter({
+            text: "by @duckysolucky",
+            iconURL: "https://imgur.com/tgwQJTX.png",
+          }),
+      ],
+      ephemeral: true,
+    });
   },
 };

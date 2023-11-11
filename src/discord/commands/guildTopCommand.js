@@ -47,15 +47,13 @@ module.exports = {
       })
       .join("");
 
-    const embed = new EmbedBuilder()
-      .setColor("#57F287")
-      .setTitle("Top 10 Guild Members")
-      .setDescription(description)
-      .setFooter({
-        text: "by @duckysolucky | /help [command] for more information",
-        iconURL: "https://imgur.com/tgwQJTX.png",
-      });
-
-    return await interaction.followUp({ embeds: [embed] });
+    return await interaction.followUp({
+      embeds: [
+        new EmbedBuilder().setColor("#57F287").setTitle("Top 10 Guild Members").setDescription(description).setFooter({
+          text: "by @duckysolucky | /help [command] for more information",
+          iconURL: "https://imgur.com/tgwQJTX.png",
+        }),
+      ],
+    });
   },
 };

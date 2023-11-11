@@ -32,17 +32,17 @@ module.exports = {
     const [name, time] = [interaction.options.getString("name"), interaction.options.getString("time")];
     bot.chat(`/g mute ${name} ${time}`);
 
-    const embed = new EmbedBuilder()
-      .setColor("#57F287")
-      .setAuthor({ name: "Mute" })
-      .setDescription(`Successfully executed \`/g mute ${name} ${time}\``)
-      .setFooter({
-        text: `by @duckysolucky | /help [command] for more information`,
-        iconURL: "https://imgur.com/tgwQJTX.png",
-      });
-
     await interaction.followUp({
-      embeds: [embed],
+      embeds: [
+        new EmbedBuilder()
+          .setColor("#57F287")
+          .setAuthor({ name: "Mute" })
+          .setDescription(`Successfully executed \`/g mute ${name} ${time}\``)
+          .setFooter({
+            text: `by @duckysolucky | /help [command] for more information`,
+            iconURL: "https://imgur.com/tgwQJTX.png",
+          }),
+      ],
     });
   },
 };

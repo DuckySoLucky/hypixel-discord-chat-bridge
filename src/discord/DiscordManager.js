@@ -1,4 +1,4 @@
-const { Client, Collection, AttachmentBuilder, GatewayIntentBits } = require("discord.js");
+const { Client, Collection, AttachmentBuilder, GatewayIntentBits, EmbedBuilder } = require("discord.js");
 const CommunicationBridge = require("../contracts/CommunicationBridge.js");
 const { replaceVariables } = require("../contracts/helperFunctions.js");
 const messageToImage = require("../contracts/messageToImage.js");
@@ -109,18 +109,12 @@ class DiscordManager extends CommunicationBridge {
       case "bot":
         await channel.send({
           embeds: [
-            {
-              description: message,
-              color: this.hexToDec(color),
-              timestamp: new Date(),
-              footer: {
-                text: guildRank,
-              },
-              author: {
-                name: username,
-                icon_url: `https://www.mc-heads.net/avatar/${username}`,
-              },
-            },
+            new EmbedBuilder()
+              .setColor(color)
+              .setDescription(message)
+              .setTimestamp()
+              .setFooter({ text: guildRank })
+              .setAuthor({ name: username, icon_url: `https://www.mc-heads.net/avatar/${username}` }),
           ],
         });
 
@@ -176,12 +170,7 @@ class DiscordManager extends CommunicationBridge {
 
     channel = await this.stateHandler.getChannel(channel);
     channel.send({
-      embeds: [
-        {
-          color: color,
-          description: message,
-        },
-      ],
+      embeds: [new EmbedBuilder().setColor(color).setDescription(message)],
     });
   }
 
@@ -190,16 +179,7 @@ class DiscordManager extends CommunicationBridge {
 
     channel = await this.stateHandler.getChannel(channel);
     channel.send({
-      embeds: [
-        {
-          color: color,
-          author: {
-            name: title,
-            icon_url: icon,
-          },
-          description: message,
-        },
-      ],
+      embeds: [new EmbedBuilder().setColor(color).setAuthor({ name: title, icon_url: icon }).setDescription(message)],
     });
   }
 
@@ -210,14 +190,10 @@ class DiscordManager extends CommunicationBridge {
       case "bot":
         channel.send({
           embeds: [
-            {
-              color: color,
-              timestamp: new Date(),
-              author: {
-                name: `${message}`,
-                icon_url: `https://www.mc-heads.net/avatar/${username}`,
-              },
-            },
+            new EmbedBuilder()
+              .setColor(color)
+              .setAuthor({ name: `${message}` })
+              .setThumbnail(`https://www.mc-heads.net/avatar/${username}`),
           ],
         });
         break;
@@ -231,12 +207,7 @@ class DiscordManager extends CommunicationBridge {
         this.app.discord.webhook.send({
           username: username,
           avatarURL: `https://www.mc-heads.net/avatar/${username}`,
-          embeds: [
-            {
-              color: color,
-              description: `${message}`,
-            },
-          ],
+          embeds: [new EmbedBuilder().setColor(color).setDescription(`${message}`)],
         });
 
         break;

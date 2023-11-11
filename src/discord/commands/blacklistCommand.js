@@ -50,17 +50,17 @@ module.exports = {
       throw new HypixelDiscordChatBridgeError("Invalid Usage: `/ignore [add/remove] [name]`.");
     }
 
-    const embed = new EmbedBuilder()
-      .setColor("#57F287")
-      .setAuthor({ name: "Blacklist" })
-      .setDescription(`Successfully executed \`/ignore ${arg} ${name}\``)
-      .setFooter({
-        text: `by @duckysolucky | /help [command] for more information`,
-        iconURL: "https://imgur.com/tgwQJTX.png",
-      });
-
     await interaction.followUp({
-      embeds: [embed],
+      embeds: [
+        new EmbedBuilder()
+          .setColor("#57F287")
+          .setAuthor({ name: "Blacklist" })
+          .setDescription(`Successfully executed \`/ignore ${arg} ${name}\``)
+          .setFooter({
+            text: `by @duckysolucky | /help [command] for more information`,
+            iconURL: "https://imgur.com/tgwQJTX.png",
+          }),
+      ],
     });
   },
 };

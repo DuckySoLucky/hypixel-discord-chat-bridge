@@ -39,28 +39,30 @@ module.exports = {
         })
         .join("");
 
-      const helpMenu = new EmbedBuilder()
-        .setColor("#0099ff")
-        .setTitle("Hypixel Discord Chat Bridge Commands")
-        .setDescription("() = required argument, [] = optional argument")
-        .addFields(
-          {
-            name: "**Minecraft**: ",
-            value: `${minecraftCommands}`,
-            inline: true,
-          },
-          {
-            name: "**Discord**: ",
-            value: `${discordCommands}`,
-            inline: true,
-          }
-        )
-        .setFooter({
-          text: "by @duckysolucky | /help [command] for more information",
-          iconURL: "https://imgur.com/tgwQJTX.png",
-        });
-
-      await interaction.followUp({ embeds: [helpMenu] });
+      await interaction.followUp({
+        embeds: [
+          new EmbedBuilder()
+            .setColor("#0099ff")
+            .setTitle("Hypixel Discord Chat Bridge Commands")
+            .setDescription("() = required argument, [] = optional argument")
+            .addFields(
+              {
+                name: "**Minecraft**: ",
+                value: `${minecraftCommands}`,
+                inline: true,
+              },
+              {
+                name: "**Discord**: ",
+                value: `${discordCommands}`,
+                inline: true,
+              }
+            )
+            .setFooter({
+              text: "by @duckysolucky | /help [command] for more information",
+              iconURL: "https://imgur.com/tgwQJTX.png",
+            }),
+        ],
+      });
     } else {
       const minecraftCommand = fs
         .readdirSync("./src/minecraft/commands")
@@ -84,16 +86,18 @@ module.exports = {
           .join("") || ""
       }`;
 
-      const embed = new EmbedBuilder()
-        .setColor("#0099ff")
-        .setTitle(`**${type === "discord" ? "/" : config.minecraft.bot.prefix}${command.name}**`)
-        .setDescription(description + "\n")
-        .setFooter({
-          text: "by @duckysolucky | () = required, [] = optional",
-          iconURL: "https://imgur.com/tgwQJTX.png",
-        });
-
-      await interaction.followUp({ embeds: [embed] });
+      await interaction.followUp({
+        embeds: [
+          new EmbedBuilder()
+            .setColor("#0099ff")
+            .setTitle(`**${type === "discord" ? "/" : config.minecraft.bot.prefix}${command.name}**`)
+            .setDescription(description + "\n")
+            .setFooter({
+              text: "by @duckysolucky | () = required, [] = optional",
+              iconURL: "https://imgur.com/tgwQJTX.png",
+            }),
+        ],
+      });
     }
   },
 };

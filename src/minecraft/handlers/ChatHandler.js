@@ -41,7 +41,7 @@ class StateHandler extends eventHandler {
     }
 
     if (this.isLobbyJoinMessage(message)) {
-      // return bot.chat("\u00a7");
+      return bot.chat("\u00a7");
     }
 
     if (this.isPartyMessage(message) && config.minecraft.fragBot.enabled === true) {
@@ -147,59 +147,61 @@ class StateHandler extends eventHandler {
             bot.chat(`/guild accept ${username}`);
           }
 
-          const statsEmbed = new EmbedBuilder()
-            .setColor("#57F287")
-            .setTitle(`${player.nickname} has requested to join the Guild!`)
-            .setDescription(`**Hypixel Network Level**\n${player.level}\n`)
-            .addFields(
-              {
-                name: "Bedwars Level",
-                value: `${player.stats.bedwars.level}`,
-                inline: true,
-              },
-              {
-                name: "Skywars Level",
-                value: `${player.stats.skywars.level}`,
-                inline: true,
-              },
-              {
-                name: "Duels Wins",
-                value: `${player.stats.duels.wins}`,
-                inline: true,
-              },
-              {
-                name: "Bedwars FKDR",
-                value: `${player.stats.bedwars.finalKDRatio}`,
-                inline: true,
-              },
-              {
-                name: "Skywars KDR",
-                value: `${player.stats.skywars.KDRatio}`,
-                inline: true,
-              },
-              {
-                name: "Duels WLR",
-                value: `${player.stats.duels.KDRatio}`,
-                inline: true,
-              },
-              {
-                name: "Senither Weight",
-                value: `${weight.toLocaleString()}`,
-                inline: true,
-              },
-              {
-                name: "Skyblock Level",
-                value: `${skyblockLevel.toLocaleString()}`,
-                inline: true,
-              }
-            )
-            .setThumbnail(`https://www.mc-heads.net/avatar/${player.nickname}`)
-            .setFooter({
-              text: `by @duckysolucky | /help [command] for more information`,
-              iconURL: "https://imgur.com/tgwQJTX.png",
-            });
-
-          await client.channels.cache.get(`${config.discord.channels.loggingChannel}`).send({ embeds: [statsEmbed] });
+          await client.channels.cache.get(`${config.discord.channels.loggingChannel}`).send({
+            embeds: [
+              new EmbedBuilder()
+                .setColor("#57F287")
+                .setTitle(`${player.nickname} has requested to join the Guild!`)
+                .setDescription(`**Hypixel Network Level**\n${player.level}\n`)
+                .addFields(
+                  {
+                    name: "Bedwars Level",
+                    value: `${player.stats.bedwars.level}`,
+                    inline: true,
+                  },
+                  {
+                    name: "Skywars Level",
+                    value: `${player.stats.skywars.level}`,
+                    inline: true,
+                  },
+                  {
+                    name: "Duels Wins",
+                    value: `${player.stats.duels.wins}`,
+                    inline: true,
+                  },
+                  {
+                    name: "Bedwars FKDR",
+                    value: `${player.stats.bedwars.finalKDRatio}`,
+                    inline: true,
+                  },
+                  {
+                    name: "Skywars KDR",
+                    value: `${player.stats.skywars.KDRatio}`,
+                    inline: true,
+                  },
+                  {
+                    name: "Duels WLR",
+                    value: `${player.stats.duels.KDRatio}`,
+                    inline: true,
+                  },
+                  {
+                    name: "Senither Weight",
+                    value: `${weight.toLocaleString()}`,
+                    inline: true,
+                  },
+                  {
+                    name: "Skyblock Level",
+                    value: `${skyblockLevel.toLocaleString()}`,
+                    inline: true,
+                  }
+                )
+                .setThumbnail(`https://www.mc-heads.net/avatar/${player.nickname}`)
+                .setFooter({
+                  text: `by @duckysolucky | /help [command] for more information`,
+                  iconURL: "https://imgur.com/tgwQJTX.png",
+                }),
+            ],
+          });
         }
       }
     }
@@ -390,12 +392,7 @@ class StateHandler extends eventHandler {
 
     if (this.isRepeatMessage(message)) {
       return client.channels.cache.get(config.discord.channels.guildChatChannel).send({
-        embeds: [
-          {
-            color: "#ED4245",
-            description: messages.repeatMessage,
-          },
-        ],
+        embeds: [new EmbedBuilder().setColor("#ED4245").setDescription(messages.repeatMessage)],
       });
     }
 

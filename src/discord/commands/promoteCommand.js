@@ -26,17 +26,17 @@ module.exports = {
     const name = interaction.options.getString("name");
     bot.chat(`/g promote ${name}`);
 
-    const embed = new EmbedBuilder()
-      .setColor("#57F287")
-      .setAuthor({ name: "Promote" })
-      .setDescription(`Successfully executed \`/g promote ${name}\``)
-      .setFooter({
-        text: `by @duckysolucky | /help [command] for more information`,
-        iconURL: "https://imgur.com/tgwQJTX.png",
-      });
-
     await interaction.followUp({
-      embeds: [embed],
+      embeds: [
+        new EmbedBuilder()
+          .setColor("#57F287")
+          .setAuthor({ name: "Promote" })
+          .setDescription(`Successfully executed \`/g promote ${name}\``)
+          .setFooter({
+            text: `by @duckysolucky | /help [command] for more information`,
+            iconURL: "https://imgur.com/tgwQJTX.png",
+          }),
+      ],
     });
   },
 };

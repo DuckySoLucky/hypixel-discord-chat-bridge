@@ -25,36 +25,39 @@ module.exports = {
         error instanceof HypixelDiscordChatBridgeError === false
           ? "Please try again later. The error has been sent to the Developers.\n\n"
           : "";
-      const errorEmbed = new EmbedBuilder()
-        .setColor("#ED4245")
-        .setAuthor({ name: "An Error has occurred" })
-        .setDescription(`${errrorMessage}\`\`\`${error}\`\`\``)
-        .setFooter({
-          text: `by @duckysolucky | /help [command] for more information`,
-          iconURL: "https://imgur.com/tgwQJTX.png",
-        });
 
-      await interaction.editReply({ embeds: [errorEmbed] });
+      await interaction.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setColor("#ED4245")
+            .setAuthor({ name: "An Error has occurred" })
+            .setDescription(`${errrorMessage}\`\`\`${error}\`\`\``)
+            .setFooter({
+              text: `by @duckysolucky | /help [command] for more information`,
+              iconURL: "https://imgur.com/tgwQJTX.png",
+            }),
+        ],
+      });
 
       if (error instanceof HypixelDiscordChatBridgeError === false) {
-        const errorLog = new EmbedBuilder()
-          .setColor(15158332)
-          .setTitle("Error")
-          .setDescription(
-            `Command: \`${interaction.commandName}\`\nOptions: \`${JSON.stringify(
-              interaction.options.data
-            )}\`\nUser ID: \`${interaction.user.id}\`\nUser: \`${
-              interaction.user.username ?? interaction.user.tag
-            }\`\n\`\`\`${error.stack}\`\`\``
-          )
-          .setFooter({
-            text: `by DuckySoLucky#5181`,
-            iconURL: "https://imgur.com/tgwQJTX.png",
-          });
-
         interaction.client.channels.cache.get(config.discord.channels.loggingChannel).send({
           content: `<@&${config.discord.commands.commandRole}>`,
-          embeds: [errorLog],
+          embeds: [
+            new EmbedBuilder()
+              .setColor("#ED4245")
+              .setTitle("Error")
+              .setDescription(
+                `Command: \`${interaction.commandName}\`\nOptions: \`${JSON.stringify(
+                  interaction.options.data
+                )}\`\nUser ID: \`${interaction.user.id}\`\nUser: \`${
+                  interaction.user.username ?? interaction.user.tag
+                }\`\n\`\`\`${error.stack}\`\`\``
+              )
+              .setFooter({
+                text: `by DuckySoLucky#5181`,
+                iconURL: "https://imgur.com/tgwQJTX.png",
+              }),
+          ],
         });
       }
     }
