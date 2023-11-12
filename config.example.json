@@ -90,6 +90,11 @@
       "users": ["486155512568741900"]
     },
     "other": {
+      "colors": {
+        "success": "#57F287",
+        "event": "#0099ff",
+        "fail": "#ED4245"
+      },
       "messageMode": "minecraft",
       "messageFormat": "{chatType} > {skin} {rank} {username} {guildRank}§f: {message}",
       "filterMessages": true,
