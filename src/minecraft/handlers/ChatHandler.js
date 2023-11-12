@@ -1,4 +1,4 @@
-const { replaceAllRanks, replaceVariables } = require("../../contracts/helperFunctions.js");
+const { replaceAllRanks, replaceVariables, hexToDec } = require("../../contracts/helperFunctions.js");
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
@@ -392,7 +392,12 @@ class StateHandler extends eventHandler {
 
     if (this.isRepeatMessage(message)) {
       return client.channels.cache.get(config.discord.channels.guildChatChannel).send({
-        embeds: [new EmbedBuilder().setColor(config.discord.other.colors.fail).setDescription(messages.repeatMessage)],
+        embeds: [
+          {
+            color: hexToDec(config.discord.other.colors.fail),
+            description: messages.repeatMessage,
+          },
+        ],
       });
     }
 

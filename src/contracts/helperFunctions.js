@@ -285,6 +285,18 @@ function replaceVariables(template, variables) {
   return template.replace(/\{(\w+)\}/g, (match, name) => variables[name] ?? match);
 }
 
+function hexToDec(hex) {
+  if (hex === undefined) {
+    return 1752220;
+  }
+
+  if (typeof hex === "number") {
+    return hex;
+  }
+
+  return parseInt(hex.replace("#", ""), 16);
+}
+
 module.exports = {
   replaceAllRanks,
   addNotation,
@@ -302,4 +314,5 @@ module.exports = {
   formatUsername,
   formatNumber,
   replaceVariables,
+  hexToDec,
 };

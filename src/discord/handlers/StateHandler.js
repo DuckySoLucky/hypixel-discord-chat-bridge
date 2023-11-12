@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require("discord.js");
+const { hexToDec } = require("../../contracts/helperFunctions.js");
 const config = require("../../../config.json");
 const Logger = require("../../Logger.js");
 
@@ -20,7 +20,10 @@ class StateHandler {
 
     channel.send({
       embeds: [
-        new EmbedBuilder().setAuthor({ name: `Chat Bridge is Online` }).setColor(config.discord.other.colors.success),
+        {
+          author: { name: `Chat Bridge is Online` },
+          color: hexToDec(config.discord.other.colors.success),
+        },
       ],
     });
   }
@@ -33,7 +36,10 @@ class StateHandler {
 
     await channel.send({
       embeds: [
-        new EmbedBuilder().setAuthor({ name: `Chat Bridge is Offline` }).setColor(config.discord.other.colors.fail),
+        {
+          author: { name: `Chat Bridge is Offline` },
+          color: hexToDec(config.discord.other.colors.fail),
+        },
       ],
     });
   }
