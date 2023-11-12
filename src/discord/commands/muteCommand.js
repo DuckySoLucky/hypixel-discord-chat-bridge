@@ -35,7 +35,7 @@ module.exports = {
     await interaction.followUp({
       embeds: [
         new EmbedBuilder()
-          .setColor("#57F287")
+          .setColor(config.discord.other.colors.success)
           .setAuthor({ name: "Mute" })
           .setDescription(`Successfully executed \`/g mute ${name} ${time}\``)
           .setFooter({

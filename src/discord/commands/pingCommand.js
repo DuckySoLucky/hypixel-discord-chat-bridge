@@ -1,4 +1,5 @@
 const { EmbedBuilder } = require("discord.js");
+const config = require("../../../config.json");
 
 module.exports = {
   name: "ping",
@@ -11,7 +12,7 @@ module.exports = {
     interaction.followUp({
       embeds: [
         new EmbedBuilder()
-          .setColor("#0099ff")
+          .setColor(config.discord.other.colors.event)
           .setTitle("🏓 Pong!")
           .setDescription(`Client Latency: \`${clientLatency}ms\`\nAPI Latency: \`${apiLatency}ms\``)
           .setFooter({

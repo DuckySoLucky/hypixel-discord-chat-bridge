@@ -29,7 +29,7 @@ module.exports = {
     await interaction.followUp({
       embeds: [
         new EmbedBuilder()
-          .setColor("#57F287")
+          .setColor(config.discord.other.colors.success)
           .setAuthor({ name: "Demote" })
           .setDescription(`Successfully executed \`/g demote ${name}\``)
           .setFooter({

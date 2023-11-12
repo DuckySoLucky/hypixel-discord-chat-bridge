@@ -19,7 +19,7 @@ module.exports = {
     interaction.followUp({
       embeds: [
         new EmbedBuilder()
-          .setColor("#ED4245")
+          .setColor(config.discord.other.colors.fail)
           .setTitle("Restarting...")
           .setDescription("The bot is restarting. This might take few seconds.")
           .setFooter({
@@ -39,7 +39,7 @@ module.exports = {
     interaction.followUp({
       embeds: [
         new EmbedBuilder()
-          .setColor("#57F287")
+          .setColor(config.discord.other.colors.success)
           .setTitle("Restart Successful!")
           .setDescription("The bot has been restarted successfully.")
           .setFooter({

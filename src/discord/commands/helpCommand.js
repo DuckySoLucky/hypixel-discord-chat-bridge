@@ -42,7 +42,7 @@ module.exports = {
       await interaction.followUp({
         embeds: [
           new EmbedBuilder()
-            .setColor("#0099ff")
+            .setColor(config.discord.other.colors.event)
             .setTitle("Hypixel Discord Chat Bridge Commands")
             .setDescription("() = required argument, [] = optional argument")
             .addFields(
@@ -89,7 +89,7 @@ module.exports = {
       await interaction.followUp({
         embeds: [
           new EmbedBuilder()
-            .setColor("#0099ff")
+            .setColor(config.discord.other.colors.event)
             .setTitle(`**${type === "discord" ? "/" : config.minecraft.bot.prefix}${command.name}**`)
             .setDescription(description + "\n")
             .setFooter({

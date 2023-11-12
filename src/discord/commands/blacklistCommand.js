@@ -53,7 +53,7 @@ module.exports = {
     await interaction.followUp({
       embeds: [
         new EmbedBuilder()
-          .setColor("#57F287")
+          .setColor(config.discord.other.colors.success)
           .setAuthor({ name: "Blacklist" })
           .setDescription(`Successfully executed \`/ignore ${arg} ${name}\``)
           .setFooter({

@@ -29,7 +29,7 @@ module.exports = {
       await interaction.editReply({
         embeds: [
           new EmbedBuilder()
-            .setColor("#ED4245")
+            .setColor(config.discord.other.colors.fail)
             .setAuthor({ name: "An Error has occurred" })
             .setDescription(`${errrorMessage}\`\`\`${error}\`\`\``)
             .setFooter({
@@ -44,7 +44,7 @@ module.exports = {
           content: `<@&${config.discord.commands.commandRole}>`,
           embeds: [
             new EmbedBuilder()
-              .setColor("#ED4245")
+              .setColor(config.discord.other.colors.fail)
               .setTitle("Error")
               .setDescription(
                 `Command: \`${interaction.commandName}\`\nOptions: \`${JSON.stringify(

@@ -1,4 +1,5 @@
 const { EmbedBuilder } = require("discord.js");
+const config = require("../../../config.json");
 
 module.exports = {
   name: "guildtop",
@@ -49,10 +50,14 @@ module.exports = {
 
     return await interaction.followUp({
       embeds: [
-        new EmbedBuilder().setColor("#57F287").setTitle("Top 10 Guild Members").setDescription(description).setFooter({
-          text: "by @duckysolucky | /help [command] for more information",
-          iconURL: "https://imgur.com/tgwQJTX.png",
-        }),
+        new EmbedBuilder()
+          .setColor(config.discord.other.colors.success)
+          .setTitle("Top 10 Guild Members")
+          .setDescription(description)
+          .setFooter({
+            text: "by @duckysolucky | /help [command] for more information",
+            iconURL: "https://imgur.com/tgwQJTX.png",
+          }),
       ],
     });
   },

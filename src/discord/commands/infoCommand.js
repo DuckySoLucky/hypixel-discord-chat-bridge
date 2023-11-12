@@ -14,7 +14,7 @@ module.exports = {
     await interaction.followUp({
       embeds: [
         new EmbedBuilder()
-          .setColor("#0099ff")
+          .setColor(config.discord.other.colors.event)
           .setTitle("Hypixel Bridge Bot Commands")
           .addFields(
             {

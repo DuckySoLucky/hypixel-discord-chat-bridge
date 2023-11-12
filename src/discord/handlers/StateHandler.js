@@ -19,7 +19,9 @@ class StateHandler {
     }
 
     channel.send({
-      embeds: [new EmbedBuilder().setAuthor({ name: `Chat Bridge is Online` }).setColor("#57F287")],
+      embeds: [
+        new EmbedBuilder().setAuthor({ name: `Chat Bridge is Online` }).setColor(config.discord.other.colors.success),
+      ],
     });
   }
 
@@ -30,7 +32,9 @@ class StateHandler {
     }
 
     await channel.send({
-      embeds: [new EmbedBuilder().setAuthor({ name: `Chat Bridge is Offline` }).setColor("#ED4245")],
+      embeds: [
+        new EmbedBuilder().setAuthor({ name: `Chat Bridge is Offline` }).setColor(config.discord.other.colors.fail),
+      ],
     });
   }
 
