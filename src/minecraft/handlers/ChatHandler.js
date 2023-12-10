@@ -41,7 +41,7 @@ class StateHandler extends eventHandler {
     }
 
     if (this.isLobbyJoinMessage(message)) {
-      // return bot.chat("\u00a7");
+      return bot.chat("\u00a7");
     }
 
     if (this.isPartyMessage(message) && config.minecraft.fragBot.enabled === true) {
