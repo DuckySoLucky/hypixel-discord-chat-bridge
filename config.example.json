@@ -93,7 +93,8 @@
       "messageMode": "minecraft",
       "messageFormat": "{chatType} > {skin} {rank} {username} {guildRank}§f: {message}",
       "filterMessages": true,
-      "joinMessage": true
+      "joinMessage": true,
+      "autoLimbo": true
     }
   },
   "web": {
