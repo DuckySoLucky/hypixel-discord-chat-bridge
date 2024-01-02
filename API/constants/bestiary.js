@@ -301,7 +301,7 @@ const BESTIARY = {
       },
       {
         name: "Silverfish",
-        cap: 10000,
+        cap: 40000,
         texture: "/head/da91dab8391af5fda54acd2c0b18fbd819b865e1a8f1d623813fa761e924540",
         mobs: [
           "jockey_shot_silverfish_3",
@@ -315,10 +315,10 @@ const BESTIARY = {
       },
       {
         name: "Spider Jockey",
-        cap: 4000,
+        cap: 10000,
         texture: "/head/70939373cafe4b1f5397aafd09f3bb1663e7b629a41a75fbdc1860b6bf8b475f",
         mobs: ["spider_jockey_3", "spider_jockey_42", "spider_jockey_5"],
-        bracket: 3,
+        bracket: 2,
       },
       {
         name: "Splitter Spider",
@@ -336,10 +336,10 @@ const BESTIARY = {
       },
       {
         name: "Voracious Spider",
-        cap: 10000,
+        cap: 40000,
         texture: "/head/8300986ed0a04ea79904f6ae53f49ed3a0ff5b1df62bba622ecbd3777f156df8",
         mobs: ["voracious_spider_50", "voracious_spider_42", "voracious_spider_45", "voracious_spider_10"],
-        bracket: 2,
+        bracket: 1,
       },
       {
         name: "Weaver Spider",
