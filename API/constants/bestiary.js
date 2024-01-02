@@ -311,7 +311,7 @@ const BESTIARY = {
           "splitter_spider_silverfish_50",
           "jockey_shot_silverfish_42",
         ],
-        bracket: 1,
+        bracket: 2,
       },
       {
         name: "Spider Jockey",
@@ -541,7 +541,7 @@ const BESTIARY = {
         name: "Pigman",
         cap: 10000,
         texture: "/head/74e9c6e98582ffd8ff8feb3322cd1849c43fb16b158abb11ca7b42eda7743eb",
-        mobs: ["kada_knight_90", "magma_cube_rider_90", "pigman_12"],
+        mobs: ["pigman_12"],
         bracket: 3,
       },
       {
