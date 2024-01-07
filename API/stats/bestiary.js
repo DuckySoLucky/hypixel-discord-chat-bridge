@@ -41,7 +41,7 @@ function getBestiary(userProfile) {
 
       if (category === "fishing") {
         for (const [key, value] of Object.entries(data)) {
-          if (key === "name") continue;
+          if (key === "name" === "hasSubcategories") continue;
 
           output[category][key] = {
             name: value.name,
