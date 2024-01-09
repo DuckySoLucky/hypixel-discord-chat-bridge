@@ -308,7 +308,8 @@ The joinMessage is ability to toggle join and leave message being sent to the di
 | level       | Skyblock Level of specified user.           | `level [player]`          | `!level DeathStreeks`      | `DeathStreek's Skyblock Level » 354.59` |
 | math        | Calculate any kind of math problem.         | `!math <calculation>`     | `!math 6 * 9 + 6 + 9`      | `6*9+6+9 = 69` |
 | monthly     | Get monthly stats of specified user.        | `!monthly [player]`       | `!monthly DuckySoSkilled`  | `DuckySoSkilled has gained 0 karma and gained 0.1 levels in the last month.` |
-| networth    | Networth of specified user.                 | `!networth [player]`      | `!networth Refraction`   | `Refraction's Networth is 114 B Unsoulbound Networth: 61.9 B Purse: 3.56 B Bank: 1.07 B` |
+| pb          | View Best times of a user's dungeon runs.   | `!pb [player] [floor] [score]` | `!pb For_Science51 F7 S+` | `For_Science51's PB on F7 woth S+ score is 4:57` |
+| networth    | Networth of specified user.                 | `!networth [player]`      | `!networth Refraction`     | `Refraction's Networth is 114 B Unsoulbound Networth: 61.9 B Purse: 3.56 B Bank: 1.07 B` |
 | pet         | Renders active pet of specified user.       | `!pet [player]`           | `!pet Refraction`          | `Refraction's Active Pet » https://i.imgur.com/FVuLQk4.png` |
 | render      | Renders item of specified user.             | `!render [player] [slot]` | `!render DuckySoSkilled`   | `DuckySoSkilled's item at slot 1 » https://i.imgur.com/U2dIcSc.png` |
 | skills      | Skills and Skill Average of specified user. | `!skills [player]`        | `!skills DuckySoSkilled`   | `Skill Average » 54.44 Farming - 60.00 Mining - 60.00 Combat - 60.00 Enchanting - 60.00 Fishing - 50.00 Foraging - 50.00 Alchemy - 50.00 Taming - 50.00 Carpentry - 50.00` |
