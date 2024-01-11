@@ -1,3 +1,5 @@
+const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
+const { EmbedBuilder } = require("discord.js");
 const config = require("../../../config.json");
 
 module.exports = {
@@ -12,23 +14,29 @@ module.exports = {
     },
   ],
 
-  execute: async (interaction, client) => {
-    const name = interaction.options.getString("name");
+  execute: async (interaction) => {
+    const user = interaction.member;
     if (
-      (await interaction.guild.members.fetch(interaction.user)).roles.cache.has(
-        config.discord.roles.commandRole
-      )
+      config.discord.commands.checkPerms === true &&
+      !(user.roles.cache.has(config.discord.commands.commandRole) || config.discord.commands.users.includes(user.id))
     ) {
-      bot.chat(`/g invite ${name}`);
-      await interaction.followUp({
-        content: "Command has been executed successfully.",
-        ephemeral: true,
-      });
-    } else {
-      await interaction.followUp({
-        content: "You do not have permission to run this command.",
-        ephemeral: true,
-      });
+      throw new HypixelDiscordChatBridgeError("You do not have permission to use this command.");
     }
+
+    const name = interaction.options.getString("name");
+    bot.chat(`/g invite ${name}`);
+
+    const embed = new EmbedBuilder()
+      .setColor(5763719)
+      .setAuthor({ name: "Invite" })
+      .setDescription(`Successfully executed \`/g invite ${name}\``)
+      .setFooter({
+        text: `by @duckysolucky | /help [command] for more information`,
+        iconURL: "https://imgur.com/tgwQJTX.png",
+      });
+
+    await interaction.followUp({
+      embeds: [embed],
+    });
   },
 };

@@ -66,12 +66,16 @@ class DuelsStatsCommand extends minecraftCommand {
 
       if (!duel) {
         this.send(
-          `/gc [Duels] [${player.stats.duels.division}] ${username} Wins: ${formatNumber(player.stats.duels.wins)} | CWS: ${player.stats.duels.winstreak} | BWS: ${player.stats.duels.bestWinstreak} | WLR: ${player.stats.duels.WLRatio}`
+          `/gc [Duels] [${player.stats.duels.division}] ${username} Wins: ${formatNumber(
+            player.stats.duels.wins
+          )} | CWS: ${player.stats.duels.winstreak} | BWS: ${player.stats.duels.bestWinstreak} | WLR: ${
+            player.stats.duels.WLRatio
+          }`
         );
       } else {
         const duelData = player.stats.duels?.[duel]?.[Object.keys(player.stats.duels[duel])[0]];
         const division = duelData?.division ?? player.stats.duels?.[duel]?.division ?? "Unknown";
-        const wins = duelData?.wins ?? 0;
+        const wins = formatNumber(duelData?.wins ?? 0);
         const winstreak = duelData?.winstreak ?? 0;
         const bestWinstreak = duelData?.bestWinstreak ?? 0;
         const WLRatio = duelData?.WLRatio ?? 0;
@@ -83,7 +87,13 @@ class DuelsStatsCommand extends minecraftCommand {
         );
       }
     } catch (error) {
-      this.send(`/gc ${error.toString().replace("[hypixel-api-reborn] ", "")}`);
+      this.send(
+        `/gc ${error
+          .toString()
+          .replace("[hypixel-api-reborn] ", "")
+          .replace("For help join our Discord Server https://discord.gg/NSEBNMM", "")
+          .replace("Error:", "[ERROR]")}`
+      );
     }
   }
 }

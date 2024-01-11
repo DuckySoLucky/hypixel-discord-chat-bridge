@@ -8,48 +8,28 @@ module.exports = (player, profile) => {
     const MASTER_CATACOMBS = dungeons?.dungeon_types.master_catacombs;
 
     const floors = {};
-    const AVAILABLE_FLOORS = Object.keys(
-      dungeons?.dungeon_types.catacombs.times_played || []
-    );
+    const AVAILABLE_FLOORS = Object.keys(dungeons?.dungeon_types.catacombs.times_played || []);
 
     for (const floor in AVAILABLE_FLOORS) {
       let floorName = "entrance";
       if (floor != 0) floorName = `floor_${floor}`;
       floors[floorName] = {
-        times_played: catacombs?.times_played
-          ? catacombs?.times_played[floor] || 0
-          : 0,
-        completions: catacombs?.tier_completions
-          ? catacombs?.tier_completions[floor] || 0
-          : 0,
+        times_played: catacombs?.times_played ? catacombs?.times_played[floor] || 0 : 0,
+        completions: catacombs?.tier_completions ? catacombs?.tier_completions[floor] || 0 : 0,
         best_score: {
           score: catacombs?.best_score ? catacombs?.best_score[floor] || 0 : 0,
-          name: getScoreName(
-            catacombs?.best_score ? catacombs?.best_score[floor] || 0 : 0
-          ),
+          name: getScoreName(catacombs?.best_score ? catacombs?.best_score[floor] || 0 : 0),
         },
-        fastest: catacombs?.fastest_time
-          ? catacombs?.fastest_time[floor] || 0
-          : 0,
-        fastest_s: catacombs?.fastest_time_s
-          ? catacombs?.fastest_time_s[floor] || 0
-          : 0,
-        fastest_s_plus: catacombs?.fastest_time_s_plus
-          ? catacombs?.fastest_time_s_plus[floor] || 0
-          : 0,
-        mobs_killed: catacombs?.mobs_killed
-          ? catacombs?.mobs_killed[floor] || 0
-          : 0,
+        fastest: catacombs?.fastest_time ? catacombs?.fastest_time[floor] || 0 : 0,
+        fastest_s: catacombs?.fastest_time_s ? catacombs?.fastest_time_s[floor] || 0 : 0,
+        fastest_s_plus: catacombs?.fastest_time_s_plus ? catacombs?.fastest_time_s_plus[floor] || 0 : 0,
+        mobs_killed: catacombs?.mobs_killed ? catacombs?.mobs_killed[floor] || 0 : 0,
       };
     }
 
     const MASTER_MODE_FLOORS = {};
 
-    for (
-      let i = 1;
-      i <= dungeons?.dungeon_types.master_catacombs.highest_tier_completed;
-      i++
-    ) {
+    for (let i = 1; i <= dungeons?.dungeon_types.master_catacombs.highest_tier_completed; i++) {
       MASTER_MODE_FLOORS[`floor_${i}`] = {
         completions: MASTER_CATACOMBS?.tier_completions[i] ?? 0,
         best_score: {
@@ -88,34 +68,16 @@ module.exports = (player, profile) => {
 
     return {
       selected_class: titleCase(dungeons?.selected_dungeon_class),
-      secrets_found: player?.dungeons?.secrets || 0,
+      secrets_found: player?.achievements?.skyblock_treasure_hunter ?? 0,
       classes: {
-        healer: calcSkill(
-          "dungeoneering",
-          dungeons?.player_classes.healer.experience || 0
-        ),
-        mage: calcSkill(
-          "dungeoneering",
-          dungeons?.player_classes.mage.experience || 0
-        ),
-        berserk: calcSkill(
-          "dungeoneering",
-          dungeons?.player_classes.berserk.experience || 0
-        ),
-        archer: calcSkill(
-          "dungeoneering",
-          dungeons?.player_classes.archer.experience || 0
-        ),
-        tank: calcSkill(
-          "dungeoneering",
-          dungeons?.player_classes.tank.experience || 0
-        ),
+        healer: calcSkill("dungeoneering", dungeons?.player_classes.healer.experience || 0),
+        mage: calcSkill("dungeoneering", dungeons?.player_classes.mage.experience || 0),
+        berserk: calcSkill("dungeoneering", dungeons?.player_classes.berserk.experience || 0),
+        archer: calcSkill("dungeoneering", dungeons?.player_classes.archer.experience || 0),
+        tank: calcSkill("dungeoneering", dungeons?.player_classes.tank.experience || 0),
       },
       catacombs: {
-        skill: calcSkill(
-          "dungeoneering",
-          dungeons?.dungeon_types.catacombs.experience || 0,
-        ),
+        skill: calcSkill("dungeoneering", dungeons?.dungeon_types.catacombs.experience || 0),
         perks,
         HIGEHST_TIER_COMPLETED,
         floors,

@@ -1,29 +1,62 @@
-const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
-const { timeSince, toFixed } = require('../../contracts/helperFunctions.js');
-const config = require('../../../config.json');
-const axios = require('axios');
-const { getSkyblockCalendar } = require('../../../API/functions/getCalendar.js');
+const { getSkyblockCalendar } = require("../../../API/functions/getCalendar.js");
+const minecraftCommand = require("../../contracts/minecraftCommand.js");
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const config = require("../../../config.json");
+const axios = require("axios");
 
 if (config.minecraft.skyblockEventsNotifications.enabled) {
-    setInterval(async () => {
-        const EVENTS = getSkyblockCalendar();
-        for (const event of Object.keys(EVENTS.data.events)) {
-            if (config.minecraft.skyblockEventsNotifications.notifiers[event] === false) continue;
-            const eventInfo = EVENTS.data.events[event];
-            if (eventInfo.events[0].start_timestamp < Date.now()) continue;
-            if (event == "JACOBS_CONTEST") {
-                if (toFixed((eventInfo.events[0].start_timestamp - Date.now()) / 1000 / 60, 0) == 5 || toFixed((eventInfo.events[0].start_timestamp - Date.now()) / 1000 / 60, 0) == 30) {
-                    const jacobResponse = (await axios.get('https://dawjaw.net/jacobs')).data;
-                    const jacobCrops = jacobResponse.find(crop => crop.time == toFixed(eventInfo.events[0].start_timestamp / 1000, 0));
-                    bot.chat(`/gc [EVENT] ${eventInfo.name} (${jacobCrops.crops[0] + ", " + jacobCrops.crops[1] + " & " + jacobCrops.crops[2]}) » ${timeSince(eventInfo.events[0].start_timestamp)}`);
-                    await delay(1000);
-                }   
-            } else {
-                if (toFixed((eventInfo.events[0].start_timestamp - Date.now()) / 1000 / 60, 0) == 5 || toFixed((eventInfo.events[0].start_timestamp - Date.now()) / 1000 / 60, 0) == 30) {
-                    bot.chat(`/gc [EVENT] ${eventInfo.name} » ${timeSince(eventInfo.events[0].start_timestamp)}`);
-                    await delay(1000);
-                }
-            }
+  const { notifiers, customTime } = config.minecraft.skyblockEventsNotifications;
+
+  setInterval(async () => {
+    try {
+      const eventBOT = new minecraftCommand(bot);
+      const EVENTS = getSkyblockCalendar();
+      for (const event in EVENTS.data.events) {
+        const eventData = EVENTS.data.events[event];
+        if (notifiers[event] === false) {
+          continue;
         }
-    }, 60000);
+
+        if (eventData.events[0].start_timestamp < Date.now()) {
+          continue;
+        }
+
+        const minutes = Math.floor((eventData.events[0].start_timestamp - Date.now()) / 1000 / 60);
+
+        let extraInfo = "";
+        if (event == "JACOBS_CONTEST") {
+          const { data: jacobResponse } = await axios.get("https://dawjaw.net/jacobs");
+          const jacobCrops = jacobResponse.find(
+            (crop) => crop.time >= Math.floor(eventData.events[0].start_timestamp / 1000)
+          );
+
+          if (jacobCrops?.crops !== undefined) {
+            extraInfo = ` (${jacobCrops.crops.join(", ")})`;
+          }
+        }
+
+        const cTime = getCustomTime(customTime, event);
+        if (cTime.length !== 0 && cTime.includes(minutes.toString())) {
+          eventBOT.send(`/gc [EVENT] ${eventData.name}${extraInfo}: ${minutes}m`);
+          await delay(1500);
+        }
+
+        if (minutes == 0) {
+          eventBOT.send(`/gc [EVENT] ${eventData.name}${extraInfo}: NOW`);
+          await delay(1500);
+        }
+      }
+    } catch (e) {
+      console.log(e);
+      /* empty */
+    }
+  }, 60000);
+}
+
+function getCustomTime(events, value) {
+  if (events === undefined || value === undefined) {
+    return false;
+  }
+
+  return Object.keys(events).filter((key) => events[key].includes(value));
 }

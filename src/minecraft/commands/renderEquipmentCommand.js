@@ -1,16 +1,6 @@
-// eslint-disable-next-line
-const { ImgurClient } = require("imgur");
-const {
-  getLatestProfile,
-} = require("../../../API/functions/getLatestProfile.js");
-const config = require("../../../config.json");
-const imgurClient = new ImgurClient({
-  clientId: config.minecraft.API.imgurAPIkey,
-});
-const {
-  decodeData,
-  formatUsername,
-} = require("../../contracts/helperFunctions.js");
+const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
+const { uploadImage } = require("../../contracts/API/imgurAPI.js");
+const { decodeData, formatUsername } = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { renderLore } = require("../../contracts/renderItem.js");
 
@@ -38,40 +28,33 @@ class EquipmentCommand extends minecraftCommand {
 
       username = formatUsername(username, profile.profileData?.game_mode);
 
-      if (!profile.profile.equippment_contents?.data) {
+      if (profile.profile?.equippment_contents?.data === undefined) {
         return this.send(`/gc This player has an Inventory API off.`);
       }
 
+      const { i: inventoryData } = await decodeData(Buffer.from(profile.profile.equippment_contents.data, "base64"));
+
       let response = "";
-      const inventoryData = (
-        await decodeData(
-          Buffer.from(profile.profile.equippment_contents.data, "base64")
-        )
-      ).i;
       for (const piece of Object.values(inventoryData)) {
-        if (!piece?.tag?.display?.Name) continue;
+        if (piece?.tag?.display?.Name === undefined || piece?.tag?.display?.Lore === undefined) {
+          continue;
+        }
 
-        const renderedItem = await renderLore(
-          piece?.tag?.display?.Name,
-          piece?.tag?.display?.Lore
-        );
+        const Name = piece?.tag?.display?.Name;
+        const Lore = piece?.tag?.display?.Lore;
 
-        const upload = await imgurClient.upload({
-          image: renderedItem,
-          type: "stream",
-        });
+        const renderedItem = await renderLore(Name, Lore);
 
-        response +=
-          response.split(" | ").length == 4
-            ? upload.data.link
-            : `${upload.data.link} | `;
+        const upload = await uploadImage(renderedItem);
+
+        const link = upload.data.link;
+
+        response += response.split(" | ").length == 4 ? link : `${link} | `;
       }
 
-      response == ""
-        ? this.send(`/gc ${username} has no equipment equiped.`)
-        : this.send(`/gc ${username}'s Equipment: ${response}`);
+      this.send(`/gc ${username}'s Equipment: ${response}`);
     } catch (error) {
-      this.send(`/gc Error: ${error}`);
+      this.send(`/gc [ERROR] ${error}`);
     }
   }
 }

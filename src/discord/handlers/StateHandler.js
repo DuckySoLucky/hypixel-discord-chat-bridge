@@ -1,8 +1,5 @@
-/*eslint-disable */
-const { ActivityType } = require("discord.js");
 const config = require("../../../config.json");
 const Logger = require("../../Logger.js");
-/*eslint-enable */
 
 class StateHandler {
   constructor(discord) {
@@ -12,12 +9,13 @@ class StateHandler {
   async onReady() {
     Logger.discordMessage("Client ready, logged in as " + this.discord.client.user.tag);
     this.discord.client.user.setPresence({
-      activities: [
-        { name: `/help | by DuckySoLucky#5181`, type: ActivityType.Playing },
-      ],
+      activities: [{ name: `/help | by @duckysolucky` }],
     });
+
     const channel = await this.getChannel("Guild");
-    global.bridgeChat = config.discord.channels.guildChatChannel;
+    if (channel === undefined) {
+      return Logger.errorMessage(`Channel "Guild" not found!`);
+    }
 
     channel.send({
       embeds: [
@@ -31,7 +29,11 @@ class StateHandler {
 
   async onClose() {
     const channel = await this.getChannel("Guild");
-    channel.send({
+    if (channel === undefined) {
+      return Logger.errorMessage(`Channel "Guild" not found!`);
+    }
+
+    await channel.send({
       embeds: [
         {
           author: { name: `Chat Bridge is Offline` },
@@ -42,14 +44,19 @@ class StateHandler {
   }
 
   async getChannel(type) {
-    if (type == "Officer") {
-      return client.channels.fetch(config.discord.channels.officerChannel);
-    } else if (type == "Logger") {
-      return client.channels.fetch(config.discord.channels.loggingChannel);
-    } else if (type == "debugChannel") {
-      return client.channels.fetch(config.discord.channels.debugChannel);
-    } else {
-      return client.channels.fetch(config.discord.channels.guildChatChannel);
+    if (typeof type !== "string" || type === undefined) {
+      return Logger.errorMessage(`Channel type must be a string!`);
+    }
+
+    switch (type.replace(/§[0-9a-fk-or]/g, "").trim()) {
+      case "Guild":
+        return this.discord.client.channels.cache.get(config.discord.channels.guildChatChannel);
+      case "Officer":
+        return this.discord.client.channels.cache.get(config.discord.channels.officerChannel);
+      case "Logger":
+        return this.discord.client.channels.cache.get(config.discord.channels.loggingChannel);
+      default:
+        return this.discord.client.channels.cache.get(config.discord.channels.debugChannel);
     }
   }
 }

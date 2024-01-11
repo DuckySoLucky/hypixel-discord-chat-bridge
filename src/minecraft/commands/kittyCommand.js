@@ -1,8 +1,5 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const config = require("../../../config.json");
-// eslint-disable-next-line
-const { ImgurClient } = require("imgur");
-const client = new ImgurClient({ clientId: config.minecraft.API.imgurAPIkey });
+const { uploadImage } = require("../../contracts/API/imgurAPI.js");
 const axios = require("axios");
 
 class KittyCommand extends minecraftCommand {
@@ -17,13 +14,19 @@ class KittyCommand extends minecraftCommand {
 
   async onCommand(username, message) {
     try {
-      const link = (
-        await axios.get(`https://api.thecatapi.com/v1/images/search`)
-      ).data[0].url;
-      const upload = await client.upload({ image: link, type: "stream" });
+      const { data } = await axios.get(`https://api.thecatapi.com/v1/images/search`);
+
+      if (data === undefined) {
+        // eslint-disable-next-line no-throw-literal
+        throw "An error occured while fetching the image. Please try again later.";
+      }
+
+      const link = data[0].url;
+      const upload = await uploadImage(link);
+
       this.send(`/gc Cute Cat: ${upload.data.link}`);
     } catch (error) {
-      this.send(`/gc Error: ${error ?? "Something went wrong.."}`);
+      this.send(`/gc [ERROR] ${error ?? "Something went wrong.."}`);
     }
   }
 }

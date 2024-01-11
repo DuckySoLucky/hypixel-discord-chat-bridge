@@ -1,17 +1,12 @@
-const {
-  Client,
-  Collection,
-  AttachmentBuilder,
-  GatewayIntentBits,
-} = require("discord.js");
+const { Client, Collection, AttachmentBuilder, GatewayIntentBits } = require("discord.js");
 const CommunicationBridge = require("../contracts/CommunicationBridge.js");
+const { replaceVariables } = require("../contracts/helperFunctions.js");
 const messageToImage = require("../contracts/messageToImage.js");
 const MessageHandler = require("./handlers/MessageHandler.js");
 const StateHandler = require("./handlers/StateHandler.js");
 const CommandHandler = require("./CommandHandler.js");
 const config = require("../../config.json");
 const Logger = require(".././Logger.js");
-const { kill } = require("node:process");
 const path = require("node:path");
 const fs = require("fs");
 
@@ -26,30 +21,22 @@ class DiscordManager extends CommunicationBridge {
     this.commandHandler = new CommandHandler(this);
   }
 
-  async connect() {
+  connect() {
     global.client = new Client({
-      intents: [
-        GatewayIntentBits.Guilds,
-        GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.MessageContent,
-      ],
+      intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent],
     });
 
     this.client = client;
 
     this.client.on("ready", () => this.stateHandler.onReady());
-    this.client.on("messageCreate", (message) =>
-      this.messageHandler.onMessage(message)
-    );
+    this.client.on("messageCreate", (message) => this.messageHandler.onMessage(message));
 
     this.client.login(config.discord.bot.token).catch((error) => {
       Logger.errorMessage(error);
     });
 
     client.commands = new Collection();
-    const commandFiles = fs
-      .readdirSync("src/discord/commands")
-      .filter((file) => file.endsWith(".js"));
+    const commandFiles = fs.readdirSync("src/discord/commands").filter((file) => file.endsWith(".js"));
 
     for (const file of commandFiles) {
       const command = require(`./commands/${file}`);
@@ -57,9 +44,7 @@ class DiscordManager extends CommunicationBridge {
     }
 
     const eventsPath = path.join(__dirname, "events");
-    const eventFiles = fs
-      .readdirSync(eventsPath)
-      .filter((file) => file.endsWith(".js"));
+    const eventFiles = fs.readdirSync(eventsPath).filter((file) => file.endsWith(".js"));
 
     for (const file of eventFiles) {
       const filePath = path.join(eventsPath, file);
@@ -69,13 +54,10 @@ class DiscordManager extends CommunicationBridge {
         : client.on(event.name, (...args) => event.execute(...args));
     }
 
-    global.guild = await client.guilds.fetch(config.discord.bot.serverID);
+    process.on("SIGINT", async () => {
+      await this.stateHandler.onClose();
 
-    process.on("SIGINT", () => {
-      this.stateHandler.onClose().then(() => {
-        client.destroy();
-        kill(process.pid);
-      });
+      process.kill(process.pid, "SIGTERM");
     });
   }
 
@@ -86,7 +68,7 @@ class DiscordManager extends CommunicationBridge {
     if (webhooks.size === 0) {
       channel.createWebhook({
         name: "Hypixel Chat Bridge",
-        avatar: "https://i.imgur.com/AfFp7pu.png",
+        avatar: "https://imgur.com/tgwQJTX.png",
       });
 
       await this.getWebhook(discord, type);
@@ -95,36 +77,37 @@ class DiscordManager extends CommunicationBridge {
     return webhooks.first();
   }
 
-  async onBroadcast({
-    fullMessage,
-    username,
-    message,
-    guildRank,
-    chat,
-    color = 1752220,
-  }) {
-    let mode = config.discord.other.messageMode.toLowerCase();
-    if (message === undefined) {
-      if (config.discord.channels.debugMode === false) {
-        return;
-      }
-
-      mode = "minecraft";
+  async onBroadcast({ fullMessage, chat, chatType, username, rank, guildRank, message, color = 1752220 }) {
+    if (
+      (chat === undefined && chatType !== "debugChannel") ||
+      ((username === undefined || message === undefined) && chat !== "debugChannel")
+    ) {
+      return;
     }
 
-    if (message !== undefined) {
+    const mode = chat === "debugChannel" ? "minecraft" : config.discord.other.messageMode.toLowerCase();
+    message = chat === "debugChannel" ? fullMessage : message;
+    if (message !== undefined && chat !== "debugChannel") {
       Logger.broadcastMessage(
-        `${username} [${guildRank}]: ${message}`,
+        `${username} [${guildRank.replace(/§[0-9a-fk-or]/g, "").replace(/^\[|\]$/g, "")}]: ${message}`,
         `Discord`
       );
     }
 
+    // ? custom message format (config.discord.other.messageFormat)
+    if (config.discord.other.messageMode === "minecraft" && chat !== "debugChannel") {
+      message = replaceVariables(config.discord.other.messageFormat, { chatType, username, rank, guildRank, message });
+    }
+
     const channel = await this.stateHandler.getChannel(chat || "Guild");
-    if (channel === undefined) return;
+    if (channel === undefined) {
+      Logger.errorMessage(`Channel ${chat} not found!`);
+      return;
+    }
 
     switch (mode) {
       case "bot":
-        channel.send({
+        await channel.send({
           embeds: [
             {
               description: message,
@@ -142,23 +125,20 @@ class DiscordManager extends CommunicationBridge {
         });
 
         if (message.includes("https://")) {
-          let link = message.match(/https?:\/\/[^\s]+/g)[0];
+          const links = message.match(/https?:\/\/[^\s]+/g).join("\n");
 
-          if (link.endsWith("§r")) {
-            link = link.substring(0, link.length - 2);
-          }
-
-          channel.send(link);
+          channel.send(links);
         }
-        
+
         break;
 
       case "webhook":
-        message = message.replace(/@/g, "");
-        this.app.discord.webhook = await this.getWebhook(
-          this.app.discord,
-          chat
-        );
+        message = this.cleanMessage(message);
+        if (message.length === 0) {
+          return;
+        }
+
+        this.app.discord.webhook = await this.getWebhook(this.app.discord, chatType);
         this.app.discord.webhook.send({
           content: message,
           username: username,
@@ -167,30 +147,27 @@ class DiscordManager extends CommunicationBridge {
         break;
 
       case "minecraft":
-        channel.send({
+        if (fullMessage.length === 0) {
+          return;
+        }
+
+        await channel.send({
           files: [
-            new AttachmentBuilder(messageToImage(fullMessage), {
+            new AttachmentBuilder(await messageToImage(message, username), {
               name: `${username}.png`,
             }),
           ],
         });
 
-        if (fullMessage.includes("https://")) {
-          let link = fullMessage.match(/https?:\/\/[^\s]+/g)[0];
+        if (message.includes("https://")) {
+          const links = message.match(/https?:\/\/[^\s]+/g).join("\n");
 
-          if (link.endsWith("§r")) {
-            link = link.substring(0, link.length - 2);
-          }
-
-          channel.send(link);
+          channel.send(links);
         }
-
         break;
 
       default:
-        throw new Error(
-          "Invalid message mode: must be bot, webhook or minecraft"
-        );
+        throw new Error("Invalid message mode: must be bot, webhook or minecraft");
     }
   }
 
@@ -228,7 +205,6 @@ class DiscordManager extends CommunicationBridge {
 
   async onPlayerToggle({ fullMessage, username, message, color, channel }) {
     Logger.broadcastMessage(message, "Event");
-
     channel = await this.stateHandler.getChannel(channel);
     switch (config.discord.other.messageMode.toLowerCase()) {
       case "bot":
@@ -246,10 +222,12 @@ class DiscordManager extends CommunicationBridge {
         });
         break;
       case "webhook":
-        this.app.discord.webhook = await this.getWebhook(
-          this.app.discord,
-          channel
-        );
+        message = this.cleanMessage(message);
+        if (message.length === 0) {
+          return;
+        }
+
+        this.app.discord.webhook = await this.getWebhook(this.app.discord, channel);
         this.app.discord.webhook.send({
           username: username,
           avatarURL: `https://www.mc-heads.net/avatar/${username}`,
@@ -265,7 +243,7 @@ class DiscordManager extends CommunicationBridge {
       case "minecraft":
         await channel.send({
           files: [
-            new AttachmentBuilder(messageToImage(fullMessage), {
+            new AttachmentBuilder(await messageToImage(fullMessage), {
               name: `${username}.png`,
             }),
           ],
@@ -277,7 +255,33 @@ class DiscordManager extends CommunicationBridge {
   }
 
   hexToDec(hex) {
+    if (hex === undefined) {
+      return 1752220;
+    }
+
+    if (typeof hex === "number") {
+      return hex;
+    }
+
     return parseInt(hex.replace("#", ""), 16);
+  }
+
+  cleanMessage(message) {
+    if (message === undefined) {
+      return "";
+    }
+
+    return message
+      .split("\n")
+      .map((part) => {
+        part = part.trim();
+        return part.length === 0 ? "" : part.replace(/@(everyone|here)/gi, "").trim() + " ";
+      })
+      .join("");
+  }
+
+  formatMessage(message, data) {
+    return replaceVariables(message, data);
   }
 }
 

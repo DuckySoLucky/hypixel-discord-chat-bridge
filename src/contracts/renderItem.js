@@ -1,5 +1,4 @@
 // Credits https://github.com/Altpapier/hypixel-discord-guild-bridge/blob/master/helper/loreRenderer.js
-// eslint-disable-next-line
 const Canvas = require("canvas");
 Canvas.registerFont("src/contracts/Fonts/2_Minecraft-Italic.otf", {
   family: "MinecraftItalic",
@@ -41,9 +40,7 @@ async function getCanvasWidthAndHeight(lore) {
   let highestWidth = 0;
   if (!lore) return;
   for (let i = 0; i < lore.length; i++) {
-    const width = ctx.measureText(
-      lore[i].replace(/\u00A7[0-9A-FK-OR]/gi, "")
-    ).width;
+    const width = ctx.measureText(lore[i].replace(/\u00A7[0-9A-FK-OR]/gi, "")).width;
     if (width > highestWidth) {
       highestWidth = width;
     }

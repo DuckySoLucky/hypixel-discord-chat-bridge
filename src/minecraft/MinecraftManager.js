@@ -1,14 +1,13 @@
-/*eslint-disable */
 const CommunicationBridge = require("../contracts/CommunicationBridge.js");
+const { replaceVariables } = require("../contracts/helperFunctions.js");
 const StateHandler = require("./handlers/StateHandler.js");
 const ErrorHandler = require("./handlers/ErrorHandler.js");
 const ChatHandler = require("./handlers/ChatHandler.js");
 const CommandHandler = require("./CommandHandler.js");
 const config = require("../../config.json");
 const mineflayer = require("mineflayer");
+const Logger = require("../Logger.js");
 const Filter = require("bad-words");
-const Logger = require("../Logger");
-/*eslint-enable */
 const filter = new Filter();
 
 class MinecraftManager extends CommunicationBridge {
@@ -20,9 +19,6 @@ class MinecraftManager extends CommunicationBridge {
     this.stateHandler = new StateHandler(this);
     this.errorHandler = new ErrorHandler(this);
     this.chatHandler = new ChatHandler(this, new CommandHandler(this));
-
-    require("./other/eventNotifier.js");
-    require("./other/skyblockNotifier.js");
   }
 
   connect() {
@@ -32,6 +28,9 @@ class MinecraftManager extends CommunicationBridge {
     this.errorHandler.registerEvents(this.bot);
     this.stateHandler.registerEvents(this.bot);
     this.chatHandler.registerEvents(this.bot);
+
+    require("./other/eventNotifier.js");
+    require("./other/skyblockNotifier.js");
   }
 
   createBotConnection() {
@@ -42,71 +41,56 @@ class MinecraftManager extends CommunicationBridge {
       version: "1.8.9",
       viewDistance: "tiny",
       chatLengthLimit: 256,
+      profilesFolder: "./auth-cache",
     });
   }
 
-  async sendSafeMessage(command, prefix, message, should_clean) {
-    let max_length = 250;
-    let max_messages = 5;
-
-    if(prefix.length >= max_length){
-      this.bot.chat(`/${command} [ERROR] Failed to send message, as prefix is too large.`);
-      return false;
-    }
-
-    let max_message_allowed = max_length - prefix.length;
-
-    let amount_of_chunks = Math.ceil(message.length / max_message_allowed);
-
-    if(amount_of_chunks > max_messages){
-      this.bot.chat(`/${command} [ERROR] Failed to send message, as it is too large.`);
-      return false;
-    }
-
-    let chunks = [];
-    
-    for (let i = 0, o = 0; i < amount_of_chunks; ++i, o += max_message_allowed) {
-      let message_text = message.substring(o, o+max_message_allowed);
-      let final_message = `${prefix} ${message_text}`;
-      if(should_clean){
-        final_message = filter.clean(final_message);
-      }
-      chunks[i] = `/${command} ${final_message}`;
-    }
-
-    for (let safe_message of chunks) {
-      this.bot.chat(safe_message);
-      await new Promise(resolve => setTimeout(resolve, 400));
-    }
-    return true;
-  }
-
-  async onBroadcast({ channel, username, message, replyingTo }) {
+  async onBroadcast({ channel, username, message, replyingTo, discord }) {
     Logger.broadcastMessage(`${username}: ${message}`, "Minecraft");
-    bridgeChat = channel;
-    if (!this.bot.player) return;
+    if (this.bot.player === undefined) {
+      return;
+    }
 
     if (channel === config.discord.channels.debugChannel && config.discord.channels.debugMode === true) {
       return this.bot.chat(message);
     }
 
-    const symbol = config.minecraft.bot.messageFormat;
-
-    if (channel === config.discord.channels.guildChatChannel) {
-      let prefix = replyingTo
-      ? `${username} replying to ${replyingTo}${symbol}`
-      : `${username}${symbol}`;
-
-      return this.sendSafeMessage('gc', prefix, message, config.discord.other.filterMessages);
+    if (config.discord.other.filterMessages) {
+      message = filter.clean(message);
     }
 
-    if (channel === config.discord.channels.officerChannel) {
-      let prefix = replyingTo
-      ? `${username} replying to ${replyingTo}${symbol}`
-      : `${username}${symbol}`;
+    message = replaceVariables(config.minecraft.bot.messageFormat, { username, message });
 
-      return this.sendSafeMessage('oc', prefix, message, config.discord.other.filterMessages);
+    const chat = channel === config.discord.channels.officerChannel ? "/oc" : "/gc";
+
+    if (replyingTo) {
+      message = message.replace(username, `${username} replying to ${replyingTo}`);
     }
+
+    let successfullySent = false;
+    const messageListener = (receivedMessage) => {
+      receivedMessage = receivedMessage.toString();
+
+      if (
+        receivedMessage.includes(message) &&
+        (this.chatHandler.isGuildMessage(receivedMessage) || this.chatHandler.isOfficerMessage(receivedMessage))
+      ) {
+        bot.removeListener("message", messageListener);
+        successfullySent = true;
+      }
+    };
+
+    bot.on("message", messageListener);
+    this.bot.chat(`${chat} ${message}`);
+
+    setTimeout(() => {
+      bot.removeListener("message", messageListener);
+      if (successfullySent === true) {
+        return;
+      }
+
+      discord.react("❌");
+    }, 500);
   }
 }
 

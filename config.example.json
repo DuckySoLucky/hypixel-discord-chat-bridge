@@ -2,13 +2,17 @@
   "minecraft": {
     "bot": {
       "prefix": "!",
-      "messageFormat": " »",
+      "messageFormat": "{username} » {message}",
       "messageRepeatBypassLength": 24
+    },
+    "commands": {
+      "normal": true,
+      "soopy": true
     },
     "fragBot": {
       "enabled": true,
       "whitelist": false,
-      "customWhitelist": [],
+      "whitelisted": [],
       "blacklist": false,
       "blacklisted": []
     },
@@ -16,14 +20,7 @@
       "guildExp": 50000
     },
     "API": {
-      "hypixelAPI": "https://api.hypixel.net",
       "hypixelAPIkey": "HYPIXEL_API_KEY",
-
-      "antiSniperAPI": "https://api.antisniper.net",
-      "antiSniperKey": "ANTISNIPER_API_KEY",
-
-      "playerDBAPI": "https://playerdb.co/api/player/minecraft",
-
       "imgurAPIkey": "IMGUR_API_KEY"
     },
     "guildRequirements": {
@@ -62,7 +59,16 @@
         "SEASON_OF_JERRY": true,
         "SPOOKY_FESTIVAL": true,
         "TRAVELING_ZOO": true
+      },
+      "customTime": {
+        "2": ["BANK_INTEREST", "DARK_AUCTION", "JACOBS_CONTEST"]
       }
+    },
+    "hypixelUpdates": {
+      "enabled": true,
+      "hypixelNews": true,
+      "statusUpdates": true,
+      "skyblockVersion": true
     }
   },
   "discord": {
@@ -75,19 +81,28 @@
       "officerChannel": "OFFICER_CHANNEL_ID",
       "loggingChannel": "LOGGING_CHANNEL_ID",
       "debugMode": true,
-      "debugChannel": "DEBUG_CHANNEL_ID"
+      "debugChannel": "DEBUG_CHANNEL_ID",
+      "allowedBots": ["BOT_USER_ID"]
     },
-    "roles": {
-      "commandRole": "COMMAND_ROLE_ID"
+    "commands": {
+      "checkPerms": true,
+      "commandRole": "COMMAND_ROLE_ID",
+      "users": ["486155512568741900"]
     },
     "other": {
       "messageMode": "minecraft",
+      "messageFormat": "{chatType} > {skin} {rank} {username} {guildRank}§f: {message}",
       "filterMessages": true,
-      "joinMessage": false
+      "joinMessage": true,
+      "autoLimbo": true
     }
   },
   "web": {
-    "enabled": true,
+    "enabled": false,
     "port": 1439
+  },
+  "other": {
+    "autoUpdater": true,
+    "autoUpdaterInterval": 12
   }
 }

@@ -1,7 +1,6 @@
+const { capitalize, formatNumber } = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
-const { addCommas } = require("../../contracts/helperFunctions.js");
-const { capitalize } = require("../../contracts/helperFunctions.js");
 
 class BedwarsCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -30,36 +29,37 @@ class BedwarsCommand extends minecraftCommand {
       const player = await hypixel.getPlayer(username);
 
       if (["overall", "all"].includes(mode)) {
+        const { level, finalKills, finalKDRatio, wins, WLRatio, winstreak } = player.stats.bedwars;
+        const { broken, BLRatio } = player.stats.bedwars.beds;
+
         this.send(
-          `/gc [${player.stats.bedwars.level}✫] ${
-            player.nickname
-          } FK: ${addCommas(player.stats.bedwars.finalKills)} FKDR: ${
-            player.stats.bedwars.finalKDRatio
-          } Wins: ${player.stats.bedwars.wins} WLR: ${
-            player.stats.bedwars.WLRatio
-          } BB: ${player.stats.bedwars.beds.broken} BLR: ${
-            player.stats.bedwars.beds.BLRatio
-          } WS: ${player.stats.bedwars.winstreak}`
+          `/gc [${level}✫] ${player.nickname} FK: ${formatNumber(finalKills)} FKDR: ${finalKDRatio} W: ${formatNumber(
+            wins
+          )} WLR: ${WLRatio} BB: ${formatNumber(broken)} BLR: ${BLRatio} WS: ${winstreak}`
         );
       } else if (mode !== undefined) {
+        const { level } = player.stats.bedwars;
+        const { finalKills, finalKDRatio, wins, WLRatio, winstreak } = player.stats.bedwars[mode];
+        const { broken, BLRatio } = player.stats.bedwars[mode].beds;
+
         this.send(
-          `/gc [${player.stats.bedwars.level}✫] ${player.nickname} ${capitalize(
-            mode
-          )} FK: ${addCommas(player.stats.bedwars[mode].finalKills)} FKDR: ${
-            player.stats.bedwars[mode].finalKDRatio
-          } Wins: ${player.stats.bedwars[mode].wins} WLR: ${
-            player.stats.bedwars[mode].WLRatio
-          } BB: ${player.stats.bedwars[mode].beds.broken} BLR: ${
-            player.stats.bedwars[mode].beds.BLRatio
-          } WS: ${player.stats.bedwars[mode].winstreak}`
+          `/gc [${level}✫] ${player.nickname} ${capitalize(mode)} FK: ${formatNumber(
+            finalKills
+          )} FKDR: ${finalKDRatio} Wins: ${formatNumber(wins)} WLR: ${WLRatio} BB: ${formatNumber(
+            broken
+          )} BLR: ${BLRatio} WS: ${winstreak}`
         );
       } else {
-        this.send(
-          "/gc Invalid mode. Valid modes: overall, solo, doubles, threes, fours, 4v4"
-        );
+        this.send("/gc Invalid mode. Valid modes: overall, solo, doubles, threes, fours, 4v4");
       }
     } catch (error) {
-      this.send(`/gc ${error.toString().replace("[hypixel-api-reborn] ", "")}`);
+      this.send(
+        `/gc ${error
+          .toString()
+          .replace("[hypixel-api-reborn] ", "")
+          .replace("For help join our Discord Server https://discord.gg/NSEBNMM", "")
+          .replace("Error:", "[ERROR]")}`
+      );
     }
   }
 }
