@@ -56,8 +56,8 @@ module.exports = {
         }
       )
       .setFooter({
-        text: "by @duckysolucky | /help [command] for more information",
-        iconURL: "https://imgur.com/tgwQJTX.png",
+        text: "/help [command] for more information",
+        iconURL: config.minecraft.API.SCF.logo,
       });
     await interaction.followUp({ embeds: [infoEmbed] });
   },

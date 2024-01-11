@@ -1,6 +1,7 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
 const { formatNumber } = require("../../contracts/helperFunctions.js");
+const { getUUID } = require("../../contracts/API/PlayerDBAPI.js");
 
 class DuelsStatsCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -23,7 +24,7 @@ class DuelsStatsCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  async onCommand(username, message, channel = "gc") {
     try {
       const duelTypes = [
         "blitz",
@@ -62,11 +63,12 @@ class DuelsStatsCommand extends minecraftCommand {
         }
       }
 
-      const player = await hypixel.getPlayer(username);
+      let uuid = await getUUID(username);
+      const player = await hypixel.getPlayer(uuid);
 
       if (!duel) {
         this.send(
-          `/gc [Duels] [${player.stats.duels.division}] ${username} Wins: ${formatNumber(
+          `/${channel} [Duels] [${player.stats.duels.division}] ${username} Wins: ${formatNumber(
             player.stats.duels.wins
           )} | CWS: ${player.stats.duels.winstreak} | BWS: ${player.stats.duels.bestWinstreak} | WLR: ${
             player.stats.duels.WLRatio
@@ -81,14 +83,14 @@ class DuelsStatsCommand extends minecraftCommand {
         const WLRatio = duelData?.WLRatio ?? 0;
 
         this.send(
-          `/gc [${duel.toUpperCase() ?? "Unknown"}] [${division}] ${
+          `/${channel} [${duel.toUpperCase() ?? "Unknown"}] [${division}] ${
             username ?? 0
           } Wins: ${wins} | CWS: ${winstreak} | BWS: ${bestWinstreak} | WLR: ${WLRatio}`
         );
       }
     } catch (error) {
       this.send(
-        `/gc ${error
+        `/${channel} ${error
           .toString()
           .replace("[hypixel-api-reborn] ", "")
           .replace("For help join our Discord Server https://discord.gg/NSEBNMM", "")

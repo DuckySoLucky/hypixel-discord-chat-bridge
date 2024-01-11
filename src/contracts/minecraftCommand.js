@@ -26,14 +26,7 @@ class minecraftCommand {
         !msg.toString().includes(":")
       ) {
         bot.removeListener("message", listener);
-        n++;
-
-        if (n >= 5) {
-          return this.send("/gc Command failed to send message after 5 attempts. Please try again later.");
-        }
-
-        await delay(250);
-        return this.send(message);
+        return;
       } else if (
         msg.toString().includes("You cannot say the same message twice!") === true &&
         msg.toString().includes(":") === false
@@ -41,8 +34,8 @@ class minecraftCommand {
         bot.removeListener("message", listener);
         n++;
 
-        if (n >= 5) {
-          return this.send("/gc Command failed to send message after 5 attempts. Please try again later.");
+        if (n >= 3) {
+          return;
         }
 
         await delay(250);

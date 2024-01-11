@@ -4,14 +4,13 @@ const { replaceVariables } = require("../contracts/helperFunctions.js");
 const messageToImage = require("../contracts/messageToImage.js");
 const MessageHandler = require("./handlers/MessageHandler.js");
 const StateHandler = require("./handlers/StateHandler.js");
-const CommandHandler = require("./CommandHandler.js");
 const config = require("../../config.json");
-const Logger = require(".././Logger.js");
+const Logger = require("../Logger.js");
 const { kill } = require("node:process");
 const path = require("node:path");
 const fs = require("fs");
 
-class DiscordManager extends CommunicationBridge {
+class ReplicationManager extends CommunicationBridge {
   constructor(app) {
     super();
 
@@ -19,41 +18,24 @@ class DiscordManager extends CommunicationBridge {
 
     this.stateHandler = new StateHandler(this);
     this.messageHandler = new MessageHandler(this);
-    this.commandHandler = new CommandHandler(this);
   }
 
   async connect() {
-    global.client = new Client({
+    if(!config.discord.replication.enabled){
+      return;
+    }
+    global.replication_client = new Client({
       intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent],
     });
 
-    this.client = client;
+    this.client = replication_client;
 
     this.client.on("ready", () => this.stateHandler.onReady());
     this.client.on("messageCreate", (message) => this.messageHandler.onMessage(message));
 
-    this.client.login(config.discord.bot.token).catch((error) => {
+    this.client.login(config.discord.replication.token).catch((error) => {
       Logger.errorMessage(error);
     });
-
-    client.commands = new Collection();
-    const commandFiles = fs.readdirSync("src/discord/commands").filter((file) => file.endsWith(".js"));
-
-    for (const file of commandFiles) {
-      const command = require(`./commands/${file}`);
-      client.commands.set(command.name, command);
-    }
-
-    const eventsPath = path.join(__dirname, "events");
-    const eventFiles = fs.readdirSync(eventsPath).filter((file) => file.endsWith(".js"));
-
-    for (const file of eventFiles) {
-      const filePath = path.join(eventsPath, file);
-      const event = require(filePath);
-      event.once
-        ? client.once(event.name, (...args) => event.execute(...args))
-        : client.on(event.name, (...args) => event.execute(...args));
-    }
 
     process.on("SIGINT", async () => {
       await this.stateHandler.onClose();
@@ -79,10 +61,11 @@ class DiscordManager extends CommunicationBridge {
   }
 
   async onBroadcast({ fullMessage, chat, chatType, username, rank, guildRank, message, color = 8421504 }) {
-    if(chat == "Guild/Replication"){
+    if(chat == "Guild/InterDiscord"){
       chat = "Guild"; // Inter Discord Communication Support
       guildRank = "Inter-Discord";
     }
+
     if(chat == "Debug"){
       return;
     }
@@ -95,14 +78,7 @@ class DiscordManager extends CommunicationBridge {
     }
 
     const mode = chat === "debugChannel" ? "minecraft" : config.discord.other.messageMode.toLowerCase();
-
     message = chat === "debugChannel" ? fullMessage : message;
-    if (message !== undefined && chat !== "debugChannel") {
-      Logger.broadcastMessage(
-        `${username} [${(guildRank ?? '').replace(/§[0-9a-fk-or]/g, "").replace(/^\[|\]$/g, "")}]: ${message}`,
-        `Discord`
-      );
-    }
 
     // ? custom message format (config.discord.other.messageFormat)
     if (config.discord.other.messageMode === "minecraft" && chat !== "debugChannel") {
@@ -111,7 +87,7 @@ class DiscordManager extends CommunicationBridge {
 
     const channel = await this.stateHandler.getChannel(chat || "Guild");
     if (channel === undefined) {
-      Logger.errorMessage(`Channel ${chat} not found!`);
+      //Logger.errorMessage(`Channel ${chat} not found!`);
       return;
     }
 
@@ -182,8 +158,6 @@ class DiscordManager extends CommunicationBridge {
   }
 
   async onBroadcastCleanEmbed({ message, color, channel }) {
-    Logger.broadcastMessage(message, "Event");
-
     channel = await this.stateHandler.getChannel(channel);
     channel.send({
       embeds: [
@@ -196,8 +170,6 @@ class DiscordManager extends CommunicationBridge {
   }
 
   async onBroadcastHeadedEmbed({ message, title, icon, color, channel }) {
-    Logger.broadcastMessage(message, "Event");
-
     channel = await this.stateHandler.getChannel(channel);
     channel.send({
       embeds: [
@@ -214,7 +186,6 @@ class DiscordManager extends CommunicationBridge {
   }
 
   async onPlayerToggle({ fullMessage, username, message, color, channel }) {
-    Logger.broadcastMessage(message, "Event");
     channel = await this.stateHandler.getChannel(channel);
     switch (config.discord.other.messageMode.toLowerCase()) {
       case "bot":
@@ -295,4 +266,4 @@ class DiscordManager extends CommunicationBridge {
   }
 }
 
-module.exports = DiscordManager;
+module.exports = ReplicationManager;

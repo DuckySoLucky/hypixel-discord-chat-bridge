@@ -19,7 +19,7 @@ class NetWorthCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  async onCommand(username, message, channel = "gc") {
     try {
       username = this.getArgs(message)[0] || username;
 
@@ -27,14 +27,22 @@ class NetWorthCommand extends minecraftCommand {
 
       username = formatUsername(username, data.profileData?.game_mode);
 
+      let should_cache = true;
+      let cache_message = "Cached";
+
+      if (this.getArgs(message)[1] == "force") {
+        should_cache = false;
+        cache_message = "Refreshed";
+      }
+
       const profile = await getNetworth(data.profile, data.profileData?.banking?.balance || 0, {
-        cache: true,
+        cache: should_cache,
         onlyNetworth: true,
         museumData: data.museum,
       });
 
       if (profile.noInventory === true) {
-        return this.send(`/gc ${username} has an Inventory API off!`);
+        return this.send(`/${channel} ${username} has an Inventory API off!`);
       }
 
       const networth = formatNumber(profile.networth);
@@ -44,11 +52,11 @@ class NetWorthCommand extends minecraftCommand {
       const museum = data.museum ? formatNumber(profile.types.museum?.total ?? 0) : "N/A";
 
       this.send(
-        `/gc ${username}'s Networth is ${networth} | Unsoulbound Networth: ${unsoulboundNetworth} | Purse: ${purse} | Bank: ${bank} | Museum: ${museum}`
+        `/${channel} ${username}'s Networth is ${networth} | Unsoulbound Networth: ${unsoulboundNetworth} | Purse: ${purse} | Bank: ${bank} | Museum: ${museum} | ${cache_message}`
       );
     } catch (error) {
       console.log(error);
-      this.send(`/gc [ERROR] ${error}`);
+      this.send(`/${channel} [ERROR] ${error}`);
     }
   }
 }

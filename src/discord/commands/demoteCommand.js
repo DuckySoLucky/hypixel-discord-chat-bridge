@@ -31,8 +31,8 @@ module.exports = {
       .setAuthor({ name: "Demote" })
       .setDescription(`Successfully executed \`/g demote ${name}\``)
       .setFooter({
-        text: `by @duckysolucky | /help [command] for more information`,
-        iconURL: "https://imgur.com/tgwQJTX.png",
+        text: "/help for more info",
+        iconURL: config.minecraft.API.SCF.logo,
       });
 
     await interaction.followUp({

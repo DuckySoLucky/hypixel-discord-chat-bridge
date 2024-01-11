@@ -5,14 +5,13 @@ const axios = require("axios");
 const { getUUID } = require("../../contracts/API/PlayerDBAPI.js");
 
 class MessageHandler {
-  constructor(discord, command) {
+  constructor(discord) {
     this.discord = discord;
-    this.command = command;
   }
 
   async onMessage(message) {
     try {
-      if (message.author.id === client.user.id || !this.shouldBroadcastMessage(message)) {
+      if (message.author.id === replication_client.user.id || !this.shouldBroadcastMessage(message)) {
         return;
       }
 
@@ -21,18 +20,14 @@ class MessageHandler {
         return;
       }
 
-      let chat = "Guild/InterDiscord";
-      if(message.channel.id == config.discord.channels.debugChannel){
+      let chat = "Guild/Replication";
+      if(message.channel.id == config.discord.replication.channels.debug){
         chat = "Debug";
       }
 
-      if(content.length >= 5){
-        this.saveGuildMessage(message.member.displayName);
-      }
-
       const messageData = {
-        chat: chat,
         member: message.member.user,
+        chat: chat,
         channel: message.channel.id,
         username: message.member.displayName.replaceAll(" ", ""),
         message: content,
@@ -65,23 +60,6 @@ class MessageHandler {
     } catch (error) {
       console.log(error);
     }
-  }
-
-  async saveGuildMessage(username) {
-    let uuid;
-    try {
-      uuid = await getUUID(username);
-    } catch (e) {
-      return;
-    }
-
-    let message_send = await Promise.all([
-      axios.get(
-        `https://sky.dssoftware.ru/api.php?method=saveGuildMessage&uuid=${uuid}&source=discord&api=${config.minecraft.API.SCF.key}&nick=${username}`
-      ),
-    ]).catch((error) => {});
-
-    return;
   }
 
   async fetchReply(message) {
@@ -183,9 +161,8 @@ class MessageHandler {
       message.author.bot && config.discord.channels.allowedBots.includes(message.author.id) === false ? true : false;
     const isValid = !isBot && (message.content.length > 0 || message?.attachments?.size > 0);
     const validChannelIds = [
-      config.discord.channels.officerChannel,
-      config.discord.channels.guildChatChannel,
-      config.discord.channels.debugChannel,
+      config.discord.replication.channels.guild,
+      config.discord.replication.channels.debug
     ];
 
     return isValid && validChannelIds.includes(message.channel.id);

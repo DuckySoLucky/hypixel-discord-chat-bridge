@@ -1,12 +1,12 @@
 const { formatNumber, formatUsername } = require("../../contracts/helperFunctions.js");
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
+const { getNetworth } = require("skyhelper-networth");
 const getTalismans = require("../../../API/stats/talismans.js");
 const getDungeons = require("../../../API/stats/dungeons.js");
 const getSkills = require("../../../API/stats/skills.js");
 const getSlayer = require("../../../API/stats/slayer.js");
 const getWeight = require("../../../API/stats/weight.js");
-const { getNetworth } = require("skyhelper-networth");
 
 class SkyblockCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -24,7 +24,7 @@ class SkyblockCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  async onCommand(username, message, channel = "gc") {
     try {
       username = this.getArgs(message)[0] || username;
 
@@ -67,12 +67,12 @@ class SkyblockCommand extends minecraftCommand {
       const enrichmentCount = talismans?.enriched ?? 0;
 
       this.send(
-        `/gc ${username}'s Level: ${
+        `/${channel} ${username}'s Level: ${
           data.profile.leveling?.experience ? data.profile.leveling.experience / 100 : 0
         } | Senither Weight: ${senitherWeight} | Lily Weight: ${lilyWeight} | Skill Average: ${skillAverage} | Slayer: ${slayerXp} | Catacombs: ${catacombsLevel} | Class Average: ${classAverage} | Networth: ${networthValue} | Accessories: ${talismanCount} | Recombobulated: ${recombobulatedCount} | Enriched: ${enrichmentCount}`
       );
     } catch (error) {
-      this.send(`/gc [ERROR] ${error}`);
+      this.send(`/${channel} [ERROR] ${error}`);
     }
   }
 }

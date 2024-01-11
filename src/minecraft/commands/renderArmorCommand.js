@@ -9,7 +9,7 @@ class ArmorCommand extends minecraftCommand {
     super(minecraft);
 
     this.name = "armor";
-    this.aliases = [];
+    this.aliases = ["armour"];
     this.description = "Renders armor of specified user.";
     this.options = [
       {
@@ -20,7 +20,7 @@ class ArmorCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  async onCommand(username, message, channel = "gc") {
     try {
       username = this.getArgs(message)[0] || username;
 
@@ -29,7 +29,7 @@ class ArmorCommand extends minecraftCommand {
       username = formatUsername(username, profile.profileData?.game_mode);
 
       if (profile.profile.inv_armor?.data === undefined) {
-        return this.send(`/gc This player has an Inventory API off.`);
+        return this.send(`/${channel} This player has an Inventory API off.`);
       }
 
       const { i: inventoryData } = await decodeData(Buffer.from(profile.profile.inv_armor.data, "base64"));
@@ -38,7 +38,7 @@ class ArmorCommand extends minecraftCommand {
         inventoryData === undefined ||
         inventoryData.filter((x) => JSON.stringify(x) === JSON.stringify({})).length === 4
       ) {
-        return this.send(`/gc ${username} has no armor equipped.`);
+        return this.send(`/${channel} ${username} has no armor equipped.`);
       }
 
       let response = "";
@@ -59,9 +59,9 @@ class ArmorCommand extends minecraftCommand {
         response += response.split(" | ").length == 4 ? link : `${link} | `;
       }
 
-      this.send(`/gc ${username}'s Armor: ${response}`);
+      this.send(`/${channel} ${username}'s Armor: ${response}`);
     } catch (error) {
-      this.send(`/gc [ERROR] ${error}`);
+      this.send(`/${channel} [ERROR] ${error}`);
     }
   }
 }

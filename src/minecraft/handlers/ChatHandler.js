@@ -9,6 +9,7 @@ const messages = require("../../../messages.json");
 const { EmbedBuilder } = require("discord.js");
 const config = require("../../../config.json");
 const Logger = require("../../Logger.js");
+const axios = require("axios");
 
 class StateHandler extends eventHandler {
   constructor(minecraft, command, discord) {
@@ -78,67 +79,62 @@ class StateHandler extends eventHandler {
       const username = replaceAllRanks(
         message.split("has")[0].replaceAll("-----------------------------------------------------\n", "")
       );
-      const uuid = await getUUID(username);
+
+      var is_banned = false;
+try{
+    const uuid = await getUUID(username);
+}
+catch(e){
+    return;
+}
+      if (config.minecraft.API.SCF.enabled) {
+        try {
+          let player_banned = await Promise.all([
+            axios.get(
+              `https://sky.dssoftware.ru/api.php?method=isBanned&uuid=${uuid}&api=${config.minecraft.API.SCF.key}`
+            ),
+          ]).catch((error) => {});
+
+          player_banned = player_banned[0].data ?? {};
+
+          if (player_banned.data === true) {
+            is_banned = true;
+            bot.chat(
+              `/oc ${username} was banned from the guild by admin, therefore will not be accepted. Please, do not accept this request or you may get demoted.`
+            );
+
+            this.minecraft.broadcastHeadedEmbed({
+              message: "Banned player (" + username + ") tried to join the guild.",
+              title: `Banned player`,
+              icon: `https://mc-heads.net/avatar/${username}`,
+              color: 15548997,
+              channel: "Officer",
+            });
+
+            await delay(10000);
+
+            bot.chat(`/guild kick ${username} You were banned from this guild. Submit an appeal to rejoin.`);
+            return;
+          }
+        } catch (e) {
+          bot.chat(`/oc Could not check whether ${username} was banned from the guild or not...`);
+        }
+      }
+
       if (config.minecraft.guildRequirements.enabled) {
         const [player, profile] = await Promise.all([hypixel.getPlayer(uuid), getLatestProfile(uuid)]);
         let meetRequirements = false;
 
-        const weight = getWeight(profile.profile, profile.uuid)?.weight?.senither?.total || 0;
         const skyblockLevel = (profile.profile?.leveling?.experience || 0) / 100 ?? 0;
-
-        const bwLevel = player.stats.bedwars.level;
-        const bwFKDR = player.stats.bedwars.finalKDRatio;
-
-        const swLevel = player.stats.skywars.level / 5;
-        const swKDR = player.stats.skywars.KDRatio;
-
-        const duelsWins = player.stats.duels.wins;
-        const dWLR = player.stats.duels.WLRatio;
-
-        if (weight > config.minecraft.guildRequirements.requirements.senitherWeight) {
-          meetRequirements = true;
-        }
 
         if (skyblockLevel > config.minecraft.guildRequirements.requirements.skyblockLevel) {
           meetRequirements = true;
         }
 
-        if (bwLevel > config.minecraft.guildRequirements.requirements.bedwarsStars) {
-          meetRequirements = true;
-        }
-        if (
-          bwLevel > config.minecraft.guildRequirements.requirements.bedwarsStarsWithFKDR &&
-          bwFKDR > config.minecraft.guildRequirements.requirements.bedwarsFKDR
-        ) {
-          meetRequirements = true;
-        }
-
-        if (swLevel > config.minecraft.guildRequirements.requirements.skywarsStars) {
-          meetRequirements = true;
-        }
-        if (
-          swLevel > config.minecraft.guildRequirements.requirements.skywarsStarsWithKDR &&
-          swKDR > config.minecraft.guildRequirements.requirements.skywarsStarsWithKDR
-        ) {
-          meetRequirements = true;
-        }
-
-        if (duelsWins > config.minecraft.guildRequirements.requirements.duelsWins) {
-          meetRequirements = true;
-        }
-        if (
-          duelsWins > config.minecraft.guildRequirements.requirements.duelsWinsWithWLR &&
-          dWLR > config.minecraft.guildRequirements.requirements.duelsWinsWithWLR
-        ) {
-          meetRequirements = true;
-        }
-
         bot.chat(
-          `/oc ${username} ${meetRequirements ? "meets" : "Doesn't meet"} Requirements. [BW] [${
-            player.stats.bedwars.level
-          }✫] FKDR: ${player.stats.bedwars.finalKDRatio} | [SW] [${player.stats.skywars.level}✫] KDR: ${
-            player.stats.skywars.KDRatio
-          } | [Duels] Wins: ${player.stats.duels.wins.toLocaleString()} WLR: ${player.stats.duels.WLRatio.toLocaleString()} | SB Weight: ${weight.toLocaleString()} | SB Level: ${skyblockLevel.toLocaleString()}`
+          `/oc ${username} ${
+            meetRequirements ? "meets" : "Doesn't meet"
+          } Requirements. SB Level: ${skyblockLevel.toLocaleString()}`
         );
         await delay(1000);
 
@@ -151,55 +147,24 @@ class StateHandler extends eventHandler {
             .setColor(2067276)
             .setTitle(`${player.nickname} has requested to join the Guild!`)
             .setDescription(`**Hypixel Network Level**\n${player.level}\n`)
-            .addFields(
-              {
-                name: "Bedwars Level",
-                value: `${player.stats.bedwars.level}`,
-                inline: true,
-              },
-              {
-                name: "Skywars Level",
-                value: `${player.stats.skywars.level}`,
-                inline: true,
-              },
-              {
-                name: "Duels Wins",
-                value: `${player.stats.duels.wins}`,
-                inline: true,
-              },
-              {
-                name: "Bedwars FKDR",
-                value: `${player.stats.bedwars.finalKDRatio}`,
-                inline: true,
-              },
-              {
-                name: "Skywars KDR",
-                value: `${player.stats.skywars.KDRatio}`,
-                inline: true,
-              },
-              {
-                name: "Duels WLR",
-                value: `${player.stats.duels.KDRatio}`,
-                inline: true,
-              },
-              {
-                name: "Senither Weight",
-                value: `${weight.toLocaleString()}`,
-                inline: true,
-              },
-              {
-                name: "Skyblock Level",
-                value: `${skyblockLevel.toLocaleString()}`,
-                inline: true,
-              }
-            )
+            .addFields({
+              name: "Skyblock Level",
+              value: `${skyblockLevel.toLocaleString()}`,
+              inline: true,
+            })
             .setThumbnail(`https://www.mc-heads.net/avatar/${player.nickname}`)
             .setFooter({
-              text: `by @duckysolucky | /help [command] for more information`,
-              iconURL: "https://imgur.com/tgwQJTX.png",
+              text: `/help [command] for more information`,
+              iconURL: config.minecraft.API.SCF.logo,
             });
 
           await client.channels.cache.get(`${config.discord.channels.loggingChannel}`).send({ embeds: [statsEmbed] });
+
+          if(config.minecraft.API.SCF.enabled){
+            await client.channels.cache
+            .get(`${config.discord.channels.officerChannel}`)
+            .send(`<@&1172990412802248704>\n${player.nickname} has joined the guild!`);
+          } 
         }
       }
     }
@@ -239,7 +204,7 @@ class StateHandler extends eventHandler {
       bot.chat(
         `/gc ${replaceVariables(messages.guildJoinMessage, {
           prefix: config.minecraft.bot.prefix,
-        })} | by @duckysolucky`
+        })}`
       );
       return [
         this.minecraft.broadcastHeadedEmbed({
@@ -265,6 +230,34 @@ class StateHandler extends eventHandler {
         .trim()
         .split(/ +/g)[0];
 
+      if (config.minecraft.API.SCF.enabled) {
+        const https = require("https");
+
+        const scf_api_key = config.minecraft.API.SCF.key;
+
+        const api_url = `https://sky.dssoftware.ru/discord/handler.php?api=${scf_api_key}&action=guild_kick&nick=${username}`;
+
+        https
+          .get(api_url, (resp) => {
+            this.minecraft.broadcastHeadedEmbed({
+              message: "Successfully unverified " + username,
+              title: `Member Unverification`,
+              icon: `https://mc-heads.net/avatar/${username}`,
+              color: 15548997,
+              channel: "Officer",
+            });
+          })
+          .on("error", (err) => {
+            this.minecraft.broadcastHeadedEmbed({
+              message: "Unable to unverify " + username,
+              title: `Member Unverification`,
+              icon: `https://mc-heads.net/avatar/${username}`,
+              color: 15548997,
+              channel: "Officer",
+            });
+          });
+      }
+
       return [
         this.minecraft.broadcastHeadedEmbed({
           message: replaceVariables(messages.leaveMessage, { username }),
@@ -288,6 +281,34 @@ class StateHandler extends eventHandler {
         .replace(/\[(.*?)\]/g, "")
         .trim()
         .split(/ +/g)[0];
+
+      if (config.minecraft.API.SCF.enabled) {
+        const https = require("https");
+
+        const scf_api_key = config.minecraft.API.SCF.key;
+
+        const api_url = `https://sky.dssoftware.ru/discord/handler.php?api=${scf_api_key}&action=guild_kick&nick=${username}`;
+
+        https
+          .get(api_url, (resp) => {
+            this.minecraft.broadcastHeadedEmbed({
+              message: "Successfully unverified " + username,
+              title: `Member Unverification`,
+              icon: `https://mc-heads.net/avatar/${username}`,
+              color: 15548997,
+              channel: "Officer",
+            });
+          })
+          .on("error", (err) => {
+            this.minecraft.broadcastHeadedEmbed({
+              message: "Unable to unverify " + username,
+              title: `Member Unverification`,
+              icon: `https://mc-heads.net/avatar/${username}`,
+              color: 15548997,
+              channel: "Officer",
+            });
+          });
+      }
 
       return [
         this.minecraft.broadcastHeadedEmbed({
@@ -389,7 +410,7 @@ class StateHandler extends eventHandler {
     }
 
     if (this.isRepeatMessage(message)) {
-      return client.channels.cache.get(config.discord.channels.guildChatChannel).send({
+      client.channels.cache.get(config.discord.channels.guildChatChannel).send({
         embeds: [
           {
             color: 15548997,
@@ -397,6 +418,16 @@ class StateHandler extends eventHandler {
           },
         ],
       });
+
+      replication_client.channels.cache.get(config.discord.replication.channels.guild).send({
+        embeds: [
+          {
+            color: 15548997,
+            description: messages.repeatMessage,
+          },
+        ],
+      });
+      return;
     }
 
     if (this.isNoPermission(message)) {
@@ -412,7 +443,7 @@ class StateHandler extends eventHandler {
       this.minecraft.broadcastHeadedEmbed({
         message: formattedMessage.charAt(0).toUpperCase() + formattedMessage.slice(1),
 
-        title: `Bot is currently muted for a Major Chat infraction.`,
+        title: `Bot is currently muted.`,
         color: 15548997,
         channel: "Guild",
       });
@@ -728,8 +759,27 @@ class StateHandler extends eventHandler {
       return;
     }
 
+    let command_channel = "gc";
+    if (match.groups.chatType == "Officer") {
+      command_channel = "oc";
+    }
+
+    if (this.isCommand(match.groups.message)) {
+      if (this.isDiscordMessage(match.groups.message) === true) {
+        const { player, command } = this.getCommandData(match.groups.message);
+
+        this.command.handle(player, command, command_channel);
+      }
+
+      this.command.handle(match.groups.username, match.groups.message, command_channel);
+    }
+
+    if(match.groups.message.length >= 5){
+      this.saveGuildMessage(match.groups.username);
+    }
+
     if (this.isDiscordMessage(match.groups.message) === false) {
-      const { chatType, rank, username, guildRank = "[Member]", message } = match.groups;
+      const { chatType, rank, username, guildRank = "Member", message } = match.groups;
       if (message.includes("replying to") && username === this.bot.username) {
         return;
       }
@@ -745,16 +795,23 @@ class StateHandler extends eventHandler {
         color: this.minecraftChatColorToHex(this.getRankColor(colouredMessage)),
       });
     }
+  }
 
-    if (this.isCommand(match.groups.message)) {
-      if (this.isDiscordMessage(match.groups.message) === true) {
-        const { player, command } = this.getCommandData(match.groups.message);
-
-        return this.command.handle(player, command);
-      }
-
-      return this.command.handle(match.groups.username, match.groups.message);
+  async saveGuildMessage(username) {
+    let uuid;
+    try {
+      uuid = await getUUID(username);
+    } catch (e) {
+      return;
     }
+
+    let message_send = await Promise.all([
+      axios.get(
+        `https://sky.dssoftware.ru/api.php?method=saveGuildMessage&uuid=${uuid}&source=minecraft&api=${config.minecraft.API.SCF.key}&nick=${username}`
+      ),
+    ]).catch((error) => {});
+
+    return;
   }
 
   isDiscordMessage(message) {

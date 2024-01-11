@@ -18,7 +18,7 @@ class FairySoulsCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  async onCommand(username, message, channel = "gc") {
     try {
       username = this.getArgs(message)[0] || username;
 
@@ -30,13 +30,13 @@ class FairySoulsCommand extends minecraftCommand {
       const { fairy_souls_collected } = data.profile;
 
       this.send(
-        `/gc ${username}'s Fairy Souls: ${fairy_souls_collected}/${total} | Progress: ${(
+        `/${channel} ${username}'s Fairy Souls: ${fairy_souls_collected}/${total} | Progress: ${(
           (fairy_souls_collected / total) *
           100
         ).toFixed(2)}%`
       );
     } catch (error) {
-      this.send(`/gc [ERROR] ${error}`);
+      this.send(`/${channel} [ERROR] ${error}`);
     }
   }
 }

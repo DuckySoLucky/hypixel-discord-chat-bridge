@@ -12,7 +12,7 @@ class KittyCommand extends minecraftCommand {
     this.options = [];
   }
 
-  async onCommand(username, message) {
+  async onCommand(username, message, channel = "gc") {
     try {
       const { data } = await axios.get(`https://api.thecatapi.com/v1/images/search`);
 
@@ -24,9 +24,9 @@ class KittyCommand extends minecraftCommand {
       const link = data[0].url;
       const upload = await uploadImage(link);
 
-      this.send(`/gc Cute Cat: ${upload.data.link}`);
+      this.send(`/${channel} Cute Cat: ${upload.data.link}`);
     } catch (error) {
-      this.send(`/gc [ERROR] ${error ?? "Something went wrong.."}`);
+      this.send(`/${channel} [ERROR] ${error ?? "Something went wrong.."}`);
     }
   }
 }

@@ -1,10 +1,8 @@
-const MinecraftManager = require("./minecraft/MinecraftManager.js");
 const DiscordManager = require("./discord/DiscordManager.js");
+const MinecraftManager = require("./minecraft/MinecraftManager.js");
 const webManager = require("./web/WebsiteManager.js");
-// eslint-disable-next-line no-unused-vars
-const Configuration = require("./Configuration.js");
-// eslint-disable-next-line no-unused-vars
-const Updater = require("./Updater.js");
+const ReplicationManager = require("./replication/ReplicationManager.js");
+const config = require("../config.json");
 
 class Application {
   async register() {
@@ -14,12 +12,24 @@ class Application {
 
     this.discord.setBridge(this.minecraft);
     this.minecraft.setBridge(this.discord);
+    
+    if(config.discord.replication.enabled){
+      this.replication = new ReplicationManager(this);
+
+      this.replication.setBridge(this.minecraft);
+      this.replication.setBridge(this.discord);
+  
+      this.discord.setBridge(this.replication);
+      this.minecraft.setBridge(this.replication);
+    }
   }
 
   async connect() {
     this.discord.connect();
     this.minecraft.connect();
-    this.web.connect();
+    if(config.discord.replication.enabled){
+      this.replication.connect();
+    }
   }
 }
 

@@ -31,8 +31,8 @@ module.exports = {
       .setTitle("Command has been executed successfully")
       .setDescription(`\`/${command}\`\n`)
       .setFooter({
-        text: "by @duckysolucky",
-        iconURL: "https://imgur.com/tgwQJTX.png",
+        text: "/help for more info",
+        iconURL: config.minecraft.API.SCF.logo,
       });
 
     await interaction.followUp({ embeds: [commandMessage], ephemeral: true });

@@ -23,7 +23,7 @@ class AuctionHouseCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  async onCommand(username, message, channel = "gc") {
     try {
       username = this.getArgs(message)[0] || username;
 
@@ -41,7 +41,7 @@ class AuctionHouseCommand extends minecraftCommand {
       const player = playerResponse.data?.player || {};
 
       if (auctions.length === 0) {
-        return this.send(`/gc This player has no active auctions.`);
+        return this.send(`/${channel} This player has no active auctions.`);
       }
 
       const activeAuctions = auctions.filter((auction) => auction.end >= Date.now());
@@ -84,16 +84,16 @@ class AuctionHouseCommand extends minecraftCommand {
 
         lore.push(`§7Ends in: §e${timeSince(auction.end)}`, `§7`, `§eClick to inspect`);
 
-        const renderedItem = await renderLore(` ${auction.item_name}`, lore);
+        const renderedItem = await renderLore(`${auction.item_name}`, lore);
         const upload = await uploadImage(renderedItem);
 
         string += string === "" ? upload.data.link : " | " + upload.data.link;
       }
 
-      this.send(`/gc ${`${username}'s Active Auctions: ${string}`}`);
+      this.send(`/${channel} ${`${username}'s Active Auctions: ${string}`}`);
     } catch (error) {
       console.log(error);
-      this.send(`/gc [ERROR] ${error}`);
+      this.send(`/${channel} [ERROR] ${error}`);
     }
   }
 }

@@ -1,4 +1,5 @@
 const { EmbedBuilder } = require("discord.js");
+const config = require("../../../config.json");
 
 module.exports = {
   name: "uptime",
@@ -10,8 +11,8 @@ module.exports = {
       .setTitle("🕐 Uptime!")
       .setDescription(`Online since <t:${Math.floor((Date.now() - interaction.client.uptime) / 1000)}:R>`)
       .setFooter({
-        text: `by @duckysolucky | /help [command] for more information`,
-        iconURL: "https://imgur.com/tgwQJTX.png",
+        text: "/help [command] for more information",
+        iconURL: config.minecraft.API.SCF.logo,
       });
 
     interaction.followUp({ embeds: [uptimeEmbed] });

@@ -55,8 +55,8 @@ module.exports = {
       .setAuthor({ name: "Blacklist" })
       .setDescription(`Successfully executed \`/ignore ${arg} ${name}\``)
       .setFooter({
-        text: `by @duckysolucky | /help [command] for more information`,
-        iconURL: "https://imgur.com/tgwQJTX.png",
+        text: "/help for more info",
+        iconURL: config.minecraft.API.SCF.logo,
       });
 
     await interaction.followUp({

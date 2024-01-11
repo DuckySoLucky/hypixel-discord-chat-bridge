@@ -40,11 +40,6 @@ if (config.minecraft.skyblockEventsNotifications.enabled) {
           eventBOT.send(`/gc [EVENT] ${eventData.name}${extraInfo}: ${minutes}m`);
           await delay(1500);
         }
-
-        if (minutes == 0) {
-          eventBOT.send(`/gc [EVENT] ${eventData.name}${extraInfo}: NOW`);
-          await delay(1500);
-        }
       }
     } catch (e) {
       console.log(e);

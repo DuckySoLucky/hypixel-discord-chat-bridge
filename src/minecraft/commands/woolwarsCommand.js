@@ -1,6 +1,7 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { formatNumber } = require("../../contracts/helperFunctions.js");
 const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
+const { getUUID } = require("../../contracts/API/PlayerDBAPI.js");
 
 class WoolwarsCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -18,11 +19,12 @@ class WoolwarsCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  async onCommand(username, message, channel = "gc") {
     try {
       username = this.getArgs(message)[0] || username;
+      let uuid = await getUUID(username);
 
-      const response = await hypixel.getPlayer(username, { raw: true });
+      const response = await hypixel.getPlayer(uuid, { raw: true });
 
       if (response.player === null) {
         // eslint-disable-next-line no-throw-literal
@@ -41,14 +43,14 @@ class WoolwarsCommand extends minecraftCommand {
       const level = getWoolWarsStar(experience);
 
       this.send(
-        `/gc [${Math.floor(level)}✫] ${username}: W: ${formatNumber(wins ?? 0)} | WLR: ${(wins / games_played).toFixed(
-          2
-        )} | KDR: ${(kills / deaths).toFixed(2)} | BB: ${formatNumber(blocks_broken)} | WP: ${formatNumber(
+        `/${channel} [${Math.floor(level)}✫] ${username}: W: ${formatNumber(wins ?? 0)} | WLR: ${(
+          wins / games_played
+        ).toFixed(2)} | KDR: ${(kills / deaths).toFixed(2)} | BB: ${formatNumber(blocks_broken)} | WP: ${formatNumber(
           wool_placed
         )} | WPP: ${(wool_placed / games_played).toFixed(2)} | WPG: ${(wool_placed / blocks_broken).toFixed(2)}`
       );
     } catch (error) {
-      this.send(`/gc [ERROR] ${error}`);
+      this.send(`/${channel} [ERROR] ${error}`);
     }
   }
 }

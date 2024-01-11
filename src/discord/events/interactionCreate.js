@@ -30,8 +30,8 @@ module.exports = {
         .setAuthor({ name: "An Error has occurred" })
         .setDescription(`${errrorMessage}\`\`\`${error}\`\`\``)
         .setFooter({
-          text: `by @duckysolucky | /help [command] for more information`,
-          iconURL: "https://imgur.com/tgwQJTX.png",
+          text: "/help [command] for more information",
+          iconURL: config.minecraft.API.SCF.logo,
         });
 
       await interaction.editReply({ embeds: [errorEmbed] });
@@ -48,8 +48,8 @@ module.exports = {
             }\`\n\`\`\`${error.stack}\`\`\``
           )
           .setFooter({
-            text: `by DuckySoLucky#5181`,
-            iconURL: "https://imgur.com/tgwQJTX.png",
+            text: "/help [command] for more information",
+            iconURL: config.minecraft.API.SCF.logo,
           });
 
         interaction.client.channels.cache.get(config.discord.channels.loggingChannel).send({

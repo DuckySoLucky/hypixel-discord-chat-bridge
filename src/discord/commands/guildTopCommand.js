@@ -1,4 +1,5 @@
 const { EmbedBuilder } = require("discord.js");
+const config = require("../../../config.json");
 
 module.exports = {
   name: "guildtop",
@@ -41,7 +42,17 @@ module.exports = {
     const trimmedMessages = message.map((message) => message.trim()).filter((message) => message.includes("."));
     const description = trimmedMessages
       .map((message) => {
-        const [position, , name, guildExperience] = message.split(" ");
+        const message_parts = message.split(" ");
+
+        let position = message_parts[0];
+        let name = message_parts[1];
+        let guildExperience = message_parts[2];
+
+        if (message_parts.length == 6) {
+          position = message_parts[0];
+          name = message_parts[2];
+          guildExperience = message_parts[3];
+        }
 
         return `\`${position}\` **${name}** - \`${guildExperience}\` Guild Experience\n`;
       })
@@ -52,8 +63,8 @@ module.exports = {
       .setTitle("Top 10 Guild Members")
       .setDescription(description)
       .setFooter({
-        text: "by @duckysolucky | /help [command] for more information",
-        iconURL: "https://imgur.com/tgwQJTX.png",
+        text: "/help [command] for more information",
+        iconURL: config.minecraft.API.SCF.logo,
       });
 
     return await interaction.followUp({ embeds: [embed] });

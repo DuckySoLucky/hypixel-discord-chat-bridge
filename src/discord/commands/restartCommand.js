@@ -20,8 +20,8 @@ module.exports = {
       .setTitle("Restarting...")
       .setDescription("The bot is restarting. This might take few seconds.")
       .setFooter({
-        text: `by @george_filos | /help [command] for more information`,
-        iconURL: "https://cdn.discordapp.com/avatars/177083022305263616/4ee1d5f278a36a61aa9164b9263c8722.webp",
+        text: "/help [command] for more information",
+        iconURL: config.minecraft.API.SCF.logo,
       });
 
     interaction.followUp({ embeds: [restartEmbed] });
@@ -38,8 +38,8 @@ module.exports = {
       .setTitle("Restart Successful!")
       .setDescription("The bot has been restarted successfully.")
       .setFooter({
-        text: `by @george_filos | /help [command] for more information`,
-        iconURL: "https://cdn.discordapp.com/avatars/177083022305263616/4ee1d5f278a36a61aa9164b9263c8722.webp",
+        text: "/help [command] for more information",
+        iconURL: config.minecraft.API.SCF.logo,
       });
 
     interaction.followUp({ embeds: [successfulRestartEmbed] });

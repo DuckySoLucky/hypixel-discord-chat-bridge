@@ -1,9 +1,8 @@
-/* eslint-disable no-throw-literal */
-const { getUUID } = require("../../src/contracts/API/PlayerDBAPI.js");
 const { getMuseum } = require("./getMuseum.js");
 const { isUuid } = require("../utils/uuid.js");
 const config = require("../../config.json");
 const axios = require("axios");
+const { getUUID } = require("../../src/contracts/API/PlayerDBAPI.js");
 
 const cache = new Map();
 

@@ -1,7 +1,7 @@
-const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
-const { formatUsername } = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const getTalismans = require("../../../API/stats/talismans.js");
+const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
+const { formatUsername } = require("../../contracts/helperFunctions.js");
 
 class AccessoriesCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -19,7 +19,7 @@ class AccessoriesCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  async onCommand(username, message, channel = "gc") {
     try {
       username = this.getArgs(message)[0] || username;
 
@@ -38,12 +38,12 @@ class AccessoriesCommand extends minecraftCommand {
         .join(", ");
 
       this.send(
-        `/gc ${username}'s Accessories: ${talismans?.total ?? 0} (${rarities}), Recombed: ${
+        `/${channel} ${username}'s Accessories: ${talismans?.total ?? 0} (${rarities}), Recombed: ${
           talismans?.recombed ?? 0
         }, Enriched: ${talismans?.enriched ?? 0}`
       );
     } catch (error) {
-      this.send(`/gc [ERROR] ${error}`);
+      this.send(`/${channel} Error: ${error}`);
     }
   }
 }

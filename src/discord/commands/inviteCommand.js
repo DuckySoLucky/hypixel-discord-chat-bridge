@@ -23,7 +23,7 @@ module.exports = {
       throw new HypixelDiscordChatBridgeError("You do not have permission to use this command.");
     }
 
-    const name = interaction.options.getString("name");
+    const name = interaction.options.getString("user");
     bot.chat(`/g invite ${name}`);
 
     const embed = new EmbedBuilder()
@@ -31,8 +31,8 @@ module.exports = {
       .setAuthor({ name: "Invite" })
       .setDescription(`Successfully executed \`/g invite ${name}\``)
       .setFooter({
-        text: `by @duckysolucky | /help [command] for more information`,
-        iconURL: "https://imgur.com/tgwQJTX.png",
+        text: "/help [command] for more information",
+        iconURL: config.minecraft.API.SCF.logo,
       });
 
     await interaction.followUp({

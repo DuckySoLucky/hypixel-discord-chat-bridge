@@ -1,7 +1,6 @@
 const { Collection } = require("discord.js");
-const config = require("../../config.json");
 const Logger = require("../Logger.js");
-const axios = require("axios");
+const config = require("../../config.json");
 const fs = require("fs");
 
 class CommandHandler {
@@ -19,7 +18,7 @@ class CommandHandler {
     }
   }
 
-  handle(player, message) {
+  handle(player, message, command_channel = "gc") {
     if (message.startsWith(this.prefix)) {
       if (config.minecraft.commands.normal === false) {
         return;
@@ -35,32 +34,8 @@ class CommandHandler {
       }
 
       Logger.minecraftMessage(`${player} - [${command.name}] ${message}`);
-      command.onCommand(player, message);
-    } else if (message.startsWith("-") && message.startsWith("- ") === false) {
-      if (config.minecraft.commands.soopy === false || message.at(1) === "-") {
-        return;
-      }
-
-      bot.chat(`/gc [SOOPY V2] ${message}`);
-
-      const command = message.slice(1).split(" ")[0];
-
-      Logger.minecraftMessage(`${player} - [${command}] ${message}`);
-
-      (async () => {
-        try {
-          const URI = encodeURI(`https://soopy.dev/api/guildBot/runCommand?user=${player}&cmd=${message.slice(1)}`);
-          const response = await axios.get(URI);
-
-          if (response?.data?.msg === undefined) {
-            return bot.chat(`/gc [SOOPY V2] An error occured while running the command`);
-          }
-
-          bot.chat(`/gc [SOOPY V2] ${response.data.msg}`);
-        } catch (e) {
-          bot.chat(`/gc [SOOPY V2] ${e.cause ?? e.message ?? "Unknown error"}`);
-        }
-      })();
+      command.onCommand(player, message, command_channel);
+      return true;
     }
   }
 }

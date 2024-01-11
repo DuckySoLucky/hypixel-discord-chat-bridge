@@ -1,6 +1,23 @@
 const { getRandomWord, scrambleWord } = require("../constants/words.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const getWord = (message) => message.split(" ").pop();
+
+const getAnswer = (message, answer) => {
+  let message_parts = message.split(" ");
+
+  if (message_parts[message_parts.length - 1].toLowerCase() == answer.toLowerCase()) {
+    return true;
+  }
+  if (message_parts.length >= 2) {
+    if (
+      (message_parts[message_parts.length - 1] + message_parts[message_parts.length - 2]).toLowerCase() ==
+      answer.toLowerCase()
+    ) {
+      return true;
+    }
+  }
+
+  return false;
+};
 
 const cooldowns = new Map();
 
@@ -21,7 +38,7 @@ class unscrambleCommand extends minecraftCommand {
     this.cooldown = 30 * 1000;
   }
 
-  async onCommand(username, message) {
+  async onCommand(username, message, channel = "gc") {
     try {
       const userUsername = username;
       const length = this.getArgs(message)[0];
@@ -36,16 +53,16 @@ class unscrambleCommand extends minecraftCommand {
         const remainingTime = cooldownDuration - elapsedTime;
 
         if (remainingTime > 0) {
-          return this.send(`/gc Please wait until current game is over.`);
+          return this.send(`/${channel} Please wait until current game is over.`);
         }
       }
 
       let answered = false;
       cooldowns.set(this.name, Date.now());
       const listener = (username, message) => {
-        if (getWord(message) === answer) {
+        if (getAnswer(message, answer)) {
           this.send(
-            `/gc ${userUsername} guessed it right! Time elapsed: ${(Date.now() - startTime).toLocaleString()}ms!`
+            `/${channel} You've guessed it right! Time elapsed: ${(Date.now() - startTime).toLocaleString()}ms!`
           );
 
           bot.removeListener("chat", listener);
@@ -55,7 +72,7 @@ class unscrambleCommand extends minecraftCommand {
       };
 
       bot.on("chat", listener);
-      this.send(`/gc Unscramble the following word: "${scrambledWord}"`);
+      this.send(`/${channel} Unscramble the following word: "${scrambledWord.toLowerCase()}"`);
       const startTime = Date.now();
 
       setTimeout(() => {
@@ -63,11 +80,11 @@ class unscrambleCommand extends minecraftCommand {
         cooldowns.delete(this.name);
 
         if (answered === false) {
-          this.send(`/gc Time's up! The answer was ${answer}`);
+          this.send(`/${channel} Time's up! The answer was ${answer}`);
         }
       }, 30000);
     } catch (error) {
-      this.send(`/gc [ERROR] ${error || "Something went wrong.."}`);
+      this.send(`/${channel} [ERROR] ${error || "Something went wrong.."}`);
     }
   }
 }

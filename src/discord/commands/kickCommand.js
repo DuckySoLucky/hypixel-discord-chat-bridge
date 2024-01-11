@@ -29,7 +29,10 @@ module.exports = {
       throw new HypixelDiscordChatBridgeError("You do not have permission to use this command.");
     }
 
-    const [name, reason] = [interaction.options.getString("name"), interaction.options.getString("reason")];
+    const [name, reason] = [
+      interaction.options.getString("user") ?? interaction.options.getString("name"),
+      interaction.options.getString("reason"),
+    ];
     bot.chat(`/g kick ${name} ${reason}`);
 
     const embed = new EmbedBuilder()
@@ -37,8 +40,8 @@ module.exports = {
       .setAuthor({ name: "Kick" })
       .setDescription(`Successfully executed \`/g kick ${name} ${reason}\``)
       .setFooter({
-        text: `by @duckysolucky | /help [command] for more information`,
-        iconURL: "https://imgur.com/tgwQJTX.png",
+        text: "/help [command] for more information",
+        iconURL: config.minecraft.API.SCF.logo,
       });
 
     await interaction.followUp({

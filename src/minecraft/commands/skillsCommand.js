@@ -19,7 +19,7 @@ class SkillsCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  async onCommand(username, message, channel = "gc") {
     try {
       username = this.getArgs(message)[0] || username;
 
@@ -40,14 +40,14 @@ class SkillsCommand extends minecraftCommand {
       const skillsFormatted = Object.keys(profile)
         .map((skill) => {
           const level = Math.floor(profile[skill].levelWithProgress ?? 0);
-          const skillName = skill[0].toUpperCase() + skill[1];
-          return `${level}${skillName}`;
+          const skillName = skill[0].toUpperCase() + skill.slice(1);
+          return `${skillName} ${level}`;
         })
-        .join(", ");
+        .join(" | ");
 
-      this.send(`/gc ${username}'s Skill Average: ${skillAverage ?? 0} (${skillsFormatted})`);
+      this.send(`/${channel} ${username}'s Skill Average: ${skillAverage ?? 0} (${skillsFormatted})`);
     } catch (error) {
-      this.send(`[ERROR] ${error}}`);
+      this.send(`/${channel} [ERROR] ${error}}`);
     }
   }
 }

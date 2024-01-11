@@ -1,6 +1,7 @@
 class CommunicationBridge {
   constructor() {
     this.bridge = null;
+    this.bridge_list = [];
   }
 
   getBridge() {
@@ -8,23 +9,34 @@ class CommunicationBridge {
   }
 
   setBridge(bridge) {
-    this.bridge = bridge;
+    if(this.bridge == null){
+      this.bridge = bridge;
+    }
+    this.bridge_list.push(bridge);
   }
 
   broadcastMessage(event) {
-    return this.bridge.onBroadcast(event);
+    this.bridge_list.forEach(bridge_el => {
+      bridge_el.onBroadcast(event);
+    });
   }
 
   broadcastPlayerToggle(event) {
-    return this.bridge.onPlayerToggle(event);
+    this.bridge_list.forEach(bridge_el => {
+      bridge_el.onPlayerToggle(event);
+    });
   }
 
   broadcastCleanEmbed(event) {
-    return this.bridge.onBroadcastCleanEmbed(event);
+    this.bridge_list.forEach(bridge_el => {
+      bridge_el.onBroadcastCleanEmbed(event);
+    });
   }
 
   broadcastHeadedEmbed(event) {
-    return this.bridge.onBroadcastHeadedEmbed(event);
+    this.bridge_list.forEach(bridge_el => {
+      bridge_el.onBroadcastHeadedEmbed(event);
+    });
   }
 
   connect() {

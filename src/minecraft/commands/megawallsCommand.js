@@ -1,5 +1,6 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
+const { getUUID } = require("../../contracts/API/PlayerDBAPI.js");
 
 class EightBallCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -17,24 +18,25 @@ class EightBallCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  async onCommand(username, message, channel = "gc") {
     try {
       username = this.getArgs(message)[0] || username;
 
+      let uuid = await getUUID(username);
       const {
         stats: { megawalls },
-      } = await hypixel.getPlayer(username);
+      } = await hypixel.getPlayer(uuid);
 
       const { selectedClass = "None", finalKills, finalKDRatio, wins, WLRatio, kills, KDRatio, assists } = megawalls;
 
       this.send(
-        `/gc ${username}'s Megawalls: Class: ${
+        `/${channel} ${username}'s Megawalls: Class: ${
           selectedClass ?? "None"
         } | FK: ${finalKills} | FKDR: ${finalKDRatio} | W: ${wins} | WLR: ${WLRatio} | K: ${kills} | KDR: ${KDRatio} | A: ${assists}`
       );
     } catch (error) {
       this.send(
-        `/gc ${error
+        `/${channel} ${error
           .toString()
           .replace("[hypixel-api-reborn] ", "")
           .replace("For help join our Discord Server https://discord.gg/NSEBNMM", "")

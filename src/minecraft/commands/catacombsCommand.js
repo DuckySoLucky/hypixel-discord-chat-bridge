@@ -19,7 +19,7 @@ class CatacombsCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  async onCommand(username, message, channel = "gc") {
     try {
       username = this.getArgs(message)[0] || username;
 
@@ -48,16 +48,16 @@ class CatacombsCommand extends minecraftCommand {
       const SR = isNaN(SRValue) || SRValue === Infinity ? 0 : SRValue.toFixed(2);
 
       this.send(
-        `/gc ${username}'s Catacombs: ${level} | Class Average: ${classAvrg} (${dungeons.classes.healer.level}H, ${
-          dungeons.classes.mage.level
-        }M, ${dungeons.classes.berserk.level}B, ${dungeons.classes.archer.level}A, ${
+        `/${channel} ${username}'s Catacombs: ${level} | Class Average: ${classAvrg} (${
+          dungeons.classes.healer.level
+        }H, ${dungeons.classes.mage.level}M, ${dungeons.classes.berserk.level}B, ${dungeons.classes.archer.level}A, ${
           dungeons.classes.tank.level
         }T) | Secrets: ${formatNumber(dungeons.secrets_found ?? 0, 1)} (${SR} S/R)`
       );
     } catch (error) {
       console.log(error);
 
-      this.send(`/gc [ERROR] ${error}`);
+      this.send(`/${channel} [ERROR] ${error}`);
     }
   }
 }

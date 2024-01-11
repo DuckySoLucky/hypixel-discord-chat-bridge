@@ -9,7 +9,7 @@ class EquipmentCommand extends minecraftCommand {
     super(minecraft);
 
     this.name = "equipment";
-    this.aliases = [];
+    this.aliases = ["eq"];
     this.description = "Renders equipment of specified user.";
     this.options = [
       {
@@ -20,7 +20,7 @@ class EquipmentCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  async onCommand(username, message, channel = "gc") {
     try {
       username = this.getArgs(message)[0] || username;
 
@@ -29,7 +29,7 @@ class EquipmentCommand extends minecraftCommand {
       username = formatUsername(username, profile.profileData?.game_mode);
 
       if (profile.profile?.equippment_contents?.data === undefined) {
-        return this.send(`/gc This player has an Inventory API off.`);
+        return this.send(`/${channel} This player has an Inventory API off.`);
       }
 
       const { i: inventoryData } = await decodeData(Buffer.from(profile.profile.equippment_contents.data, "base64"));
@@ -52,9 +52,9 @@ class EquipmentCommand extends minecraftCommand {
         response += response.split(" | ").length == 4 ? link : `${link} | `;
       }
 
-      this.send(`/gc ${username}'s Equipment: ${response}`);
+      this.send(`/${channel} ${username}'s Equipment: ${response}`);
     } catch (error) {
-      this.send(`/gc [ERROR] ${error}`);
+      this.send(`/${channel} [ERROR] ${error}`);
     }
   }
 }
