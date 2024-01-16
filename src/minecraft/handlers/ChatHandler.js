@@ -40,8 +40,8 @@ class StateHandler extends eventHandler {
       });
     }
 
-    if (this.isLobbyJoinMessage(message)) {
-      // return bot.chat("\u00a7");
+    if (this.isLobbyJoinMessage(message) && config.discord.other.autoLimbo === true) {
+      return bot.chat("\u00a7");
     }
 
     if (this.isPartyMessage(message) && config.minecraft.fragBot.enabled === true) {
