@@ -40,7 +40,7 @@ class StateHandler extends eventHandler {
       });
     }
 
-    if (this.isLobbyJoinMessage(message)) {
+    if (this.isLobbyJoinMessage(message) && config.discord.other.autoLimbo === true) {
       return bot.chat("\u00a7");
     }
 

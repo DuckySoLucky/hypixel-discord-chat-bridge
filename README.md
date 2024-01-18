@@ -268,6 +268,7 @@ The filterMessage is ability to toggle filtering messages. This should be set to
 
 The joinMessage is ability to toggle join and leave message being sent to the discord channel.
 
+The autoLimbo is ability to toggle if the bot is sent to Limbo or stays in public lobbies.
 ### Commands
 
 `< >` = Required arguments, `[ ]` = Optional arguments
