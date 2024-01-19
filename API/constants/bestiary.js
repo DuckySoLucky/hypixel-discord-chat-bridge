@@ -1,7 +1,6 @@
 const BESTIARY = {
     dynamic: {
       name: "Private Island",
-      hasSubcategories: false,
       mobs: [
         {
           name: "Creeper",
@@ -145,7 +144,6 @@ const BESTIARY = {
     },
     hub: {
       name: "Hub",
-      hasSubcategories: false,
       mobs: [
         {
           name: "Crypt Ghoul",
@@ -187,7 +185,6 @@ const BESTIARY = {
     },
     farming_1: {
       name: "The Farming Islands",
-      hasSubcategories: false,
       mobs: [
         {
           name: "Chicken",
@@ -229,7 +226,6 @@ const BESTIARY = {
     },
     combat_1: {
       name: "Spiders Den",
-      hasSubcategories: false,
       mobs: [
         {
           name: "Arachne",
@@ -340,7 +336,6 @@ const BESTIARY = {
     },
     combat_3: {
       name: "The End",
-      hasSubcategories: false,
       mobs: [
         {
           name: "Dragon",
@@ -408,7 +403,6 @@ const BESTIARY = {
     },
     crimson_isle: {
       name: "Crimson Isle",
-      hasSubcategories: false,
       mobs: [
         {
           name: "Ashfang",
@@ -544,7 +538,6 @@ const BESTIARY = {
     },
     mining_2: {
       name: "Deep Caverns",
-      hasSubcategories: false,
       mobs: [
         {
           name: "Emerald Slime",
@@ -586,7 +579,6 @@ const BESTIARY = {
     },
     mining_3: {
       name: "Dwarven Mines",
-      hasSubcategories: false,
       mobs: [
         {
           name: "Diamond Goblin",
@@ -665,7 +657,6 @@ const BESTIARY = {
     },
     crystal_hollows: {
       name: "Crystal Hollows",
-      hasSubcategories: false,
       mobs: [
         {
           name: "Thyst",
@@ -731,7 +722,6 @@ const BESTIARY = {
     },
     foraging_1: {
       name: "The Park",
-      hasSubcategories: false,
       mobs: [
         {
           name: "Howling Spirit",
@@ -755,7 +745,6 @@ const BESTIARY = {
     },
     spooky_festival: {
       name: "Spooky Festival",
-      hasSubcategories: false,
       mobs: [
         {
           name: "Crazy Witch",
@@ -803,7 +792,6 @@ const BESTIARY = {
     },
     mythological_creatures: {
       name: "Mythological Creatures",
-      hasSubcategories: false,
       mobs: [
         {
           name: "Gaia Construct",
@@ -845,7 +833,6 @@ const BESTIARY = {
     },
     jerry: {
       name: "Jerry",
-      hasSubcategories: false,
       mobs: [
         {
           name: "Blue Jerry",
@@ -875,7 +862,6 @@ const BESTIARY = {
     },
     kuudra: {
       name: "Kuudra",
-      hasSubcategories: false,
       mobs: [
         {
           name: "Blazing Golem",
