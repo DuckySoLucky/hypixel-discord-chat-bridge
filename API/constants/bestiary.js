@@ -978,7 +978,6 @@ const BESTIARY = {
   },
   fishing: {
     name: "Fishing",
-    hasSubcategories: true,
     fishing: {
       name: "Fishing",
       mobs: [
@@ -1295,7 +1294,6 @@ const BESTIARY = {
   },
   catacombs: {
     name: "Catacombs",
-    hasSubcategories: false,
     mobs: [
       {
         name: "Angry Archeologist",
@@ -1936,7 +1934,6 @@ const BESTIARY = {
   },
   garden: {
     name: "Garden",
-    hasSubcategories: false,
     mobs: [
       {
         name: "Beetle",
