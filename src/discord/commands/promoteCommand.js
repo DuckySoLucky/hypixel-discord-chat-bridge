@@ -1,10 +1,10 @@
-const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
-const { EmbedBuilder } = require("discord.js");
-const config = require("../../../config.json");
+const { SuccessEmbed } = require("../../contracts/embedHandler.js");
 
 module.exports = {
   name: "promote",
   description: "Promotes the given user by one guild rank.",
+  moderatorOnly: true,
+  requiresBot: true,
   options: [
     {
       name: "name",
@@ -15,25 +15,10 @@ module.exports = {
   ],
 
   execute: async (interaction) => {
-    const user = interaction.member;
-    if (
-      config.discord.commands.checkPerms === true &&
-      !(user.roles.cache.has(config.discord.commands.commandRole) || config.discord.commands.users.includes(user.id))
-    ) {
-      throw new HypixelDiscordChatBridgeError("You do not have permission to use this command.");
-    }
-
     const name = interaction.options.getString("name");
     bot.chat(`/g promote ${name}`);
 
-    const embed = new EmbedBuilder()
-      .setColor(5763719)
-      .setAuthor({ name: "Promote" })
-      .setDescription(`Successfully executed \`/g promote ${name}\``)
-      .setFooter({
-        text: `by @duckysolucky | /help [command] for more information`,
-        iconURL: "https://imgur.com/tgwQJTX.png",
-      });
+    const embed = new SuccessEmbed(`Successfully promoted \`${name}\` by one guild rank.`);
 
     await interaction.followUp({
       embeds: [embed],

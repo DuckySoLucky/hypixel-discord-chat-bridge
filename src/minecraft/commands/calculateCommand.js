@@ -18,7 +18,6 @@ class CalculateCommand extends minecraftCommand {
   }
 
   onCommand(username, message) {
-    // CREDITS: by @Zickles (https://github.com/Zickles)
     try {
       const calculation = message.replace(/[^-()\d/*+.]/g, "");
       const answer = eval(calculation);

@@ -1,10 +1,16 @@
-const { EmbedBuilder } = require("discord.js");
+const { Embed } = require("../../contracts/embedHandler.js");
+const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 
 module.exports = {
   name: "online",
   description: "List of online members.",
+  requiresBot: true,
 
   execute: async (interaction) => {
+    if (bot === undefined || bot._client.chat === undefined) {
+      throw new HypixelDiscordChatBridgeError("Bot doesn't seem to be connected to Hypixel. Please try again.");
+    }
+
     const cachedMessages = [];
     const messages = new Promise((resolve, reject) => {
       const listener = (message) => {
@@ -52,14 +58,7 @@ module.exports = {
       .filter((item) => item);
 
     const description = `${totalMembers}\n${onlineMembers}\n\n${online.join("\n")}`;
-    const embed = new EmbedBuilder()
-      .setColor("#2ECC71")
-      .setTitle("Online Members")
-      .setDescription(description)
-      .setFooter({
-        text: "by @duckysolucky | /help [command] for more information",
-        iconURL: "https://imgur.com/tgwQJTX.png",
-      });
+    const embed = new Embed("#2ECC71", "Online Members", description);
 
     return await interaction.followUp({ embeds: [embed] });
   },

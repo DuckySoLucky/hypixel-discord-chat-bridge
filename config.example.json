@@ -94,7 +94,7 @@
       "messageFormat": "{chatType} > {skin} {rank} {username} {guildRank}§f: {message}",
       "filterMessages": true,
       "joinMessage": true,
-      "autoLimbo": true
+      "autoLimbo": false
     }
   },
   "web": {

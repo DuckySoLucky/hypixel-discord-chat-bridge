@@ -19,6 +19,7 @@ class BoopCommand extends minecraftCommand {
   }
 
   async onCommand(username, message) {
+    // CREDITS: by @Zickles (https://github.com/Zickles)
     try {
       if (this.getArgs(message).length === 0) {
         // eslint-disable-next-line no-throw-literal
@@ -33,11 +34,11 @@ class BoopCommand extends minecraftCommand {
       await delay(690);
       this.send(`/msg ${this.getArgs(message)[0]} ${username} Booped You!`);
       await delay(690);
-      this.send(`/gc Booped ${this.getArgs(message)[0]}!`)
+      this.send(`/gc Booped ${this.getArgs(message)[0]}!`);
       this.isOnCooldown = true;
       setTimeout(() => {
         if (this.isOnCooldown === true) {
-            this.isOnCooldown = false;
+          this.isOnCooldown = false;
         }
       }, 300000);
     } catch (error) {

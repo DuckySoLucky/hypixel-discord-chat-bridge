@@ -1,10 +1,10 @@
-const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
-const { EmbedBuilder } = require("discord.js");
-const config = require("../../../config.json");
+const { SuccessEmbed } = require("../../contracts/embedHandler.js");
 
 module.exports = {
   name: "mute",
   description: "Mutes the given user for a given amount of time.",
+  moderatorOnly: true,
+  requiresBot: true,
   options: [
     {
       name: "name",
@@ -21,25 +21,10 @@ module.exports = {
   ],
 
   execute: async (interaction) => {
-    const user = interaction.member;
-    if (
-      config.discord.commands.checkPerms === true &&
-      !(user.roles.cache.has(config.discord.commands.commandRole) || config.discord.commands.users.includes(user.id))
-    ) {
-      throw new HypixelDiscordChatBridgeError("You do not have permission to use this command.");
-    }
-
     const [name, time] = [interaction.options.getString("name"), interaction.options.getString("time")];
     bot.chat(`/g mute ${name} ${time}`);
 
-    const embed = new EmbedBuilder()
-      .setColor(5763719)
-      .setAuthor({ name: "Mute" })
-      .setDescription(`Successfully executed \`/g mute ${name} ${time}\``)
-      .setFooter({
-        text: `by @duckysolucky | /help [command] for more information`,
-        iconURL: "https://imgur.com/tgwQJTX.png",
-      });
+    const embed = new SuccessEmbed(`Successfully muted **${name}** for ${time}.`);
 
     await interaction.followUp({
       embeds: [embed],

@@ -1,8 +1,9 @@
-const { EmbedBuilder } = require("discord.js");
+const { Embed } = require("../../contracts/embedHandler.js");
 
 module.exports = {
   name: "guildtop",
   description: "Top 10 members with the most guild experience.",
+  requiresBot: true,
   options: [
     {
       name: "time",
@@ -47,14 +48,7 @@ module.exports = {
       })
       .join("");
 
-    const embed = new EmbedBuilder()
-      .setColor("#2ECC71")
-      .setTitle("Top 10 Guild Members")
-      .setDescription(description)
-      .setFooter({
-        text: "by @duckysolucky | /help [command] for more information",
-        iconURL: "https://imgur.com/tgwQJTX.png",
-      });
+    const embed = new Embed("#2ECC71", "Top 10 Guild Members", description);
 
     return await interaction.followUp({ embeds: [embed] });
   },
