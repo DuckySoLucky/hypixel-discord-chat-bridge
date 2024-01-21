@@ -41,7 +41,7 @@
     "discord.js": "^14.13.0",
     "express": "^4.18.1",
     "fs-promise": "^2.0.3",
-    "hypixel-api-reborn": "^10.0.0",
+    "hypixel-api-reborn": "^11.0.1",
     "imgur": "^2.2.0",
     "lilyweight": "^2.7.0",
     "lodash": "^4.17.21",
@@ -51,7 +51,7 @@
     "node-cron": "^3.0.2",
     "prismarine-nbt": "^2.2.1",
     "rss-parser": "^3.13.0",
-    "skyhelper-networth": "1.18.0",
+    "skyhelper-networth": "1.18.2",
     "util": "^0.12.5"
   },
   "devDependencies": {
