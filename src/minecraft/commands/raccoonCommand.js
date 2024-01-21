@@ -13,6 +13,7 @@ class RaccoonCommand extends minecraftCommand {
   }
 
   async onCommand(username, message) {
+    // CREDITS: by @Kathund (https://github.com/Kathund)
     try {
       const { data, status } = await axios.get(`https://raccoon.kath.lol/raccoon`);
       if (status !== 200) {
