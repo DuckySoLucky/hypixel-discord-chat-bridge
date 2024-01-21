@@ -28,7 +28,7 @@ class DuckCommand extends minecraftCommand {
 
       const upload = await uploadImage(data.url);
 
-      this.send(`/gc Funny Raccoon: ${upload.data.link}`);
+      this.send(`/gc Funny Duck: ${upload.data.link}`);
     } catch (error) {
       this.send(`/gc [ERROR] ${error ?? "Something went wrong.."}`);
     }
