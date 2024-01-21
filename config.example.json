@@ -93,6 +93,7 @@
       "messageMode": "minecraft",
       "messageFormat": "{chatType} > {skin} {rank} {username} {guildRank}§f: {message}",
       "filterMessages": true,
+      "filterWords": ["dox", "doxx", "doxed", "doxxed", "doxing", "doxxing", "doxes", "doxxes", "zickles"],
       "joinMessage": true,
       "autoLimbo": false
     }

@@ -9,6 +9,8 @@ const mineflayer = require("mineflayer");
 const Logger = require("../Logger.js");
 const Filter = require("bad-words");
 const filter = new Filter();
+const fileredWords = config.discord.other.filterWords ?? "";
+filter.addWords(...fileredWords);
 
 class MinecraftManager extends CommunicationBridge {
   constructor(app) {

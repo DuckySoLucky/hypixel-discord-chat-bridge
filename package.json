@@ -8,7 +8,6 @@
     "test": "jest --detectOpenHandles --forceExit",
     "lint": "npx eslint .",
     "lint:fix": "npx eslint . --fix",
-    "lint:ejs": "ejslint **/*.ejs",
     "prettier": "npx prettier --check .",
     "prettier:fix": "npx prettier --write .",
     "nodemon": "nodemon index"
