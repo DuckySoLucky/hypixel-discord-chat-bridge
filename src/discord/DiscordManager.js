@@ -134,11 +134,11 @@ class DiscordManager extends CommunicationBridge {
           ],
         });
 
-        /*if (message.includes("https://")) {
+        if (message.includes("https://")) {
           const links = message.match(/https?:\/\/[^\s]+/g).join("\n");
 
           channel.send(links);
-        }*/
+        }
 
         break;
 

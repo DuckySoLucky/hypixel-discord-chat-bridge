@@ -44,7 +44,7 @@ class AccessoriesCommand extends minecraftCommand {
         `/${channel} ${username}'s place: ${placement_info.data.place} | Messages sent: ${placement_info.data.count}`
       );
     } catch (error) {
-      this.send(`/${channel} Error: ${error}`);
+      this.send(`/${channel} [ERROR] ${error}`);
     }
   }
 }

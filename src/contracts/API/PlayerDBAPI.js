@@ -1,141 +1,72 @@
 const axios = require("axios");
-const config = require("../../../config.json");
 
-let ign_cache = {}; // IGN to UUID Cache
-let uuid_cache = {}; // UUID to IGN Cache
+const cache = new Map();
 
-function getIGNCache(username) {
+async function getUUID(username, full=false) {
   try {
-    let value = ign_cache[username.toLowerCase()];
-    if (value === undefined) {
-      return false;
+    if (cache.has(username)) {
+      const data = cache.get(username);
+
+      if (data.last_save + 43200000 > Date.now()) {
+        if(full){
+          return {
+            uuid: data.id,
+            username: username
+          };
+        }
+
+        return data.id;
+      }
     }
 
-    if (Date.now() - value.cachedAt > 5 * 60 * 1000) {
-      return false;
+    const { data } = await axios.get(`https://api.mojang.com/users/profiles/minecraft/${username}`);
+
+    if (data.errorMessage || data.id === undefined) {
+      throw data.errorMessage ?? "Invalid username.";
     }
 
-    return value.uuid;
-  } catch (e) {
-    return false;
-  }
-}
-function saveIGNCache(username, uuid) {
-  try {
-    let timestamp = Date.now();
-    ign_cache[username.toLowerCase()] = {
-      cachedAt: timestamp,
-      uuid: uuid,
-    };
-  } catch (e) {
-    console.log(e);
-  }
-}
+    let correct_uuid = data.id.replace(/-/g, "");
 
-function getUUIDCache(uuid) {
-  try {
-    let value = uuid_cache[uuid];
-    if (value === undefined) {
-      return false;
+    cache.set(data.name, {
+      last_save: Date.now(),
+      id: correct_uuid,
+    });
+
+    if(full){
+      return {
+        uuid: correct_uuid,
+        username: data.name
+      };
     }
-
-    if (Date.now() - value.cachedAt > 5 * 60 * 1000) {
-      return false;
-    }
-
-    return value.username;
-  } catch (e) {
-    return false;
-  }
-}
-function saveUUIDCache(uuid, username) {
-  try {
-    let timestamp = Date.now();
-    uuid_cache[uuid] = {
-      cachedAt: timestamp,
-      username: username,
-    };
-  } catch (e) {
-    console.log(e);
-  }
-}
-
-async function getUUID(username) {
-  let cache_value = getIGNCache(username);
-  if (cache_value !== false) {
-    return cache_value;
-  }
-
-  try {
-    const { data } = await axios.get(`${config.minecraft.API.resolvers.IGN_to_UUID}/${username}`);
-
-    if (data.id === undefined) {
-      throw "Invalid username.";
-    }
-
-    saveIGNCache(username, data.id);
-    return data.id;
+    return correct_uuid;
   } catch (error) {
-    if (error?.response?.status == 404) {
+    console.log(error)
+    const err = error.response.status;
+    if(err == 404){
       throw "Invalid username.";
     }
-    if (error?.response?.status == 429) {
-      throw "Bot got rate limited. Try again later.";
+    if(err == 403){
+      throw "Request was blocked.";
     }
-    throw "API Lookup failed.";
+    if(err == 400){
+      throw "Malformed username."
+    }
+    throw `Code: ${err}`;
   }
 }
 
 async function getUsername(uuid) {
-  let cache_value = getUUIDCache(uuid);
-  if (cache_value !== false) {
-    return cache_value;
-  }
-
   try {
-    const { data } = await axios.get(`${config.minecraft.API.resolvers.UUID_to_IGN}/${uuid}`);
-
-    if (data.name === undefined) {
-      throw "Invalid username.";
-    }
-
-    saveUUIDCache(uuid, data.name);
+    const { data } = await axios.get(`https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`);
     return data.name;
   } catch (error) {
-    if (error?.response?.status == 404) {
-      console.log("Invalid UUID.");
-    }
-    if (error?.response?.status == 429) {
-      console.log("Bot got rate limited. Try again later.");
-    }
-    console.log("API Lookup failed.");
-    return "undefined";
+    console.log(error);
   }
 }
 
 async function resolveUsernameOrUUID(username) {
-  let cached_player_uuid = getIGNCache(username);
-  if (cached_player_uuid !== false) {
-    let cached_player_username = getUUIDCache(cached_player_uuid);
-
-    return { username: cached_player_username, uuid: cached_player_uuid };
-  }
-
   try {
-    const { data } = await axios.get(`${config.minecraft.API.resolvers.IGN_to_UUID}/${username}`);
-
-    if (data.id === undefined) {
-      throw "Invalid username.";
-    }
-
-    if (data.name === undefined) {
-      throw "Invalid username.";
-    }
-
-    saveUUIDCache(data.id, data.name);
-    saveIGNCache(data.name, data.id);
-
-    return { username: data.name, uuid: data.id };
+    return getUUID(username, true);
   } catch (error) {
     console.log(error);
   }

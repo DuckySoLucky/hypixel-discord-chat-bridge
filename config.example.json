@@ -1,0 +1,153 @@
+{
+  "minecraft": {
+    "bot": {
+      "prefix": "!",
+      "messageFormat": "{username} » {message}",
+      "messageRepeatBypassLength": 28,
+      "unique_id": "BRIDGE_UNIQUE_ID"
+    },
+    "commands": {
+      "normal": true,
+      "soopy": false
+    },
+    "fragBot": {
+      "enabled": false,
+      "whitelist": false,
+      "customWhitelist": [],
+      "blacklist": false,
+      "blacklisted": []
+    },
+    "guild": {
+      "guildExp": 50000
+    },
+    "API": {
+      "hypixelAPIkey": "HYPIXEL-API-KEY",
+      "imgurAPIkey": "IMGUR-API-KEY",
+
+      "resolvers": {
+        "IGN_to_UUID": "https://api.mojang.com/users/profiles/minecraft",
+        "UUID_to_IGN": "https://sessionserver.mojang.com/session/minecraft/profile"
+      },
+
+      "SCF": { 
+        "enabled": false,
+        "key": "",
+        "fail_webhook": "",
+        "logo": ""
+      }
+    },
+    "guildRequirements": {
+      "enabled": true,
+      "autoAccept": true,
+      "requirements": {
+        "bedwarsStars": 0,
+        "bedwarsStarsWithFKDR": 0,
+        "bedwarsFKDR": 0,
+
+        "skywarsStars": 0,
+        "skywarsStarsWithKDR": 0,
+        "skywarsKDR": 0,
+
+        "duelsWins": 0,
+        "duelsWinsWithWLR": 0,
+        "duelsWLR": 0,
+
+        "senitherWeight": 0,
+        "lilyWeight": 0,
+        "skyblockLevel": 0
+      }
+    },
+    "skyblockEventsNotifications": {
+      "enabled": true,
+      "notifiers": {
+        "BANK_INTEREST": true,
+        "DARK_AUCTION": true,
+        "ELECTION_BOOTH_OPENS": true,
+        "ELECTION_OVER": true,
+        "FALLEN_STAR_CULT": true,
+        "FEAR_MONGERER": true,
+        "JACOBS_CONTEST": true,
+        "JERRYS_WORKSHOP": true,
+        "NEW_YEAR_CELEBRATION": true,
+        "SEASON_OF_JERRY": true,
+        "SPOOKY_FESTIVAL": true,
+        "TRAVELING_ZOO": true
+      },
+      "customTime": {
+        "3": ["BANK_INTEREST", "DARK_AUCTION", "JACOBS_CONTEST"],
+        "5": [
+          "ELECTION_BOOTH_OPENS",
+          "ELECTION_OVER",
+          "FALLEN_STAR_CULT",
+          "FEAR_MONGERER",
+          "JERRYS_WORKSHOP",
+          "NEW_YEAR_CELEBRATION",
+          "SEASON_OF_JERRY",
+          "TRAVELING_ZOO",
+          "SPOOKY_FESTIVAL"
+        ],
+        "30": [
+          "BANK_INTEREST",
+          "DARK_AUCTION",
+          "JACOBS_CONTEST",
+          "ELECTION_BOOTH_OPENS",
+          "ELECTION_OVER",
+          "FALLEN_STAR_CULT",
+          "FEAR_MONGERER",
+          "JERRYS_WORKSHOP",
+          "NEW_YEAR_CELEBRATION",
+          "SEASON_OF_JERRY",
+          "TRAVELING_ZOO",
+          "SPOOKY_FESTIVAL"
+        ]
+      }
+    },
+    "hypixelUpdates": {
+      "enabled": false,
+      "hypixelNews": false,
+      "statusUpdates": false,
+      "skyblockVersion": false
+    }
+  },
+  "discord": {
+    "bot": {
+      "token": "",
+      "serverID": ""
+    },
+    "channels": {
+      "guildChatChannel": "",
+      "officerChannel": "",
+      "loggingChannel": "",
+      "debugMode": true,
+      "debugChannel": "",
+      "allowedBots": ["155149108183695360"]
+    },
+    "replication": {
+      "enabled": false,
+      "token": "",
+      "channels": {
+        "guild": "",
+        "debug": false
+      }
+    },
+    "commands": {
+      "checkPerms": true,
+      "commandRole": "",
+      "users": [""]
+    },
+    "other": {
+      "messageMode": "bot",
+      "filterMessages": true,
+      "joinMessage": true,
+      "autoLimbo": true
+    }
+  },
+  "web": {
+    "enabled": false,
+    "port": 1439
+  },
+  "other": {
+    "autoUpdater": false,
+    "autoUpdaterInterval": 12
+  }
+}

@@ -47,42 +47,6 @@ class MinecraftManager extends CommunicationBridge {
     });
   }
 
-  async sendSafeMessage(command, prefix, message, should_clean) {
-    let max_length = 250;
-    let max_messages = 5;
-
-    if (prefix.length >= max_length) {
-      this.bot.chat(`/${command} [ERROR] Failed to send message, as prefix is too large.`);
-      return false;
-    }
-
-    let max_message_allowed = max_length - prefix.length;
-
-    let amount_of_chunks = Math.ceil(message.length / max_message_allowed);
-
-    if (amount_of_chunks > max_messages) {
-      this.bot.chat(`/${command} [ERROR] Failed to send message, as it is too large.`);
-      return false;
-    }
-
-    let chunks = [];
-
-    for (let i = 0, o = 0; i < amount_of_chunks; ++i, o += max_message_allowed) {
-      let message_text = message.substring(o, o + max_message_allowed);
-      let final_message = `${prefix} ${message_text}`;
-      if (should_clean) {
-        final_message = filter.clean(final_message);
-      }
-      chunks[i] = `/${command} ${final_message}`;
-    }
-
-    for (let safe_message of chunks) {
-      this.bot.chat(safe_message);
-      await new Promise((resolve) => setTimeout(resolve, 400));
-    }
-    return true;
-  }
-
   chunkSubstr(str, size) {
     const numChunks = Math.ceil(str.length / size);
     const chunks = new Array(numChunks);
@@ -110,11 +74,11 @@ class MinecraftManager extends CommunicationBridge {
 
     const chat = channel === config.discord.channels.officerChannel ? "/oc" : "/gc";
 
-    if (message.length > 1000) {
-      return this.bot.chat(`${chat} [ERROR] Failed to send the message, as it was longer than 1000 symbols!`);
+    if (message.length > 750) {
+      return this.bot.chat(`${chat} [ERROR] Failed to send the message, as it was longer than 750 symbols!`);
     }
 
-    let chunks = this.chunkSubstr(message, 200);
+    let chunks = this.chunkSubstr(message, 150);
 
     for (const index in chunks) {
       let message_chunk = chunks[index];

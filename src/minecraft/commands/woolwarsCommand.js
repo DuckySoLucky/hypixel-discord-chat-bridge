@@ -1,7 +1,7 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { formatNumber } = require("../../contracts/helperFunctions.js");
 const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
-const { getUUID } = require("../../contracts/API/PlayerDBAPI.js");
+const { getUUID, getUsername, resolveUsernameOrUUID } = require("../../contracts/API/PlayerDBAPI.js");
 
 class WoolwarsCommand extends minecraftCommand {
   constructor(minecraft) {

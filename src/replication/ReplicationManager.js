@@ -110,11 +110,11 @@ class ReplicationManager extends CommunicationBridge {
           ],
         });
 
-        /*if (message.includes("https://")) {
+        if (message.includes("https://")) {
           const links = message.match(/https?:\/\/[^\s]+/g).join("\n");
 
           channel.send(links);
-        }*/
+        }
 
         break;
 
@@ -159,6 +159,9 @@ class ReplicationManager extends CommunicationBridge {
 
   async onBroadcastCleanEmbed({ message, color, channel }) {
     channel = await this.stateHandler.getChannel(channel);
+    if(channel == undefined){
+      return;
+    }
     channel.send({
       embeds: [
         {
@@ -171,6 +174,9 @@ class ReplicationManager extends CommunicationBridge {
 
   async onBroadcastHeadedEmbed({ message, title, icon, color, channel }) {
     channel = await this.stateHandler.getChannel(channel);
+    if(channel == undefined){
+      return;
+    }
     channel.send({
       embeds: [
         {
@@ -187,6 +193,9 @@ class ReplicationManager extends CommunicationBridge {
 
   async onPlayerToggle({ fullMessage, username, message, color, channel }) {
     channel = await this.stateHandler.getChannel(channel);
+    if(channel == undefined){
+      return;
+    }
     switch (config.discord.other.messageMode.toLowerCase()) {
       case "bot":
         channel.send({

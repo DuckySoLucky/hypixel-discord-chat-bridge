@@ -28,7 +28,7 @@ class EightBallCommand extends minecraftCommand {
 
       this.send(`/${channel} ${data.reading}`);
     } catch (error) {
-      this.send(`/${channel} Error: ${error}`);
+      this.send(`/${channel} [ERROR] ${error}`);
     }
   }
 }

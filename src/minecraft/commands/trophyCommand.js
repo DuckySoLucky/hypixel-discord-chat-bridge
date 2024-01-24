@@ -2,8 +2,10 @@ const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const getTalismans = require("../../../API/stats/talismans.js");
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const { formatUsername } = require("../../contracts/helperFunctions.js");
+const { renderLore } = require("../../contracts/renderItem.js");
+const { uploadImage } = require("../../contracts/API/imgurAPI.js");
 
-class AccessoriesCommand extends minecraftCommand {
+class TrophyFishCommand extends minecraftCommand {
   constructor(minecraft) {
     super(minecraft);
 
@@ -15,16 +17,11 @@ class AccessoriesCommand extends minecraftCommand {
         name: "username",
         description: "Minecraft username",
         required: false,
-      },
-      {
-        name: "advanced",
-        description: "Must be + in order to show detailed data about player",
-        required: false,
-      },
+      }
     ];
   }
 
-  prepareData(tfd, type, extended = false) {
+  prepareData(tfd, type) {
     let bronze = tfd?.[`${type}_bronze`] || 0;
     let silver = tfd?.[`${type}_silver`] || 0;
     let gold = tfd?.[`${type}_gold`] || 0;
@@ -32,46 +29,27 @@ class AccessoriesCommand extends minecraftCommand {
 
     let type_caught = tfd?.[type];
 
-    let bronze_status = "-";
-    let silver_status = "-";
-    let gold_status = "-";
-    let diamond_status = "-";
-
-    let overall_status = "-";
-
-    if (bronze >= 1) {
-      bronze_status = "B";
-      overall_status = "B";
-    }
-    if (silver >= 1) {
-      silver_status = "S";
-      overall_status = "S";
-    }
-    if (gold >= 1) {
-      gold_status = "G";
-      overall_status = "G";
-    }
-    if (diamond >= 1) {
-      diamond_status = "D";
-      overall_status = "D";
-    }
-
-    if (extended) {
-      return [`(${bronze_status}${silver_status}${gold_status}${diamond_status} ${type_caught})`, Math.min(diamond, 1)];
-    }
-
-    return [`${overall_status}`, Math.min(diamond, 1)];
+    return {
+      caught: type_caught,
+      catches: {
+        bronze: bronze,
+        silver: silver,
+        gold: gold,
+        diamond: diamond
+      },
+      uniques: {
+        bronze: Math.min(bronze, 1),
+        silver: Math.min(silver, 1),
+        gold: Math.min(gold, 1),
+        diamond: Math.min(diamond, 1)
+      }
+    };
   }
 
   async onCommand(username, message, channel = "gc") {
     try {
       if (this.getArgs(message)[0] != "+") {
         username = this.getArgs(message)[0] || username;
-      }
-
-      let extended = false;
-      if (this.getArgs(message)[0] == "+" || this.getArgs(message)[1] == "+") {
-        extended = true;
       }
 
       const data = await getLatestProfile(username);
@@ -83,54 +61,159 @@ class AccessoriesCommand extends minecraftCommand {
         throw "Player hasn't fished any trophy fish.";
       }
 
-      let rewards = ["None", "Bronze", "Silver", "Gold", "Diamond"];
+      let rarity = {
+        "COMMON": "§f",
+        "UNCOMMON": "§a",
+        "RARE": "§9",
+        "EPIC": "§5",
+        "LEGENDARY": "§6",
+      }
 
-      let claimed_rewards = rewards[tfd.rewards.length];
+      let fishes = {
+        // COMMON
+        "blobfish": {
+          name: "Blobfish",
+          rarity: "COMMON"
+        },
+        "gusher": {
+          name: "Gusher",
+          rarity: "COMMON"
+        },
+        "obfuscated_fish_1": {
+          name: "Obfuscated 1",
+          rarity: "COMMON"
+        },
+        "sulphur_skitter": {
+          name: "Sulphur Skitter",
+          rarity: "COMMON"
+        },
+        "steaming_hot_flounder": {
+          name: "Steaming-Hot Flounder",
+          rarity: "COMMON"
+        },
+
+        // UNCOMMON
+        "flyfish": {
+          name: "Flyfish",
+          rarity: "UNCOMMON"
+        },
+        "slugfish": {
+          name: "Slugfish",
+          rarity: "UNCOMMON"
+        },
+        "obfuscated_fish_2": {
+          name: "Obfuscated 2",
+          rarity: "UNCOMMON"
+        },
+        
+        // RARE
+        "lava_horse": {
+          name: "Lavahorse",
+          rarity: "RARE"
+        },
+        "mana_ray": {
+          name: "Mana Ray",
+          rarity: "RARE"
+        },
+        "obfuscated_fish_3": {
+          name: "Obfuscated 3",
+          rarity: "RARE"
+        },
+        "volcanic_stonefish": {
+          name: "Volcanic Stonefish",
+          rarity: "RARE"
+        },
+        "vanille": {
+          name: "Vanille",
+          rarity: "RARE"
+        },
+
+        // EPIC
+        "soul_fish": {
+          name: "Soul Fish",
+          rarity: "EPIC"
+        },
+        "karate_fish": {
+          name: "Karate Fish",
+          rarity: "EPIC"
+        },
+        "skeleton_fish": {
+          name: "Skeleton Fish",
+          rarity: "EPIC"
+        },
+        "moldfin": {
+          name: "Moldfin",
+          rarity: "EPIC"
+        },
+
+        // LEGENDARY
+        "golden_fish": {
+          name: "Golden Fish",
+          rarity: "LEGENDARY"
+        }
+      };
+
       let total_fishes = tfd.total_caught || 0;
 
-      let [blob, bld] = this.prepareData(tfd, "blobfish", extended);
-      let [gusher, gsd] = this.prepareData(tfd, "gusher", extended);
-      let [obf1, o1d] = this.prepareData(tfd, "obfuscated_fish_1", extended);
-      let [skitter, skd] = this.prepareData(tfd, "sulphur_skitter", extended);
-      let [flounder, fld] = this.prepareData(tfd, "steaming_hot_flounder", extended);
+      let bronzes = 0;
+      let silvers = 0;
+      let golds = 0;
+      let diamonds = 0;
 
-      let [fly, ffd] = this.prepareData(tfd, "flyfish", extended);
-      let [slug, sld] = this.prepareData(tfd, "slugfish", extended);
-      let [obf2, o2d] = this.prepareData(tfd, "obfuscated_fish_2", extended);
+      let Name = `§6${username}'s Trophy Fish:`;
+      let Lore = [];
 
-      let [horse, hrd] = this.prepareData(tfd, "lava_horse", extended);
-      let [mana_ray, mrd] = this.prepareData(tfd, "mana_ray", extended);
-      let [obf3, o3d] = this.prepareData(tfd, "obfuscated_fish_3", extended);
-      let [stone, std] = this.prepareData(tfd, "volcanic_stonefish", extended);
-      let [vanille, vad] = this.prepareData(tfd, "vanille", extended);
+      Object.entries(fishes).forEach(element => {
+        let fish_id = element[0];
+        let fish_display = element[1];
 
-      let [soul, sod] = this.prepareData(tfd, "soul_fish", extended);
-      let [karate, krd] = this.prepareData(tfd, "karate_fish", extended);
-      let [skeleton, sfd] = this.prepareData(tfd, "skeleton_fish", extended);
-      let [moldfin, mfd] = this.prepareData(tfd, "moldfin", extended);
+        let data = this.prepareData(tfd, fish_id);
 
-      let [golden, gfd] = this.prepareData(tfd, "golden_fish", extended);
+        bronzes += Math.max(data.uniques.bronze, data.uniques.silver, data.uniques.gold, data.uniques.diamond);
 
-      let diamonds = bld + gsd + o1d + skd + fld + ffd + sld + o2d;
-      diamonds += hrd + mrd + o3d + std + vad + sod + krd + sfd + mfd + gfd;
+        silvers += Math.max(data.uniques.silver, data.uniques.gold, data.uniques.diamond);
 
-      if (extended) {
-        let info1 = `[${username}] ${claimed_rewards} (${diamonds}/18) | Total: ${total_fishes} | Blob ${blob} Gusher ${gusher} Obf 1 ${obf1} Skitter ${skitter} Flounder ${flounder} | Fly ${fly} Slug ${slug} Obf 2 ${obf2}`;
+        golds += Math.max(data.uniques.gold, data.uniques.diamond);
 
-        let info2 = `Horse ${horse} Mana Ray ${mana_ray} Obf 3 ${obf3} Stone ${stone} Vanille ${vanille} | Soul ${soul} Karate ${karate} Skeleton ${skeleton} Moldfin ${moldfin} | Golden ${golden}`;
+        diamonds += data.uniques.diamond;
 
-        this.send(`/${channel} ${info1}`);
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        this.send(`/${channel} ${info2}`);
-      } else {
-        let info = `${username}: (${diamonds}/18) | Blob ${blob}, Gusher ${gusher}, Obf 1 ${obf1}, Skitter ${skitter}, Flounder ${flounder} | Fly ${fly}, Slug ${slug}, Obf 2 ${obf2} | Horse ${horse}, Mana Ray ${mana_ray}, Obf 3 ${obf3}, Stone ${stone}, Vanille ${vanille} | Soul ${soul}, Karate ${karate}, Skeleton ${skeleton}, Moldfin ${moldfin} | Golden ${golden}`;
+        let correct_display_name = (rarity?.[fish_display.rarity] ?? "§r") + fish_display.name;
 
-        this.send(`/${channel} ${info}`);
-      }
+        let display_bronzes = data.catches.bronze > 0 ? `§8${data.catches.bronze}` : '§c✖';
+        let display_silvers = data.catches.silver > 0 ? `§7${data.catches.silver}` : '§c✖';
+        let display_golds = data.catches.gold > 0 ? `§6${data.catches.gold}` : '§c✖';
+        let display_diamonds = data.catches.diamond > 0 ? `§b${data.catches.diamond}` : '§c✖';
+
+        Lore.push(`${correct_display_name}§7: ${display_bronzes} §7| ${display_silvers} §7| ${display_golds} §7| ${display_diamonds} §7(${data.caught})§f`);
+      });
+
+      Lore.unshift(`§f`);
+
+      let total_bronzes = bronzes == 18 ? `§a✔§7 (§a18§7/18)` : `§c✖ §7(§c${bronzes}§7/18)`;
+      let total_silvers = silvers == 18 ? `§a✔§7 (§a18§7/18)` : `§c✖ §7(§c${silvers}§7/18)`;
+      let total_golds = golds == 18 ? `§a✔§7 (§a18§7/18)` : `§c✖ §7(§c${golds}§7/18)`;
+      let total_diamonds = diamonds == 18 ? `§a✔§7 (§a18§7/18)` : `§c✖ §7(§c${diamonds}§7/18)`;
+      
+      Lore.unshift(`§b§lDIAMOND: ${total_diamonds}§f`);
+      Lore.unshift(`§6§lGOLD: ${total_golds}§f`);
+      Lore.unshift(`§7§lSILVER: ${total_silvers}§f`);
+      Lore.unshift(`§8§lBRONZE: ${total_bronzes}§f`);
+
+      Lore.unshift(`§f`);
+      Lore.unshift(`§7Total Catches: ${total_fishes}§f`);
+
+      Lore.push('§f');
+
+      const renderedItem = await renderLore(Name, Lore);
+
+      const upload = await uploadImage(renderedItem);
+
+      this.send(`/${channel} ${username}'s Trophy Fish stats: ${upload.data.link}`);
     } catch (error) {
-      this.send(`/${channel} Error: ${error}`);
+      console.log(error);
+      this.send(`/${channel} [ERROR] ${error}`);
     }
   }
 }
 
-module.exports = AccessoriesCommand;
+module.exports = TrophyFishCommand;

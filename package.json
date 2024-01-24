@@ -52,7 +52,7 @@
     "node-fetch": "^2.6.6",
     "prismarine-nbt": "^2.2.1",
     "rss-parser": "^3.13.0",
-    "skyhelper-networth": "1.18.0",
+    "skyhelper-networth": "1.18.2",
     "util": "^0.12.5"
   },
   "devDependencies": {

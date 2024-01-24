@@ -58,7 +58,7 @@ class RenderCommand extends minecraftCommand {
       await new Promise((resolve) => setTimeout(resolve, 500));
       this.send(`/${channel} ${inventory2}`);
     } catch (error) {
-      this.send(`/${channel} Error: ${error}`);
+      this.send(`/${channel} [ERROR] ${error}`);
     }
   }
 }

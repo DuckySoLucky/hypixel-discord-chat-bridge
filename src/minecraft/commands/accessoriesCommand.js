@@ -28,6 +28,8 @@ class AccessoriesCommand extends minecraftCommand {
       username = formatUsername(username, data.profileData?.game_mode);
 
       const talismans = await getTalismans(data.profile);
+      let highest_mp = data.profile?.accessory_bag_storage?.highest_magical_power ?? 0;
+
       const rarities = Object.keys(talismans)
         .map((key) => {
           if (["recombed", "enriched", "total"].includes(key)) return;
@@ -40,10 +42,10 @@ class AccessoriesCommand extends minecraftCommand {
       this.send(
         `/${channel} ${username}'s Accessories: ${talismans?.total ?? 0} (${rarities}), Recombed: ${
           talismans?.recombed ?? 0
-        }, Enriched: ${talismans?.enriched ?? 0}`
+        }, Enriched: ${talismans?.enriched ?? 0} | Highest MP: ${highest_mp}`
       );
     } catch (error) {
-      this.send(`/${channel} Error: ${error}`);
+      this.send(`/${channel} [ERROR] ${error}`);
     }
   }
 }

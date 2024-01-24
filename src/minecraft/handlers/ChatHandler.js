@@ -81,12 +81,19 @@ class StateHandler extends eventHandler {
       );
 
       var is_banned = false;
-try{
-    const uuid = await getUUID(username);
-}
-catch(e){
-    return;
-}
+      let uuid;
+      try{
+          uuid = await getUUID(username);
+          if(uuid == undefined){
+            throw "Failed to obtain UUID";
+          }
+      }
+      catch(e){
+        bot.chat(
+          `/oc Could not obtain UUID for that player!`
+        );
+        return;
+      }
       if (config.minecraft.API.SCF.enabled) {
         try {
           let player_banned = await Promise.all([
@@ -419,14 +426,21 @@ catch(e){
         ],
       });
 
-      replication_client.channels.cache.get(config.discord.replication.channels.guild).send({
-        embeds: [
-          {
-            color: 15548997,
-            description: messages.repeatMessage,
-          },
-        ],
-      });
+      try{
+        if(config.discord.replication.enabled){
+          replication_client.channels.cache.get(config.discord.replication.channels.guild).send({
+            embeds: [
+              {
+                color: 15548997,
+                description: messages.repeatMessage,
+              },
+            ],
+          });
+        }
+      }
+      catch(e){
+        Logger.errorMessage("Failed to broadcast to replication!");
+      }
       return;
     }
 
@@ -777,10 +791,11 @@ catch(e){
     if(match.groups.message.length >= 5){
       this.saveGuildMessage(match.groups.username);
     }
-
-    if (this.isDiscordMessage(match.groups.message) === false) {
+    
+    if ((this.isDiscordMessage(match.groups.message) && match.groups.username === this.bot.username) === false) {
       const { chatType, rank, username, guildRank = "Member", message } = match.groups;
-      if (message.includes("replying to") && username === this.bot.username) {
+
+      if (message.includes("replying to") && match.groups.username === this.bot.username) {
         return;
       }
 
