@@ -9,32 +9,32 @@ class CommunicationBridge {
   }
 
   setBridge(bridge) {
-    if(this.bridge == null){
+    if (this.bridge == null) {
       this.bridge = bridge;
     }
     this.bridge_list.push(bridge);
   }
 
   broadcastMessage(event) {
-    this.bridge_list.forEach(bridge_el => {
+    this.bridge_list.forEach((bridge_el) => {
       bridge_el.onBroadcast(event);
     });
   }
 
   broadcastPlayerToggle(event) {
-    this.bridge_list.forEach(bridge_el => {
+    this.bridge_list.forEach((bridge_el) => {
       bridge_el.onPlayerToggle(event);
     });
   }
 
   broadcastCleanEmbed(event) {
-    this.bridge_list.forEach(bridge_el => {
+    this.bridge_list.forEach((bridge_el) => {
       bridge_el.onBroadcastCleanEmbed(event);
     });
   }
 
   broadcastHeadedEmbed(event) {
-    this.bridge_list.forEach(bridge_el => {
+    this.bridge_list.forEach((bridge_el) => {
       bridge_el.onBroadcastHeadedEmbed(event);
     });
   }

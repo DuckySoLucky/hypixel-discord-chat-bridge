@@ -82,16 +82,13 @@ class StateHandler extends eventHandler {
 
       var is_banned = false;
       let uuid;
-      try{
-          uuid = await getUUID(username);
-          if(uuid == undefined){
-            throw "Failed to obtain UUID";
-          }
-      }
-      catch(e){
-        bot.chat(
-          `/oc Could not obtain UUID for that player!`
-        );
+      try {
+        uuid = await getUUID(username);
+        if (uuid == undefined) {
+          throw "Failed to obtain UUID";
+        }
+      } catch (e) {
+        bot.chat(`/oc Could not obtain UUID for that player!`);
         return;
       }
       if (config.minecraft.API.SCF.enabled) {
@@ -167,11 +164,11 @@ class StateHandler extends eventHandler {
 
           await client.channels.cache.get(`${config.discord.channels.loggingChannel}`).send({ embeds: [statsEmbed] });
 
-          if(config.minecraft.API.SCF.enabled){
+          if (config.minecraft.API.SCF.enabled) {
             await client.channels.cache
-            .get(`${config.discord.channels.officerChannel}`)
-            .send(`<@&1172990412802248704>\n${player.nickname} has joined the guild!`);
-          } 
+              .get(`${config.discord.channels.officerChannel}`)
+              .send(`<@&1172990412802248704>\n${player.nickname} has joined the guild!`);
+          }
         }
       }
     }
@@ -426,8 +423,8 @@ class StateHandler extends eventHandler {
         ],
       });
 
-      try{
-        if(config.discord.replication.enabled){
+      try {
+        if (config.discord.replication.enabled) {
           replication_client.channels.cache.get(config.discord.replication.channels.guild).send({
             embeds: [
               {
@@ -437,8 +434,7 @@ class StateHandler extends eventHandler {
             ],
           });
         }
-      }
-      catch(e){
+      } catch (e) {
         Logger.errorMessage("Failed to broadcast to replication!");
       }
       return;
@@ -788,10 +784,10 @@ class StateHandler extends eventHandler {
       this.command.handle(match.groups.username, match.groups.message, command_channel);
     }
 
-    if(match.groups.message.length >= 5){
+    if (match.groups.message.length >= 5) {
       this.saveGuildMessage(match.groups.username);
     }
-    
+
     if ((this.isDiscordMessage(match.groups.message) && match.groups.username === this.bot.username) === false) {
       const { chatType, rank, username, guildRank = "Member", message } = match.groups;
 

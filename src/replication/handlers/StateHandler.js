@@ -52,7 +52,7 @@ class StateHandler {
       case "Guild":
         return this.discord.client.channels.cache.get(config.discord.replication.channels.guild);
       case "Officer":
-        return undefined
+        return undefined;
       case "Logger":
         return this.discord.client.channels.cache.get(config.discord.replication.channels.debug);
       default:

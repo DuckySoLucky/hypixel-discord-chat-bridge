@@ -17,7 +17,7 @@ class TrophyFishCommand extends minecraftCommand {
         name: "username",
         description: "Minecraft username",
         required: false,
-      }
+      },
     ];
   }
 
@@ -35,14 +35,14 @@ class TrophyFishCommand extends minecraftCommand {
         bronze: bronze,
         silver: silver,
         gold: gold,
-        diamond: diamond
+        diamond: diamond,
       },
       uniques: {
         bronze: Math.min(bronze, 1),
         silver: Math.min(silver, 1),
         gold: Math.min(gold, 1),
-        diamond: Math.min(diamond, 1)
-      }
+        diamond: Math.min(diamond, 1),
+      },
     };
   }
 
@@ -62,95 +62,95 @@ class TrophyFishCommand extends minecraftCommand {
       }
 
       let rarity = {
-        "COMMON": "§f",
-        "UNCOMMON": "§a",
-        "RARE": "§9",
-        "EPIC": "§5",
-        "LEGENDARY": "§6",
-      }
+        COMMON: "§f",
+        UNCOMMON: "§a",
+        RARE: "§9",
+        EPIC: "§5",
+        LEGENDARY: "§6",
+      };
 
       let fishes = {
         // COMMON
-        "blobfish": {
+        blobfish: {
           name: "Blobfish",
-          rarity: "COMMON"
+          rarity: "COMMON",
         },
-        "gusher": {
+        gusher: {
           name: "Gusher",
-          rarity: "COMMON"
+          rarity: "COMMON",
         },
-        "obfuscated_fish_1": {
+        obfuscated_fish_1: {
           name: "Obfuscated 1",
-          rarity: "COMMON"
+          rarity: "COMMON",
         },
-        "sulphur_skitter": {
+        sulphur_skitter: {
           name: "Sulphur Skitter",
-          rarity: "COMMON"
+          rarity: "COMMON",
         },
-        "steaming_hot_flounder": {
+        steaming_hot_flounder: {
           name: "Steaming-Hot Flounder",
-          rarity: "COMMON"
+          rarity: "COMMON",
         },
 
         // UNCOMMON
-        "flyfish": {
+        flyfish: {
           name: "Flyfish",
-          rarity: "UNCOMMON"
+          rarity: "UNCOMMON",
         },
-        "slugfish": {
+        slugfish: {
           name: "Slugfish",
-          rarity: "UNCOMMON"
+          rarity: "UNCOMMON",
         },
-        "obfuscated_fish_2": {
+        obfuscated_fish_2: {
           name: "Obfuscated 2",
-          rarity: "UNCOMMON"
+          rarity: "UNCOMMON",
         },
-        
+
         // RARE
-        "lava_horse": {
+        lava_horse: {
           name: "Lavahorse",
-          rarity: "RARE"
+          rarity: "RARE",
         },
-        "mana_ray": {
+        mana_ray: {
           name: "Mana Ray",
-          rarity: "RARE"
+          rarity: "RARE",
         },
-        "obfuscated_fish_3": {
+        obfuscated_fish_3: {
           name: "Obfuscated 3",
-          rarity: "RARE"
+          rarity: "RARE",
         },
-        "volcanic_stonefish": {
+        volcanic_stonefish: {
           name: "Volcanic Stonefish",
-          rarity: "RARE"
+          rarity: "RARE",
         },
-        "vanille": {
+        vanille: {
           name: "Vanille",
-          rarity: "RARE"
+          rarity: "RARE",
         },
 
         // EPIC
-        "soul_fish": {
+        soul_fish: {
           name: "Soul Fish",
-          rarity: "EPIC"
+          rarity: "EPIC",
         },
-        "karate_fish": {
+        karate_fish: {
           name: "Karate Fish",
-          rarity: "EPIC"
+          rarity: "EPIC",
         },
-        "skeleton_fish": {
+        skeleton_fish: {
           name: "Skeleton Fish",
-          rarity: "EPIC"
+          rarity: "EPIC",
         },
-        "moldfin": {
+        moldfin: {
           name: "Moldfin",
-          rarity: "EPIC"
+          rarity: "EPIC",
         },
 
         // LEGENDARY
-        "golden_fish": {
+        golden_fish: {
           name: "Golden Fish",
-          rarity: "LEGENDARY"
-        }
+          rarity: "LEGENDARY",
+        },
       };
 
       let total_fishes = tfd.total_caught || 0;
@@ -163,7 +163,7 @@ class TrophyFishCommand extends minecraftCommand {
       let Name = `§6${username}'s Trophy Fish:`;
       let Lore = [];
 
-      Object.entries(fishes).forEach(element => {
+      Object.entries(fishes).forEach((element) => {
         let fish_id = element[0];
         let fish_display = element[1];
 
@@ -179,12 +179,14 @@ class TrophyFishCommand extends minecraftCommand {
 
         let correct_display_name = (rarity?.[fish_display.rarity] ?? "§r") + fish_display.name;
 
-        let display_bronzes = data.catches.bronze > 0 ? `§8${data.catches.bronze}` : '§c✖';
-        let display_silvers = data.catches.silver > 0 ? `§7${data.catches.silver}` : '§c✖';
-        let display_golds = data.catches.gold > 0 ? `§6${data.catches.gold}` : '§c✖';
-        let display_diamonds = data.catches.diamond > 0 ? `§b${data.catches.diamond}` : '§c✖';
+        let display_bronzes = data.catches.bronze > 0 ? `§8${data.catches.bronze}` : "§c✖";
+        let display_silvers = data.catches.silver > 0 ? `§7${data.catches.silver}` : "§c✖";
+        let display_golds = data.catches.gold > 0 ? `§6${data.catches.gold}` : "§c✖";
+        let display_diamonds = data.catches.diamond > 0 ? `§b${data.catches.diamond}` : "§c✖";
 
-        Lore.push(`${correct_display_name}§7: ${display_bronzes} §7| ${display_silvers} §7| ${display_golds} §7| ${display_diamonds} §7(${data.caught})§f`);
+        Lore.push(
+          `${correct_display_name}§7: ${display_bronzes} §7| ${display_silvers} §7| ${display_golds} §7| ${display_diamonds} §7(${data.caught})§f`
+        );
       });
 
       Lore.unshift(`§f`);
@@ -193,7 +195,7 @@ class TrophyFishCommand extends minecraftCommand {
       let total_silvers = silvers == 18 ? `§a✔§7 (§a18§7/18)` : `§c✖ §7(§c${silvers}§7/18)`;
       let total_golds = golds == 18 ? `§a✔§7 (§a18§7/18)` : `§c✖ §7(§c${golds}§7/18)`;
       let total_diamonds = diamonds == 18 ? `§a✔§7 (§a18§7/18)` : `§c✖ §7(§c${diamonds}§7/18)`;
-      
+
       Lore.unshift(`§b§lDIAMOND: ${total_diamonds}§f`);
       Lore.unshift(`§6§lGOLD: ${total_golds}§f`);
       Lore.unshift(`§7§lSILVER: ${total_silvers}§f`);
@@ -202,7 +204,7 @@ class TrophyFishCommand extends minecraftCommand {
       Lore.unshift(`§f`);
       Lore.unshift(`§7Total Catches: ${total_fishes}§f`);
 
-      Lore.push('§f');
+      Lore.push("§f");
 
       const renderedItem = await renderLore(Name, Lore);
 

@@ -22,11 +22,14 @@ class MessageHandler {
       }
 
       let chat = "Guild/InterDiscord";
-      if(message.channel.id == config.discord.channels.debugChannel){
+      if (message.channel.id == config.discord.channels.debugChannel) {
         chat = "Debug";
       }
 
-      if(content.length >= 5){
+      if (message.channel.id == config.discord.channels.officerChannel) {
+        chat = "Officer/InterDiscord";
+      }
+      if (content.length >= 5) {
         this.saveGuildMessage(message.member.displayName);
       }
 

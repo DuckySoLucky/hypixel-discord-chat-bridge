@@ -21,7 +21,7 @@ class ReplicationManager extends CommunicationBridge {
   }
 
   async connect() {
-    if(!config.discord.replication.enabled){
+    if (!config.discord.replication.enabled) {
       return;
     }
     global.replication_client = new Client({
@@ -61,12 +61,12 @@ class ReplicationManager extends CommunicationBridge {
   }
 
   async onBroadcast({ fullMessage, chat, chatType, username, rank, guildRank, message, color = 8421504 }) {
-    if(chat == "Guild/InterDiscord"){
+    if (chat == "Guild/InterDiscord") {
       chat = "Guild"; // Inter Discord Communication Support
       guildRank = "Inter-Discord";
     }
 
-    if(chat == "Debug"){
+    if (chat == "Debug") {
       return;
     }
 
@@ -159,7 +159,7 @@ class ReplicationManager extends CommunicationBridge {
 
   async onBroadcastCleanEmbed({ message, color, channel }) {
     channel = await this.stateHandler.getChannel(channel);
-    if(channel == undefined){
+    if (channel == undefined) {
       return;
     }
     channel.send({
@@ -174,7 +174,7 @@ class ReplicationManager extends CommunicationBridge {
 
   async onBroadcastHeadedEmbed({ message, title, icon, color, channel }) {
     channel = await this.stateHandler.getChannel(channel);
-    if(channel == undefined){
+    if (channel == undefined) {
       return;
     }
     channel.send({
@@ -193,7 +193,7 @@ class ReplicationManager extends CommunicationBridge {
 
   async onPlayerToggle({ fullMessage, username, message, color, channel }) {
     channel = await this.stateHandler.getChannel(channel);
-    if(channel == undefined){
+    if (channel == undefined) {
       return;
     }
     switch (config.discord.other.messageMode.toLowerCase()) {

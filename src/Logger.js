@@ -5,7 +5,9 @@ async function discordMessage(message) {
 }
 
 async function replicationInfo(message) {
-  return console.log(chalk.bgBlueBright.black(`[${await getCurrentTime()}] Replication >`) + " " + chalk.blueBright(message));
+  return console.log(
+    chalk.bgBlueBright.black(`[${await getCurrentTime()}] Replication >`) + " " + chalk.blueBright(message)
+  );
 }
 
 async function minecraftMessage(message) {

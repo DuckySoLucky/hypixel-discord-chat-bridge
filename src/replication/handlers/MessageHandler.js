@@ -21,7 +21,7 @@ class MessageHandler {
       }
 
       let chat = "Guild/Replication";
-      if(message.channel.id == config.discord.replication.channels.debug){
+      if (message.channel.id == config.discord.replication.channels.debug) {
         chat = "Debug";
       }
 
@@ -160,10 +160,7 @@ class MessageHandler {
     const isBot =
       message.author.bot && config.discord.channels.allowedBots.includes(message.author.id) === false ? true : false;
     const isValid = !isBot && (message.content.length > 0 || message?.attachments?.size > 0);
-    const validChannelIds = [
-      config.discord.replication.channels.guild,
-      config.discord.replication.channels.debug
-    ];
+    const validChannelIds = [config.discord.replication.channels.guild, config.discord.replication.channels.debug];
 
     return isValid && validChannelIds.includes(message.channel.id);
   }

@@ -2,16 +2,16 @@ const axios = require("axios");
 
 const cache = new Map();
 
-async function getUUID(username, full=false) {
+async function getUUID(username, full = false) {
   try {
     if (cache.has(username)) {
       const data = cache.get(username);
 
       if (data.last_save + 43200000 > Date.now()) {
-        if(full){
+        if (full) {
           return {
             uuid: data.id,
-            username: username
+            username: username,
           };
         }
 
@@ -32,24 +32,24 @@ async function getUUID(username, full=false) {
       id: correct_uuid,
     });
 
-    if(full){
+    if (full) {
       return {
         uuid: correct_uuid,
-        username: data.name
+        username: data.name,
       };
     }
     return correct_uuid;
   } catch (error) {
-    console.log(error)
+    console.log(error);
     const err = error.response.status;
-    if(err == 404){
+    if (err == 404) {
       throw "Invalid username.";
     }
-    if(err == 403){
+    if (err == 403) {
       throw "Request was blocked.";
     }
-    if(err == 400){
-      throw "Malformed username."
+    if (err == 400) {
+      throw "Malformed username.";
     }
     throw `Code: ${err}`;
   }

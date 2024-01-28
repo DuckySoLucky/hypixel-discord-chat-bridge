@@ -41,17 +41,14 @@ class SkillsCommand extends minecraftCommand {
         .map((skill) => {
           let skill_cap = 100;
 
-          if(skill == "farming"){
+          if (skill == "farming") {
             let farming_info = data.profile?.jacob2?.perks?.farming_level_cap;
-            if(farming_info == undefined){
+            if (farming_info == undefined) {
               skill_cap = 50;
-            }
-            else{
+            } else {
               skill_cap = 50 + farming_info;
             }
           }
-
-          
 
           const level = Math.min(Math.floor(profile[skill].levelWithProgress ?? 0), skill_cap);
           const skillName = skill[0].toUpperCase() + skill.slice(1);

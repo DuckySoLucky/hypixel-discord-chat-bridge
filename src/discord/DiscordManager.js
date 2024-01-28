@@ -79,11 +79,11 @@ class DiscordManager extends CommunicationBridge {
   }
 
   async onBroadcast({ fullMessage, chat, chatType, username, rank, guildRank, message, color = 8421504 }) {
-    if(chat == "Guild/Replication"){
+    if (chat == "Guild/Replication") {
       chat = "Guild"; // Inter Discord Communication Support
       guildRank = "Inter-Discord";
     }
-    if(chat == "Debug"){
+    if (chat == "Debug") {
       return;
     }
 
@@ -99,7 +99,7 @@ class DiscordManager extends CommunicationBridge {
     message = chat === "debugChannel" ? fullMessage : message;
     if (message !== undefined && chat !== "debugChannel") {
       Logger.broadcastMessage(
-        `${username} [${(guildRank ?? '').replace(/§[0-9a-fk-or]/g, "").replace(/^\[|\]$/g, "")}]: ${message}`,
+        `${username} [${(guildRank ?? "").replace(/§[0-9a-fk-or]/g, "").replace(/^\[|\]$/g, "")}]: ${message}`,
         `Discord`
       );
     }
