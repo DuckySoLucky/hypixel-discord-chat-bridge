@@ -22,15 +22,15 @@ class TrophyFishCommand extends minecraftCommand {
   }
 
   prepareData(tfd, type) {
-    let bronze = tfd?.[`${type}_bronze`] || 0;
-    let silver = tfd?.[`${type}_silver`] || 0;
-    let gold = tfd?.[`${type}_gold`] || 0;
-    let diamond = tfd?.[`${type}_diamond`] || 0;
+    let bronze = tfd?.[`${type}_bronze`] ?? 0;
+    let silver = tfd?.[`${type}_silver`] ?? 0;
+    let gold = tfd?.[`${type}_gold`] ?? 0;
+    let diamond = tfd?.[`${type}_diamond`] ?? 0;
 
     let type_caught = tfd?.[type];
 
     return {
-      caught: type_caught,
+      caught: type_caught ?? 0,
       catches: {
         bronze: bronze,
         silver: silver,

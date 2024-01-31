@@ -4,6 +4,7 @@ const { replaceVariables } = require("../contracts/helperFunctions.js");
 const messageToImage = require("../contracts/messageToImage.js");
 const MessageHandler = require("./handlers/MessageHandler.js");
 const StateHandler = require("./handlers/StateHandler.js");
+const CommandHandler = require("./CommandHandler.js");
 const config = require("../../config.json");
 const Logger = require("../Logger.js");
 const { kill } = require("node:process");
@@ -18,6 +19,7 @@ class ReplicationManager extends CommunicationBridge {
 
     this.stateHandler = new StateHandler(this);
     this.messageHandler = new MessageHandler(this);
+    this.commandHandler = new CommandHandler(this);
   }
 
   async connect() {
@@ -36,6 +38,25 @@ class ReplicationManager extends CommunicationBridge {
     this.client.login(config.discord.replication.token).catch((error) => {
       Logger.errorMessage(error);
     });
+
+    replication_client.commands = new Collection();
+    const commandFiles = fs.readdirSync("src/replication/commands").filter((file) => file.endsWith(".js"));
+
+    for (const file of commandFiles) {
+      const command = require(`./commands/${file}`);
+      replication_client.commands.set(command.name, command);
+    }
+
+    const eventsPath = path.join(__dirname, "events");
+    const eventFiles = fs.readdirSync(eventsPath).filter((file) => file.endsWith(".js"));
+
+    for (const file of eventFiles) {
+      const filePath = path.join(eventsPath, file);
+      const event = require(filePath);
+      event.once
+        ? replication_client.once(event.name, (...args) => event.execute(...args))
+        : replication_client.on(event.name, (...args) => event.execute(...args));
+    }
 
     process.on("SIGINT", async () => {
       await this.stateHandler.onClose();

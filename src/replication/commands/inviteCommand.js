@@ -1,9 +1,10 @@
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 const { EmbedBuilder } = require("discord.js");
 const config = require("../../../config.json");
+const AuthProvider = require("../AuthProvider.js");
 
 module.exports = {
-  name: "invite",
+  name: "scf-invite",
   description: "Invites the given user to the guild.",
   options: [
     {
@@ -16,11 +17,15 @@ module.exports = {
 
   execute: async (interaction) => {
     const user = interaction.member;
-    if (
-      config.discord.commands.checkPerms === true &&
-      !(user.roles.cache.has(config.discord.commands.commandRole) || config.discord.commands.users.includes(user.id))
-    ) {
-      throw new HypixelDiscordChatBridgeError("You do not have permission to use this command.");
+    const permission_required = 'invite';
+
+    let permission = false;
+
+    const AuthData = new AuthProvider();
+    permission = (await AuthData.permissionInfo(user)).permissions?.[permission_required] ?? false;
+
+    if (!permission) {
+      throw new HypixelDiscordChatBridgeError("You do not have permission to use this command, or the Permission API is Down.");
     }
 
     const name = interaction.options.getString("name");
