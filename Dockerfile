@@ -14,6 +14,7 @@ WORKDIR /usr/src/app
 COPY --chown=node:node . /usr/src/app
 
 # install dependencies
+RUN npm install
 RUN npm ci --only=production
 
 # run your app
