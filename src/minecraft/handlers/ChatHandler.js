@@ -760,6 +760,11 @@ class StateHandler extends eventHandler {
   isDiscordMessage(message) {
     const isDiscordMessage = /^(?<username>(?!https?:\/\/)[^\s»:>]+)\s*[»:>]\s*(?<message>.*)/;
 
+    const match = message.match(isDiscordMessage);
+    if (match && match.groups.username === "Party") {
+      return false;
+    }
+
     return isDiscordMessage.test(message);
   }
 
