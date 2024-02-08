@@ -69,8 +69,8 @@ dependencies:
     specifier: ^3.13.0
     version: 3.13.0
   skyhelper-networth:
-    specifier: 1.18.2
-    version: 1.18.2
+    specifier: 1.18.4
+    version: 1.18.4
   util:
     specifier: ^0.12.5
     version: 0.12.5
@@ -4521,8 +4521,8 @@ packages:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
     dev: true
 
-  /skyhelper-networth@1.18.2:
-    resolution: {integrity: sha512-Y0TnpAc4HsVwTXDHLJSsj2bpjbZSt1mK8RLgQKeRMK4VvTFfNlenEInuSIIQ5sUzGMUrc5gDzvZCsFl82ofcDA==}
+  /skyhelper-networth@1.18.4:
+    resolution: {integrity: sha512-dEoX5KI0a5UmXdct+M8dIgw8nEQTcLkJx3d52QSK+2oA+XRq0C+a37gvLEsFHkdG8g02WJ69/ngkFph74fx0LA==}
     dependencies:
       axios: 1.6.5
       prismarine-nbt: 2.2.1

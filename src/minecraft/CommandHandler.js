@@ -41,9 +41,12 @@ class CommandHandler {
         return;
       }
 
-      bot.chat(`/gc [SOOPY V2] ${message}`);
-
       const command = message.slice(1).split(" ")[0];
+      if (isNaN(parseInt(command.replace(/[^-()\d/*+.]/g, ""))) === false) {
+        return;
+      }
+
+      bot.chat(`/gc [SOOPY V2] ${message}`);
 
       Logger.minecraftMessage(`${player} - [${command}] ${message}`);
 
