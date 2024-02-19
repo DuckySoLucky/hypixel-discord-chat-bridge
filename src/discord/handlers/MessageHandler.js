@@ -19,10 +19,17 @@ class MessageHandler {
         return;
       }
 
+      const username = message.member.displayName ?? message.author.username;
+      if (username === undefined || username.length === 0) {
+        return;
+      }
+
+      const formattedUsername = this.formatEmojis(username);
+
       const messageData = {
         member: message.member.user,
         channel: message.channel.id,
-        username: message.member.displayName.replaceAll(" ", ""),
+        username: formattedUsername.replaceAll(" ", ""),
         message: content,
         replyingTo: await this.fetchReply(message),
         discord: message,
@@ -136,12 +143,7 @@ class MessageHandler {
     const IPAddressPattern = /(?:\d{1,3}\s*\s\s*){3}\d{1,3}/g;
     output = output.replaceAll(IPAddressPattern, "[IP Address Removed]");
 
-    // ? demojify() function has a bug. It throws an error when it encounters channel with emoji in its name. Example: #💬・guild-chat
-    try {
-      return demojify(output);
-    } catch (e) {
-      return output;
-    }
+    return this.formatEmojis(output);
   }
 
   shouldBroadcastMessage(message) {
@@ -155,6 +157,15 @@ class MessageHandler {
     ];
 
     return isValid && validChannelIds.includes(message.channel.id);
+  }
+
+  formatEmojis(content) {
+    // ? demojify() function has a bug. It throws an error when it encounters channel with emoji in its name. Example: #💬・guild-chat
+    try {
+      return demojify(content);
+    } catch (e) {
+      return content;
+    }
   }
 }
 
