@@ -100,7 +100,8 @@
   },
   "web": {
     "enabled": false,
-    "port": 1439
+    "port": 1439,
+    "token": "WEBSOCKET_TOKEN"
   },
   "other": {
     "autoUpdater": true,
