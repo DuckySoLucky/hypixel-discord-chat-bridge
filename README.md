@@ -342,6 +342,62 @@ Bot also supports Soopy V2 commands, prefix is same as mod's prefix.
 
 > ![image](https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/assets/75372052/7de05d26-6b2d-4c42-b5d1-1ef0da7edafa)
 
+#### Web
+
+The web section contains configuration options for the web server, including the enabled, port, token, and WebSocket functionality.
+
+The enabled option determines whether the web server is enabled. By default, this is set to false.
+
+The port option is the port the web server will listen on. By default, this is set to 1439.
+
+The token option is the token required to access the web server.
+
+The web server also supports WebSocket connections for third-party applications to listen to chat messages. This is achieved by connecting to the `/chat` endpoint. Through this endpoint, clients can receive real-time updates on messages sent in the chat.
+
+Additionally, there's an `/uptime` endpoint available to check the server's uptime. This endpoint can be accessed to verify if the WebSocket server is running and to retrieve information about its uptime.
+
+An example of how to connect to the WebSocket server using JavaScript:
+
+```javascript
+// Import WebSocket module
+const WebSocket = require("ws");
+
+// Create a new WebSocket connection
+const ws = new WebSocket("ws://localhost:1439/message");
+
+// Event listener for when the connection is established
+ws.on("open", () => {
+  console.log("Connected");
+});
+
+// Event listener for when the connection is closed
+ws.on("close", () => {
+  console.log("Disconnected");
+});
+
+// Event listener for incoming messages
+ws.on("message", (data) => {
+  console.log(`Received: ${data}`);
+});
+
+// Send a message to the server
+new Promise((resolve) => {
+  if (ws.readyState === ws.OPEN) {
+    resolve();
+  }
+}).then(() => {
+  // Define the message to be sent
+  const send = {
+    type: "message",
+    data: "/gc Example message",
+    token: "WEBSOCKET_TOKEN",
+  };
+
+  // Send the message
+  ws.send(JSON.stringify(send));
+});
+```
+
 ### Chat Triggers Module
 
 If you think that message format is boring, you can check out my repository for ChatTriggers module which changes the way messages from Bot look like. [Click Here](https://github.com/DuckySoLucky/Hypixel-Guild-Chat-Format)
