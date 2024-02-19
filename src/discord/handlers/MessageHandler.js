@@ -59,7 +59,7 @@ class MessageHandler {
       if (messageData.message.length === 0) {
         return;
       }
-      
+
       this.discord.broadcastMessage(messageData);
     } catch (error) {
       console.log(error);
