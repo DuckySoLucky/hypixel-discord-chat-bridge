@@ -1,27 +1,68 @@
-const EndpointHandler = require("./handlers/EndpointHandler.js");
-const { webMessage } = require("../Logger.js");
 const config = require("../../config.json");
-const express = require("express");
+const { webMessage } = require("../Logger.js");
+const WebSocket = require("ws");
+const http = require("http");
 
 class WebServer {
-  constructor(app) {
-    this.app = app;
-
+  constructor(bot) {
+    this.bot = bot;
     this.port = config.web.port;
-
-    this.endpointHandler = new EndpointHandler(this);
+    this.start = Date.now();
   }
 
-  connect() {
+  async connect() {
     if (config.web.enabled === false) return;
 
-    this.web = express();
-    this.web.use(express.json());
+    const server = http.createServer();
+    const wss = new WebSocket.Server({ noServer: true });
 
-    this.endpointHandler.registerEvents();
+    wss.on("connection", (ws) => {
+      webMessage("Client has connected to the server.");
+      ws.on("message", (message) => {
+        message = JSON.parse(message);
+        if (typeof message !== "object") {
+          return;
+        }
 
-    this.web.listen(this.port, () => {
-      webMessage(`Server running at http://localhost:${this.port}/`);
+        if (message.type === "message" && message.token === config.web.token && message.data) {
+          webMessage(`Received: ${JSON.stringify(message)}`);
+          bot.chat(message.data);
+        }
+      });
+
+      bot.on("message", (message) => {
+        ws.send(JSON.stringify(message));
+      });
+    });
+
+    server.on("upgrade", (request, socket, head) => {
+      if (request.url === "/message") {
+        wss.handleUpgrade(request, socket, head, (ws) => {
+          wss.emit("connection", ws, request);
+        });
+      }
+    });
+
+    server.listen(this.port, () => {
+      webMessage(`WebSocket running at http://localhost:${this.port}/`);
+    });
+
+    server.on("request", (req, res) => {
+      if (req.url === "/uptime") {
+        res.end(
+          JSON.stringify({
+            success: true,
+            uptime: Date.now() - this.start,
+          })
+        );
+      } else {
+        res.end(
+          JSON.stringify({
+            success: false,
+            error: "Invalid route",
+          })
+        );
+      }
     });
   }
 }

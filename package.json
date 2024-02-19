@@ -51,7 +51,8 @@
     "prismarine-nbt": "^2.2.1",
     "rss-parser": "^3.13.0",
     "skyhelper-networth": "1.18.4",
-    "util": "^0.12.5"
+    "util": "^0.12.5",
+    "ws": "^8.16.0"
   },
   "devDependencies": {
     "eslint": "^8.43.0",
