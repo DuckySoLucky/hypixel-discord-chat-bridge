@@ -15,7 +15,7 @@ class MessageHandler {
       }
 
       const content = this.stripDiscordContent(message).trim();
-      if (content.length === 0) {
+      if (content.length === 0 && message.attachments.size === 0) {
         return;
       }
 
@@ -42,12 +42,16 @@ class MessageHandler {
 
       if (images.length > 0) {
         for (const attachment of images) {
-          const imgurLink = await uploadImage(attachment);
+          try {
+            const imgurLink = await uploadImage(attachment);
 
-          messageData.message = messageData.message.replace(attachment, imgurLink.data.link);
+            messageData.message = messageData.message.replace(attachment, imgurLink.data.link);
 
-          if (messageData.message.includes(imgurLink.data.link) === false) {
-            messageData.message += ` ${imgurLink.data.link}`;
+            if (messageData.message.includes(imgurLink.data.link) === false) {
+              messageData.message += ` ${imgurLink.data.link}`;
+            }
+          } catch (error) {
+            messageData.message += ` ${attachment}`;
           }
         }
       }
@@ -55,7 +59,7 @@ class MessageHandler {
       if (messageData.message.length === 0) {
         return;
       }
-
+      
       this.discord.broadcastMessage(messageData);
     } catch (error) {
       console.log(error);
@@ -149,7 +153,7 @@ class MessageHandler {
   shouldBroadcastMessage(message) {
     const isBot =
       message.author.bot && config.discord.channels.allowedBots.includes(message.author.id) === false ? true : false;
-    const isValid = !isBot && message.content.length > 0;
+    const isValid = !isBot && (message.content.length > 0 || message.attachments.size > 0);
     const validChannelIds = [
       config.discord.channels.officerChannel,
       config.discord.channels.guildChatChannel,
