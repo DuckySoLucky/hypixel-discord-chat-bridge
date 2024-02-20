@@ -8,7 +8,6 @@ const imgurClient = new ImgurClient({
 async function uploadImage(image) {
   const response = await imgurClient.upload({
     image: image,
-    type: "stream",
   });
 
   if (response.success === false) {

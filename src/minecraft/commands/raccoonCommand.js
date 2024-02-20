@@ -1,5 +1,4 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const { uploadImage } = require("../../contracts/API/imgurAPI.js");
 const axios = require("axios");
 
 class RaccoonCommand extends minecraftCommand {
@@ -26,9 +25,7 @@ class RaccoonCommand extends minecraftCommand {
         throw "An error occured while fetching the image. Please try again later.";
       }
 
-      const upload = await uploadImage(data.url);
-
-      this.send(`/gc Funny Raccoon: ${upload.data.link}`);
+      this.send(`/gc Funny Raccoon: ${data.url}`);
     } catch (error) {
       this.send(`/gc [ERROR] ${error ?? "Something went wrong.."}`);
     }
