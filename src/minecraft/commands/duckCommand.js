@@ -1,5 +1,4 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const { uploadImage } = require("../../contracts/API/imgurAPI.js");
 const axios = require("axios");
 
 class DuckCommand extends minecraftCommand {
