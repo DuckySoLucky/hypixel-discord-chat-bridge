@@ -26,9 +26,7 @@ class DuckCommand extends minecraftCommand {
         throw "An error occured while fetching the image. Please try again later.";
       }
 
-      const upload = await uploadImage(data.url);
-
-      this.send(`/gc Funny Duck: ${upload.data.link}`);
+      this.send(`/gc Funny Duck: ${data.url}`);
     } catch (error) {
       this.send(`/gc [ERROR] ${error ?? "Something went wrong.."}`);
     }

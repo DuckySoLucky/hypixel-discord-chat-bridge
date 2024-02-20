@@ -6,10 +6,12 @@ const imgurClient = new ImgurClient({
 });
 
 async function uploadImage(image) {
+  console.log(image)
   const response = await imgurClient.upload({
     image: image,
-    type: "stream",
   });
+
+  console.log(response)
 
   if (response.success === false) {
     // eslint-disable-next-line no-throw-literal
