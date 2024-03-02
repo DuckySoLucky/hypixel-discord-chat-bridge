@@ -74,7 +74,8 @@ class MessageHandler {
 
       const reference = await message.channel.messages.fetch(message.reference.messageId);
 
-      const mentionedUserName = message.mentions.repliedUser.globalName ?? message.mentions.repliedUser.username;
+      const discUser = await message.guild.members.fetch(message.mentions.repliedUser.id);
+      const mentionedUserName = discUser.nickname ?? message.mentions.repliedUser.globalName;
 
       if (config.discord.other.messageMode === "bot" && reference.embed !== null) {
         const name = reference.embeds[0]?.author?.name;
