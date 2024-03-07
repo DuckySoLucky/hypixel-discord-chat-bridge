@@ -108,7 +108,7 @@ class warpoutCommand extends minecraftCommand {
       };
 
       bot.on("message", warpoutListener);
-      this.send(`/p ${user} `);
+      this.send(`/p invite ${user} `);
       setTimeout(() => {
         bot.removeListener("message", warpoutListener);
 
