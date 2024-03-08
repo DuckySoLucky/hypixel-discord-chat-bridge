@@ -1,5 +1,5 @@
 # define base image
-FROM node:16.17.0-bullseye-slim
+FROM node:21.6.1-bullseye-slim
 
 # download dumb-init
 RUN apt-get update && apt-get install -y --no-install-recommends dumb-init
@@ -14,6 +14,7 @@ WORKDIR /usr/src/app
 COPY --chown=node:node . /usr/src/app
 
 # install dependencies
+RUN npm install
 RUN npm ci --only=production
 
 # run your app
