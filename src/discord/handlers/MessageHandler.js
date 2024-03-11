@@ -144,9 +144,9 @@ class MessageHandler {
       output = output.replace(emojiMentionPattern, ":$1:");
     }
 
-    // Replace IP Adresses with [IP Address Removed]
+    // Replace IP Adresses with [Content Redacted]
     const IPAddressPattern = /(?:\d{1,3}\s*\s\s*){3}\d{1,3}/g;
-    output = output.replaceAll(IPAddressPattern, "[IP Address Removed]");
+    output = output.replaceAll(IPAddressPattern, "[Content Redacted]");
 
     return this.formatEmojis(output);
   }
