@@ -7,7 +7,7 @@ module.exports = {
     fishing: 50,
     enchanting: 60,
     alchemy: 50,
-    taming: 50,
+    taming: 60,
     carpentry: 50,
     runecrafting: 25,
     social: 25,

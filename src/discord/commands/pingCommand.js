@@ -13,8 +13,8 @@ module.exports = {
       .setTitle("🏓 Pong!")
       .setDescription(`Client Latency: \`${clientLatency}ms\`\nAPI Latency: \`${apiLatency}ms\``)
       .setFooter({
-        text: `by @duckysolucky | /help [command] for more information`,
-        iconURL: "https://imgur.com/tgwQJTX.png",
+        text: `/help [command] for more information`,
+        iconURL: "https://i.imgur.com/vt9IRtV.png",
       });
 
     interaction.followUp({ embeds: [embed] });

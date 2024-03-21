@@ -1,0 +1,91 @@
+const minecraftCommand = require("../../contracts/minecraftCommand.js");
+
+class VoteCommand extends minecraftCommand {
+    constructor(minecraft) {
+        super(minecraft);
+
+        this.name = "vote";
+        this.description = "Starts a vote with specified options and duration.";
+        this.options = [];
+        this.votes = {};
+        this.totalVotes = 0;
+        this.duration = 0;
+        this.optionsList = [];
+
+        // Bind the context
+        this.handleVote = this.handleVote.bind(this);
+    }
+
+    async onCommand(username, message) {
+        try {
+            const args = this.getArgs(message);
+
+            // Check if arguments are provided
+            if (args.length < 3) {
+                throw "Insufficient arguments. Please provide the duration and at least two options.";
+            }
+
+            // Parse duration from the first argument
+            this.duration = this.parseDuration(args[0]);
+            this.optionsList = args.slice(1);
+
+            // Send initial message indicating vote has started
+            this.send(`/gc Vote started! Options: ${this.optionsList.join(', ')}`);
+            this.send(`/gc Type the corresponding number to vote. For example, 1 for ${this.optionsList[0]}, 2 for ${this.optionsList[1]}, and so on.`);
+
+            // Start listening for votes
+            this.minecraft.on("chat", this.handleVote);
+        } catch (error) {
+            console.error(`[ERROR] ${error}`);
+            this.send(`/gc [ERROR] ${error}`);
+        }
+    }
+
+    handleVote(username, message) {
+        const vote = parseInt(message);
+        if (isNaN(vote) || vote < 1 || vote > this.optionsList.length) {
+            this.send(`/gc Invalid vote. Please enter a number between 1 and ${this.optionsList.length}.`);
+            return;
+        }
+
+        const option = this.optionsList[vote - 1];
+        if (!this.votes[option]) this.votes[option] = 0;
+        this.votes[option]++;
+        this.totalVotes++;
+
+        this.send(`/gc Vote received from ${username} for ${option}. Total votes: ${this.totalVotes}/${Object.keys(this.votes).length}`);
+    }
+
+    parseDuration(duration) {
+        const durations = {
+            s: 1000,
+            m: 60000,
+            h: 3600000,
+            d: 86400000
+        };
+
+        const parsedDuration = /^(\d+)([smhd])$/i.exec(duration);
+        if (!parsedDuration) throw "Invalid duration format. Please use 1s, 1m, 1h, or 1d.";
+
+        return parseInt(parsedDuration[1]) * durations[parsedDuration[2]];
+    }
+
+    calculateResults() {
+        let winner = "";
+        let maxVotes = 0;
+        for (const option in this.votes) {
+            if (this.votes[option] > maxVotes) {
+                maxVotes = this.votes[option];
+                winner = option;
+            }
+        }
+        return winner;
+    }
+
+    broadcastWinner(winner) {
+        this.send(`/gc Vote ended! Winner: ${winner} with ${this.votes[winner]} votes.`);
+        this.minecraft.removeListener("chat", this.handleVote); // Stop listening for further votes
+    }
+}
+
+module.exports = VoteCommand;

@@ -14,7 +14,7 @@
   "offlineInvite": "{username} was offline invited to the guild!",
   "guildMuteMessage": "Guild Chat has been muted for {time}!",
   "guildUnmuteMessage": "Guild Chat has been unmuted!",
-  "guildJoinMessage": "Welcome to the guild! Make sure to join our discord using /g discord! To view my commands run {prefix}help",
+  "guildJoinMessage": "WHALECUM! to StealthShadow! Make sure to join our discord using /g discord! To view our bridge commands run {prefix}help",
   "userMuteMessage": "{username} has been muted for {time}!",
   "userUnmuteMessage": "{username} has been unmuted!",
   "setrankFailMessage": "{username} not found.",

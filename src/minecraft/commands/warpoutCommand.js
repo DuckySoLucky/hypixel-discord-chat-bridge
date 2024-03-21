@@ -1,4 +1,6 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
+const { getUUID } = require("../../contracts/API/PlayerDBAPI.js");
+const { fetchGuildAPI } = require("../../../API/functions/GuildAPI");
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 class warpoutCommand extends minecraftCommand {
@@ -23,6 +25,34 @@ class warpoutCommand extends minecraftCommand {
         // eslint-disable-next-line no-throw-literal
         throw "Please provide a username!";
       }
+
+        // Fetch UUID for the command issuer
+        const issuerUUID = await getUUID(username);
+
+        if (!issuerUUID) {
+            this.send (`/oc UUID not found for player ${username}.`);
+        }
+
+        // Fetch guild data
+        const guildData = await fetchGuildAPI();
+
+        // Get the guild member data for the command issuer
+        const issuerMemberData = guildData.members.find(member => member.uuid === issuerUUID);
+
+        if (!issuerMemberData) {
+            this.send (`/oc Player ${username} not found in the guild data.`);
+        }
+
+        // Define the acceptable ranks
+        const acceptableRanks = ["Guild Master", "Shadow Herald", "Shadow Council"];
+
+        // Check if the player has an acceptable rank
+        if (!acceptableRanks.includes(issuerMemberData.rank)) {
+            await this.send(`/gc Player ${username} does not have the required rank to run this command.`);
+            return;
+        }    
+
+
       this.send("/lobby megawalls");
       await delay(250);
       this.send("/play skyblock");

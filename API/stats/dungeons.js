@@ -85,9 +85,27 @@ module.exports = (player, profile) => {
       },
     };
   } catch (error) {
-    return null;
+    // Return a default object when an error occurs
+    return {
+      selected_class: null,
+      secrets_found: 0,
+      classes: {
+        healer: calcSkill("dungeoneering", 0),
+        mage: calcSkill("dungeoneering", 0),
+        berserk: calcSkill("dungeoneering", 0),
+        archer: calcSkill("dungeoneering", 0),
+        tank: calcSkill("dungeoneering", 0),
+      },
+      catacombs: {
+        skill: calcSkill("dungeoneering", 0),
+        perks: {},
+        HIGEHST_TIER_COMPLETED: null,
+        floors: {},
+        MASTER_MODE_FLOORS: {},
+      },
+    };
   }
-};
+}
 
 function getScoreName(score) {
   if (score >= 300) return "S+";

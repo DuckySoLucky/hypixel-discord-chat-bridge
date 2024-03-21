@@ -71,7 +71,7 @@ const skill_weights = {
   taming: {
     exponent: 1.14744,
     divider: 441379,
-    maxLevel: 50,
+    maxLevel: 60,
   },
 };
 

@@ -1,0 +1,22 @@
+const minecraftCommand = require("../../contracts/minecraftCommand.js");
+
+class iwanttodieCommand extends minecraftCommand {
+  constructor(minecraft) {
+    super(minecraft);
+
+    this.name = "iwanttodie";
+    this.aliases = ["killme", "kickme"];
+    this.description = "Kick user command.";
+    this.options = [];
+  }
+
+  async onCommand(username, message) {
+    try {
+      this.send(`/guild kick ${username}`);
+    } catch (error) {
+      this.send(`/gc ${username} [ERROR] ${error || "Something went wrong.."}`);
+    }
+  }
+}
+
+module.exports = iwanttodieCommand;
