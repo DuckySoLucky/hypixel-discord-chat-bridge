@@ -38,7 +38,7 @@ class GuildExperienceCommand extends minecraftCommand {
           .toString()
           .replace("[hypixel-api-reborn] ", "")
           .replace("For help join our Discord Server https://discord.gg/NSEBNMM", "")
-          .replace("Error:", "[ERROR]")}`
+          .replace("Error:", "[ERROR]")}`,
       );
     }
   }

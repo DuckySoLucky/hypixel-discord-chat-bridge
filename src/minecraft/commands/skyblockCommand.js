@@ -6,6 +6,7 @@ const getDungeons = require("../../../API/stats/dungeons.js");
 const getSkills = require("../../../API/stats/skills.js");
 const getSlayer = require("../../../API/stats/slayer.js");
 const getWeight = require("../../../API/stats/weight.js");
+const getHotm = require("../../../API/stats/hotm.js");
 const { getNetworth } = require("skyhelper-networth");
 
 class SkyblockCommand extends minecraftCommand {
@@ -31,18 +32,21 @@ class SkyblockCommand extends minecraftCommand {
       const data = await getLatestProfile(username);
       username = formatUsername(username, data.profileData.game_mode);
 
-      const [skills, slayer, networth, weight, dungeons, talismans] = await Promise.all([
+      const [skills, slayer, networth, weight, dungeons, talismans, hotm] = await Promise.all([
         getSkills(data.profile),
         getSlayer(data.profile),
         getNetworth(data.profile, data.profileData?.banking?.balance || 0, {
-          cache: true,
           onlyNetworth: true,
+          v2Endpoint: true,
+          cache: true,
         }),
         getWeight(data.profile),
         getDungeons(data.player, data.profile),
         getTalismans(data.profile),
+        getHotm(data.player, data.profile),
       ]);
 
+      console.log(hotm);
       const senitherWeight = Math.floor(weight?.senither?.total || 0).toLocaleString();
       const lilyWeight = Math.floor(weight?.lily?.total || 0).toLocaleString();
       const skillAverage = (
@@ -69,7 +73,9 @@ class SkyblockCommand extends minecraftCommand {
       this.send(
         `/gc ${username}'s Level: ${
           data.profile.leveling?.experience ? data.profile.leveling.experience / 100 : 0
-        } | Senither Weight: ${senitherWeight} | Lily Weight: ${lilyWeight} | Skill Average: ${skillAverage} | Slayer: ${slayerXp} | Catacombs: ${catacombsLevel} | Class Average: ${classAverage} | Networth: ${networthValue} | Accessories: ${talismanCount} | Recombobulated: ${recombobulatedCount} | Enriched: ${enrichmentCount}`
+        } | Senither Weight: ${senitherWeight} | Lily Weight: ${lilyWeight} | Skill Average: ${skillAverage} | Slayer: ${slayerXp} | Catacombs: ${catacombsLevel} | Class Average: ${classAverage} | Networth: ${networthValue} | Accessories: ${talismanCount} | Recombobulated: ${recombobulatedCount} | Enriched: ${enrichmentCount} | Hotm: ${
+          hotm.level.level
+        }`,
       );
     } catch (error) {
       this.send(`/gc [ERROR] ${error}`);

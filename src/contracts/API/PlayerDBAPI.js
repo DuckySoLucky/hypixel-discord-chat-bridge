@@ -29,9 +29,9 @@ async function getUUID(username) {
       throw error.response.data.errorMessage === `Couldn't find any profile with name ${username}`
         ? "Invalid username."
         : error.response.data.errorMessage ===
-          "getProfileName.name: Invalid profile name, getProfileName.name: size must be between 1 and 25"
-        ? "Invalid username."
-        : error.response.data.errorMessage;
+            "getProfileName.name: Invalid profile name, getProfileName.name: size must be between 1 and 25"
+          ? "Invalid username."
+          : error.response.data.errorMessage;
     }
 
     // eslint-disable-next-line no-throw-literal

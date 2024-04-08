@@ -52,7 +52,7 @@ class CatacombsCommand extends minecraftCommand {
           dungeons.classes.mage.level
         }M, ${dungeons.classes.berserk.level}B, ${dungeons.classes.archer.level}A, ${
           dungeons.classes.tank.level
-        }T) | Secrets: ${formatNumber(dungeons.secrets_found ?? 0, 1)} (${SR} S/R)`
+        }T) | Secrets: ${formatNumber(dungeons.secrets_found ?? 0, 1)} (${SR} S/R)`,
       );
     } catch (error) {
       console.log(error);

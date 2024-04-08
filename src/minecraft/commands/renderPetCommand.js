@@ -28,8 +28,10 @@ class RenderCommand extends minecraftCommand {
       const data = await getLatestProfile(username);
 
       username = formatUsername(username, data.profileData?.game_mode);
-
       const profile = getPets(data.profile);
+      if (profile.length === 0) {
+        return this.send(`/gc ${username} does not have any pets.`);
+      }
 
       const pet = profile.pets.find((pet) => pet.active === true);
 
@@ -39,7 +41,7 @@ class RenderCommand extends minecraftCommand {
 
       const renderedItem = await renderLore(
         `§7[Lvl ${pet.level}] §${getRarityColor(pet.tier)}${pet.display_name}`,
-        pet.lore
+        pet.lore,
       );
 
       const upload = await uploadImage(renderedItem);

@@ -176,42 +176,42 @@ function calculateTotalSenitherWeight(profile) {
       farming: calculateSenitherWeight(
         "farming",
         calcSkill("farming", profile?.experience_skill_farming || 0).levelWithProgress,
-        profile?.experience_skill_farming || 0
+        profile?.experience_skill_farming || 0,
       ),
       mining: calculateSenitherWeight(
         "mining",
         calcSkill("mining", profile?.experience_skill_mining || 0).levelWithProgress,
-        profile?.experience_skill_mining || 0
+        profile?.experience_skill_mining || 0,
       ),
       combat: calculateSenitherWeight(
         "combat",
         calcSkill("combat", profile?.experience_skill_combat || 0).levelWithProgress,
-        profile?.experience_skill_combat || 0
+        profile?.experience_skill_combat || 0,
       ),
       foraging: calculateSenitherWeight(
         "foraging",
         calcSkill("foraging", profile?.experience_skill_foraging || 0).levelWithProgress,
-        profile?.experience_skill_foraging || 0
+        profile?.experience_skill_foraging || 0,
       ),
       fishing: calculateSenitherWeight(
         "fishing",
         calcSkill("fishing", profile?.experience_skill_fishing || 0).levelWithProgress,
-        profile?.experience_skill_fishing || 0
+        profile?.experience_skill_fishing || 0,
       ),
       enchanting: calculateSenitherWeight(
         "enchanting",
         calcSkill("enchanting", profile?.experience_skill_enchanting || 0).levelWithProgress,
-        profile?.experience_skill_enchanting || 0
+        profile?.experience_skill_enchanting || 0,
       ),
       alchemy: calculateSenitherWeight(
         "alchemy",
         calcSkill("alchemy", profile?.experience_skill_alchemy || 0).levelWithProgress,
-        profile?.experience_skill_alchemy || 0
+        profile?.experience_skill_alchemy || 0,
       ),
       taming: calculateSenitherWeight(
         "taming",
         calcSkill("taming", profile?.experience_skill_taming || 0).levelWithProgress,
-        profile?.experience_skill_taming || 0
+        profile?.experience_skill_taming || 0,
       ),
     },
     slayer: {
@@ -224,33 +224,33 @@ function calculateTotalSenitherWeight(profile) {
       catacombs: calculateSenitherWeight(
         "catacombs",
         calcSkill("dungeoneering", profile.dungeons?.dungeon_types?.catacombs?.experience || 0).levelWithProgress,
-        profile.dungeons?.dungeon_types?.catacombs?.experience || 0
+        profile.dungeons?.dungeon_types?.catacombs?.experience || 0,
       ),
       classes: {
         healer: calculateSenitherWeight(
           "healer",
           calcSkill("dungeoneering", profile.dungeons?.player_classes?.healer?.experience || 0).levelWithProgress,
-          profile.dungeons?.player_classes?.healer?.experience || 0
+          profile.dungeons?.player_classes?.healer?.experience || 0,
         ),
         mage: calculateSenitherWeight(
           "mage",
           calcSkill("dungeoneering", profile.dungeons?.player_classes?.mage?.experience || 0).levelWithProgress,
-          profile.dungeons?.player_classes?.mage?.experience || 0
+          profile.dungeons?.player_classes?.mage?.experience || 0,
         ),
         berserk: calculateSenitherWeight(
           "berserk",
           calcSkill("dungeoneering", profile.dungeons?.player_classes?.berserk?.experience || 0).levelWithProgress,
-          profile.dungeons?.player_classes?.berserk?.experience || 0
+          profile.dungeons?.player_classes?.berserk?.experience || 0,
         ),
         archer: calculateSenitherWeight(
           "archer",
           calcSkill("dungeoneering", profile.dungeons?.player_classes?.archer?.experience || 0).levelWithProgress,
-          profile.dungeons?.player_classes?.archer?.experience || 0
+          profile.dungeons?.player_classes?.archer?.experience || 0,
         ),
         tank: calculateSenitherWeight(
           "tank",
           calcSkill("dungeoneering", profile.dungeons?.player_classes?.tank?.experience || 0).levelWithProgress,
-          profile.dungeons?.player_classes?.tank?.experience || 0
+          profile.dungeons?.player_classes?.tank?.experience || 0,
         ),
       },
     },

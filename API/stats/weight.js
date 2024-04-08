@@ -15,7 +15,7 @@ module.exports = (profile) => {
     catacombs,
     master_mode,
     catacombs_experience,
-    slayer_experience
+    slayer_experience,
   );
 
   const senither = calculateTotalSenitherWeight(profile);
@@ -259,7 +259,7 @@ function formatLilySkills(skills) {
   //  enchanting, taming, alchemy, mining, farming, foraging, combat, fishing.
   const skillSort = ["enchanting", "taming", "alchemy", "mining", "farming", "foraging", "combat", "fishing"];
   const whitelistedSkills = Object.keys(skills).filter(
-    (skill) => !["runecrafting", "social", "carpentry"].includes(skill)
+    (skill) => !["runecrafting", "social", "carpentry"].includes(skill),
   );
   const skills_levels = whitelistedSkills
     .sort((a, b) => skillSort.indexOf(a) - skillSort.indexOf(b))

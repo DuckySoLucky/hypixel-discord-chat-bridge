@@ -15,8 +15,13 @@ module.exports = async (profile) => {
       enriched: 0,
       total: 0,
     };
-    if (profile.talisman_bag?.data !== undefined && profile.inv_contents?.data !== null) {
-      const { i: talisman_bag_data } = await decodeData(Buffer.from(profile.talisman_bag.data, "base64"));
+    if (
+      profile.inventory?.bag_contents?.talisman_bag.data !== undefined &&
+      profile.inventory?.inv_contents?.data !== null
+    ) {
+      const { i: talisman_bag_data } = await decodeData(
+        Buffer.from(profile.inventory.bag_contents.talisman_bag.data, "base64"),
+      );
 
       for (const talisman of talisman_bag_data) {
         if (talisman?.tag?.ExtraAttributes === undefined) {

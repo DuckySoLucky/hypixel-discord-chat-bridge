@@ -53,7 +53,7 @@ module.exports = {
             name: "**Discord**: ",
             value: `${discordCommands}`,
             inline: true,
-          }
+          },
         )
         .setFooter({
           text: "by @duckysolucky | /help [command] for more information",

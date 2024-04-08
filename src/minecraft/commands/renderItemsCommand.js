@@ -49,11 +49,13 @@ class RenderCommand extends minecraftCommand {
 
       username = formatUsername(username, profile.profileData?.game_mode);
 
-      if (profile.profile?.inv_contents?.data === undefined) {
+      if (profile.profile.inventory?.inv_contents?.data === undefined) {
         return this.send(`/gc This player has an Inventory API off.`);
       }
 
-      const { i: inventoryData } = await decodeData(Buffer.from(profile.profile.inv_contents.data, "base64"));
+      const { i: inventoryData } = await decodeData(
+        Buffer.from(profile.profile.inventory?.inv_contents?.data, "base64"),
+      );
 
       if (
         inventoryData[itemNumber - 1] === undefined ||

@@ -48,7 +48,7 @@ class minecraftCommand {
         await delay(250);
         return this.send(
           `${message} - ${helperFunctions.generateID(config.minecraft.bot.messageRepeatBypassLength)}`,
-          n + 1
+          n + 1,
         );
       }
     };

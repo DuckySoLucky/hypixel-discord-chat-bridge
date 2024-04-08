@@ -53,14 +53,14 @@ class WebServer {
           JSON.stringify({
             success: true,
             uptime: Date.now() - this.start,
-          })
+          }),
         );
       } else {
         res.end(
           JSON.stringify({
             success: false,
             error: "Invalid route",
-          })
+          }),
         );
       }
     });
