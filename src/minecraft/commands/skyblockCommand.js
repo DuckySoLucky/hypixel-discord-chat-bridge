@@ -9,6 +9,8 @@ const getWeight = require("../../../API/stats/weight.js");
 const getHotm = require("../../../API/stats/hotm.js");
 const { getNetworth } = require("skyhelper-networth");
 
+const fs = require("fs");
+
 class SkyblockCommand extends minecraftCommand {
   constructor(minecraft) {
     super(minecraft);
@@ -30,6 +32,12 @@ class SkyblockCommand extends minecraftCommand {
       username = this.getArgs(message)[0] || username;
 
       const data = await getLatestProfile(username);
+      fs.writeFile(`${username}.json`, JSON.stringify(data, null, 2), (err) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+      });
       username = formatUsername(username, data.profileData.game_mode);
 
       const [skills, slayer, networth, weight, dungeons, talismans, hotm] = await Promise.all([
@@ -46,7 +54,6 @@ class SkyblockCommand extends minecraftCommand {
         getHotm(data.player, data.profile),
       ]);
 
-      console.log(hotm);
       const senitherWeight = Math.floor(weight?.senither?.total || 0).toLocaleString();
       const lilyWeight = Math.floor(weight?.lily?.total || 0).toLocaleString();
       const skillAverage = (
@@ -74,7 +81,7 @@ class SkyblockCommand extends minecraftCommand {
         `/gc ${username}'s Level: ${
           data.profile.leveling?.experience ? data.profile.leveling.experience / 100 : 0
         } | Senither Weight: ${senitherWeight} | Lily Weight: ${lilyWeight} | Skill Average: ${skillAverage} | Slayer: ${slayerXp} | Catacombs: ${catacombsLevel} | Class Average: ${classAverage} | Networth: ${networthValue} | Accessories: ${talismanCount} | Recombobulated: ${recombobulatedCount} | Enriched: ${enrichmentCount} | Hotm: ${
-          hotm.level.level
+          hotm?.level?.level ?? 0
         }`,
       );
     } catch (error) {

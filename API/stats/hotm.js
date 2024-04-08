@@ -1,5 +1,7 @@
 const { titleCase } = require("../constants/functions.js");
 const calcSkill = require("../constants/skills.js");
+const forgeInfo = require("../constants/forge.js");
+const moment = require("moment");
 
 module.exports = (player, profile) => {
   try {
@@ -20,17 +22,52 @@ module.exports = (player, profile) => {
       }
     }
 
+    const forgeItems = [];
+    if (profile.forge?.forge_processes?.forge_1) {
+      const forge = Object.values(profile.forge.forge_processes.forge_1);
+
+      for (const item of forge) {
+        const forgeItem = {
+          id: item.id,
+          slot: item.slot,
+          timeStarted: item.startTime,
+          timeFinished: 0,
+          timeFinishedText: "",
+        };
+
+        if (item.id in forgeInfo.items) {
+          let forgeTime = forgeInfo.items[item.id].time * 60 * 1000;
+          const quickForge = profile.mining_core?.nodes?.forge_time;
+          if (quickForge != null) {
+            forgeTime *= forgeInfo.quickForgeMultiplier[quickForge];
+          }
+
+          forgeItem.name = forgeInfo.items[item.id].name;
+
+          const timeFinished = item.startTime + forgeTime;
+          forgeItem.timeStarted = item.startTime;
+          forgeItem.timeFinished = timeFinished;
+          forgeItem.timeFinishedText =
+            timeFinished < Date.now() ? "Finished" : `ending ${moment(timeFinished).fromNow()}`;
+        } else {
+          forgeItem.id = `UNKNOWN-${item.id}`;
+        }
+
+        forgeItems.push(forgeItem);
+      }
+    }
+
     return {
       powder: {
         mithril: {
-          total: profile?.mining_core.powder_spent_mithril + profile?.mining_core.powder_mithril,
-          spent: profile?.mining_core.powder_spent_mithril,
-          current: profile?.mining_core.powder_mithril,
+          spent: profile?.mining_core?.powder_spent_mithril ?? 0,
+          current: profile?.mining_core?.powder_mithril ?? 0,
+          total: profile?.mining_core?.powder_spent_mithril ?? 0 + profile?.mining_core?.powder_mithril ?? 0,
         },
         gemstone: {
-          total: profile?.mining_core.powder_spent_gemstone + profile?.mining_core.powder_gemstone,
-          spent: profile?.mining_core.powder_spent_gemstone,
-          current: profile?.mining_core.powder_gemstone,
+          spent: profile?.mining_core?.powder_spent_gemstone ?? 0,
+          current: profile?.mining_core?.powder_gemstone ?? 0,
+          total: profile?.mining_core?.powder_spent_gemstone ?? 0 + profile?.mining_core?.powder_gemstone ?? 0,
         },
       },
       level: calcSkill("hotm", profile?.mining_core?.experience || 0),
@@ -71,6 +108,7 @@ module.exports = (player, profile) => {
         },
       },
       commissions: commissions,
+      forge: forgeItems,
     };
   } catch (error) {
     return null;
