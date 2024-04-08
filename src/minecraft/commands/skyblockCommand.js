@@ -9,8 +9,6 @@ const getWeight = require("../../../API/stats/weight.js");
 const getHotm = require("../../../API/stats/hotm.js");
 const { getNetworth } = require("skyhelper-networth");
 
-const fs = require("fs");
-
 class SkyblockCommand extends minecraftCommand {
   constructor(minecraft) {
     super(minecraft);
@@ -32,12 +30,6 @@ class SkyblockCommand extends minecraftCommand {
       username = this.getArgs(message)[0] || username;
 
       const data = await getLatestProfile(username);
-      fs.writeFile(`${username}.json`, JSON.stringify(data, null, 2), (err) => {
-        if (err) {
-          console.error(err);
-          return;
-        }
-      });
       username = formatUsername(username, data.profileData.game_mode);
 
       const [skills, slayer, networth, weight, dungeons, talismans, hotm] = await Promise.all([
