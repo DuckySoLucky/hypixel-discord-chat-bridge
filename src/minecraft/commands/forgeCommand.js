@@ -36,7 +36,7 @@ class ForgeCommand extends minecraftCommand {
 
       if (hotm.forge.length === 0 || hotm.forge == null) {
         // eslint-disable-next-line no-throw-literal
-        throw `${username} has no items in there forge.`;
+        throw `${username} has no items in their forge.`;
       }
 
       const forgeItems = hotm.forge.map((item) => {
