@@ -1,7 +1,7 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const axios = require("axios");
 
-class RaccoonCommand extends minecraftCommand {
+class PicketCommand extends minecraftCommand {
   constructor(minecraft) {
     super(minecraft);
 
@@ -32,4 +32,4 @@ class RaccoonCommand extends minecraftCommand {
   }
 }
 
-module.exports = RaccoonCommand;
+module.exports = PicketCommand;

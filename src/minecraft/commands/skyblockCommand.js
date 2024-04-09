@@ -68,13 +68,13 @@ class SkyblockCommand extends minecraftCommand {
       const talismanCount = talismans?.total ?? 0;
       const recombobulatedCount = talismans?.recombed ?? 0;
       const enrichmentCount = talismans?.enriched ?? 0;
+      const hotmLevel = hotm?.level?.level ?? 0;
+      const mp = formatNumber(talismans?.magicPower ?? 0);
 
       this.send(
         `/gc ${username}'s Level: ${
           data.profile.leveling?.experience ? data.profile.leveling.experience / 100 : 0
-        } | Senither Weight: ${senitherWeight} | Lily Weight: ${lilyWeight} | Skill Average: ${skillAverage} | Slayer: ${slayerXp} | Catacombs: ${catacombsLevel} | Class Average: ${classAverage} | Networth: ${networthValue} | Accessories: ${talismanCount} | Recombobulated: ${recombobulatedCount} | Enriched: ${enrichmentCount} | Hotm: ${
-          hotm?.level?.level ?? 0
-        }`,
+        } | Senither Weight: ${senitherWeight} | Lily Weight: ${lilyWeight} | Skill Average: ${skillAverage} | Slayer: ${slayerXp} | Catacombs: ${catacombsLevel} | Class Average: ${classAverage} | Networth: ${networthValue} | Accessories: ${talismanCount} | Recombobulated: ${recombobulatedCount} | Enriched: ${enrichmentCount} | Magic Power: ${mp} | Hotm: ${hotmLevel}`,
       );
     } catch (error) {
       this.send(`/gc [ERROR] ${error}`);

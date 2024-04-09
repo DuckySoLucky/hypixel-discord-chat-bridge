@@ -1,7 +1,9 @@
 const { decodeData } = require("../../src/contracts/helperFunctions.js");
+const { titleCase } = require("../constants/functions.js");
 
 module.exports = async (profile) => {
   try {
+    let abiPower = false;
     const output = {
       common: 0,
       uncommon: 0,
@@ -14,6 +16,18 @@ module.exports = async (profile) => {
       recombed: 0,
       enriched: 0,
       total: 0,
+      magicPower: 0,
+      power: "unknown",
+      names: {
+        common: [],
+        uncommon: [],
+        rare: [],
+        epic: [],
+        legendary: [],
+        mythic: [],
+        special: [],
+        very: [],
+      },
     };
     if (
       profile.inventory?.bag_contents?.talisman_bag.data !== undefined &&
@@ -23,13 +37,31 @@ module.exports = async (profile) => {
         Buffer.from(profile.inventory.bag_contents.talisman_bag.data, "base64"),
       );
 
+      output.power = titleCase(profile.accessory_bag_storage?.selected_power);
+
       for (const talisman of talisman_bag_data) {
         if (talisman?.tag?.ExtraAttributes === undefined) {
           continue;
         }
-
+        if (output.names[getRarity(talisman.tag.display.Lore)].includes(talisman.tag.ExtraAttributes.id)) {
+          continue;
+        }
         output.total++;
         output[getRarity(talisman.tag.display.Lore)]++;
+
+        if (profile.nether_island_player_data?.abiphone?.active_contacts && abiPower === false) {
+          output.magicPower += Math.floor(profile.nether_island_player_data.abiphone.active_contacts.length / 2);
+          abiPower = true;
+        }
+        if (talisman.tag.ExtraAttributes.id === "HEGEMONY_ARTIFACT") {
+          output.magicPower += power[getRarity(talisman.tag.display.Lore)];
+          output.magicPower += power[getRarity(talisman.tag.display.Lore)];
+        } else if (talisman.tag.ExtraAttributes.id === "RIFT_PRISM") {
+          output.magicPower += 11;
+        } else {
+          output.magicPower += power[getRarity(talisman.tag.display.Lore)];
+        }
+        output.names[getRarity(talisman.tag.display.Lore)].push(talisman.tag.ExtraAttributes.id);
 
         if (talisman.tag.ExtraAttributes?.rarity_upgrades !== undefined) {
           output.recombed++;
@@ -57,3 +89,14 @@ function getRarity(lore) {
   last_index = last_index.substring(0, last_index.indexOf(" "));
   return last_index;
 }
+
+const power = {
+  mythic: 22,
+  legendary: 16,
+  epic: 12,
+  rare: 8,
+  uncommon: 5,
+  common: 3,
+  special: 3,
+  very: 5,
+};
