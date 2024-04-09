@@ -29,7 +29,8 @@ class AccessoriesCommand extends minecraftCommand {
         data.profile.inventory?.bag_contents?.talisman_bag.data == undefined &&
         data.profile.inventory?.inv_contents?.data == null
       ) {
-        return this.send(`/gc This player has an Inventory API off.`);
+        // eslint-disable-next-line no-throw-literal
+        throw `${username} has Inventory API off.`;
       }
 
       username = formatUsername(username, data.profileData?.game_mode);

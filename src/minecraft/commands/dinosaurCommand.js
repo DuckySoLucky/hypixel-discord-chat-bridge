@@ -14,7 +14,7 @@ class DinosaurCommand extends minecraftCommand {
   async onCommand(username, message) {
     // CREDITS: by @Kathund (https://github.com/Kathund)
     try {
-      const { data, status } = await axios.get('https://imgs.kath.lol/dinosaur');
+      const { data, status } = await axios.get("https://imgs.kath.lol/dinosaur");
       if (status !== 200) {
         // eslint-disable-next-line no-throw-literal
         throw "An error occured while fetching the image. Please try again later.";
