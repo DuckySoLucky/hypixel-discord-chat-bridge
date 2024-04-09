@@ -48,7 +48,7 @@ class CatacombsCommand extends minecraftCommand {
       const SR = isNaN(SRValue) || SRValue === Infinity ? 0 : SRValue.toFixed(2);
 
       this.send(
-        `/gc ${username}'s Catacombs: ${level} | Class Average: ${classAvrg} (${dungeons.classes.healer.level}H, ${
+        `/gc ${username}'s Catacombs: ${level} | Selected Class: ${dungeons.selected_class} | Class Average: ${classAvrg} (${dungeons.classes.healer.level}H, ${
           dungeons.classes.mage.level
         }M, ${dungeons.classes.berserk.level}B, ${dungeons.classes.archer.level}A, ${
           dungeons.classes.tank.level
