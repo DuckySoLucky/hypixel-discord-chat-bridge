@@ -1,9 +1,9 @@
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
+const { ErrorEmbed } = require("../../contracts/embedHandler.js");
 // eslint-disable-next-line no-unused-vars
-const { EmbedBuilder, CommandInteraction } = require("discord.js");
+const { CommandInteraction } = require("discord.js");
 const config = require("../../../config.json");
 const Logger = require("../.././Logger.js");
-const { ErrorEmbed } = require("../../contracts/embedHandler.js");
 
 module.exports = {
   name: "interactionCreate",
@@ -13,6 +13,8 @@ module.exports = {
   async execute(interaction) {
     try {
       if (interaction.isChatInputCommand()) {
+        const memberRoles = interaction.member.roles.cache.map((role) => role.id);
+        if (memberRoles.some((role) => [config.discord.commands.blacklistRole].includes(role))) return;
         await interaction.deferReply({ ephemeral: false }).catch(() => {});
 
         const command = interaction.client.commands.get(interaction.commandName);

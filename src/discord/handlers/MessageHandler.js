@@ -13,6 +13,9 @@ class MessageHandler {
       if (message.author.id === client.user.id || !this.shouldBroadcastMessage(message)) {
         return;
       }
+      const discordUser = await message.guild.members.fetch(message.author.id);
+      const memberRoles = discordUser.roles.cache.map((role) => role.id);
+      if (memberRoles.some((role) => [config.discord.commands.blacklistRole].includes(role))) return;
 
       const content = this.stripDiscordContent(message).trim();
       if (content.length === 0 && message.attachments.size === 0) {
