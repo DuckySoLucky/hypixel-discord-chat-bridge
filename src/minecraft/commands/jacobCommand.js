@@ -27,7 +27,6 @@ class JacobCommand extends minecraftCommand {
       );
 
       await delay(250);
-      console.log(profile);
       this.send(
         `/gc Best NW: ${formatNumber(profile.personalBests.netherWart, 0)} | Cocoa: ${formatNumber(
           profile.personalBests.cocoBeans,

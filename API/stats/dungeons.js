@@ -1,7 +1,7 @@
 const calcSkill = require("../constants/skills.js");
 const { titleCase } = require("../constants/functions.js");
 
-module.exports = (player, profile) => {
+module.exports = (profile) => {
   try {
     const dungeons = profile?.dungeons;
     const catacombs = dungeons?.dungeon_types.catacombs;
@@ -68,7 +68,7 @@ module.exports = (player, profile) => {
 
     return {
       selected_class: titleCase(dungeons?.selected_dungeon_class),
-      secrets_found: player?.achievements?.skyblock_treasure_hunter ?? 0,
+      secrets_found: dungeons?.secrets ?? 0,
       classes: {
         healer: calcSkill("dungeoneering", dungeons?.player_classes.healer.experience || 0),
         mage: calcSkill("dungeoneering", dungeons?.player_classes.mage.experience || 0),
@@ -84,17 +84,18 @@ module.exports = (player, profile) => {
         MASTER_MODE_FLOORS,
       },
       essence: {
-        diamond: profile.currencies.essence.DIAMOND.current ?? 0,
-        dragon: profile.currencies.essence.DRAGON.current ?? 0,
-        spider: profile.currencies.essence.SPIDER.current ?? 0,
-        wither: profile.currencies.essence.WITHER.current ?? 0,
-        undead: profile.currencies.essence.UNDEAD.current ?? 0,
-        gold: profile.currencies.essence.GOLD.current ?? 0,
-        ice: profile.currencies.essence.ICE.current ?? 0,
-        crimson: profile.currencies.essence.CRIMSON.current ?? 0,
+        diamond: profile.currencies?.essence?.DIAMOND?.current || 0,
+        dragon: profile.currencies?.essence?.DRAGON?.current || 0,
+        spider: profile.currencies?.essence?.SPIDER?.current || 0,
+        wither: profile.currencies?.essence?.WITHER?.current || 0,
+        undead: profile.currencies?.essence?.UNDEAD?.current || 0,
+        gold: profile.currencies?.essence?.GOLD?.current || 0,
+        ice: profile.currencies?.essence?.ICE?.current || 0,
+        crimson: profile.currencies?.essence?.CRIMSON?.current || 0,
       },
     };
   } catch (error) {
+    console.log(error);
     return null;
   }
 };

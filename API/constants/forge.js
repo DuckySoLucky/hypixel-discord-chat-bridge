@@ -1,6 +1,8 @@
 // credit: https://github.com/SkyCryptWebsite/SkyCrypt/blob/b9842bea6f1494fa2d2fd005b64f57d84646c188/src/constants/forge.js#L1 (Modified)
 module.exports = {
+  // Times in mins
   items: {
+    // Old Items (Before mining v3)
     REFINED_DIAMOND: { name: "Refined Diamond", time: 480 },
     REFINED_MITHRIL: { name: "Refined Mithril", time: 360 },
     REFINED_TITANIUM: { name: "Refined Titanium", time: 720 },
@@ -68,6 +70,40 @@ module.exports = {
     FORGE_TRAVEL_SCROLL: { name: "Travel Scroll to the Dwarven Forge", time: 300 },
     CRYSTAL_HOLLOWS_TRAVEL_SCROLL: { name: "Travel Scroll to the Crystal Hollows", time: 600 },
     DIAMONITE: { name: "Diamonite", time: 360 },
+
+    // New Items (Mining v3)
+    PERFECT_ONYX_GEM: { name: "Perfect Onyx Gemstone", time: 1200 },
+    PERFECT_CITRINE_GEM: { name: "Perfect Citrine Gemstone", time: 1200 },
+    PERFECT_AQUAMARINE_GEM: { name: "Perfect Aquamarine Gemstone", time: 1200 },
+    PERFECT_PERIDOT_GEM: { name: "Perfect Peridot Gemstone", time: 1200 },
+    BEJEWELED_COLLAR: { name: "Bejeweled Collar", time: 120 },
+    CHISEL: { name: "Chisel", time: 0.5 },
+    BASE_CAMP_TRAVEL_SCROLL: { name: "Travel Scroll to the Dawrven Base Camp", time: 600 },
+    SECRET_RAILROAD_PASS: { name: "Secret Railroad Pass", time: 0.5 },
+    DWARVEN_HANDWARMERS: { name: "Dwarven Handwarmers", time: 0.5 },
+    DWARVEN_METAL: { name: "Dwarven Metal Talisman", time: 1440 },
+    PORTABLE_CAMPFIRE: { name: "Portable Campfire", time: 30 },
+    REFINED_TUNGSTEN: { name: "Refined Tungsten", time: 360 },
+    REFINED_UMBER: { name: "Refined Umber", time: 360 },
+    MOLE: { name: "[Lvl 1] Mole", time: 4320 },
+    TYRANNOSAURUS: { name: "[Lvl 1] T-Rex", time: 7200 },
+    SPINOSAURUS: { name: "[Lvl 1] Spinosaurus", time: 7200 },
+    GOBLIN: { name: "[Lvl 1] Goblin", time: 7200 },
+    ANKYLOSAURUS: { name: "[Lvl 1] Ankylosaurus", time: 7200 },
+    PENGUIN: { name: "[Lvl 1] Penguin", time: 7200 },
+    MAMMOTH: { name: "[Lvl 1] Mammoth", time: 7200 },
+    SKELETON_KEY: { name: "Skeleton Key", time: 30 },
+    UMBER_PLATE: { name: "Umber Plate", time: 120 },
+    TUNGSTEN_PLATE: { name: "Tungsten Plate", time: 120 },
+    PERFECT_PLATE: { name: "Perfect Plate", time: 30 },
+    REINFORCED_CHISEL: { name: "Refined Chisel", time: 720 },
+    GLACITE_CHISEL: { name: "Glacite Chisel", time: 1080 },
+    TUNGSTEN_KEYCHAIN: { name: "Tungsten Keychain", time: 360 },
+    GLACITE_AMALGAMATION: { name: "Glacite Amalgamation", time: 240 },
+    FRIGID_HUSK: { name: "Frigid Husk", time: 600 },
+    POWER_RELIC: { name: "Relic Of Power", time: 480 },
+    UMBER_KEY: { name: "Umber Key", time: 30 },
+    TUNGSTEN_KEY: { name: "Tungsten Key", time: 30 },
   },
   quickForgeMultiplier: {
     1: 0.895,

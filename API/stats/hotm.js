@@ -50,6 +50,8 @@ module.exports = (player, profile) => {
           forgeItem.timeFinishedText =
             timeFinished < Date.now() ? "Finished" : `ending ${moment(timeFinished).fromNow()}`;
         } else {
+          console.log(item);
+          forgeItem.name = "Unknown Item";
           forgeItem.id = `UNKNOWN-${item.id}`;
         }
 
@@ -60,14 +62,19 @@ module.exports = (player, profile) => {
     return {
       powder: {
         mithril: {
-          spent: profile?.mining_core?.powder_spent_mithril ?? 0,
-          current: profile?.mining_core?.powder_mithril ?? 0,
-          total: profile?.mining_core?.powder_spent_mithril ?? 0 + profile?.mining_core?.powder_mithril ?? 0,
+          spent: profile?.mining_core?.powder_spent_mithril || 0,
+          current: profile?.mining_core?.powder_mithril || 0,
+          total: profile?.mining_core?.powder_spent_mithril || 0 + profile?.mining_core?.powder_mithril || 0,
         },
         gemstone: {
-          spent: profile?.mining_core?.powder_spent_gemstone ?? 0,
-          current: profile?.mining_core?.powder_gemstone ?? 0,
-          total: profile?.mining_core?.powder_spent_gemstone ?? 0 + profile?.mining_core?.powder_gemstone ?? 0,
+          spent: profile?.mining_core?.powder_spent_gemstone || 0,
+          current: profile?.mining_core?.powder_gemstone || 0,
+          total: profile?.mining_core?.powder_spent_gemstone || 0 + profile?.mining_core?.powder_gemstone || 0,
+        },
+        glacite: {
+          spent: profile?.mining_core?.powder_spent_glacite || 0,
+          current: profile?.mining_core?.powder_glacite || 0,
+          total: profile?.mining_core?.powder_spent_glacite || 0 + profile?.mining_core?.powder_glacite || 0,
         },
       },
       level: calcSkill("hotm", profile?.mining_core?.experience || 0),

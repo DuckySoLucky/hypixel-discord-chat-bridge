@@ -39,7 +39,7 @@ class SkyblockCommand extends minecraftCommand {
           v2Endpoint: true,
           cache: true,
         }),
-        getDungeons(data.player, data.profile),
+        getDungeons(data.profile),
         getTalismans(data.profile),
         getHotm(data.player, data.profile),
       ]);

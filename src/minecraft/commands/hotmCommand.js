@@ -37,13 +37,7 @@ class HotmCommand extends minecraftCommand {
       const level = (hotm.level.levelWithProgress || 0).toFixed(1);
 
       this.send(
-        `/gc ${username}'s Hotm: ${level} | Gemstone Powder: ${formatNumber(
-          hotm.powder.gemstone.total,
-        )} | Mithril Powder: ${formatNumber(hotm.powder.mithril.total)} | Selected Ability: ${
-          hotm.ability
-        } | Commissions: ${numberWithCommas(hotm.commissions.total)} | Commissions Milestone ${
-          hotm.commissions.milestone
-        }`,
+        `/gc ${username}'s Hotm: ${level} | Gemstone Powder: ${formatNumber(hotm.powder.gemstone.total)} | Mithril Powder: ${formatNumber(hotm.powder.mithril.total)} | Glacite Powder: ${formatNumber(hotm.powder.glacite.total)} | Selected Ability: ${hotm.ability} | Commissions: ${numberWithCommas(hotm.commissions.total)} | Commissions Milestone ${hotm.commissions.milestone}`,
       );
     } catch (error) {
       this.send(`/gc [ERROR] ${error}`);

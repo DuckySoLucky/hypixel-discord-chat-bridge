@@ -27,7 +27,7 @@ class CatacombsCommand extends minecraftCommand {
 
       username = formatUsername(username, data.profileData?.game_mode);
 
-      const dungeons = getDungeons(data.playerRes, data.profile);
+      const dungeons = getDungeons(data.profile);
 
       if (dungeons == null) {
         // eslint-disable-next-line no-throw-literal
