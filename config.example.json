@@ -87,14 +87,14 @@
     "commands": {
       "checkPerms": true,
       "commandRole": "COMMAND_ROLE_ID",
-      "blacklistRole": "BLACKLIST_ROLE_ID",
+      "blacklistRoles": ["BLACKLIST_ROLE_ID"],
       "users": ["486155512568741900"]
     },
     "other": {
       "messageMode": "minecraft",
       "messageFormat": "{chatType} > {skin} {rank} {username} {guildRank}§f: {message}",
       "filterMessages": true,
-      "filterWords": ["dox", "doxx", "doxed", "doxxed", "doxing", "doxxing", "doxes", "doxxes", "zickles"],
+    "filterWords": ["dox", "doxx", "doxed", "doxxed", "doxing", "doxxing", "doxes", "doxxes"],
       "joinMessage": true,
       "autoLimbo": false
     }

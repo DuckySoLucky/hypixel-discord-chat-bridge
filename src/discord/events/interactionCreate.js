@@ -14,8 +14,10 @@ module.exports = {
     try {
       if (interaction.isChatInputCommand()) {
         const memberRoles = interaction.member.roles.cache.map((role) => role.id);
-        if (memberRoles.some((role) => [config.discord.commands.blacklistRole].includes(role))) return;
         await interaction.deferReply({ ephemeral: false }).catch(() => {});
+        if (memberRoles.some((role) => config.discord.commands.blacklistRoles.includes(role))) {
+          throw new HypixelDiscordChatBridgeError("You are blacklisted from using this bot.");
+        }
 
         const command = interaction.client.commands.get(interaction.commandName);
         if (command === undefined) {
