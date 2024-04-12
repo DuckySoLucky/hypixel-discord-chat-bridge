@@ -1,6 +1,6 @@
 const { titleCase } = require("../constants/functions.js");
+const miningConst = require("../constants/mining.js");
 const calcSkill = require("../constants/skills.js");
-const forgeInfo = require("../constants/forge.js");
 const moment = require("moment");
 
 module.exports = (player, profile) => {
@@ -35,14 +35,14 @@ module.exports = (player, profile) => {
           timeFinishedText: "",
         };
 
-        if (item.id in forgeInfo.items) {
-          let forgeTime = forgeInfo.items[item.id].time * 60 * 1000;
+        if (item.id in miningConst.forge.items) {
+          let forgeTime = miningConst.forge.items[item.id].time * 60 * 1000;
           const quickForge = profile.mining_core?.nodes?.forge_time;
           if (quickForge != null) {
-            forgeTime *= forgeInfo.quickForgeMultiplier[quickForge];
+            forgeTime *= miningConst.forge.quickForgeMultiplier[quickForge];
           }
 
-          forgeItem.name = forgeInfo.items[item.id].name;
+          forgeItem.name = miningConst.forge.items[item.id].name;
 
           const timeFinished = item.startTime + forgeTime;
           forgeItem.timeStarted = item.startTime;
@@ -57,6 +57,17 @@ module.exports = (player, profile) => {
 
         forgeItems.push(forgeItem);
       }
+    }
+
+    const perks = { 1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [], 8: [], 9: [], 10: [] };
+    if (profile.mining_core?.nodes !== undefined) {
+      Object.keys(miningConst.hotm.perks).forEach((key) => {
+        perks[miningConst.hotm.perks[key].level].push({
+          name: miningConst.hotm.perks[key].name,
+          level: profile.mining_core.nodes[key] ?? 0,
+          max: miningConst.hotm.perks[key].max,
+        });
+      });
     }
 
     return {
@@ -116,8 +127,10 @@ module.exports = (player, profile) => {
       },
       commissions: commissions,
       forge: forgeItems,
+      perks: perks,
     };
   } catch (error) {
+    console.log(error);
     return null;
   }
 };
