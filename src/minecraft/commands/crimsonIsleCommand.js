@@ -21,6 +21,7 @@ class CrimsonIsleCommand extends minecraftCommand {
 
   async onCommand(username, message) {
     try {
+      // CREDITS: by @Kathund (https://github.com/Kathund)
       username = this.getArgs(message)[0] || username;
 
       const data = await getLatestProfile(username);
@@ -33,7 +34,9 @@ class CrimsonIsleCommand extends minecraftCommand {
       }
 
       this.send(
-        `/gc ${username}'s faction: ${profile.faction} | Barb Rep: ${formatNumber(profile.reputation.barbarian)} | Mage Rep: ${formatNumber(profile.reputation.mage)}`,
+        `/gc ${username}'s faction: ${profile.faction} | Barb Rep: ${formatNumber(
+          profile.reputation.barbarian,
+        )} | Mage Rep: ${formatNumber(profile.reputation.mage)}`,
       );
     } catch (error) {
       console.log(error);

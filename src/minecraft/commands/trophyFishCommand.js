@@ -21,6 +21,7 @@ class TrophyFishCommand extends minecraftCommand {
 
   async onCommand(username, message) {
     try {
+      // CREDITS: by @Kathund (https://github.com/Kathund)
       username = this.getArgs(message)[0] || username;
 
       const data = await getLatestProfile(username);
@@ -33,7 +34,13 @@ class TrophyFishCommand extends minecraftCommand {
       }
 
       this.send(
-        `/gc ${username}'s Trophy Fishing rank: ${profile.trophyFishing.rank} | Total Caught: ${formatNumber(profile.trophyFishing.caught.total)} | Total Bronze: ${formatNumber(profile.trophyFishing.caught.bronze)} | Total Silver: ${formatNumber(profile.trophyFishing.caught.silver)} | Total Gold: ${formatNumber(profile.trophyFishing.caught.gold)} | Total Diamond: ${formatNumber(profile.trophyFishing.caught.diamond)}`,
+        `/gc ${username}'s Trophy Fishing rank: ${profile.trophyFishing.rank} | Total Caught: ${formatNumber(
+          profile.trophyFishing.caught.total,
+        )} | Total Bronze: ${formatNumber(profile.trophyFishing.caught.bronze)} | Total Silver: ${formatNumber(
+          profile.trophyFishing.caught.silver,
+        )} | Total Gold: ${formatNumber(profile.trophyFishing.caught.gold)} | Total Diamond: ${formatNumber(
+          profile.trophyFishing.caught.diamond,
+        )}`,
       );
     } catch (error) {
       console.log(error);

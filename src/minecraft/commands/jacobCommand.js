@@ -16,6 +16,7 @@ class JacobCommand extends minecraftCommand {
 
   async onCommand(username, message) {
     try {
+      // CREDITS: by @Kathund (https://github.com/Kathund)
       username = this.getArgs(message)[0] || username;
 
       const data = await getLatestProfile(username);
@@ -23,7 +24,11 @@ class JacobCommand extends minecraftCommand {
       const profile = getJacob(data.profile);
 
       this.send(
-        `/gc ${username}'s Gold Medals: ${profile.medals.gold} | Silver: ${profile.medals.silver} | Bronze: ${profile.medals.bronze} | Personal Bests: ${profile.perks.personalBests ? "has" : "missing"} | Double Drops ${profile.perks.doubleDrops}/15 | Level Cap: ${profile.perks.levelCap}/10`,
+        `/gc ${username}'s Gold Medals: ${profile.medals.gold} | Silver: ${profile.medals.silver} | Bronze: ${
+          profile.medals.bronze
+        } | Personal Bests: ${profile.perks.personalBests ? "has" : "missing"} | Double Drops ${
+          profile.perks.doubleDrops
+        }/15 | Level Cap: ${profile.perks.levelCap}/10`,
       );
 
       await delay(250);

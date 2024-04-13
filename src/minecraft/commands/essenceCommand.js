@@ -21,6 +21,7 @@ class EssenceCommand extends minecraftCommand {
 
   async onCommand(username, message) {
     try {
+      // CREDITS: by @Kathund (https://github.com/Kathund)
       username = this.getArgs(message)[0] || username;
 
       const data = await getLatestProfile(username);
@@ -35,7 +36,16 @@ class EssenceCommand extends minecraftCommand {
       }
 
       this.send(
-        `/gc ${username}'s Diamond Essence: ${formatNumber(dungeons.essence.diamond, 0)} | Dragon: ${formatNumber(dungeons.essence.dragon, 0)} Spider: ${formatNumber(dungeons.essence.spider, 0)} | Wither: ${formatNumber(dungeons.essence.wither, 0)} | Undead: ${formatNumber(dungeons.essence.undead, 0)} | Gold: ${formatNumber(dungeons.essence.gold, 0)} | Ice: ${formatNumber(dungeons.essence.ice, 0)} | Crimson: ${formatNumber(dungeons.essence.crimson, 0)}`,
+        `/gc ${username}'s Diamond Essence: ${formatNumber(dungeons.essence.diamond, 0)} | Dragon: ${formatNumber(
+          dungeons.essence.dragon,
+          0,
+        )} Spider: ${formatNumber(dungeons.essence.spider, 0)} | Wither: ${formatNumber(
+          dungeons.essence.wither,
+          0,
+        )} | Undead: ${formatNumber(dungeons.essence.undead, 0)} | Gold: ${formatNumber(
+          dungeons.essence.gold,
+          0,
+        )} | Ice: ${formatNumber(dungeons.essence.ice, 0)} | Crimson: ${formatNumber(dungeons.essence.crimson, 0)}`,
       );
     } catch (error) {
       console.log(error);
