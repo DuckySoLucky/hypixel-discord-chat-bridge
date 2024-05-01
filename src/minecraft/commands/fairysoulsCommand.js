@@ -25,7 +25,7 @@ class FairySoulsCommand extends minecraftCommand {
       const data = await getLatestProfile(username);
       username = formatUsername(username, data.profileData.game_mode);
 
-      const total = data.profileData.game_mode === "island" ? 5 : 243;
+      const total = data.profileData.game_mode === "island" ? 5 : 247;
 
       const { fairy_soul } = data.profile;
 

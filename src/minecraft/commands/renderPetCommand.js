@@ -1,9 +1,9 @@
 const { getRarityColor, formatUsername } = require("../../contracts/helperFunctions.js");
-const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const { renderLore } = require("../../contracts/renderItem.js");
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
-const getPets = require("../../../API/stats/pets.js");
+const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { uploadImage } = require("../../contracts/API/imgurAPI.js");
+const { renderLore } = require("../../contracts/renderItem.js");
+const getPets = require("../../../API/stats/pets.js");
 
 class RenderCommand extends minecraftCommand {
   constructor(minecraft) {
