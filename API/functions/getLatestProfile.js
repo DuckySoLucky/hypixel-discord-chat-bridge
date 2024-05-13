@@ -1,5 +1,5 @@
 /* eslint-disable no-throw-literal */
-const { getUUID } = require("../../src/contracts/API/PlayerDBAPI.js");
+const { getUUID } = require("../../src/contracts/API/mowojangAPI.js");
 const { getMuseum } = require("./getMuseum.js");
 const { isUuid } = require("../utils/uuid.js");
 const config = require("../../config.json");

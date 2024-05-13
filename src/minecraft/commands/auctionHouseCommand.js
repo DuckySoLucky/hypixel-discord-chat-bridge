@@ -1,11 +1,11 @@
-const config = require("../../../config.json");
 const { addCommas, timeSince } = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
+const { uploadImage } = require("../../contracts/API/imgurAPI.js");
+const { getUUID } = require("../../contracts/API/mowojangAPI.js");
 const { renderLore } = require("../../contracts/renderItem.js");
 const getRank = require("../../../API/stats/rank.js");
+const config = require("../../../config.json");
 const axios = require("axios");
-const { getUUID } = require("../../contracts/API/PlayerDBAPI.js");
-const { uploadImage } = require("../../contracts/API/imgurAPI.js");
 
 class AuctionHouseCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -58,7 +58,7 @@ class AuctionHouseCommand extends minecraftCommand {
             const bidderUUID = auction.bids[auction.bids.length - 1].bidder;
 
             const bidderResponse = await axios.get(
-              `https://api.hypixel.net/player?key=${hypixelAPIkey}&uuid=${bidderUUID}`
+              `https://api.hypixel.net/player?key=${hypixelAPIkey}&uuid=${bidderUUID}`,
             );
 
             const bidder = bidderResponse.data?.player || {};
@@ -75,7 +75,7 @@ class AuctionHouseCommand extends minecraftCommand {
               `§7`,
               `§7Top Bid: §6${amount.toLocaleString()} coins`,
               `§7Bidder: ${getRank(bidder)} ${bidder.displayname}`,
-              `§7`
+              `§7`,
             );
           }
         } else {

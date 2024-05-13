@@ -2,7 +2,7 @@ const { replaceAllRanks, replaceVariables } = require("../../contracts/helperFun
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
-const { getUUID } = require("../../contracts/API/PlayerDBAPI.js");
+const { getUUID } = require("../../contracts/API/mowojangAPI.js");
 const eventHandler = require("../../contracts/EventHandler.js");
 const getWeight = require("../../../API/stats/weight.js");
 const messages = require("../../../messages.json");
@@ -76,7 +76,7 @@ class StateHandler extends eventHandler {
 
     if (this.isRequestMessage(message)) {
       const username = replaceAllRanks(
-        message.split("has")[0].replaceAll("-----------------------------------------------------\n", "")
+        message.split("has")[0].replaceAll("-----------------------------------------------------\n", ""),
       );
       const uuid = await getUUID(username);
       if (config.minecraft.guildRequirements.enabled) {
@@ -138,7 +138,7 @@ class StateHandler extends eventHandler {
             player.stats.bedwars.level
           }✫] FKDR: ${player.stats.bedwars.finalKDRatio} | [SW] [${player.stats.skywars.level}✫] KDR: ${
             player.stats.skywars.KDRatio
-          } | [Duels] Wins: ${player.stats.duels.wins.toLocaleString()} WLR: ${player.stats.duels.WLRatio.toLocaleString()} | SB Weight: ${weight.toLocaleString()} | SB Level: ${skyblockLevel.toLocaleString()}`
+          } | [Duels] Wins: ${player.stats.duels.wins.toLocaleString()} WLR: ${player.stats.duels.WLRatio.toLocaleString()} | SB Weight: ${weight.toLocaleString()} | SB Level: ${skyblockLevel.toLocaleString()}`,
         );
         await delay(1000);
 
@@ -191,7 +191,7 @@ class StateHandler extends eventHandler {
                 name: "Skyblock Level",
                 value: `${skyblockLevel.toLocaleString()}`,
                 inline: true,
-              }
+              },
             )
             .setThumbnail(`https://www.mc-heads.net/avatar/${player.nickname}`)
             .setFooter({
@@ -239,7 +239,7 @@ class StateHandler extends eventHandler {
       bot.chat(
         `/gc ${replaceVariables(messages.guildJoinMessage, {
           prefix: config.minecraft.bot.prefix,
-        })} | by @duckysolucky`
+        })} | by @duckysolucky`,
       );
       return [
         this.minecraft.broadcastHeadedEmbed({
@@ -891,7 +891,7 @@ class StateHandler extends eventHandler {
       (message.includes("You must be the Guild Master to use that command!") ||
         message.includes("You do not have permission to use this command!") ||
         message.includes(
-          "I'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error."
+          "I'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error.",
         ) ||
         message.includes("You cannot mute a guild member with a higher guild rank!") ||
         message.includes("You cannot kick this player!") ||
