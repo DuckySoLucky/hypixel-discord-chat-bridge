@@ -40,10 +40,9 @@ module.exports = async (profile) => {
         if (!names.includes(talisman.tag.ExtraAttributes.id)) {
           if (talisman.tag.ExtraAttributes.id === "ABICASE") {
             output.magicPower += Math.floor(profile.nether_island_player_data.abiphone.active_contacts.length / 2);
+            output.magicPower += power[getRarity(talisman.tag.display.Lore)]
           } else if (talisman.tag.ExtraAttributes.id === "HEGEMONY_ARTIFACT") {
             output.magicPower += power[getRarity(talisman.tag.display.Lore)] * 2;
-          } else if (talisman.tag.ExtraAttributes.id === "RIFT_PRISM") {
-            output.magicPower += 11;
           } else {
             output.magicPower += power[getRarity(talisman.tag.display.Lore)];
           }
@@ -66,6 +65,9 @@ module.exports = async (profile) => {
         if (talisman.tag.ExtraAttributes?.talisman_enrichment !== undefined) {
           output.enriched++;
         }
+      }
+      if(profile.rift.access.consumed_prism === true) {
+        output.magicPower += 11
       }
 
       return output;
