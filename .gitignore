@@ -5,3 +5,4 @@ whitelist.json
 blacklist.json
 apiOutput.json
 auth-cache/
+auth-cacheLogan/

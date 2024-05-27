@@ -5,6 +5,8 @@ const messageToImage = require("../contracts/messageToImage.js");
 const MessageHandler = require("./handlers/MessageHandler.js");
 const StateHandler = require("./handlers/StateHandler.js");
 const CommandHandler = require("./CommandHandler.js");
+const TicketHandler = require('./handlers/ticketHandler.js');
+
 const config = require("../../config.json");
 const Logger = require(".././Logger.js");
 const path = require("node:path");
@@ -28,8 +30,13 @@ class DiscordManager extends CommunicationBridge {
 
     this.client = client;
 
-    this.client.on("ready", () => this.stateHandler.onReady());
+    this.client.on("ready", () => {
+      this.stateHandler.onReady();
+      this.ticketHandler = new TicketHandler(this.client);
+      this.ticketHandler.setupTicketSystem();
+    });
     this.client.on("messageCreate", (message) => this.messageHandler.onMessage(message));
+
 
     this.client.login(config.discord.bot.token).catch((error) => {
       Logger.errorMessage(error);

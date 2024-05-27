@@ -10,7 +10,7 @@ module.exports = (player, profile) => {
     const floors = {};
     const AVAILABLE_FLOORS = Object.keys(dungeons?.dungeon_types.catacombs.times_played || []);
 
-    for (const floor in AVAILABLE_FLOORS) {
+    for (const floor of AVAILABLE_FLOORS) {
       let floorName = "entrance";
       if (floor != 0) floorName = `floor_${floor}`;
       floors[floorName] = {
@@ -29,7 +29,7 @@ module.exports = (player, profile) => {
 
     const MASTER_MODE_FLOORS = {};
 
-    for (let i = 1; i <= dungeons?.dungeon_types.master_catacombs.highest_tier_completed; i++) {
+    for (let i = 1; i <= (MASTER_CATACOMBS?.highest_tier_completed || 0); i++) {
       MASTER_MODE_FLOORS[`floor_${i}`] = {
         completions: MASTER_CATACOMBS?.tier_completions[i] ?? 0,
         best_score: {
@@ -49,23 +49,28 @@ module.exports = (player, profile) => {
       ? `F${catacombs?.highest_tier_completed}`
       : null;
 
-    const perks = {
-      catacombs_boss_luck: profile?.perks.catacombs_boss_luck ?? 0,
-      catacombs_looting: profile?.perks.catacombs_looting ?? 0,
-      catacombs_intelligence: profile?.perks.catacombs_intelligence ?? 0,
-      catacombs_health: profile?.perks.catacombs_health ?? 0,
-      catacombs_strength: profile?.perks.catacombs_strength ?? 0,
-      catacombs_crit_damage: profile?.perks.catacombs_crit_damage ?? 0,
-      catacombs_defense: profile?.perks.catacombs_defense ?? 0,
-      permanent_speed: profile?.perks.permanent_defense ?? 0,
-      permanent_intelligence: profile?.perks.permanent_intelligence ?? 0,
-      permanent_health: profile?.perks.permanent_health ?? 0,
-      permanent_defense: profile?.perks.permanent_defense ?? 0,
-      permanent_strength: profile?.perks.permanent_strength ?? 0,
-      forbidden_blessing: profile?.perks.forbidden_blessing ?? 0,
-      revive_stone: profile?.perks.revive_stone ?? 0,
-    };
 
+    const defaultPerks = {
+      catacombs_boss_luck: 0,
+      catacombs_looting: 0,
+      catacombs_intelligence: 0,
+      catacombs_health: 0,
+      catacombs_strength: 0,
+      catacombs_crit_damage: 0,
+      catacombs_defense: 0,
+      permanent_speed: 0,
+      permanent_intelligence: 0,
+      permanent_health: 0,
+      permanent_defense: 0,
+      permanent_strength: 0,
+      forbidden_blessing: 0,
+      revive_stone: 0,
+    };
+    
+    const perks = {
+      ...defaultPerks,
+      ...profile?.perks,
+    };
     return {
       selected_class: titleCase(dungeons?.selected_dungeon_class),
       secrets_found: player?.achievements?.skyblock_treasure_hunter ?? 0,
@@ -85,27 +90,10 @@ module.exports = (player, profile) => {
       },
     };
   } catch (error) {
-    // Return a default object when an error occurs
-    return {
-      selected_class: null,
-      secrets_found: 0,
-      classes: {
-        healer: calcSkill("dungeoneering", 0),
-        mage: calcSkill("dungeoneering", 0),
-        berserk: calcSkill("dungeoneering", 0),
-        archer: calcSkill("dungeoneering", 0),
-        tank: calcSkill("dungeoneering", 0),
-      },
-      catacombs: {
-        skill: calcSkill("dungeoneering", 0),
-        perks: {},
-        HIGEHST_TIER_COMPLETED: null,
-        floors: {},
-        MASTER_MODE_FLOORS: {},
-      },
-    };
+    console.error(error);
+    return null;
   }
-}
+};
 
 function getScoreName(score) {
   if (score >= 300) return "S+";

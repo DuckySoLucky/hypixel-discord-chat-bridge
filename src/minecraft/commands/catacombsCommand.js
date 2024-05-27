@@ -28,7 +28,6 @@ class CatacombsCommand extends minecraftCommand {
       username = formatUsername(username, data.profileData?.game_mode);
 
       const dungeons = getDungeons(data.playerRes, data.profile);
-
       if (dungeons == null) {
         // eslint-disable-next-line no-throw-literal
         throw `${username} has never played dungeons on ${data.profileData.cute_name}.`;

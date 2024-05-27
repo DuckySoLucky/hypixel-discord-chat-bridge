@@ -5,8 +5,11 @@ const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
 const { getUUID } = require("../../contracts/API/PlayerDBAPI.js");
 const eventHandler = require("../../contracts/EventHandler.js");
 const getWeight = require("../../../API/stats/weight.js");
+const getDungeons = require("../../../API/stats/dungeons.js");
+
 const messages = require("../../../messages.json");
 const { EmbedBuilder } = require("discord.js");
+const { ActionRowBuilder , ButtonBuilder } = require('discord.js');
 const config = require("../../../config.json");
 const Logger = require("../../Logger.js");
 
@@ -79,6 +82,97 @@ class StateHandler extends eventHandler {
         message.split("has")[0].replaceAll("-----------------------------------------------------\n", "")
       );
       const uuid = await getUUID(username);
+      console.log("${username} wants to join the Guild");
+
+      if (!config.minecraft.guildRequirements.enabled) {
+        const data = await getLatestProfile(username);
+        const profile = getWeight(data.profile, data.uuid);
+        const dungeons = getDungeons(data.playerRes, data.profile);
+        const wweight = (profile.senither.total).toFixed(1);
+        const SBLevel = (data.profile.leveling?.experience || 0) / 100 ?? 0;
+        const ccatacombsLevel = dungeons && 'catacombs' in dungeons && dungeons.catacombs && dungeons.catacombs.skill ? parseFloat(dungeons.catacombs.skill.levelWithProgress).toFixed(1) : 0;            // Fetch the player's current rank
+        console.log(`${username}  | Level : ${SBLevel} | Catacombs : ${ccatacombsLevel} | Weight : ${wweight} .`);
+
+        bot.chat(
+          `/oc ${username} wants to join the Guild | Level : ${SBLevel} | Catacombs : ${ccatacombsLevel} | Weight : ${wweight} .`
+        );
+        
+      
+        const InviteEmbed = new EmbedBuilder()
+        .setColor(2067276)
+        .setTitle(`${username} wants to join the Guild!`)
+        .setDescription(`**Level : ${SBLevel} | Catacombs : ${ccatacombsLevel} | Weight : ${wweight}**`)
+        .setThumbnail(`https://www.mc-heads.net/avatar/${username}`)
+        .setFooter({
+          text: `/help [command] for more information`,
+          iconURL: "https://i.imgur.com/vt9IRtV.png",
+        });
+
+        const AcceptButton = new ButtonBuilder()
+        .setCustomId(`accept_${username}`)
+        .setLabel('Accept Member')
+        .setStyle('Success');
+      
+      const ReeinviteButton = new ButtonBuilder()
+        .setCustomId(`reinvite_${username}`)
+        .setLabel('Reinvite Member')
+        .setStyle('Primary')
+        .setDisabled(true);
+      
+      const row = new ActionRowBuilder()
+        .addComponents(AcceptButton, ReeinviteButton);
+      
+      const message = await client.channels.cache.get(config.discord.channels.loggingChannel).send({ content: `<@&${config.discord.commands.commandRole}>`, embeds: [InviteEmbed], components: [row] });
+      
+      client.on('interactionCreate', async (interaction) => {
+        if (!interaction.isButton()) return;
+        const username = interaction.customId.split('_')[1];
+        const buttonPresser = interaction.user.username; 
+        if (interaction.customId.startsWith('accept')) {
+          bot.chat(`/guild accept ${username}`);
+      
+          // Disable the buttons
+          AcceptButton.setDisabled(true);
+          ReeinviteButton.setDisabled(true);
+      
+          // Edit the message to update the buttons
+          await message.edit({ content: message.content, embeds: message.embeds, components: [row] });
+      
+          await interaction.reply({ content: `Accepted by ${buttonPresser}!`, ephemeral: false }); 
+        } else if (interaction.customId.startsWith('reinvite')) {
+          bot.chat(`/guild invite ${username}`);
+      
+          // Disable the buttons
+          AcceptButton.setDisabled(true);
+          ReeinviteButton.setDisabled(true);
+      
+          // Edit the message to update the buttons
+          await message.edit({ content: message.content, embeds: message.embeds, components: [row] });
+      
+          await interaction.reply({ content: `Reinvited by ${buttonPresser}!`, ephemeral: false }); 
+        }
+      });
+      
+      setTimeout(async () => {
+        AcceptButton.setDisabled(true);
+        ReeinviteButton.setDisabled(false);
+
+          
+          const ReinviteEmbed = new EmbedBuilder()
+          .setColor(2067276)
+          .setTitle(`${username} wanted to join the Guild but the request has expired`)
+          .setDescription(`**Level : ${SBLevel} | Catacombs : ${ccatacombsLevel} | Weight : ${wweight}**`)
+          .setThumbnail(`https://www.mc-heads.net/avatar/${username}`)
+          .setFooter({
+            text: `/help [command] for more information`,
+            iconURL: "https://i.imgur.com/vt9IRtV.png",
+          });
+
+          await message.edit({ content: message.content, embeds: [ReinviteEmbed], components: [row] });
+        }, 5 * 60 * 1000);
+      }   
+    
+
       if (config.minecraft.guildRequirements.enabled) {
         const [player, profile] = await Promise.all([hypixel.getPlayer(uuid), getLatestProfile(uuid)]);
         let meetRequirements = false;
@@ -88,7 +182,7 @@ class StateHandler extends eventHandler {
 
         const bwLevel = player.stats.bedwars.level;
         const bwFKDR = player.stats.bedwars.finalKDRatio;
-
+ 
         const swLevel = player.stats.skywars.level / 5;
         const swKDR = player.stats.skywars.KDRatio;
 

@@ -5,11 +5,7 @@ const { isUuid } = require("../utils/uuid.js");
 const config = require("../../config.json");
 const axios = require("axios");
 
-
 const cache = new Map();
-
-const fs = require('fs');
-
 
 async function getLatestProfile(uuid, options = { museum: false }) {
   if (!isUuid(uuid)) {
@@ -71,4 +67,3 @@ async function getLatestProfile(uuid, options = { museum: false }) {
 }
 
 module.exports = { getLatestProfile };
-
