@@ -76,7 +76,7 @@ class StateHandler extends eventHandler {
 
     if (this.isRequestMessage(message)) {
       const username = replaceAllRanks(
-        message.split("has")[0].replaceAll("-----------------------------------------------------\n", "")
+        message.split("has")[0].replaceAll("-----------------------------------------------------\n", ""),
       );
       const uuid = await getUUID(username);
       if (config.minecraft.guildRequirements.enabled) {
@@ -95,40 +95,63 @@ class StateHandler extends eventHandler {
         const duelsWins = player.stats.duels.wins;
         const dWLR = player.stats.duels.WLRatio;
 
-        if (weight > config.minecraft.guildRequirements.requirements.senitherWeight) {
+        if (
+          weight > config.minecraft.guildRequirements.requirements.senitherWeight &&
+          config.minecraft.guildRequirements.requirements.senitherWeight > 0
+        ) {
           meetRequirements = true;
         }
 
-        if (skyblockLevel > config.minecraft.guildRequirements.requirements.skyblockLevel) {
+        if (
+          skyblockLevel > config.minecraft.guildRequirements.requirements.skyblockLevel &&
+          config.minecraft.guildRequirements.requirements.skyblockLevel > 0
+        ) {
           meetRequirements = true;
         }
 
-        if (bwLevel > config.minecraft.guildRequirements.requirements.bedwarsStars) {
+        if (
+          bwLevel > config.minecraft.guildRequirements.requirements.bedwarsStars &&
+          config.minecraft.guildRequirements.requirements.bedwarsStars > 0
+        ) {
           meetRequirements = true;
         }
         if (
           bwLevel > config.minecraft.guildRequirements.requirements.bedwarsStarsWithFKDR &&
-          bwFKDR > config.minecraft.guildRequirements.requirements.bedwarsFKDR
+          bwFKDR > config.minecraft.guildRequirements.requirements.bedwarsFKDR &&
+          config.minecraft.guildRequirements.requirements.bedwarsStarsWithFKDR > 0 &&
+          config.minecraft.guildRequirements.requirements.bedwarsFKDR > 0
         ) {
           meetRequirements = true;
         }
 
-        if (swLevel > config.minecraft.guildRequirements.requirements.skywarsStars) {
+        if (
+          swLevel > config.minecraft.guildRequirements.requirements.skywarsStars &&
+          config.minecraft.guildRequirements.requirements.skywarsStars > 0
+        ) {
           meetRequirements = true;
         }
+
         if (
           swLevel > config.minecraft.guildRequirements.requirements.skywarsStarsWithKDR &&
-          swKDR > config.minecraft.guildRequirements.requirements.skywarsStarsWithKDR
+          swKDR > config.minecraft.guildRequirements.requirements.skywarsStarsWithKDR &&
+          config.minecraft.guildRequirements.requirements.skywarsStarsWithKDR > 0 &&
+          config.minecraft.guildRequirements.requirements.skywarsStars > 0
         ) {
           meetRequirements = true;
         }
 
-        if (duelsWins > config.minecraft.guildRequirements.requirements.duelsWins) {
+        if (
+          duelsWins > config.minecraft.guildRequirements.requirements.duelsWins &&
+          config.minecraft.guildRequirements.requirements.duelsWins > 0
+        ) {
           meetRequirements = true;
         }
+
         if (
           duelsWins > config.minecraft.guildRequirements.requirements.duelsWinsWithWLR &&
-          dWLR > config.minecraft.guildRequirements.requirements.duelsWinsWithWLR
+          dWLR > config.minecraft.guildRequirements.requirements.duelsWinsWithWLR &&
+          config.minecraft.guildRequirements.requirements.duelsWinsWithWLR > 0 &&
+          config.minecraft.guildRequirements.requirements.duelsWins > 0
         ) {
           meetRequirements = true;
         }
@@ -138,7 +161,7 @@ class StateHandler extends eventHandler {
             player.stats.bedwars.level
           }✫] FKDR: ${player.stats.bedwars.finalKDRatio} | [SW] [${player.stats.skywars.level}✫] KDR: ${
             player.stats.skywars.KDRatio
-          } | [Duels] Wins: ${player.stats.duels.wins.toLocaleString()} WLR: ${player.stats.duels.WLRatio.toLocaleString()} | SB Weight: ${weight.toLocaleString()} | SB Level: ${skyblockLevel.toLocaleString()}`
+          } | [Duels] Wins: ${player.stats.duels.wins.toLocaleString()} WLR: ${player.stats.duels.WLRatio.toLocaleString()} | SB Weight: ${weight.toLocaleString()} | SB Level: ${skyblockLevel.toLocaleString()}`,
         );
         await delay(1000);
 
@@ -191,7 +214,7 @@ class StateHandler extends eventHandler {
                 name: "Skyblock Level",
                 value: `${skyblockLevel.toLocaleString()}`,
                 inline: true,
-              }
+              },
             )
             .setThumbnail(`https://www.mc-heads.net/avatar/${player.nickname}`)
             .setFooter({
@@ -239,7 +262,7 @@ class StateHandler extends eventHandler {
       bot.chat(
         `/gc ${replaceVariables(messages.guildJoinMessage, {
           prefix: config.minecraft.bot.prefix,
-        })} | by @duckysolucky`
+        })} | by @duckysolucky`,
       );
       return [
         this.minecraft.broadcastHeadedEmbed({
@@ -891,7 +914,7 @@ class StateHandler extends eventHandler {
       (message.includes("You must be the Guild Master to use that command!") ||
         message.includes("You do not have permission to use this command!") ||
         message.includes(
-          "I'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error."
+          "I'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error.",
         ) ||
         message.includes("You cannot mute a guild member with a higher guild rank!") ||
         message.includes("You cannot kick this player!") ||
