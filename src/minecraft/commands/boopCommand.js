@@ -1,31 +1,3 @@
-const alphabet = [
-  "a",
-  "b",
-  "c",
-  "d",
-  "e",
-  "f",
-  "g",
-  "h",
-  "i",
-  "j",
-  "k",
-  "l",
-  "m",
-  "n",
-  "o",
-  "p",
-  "q",
-  "r",
-  "s",
-  "t",
-  "u",
-  "v",
-  "w",
-  "x",
-  "y",
-  "z",
-];
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -65,10 +37,14 @@ class BoopCommand extends minecraftCommand {
       this.send(`/gc Booped ${this.getArgs(message)[0]}!`);
       this.isOnCooldown = true;
       // CREDITS: @jaxieflaxie for finding this cooldown reset
-      for (let i = 0; i < alphabet.length; i++) {
-        this.send(`/w ${bot.username} ${alphabet[i]}`);
-        await delay(690);
-      }
+      this.send(`/w ${bot.username} i`);
+      await delay(690);
+      this.send(`/w ${bot.username} love`);
+      await delay(690);
+      this.send(`/w ${bot.username} jaxie`);
+      await delay(690);
+      this.send(`/w ${bot.username} flaxie`);
+      await delay(690);
       this.isOnCooldown = false;
     } catch (error) {
       this.send(`/gc [ERROR] ${error}`);
