@@ -1,3 +1,4 @@
+// CREDITS: by @Kathund (https://github.com/Kathund)
 module.exports = (profile) => {
   try {
     if (profile?.jacobs_contest !== undefined) {

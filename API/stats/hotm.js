@@ -1,3 +1,4 @@
+// CREDITS: by @Kathund (https://github.com/Kathund)
 const { titleCase } = require("../constants/functions.js");
 const miningConst = require("../constants/mining.js");
 const calcSkill = require("../constants/skills.js");
@@ -10,7 +11,7 @@ module.exports = (player, profile) => {
       milestone: 0,
     };
 
-    // credit: https://github.com/SkyCryptWebsite/SkyCrypt/blob/b9842bea6f1494fa2d2fd005b64f57d84646c188/src/stats/mining.js#L129
+    // CREDITS: https://github.com/SkyCryptWebsite/SkyCrypt/blob/b9842bea6f1494fa2d2fd005b64f57d84646c188/src/stats/mining.js#L129
     if (profile.objectives?.tutorial !== undefined) {
       for (const key of profile.objectives.tutorial) {
         if (key.startsWith("commission_milestone_reward_mining_xp_tier_") === false) {
@@ -59,17 +60,6 @@ module.exports = (player, profile) => {
       }
     }
 
-    const perks = { 1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [], 8: [], 9: [], 10: [] };
-    if (profile.mining_core?.nodes !== undefined) {
-      Object.keys(miningConst.hotm.perks).forEach((key) => {
-        perks[miningConst.hotm.perks[key].level].push({
-          name: miningConst.hotm.perks[key].name,
-          level: profile.mining_core.nodes[key] ?? 0,
-          max: miningConst.hotm.perks[key].max,
-        });
-      });
-    }
-
     return {
       powder: {
         mithril: {
@@ -90,44 +80,8 @@ module.exports = (player, profile) => {
       },
       level: calcSkill("hotm", profile?.mining_core?.experience || 0),
       ability: titleCase(profile?.mining_core?.selected_pickaxe_ability || "none", true),
-      crystals: {
-        jade: {
-          state: profile?.mining_core.crystals.jade_crystal.state,
-          found: profile?.mining_core.crystals.jade_crystal.total_found || 0,
-          placed: profile?.mining_core.crystals.jade_crystal.total_placed || 0,
-        },
-        amber: {
-          state: profile?.mining_core.crystals.amber_crystal.state,
-          found: profile?.mining_core.crystals.amber_crystal.total_found || 0,
-          placed: profile?.mining_core.crystals.amber_crystal.total_placed || 0,
-        },
-        amethyst: {
-          state: profile?.mining_core.crystals.amethyst_crystal.state,
-          found: profile?.mining_core.crystals.amethyst_crystal.total_found || 0,
-          placed: profile?.mining_core.crystals.amethyst_crystal.total_placed || 0,
-        },
-        sapphire: {
-          state: profile?.mining_core.crystals.sapphire_crystal.state,
-          found: profile?.mining_core.crystals.sapphire_crystal.total_found || 0,
-          placed: profile?.mining_core.crystals.sapphire_crystal.total_placed || 0,
-        },
-        topaz: {
-          state: profile?.mining_core.crystals.topaz_crystal.state,
-          found: profile?.mining_core.crystals.topaz_crystal.total_found || 0,
-          placed: profile?.mining_core.crystals.topaz_crystal.total_placed || 0,
-        },
-        jasper: {
-          state: profile?.mining_core.crystals.jasper_crystal.state,
-          found: profile?.mining_core.crystals.jasper_crystal.total_found || 0,
-        },
-        ruby: {
-          state: profile?.mining_core.crystals.ruby_crystal.state,
-          found: profile?.mining_core.crystals.ruby_crystal.total_found || 0,
-        },
-      },
       commissions: commissions,
       forge: forgeItems,
-      perks: perks,
     };
   } catch (error) {
     console.log(error);

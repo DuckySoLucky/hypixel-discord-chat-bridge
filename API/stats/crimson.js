@@ -1,3 +1,5 @@
+// CREDITS: by @Kathund (https://github.com/Kathund)
+
 const { titleCase } = require("../constants/functions.js");
 
 module.exports = (profile) => {
@@ -42,12 +44,6 @@ module.exports = (profile) => {
         rank: getScore(crimsonIsle.dojo?.dojo_points_fireball ?? 0),
       },
     };
-
-    Object.keys(dojo).forEach((key) => {
-      if (key === "totalPoints" || key === "belt") return;
-      dojo[key].rank = getScore(dojo[key].points);
-      dojo.totalPoints += dojo[key].points;
-    });
 
     return {
       faction: titleCase(crimsonIsle.selected_faction || "none"),

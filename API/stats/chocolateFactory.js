@@ -1,3 +1,5 @@
+// CREDITS: by @Kathund (https://github.com/Kathund)
+
 module.exports = (profile) => {
   try {
     return {
