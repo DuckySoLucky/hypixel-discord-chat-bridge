@@ -6,7 +6,7 @@ async function discordMessage(message) {
 
 async function minecraftMessage(message) {
   return console.log(
-    chalk.bgGreenBright.black(`[${await getCurrentTime()}] Minecraft >`) + " " + chalk.greenBright(message)
+    chalk.bgGreenBright.black(`[${await getCurrentTime()}] Minecraft >`) + " " + chalk.greenBright(message),
   );
 }
 
@@ -44,8 +44,8 @@ async function configUpdateMessage(message) {
   console.log();
   console.log(
     `${chalk.bgRedBright.black(`[${await getCurrentTime()}] Config Update >`)} ${chalk.redBright("Added")} ${chalk.gray(
-      message
-    )} ${chalk.redBright("to config.json")}`
+      message,
+    )} ${chalk.redBright("to config.json")}`,
   );
 }
 

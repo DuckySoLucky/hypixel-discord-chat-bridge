@@ -2,7 +2,7 @@ const xp_tables = require("../constants/xp_tables.js");
 
 module.exports = (profile) => {
   function getSlayer(slayer) {
-    const slayers = profile?.slayer_bosses?.[slayer];
+    const slayers = profile?.slayer?.slayer_bosses?.[slayer];
     const experience = slayers?.xp || 0;
     if (experience <= 0) {
       return {

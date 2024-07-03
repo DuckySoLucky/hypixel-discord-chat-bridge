@@ -33,8 +33,8 @@ class AuctionHouseCommand extends minecraftCommand {
 
       const { hypixelAPIkey } = config.minecraft.API;
       const [auctionResponse, playerResponse] = await Promise.all([
-        axios.get(`https://api.hypixel.net/skyblock/auction?key=${hypixelAPIkey}&player=${uuid}`),
-        axios.get(`https://api.hypixel.net/player?key=${hypixelAPIkey}&uuid=${uuid}`),
+        axios.get(`https://api.hypixel.net/v2/skyblock/auction?key=${hypixelAPIkey}&player=${uuid}`),
+        axios.get(`https://api.hypixel.net/v2/player?key=${hypixelAPIkey}&uuid=${uuid}`),
       ]);
 
       const auctions = auctionResponse.data?.auctions || [];

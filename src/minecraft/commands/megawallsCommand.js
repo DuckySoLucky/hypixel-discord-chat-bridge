@@ -30,7 +30,7 @@ class EightBallCommand extends minecraftCommand {
       this.send(
         `/gc ${username}'s Megawalls: Class: ${
           selectedClass ?? "None"
-        } | FK: ${finalKills} | FKDR: ${finalKDRatio} | W: ${wins} | WLR: ${WLRatio} | K: ${kills} | KDR: ${KDRatio} | A: ${assists}`
+        } | FK: ${finalKills} | FKDR: ${finalKDRatio} | W: ${wins} | WLR: ${WLRatio} | K: ${kills} | KDR: ${KDRatio} | A: ${assists}`,
       );
     } catch (error) {
       this.send(
@@ -38,7 +38,7 @@ class EightBallCommand extends minecraftCommand {
           .toString()
           .replace("[hypixel-api-reborn] ", "")
           .replace("For help join our Discord Server https://discord.gg/NSEBNMM", "")
-          .replace("Error:", "[ERROR]")}`
+          .replace("Error:", "[ERROR]")}`,
       );
     }
   }
