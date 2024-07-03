@@ -52,8 +52,6 @@ async function getUsername(uuid) {
 
     fs.writeFileSync("data/usernameCache.json", JSON.stringify(cache));
 
-    console.log(`Cached username for ${data.name} (${uuid})`);
-
     return data.name;
   } catch (error) {
     // eslint-disable-next-line no-throw-literal
