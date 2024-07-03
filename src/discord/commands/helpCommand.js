@@ -75,7 +75,15 @@ module.exports = {
         throw new HypixelDiscordChatBridgeError(`Command ${commandName} not found.`);
       }
 
-      const description = `${command.description}\n\n${
+      const description = `${
+        command.aliases
+          ? `\nAliases: ${command.aliases
+              .map((aliase) => {
+                return `\`${config.minecraft.bot.prefix}${aliase}\``;
+              })
+              .join(", ")}\n\n`
+          : ""
+      }${command.description}\n\n${
         command.options
           ?.map(({ name, required, description }) => {
             const optionString = required ? `(${name})` : `[${name}]`;
