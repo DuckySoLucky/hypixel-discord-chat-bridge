@@ -67,10 +67,10 @@ class DuelsStatsCommand extends minecraftCommand {
       if (!duel) {
         this.send(
           `/gc [Duels] [${player.stats.duels.division}] ${username} Wins: ${formatNumber(
-            player.stats.duels.wins
+            player.stats.duels.wins,
           )} | CWS: ${player.stats.duels.winstreak} | BWS: ${player.stats.duels.bestWinstreak} | WLR: ${
             player.stats.duels.WLRatio
-          }`
+          }`,
         );
       } else {
         const duelData = player.stats.duels?.[duel]?.[Object.keys(player.stats.duels[duel])[0]];
@@ -83,7 +83,7 @@ class DuelsStatsCommand extends minecraftCommand {
         this.send(
           `/gc [${duel.toUpperCase() ?? "Unknown"}] [${division}] ${
             username ?? 0
-          } Wins: ${wins} | CWS: ${winstreak} | BWS: ${bestWinstreak} | WLR: ${WLRatio}`
+          } Wins: ${wins} | CWS: ${winstreak} | BWS: ${bestWinstreak} | WLR: ${WLRatio}`,
         );
       }
     } catch (error) {
@@ -92,7 +92,7 @@ class DuelsStatsCommand extends minecraftCommand {
           .toString()
           .replace("[hypixel-api-reborn] ", "")
           .replace("For help join our Discord Server https://discord.gg/NSEBNMM", "")
-          .replace("Error:", "[ERROR]")}`
+          .replace("Error:", "[ERROR]")}`,
       );
     }
   }

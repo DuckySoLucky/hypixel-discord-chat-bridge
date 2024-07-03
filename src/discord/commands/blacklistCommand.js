@@ -44,7 +44,7 @@ module.exports = {
     }
 
     const embed = new SuccessEmbed(
-      `Successfully ${arg == "add" ? "added" : "removed"} \`${name}\` ${arg == "add" ? "to" : "from"} the blacklist.`
+      `Successfully ${arg == "add" ? "added" : "removed"} \`${name}\` ${arg == "add" ? "to" : "from"} the blacklist.`,
     );
 
     await interaction.followUp({

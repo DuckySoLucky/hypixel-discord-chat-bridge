@@ -27,7 +27,7 @@ class CatacombsCommand extends minecraftCommand {
 
       username = formatUsername(username, data.profileData?.game_mode);
 
-      const dungeons = getDungeons(data.playerRes, data.profile);
+      const dungeons = getDungeons(data.profile);
 
       if (dungeons == null) {
         // eslint-disable-next-line no-throw-literal
@@ -48,11 +48,14 @@ class CatacombsCommand extends minecraftCommand {
       const SR = isNaN(SRValue) || SRValue === Infinity ? 0 : SRValue.toFixed(2);
 
       this.send(
-        `/gc ${username}'s Catacombs: ${level} | Class Average: ${classAvrg} (${dungeons.classes.healer.level}H, ${
-          dungeons.classes.mage.level
-        }M, ${dungeons.classes.berserk.level}B, ${dungeons.classes.archer.level}A, ${
-          dungeons.classes.tank.level
-        }T) | Secrets: ${formatNumber(dungeons.secrets_found ?? 0, 1)} (${SR} S/R)`
+        `/gc ${username}'s Catacombs: ${level} | Selected Class: ${
+          dungeons.selected_class
+        } | Class Average: ${classAvrg} (${dungeons.classes.healer.level}H, ${dungeons.classes.mage.level}M, ${
+          dungeons.classes.berserk.level
+        }B, ${dungeons.classes.archer.level}A, ${dungeons.classes.tank.level}T) | Secrets: ${formatNumber(
+          dungeons.secrets_found ?? 0,
+          1,
+        )} (${SR} S/R)`,
       );
     } catch (error) {
       console.log(error);

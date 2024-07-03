@@ -1,5 +1,5 @@
 /* eslint-disable no-throw-literal */
-const { getUUID } = require("../../src/contracts/API/PlayerDBAPI.js");
+const { getUUID } = require("../../src/contracts/API/mowojangAPI.js");
 const { getMuseum } = require("./getMuseum.js");
 const { isUuid } = require("../utils/uuid.js");
 const config = require("../../config.json");
@@ -23,8 +23,8 @@ async function getLatestProfile(uuid, options = { museum: false }) {
   }
 
   const [{ data: playerRes }, { data: profileRes }] = await Promise.all([
-    axios.get(`https://api.hypixel.net/player?key=${config.minecraft.API.hypixelAPIkey}&uuid=${uuid}`),
-    axios.get(`https://api.hypixel.net/skyblock/profiles?key=${config.minecraft.API.hypixelAPIkey}&uuid=${uuid}`),
+    axios.get(`https://api.hypixel.net/v2/player?key=${config.minecraft.API.hypixelAPIkey}&uuid=${uuid}`),
+    axios.get(`https://api.hypixel.net/v2/skyblock/profiles?key=${config.minecraft.API.hypixelAPIkey}&uuid=${uuid}`),
   ]).catch((error) => {
     throw error?.response?.data?.cause ?? "Request to Hypixel API failed. Please try again!";
   });

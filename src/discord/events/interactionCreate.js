@@ -1,9 +1,9 @@
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
+const { ErrorEmbed } = require("../../contracts/embedHandler.js");
 // eslint-disable-next-line no-unused-vars
-const { EmbedBuilder, CommandInteraction } = require("discord.js");
+const { CommandInteraction } = require("discord.js");
 const config = require("../../../config.json");
 const Logger = require("../.././Logger.js");
-const { ErrorEmbed } = require("../../contracts/embedHandler.js");
 
 module.exports = {
   name: "interactionCreate",
@@ -13,7 +13,11 @@ module.exports = {
   async execute(interaction) {
     try {
       if (interaction.isChatInputCommand()) {
+        const memberRoles = interaction.member.roles.cache.map((role) => role.id);
         await interaction.deferReply({ ephemeral: false }).catch(() => {});
+        if (memberRoles.some((role) => config.discord.commands.blacklistRoles.includes(role))) {
+          throw new HypixelDiscordChatBridgeError("You are blacklisted from the bot.");
+        }
 
         const command = interaction.client.commands.get(interaction.commandName);
         if (command === undefined) {
@@ -51,7 +55,7 @@ module.exports = {
         const userID = interaction.user.id ?? "Unknown";
 
         const errorLog = new ErrorEmbed(
-          `Command: \`${commandName}\`\nOptions: \`${commandOptions}\`\nUser ID: \`${userID}\`\nUser: \`${username}\`\n\`\`\`${errorStack}\`\`\``
+          `Command: \`${commandName}\`\nOptions: \`${commandOptions}\`\nUser ID: \`${userID}\`\nUser: \`${username}\`\n\`\`\`${errorStack}\`\`\``,
         );
         interaction.client.channels.cache.get(config.discord.channels.loggingChannel).send({
           content: `<@&${config.discord.commands.commandRole}>`,

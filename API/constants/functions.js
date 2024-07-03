@@ -69,13 +69,13 @@ module.exports = {
     } else if (floor) {
       return (
         (Math.floor((number / 1000 / 1000 / 1000) * rounding * 10) / (rounding * 10)).toFixed(
-          rounding.toString().length
+          rounding.toString().length,
         ) + "B"
       );
     } else {
       return (
         (Math.ceil((number / 1000 / 1000 / 1000) * rounding * 10) / (rounding * 10)).toFixed(
-          rounding.toString().length
+          rounding.toString().length,
         ) + "B"
       );
     }

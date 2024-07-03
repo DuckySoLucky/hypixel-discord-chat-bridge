@@ -1,5 +1,6 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const helperFunctions = require("../../contracts/helperFunctions.js");
 
 class BoopCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -36,11 +37,19 @@ class BoopCommand extends minecraftCommand {
       await delay(690);
       this.send(`/gc Booped ${this.getArgs(message)[0]}!`);
       this.isOnCooldown = true;
+      // CREDITS: @jaxieflaxie for finding this cooldown reset
       setTimeout(() => {
-        if (this.isOnCooldown === true) {
+        bot.chat(
+          `/w ${
+            bot.username
+          } jaxieflaxie is the best wristspasm member! your cool if u see this - ${helperFunctions.generateID(24)}`,
+        );
+        setTimeout(() => {
+          bot.chat(`/w ${bot.username} ${helperFunctions.generateID(48)}`);
           this.isOnCooldown = false;
-        }
-      }, 300000);
+        }, 30000);
+      }, 30000);
+      this.isOnCooldown = false;
     } catch (error) {
       this.send(`/gc [ERROR] ${error}`);
     }

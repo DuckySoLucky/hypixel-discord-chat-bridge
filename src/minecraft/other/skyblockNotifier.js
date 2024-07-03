@@ -100,12 +100,12 @@ checkForHypixelUpdates(true);
 let skyblockVersion;
 async function checkForSkyblockVersion() {
   try {
-    const { data } = await axios.get("https://api.hypixel.net/resources/skyblock/skills");
+    const { data } = await axios.get("https://api.hypixel.net/v2/resources/skyblock/skills");
 
     if (skyblockVersion !== data.version) {
       if (skyblockVersion !== undefined) {
         bot.chat(
-          `/gc [HYPIXEL SKYBLOCK] Skyblock version has been updated to ${data.version}! Server restarts might occur!`
+          `/gc [HYPIXEL SKYBLOCK] Skyblock version has been updated to ${data.version}! Server restarts might occur!`,
         );
       }
 

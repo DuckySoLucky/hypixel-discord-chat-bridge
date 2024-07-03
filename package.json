@@ -50,7 +50,7 @@
     "node-cron": "^3.0.2",
     "prismarine-nbt": "^2.2.1",
     "rss-parser": "^3.13.0",
-    "skyhelper-networth": "1.18.4",
+    "skyhelper-networth": "1.18.5",
     "util": "^0.12.5",
     "winston": "^3.13.0",
     "ws": "^8.16.0"
@@ -60,6 +60,6 @@
     "eslint-plugin-import": "^2.27.5",
     "jest": "^29.7.0",
     "nodemon": "^2.0.22",
-    "prettier": "2.8.8"
+    "prettier": "3.2.5"
   }
 }

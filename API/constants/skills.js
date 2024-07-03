@@ -6,6 +6,7 @@ module.exports = function calcSkill(skill, experience, type) {
   if (skill === "runecrafting") table = "runecrafting";
   if (skill === "social") table = "social";
   if (skill === "dungeoneering") table = "catacombs";
+  if (skill === "hotm") table = "hotm";
 
   if (experience <= 0) {
     return {
