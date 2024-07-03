@@ -90,7 +90,7 @@ class DiscordManager extends CommunicationBridge {
     if (message !== undefined && chat !== "debugChannel") {
       Logger.broadcastMessage(
         `${username} [${guildRank.replace(/§[0-9a-fk-or]/g, "").replace(/^\[|\]$/g, "")}]: ${message}`,
-        `Discord`
+        `Discord`,
       );
     }
 

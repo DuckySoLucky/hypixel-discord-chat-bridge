@@ -42,10 +42,10 @@ class WoolwarsCommand extends minecraftCommand {
 
       this.send(
         `/gc [${Math.floor(level)}✫] ${username}: W: ${formatNumber(wins ?? 0)} | WLR: ${(wins / games_played).toFixed(
-          2
+          2,
         )} | KDR: ${(kills / deaths).toFixed(2)} | BB: ${formatNumber(blocks_broken)} | WP: ${formatNumber(
-          wool_placed
-        )} | WPP: ${(wool_placed / games_played).toFixed(2)} | WPG: ${(wool_placed / blocks_broken).toFixed(2)}`
+          wool_placed,
+        )} | WPP: ${(wool_placed / games_played).toFixed(2)} | WPG: ${(wool_placed / blocks_broken).toFixed(2)}`,
       );
     } catch (error) {
       this.send(`/gc [ERROR] ${error}`);

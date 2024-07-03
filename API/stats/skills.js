@@ -2,17 +2,17 @@ const calcSkill = require("../constants/skills.js");
 
 module.exports = function getSkills(profile) {
   const skill_experience = {
-    farming: profile?.experience_skill_farming || 0,
-    mining: profile?.experience_skill_mining || 0,
-    combat: profile?.experience_skill_combat || 0,
-    foraging: profile?.experience_skill_foraging || 0,
-    fishing: profile?.experience_skill_fishing || 0,
-    enchanting: profile?.experience_skill_enchanting || 0,
-    alchemy: profile?.experience_skill_alchemy || 0,
-    carpentry: profile?.experience_skill_carpentry || 0,
-    runecrafting: profile?.experience_skill_runecrafting || 0,
-    social: profile?.experience_skill_social2 || 0,
-    taming: profile?.experience_skill_taming || 0,
+    farming: profile?.player_data?.experience?.SKILL_FARMING || 0,
+    mining: profile?.player_data?.experience?.SKILL_MINING || 0,
+    combat: profile?.player_data?.experience?.SKILL_COMBAT || 0,
+    foraging: profile?.player_data?.experience?.SKILL_FORAGING || 0,
+    fishing: profile?.player_data?.experience?.SKILL_FISHING || 0,
+    enchanting: profile?.player_data?.experience?.SKILL_ENCHANTING || 0,
+    alchemy: profile?.player_data?.experience?.SKILL_ALCHEMY || 0,
+    carpentry: profile?.player_data?.experience?.SKILL_CARPENTRY || 0,
+    runecrafting: profile?.player_data?.experience?.SKILL_RUNECRAFTING || 0,
+    social: profile?.player_data?.experience?.SKILL_SOCIAL || 0,
+    taming: profile?.player_data?.experience?.SKILL_TAMING || 0,
   };
 
   return {

@@ -28,9 +28,10 @@ class NetWorthCommand extends minecraftCommand {
       username = formatUsername(username, data.profileData?.game_mode);
 
       const profile = await getNetworth(data.profile, data.profileData?.banking?.balance || 0, {
-        cache: true,
-        onlyNetworth: true,
         museumData: data.museum,
+        onlyNetworth: true,
+        v2Endpoint: true,
+        cache: true,
       });
 
       if (profile.noInventory === true) {
@@ -44,7 +45,7 @@ class NetWorthCommand extends minecraftCommand {
       const museum = data.museum ? formatNumber(profile.types.museum?.total ?? 0) : "N/A";
 
       this.send(
-        `/gc ${username}'s Networth is ${networth} | Unsoulbound Networth: ${unsoulboundNetworth} | Purse: ${purse} | Bank: ${bank} | Museum: ${museum}`
+        `/gc ${username}'s Networth is ${networth} | Unsoulbound Networth: ${unsoulboundNetworth} | Purse: ${purse} | Bank: ${bank} | Museum: ${museum}`,
       );
     } catch (error) {
       console.log(error);
