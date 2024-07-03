@@ -22,6 +22,7 @@ const discordLogger = createLogger({
   ),
   transports: [discordTransport, combinedTransport],
 });
+
 const minecraftLogger = createLogger({
   level: "minecraft",
   levels: customLevels,
@@ -33,6 +34,7 @@ const minecraftLogger = createLogger({
   ),
   transports: [minecraftTransport, combinedTransport],
 });
+
 const webLogger = createLogger({
   level: "web",
   levels: customLevels,
@@ -44,6 +46,7 @@ const webLogger = createLogger({
   ),
   transports: [webTransport, combinedTransport],
 });
+
 const warnLogger = createLogger({
   level: "warn",
   levels: customLevels,
@@ -55,6 +58,7 @@ const warnLogger = createLogger({
   ),
   transports: [warnTransport, combinedTransport],
 });
+
 const errorLogger = createLogger({
   level: "error",
   levels: customLevels,
@@ -66,6 +70,7 @@ const errorLogger = createLogger({
   ),
   transports: [errorTransport, combinedTransport],
 });
+
 const broadcastLogger = createLogger({
   level: "broadcast",
   levels: customLevels,
@@ -79,27 +84,42 @@ const broadcastLogger = createLogger({
 });
 
 function discordMessage(message) {
-  if (config.other.logToFiles) discordLogger.log("discord", message);
+  if (config.other.logToFiles) {
+    discordLogger.log("discord", message);
+  }
+
   return console.log(chalk.bgMagenta.black(`[${getCurrentTime()}] Discord >`) + " " + chalk.magenta(message));
 }
 
 function minecraftMessage(message) {
-  if (config.other.logToFiles) minecraftLogger.log("minecraft", message);
+  if (config.other.logToFiles) {
+    minecraftLogger.log("minecraft", message);
+  }
+
   return console.log(chalk.bgGreenBright.black(`[${getCurrentTime()}] Minecraft >`) + " " + chalk.greenBright(message));
 }
 
 function webMessage(message) {
-  if (config.other.logToFiles) webLogger.log("web", message);
+  if (config.other.logToFiles) {
+    webLogger.log("web", message);
+  }
+
   return console.log(chalk.bgCyan.black(`[${getCurrentTime()}] Web >`) + " " + chalk.cyan(message));
 }
 
 function warnMessage(message) {
-  if (config.other.logToFiles) warnLogger.log("warn", message);
+  if (config.other.logToFiles) {
+    warnLogger.log("warn", message);
+  }
+
   return console.log(chalk.bgYellow.black(`[${getCurrentTime()}] Warning >`) + " " + chalk.yellow(message));
 }
 
 function errorMessage(message) {
-  if (config.other.logToFiles) errorLogger.log("error", message);
+  if (config.other.logToFiles) {
+    errorLogger.log("error", message);
+  }
+  
   return console.log(chalk.bgRedBright.black(`[${getCurrentTime()}] Error >`) + " " + chalk.redBright(message));
 }
 
