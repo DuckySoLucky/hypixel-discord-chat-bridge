@@ -413,7 +413,7 @@ If you think that message format is boring, you can check out my repository for 
 
 - [Hypixel API Reborn](https://github.com/Hypixel-API-Reborn/hypixel-api-reborn)
 - [SkyHelper API](https://github.com/Altpapier/SkyHelperAPI)
-- [PlayerDB API](https://playerdb.co/)
+- [Mowojang API](https://mowojang.matdoes.dev/)
 - [Hypixel API](http://api.hypixel.net/)
 - [LilyWeight](https://github.com/Antonio32A/lilyweight)
 - [Altpapier](https://github.com/altpapier/hypixel-discord-guild-bridge/)
