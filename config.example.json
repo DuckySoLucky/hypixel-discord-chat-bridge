@@ -106,6 +106,7 @@
   },
   "other": {
     "autoUpdater": true,
-    "autoUpdaterInterval": 12
+    "autoUpdaterInterval": 12,
+    "logToFiles": true
   }
 }
