@@ -35,12 +35,12 @@ class TrophyFishCommand extends minecraftCommand {
 
       this.send(
         `/gc ${username}'s Trophy Fishing rank: ${profile.trophyFishing.rank} | Total Caught: ${formatNumber(
-          profile.trophyFishing.caught.total,
-        )} | Total Bronze: ${formatNumber(profile.trophyFishing.caught.bronze)} | Total Silver: ${formatNumber(
-          profile.trophyFishing.caught.silver,
-        )} | Total Gold: ${formatNumber(profile.trophyFishing.caught.gold)} | Total Diamond: ${formatNumber(
-          profile.trophyFishing.caught.diamond,
-        )}`,
+          profile.trophyFishing.caught.total
+        )} | Total Bronze: ${formatNumber(profile.trophyFishing.caught.bronze)} / 18 | Total Silver: ${formatNumber(
+          profile.trophyFishing.caught.silver
+        )} / 18 | Total Gold: ${formatNumber(profile.trophyFishing.caught.gold)} | Total Diamond: ${formatNumber(
+          profile.trophyFishing.caught.diamond
+        )} / 18`
       );
     } catch (error) {
       console.log(error);

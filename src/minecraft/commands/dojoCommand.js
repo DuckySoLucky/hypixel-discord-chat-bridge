@@ -34,15 +34,15 @@ class DojoCommand extends minecraftCommand {
       }
 
       this.send(
-        `/gc ${username}'s belt: ${profile.dojo.belt} | Best Force: ${formatNumber(
-          profile.dojo.force.points,
+        `/gc ${username}'s Belt: ${profile.dojo.belt} | Best Force: ${formatNumber(
+          profile.dojo.force.points
         )} | Best Stamina: ${formatNumber(profile.dojo.stamina.points)} | Best Mastery: ${formatNumber(
-          profile.dojo.mastery.points,
+          profile.dojo.mastery.points
         )} | Best Discipline: ${formatNumber(profile.dojo.discipline.points)} | Best Swiftness: ${formatNumber(
-          profile.dojo.swiftness.points,
+          profile.dojo.swiftness.points
         )} | Best Control: ${formatNumber(profile.dojo.control.points)} | Best Tenacity: ${formatNumber(
-          profile.dojo.tenacity.points,
-        )}`,
+          profile.dojo.tenacity.points
+        )}`
       );
     } catch (error) {
       console.log(error);
