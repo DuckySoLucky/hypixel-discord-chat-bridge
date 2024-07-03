@@ -11,8 +11,9 @@ if (config.minecraft.skyblockEventsNotifications.enabled) {
     try {
       const eventBOT = new minecraftCommand(bot);
       const EVENTS = getSkyblockCalendar();
-      for (const event in EVENTS.data.events) {
-        const eventData = EVENTS.data.events[event];
+
+      for (const event in EVENTS.events) {
+        const eventData = EVENTS.events[event];
         if (notifiers[event] === false) {
           continue;
         }
@@ -27,7 +28,7 @@ if (config.minecraft.skyblockEventsNotifications.enabled) {
         if (event == "JACOBS_CONTEST") {
           const { data: jacobResponse } = await axios.get("https://dawjaw.net/jacobs");
           const jacobCrops = jacobResponse.find(
-            (crop) => crop.time >= Math.floor(eventData.events[0].start_timestamp / 1000),
+            (crop) => crop.time >= Math.floor(eventData.events[0].start_timestamp / 1000)
           );
 
           if (jacobCrops?.crops !== undefined) {

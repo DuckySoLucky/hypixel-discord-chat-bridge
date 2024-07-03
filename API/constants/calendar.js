@@ -217,6 +217,15 @@ const eventTimes = {
       },
     ],
   },
+  HOPPITY_HUNT: {
+    name: "Hoppity's Hunt",
+    times: [
+      {
+        start: getOffset("Early Spring", 1),
+        end: getOffset("Late Spring", 31),
+      },
+    ],
+  },
 };
 
 function buildSkyblockCalendar(events, from, to, years, stopAtYearEnd = true) {
