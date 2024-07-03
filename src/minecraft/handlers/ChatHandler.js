@@ -2,7 +2,7 @@ const { replaceAllRanks, replaceVariables } = require("../../contracts/helperFun
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
-const { getUUID } = require("../../contracts/API/PlayerDBAPI.js");
+const { getUUID } = require("../../contracts/API/mowojangAPI.js");
 const eventHandler = require("../../contracts/EventHandler.js");
 const getWeight = require("../../../API/stats/weight.js");
 const messages = require("../../../messages.json");
@@ -95,40 +95,63 @@ class StateHandler extends eventHandler {
         const duelsWins = player.stats.duels.wins;
         const dWLR = player.stats.duels.WLRatio;
 
-        if (weight > config.minecraft.guildRequirements.requirements.senitherWeight) {
+        if (
+          weight > config.minecraft.guildRequirements.requirements.senitherWeight &&
+          config.minecraft.guildRequirements.requirements.senitherWeight > 0
+        ) {
           meetRequirements = true;
         }
 
-        if (skyblockLevel > config.minecraft.guildRequirements.requirements.skyblockLevel) {
+        if (
+          skyblockLevel > config.minecraft.guildRequirements.requirements.skyblockLevel &&
+          config.minecraft.guildRequirements.requirements.skyblockLevel > 0
+        ) {
           meetRequirements = true;
         }
 
-        if (bwLevel > config.minecraft.guildRequirements.requirements.bedwarsStars) {
+        if (
+          bwLevel > config.minecraft.guildRequirements.requirements.bedwarsStars &&
+          config.minecraft.guildRequirements.requirements.bedwarsStars > 0
+        ) {
           meetRequirements = true;
         }
         if (
           bwLevel > config.minecraft.guildRequirements.requirements.bedwarsStarsWithFKDR &&
-          bwFKDR > config.minecraft.guildRequirements.requirements.bedwarsFKDR
+          bwFKDR > config.minecraft.guildRequirements.requirements.bedwarsFKDR &&
+          config.minecraft.guildRequirements.requirements.bedwarsStarsWithFKDR > 0 &&
+          config.minecraft.guildRequirements.requirements.bedwarsFKDR > 0
         ) {
           meetRequirements = true;
         }
 
-        if (swLevel > config.minecraft.guildRequirements.requirements.skywarsStars) {
+        if (
+          swLevel > config.minecraft.guildRequirements.requirements.skywarsStars &&
+          config.minecraft.guildRequirements.requirements.skywarsStars > 0
+        ) {
           meetRequirements = true;
         }
+
         if (
           swLevel > config.minecraft.guildRequirements.requirements.skywarsStarsWithKDR &&
-          swKDR > config.minecraft.guildRequirements.requirements.skywarsStarsWithKDR
+          swKDR > config.minecraft.guildRequirements.requirements.skywarsStarsWithKDR &&
+          config.minecraft.guildRequirements.requirements.skywarsStarsWithKDR > 0 &&
+          config.minecraft.guildRequirements.requirements.skywarsStars > 0
         ) {
           meetRequirements = true;
         }
 
-        if (duelsWins > config.minecraft.guildRequirements.requirements.duelsWins) {
+        if (
+          duelsWins > config.minecraft.guildRequirements.requirements.duelsWins &&
+          config.minecraft.guildRequirements.requirements.duelsWins > 0
+        ) {
           meetRequirements = true;
         }
+
         if (
           duelsWins > config.minecraft.guildRequirements.requirements.duelsWinsWithWLR &&
-          dWLR > config.minecraft.guildRequirements.requirements.duelsWinsWithWLR
+          dWLR > config.minecraft.guildRequirements.requirements.duelsWinsWithWLR &&
+          config.minecraft.guildRequirements.requirements.duelsWinsWithWLR > 0 &&
+          config.minecraft.guildRequirements.requirements.duelsWins > 0
         ) {
           meetRequirements = true;
         }
