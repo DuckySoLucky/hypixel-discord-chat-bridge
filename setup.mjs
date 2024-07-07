@@ -4,6 +4,9 @@ import chalk from "chalk";
 import fs from "fs";
 
 const config = JSON.parse(fs.readFileSync("config.example.json"));
+const HypixelAPIKeyRegex = /^[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12}$/;
+const ImgurAPIKeyRegex = /^[a-zA-Z0-9]{15}$/;
+const discordTokenRegex = /^[a-zA-Z0-9]{24}\.[a-zA-Z0-9]{6}\.[a-zA-Z0-9]{27}$/;
 
 async function createChannels(token, serverId) {
   try {
@@ -95,23 +98,29 @@ async function createChannels(token, serverId) {
 
   const minecraftAPI = await inquirer.prompt([
     {
-      type: "input",
+      type: "password",
       name: "hypixelAPIkey",
       message: "Hypixel API Key",
       validate: (input) => {
         if (input.trim() === "") {
           return "You can receive Hypixel API key by going to the Hypixel Developer Dashboard (https://developer.hypixel.net/dashboard/) and creating new application.";
         }
+        if (!HypixelAPIKeyRegex.test(input)) {
+          return "Invalid API key format. The key should follow the pattern xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx.";
+        }
         return true;
       },
     },
     {
-      type: "input",
+      type: "password",
       name: "imgurAPIkey",
       message: "Imgur API Key",
       validate: (input) => {
         if (input.trim() === "") {
-          return "You can receive Hypixel API key by going to the Hypixel Developer Dashboard (https://developer.hypixel.net/dashboard/) and creating new application.";
+          return "You can receive Imgur API key by going to the sign up page (https://api.imgur.com/oauth2/addclient) filling out the infomation.";
+        }
+        if (!ImgurAPIKeyRegex.test(input)) {
+          return "Invalid API key format. The key should be 15 characters long, consisting of letters and numbers.";
         }
         return true;
       },
@@ -226,6 +235,7 @@ async function createChannels(token, serverId) {
       default: true,
     },
   ]);
+
   const skyblockNotifications = await inquirer.prompt([
     {
       type: "confirm",
@@ -350,6 +360,9 @@ async function createChannels(token, serverId) {
       validate: (input) => {
         if (input.trim() === "") {
           return "Token is required";
+        }
+        if (!discordTokenRegex.test(input)) {
+          return "Invalid token format. The token should follow the pattern xxxxxxxxxxxxxxxxxxxxxxxxxx.xxxxxx.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.";
         }
         return true;
       },
@@ -538,7 +551,7 @@ async function createChannels(token, serverId) {
   config.discord.channels = channels;
   config.discord.commands = { ...commands, users: ["486155512568741900"] };
   config.discord.other = discordOther;
-  config.other = {};
+  config.other = other;
   fs.writeFileSync("config.json", JSON.stringify(config, null, 2));
   console.log(chalk.bold("Setup is complete!"));
 })();
