@@ -63,6 +63,26 @@ async function createChannels(token, serverId) {
       `Welcome to the Quick Setup for Hypixel-Discord-Chat-Bridge created by ${chalk.greenBright("Kathund!")}\nBot Made by ${chalk.magenta("DuckySoLucky")}!\n`,
     ),
   );
+
+  if (fs.existsSync("config.json")) {
+    console.log(chalk.red(chalk.bold("\nConfig file already exists.")));
+    const check = await inquirer.prompt([
+      {
+        type: "confirm",
+        name: "overwrite",
+        message: "Do you want to overwrite the current config file?",
+        default: false,
+      },
+    ]);
+    if (check.overwrite === false) {
+      console.log(chalk.red(chalk.bold("\nExiting...")));
+      process.exit(0);
+    } else {
+      console.log(chalk.red(chalk.bold("Overwriting current config file...\n")));
+      fs.unlinkSync("config.json");
+    }
+  }
+
   const minecraftBot = await inquirer.prompt([
     {
       type: "input",
@@ -475,6 +495,12 @@ async function createChannels(token, serverId) {
       type: "input",
       name: "commandRole",
       message: "Staff role id",
+      validate: (input) => {
+        if (input.trim() === "") {
+          return "Staff role id is required";
+        }
+        return true;
+      },
     },
     {
       type: "input",
