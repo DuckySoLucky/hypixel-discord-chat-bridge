@@ -30,13 +30,15 @@ module.exports = {
   execute: async (interaction) => {
     const reason = interaction.options?.getString("reason") ?? "No Reason Provided";
 
-    const ticketsData = JSON.parse(readFileSync("data/tickets.json"));
-    const openTickets = ticketsData.filter((ticket) => ticket.owner === interaction.user.id);
-    if (openTickets.length >= config.tickets.ticketsPerUserLimit) {
-      return await interaction.followUp({
-        content: `You have reached the maximum number of open tickets (${config.tickets.ticketsPerUserLimit}).\nPlease close one of your open tickets before opening a new one.`,
-        ephemeral: true,
-      });
+    if (config.tickets.ticketsPerUserLimit !== -1) {
+      const ticketsData = JSON.parse(readFileSync("data/tickets.json"));
+      const openTickets = ticketsData.filter((ticket) => ticket.owner === interaction.user.id);
+      if (openTickets.length >= config.tickets.ticketsPerUserLimit) {
+        return await interaction.followUp({
+          content: `You have reached the maximum number of open tickets (${config.tickets.ticketsPerUserLimit}).\nPlease close one of your open tickets before opening a new one.`,
+          ephemeral: true,
+        });
+      }
     }
 
     const channel = await interaction.guild.channels.create({
@@ -67,7 +69,7 @@ module.exports = {
         embeds: [ticketEmbed],
         components: [
           new ActionRowBuilder().addComponents(
-            new ButtonBuilder().setLabel("Close Ticket").setCustomId('ticket.close').setStyle(ButtonStyle.Danger),
+            new ButtonBuilder().setLabel("Close Ticket").setCustomId("ticket.close").setStyle(ButtonStyle.Danger),
           ),
         ],
       })
