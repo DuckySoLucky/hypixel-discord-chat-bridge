@@ -1,3 +1,4 @@
+const { ActionRowBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 const config = require("../../../config.json");
 const Logger = require("../../Logger.js");
 
@@ -25,6 +26,38 @@ class StateHandler {
         },
       ],
     });
+
+    if (config.tickets.enabled === true) {
+      const supportChannel = this.discord.client.channels.cache.get(config.tickets.supportChannel);
+      if (!supportChannel) {
+        return Logger.errorMessage(`Support channel not found!`);
+      }
+      let messages = await supportChannel.messages.fetch({ limit: 100 });
+      messages = messages
+        .filter((msg) => msg.author.id === this.discord.client.user.id)
+        .sort((a, b) => a.createdTimestamp - b.createdTimestamp);
+
+      if (messages.size !== 1) {
+        const supportEmbed = new EmbedBuilder()
+          .setColor(3447003)
+          .setTitle("Support Ticket System")
+          .setDescription('Press "Open a Ticket!" to create a new ticket')
+          .setFooter({
+            text: `by @kathund. | /help [command] for more information`,
+            iconURL: "https://i.imgur.com/uUuZx2E.png",
+          });
+        return await supportChannel.send({
+          embeds: [supportEmbed],
+          components: [
+            new ActionRowBuilder().addComponents(
+              new ButtonBuilder().setLabel("Open a Ticket!").setCustomId(`ticket.open`).setStyle(ButtonStyle.Primary),
+            ),
+          ],
+        });
+      } else {
+        return;
+      }
+    }
   }
 
   async onClose() {

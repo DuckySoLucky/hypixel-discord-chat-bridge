@@ -5,6 +5,7 @@ const { EmbedBuilder } = require("discord.js");
  * @param {number|string} color - The color of the embed
  * @param {string} title - The title of the embed.
  * @param {string} description - The description of the embed.
+ * @param {string} footer - The footer of the embed.
  */
 class Embed extends EmbedBuilder {
   constructor(color = 3447003, title, description, footer) {
@@ -60,14 +61,19 @@ class SuccessEmbed extends Embed {
   /**
    * Constructs a new SuccessEmbed instance.
    * @param {string} description - The description of the success.
+   * @param {string} footer - The footer of the success.
    */
-  constructor(description) {
+  constructor(description, footer) {
     super();
 
     this.setAuthor({ name: "Success" });
     this.setColor(5763719);
 
     this.setDescription(description);
+
+    if (footer) {
+      this.setFooter(footer);
+    }
   }
 }
 

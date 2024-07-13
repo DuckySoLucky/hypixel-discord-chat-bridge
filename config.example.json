@@ -105,6 +105,13 @@
     "port": 1439,
     "token": "WEBSOCKET_TOKEN"
   },
+  "tickets": {
+    "enabled": false,
+    "category": "TICKET_CATEGORY_ID",
+    "logChannel": "TICKET_LOG_CHANNEL_ID",
+    "supportChannel": "SUPPORT_CHANNEL_ID",
+    "ticketsPerUserLimit": 1
+  },
   "other": {
     "autoUpdater": true,
     "autoUpdaterInterval": 12,

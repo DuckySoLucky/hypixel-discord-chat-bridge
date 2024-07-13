@@ -285,6 +285,20 @@ function replaceVariables(template, variables) {
   return template.replace(/\{(\w+)\}/g, (match, name) => variables[name] ?? match);
 }
 
+function getTimestamp(unixTimestamp = Date.now()) {
+  return new Date(unixTimestamp).toLocaleString("en-US", {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+    hour12: false,
+    timeZoneName: "short",
+    timeZone: "UTC",
+  });
+}
+
 module.exports = {
   replaceAllRanks,
   addNotation,
@@ -302,4 +316,5 @@ module.exports = {
   formatUsername,
   formatNumber,
   replaceVariables,
+  getTimestamp,
 };

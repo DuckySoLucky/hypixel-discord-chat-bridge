@@ -1,4 +1,5 @@
 const customLevels = { discord: 0, minecraft: 1, web: 2, warn: 3, error: 4, broadcast: 5, max: 6 };
+const { getTimestamp } = require("./contracts/helperFunctions.js");
 const { createLogger, format, transports } = require("winston");
 const config = require("../config.json");
 const chalk = require("chalk");
@@ -15,10 +16,10 @@ const discordLogger = createLogger({
   level: "discord",
   levels: customLevels,
   format: format.combine(
-    format.timestamp({ format: getCurrentTime }),
+    format.timestamp({ format: getTimestamp }),
     format.printf(({ timestamp, level, message }) => {
       return `[${timestamp}] ${level.toUpperCase()} > ${message}`;
-    })
+    }),
   ),
   transports: [discordTransport, combinedTransport],
 });
@@ -27,10 +28,10 @@ const minecraftLogger = createLogger({
   level: "minecraft",
   levels: customLevels,
   format: format.combine(
-    format.timestamp({ format: getCurrentTime }),
+    format.timestamp({ format: getTimestamp }),
     format.printf(({ timestamp, level, message }) => {
       return `[${timestamp}] ${level.toUpperCase()} > ${message}`;
-    })
+    }),
   ),
   transports: [minecraftTransport, combinedTransport],
 });
@@ -39,10 +40,10 @@ const webLogger = createLogger({
   level: "web",
   levels: customLevels,
   format: format.combine(
-    format.timestamp({ format: getCurrentTime }),
+    format.timestamp({ format: getTimestamp }),
     format.printf(({ timestamp, level, message }) => {
       return `[${timestamp}] ${level.toUpperCase()} > ${message}`;
-    })
+    }),
   ),
   transports: [webTransport, combinedTransport],
 });
@@ -51,10 +52,10 @@ const warnLogger = createLogger({
   level: "warn",
   levels: customLevels,
   format: format.combine(
-    format.timestamp({ format: getCurrentTime }),
+    format.timestamp({ format: getTimestamp }),
     format.printf(({ timestamp, level, message }) => {
       return `[${timestamp}] ${level.toUpperCase()} > ${message}`;
-    })
+    }),
   ),
   transports: [warnTransport, combinedTransport],
 });
@@ -63,10 +64,10 @@ const errorLogger = createLogger({
   level: "error",
   levels: customLevels,
   format: format.combine(
-    format.timestamp({ format: getCurrentTime }),
+    format.timestamp({ format: getTimestamp }),
     format.printf(({ timestamp, level, message }) => {
       return `[${timestamp}] ${level.toUpperCase()} > ${message}`;
-    })
+    }),
   ),
   transports: [errorTransport, combinedTransport],
 });
@@ -75,10 +76,10 @@ const broadcastLogger = createLogger({
   level: "broadcast",
   levels: customLevels,
   format: format.combine(
-    format.timestamp({ format: getCurrentTime }),
+    format.timestamp({ format: getTimestamp }),
     format.printf(({ timestamp, level, message }) => {
       return `[${timestamp}] ${level.toUpperCase()} > ${message}`;
-    })
+    }),
   ),
   transports: [broadcastTransport, combinedTransport],
 });
@@ -88,7 +89,7 @@ function discordMessage(message) {
     discordLogger.log("discord", message);
   }
 
-  return console.log(chalk.bgMagenta.black(`[${getCurrentTime()}] Discord >`) + " " + chalk.magenta(message));
+  return console.log(chalk.bgMagenta.black(`[${getTimestamp()}] Discord >`) + " " + chalk.magenta(message));
 }
 
 function minecraftMessage(message) {
@@ -96,7 +97,7 @@ function minecraftMessage(message) {
     minecraftLogger.log("minecraft", message);
   }
 
-  return console.log(chalk.bgGreenBright.black(`[${getCurrentTime()}] Minecraft >`) + " " + chalk.greenBright(message));
+  return console.log(chalk.bgGreenBright.black(`[${getTimestamp()}] Minecraft >`) + " " + chalk.greenBright(message));
 }
 
 function webMessage(message) {
@@ -104,7 +105,7 @@ function webMessage(message) {
     webLogger.log("web", message);
   }
 
-  return console.log(chalk.bgCyan.black(`[${getCurrentTime()}] Web >`) + " " + chalk.cyan(message));
+  return console.log(chalk.bgCyan.black(`[${getTimestamp()}] Web >`) + " " + chalk.cyan(message));
 }
 
 function warnMessage(message) {
@@ -112,34 +113,20 @@ function warnMessage(message) {
     warnLogger.log("warn", message);
   }
 
-  return console.log(chalk.bgYellow.black(`[${getCurrentTime()}] Warning >`) + " " + chalk.yellow(message));
+  return console.log(chalk.bgYellow.black(`[${getTimestamp()}] Warning >`) + " " + chalk.yellow(message));
 }
 
 function errorMessage(message) {
   if (config.other.logToFiles) {
     errorLogger.log("error", message);
   }
-  
-  return console.log(chalk.bgRedBright.black(`[${getCurrentTime()}] Error >`) + " " + chalk.redBright(message));
+
+  return console.log(chalk.bgRedBright.black(`[${getTimestamp()}] Error >`) + " " + chalk.redBright(message));
 }
 
 function broadcastMessage(message, location) {
   if (config.other.logToFiles) broadcastLogger.log("broadcast", `${location} | ${message}`);
-  return console.log(chalk.inverse(`[${getCurrentTime()}] ${location} Broadcast >`) + " " + message);
-}
-
-function getCurrentTime() {
-  return new Date().toLocaleString("en-US", {
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
-    hour12: false,
-    timeZoneName: "short",
-    timeZone: "UTC",
-  });
+  return console.log(chalk.inverse(`[${getTimestamp()}] ${location} Broadcast >`) + " " + message);
 }
 
 async function configUpdateMessage(message) {
@@ -155,9 +142,9 @@ async function configUpdateMessage(message) {
   console.log(chalk.bgRed.black(" ".repeat(columns).repeat(3)));
   console.log();
   console.log(
-    `${chalk.bgRedBright.black(`[${getCurrentTime()}] Config Update >`)} ${chalk.redBright("Added")} ${chalk.gray(
-      message
-    )} ${chalk.redBright("to config.json")}`
+    `${chalk.bgRedBright.black(`[${getTimestamp()}] Config Update >`)} ${chalk.redBright("Added")} ${chalk.gray(
+      message,
+    )} ${chalk.redBright("to config.json")}`,
   );
 }
 
@@ -181,7 +168,7 @@ module.exports = {
   warnMessage,
   errorMessage,
   broadcastMessage,
-  getCurrentTime,
+  getCurrentTime: getTimestamp,
   configUpdateMessage,
   updateMessage,
 };

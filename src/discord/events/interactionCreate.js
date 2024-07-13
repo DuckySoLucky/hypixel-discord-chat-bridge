@@ -13,15 +13,15 @@ module.exports = {
   async execute(interaction) {
     try {
       if (interaction.isChatInputCommand()) {
-        const memberRoles = interaction.member.roles.cache.map((role) => role.id);
-        await interaction.deferReply({ ephemeral: false }).catch(() => {});
-        if (memberRoles.some((role) => config.discord.commands.blacklistRoles.includes(role))) {
-          throw new HypixelDiscordChatBridgeError("You are blacklisted from the bot.");
-        }
-
         const command = interaction.client.commands.get(interaction.commandName);
         if (command === undefined) {
           return;
+        }
+
+        const memberRoles = interaction.member.roles.cache.map((role) => role.id);
+        await interaction.deferReply({ ephemeral: command.ephemeral || false }).catch(() => {});
+        if (memberRoles.some((role) => config.discord.commands.blacklistRoles.includes(role))) {
+          throw new HypixelDiscordChatBridgeError("You are blacklisted from the bot.");
         }
 
         if (command.moderatorOnly === true && isModerator(interaction) === false) {
@@ -32,8 +32,35 @@ module.exports = {
           throw new HypixelDiscordChatBridgeError("Bot doesn't seem to be connected to Hypixel. Please try again.");
         }
 
+        if (command.ticketCommand === true && config.tickets.enabled === false) {
+          throw new HypixelDiscordChatBridgeError("Tickets are disabled.");
+        }
+
         Logger.discordMessage(`${interaction.user.username} - [${interaction.commandName}]`);
         await command.execute(interaction);
+      } else if (interaction.isButton()) {
+        await interaction.deferReply({ ephemeral: true }).catch(() => {});
+        if (interaction.customId === "ticket.open") {
+          const openTicketCommand = interaction.client.commands.get("open-ticket");
+
+          if (openTicketCommand === undefined) {
+            throw new HypixelDiscordChatBridgeError(
+              "Could not find open ticket command! Please contact an administrator.",
+            );
+          }
+
+          await openTicketCommand.execute(interaction);
+        } else if (interaction.customId === "ticket.close") {
+          const closeTicketCommand = interaction.client.commands.get("close-ticket");
+
+          if (closeTicketCommand === undefined) {
+            throw new HypixelDiscordChatBridgeError(
+              "Could not find close ticket command! Please contact an administrator.",
+            );
+          }
+
+          await closeTicketCommand.execute(interaction);
+        }
       }
     } catch (error) {
       console.log(error);

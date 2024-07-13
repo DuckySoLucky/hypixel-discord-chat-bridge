@@ -8,12 +8,16 @@ class CommandHandler {
   constructor(discord) {
     this.discord = discord;
 
-    const commands = [];
+    let commands = [];
     const commandFiles = fs.readdirSync("src/discord/commands").filter((file) => file.endsWith(".js"));
 
     for (const file of commandFiles) {
       const command = require(`./commands/${file}`);
       commands.push(command);
+    }
+
+    if (config.tickets.enabled === false) {
+      commands = commands.filter((command) => !command.ticketCommand);
     }
 
     const rest = new REST({ version: "10" }).setToken(config.discord.bot.token);
