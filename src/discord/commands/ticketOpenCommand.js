@@ -30,8 +30,8 @@ module.exports = {
   execute: async (interaction) => {
     const reason = interaction.options?.getString("reason") ?? "No Reason Provided";
 
+    const ticketsData = JSON.parse(readFileSync("data/tickets.json"));
     if (config.tickets.ticketsPerUserLimit !== -1) {
-      const ticketsData = JSON.parse(readFileSync("data/tickets.json"));
       const openTickets = ticketsData.filter((ticket) => ticket.owner === interaction.user.id);
       if (openTickets.length >= config.tickets.ticketsPerUserLimit) {
         return await interaction.followUp({
