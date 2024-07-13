@@ -105,6 +105,9 @@
     "port": 1439,
     "token": "WEBSOCKET_TOKEN"
   },
+  "giveaway": {
+    "enabled": false
+  },
   "other": {
     "autoUpdater": true,
     "autoUpdaterInterval": 12,
