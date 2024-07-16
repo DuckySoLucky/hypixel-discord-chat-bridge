@@ -105,6 +105,15 @@
     "port": 1439,
     "token": "WEBSOCKET_TOKEN"
   },
+  "verification": {
+    "enabled": false,
+    "role": "VERIFIED_ROLE_ID",
+    "guildMemberRole": "GUILD_MEMBER_ROLE_ID",
+    "autoUpdater": true,
+    "autoUpdaterInterval": 24,
+    "autoUnverify": true,
+    "updateLogs": "UPDATE_LOGS_CHANNEL_ID"
+  },
   "other": {
     "autoUpdater": true,
     "autoUpdaterInterval": 12,
