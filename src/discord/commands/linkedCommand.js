@@ -25,11 +25,6 @@ module.exports = {
   ],
 
   execute: async (interaction) => {
-    const updateRolesCommand = require("./updateCommand.js");
-    if (!updateRolesCommand) {
-      throw new HypixelDiscordChatBridgeError("The update command does not exist. Please contact an administrator.");
-    }
-
     const linkedData = readFileSync("data/linked.json");
     if (!linkedData) {
       throw new HypixelDiscordChatBridgeError("The linked data file does not exist. Please contact an administrator.");
