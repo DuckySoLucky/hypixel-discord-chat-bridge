@@ -112,7 +112,14 @@
     "autoUpdater": true,
     "autoUpdaterInterval": 24,
     "autoUnverify": true,
-    "updateLogs": "UPDATE_LOGS_CHANNEL_ID"
+    "updateLogs": "UPDATE_LOGS_CHANNEL_ID",
+    "name": "{username}",
+    "ranks": [
+      {
+        "name": "IN_GAME_RANK_NAME",
+        "role": "DISCORD_ROLE_ID"
+      }
+    ]
   },
   "other": {
     "autoUpdater": true,
