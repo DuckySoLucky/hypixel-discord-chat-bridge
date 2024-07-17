@@ -35,7 +35,7 @@ module.exports = {
       user.roles.remove(config.verification.guildMemberRole, "Updated Roles").catch((_) => {});
       if (config.verification.ranks.length > 0) {
         config.verification.ranks.forEach((rank) => {
-          user.roles.remove(rank.id, "Updated Roles").catch((_) => {});
+          user.roles.remove(rank.role, "Updated Roles").catch((_) => {});
         });
       }
       const embed = new EmbedBuilder().setDescription(`<@${user.id}> is not verified.`).setColor(15548997).setFooter({
@@ -61,13 +61,13 @@ module.exports = {
       user.roles.add(config.verification.guildMemberRole, "Updated Roles").catch((_) => {});
       if (config.verification.ranks.length > 0) {
         const rank = config.verification.ranks.find((r) => r.name.toLowerCase() == playerIsInGuild.rank.toLowerCase());
-        if (rank) user.roles.add(rank.id, "Updated Roles").catch((_) => {});
+        if (rank) user.roles.add(rank.role, "Updated Roles").catch((_) => {});
       }
     } else {
       user.roles.remove(config.verification.guildMemberRole, "Updated Roles").catch((_) => {});
       if (config.verification.ranks.length > 0) {
         config.verification.ranks.forEach((rank) => {
-          user.roles.remove(rank.id, "Updated Roles").catch((_) => {});
+          user.roles.remove(rank.role, "Updated Roles").catch((_) => {});
         });
       }
     }
