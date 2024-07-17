@@ -29,7 +29,7 @@ class StateHandler {
       ],
     });
 
-    require("../other/updateUsers.js");
+    if (config.verification.autoUpdater) require("../other/updateUsers.js");
   }
 
   async onClose() {

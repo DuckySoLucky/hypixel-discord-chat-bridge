@@ -38,18 +38,18 @@ module.exports = {
       return await interaction.followUp({ embeds: [embed] });
     }
 
-    const [guild, player] = await Promise.all([
+    const [hypixelGuild, player] = await Promise.all([
       hypixelRebornAPI.getGuild("player", bot.username).catch(() => undefined),
       hypixelRebornAPI.getPlayer(linkedUser.uuid).catch(() => undefined),
     ]).catch((e) => {
       console.log(e);
     });
 
-    if (guild === undefined) {
+    if (hypixelGuild === undefined) {
       throw new HypixelDiscordChatBridgeError("Guild not found.");
     }
 
-    const playerIsInGuild = guild.members.find((m) => m.uuid == linkedUser.uuid);
+    const playerIsInGuild = hypixelGuild.members.find((m) => m.uuid == linkedUser.uuid);
     if (playerIsInGuild) {
       user.roles.add(config.verification.guildMemberRole, "Updated Roles").catch((_) => {});
     } else {

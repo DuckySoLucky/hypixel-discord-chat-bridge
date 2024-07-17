@@ -42,7 +42,7 @@ module.exports = {
         if (auto === false) await interaction.followUp({ embeds: [failedEmbed], ephemeral: true });
         continue;
       }
-      await updateRolesCommand.execute(interaction, user.user, auto ? true : null);
+      await updateRolesCommand.execute(interaction, user.user, auto ? null : true);
       string += `${linkedUser.id} | ${linkedUser.uuid} | updated\n`;
       await delay(1000);
     }
