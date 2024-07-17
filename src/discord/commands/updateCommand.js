@@ -30,6 +30,7 @@ module.exports = {
     const linkedUser = linked.find((data) => data.id === user.id);
     if (linkedUser === undefined) {
       user.setNickname(null, "Updated Roles").catch((_) => {});
+      user.roles.add(config.verification.role, "Updated Roles").catch((_) => {});
       user.roles.remove(config.verification.role, "Updated Roles").catch((_) => {});
       user.roles.remove(config.verification.guildMemberRole, "Updated Roles").catch((_) => {});
       if (config.verification.ranks.length > 0) {
@@ -41,7 +42,7 @@ module.exports = {
         text: `by @kathund. | /help [command] for more information`,
         iconURL: "https://i.imgur.com/uUuZx2E.png",
       });
-      return await interaction.followUp({ embeds: [embed] });
+      if (hidden) return await interaction.followUp({ embeds: [embed] });
     }
 
     const [hypixelGuild, player] = await Promise.all([

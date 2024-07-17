@@ -111,7 +111,10 @@ module.exports = {
 
       await interaction.editReply({ embeds: [errorEmbed] });
 
-      if (error.includes("linked") === true) {
+      if (
+        error !== "You are already linked to a Minecraft account. Please run /unverify first." &&
+        error.includes("linked") === true
+      ) {
         const verificationTutorialEmbed = new EmbedBuilder()
           .setColor(0x0099ff)
           .setAuthor({ name: "Link with Hypixel Social Media" })

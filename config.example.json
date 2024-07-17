@@ -108,6 +108,7 @@
   "verification": {
     "enabled": false,
     "role": "VERIFIED_ROLE_ID",
+    "unverifiedRole": "UNVERIFIED_ROLE_ID",
     "guildMemberRole": "GUILD_MEMBER_ROLE_ID",
     "autoUpdater": true,
     "autoUpdaterInterval": 24,
