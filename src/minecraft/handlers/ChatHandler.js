@@ -347,6 +347,8 @@ class StateHandler extends eventHandler {
         .split(" to ")
         .pop()
         .trim();
+      const uuid = await getUUID(username);
+      await this.updateUser(uuid);
       return [
         this.minecraft.broadcastCleanEmbed({
           message: replaceVariables(messages.promotionMessage, {
@@ -378,6 +380,8 @@ class StateHandler extends eventHandler {
         .split(" to ")
         .pop()
         .trim();
+      const uuid = await getUUID(username);
+      await this.updateUser(uuid);
       return [
         this.minecraft.broadcastCleanEmbed({
           message: replaceVariables(messages.demotionMessage, {
