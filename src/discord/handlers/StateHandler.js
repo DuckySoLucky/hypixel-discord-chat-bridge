@@ -18,15 +18,6 @@ class StateHandler {
       return Logger.errorMessage(`Channel "Guild" not found!`);
     }
 
-    channel.send({
-      embeds: [
-        {
-          author: { name: `Chat Bridge is Online` },
-          color: 2067276,
-        },
-      ],
-    });
-
     if (config.tickets.enabled === true) {
       const supportChannel = this.discord.client.channels.cache.get(config.tickets.supportChannel);
       if (!supportChannel) {
@@ -54,10 +45,17 @@ class StateHandler {
             ),
           ],
         });
-      } else {
-        return;
       }
     }
+
+    channel.send({
+      embeds: [
+        {
+          author: { name: `Chat Bridge is Online` },
+          color: 2067276,
+        },
+      ],
+    });
   }
 
   async onClose() {
