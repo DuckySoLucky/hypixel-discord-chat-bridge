@@ -11,7 +11,7 @@ class StateHandler {
     this.discord.client.user.setPresence({
       activities: [{ name: `/help | by @duckysolucky` }],
     });
-    
+
     global.guild = await client.guilds.fetch(config.discord.bot.serverID);
     Logger.discordMessage("Guild ready, successfully fetched " + guild.name);
 
@@ -19,6 +19,7 @@ class StateHandler {
     if (channel === undefined) {
       return Logger.errorMessage(`Channel "Guild" not found!`);
     }
+    if (config.giveaway.enabled) require("../other/giveaways.js");
 
     channel.send({
       embeds: [

@@ -55,8 +55,6 @@ class DiscordManager extends CommunicationBridge {
         : client.on(event.name, (...args) => event.execute(...args));
     }
 
-    if (config.giveaway.enabled) require("./other/giveaways.js");
-
     process.on("SIGINT", async () => {
       await this.stateHandler.onClose();
 
