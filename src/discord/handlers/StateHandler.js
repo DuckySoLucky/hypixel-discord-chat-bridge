@@ -19,7 +19,9 @@ class StateHandler {
     if (channel === undefined) {
       return Logger.errorMessage(`Channel "Guild" not found!`);
     }
-
+    
+    if (config.verification.autoUpdater) require("../other/updateUsers.js");
+    
     channel.send({
       embeds: [
         {
@@ -29,7 +31,6 @@ class StateHandler {
       ],
     });
 
-    if (config.verification.autoUpdater) require("../other/updateUsers.js");
   }
 
   async onClose() {
