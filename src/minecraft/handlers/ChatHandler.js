@@ -1074,7 +1074,7 @@ class StateHandler extends eventHandler {
     const linkedUser = linked.find((user) => user.uuid === uuid);
     if (!linkedUser) return;
     const user = await guild.members.fetch(linkedUser.id);
-    await updateRolesCommand(null, user, true);
+    await updateRolesCommand.execute(null, user, true);
   }
 }
 
