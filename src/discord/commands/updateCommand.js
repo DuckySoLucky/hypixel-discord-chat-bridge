@@ -61,7 +61,12 @@ module.exports = {
       user.roles.add(config.verification.guildMemberRole, "Updated Roles").catch((_) => {});
       if (config.verification.ranks.length > 0) {
         const rank = config.verification.ranks.find((r) => r.name.toLowerCase() == playerIsInGuild.rank.toLowerCase());
-        if (rank) user.roles.add(rank.role, "Updated Roles").catch((_) => {});
+        if (rank) {
+          config.verification.ranks.forEach((r) => {
+            user.roles.remove(r.role, "Updated Roles").catch((_) => {});
+          });
+          user.roles.add(rank.role, "Updated Roles").catch((_) => {});
+        }
       }
     } else {
       user.roles.remove(config.verification.guildMemberRole, "Updated Roles").catch((_) => {});
