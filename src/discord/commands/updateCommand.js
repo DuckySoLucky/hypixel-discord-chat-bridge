@@ -42,7 +42,7 @@ module.exports = {
         text: `by @kathund. | /help [command] for more information`,
         iconURL: "https://i.imgur.com/uUuZx2E.png",
       });
-      if (hidden) return await interaction.followUp({ embeds: [embed] });
+      if (hidden !== null && hidden !== true) return await interaction.followUp({ embeds: [embed] });
     }
 
     const [hypixelGuild, player] = await Promise.all([
