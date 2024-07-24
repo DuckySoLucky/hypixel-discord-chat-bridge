@@ -109,5 +109,10 @@
     "autoUpdater": true,
     "autoUpdaterInterval": 12,
     "logToFiles": true
+  },
+  "statsChannels": {
+    "enabled": false,
+    "autoUpdaterInterval": 5,
+    "channels": [{ "id": "CHANNEL_ID", "name": "Guild Level: {guildLevel}" }]
   }
 }
