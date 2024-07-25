@@ -5,7 +5,7 @@ const config = require("../../../config.json");
 
 module.exports = {
   name: "force-update-channels",
-  description: "Unmutes the given user.",
+  description: "Update the stats Channels",
   moderatorOnly: true,
   channelsCommand: true,
 
