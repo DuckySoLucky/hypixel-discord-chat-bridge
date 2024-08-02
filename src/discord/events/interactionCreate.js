@@ -23,6 +23,12 @@ module.exports = {
         if (command === undefined) {
           return;
         }
+        
+        Logger.discordMessage(`${interaction.user.username} - [${interaction.commandName}]`);
+
+        if (command.verificationCommand === true && config.verification.enabled === false) {
+          throw new HypixelDiscordChatBridgeError("Verification is disabled.");
+        }
 
         if (command.moderatorOnly === true && isModerator(interaction) === false) {
           throw new HypixelDiscordChatBridgeError("You don't have permission to use this command.");
@@ -32,7 +38,6 @@ module.exports = {
           throw new HypixelDiscordChatBridgeError("Bot doesn't seem to be connected to Hypixel. Please try again.");
         }
 
-        Logger.discordMessage(`${interaction.user.username} - [${interaction.commandName}]`);
         await command.execute(interaction);
       }
     } catch (error) {
