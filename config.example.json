@@ -107,7 +107,8 @@
   },
   "verification": {
     "enabled": false,
-    "role": "VERIFIED_ROLE_ID",
+    "verifiedRole": "VERIFIED_ROLE_ID",
+    "removeVerificationRole": true,
     "guildMemberRole": "GUILD_MEMBER_ROLE_ID",
     "autoUpdater": true,
     "autoUpdaterInterval": 24,

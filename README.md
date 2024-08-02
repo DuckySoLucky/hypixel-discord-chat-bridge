@@ -406,7 +406,7 @@ The verification section contains configuration options for the verification sys
 
 The `enabled` option determines whether the verification system is enabled. By default, this is set to false.
 
-The `role` option determines what role user will receive upon successful verification.
+The `verifiedRole` option determines what role user will receive upon successful verification. 
 
 The `guildMemberRole` option determines what role user will receive upon being member of the guild.
 

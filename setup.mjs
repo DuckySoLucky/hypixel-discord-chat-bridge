@@ -335,7 +335,7 @@ async function createChannels(token, serverId) {
     const verification = await inquirer.prompt([
       {
         type: "input",
-        name: "role",
+        name: "verifiedRole",
         message: "determines what role user will receive upon successful verification",
         validate: (input) => {
           if (input.trim() === "") {
@@ -369,7 +369,7 @@ async function createChannels(token, serverId) {
       },
       {
         type: "confirm",
-        name: "autoUnverify",
+        name: "removeVerificationRole",
         default: true,
         message: "option allows you to toggle the auto unverifying the user  when they leave the discord",
       },

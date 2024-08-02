@@ -55,7 +55,7 @@ module.exports = {
           text: `by @kathund. | /help [command] for more information`,
           iconURL: "https://i.imgur.com/uUuZx2E.png",
         });
-        await interaction.followUp({ embeds: [embed] });
+        await interaction.followUp({ embeds: [embed], ephemeral: true });
       } else if (!user && name) {
         const uuid = await getUUID(name);
         if (uuid === undefined) {
@@ -72,7 +72,7 @@ module.exports = {
           iconURL: "https://i.imgur.com/uUuZx2E.png",
         });
 
-        await interaction.followUp({ embeds: [embed] });
+        await interaction.followUp({ embeds: [embed], ephemeral: true });
       } else {
         throw new HypixelDiscordChatBridgeError("Please provide a user or a name, not both.");
       }
