@@ -33,7 +33,9 @@ Next go into the `hypixel-discord-chat-bridge` folder and install all the depend
 
     npm install
 
-While the dependencies are being installed you can edit the configuration file. The configuration file is called `config.example.json`. It is pretty self explanatory, but if you need help with it, you can check out the [Configuration](#configuration) section. Once you are done editing, save it as another file by the name of `config.json`. Both files are required for the bot to work.
+Once the dependencies are installed, you can run `npm run setup` to copy fill out the configuration file. If you need more infomation on a section please read the [Configuration](#configuration) section.
+
+    cp config.example.json config.json
 
 Once edited and the dependencies are installed, you can start the application using:
 
@@ -404,7 +406,7 @@ The verification section contains configuration options for the verification sys
 
 The `enabled` option determines whether the verification system is enabled. By default, this is set to false.
 
-The `role` option determines what role user will receive upon successful verification. 
+The `role` option determines what role user will receive upon successful verification.
 
 The `guildMemberRole` option determines what role user will receive upon being member of the guild.
 
@@ -471,7 +473,7 @@ The `name` option lets you set what a verfied user has there nickname set to in 
 
 `{skywarsPlayedGames}` - Player's SkyWars Played Games
 
-`{duelsTitle}` - Player's Duels Title 
+`{duelsTitle}` - Player's Duels Title
 
 `{duelsKills}` - Player's Duels Kills
 
@@ -505,13 +507,13 @@ The `name` option lets you set what a verfied user has there nickname set to in 
 <br>
 
 The `ranks` option is an array that takes in an object like the following example, this allows ingame ranks to have a synced discord role.
+
 ```json
 {
-    "name": "Sweat",
-    "role": "987936050649391194"
+  "name": "Sweat",
+  "role": "987936050649391194"
 }
 ```
-
 
 ### Chat Triggers Module
 
