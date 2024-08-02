@@ -36,12 +36,16 @@ module.exports = {
       const uuid = linked[interaction.user.id];
       if (uuid === undefined) {
         const roles = [
-          config.verification.role,
+          config.verification.verifiedRole,
           config.verification.guildMemberRole,
           ...config.verification.ranks.map((r) => r.role),
         ];
 
         for (const role of roles) {
+          if (role === config.verification.verifiedRole && config.verification.removeVerificationRole === false) {
+            continue;
+          }
+
           if (interaction.member.roles.cache.has(role)) {
             interaction.member.roles.remove(role, "Updated Roles");
           }
@@ -52,8 +56,8 @@ module.exports = {
         throw new HypixelDiscordChatBridgeError("You are not linked to a Minecraft account.");
       }
 
-      if (!interaction.member.roles.cache.has(config.verification.role)) {
-        interaction.member.roles.add(config.verification.role, "Updated Roles");
+      if (!interaction.member.roles.cache.has(config.verification.verifiedRole)) {
+        interaction.member.roles.add(config.verification.verifiedRole, "Updated Roles");
       }
 
       const [hypixelGuild, player] = await Promise.all([
@@ -163,7 +167,7 @@ module.exports = {
           iconURL: "https://i.imgur.com/uUuZx2E.png",
         });
 
-      await interaction.editReply({ embeds: [errorEmbed] });
+      await interaction.editReply({ embeds: [errorEmbed], ephemeral: true });
     }
   },
 };
