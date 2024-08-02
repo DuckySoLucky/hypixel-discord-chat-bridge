@@ -18,7 +18,7 @@ class Application {
 
   async connect() {
     this.discord.connect();
-    // this.minecraft.connect();
+    this.minecraft.connect();
     this.web.connect();
   }
 }
