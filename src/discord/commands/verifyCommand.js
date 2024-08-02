@@ -68,7 +68,7 @@ module.exports = {
         );
       }
 
-      const linkedRole = guild.roles.cache.get(config.verification.role);
+      const linkedRole = guild.roles.cache.get(config.verification.verifiedRole);
       if (linkedRole === undefined) {
         throw new HypixelDiscordChatBridgeError("The verified role does not exist. Please contact an administrator.");
       }
@@ -85,7 +85,7 @@ module.exports = {
           iconURL: "https://i.imgur.com/uUuZx2E.png",
         });
 
-      await interaction.editReply({ embeds: [embed] });
+      await interaction.editReply({ embeds: [embed], ephemeral: true });
 
       const updateRolesCommand = require("./updateCommand.js");
       if (updateRolesCommand === undefined) {
@@ -113,7 +113,7 @@ module.exports = {
           iconURL: "https://i.imgur.com/uUuZx2E.png",
         });
 
-      await interaction.editReply({ embeds: [errorEmbed] });
+      await interaction.editReply({ embeds: [errorEmbed], ephemeral: true });
 
       if (
         error !== "You are already linked to a Minecraft account. Please run /unverify first." &&
@@ -133,7 +133,7 @@ module.exports = {
             iconURL: "https://i.imgur.com/uUuZx2E.png",
           });
 
-        await interaction.followUp({ embeds: [verificationTutorialEmbed] });
+        await interaction.followUp({ embeds: [verificationTutorialEmbed], ephemeral: true });
       }
     }
   },
