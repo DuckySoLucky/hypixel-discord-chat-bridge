@@ -1,12 +1,12 @@
 const axios = require("axios");
-const fs = require("fs");
 
-const cache = new Map();
+const uuidCache = new Map();
+const usernameCache = new Map();
 
 async function getUUID(username) {
   try {
-    if (cache.has(username)) {
-      const data = cache.get(username);
+    if (uuidCache.has(username)) {
+      const data = uuidCache.get(username);
 
       if (data.last_save + 43200000 > Date.now()) {
         return data.id;
@@ -19,7 +19,7 @@ async function getUUID(username) {
       throw data.errorMessage ?? "Invalid username.";
     }
 
-    cache.set(username, {
+    uuidCache.set(username, {
       last_save: Date.now(),
       id: data.id,
     });
@@ -35,28 +35,31 @@ async function getUUID(username) {
 
 async function getUsername(uuid) {
   try {
-    let cache = JSON.parse(fs.readFileSync("data/usernameCache.json"));
+    if (usernameCache.has(uuid)) {
+      const data = usernameCache.get(uuid);
 
-    const user = cache.find((data) => data.uuid === uuid);
-    if (user !== undefined && user.last_save + 43200000 > Date.now()) {
-      return user.username;
+      if (data.last_save + 43200000 > Date.now()) {
+        return data.username;
+      }
     }
 
     const { data } = await axios.get(`https://mowojang.matdoes.dev/${uuid}`);
-    cache = cache.filter((data) => data.id !== uuid);
-    cache.push({
-      username: data.name,
-      uuid: data.id,
-      last_save: Date.now(),
-    });
+    if (data.errorMessage || data.name === undefined) {
+      throw data.errorMessage ?? "Invalid UUID.";
+    }
 
-    fs.writeFileSync("data/usernameCache.json", JSON.stringify(cache));
+    const cache = {
+      last_save: Date.now(),
+      username: data.name,
+    };
+
+    usernameCache.set(uuid, cache);
 
     return data.name;
   } catch (error) {
-    // eslint-disable-next-line no-throw-literal
-    if (error.response.data === "Not found") throw "Invalid UUID.";
     console.log(error);
+    // eslint-disable-next-line no-throw-literal
+    if (error.response?.data === "Not found") throw "Invalid UUID.";
     throw error;
   }
 }

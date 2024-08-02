@@ -17,49 +17,52 @@ module.exports = {
     },
   ],
 
-  execute: async (interaction) => {
+  execute: async (interaction, user, bypassChecks = false) => {
     try {
       const linkedData = readFileSync("data/linked.json");
-      if (!linkedData) {
+      if (linkedData === undefined) {
         throw new HypixelDiscordChatBridgeError(
           "The linked data file does not exist. Please contact an administrator.",
         );
       }
 
       const linked = JSON.parse(linkedData);
-      if (!linked) {
+      if (linked === undefined) {
         throw new HypixelDiscordChatBridgeError("The linked data file is malformed. Please contact an administrator.");
       }
 
-      if (linked.find((data) => data.id === interaction.user.id) !== undefined) {
-        throw new HypixelDiscordChatBridgeError(
-          "You are already linked to a Minecraft account. Please run /unverify first.",
-        );
+      if (bypassChecks === true && user !== undefined) {
+        interaction.user = user;
       }
 
-      const { socialMedia, nickname, uuid } = await hypixelRebornAPI.getPlayer(interaction.options.getString("name"));
-
-      if (linked.find((data) => data.uuid === uuid) !== undefined) {
-        throw new HypixelDiscordChatBridgeError(
-          "This player is already linked to a Discord account. Please contact an administrator.",
-        );
+      if (Object.keys(linked).includes(interaction.user.id) === true) {
+        if (bypassChecks === true) {
+          delete linked[interaction.user.id];
+        } else {
+          throw new HypixelDiscordChatBridgeError(
+            "You are already linked to a Minecraft account. Please run /unverify first.",
+          );
+        }
       }
 
-      if (socialMedia.find((media) => media.id === "DISCORD")?.link === undefined) {
-        throw new HypixelDiscordChatBridgeError("This player does not have a Discord linked.");
+      const username = interaction.options.getString("name");
+      const { socialMedia, nickname, uuid } = await hypixelRebornAPI.getPlayer(username);
+      if (Object.values(linked).includes(uuid) === true) {
+        if (bypassChecks === true) {
+          delete linked[Object.keys(linked).find((key) => linked[key] === uuid)];
+        } else {
+          throw new HypixelDiscordChatBridgeError(
+            "This player is already linked to a Discord account. Please contact an administrator.",
+          );
+        }
       }
 
       const discordUsername = socialMedia.find((media) => media.id === "DISCORD")?.link;
-      if (discordUsername === undefined) {
+      if (discordUsername === undefined && bypassChecks !== true) {
         throw new HypixelDiscordChatBridgeError("This player does not have a Discord linked.");
       }
 
-      const linkedAccount = interaction.user.username;
-      if (linkedAccount === undefined) {
-        throw new HypixelDiscordChatBridgeError("You do not exist? Please contact an administrator.");
-      }
-
-      if (discordUsername !== linkedAccount) {
+      if (discordUsername !== interaction.user.username && bypassChecks !== true) {
         throw new HypixelDiscordChatBridgeError(
           `The player '${nickname}' has linked their Discord account to a different account ('${discordUsername}').`,
         );
@@ -70,25 +73,26 @@ module.exports = {
         throw new HypixelDiscordChatBridgeError("The verified role does not exist. Please contact an administrator.");
       }
 
-      linked.push({ id: interaction.user.id, uuid: uuid });
+      linked[interaction.user.id] = uuid;
       writeFileSync("data/linked.json", JSON.stringify(linked, null, 2));
 
-      const successfullyLinked = new EmbedBuilder()
+      const embed = new EmbedBuilder()
         .setColor("4BB543")
         .setAuthor({ name: "Successfully linked!" })
-        .setDescription(`Your account has been successfully linked to \`${nickname}\``)
+        .setDescription(`${user ? `<@${user.id}>'s` : "Your"} account has been successfully linked to \`${nickname}\``)
         .setFooter({
-          text: `by @duckysolucky | /help [command] for more information`,
-          iconURL: "https://imgur.com/tgwQJTX.png",
+          text: `by @kathund. | /help [command] for more information`,
+          iconURL: "https://i.imgur.com/uUuZx2E.png",
         });
 
-      await interaction.editReply({ embeds: [successfullyLinked] });
+      await interaction.editReply({ embeds: [embed] });
 
       const updateRolesCommand = require("./updateCommand.js");
-      if (!updateRolesCommand) {
+      if (updateRolesCommand === undefined) {
         throw new HypixelDiscordChatBridgeError("The update command does not exist. Please contact an administrator.");
       }
-      await updateRolesCommand.execute(interaction, interaction.user);
+
+      await updateRolesCommand.execute(interaction);
     } catch (error) {
       console.log(error);
       // eslint-disable-next-line no-ex-assign
@@ -105,8 +109,8 @@ module.exports = {
         .setAuthor({ name: "An Error has occurred" })
         .setDescription(`\`\`\`${error}\`\`\``)
         .setFooter({
-          text: `by @duckysolucky | /help [command] for more information`,
-          iconURL: "https://imgur.com/tgwQJTX.png",
+          text: `by @kathund. | /help [command] for more information`,
+          iconURL: "https://i.imgur.com/uUuZx2E.png",
         });
 
       await interaction.editReply({ embeds: [errorEmbed] });
@@ -123,11 +127,10 @@ module.exports = {
               interaction.user.username ?? interaction.user.tag
             }\`\n6) You're done! Wait around 30 seconds and then try again.\n\n**Getting "The URL isn't valid!"?**\nHypixel has limitations on the characters supported in a Discord username. Try changing your Discord username temporarily to something without special characters, updating it in-game, and trying again.`,
           )
-          .setThumbnail("https://thumbs.gfycat.com/DentalTemptingLeonberger-size_restricted.gif")
-          .setTimestamp()
+          .setImage("https://media.discordapp.net/attachments/922202066653417512/1066476136953036800/tutorial.gif")
           .setFooter({
-            text: `by @duckysolucky | /help [command] for more information`,
-            iconURL: "https://imgur.com/tgwQJTX.png",
+            text: `by @kathund. | /help [command] for more information`,
+            iconURL: "https://i.imgur.com/uUuZx2E.png",
           });
 
         await interaction.followUp({ embeds: [verificationTutorialEmbed] });

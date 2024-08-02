@@ -16,11 +16,11 @@ module.exports = {
 
   execute: async (interaction) => {
     const user = interaction.options.getUser("user");
-
     const updateRolesCommand = require("./updateCommand.js");
-    if (!updateRolesCommand) {
+    if (updateRolesCommand === undefined) {
       throw new HypixelDiscordChatBridgeError("The update command does not exist. Please contact an administrator.");
     }
+
     await updateRolesCommand.execute(interaction, user);
   },
 };
