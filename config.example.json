@@ -105,6 +105,9 @@
     "port": 1439,
     "token": "WEBSOCKET_TOKEN"
   },
+  "giveaway": {
+    "enabled": false
+  },
   "verification": {
     "enabled": false,
     "verifiedRole": "VERIFIED_ROLE_ID",
