@@ -1082,14 +1082,7 @@ class StateHandler extends eventHandler {
         return;
       }
 
-      let linkedUser = undefined;
-      for (const [userId, userUuid] of Object.entries(linked)) {
-        if (userUuid === player) {
-          linkedUser = userId;
-          break;
-        }
-      }
-
+      const linkedUser = Object.values(linked).find((u) => uuid)
       if (linkedUser === undefined) {
         return;
       }
