@@ -61,11 +61,13 @@ class SuccessEmbed extends Embed {
    * Constructs a new SuccessEmbed instance.
    * @param {string} description - The description of the success.
    */
-  constructor(description) {
+  constructor(description, footer) {
     super();
 
     this.setAuthor({ name: "Success" });
     this.setColor(5763719);
+
+    if (footer) this.setFooter(footer);
 
     this.setDescription(description);
   }

@@ -13,6 +13,10 @@ class CommandHandler {
 
     for (const file of commandFiles) {
       const command = require(`./commands/${file}`);
+      if (command.verificationCommand === true && config.verification.enabled === false) {
+        continue;
+      }
+
       commands.push(command);
     }
 

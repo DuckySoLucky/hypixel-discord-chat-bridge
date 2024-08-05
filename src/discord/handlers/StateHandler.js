@@ -21,6 +21,17 @@ class StateHandler {
     }
     if (config.giveaway.enabled) require("../other/giveaways.js");
 
+    global.guild = await client.guilds.fetch(config.discord.bot.serverID);
+    if (guild === undefined) {
+      return Logger.errorMessage(`Guild not found!`);
+    }
+
+    Logger.discordMessage("Guild ready, successfully fetched " + guild.name);
+
+    if (config.verification.autoUpdater) {
+      require("../other/updateUsers.js");
+    }
+
     channel.send({
       embeds: [
         {
