@@ -68,6 +68,8 @@ class SuccessEmbed extends Embed {
     this.setAuthor({ name: "Success" });
     this.setColor(5763719);
 
+    if (footer) this.setFooter(footer);
+
     this.setDescription(description);
 
     if (footer) {
