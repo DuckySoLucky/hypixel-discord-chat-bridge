@@ -31,7 +31,7 @@ module.exports = {
         }
 
         if (command.channelsCommand === true && config.statsChannels.enabled === false) {
-          throw new HypixelDiscordChatBridgeError("Verification is disabled.");
+          throw new HypixelDiscordChatBridgeError("Channel Stats is disabled.");
         }
 
         if (command.moderatorOnly === true && isModerator(interaction) === false) {
