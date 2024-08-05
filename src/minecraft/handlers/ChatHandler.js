@@ -3,15 +3,15 @@ const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js
 const updateRolesCommand = require("../../discord/commands/updateCommand.js");
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
-const { getUUID, getUsername } = require("../../contracts/API/mowojangAPI.js");
+const { getUUID } = require("../../contracts/API/mowojangAPI.js");
 const eventHandler = require("../../contracts/EventHandler.js");
 const getWeight = require("../../../API/stats/weight.js");
+const { isUuid } = require("../../../API/utils/uuid.js");
 const messages = require("../../../messages.json");
 const { EmbedBuilder } = require("discord.js");
 const config = require("../../../config.json");
 const Logger = require("../../Logger.js");
 const { readFileSync } = require("fs");
-const { isUuid } = require("../../../API/utils/uuid.js");
 
 class StateHandler extends eventHandler {
   constructor(minecraft, command, discord) {
@@ -1066,7 +1066,7 @@ class StateHandler extends eventHandler {
   async updateUser(player) {
     try {
       if (isUuid(player) === false) {
-        player = await getUsername(player);
+        player = await getUUID(player);
       }
 
       if (config.verification.enabled === false) {
@@ -1082,7 +1082,7 @@ class StateHandler extends eventHandler {
         return;
       }
 
-      const linkedUser = Object.values(linked).find((u) => uuid)
+      const linkedUser = Object.values(linked).find((u) => player)
       if (linkedUser === undefined) {
         return;
       }
