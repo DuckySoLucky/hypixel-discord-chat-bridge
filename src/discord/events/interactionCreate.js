@@ -17,6 +17,16 @@ module.exports = {
         if (command === undefined) {
           return;
         }
+        
+        Logger.discordMessage(`${interaction.user.username} - [${interaction.commandName}]`);
+
+        if (command.verificationCommand === true && config.verification.enabled === false) {
+          throw new HypixelDiscordChatBridgeError("Verification is disabled.");
+        }
+
+        if (command.ticketCommand === true && config.tickets.enabled === false) {
+          throw new HypixelDiscordChatBridgeError("Tickets are disabled.");
+        }
 
         const memberRoles = interaction.member.roles.cache.map((role) => role.id);
         await interaction.deferReply({ ephemeral: command.ephemeral || false }).catch(() => {});
@@ -32,11 +42,7 @@ module.exports = {
           throw new HypixelDiscordChatBridgeError("Bot doesn't seem to be connected to Hypixel. Please try again.");
         }
 
-        if (command.ticketCommand === true && config.tickets.enabled === false) {
-          throw new HypixelDiscordChatBridgeError("Tickets are disabled.");
-        }
 
-        Logger.discordMessage(`${interaction.user.username} - [${interaction.commandName}]`);
         await command.execute(interaction);
       } else if (interaction.isButton()) {
         await interaction.deferReply({ ephemeral: true }).catch(() => {});

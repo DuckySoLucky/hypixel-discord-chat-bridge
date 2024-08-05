@@ -18,6 +18,17 @@ class StateHandler {
       return Logger.errorMessage(`Channel "Guild" not found!`);
     }
 
+    global.guild = await client.guilds.fetch(config.discord.bot.serverID);
+    if (guild === undefined) {
+      return Logger.errorMessage(`Guild not found!`);
+    }
+
+    Logger.discordMessage("Guild ready, successfully fetched " + guild.name);
+
+    if (config.verification.autoUpdater) {
+      require("../other/updateUsers.js");
+    }
+
     if (config.tickets.enabled === true) {
       const supportChannel = this.discord.client.channels.cache.get(config.tickets.supportChannel);
       if (!supportChannel) {

@@ -1,14 +1,17 @@
 const { replaceAllRanks, replaceVariables } = require("../../contracts/helperFunctions.js");
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
+const updateRolesCommand = require("../../discord/commands/updateCommand.js");
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
-const { getUUID } = require("../../contracts/API/mowojangAPI.js");
+const { getUUID, getUsername } = require("../../contracts/API/mowojangAPI.js");
 const eventHandler = require("../../contracts/EventHandler.js");
 const getWeight = require("../../../API/stats/weight.js");
 const messages = require("../../../messages.json");
 const { EmbedBuilder } = require("discord.js");
 const config = require("../../../config.json");
 const Logger = require("../../Logger.js");
+const { readFileSync } = require("fs");
+const { isUuid } = require("../../../API/utils/uuid.js");
 
 class StateHandler extends eventHandler {
   constructor(minecraft, command, discord) {
@@ -41,7 +44,7 @@ class StateHandler extends eventHandler {
     }
 
     if (this.isLobbyJoinMessage(message) && config.discord.other.autoLimbo === true) {
-      return bot.chat("\u00a7");
+      return bot.chat("/limbo");
     }
 
     if (this.isPartyMessage(message) && config.minecraft.fragBot.enabled === true) {
@@ -264,6 +267,7 @@ class StateHandler extends eventHandler {
           prefix: config.minecraft.bot.prefix,
         })} | by @duckysolucky`,
       );
+      await this.updateUser(username);
       return [
         this.minecraft.broadcastHeadedEmbed({
           message: replaceVariables(messages.joinMessage, { username }),
@@ -287,7 +291,7 @@ class StateHandler extends eventHandler {
         .replace(/\[(.*?)\]/g, "")
         .trim()
         .split(/ +/g)[0];
-
+      await this.updateUser(username);
       return [
         this.minecraft.broadcastHeadedEmbed({
           message: replaceVariables(messages.leaveMessage, { username }),
@@ -311,7 +315,7 @@ class StateHandler extends eventHandler {
         .replace(/\[(.*?)\]/g, "")
         .trim()
         .split(/ +/g)[0];
-
+      await this.updateUser(username);
       return [
         this.minecraft.broadcastHeadedEmbed({
           message: replaceVariables(messages.kickMessage, { username }),
@@ -341,6 +345,7 @@ class StateHandler extends eventHandler {
         .split(" to ")
         .pop()
         .trim();
+      await this.updateUser(username);
       return [
         this.minecraft.broadcastCleanEmbed({
           message: replaceVariables(messages.promotionMessage, {
@@ -372,6 +377,7 @@ class StateHandler extends eventHandler {
         .split(" to ")
         .pop()
         .trim();
+      await this.updateUser(username);
       return [
         this.minecraft.broadcastCleanEmbed({
           message: replaceVariables(messages.demotionMessage, {
@@ -1053,6 +1059,37 @@ class StateHandler extends eventHandler {
         return "#FFFFFF";
       default:
         return "#FFFFFF";
+    }
+  }
+
+  async updateUser(player) {
+    try {
+      if (isUuid(player) === false) {
+        player = await getUsername(player);
+      }
+
+      if (config.verification.enabled === false) {
+        return;
+      }
+
+      const linkedData = readFileSync("data/linked.json");
+      if (linkedData === undefined) {
+        return;
+      }
+      const linked = JSON.parse(linkedData);
+      if (linked === undefined) {
+        return;
+      }
+
+      const linkedUser = linked.find((user) => user.uuid === player);
+      if (linkedUser === undefined) {
+        return;
+      }
+
+      const user = await guild.members.fetch(linkedUser.id);
+      await updateRolesCommand.execute(null, user);
+    } catch {
+      //
     }
   }
 }

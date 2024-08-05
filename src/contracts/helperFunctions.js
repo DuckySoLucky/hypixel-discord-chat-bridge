@@ -1,11 +1,8 @@
-const fs = require("fs-promise");
-const { set } = require("lodash");
-const mkdirp = require("mkdirp");
-const getDirName = require("path").dirname;
 const nbt = require("prismarine-nbt");
-const util = require("util");
-const parseNbt = util.promisify(nbt.parse);
 const moment = require("moment");
+const util = require("util");
+
+const parseNbt = util.promisify(nbt.parse);
 
 function replaceAllRanks(input) {
   input = input.replaceAll("[OWNER] ", "");
@@ -92,9 +89,8 @@ function toFixed(num, fixed) {
   return num.toString().match(response)[0];
 }
 
-function timeSince(timeStamp) {
-  var now = new Date(),
-    secondsPast = (now.getTime() - timeStamp) / 1000;
+function timeSince(endTime, startTime = new Date().getTime()) {
+  var secondsPast = (startTime - endTime) / 1000;
   secondsPast = Math.abs(secondsPast);
 
   if (secondsPast < 60) {
@@ -116,22 +112,6 @@ function timeSince(timeStamp) {
     const s = toFixed(parseInt(secondsPast), 0);
     return d + "d " + h + "h " + m + "m " + s + "s";
   }
-}
-
-async function writeAt(filePath, jsonPath, value) {
-  mkdirp.sync(getDirName(filePath));
-
-  return fs
-    .readJson(filePath)
-    .then(function (json) {
-      set(json, jsonPath, value);
-      return fs.writeJson(filePath, json);
-    })
-    .catch(function (error) {
-      const json = {};
-      set(json, jsonPath, value);
-      return fs.writeJson(filePath, json);
-    });
 }
 
 function capitalize(str) {
@@ -307,7 +287,6 @@ module.exports = {
   addCommas,
   toFixed,
   timeSince,
-  writeAt,
   capitalize,
   decodeData,
   numberWithCommas,
