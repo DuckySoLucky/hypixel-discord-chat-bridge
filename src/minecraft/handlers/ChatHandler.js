@@ -1082,12 +1082,19 @@ class StateHandler extends eventHandler {
         return;
       }
 
-      const linkedUser = linked.find((user) => user.uuid === player);
+      let linkedUser = undefined;
+      for (const [userId, userUuid] of Object.entries(linked)) {
+        if (userUuid === player) {
+          linkedUser = userId;
+          break;
+        }
+      }
+
       if (linkedUser === undefined) {
         return;
       }
 
-      const user = await guild.members.fetch(linkedUser.id);
+      const user = await guild.members.fetch(linkedUser);
       await updateRolesCommand.execute(null, user);
     } catch {
       //
