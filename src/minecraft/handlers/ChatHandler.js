@@ -86,7 +86,8 @@ class StateHandler extends eventHandler {
         const [player, profile] = await Promise.all([hypixel.getPlayer(uuid), getLatestProfile(uuid)]);
         let meetRequirements = false;
 
-        const weight = getWeight(profile.profile, profile.uuid)?.weight?.senither?.total || 0;
+        const weightData = getWeight(profile.profile, profile.uuid);
+        const weight = weightData?.senither?.total || 0;
         const skyblockLevel = (profile.profile?.leveling?.experience || 0) / 100 ?? 0;
 
         const bwLevel = player.stats.bedwars.level;
