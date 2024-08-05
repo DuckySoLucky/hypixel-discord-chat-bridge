@@ -31,7 +31,7 @@ module.exports = {
         if (command.verificationCommand === true && config.verification.enabled === false) {
           throw new HypixelDiscordChatBridgeError("Verification is disabled.");
         }
-
+        
         if (command.giveawayCommand === true && config.giveaway.enabled === false) {
           throw new HypixelDiscordChatBridgeError("Giveaways are disabled.");
         }
