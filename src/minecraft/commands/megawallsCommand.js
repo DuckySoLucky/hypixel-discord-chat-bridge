@@ -17,7 +17,7 @@ class EightBallCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  async onCommand(username, message, officer) {
     try {
       username = this.getArgs(message)[0] || username;
 
@@ -28,17 +28,19 @@ class EightBallCommand extends minecraftCommand {
       const { selectedClass = "None", finalKills, finalKDRatio, wins, WLRatio, kills, KDRatio, assists } = megawalls;
 
       this.send(
-        `/gc ${username}'s Megawalls: Class: ${
+        `${username}'s Megawalls: Class: ${
           selectedClass ?? "None"
         } | FK: ${finalKills} | FKDR: ${finalKDRatio} | W: ${wins} | WLR: ${WLRatio} | K: ${kills} | KDR: ${KDRatio} | A: ${assists}`,
+        officer,
       );
     } catch (error) {
       this.send(
-        `/gc ${error
+        `${error
           .toString()
           .replace("[hypixel-api-reborn] ", "")
           .replace("For help join our Discord Server https://discord.gg/NSEBNMM", "")
           .replace("Error:", "[ERROR]")}`,
+        officer,
       );
     }
   }

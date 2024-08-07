@@ -15,7 +15,8 @@ class minecraftCommand {
     return args;
   }
 
-  send(message, n = 1) {
+  send(message, officer, n = 1) {
+    console.log(officer);
     if (bot === undefined && bot._client.chat === undefined) {
       return;
     }
@@ -29,11 +30,13 @@ class minecraftCommand {
         n++;
 
         if (n >= 5) {
-          return this.send("/gc Command failed to send message after 5 attempts. Please try again later.");
+          return this.send(
+            `${officer ? "/oc" : "/gc"} Command failed to send message after 5 attempts. Please try again later.`,
+          );
         }
 
         await delay(250);
-        return this.send(message);
+        return this.send(`/${officer ? "oc" : "gc"} ${message}`);
       } else if (
         msg.toString().includes("You cannot say the same message twice!") === true &&
         msg.toString().includes(":") === false
@@ -42,26 +45,28 @@ class minecraftCommand {
         n++;
 
         if (n >= 5) {
-          return this.send("/gc Command failed to send message after 5 attempts. Please try again later.");
+          return this.send(
+            `${officer ? "/oc" : "/gc"} Command failed to send message after 5 attempts. Please try again later.`,
+          );
         }
 
         await delay(250);
         return this.send(
-          `${message} - ${helperFunctions.generateID(config.minecraft.bot.messageRepeatBypassLength)}`,
+          `${officer ? "/oc" : "/gc"} ${message} - ${helperFunctions.generateID(config.minecraft.bot.messageRepeatBypassLength)}`,
           n + 1,
         );
       }
     };
 
     bot.once("message", listener);
-    bot.chat(message);
+    bot.chat(`/${officer ? "oc" : "gc"} ${message}`);
 
     setTimeout(() => {
       bot.removeListener("message", listener);
     }, 500);
   }
 
-  onCommand(player, message) {
+  onCommand(player, message, officer) {
     throw new Error("Command onCommand method is not implemented yet!");
   }
 }

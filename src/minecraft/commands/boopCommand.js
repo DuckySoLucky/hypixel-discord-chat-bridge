@@ -19,7 +19,7 @@ class BoopCommand extends minecraftCommand {
     this.isOnCooldown = false;
   }
 
-  async onCommand(username, message) {
+  async onCommand(username, message, officer) {
     // CREDITS: by @Zickles (https://github.com/Zickles)
     try {
       if (this.getArgs(message).length === 0) {
@@ -28,14 +28,14 @@ class BoopCommand extends minecraftCommand {
       }
 
       if (this.isOnCooldown) {
-        return this.send(`/gc ${this.name} Command is on cooldown`);
+        return this.send(`${this.name} Command is on cooldown`, officer);
       }
 
-      this.send(`/boop ${this.getArgs(message)[0]}`);
+      bot.chat(`/boop ${this.getArgs(message)[0]}`);
       await delay(690);
-      this.send(`/msg ${this.getArgs(message)[0]} ${username} Booped You!`);
+      bot.chat(`/msg ${this.getArgs(message)[0]} ${username} Booped You!`);
       await delay(690);
-      this.send(`/gc Booped ${this.getArgs(message)[0]}!`);
+      this.send(`Booped ${this.getArgs(message)[0]}!`, officer);
       this.isOnCooldown = true;
       // CREDITS: @jaxieflaxie for finding this cooldown reset
       setTimeout(() => {
@@ -51,7 +51,7 @@ class BoopCommand extends minecraftCommand {
       }, 30000);
       this.isOnCooldown = false;
     } catch (error) {
-      this.send(`/gc [ERROR] ${error}`);
+      this.send(`[ERROR] ${error}`, officer);
     }
   }
 }

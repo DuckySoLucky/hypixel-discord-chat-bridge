@@ -11,7 +11,7 @@ class ChickenCommand extends minecraftCommand {
     this.options = [];
   }
 
-  async onCommand(username, message) {
+  async onCommand(username, message, officer) {
     // CREDITS: by @Kathund (https://github.com/Kathund)
     try {
       const { data, status } = await axios.get("https://imgs.kath.lol/chicken");
@@ -25,9 +25,9 @@ class ChickenCommand extends minecraftCommand {
         throw "An error occured while fetching the image. Please try again later.";
       }
 
-      this.send(`/gc Funny Chicken: ${data.url}`);
+      this.send(`Funny Chicken: ${data.url}`, officer);
     } catch (error) {
-      this.send(`/gc [ERROR] ${error ?? "Something went wrong.."}`);
+      this.send(`[ERROR] ${error ?? "Something went wrong.."}`, officer);
     }
   }
 }

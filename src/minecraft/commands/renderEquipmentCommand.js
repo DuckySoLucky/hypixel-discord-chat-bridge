@@ -20,7 +20,7 @@ class EquipmentCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  async onCommand(username, message, officer) {
     try {
       username = this.getArgs(message)[0] || username;
 
@@ -29,7 +29,7 @@ class EquipmentCommand extends minecraftCommand {
       username = formatUsername(username, profile.profileData?.game_mode);
 
       if (profile.profile.inventory?.equipment_contents?.data === undefined) {
-        return this.send(`/gc This player has an Inventory API off.`);
+        return this.send(`This player has an Inventory API off.`, officer);
       }
 
       const { i: inventoryData } = await decodeData(
@@ -54,9 +54,9 @@ class EquipmentCommand extends minecraftCommand {
         response += response.split(" | ").length == 4 ? link : `${link} | `;
       }
 
-      this.send(`/gc ${username}'s Equipment: ${response}`);
+      this.send(`${username}'s Equipment: ${response}`, officer);
     } catch (error) {
-      this.send(`/gc [ERROR] ${error}`);
+      this.send(`[ERROR] ${error}`, officer);
     }
   }
 }

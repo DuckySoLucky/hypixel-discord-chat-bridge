@@ -17,18 +17,18 @@ class CalculateCommand extends minecraftCommand {
     ];
   }
 
-  onCommand(username, message) {
+  onCommand(username, message, officer) {
     try {
       const calculation = message.replace(/[^-()\d/*+.]/g, "");
       const answer = eval(calculation);
 
       if (answer === Infinity) {
-        return this.send(`/gc Something went wrong.. Somehow you broke it (the answer was infinity)`);
+        return this.send("Something went wrong.. Somehow you broke it (the answer was infinity)", officer);
       }
 
-      this.send(`/gc ${calculation} = ${formatNumber(answer)} (${answer.toLocaleString()})`);
+      this.send(`${calculation} = ${formatNumber(answer)} (${answer.toLocaleString()})`, officer);
     } catch (error) {
-      this.send(`/gc [ERROR] ${error}`);
+      this.send(`[ERROR] ${error}`, officer);
     }
   }
 }

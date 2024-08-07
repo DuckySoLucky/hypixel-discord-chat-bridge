@@ -18,7 +18,7 @@ class GuildInformationCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  async onCommand(username, message, officer) {
     try {
       const guildName = this.getArgs(message)
         .map((arg) => capitalize(arg))
@@ -27,17 +27,19 @@ class GuildInformationCommand extends minecraftCommand {
       const guild = await hypixel.getGuild("name", guildName);
 
       this.send(
-        `/gc Guild ${guildName} | Tag: [${guild.tag}] | Members: ${guild.members.length} | Level: ${
+        `Guild ${guildName} | Tag: [${guild.tag}] | Members: ${guild.members.length} | Level: ${
           guild.level
         } | Weekly GEXP: ${formatNumber(guild.totalWeeklyGexp)}`,
+        officer,
       );
     } catch (error) {
       this.send(
-        `/gc ${error
+        `${error
           .toString()
           .replace("[hypixel-api-reborn] ", "")
           .replace("For help join our Discord Server https://discord.gg/NSEBNMM", "")
           .replace("Error:", "[ERROR]")}`,
+        officer,
       );
     }
   }

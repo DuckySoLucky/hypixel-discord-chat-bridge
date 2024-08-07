@@ -11,7 +11,7 @@ class DuckCommand extends minecraftCommand {
     this.options = [];
   }
 
-  async onCommand(username, message) {
+  async onCommand(username, message, officer) {
     // CREDITS: by @Kathund (https://github.com/Kathund)
     try {
       const { data, status } = await axios.get("https://imgs.kath.lol/ducky");
@@ -25,9 +25,9 @@ class DuckCommand extends minecraftCommand {
         throw "An error occured while fetching the image. Please try again later.";
       }
 
-      this.send(`/gc Funny Duck: ${data.url}`);
+      this.send(`Funny Duck: ${data.url}`, officer);
     } catch (error) {
-      this.send(`/gc [ERROR] ${error ?? "Something went wrong.."}`);
+      this.send(`[ERROR] ${error ?? "Something went wrong.."}`, officer);
     }
   }
 }
