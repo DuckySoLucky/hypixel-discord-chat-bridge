@@ -23,7 +23,7 @@ class PersonalBestCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  async onCommand(username, message, officer) {
     // CREDITS: by @dallincotton06 (https://github.com/dallincotton06)
     try {
       username = this.getArgs(message)[0] || username;
@@ -56,7 +56,7 @@ class PersonalBestCommand extends minecraftCommand {
           requested_floor = dungeons.catacombs?.floors?.entrance ?? null;
           break;
         default:
-          this.send("/gc Invalid Usage: !pb [user] [floor (m7/f4/etc)] [rank (S+, S, any)]");
+          this.send("Invalid Usage: !pb [user] [floor (m7/f4/etc)] [rank (S+, S, any)]", officer);
           break;
       }
       // eslint-disable-next-line no-throw-literal
@@ -70,18 +70,18 @@ class PersonalBestCommand extends minecraftCommand {
           time = requested_floor.fastest_s;
           break;
         default:
-          this.send("/gc Invalid Usage: !pb [user] [floor (m7/f4/etc)] [rank (S+, S, any)]");
+          this.send("Invalid Usage: !pb [user] [floor (m7/f4/etc)] [rank (S+, S, any)]", officer);
           break;
       }
 
       if (time === 0) {
-        this.send(`/gc ${username} has no PB on ${floor} ${rank}`);
+        this.send(`${username} has no PB on ${floor} ${rank}`);
       } else {
-        this.send(`/gc ${username}'s PB on ${floor} with ${rank} rank is ${millisToMinutesAndSeconds(time)}`);
+        this.send(`${username}'s PB on ${floor} with ${rank} rank is ${millisToMinutesAndSeconds(time)}`, officer);
       }
     } catch (error) {
       console.log(error);
-      this.send(`/gc ERROR: ${error}`);
+      this.send(`ERROR: ${error}`, officer);
     }
   }
 }

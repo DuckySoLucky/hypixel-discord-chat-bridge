@@ -21,7 +21,7 @@ class RenderCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  async onCommand(username, message, officer) {
     try {
       username = this.getArgs(message)[0] || username;
 
@@ -30,13 +30,13 @@ class RenderCommand extends minecraftCommand {
       username = formatUsername(username, data.profileData?.game_mode);
       const profile = getPets(data.profile);
       if (profile.length === 0) {
-        return this.send(`/gc ${username} does not have any pets.`);
+        return this.send(`${username} does not have any pets.`, officer);
       }
 
       const pet = profile.pets.find((pet) => pet.active === true);
 
       if (pet === undefined) {
-        return this.send(`/gc ${username} does not have pet equiped.`);
+        return this.send(`${username} does not have pet equiped.`, officer);
       }
 
       const renderedItem = await renderLore(
@@ -46,10 +46,10 @@ class RenderCommand extends minecraftCommand {
 
       const upload = await uploadImage(renderedItem);
 
-      return this.send(`/gc ${username}'s Active Pet: ${upload.data.link ?? "Something went Wrong.."}`);
+      return this.send(`${username}'s Active Pet: ${upload.data.link ?? "Something went Wrong.."}`), officer;
     } catch (error) {
       console.log(error);
-      this.send(`/gc [ERROR] ${error}`);
+      this.send(`[ERROR] ${error}`, officer);
     }
   }
 }
