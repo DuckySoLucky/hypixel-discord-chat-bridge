@@ -36,7 +36,7 @@ class unscrambleCommand extends minecraftCommand {
         const remainingTime = cooldownDuration - elapsedTime;
 
         if (remainingTime > 0) {
-          return this.send(`Please wait until current game is over.`);
+          return this.send(`Please wait until current game is over.`, officer);
         }
       }
 
@@ -44,7 +44,10 @@ class unscrambleCommand extends minecraftCommand {
       cooldowns.set(this.name, Date.now());
       const listener = (username, message) => {
         if (getWord(message) === answer) {
-          this.send(`${userUsername} guessed it right! Time elapsed: ${(Date.now() - startTime).toLocaleString()}ms!`);
+          this.send(
+            `${userUsername} guessed it right! Time elapsed: ${(Date.now() - startTime).toLocaleString()}ms!`,
+            officer,
+          );
 
           bot.removeListener("chat", listener);
           answered = true;
@@ -53,7 +56,7 @@ class unscrambleCommand extends minecraftCommand {
       };
 
       bot.on("chat", listener);
-      this.send(`Unscramble the following word: "${scrambledWord}"`);
+      this.send(`Unscramble the following word: "${scrambledWord}"`, officer);
       const startTime = Date.now();
 
       setTimeout(() => {
@@ -61,7 +64,7 @@ class unscrambleCommand extends minecraftCommand {
         cooldowns.delete(this.name);
 
         if (answered === false) {
-          this.send(`Time's up! The answer was ${answer}`);
+          this.send(`Time's up! The answer was ${answer}`, officer);
         }
       }, 30000);
     } catch (error) {

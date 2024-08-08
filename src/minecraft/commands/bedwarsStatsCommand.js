@@ -20,7 +20,6 @@ class BedwarsCommand extends minecraftCommand {
 
   async onCommand(username, message, officer) {
     try {
-      console.log(officer)
       const msg = this.getArgs(message).map((arg) => arg.replaceAll("/", ""));
       const modes = ["solo", "doubles", "threes", "fours", "4v4"];
 

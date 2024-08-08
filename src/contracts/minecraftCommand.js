@@ -15,8 +15,7 @@ class minecraftCommand {
     return args;
   }
 
-  send(message, officer, n = 1) {
-    console.log(officer);
+  send(message, officer = false, n = 1) {
     if (bot === undefined && bot._client.chat === undefined) {
       return;
     }
@@ -31,7 +30,7 @@ class minecraftCommand {
 
         if (n >= 5) {
           return this.send(
-            `${officer ? "/oc" : "/gc"} Command failed to send message after 5 attempts. Please try again later.`,
+            `/${officer ? "oc" : "gc"} Command failed to send message after 5 attempts. Please try again later.`,
           );
         }
 
@@ -46,13 +45,13 @@ class minecraftCommand {
 
         if (n >= 5) {
           return this.send(
-            `${officer ? "/oc" : "/gc"} Command failed to send message after 5 attempts. Please try again later.`,
+            `/${officer ? "oc" : "gc"} Command failed to send message after 5 attempts. Please try again later.`,
           );
         }
 
         await delay(250);
         return this.send(
-          `${officer ? "/oc" : "/gc"} ${message} - ${helperFunctions.generateID(config.minecraft.bot.messageRepeatBypassLength)}`,
+          `/${officer ? "oc" : "gc"} ${message} - ${helperFunctions.generateID(config.minecraft.bot.messageRepeatBypassLength)}`,
           n + 1,
         );
       }
