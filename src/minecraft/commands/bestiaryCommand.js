@@ -2,6 +2,7 @@ const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js
 const { formatUsername } = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { getBestiary } = require("../../../API/stats/bestiary.js");
+const { errorMessage } = require("../../Logger.js");
 
 class EightBallCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -69,7 +70,7 @@ class EightBallCommand extends minecraftCommand {
         this.send(`/gc Closest to level up: ${topFiveMobs.join(", ")}`);
       }
     } catch (error) {
-      console.log(error);
+      errorMessage(error);
       this.send(`/gc [ERROR] ${error}`);
     }
   }

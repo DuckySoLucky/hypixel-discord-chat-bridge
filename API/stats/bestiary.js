@@ -1,3 +1,4 @@
+const { errorMessage } = require("../../src/Logger.js");
 const constants = require("../constants/bestiary.js");
 
 function formatBestiaryMobs(userProfile, mobs) {
@@ -72,7 +73,7 @@ function getBestiary(userProfile) {
       maxMilestone: totalTiers / 10,
     };
   } catch (error) {
-    console.log(error);
+    errorMessage(error);
     return null;
   }
 }
