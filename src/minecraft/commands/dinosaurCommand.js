@@ -25,7 +25,8 @@ class DinosaurCommand extends minecraftCommand {
         throw "An error occured while fetching the image. Please try again later.";
       }
 
-      this.send(`/gc Funny dino: ${data.url}`);
+      imgurUrl = data.url;
+      this.send("/gc Funny dino: Check Discord Bridge for image.");
     } catch (error) {
       this.send(`/gc [ERROR] ${error ?? "Something went wrong.."}`);
     }

@@ -90,7 +90,8 @@ class AuctionHouseCommand extends minecraftCommand {
         string += string === "" ? upload.data.link : " | " + upload.data.link;
       }
 
-      this.send(`/gc ${`${username}'s Active Auctions: ${string}`}`);
+      imgurUrl = string;
+      this.send(`/gc $${username}'s Active Auctions: Check Discord Bridge for image.`);
     } catch (error) {
       console.log(error);
       this.send(`/gc [ERROR] ${error}`);
