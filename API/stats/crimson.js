@@ -1,6 +1,6 @@
 // CREDITS: by @Kathund (https://github.com/Kathund)
-
 const { titleCase } = require("../constants/functions.js");
+const { errorMessage } = require("../../src/Logger.js");
 
 module.exports = (profile) => {
   try {
@@ -62,7 +62,7 @@ module.exports = (profile) => {
       trophyFishing: getTrophyFish(profile),
     };
   } catch (error) {
-    console.log(error);
+    errorMessage(error);
     return null;
   }
 };

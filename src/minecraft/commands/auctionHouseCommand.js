@@ -4,6 +4,7 @@ const { uploadImage } = require("../../contracts/API/imgurAPI.js");
 const { getUUID } = require("../../contracts/API/mowojangAPI.js");
 const { renderLore } = require("../../contracts/renderItem.js");
 const getRank = require("../../../API/stats/rank.js");
+const { errorMessage } = require("../../Logger.js");
 const config = require("../../../config.json");
 const axios = require("axios");
 
@@ -92,7 +93,7 @@ class AuctionHouseCommand extends minecraftCommand {
 
       this.send(`/gc ${`${username}'s Active Auctions: ${string}`}`);
     } catch (error) {
-      console.log(error);
+      errorMessage(error);
       this.send(`/gc [ERROR] ${error}`);
     }
   }

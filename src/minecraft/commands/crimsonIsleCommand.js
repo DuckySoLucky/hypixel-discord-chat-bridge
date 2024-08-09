@@ -2,6 +2,7 @@ const { formatUsername, formatNumber } = require("../../contracts/helperFunction
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const getCrimson = require("../../../API/stats/crimson.js");
+const { errorMessage } = require("../../Logger.js");
 
 class CrimsonIsleCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -39,7 +40,7 @@ class CrimsonIsleCommand extends minecraftCommand {
         )} | Mage Rep: ${formatNumber(profile.reputation.mage)}`,
       );
     } catch (error) {
-      console.log(error);
+      errorMessage(error);
       this.send(`/gc [ERROR] ${error}`);
     }
   }
