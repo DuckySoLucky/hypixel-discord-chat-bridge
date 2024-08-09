@@ -4,7 +4,6 @@ module.exports = {
   name: "purge",
   description: "Purge x messages from a channel.",
   moderatorOnly: true,
-  requiresBot: true,
   options: [
     {
       name: "amount",
