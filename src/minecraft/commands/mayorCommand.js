@@ -1,4 +1,5 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const axios = require("axios");
 
 class MayorCommand extends minecraftCommand {
@@ -21,19 +22,18 @@ class MayorCommand extends minecraftCommand {
         throw "Request to Hypixel API failed. Please try again!";
       }
 
-      if (data.current.candidates.length === 0) {
-        this.send(
-          `/gc [MAYOR] ${data.mayor.name} is the current mayor of Skyblock! Perks: ${data.mayor.perks
-            .map((perk) => perk.name)
-            .join(", ")}`,
-        );
-      } else {
-        const currentLeader = data.current.candidates.sort((a, b) => b.votes - a.votes)[0];
-        this.send(
-          `/gc [MAYOR] ${data.mayor.name} is the current mayor of Skyblock! Perks: ${data.mayor.perks
-            .map((perk) => perk.name)
-            .join(", ")} | Current Election: ${currentLeader.name}`,
-        );
+      this.send(
+        `/gc [MAYOR] ${data.mayor.name} is the current mayor of Skyblock! Perks: ${data.mayor.perks
+          .map((perk) => perk.name)
+          .join(", ")}, ${data.mayor.minister.perk[0].name}`,
+      );
+      await delay(500);
+      if (data.current.candidates.length > 0) {
+        const currentLeader = data.current.candidates.sort((a, b) => (b.votes || 0) - (a.votes || 0))[0];
+        if (!currentLeader) return;
+        const totalVotes = data.current.candidates.reduce((total, candidate) => total + (candidate.votes || 0), 0);
+        const percentage = ((currentLeader.votes || 0) / totalVotes) * 100;
+        this.send(`/gc [MAYOR] Current Election: ${currentLeader.name} has ${percentage.toFixed(2)}% of the votes.`);
       }
     } catch (error) {
       this.send(`/gc [ERROR] ${error}`);
