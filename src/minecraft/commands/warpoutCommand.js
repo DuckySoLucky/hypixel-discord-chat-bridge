@@ -33,7 +33,7 @@ class warpoutCommand extends minecraftCommand {
         if (message.includes("You cannot invite that player since they're not online.")) {
           bot.removeListener("message", warpoutListener);
           this.isOnCooldown = false;
-          this.send(`/gc ${user} is online!`);
+          this.send(`/gc ${user} is offline!`);
         } else if (message.includes("You cannot invite that player!")) {
           bot.removeListener("message", warpoutListener);
           this.isOnCooldown = false;
