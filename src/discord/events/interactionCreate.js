@@ -15,23 +15,23 @@ module.exports = {
   async execute(interaction) {
     try {
       if (interaction.isChatInputCommand()) {
+        const command = interaction.client.commands.get(interaction.commandName);
+        if (command === undefined) {
+          return;
+        }
+
+        Logger.discordMessage(`${interaction.user.username} - [${interaction.commandName}]`);
+
         const memberRoles = interaction.member.roles.cache.map((role) => role.id);
         await interaction.deferReply({ ephemeral: false }).catch(() => {});
         if (memberRoles.some((role) => config.discord.commands.blacklistRoles.includes(role))) {
           throw new HypixelDiscordChatBridgeError("You are blacklisted from the bot.");
         }
 
-        const command = interaction.client.commands.get(interaction.commandName);
-        if (command === undefined) {
-          return;
-        }
-        
-        Logger.discordMessage(`${interaction.user.username} - [${interaction.commandName}]`);
-
         if (command.verificationCommand === true && config.verification.enabled === false) {
           throw new HypixelDiscordChatBridgeError("Verification is disabled.");
         }
-        
+
         if (command.giveawayCommand === true && config.giveaway.enabled === false) {
           throw new HypixelDiscordChatBridgeError("Giveaways are disabled.");
         }
@@ -72,6 +72,22 @@ module.exports = {
             });
           }
 
+          const memberRoles = interaction.member.roles.cache.map((role) => role.id);
+          if (memberRoles.includes(giveaway.bannedRole)) {
+            return await interaction.followUp({
+              content:
+                "You are banned form entering giveaways. If you think this is a mistake, please contact the staff.",
+            });
+          }
+
+          if (!memberRoles.includes(giveaway.bypassRole)) {
+            if (!memberRoles.includes(giveaway.requiredRole)) {
+              return await interaction.followUp({
+                content: `You do not have <@&${giveaway.requiredRole}> role to enter this giveaway.`,
+              });
+            }
+          }
+
           giveaway.users.push({ id: interaction.user.id, winner: false, claimed: false });
 
           const giveawayEmbed = new EmbedBuilder()
@@ -107,18 +123,16 @@ module.exports = {
               iconURL: "https://i.imgur.com/uUuZx2E.png",
             });
 
-          if (giveaway.requiredRoles.length > 0) {
-            const memberRoles = interaction.member.roles.cache.map((role) => role.id);
-            giveawayEmbed.addFields({
-              name: "Required Roles (any)",
-              value: giveaway.requiredRoles.map((role) => `<@&${role}>`).join(", "),
-            });
+          if (giveaway.requiredRole !== null) {
+            giveawayEmbed.addFields({ name: "Required Role", value: `<@&${giveaway.requiredRole}>` });
+          }
 
-            if (!giveaway.requiredRoles.some((role) => memberRoles.includes(role))) {
-              return await interaction.followUp({
-                content: "You don't have the required roles to enter this giveaway.",
-              });
-            }
+          if (giveaway.bypassRole !== null) {
+            giveawayEmbed.addFields({ name: "Bypass Role", value: `<@&${giveaway.bypassRole}>` });
+          }
+
+          if (giveaway.bannedRole !== null) {
+            giveawayEmbed.addFields({ name: "Banned Role", value: `<@&${giveaway.bannedRole}>` });
           }
 
           const message = await interaction.guild.channels.cache.get(giveaway.channel).messages.fetch(giveaway.id);
@@ -139,7 +153,7 @@ module.exports = {
           }
 
           giveaway.users.splice(userIndex, 1);
-          const giveawayEmbed = new EmbedBuilder()
+          const embed = new EmbedBuilder()
             .setColor(3447003)
             .setTitle("Giveaway")
             .addFields(
@@ -172,14 +186,19 @@ module.exports = {
               iconURL: "https://i.imgur.com/uUuZx2E.png",
             });
 
-          if (giveaway.requiredRoles.length > 0) {
-            giveawayEmbed.addFields({
-              name: "Required Roles (any)",
-              value: giveaway.requiredRoles.map((role) => `<@&${role}>`).join(", "),
-            });
+          if (giveaway.requiredRole !== null) {
+            embed.addFields({ name: "Required Role", value: `<@&${giveaway.requiredRole}>` });
+          }
+
+          if (giveaway.bypassRole !== null) {
+            embed.addFields({ name: "Bypass Role", value: `<@&${giveaway.bypassRole}>` });
+          }
+
+          if (giveaway.bannedRole !== null) {
+            embed.addFields({ name: "Banned Role", value: `<@&${giveaway.bannedRole}>` });
           }
           const message = await interaction.guild.channels.cache.get(giveaway.channel).messages.fetch(giveaway.id);
-          await message.edit({ embeds: [giveawayEmbed] });
+          await message.edit({ embeds: [embed] });
           writeFileSync("data/giveaways.json", JSON.stringify(giveawayData, null, 2));
           return await interaction.editReply({ content: "You have successfully left the giveaway." });
         }

@@ -8,7 +8,7 @@ class CommandHandler {
   constructor(discord) {
     this.discord = discord;
 
-    let commands = [];
+    const commands = [];
     const commandFiles = fs.readdirSync("src/discord/commands").filter((file) => file.endsWith(".js"));
 
     for (const file of commandFiles) {
@@ -16,12 +16,11 @@ class CommandHandler {
       if (command.verificationCommand === true && config.verification.enabled === false) {
         continue;
       }
+      if (command.giveawayCommand === true && config.giveaway.enabled === false) {
+        continue;
+      }
 
       commands.push(command);
-    }
-
-    if (config.giveaway.enabled === false) {
-      commands = commands.filter((command) => !command.giveawayCommand);
     }
 
     const rest = new REST({ version: "10" }).setToken(config.discord.bot.token);

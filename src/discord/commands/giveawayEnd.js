@@ -5,7 +5,7 @@ module.exports = {
   name: "giveaway-end",
   description: "Create a giveaway",
   moderatorOnly: true,
-  defer: true,
+  giveawayCommand: true,
   options: [
     {
       name: "id",
@@ -69,12 +69,16 @@ module.exports = {
         text: `by @kathund. | /help [command] for more information`,
         iconURL: "https://i.imgur.com/uUuZx2E.png",
       });
+    if (giveaway.requiredRole !== null) {
+      giveawayEmbed.addFields({ name: "Required Role", value: `<@&${giveaway.requiredRole}>` });
+    }
 
-    if (giveaway.requiredRoles.length > 0) {
-      giveawayEmbed.addFields({
-        name: "Required Roles (any)",
-        value: giveaway.requiredRoles.map((role) => `<@&${role}>`).join(", "),
-      });
+    if (giveaway.bypassRole !== null) {
+      giveawayEmbed.addFields({ name: "Bypass Role", value: `<@&${giveaway.bypassRole}>` });
+    }
+
+    if (giveaway.bannedRole !== null) {
+      giveawayEmbed.addFields({ name: "Banned Role", value: `<@&${giveaway.bannedRole}>` });
     }
 
     giveaway.ended = true;
@@ -86,19 +90,8 @@ module.exports = {
         .setCustomId(`g.e.${giveaway.id}`)
         .setStyle(ButtonStyle.Secondary)
         .setDisabled(true),
-      new ButtonBuilder()
-        .setLabel("Edit")
-        .setCustomId(`g.edit.${giveaway.id}`)
-        .setStyle(ButtonStyle.Primary)
-        .setDisabled(true),
-      new ButtonBuilder()
-        .setLabel("Claim Giveaway")
-        .setCustomId(`t.o.g.${giveaway.id}`)
-        .setStyle(ButtonStyle.Success)
-        .setDisabled(false),
     );
     message.edit({ embeds: [giveawayEmbed], components: [row] });
-
     await interaction.followUp({ content: "Giveaway Ended!" });
   },
 };

@@ -46,8 +46,14 @@ module.exports = {
       required: false,
     },
     {
-      name: "required-role-2",
-      description: "Whether the user should have a specific role to enter",
+      name: "bypass-role",
+      description: "Role that will bypass all requirements",
+      type: 8,
+      required: false,
+    },
+    {
+      name: "banned-role",
+      description: "Role that is blocked from entering",
       type: 8,
       required: false,
     },
@@ -60,7 +66,8 @@ module.exports = {
     const host = interaction.options.getUser("host") || interaction.user;
     const channel = interaction.options.getChannel("channel") || interaction.channel;
     const requiredRole = interaction.options.getRole("required-role") || null;
-    const requiredRole2 = interaction.options.getRole("required-role-2") || null;
+    const bypassRole = interaction.options.getRole("bypass-role") || null;
+    const bannedRole = interaction.options.getRole("banned-role") || null;
 
     const endTimestamp = Math.floor((Date.now() + ms(duration)) / 1000);
     const giveawayEmbed = new EmbedBuilder()
@@ -96,12 +103,9 @@ module.exports = {
         iconURL: "https://i.imgur.com/uUuZx2E.png",
       });
 
-    const requiredRoles = [];
-    if (requiredRole !== null) requiredRoles.push(requiredRole.id);
-    if (requiredRole2 !== null) requiredRoles.push(requiredRole2.id);
-    if (requiredRoles.length > 0) {
-      giveawayEmbed.addFields({ name: "Required Roles", value: requiredRoles.map((role) => `<@&${role}>`).join(", ") });
-    }
+    if (requiredRole !== null) giveawayEmbed.addFields({ name: "Required Role", value: `<@&${requiredRole.id}>` });
+    if (bypassRole !== null) giveawayEmbed.addFields({ name: "Bypass Role", value: `<@&${bypassRole.id}>` });
+    if (bannedRole !== null) giveawayEmbed.addFields({ name: "Banned Role", value: `<@&${bannedRole.id}>` });
 
     const giveawayData = JSON.parse(readFileSync("data/giveaways.json", "utf-8"));
     const giveaway = await channel.send({ embeds: [giveawayEmbed] });
@@ -114,7 +118,9 @@ module.exports = {
       id: giveaway.id,
       users: [],
       ended: false,
-      requiredRoles,
+      requiredRole: requiredRole !== null ? requiredRole.id : null,
+      bypassRole: bypassRole !== null ? bypassRole.id : null,
+      bannedRole: bannedRole !== null ? bannedRole.id : null,
     });
 
     writeFileSync("data/giveaways.json", JSON.stringify(giveawayData, null, 2));
