@@ -92,7 +92,7 @@ module.exports = {
         throw new HypixelDiscordChatBridgeError("The update command does not exist. Please contact an administrator.");
       }
 
-      await updateRolesCommand.execute(interaction);
+      await updateRolesCommand.execute(interaction, user);
     } catch (error) {
       console.log(error);
       // eslint-disable-next-line no-ex-assign
