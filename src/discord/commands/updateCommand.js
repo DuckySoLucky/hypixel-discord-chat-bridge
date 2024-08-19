@@ -27,6 +27,7 @@ module.exports = {
 
       if (user !== undefined) {
         interaction.user = user;
+        interaction.member = await guild.members.fetch(interaction.user.id);
       }
 
       if (!interaction.member) {
