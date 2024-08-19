@@ -48,7 +48,7 @@ module.exports = {
           }
 
           if (interaction.member.roles.cache.has(role)) {
-            interaction.member.roles.remove(role, "Updated Roles");
+            await interaction.member.roles.remove(role, "Updated Roles");
           }
         }
 
@@ -58,7 +58,7 @@ module.exports = {
       }
 
       if (!interaction.member.roles.cache.has(config.verification.verifiedRole)) {
-        interaction.member.roles.add(config.verification.verifiedRole, "Updated Roles");
+        await interaction.member.roles.add(config.verification.verifiedRole, "Updated Roles");
       }
 
       const [hypixelGuild, player] = await Promise.all([
@@ -72,29 +72,29 @@ module.exports = {
 
       const guildMember = hypixelGuild.members.find((m) => m.uuid === uuid);
       if (guildMember) {
-        interaction.member.roles.add(config.verification.guildMemberRole, "Updated Roles");
+        await interaction.member.roles.add(config.verification.guildMemberRole, "Updated Roles");
 
         if (config.verification.ranks.length > 0 && guildMember.rank) {
           const rank = config.verification.ranks.find((r) => r.name.toLowerCase() == guildMember.rank.toLowerCase());
           if (rank) {
             for (const role of config.verification.ranks) {
               if (interaction.member.roles.cache.has(role.role)) {
-                interaction.member.roles.remove(role.role, "Updated Roles");
+                await interaction.member.roles.remove(role.role, "Updated Roles");
               }
             }
 
-            interaction.member.roles.add(rank.role, "Updated Roles");
+            await interaction.member.roles.add(rank.role, "Updated Roles");
           }
         }
       } else {
         if (interaction.member.roles.cache.has(config.verification.guildMemberRole)) {
-          interaction.member.roles.remove(config.verification.guildMemberRole, "Updated Roles");
+          await interaction.member.roles.remove(config.verification.guildMemberRole, "Updated Roles");
         }
 
         if (config.verification.ranks.length > 0) {
           for (const role of config.verification.ranks) {
             if (interaction.member.roles.cache.has(role.role)) {
-              interaction.member.roles.remove(role.role, "Updated Roles");
+              await interaction.member.roles.remove(role.role, "Updated Roles");
             }
           }
         }
