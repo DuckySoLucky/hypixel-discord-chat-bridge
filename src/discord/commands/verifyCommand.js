@@ -62,7 +62,7 @@ module.exports = {
         throw new HypixelDiscordChatBridgeError("This player does not have a Discord linked.");
       }
 
-      if (discordUsername !== interaction.user.username && bypassChecks !== true) {
+      if (discordUsername != interaction.user.username && bypassChecks !== true) {
         throw new HypixelDiscordChatBridgeError(
           `The player '${nickname}' has linked their Discord account to a different account ('${discordUsername}').`,
         );
