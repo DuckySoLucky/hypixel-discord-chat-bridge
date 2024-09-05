@@ -88,7 +88,7 @@ class warpoutCommand extends minecraftCommand {
         } else if (message.includes("You cannot party yourself!")) {
           bot.removeListener("message", warpoutListener);
           this.isOnCooldown = false;
-          this.send(`/gc I cannot party yourself!`);
+          this.send(`/gc I cannot party myself!`);
         } else if (message.includes("didn't warp correctly!")) {
           bot.removeListener("message", warpoutListener);
           this.isOnCooldown = false;
