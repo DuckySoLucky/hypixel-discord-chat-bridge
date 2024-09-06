@@ -25,7 +25,8 @@ class RabbitCommand extends minecraftCommand {
         throw "An error occured while fetching the image. Please try again later.";
       }
 
-      this.send(`Funny rabbit: ${data.url}`, officer);
+      imgurUrl = data.url;
+      this.send("/gc Funny rabbit: Check Discord Bridge for image.", officer);
     } catch (error) {
       this.send(`[ERROR] ${error ?? "Something went wrong.."}`, officer);
     }

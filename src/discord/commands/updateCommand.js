@@ -27,6 +27,7 @@ module.exports = {
 
       if (user !== undefined) {
         interaction.user = user;
+        interaction.member = await guild.members.fetch(interaction.user.id);
       }
 
       if (!interaction.member) {
@@ -47,7 +48,7 @@ module.exports = {
           }
 
           if (interaction.member.roles.cache.has(role)) {
-            interaction.member.roles.remove(role, "Updated Roles");
+            await interaction.member.roles.remove(role, "Updated Roles");
           }
         }
 
@@ -57,7 +58,7 @@ module.exports = {
       }
 
       if (!interaction.member.roles.cache.has(config.verification.verifiedRole)) {
-        interaction.member.roles.add(config.verification.verifiedRole, "Updated Roles");
+        await interaction.member.roles.add(config.verification.verifiedRole, "Updated Roles");
       }
 
       const [hypixelGuild, player] = await Promise.all([
@@ -71,29 +72,29 @@ module.exports = {
 
       const guildMember = hypixelGuild.members.find((m) => m.uuid === uuid);
       if (guildMember) {
-        interaction.member.roles.add(config.verification.guildMemberRole, "Updated Roles");
+        await interaction.member.roles.add(config.verification.guildMemberRole, "Updated Roles");
 
         if (config.verification.ranks.length > 0 && guildMember.rank) {
           const rank = config.verification.ranks.find((r) => r.name.toLowerCase() == guildMember.rank.toLowerCase());
           if (rank) {
             for (const role of config.verification.ranks) {
               if (interaction.member.roles.cache.has(role.role)) {
-                interaction.member.roles.remove(role.role, "Updated Roles");
+                await interaction.member.roles.remove(role.role, "Updated Roles");
               }
             }
 
-            interaction.member.roles.add(rank.role, "Updated Roles");
+            await interaction.member.roles.add(rank.role, "Updated Roles");
           }
         }
       } else {
         if (interaction.member.roles.cache.has(config.verification.guildMemberRole)) {
-          interaction.member.roles.remove(config.verification.guildMemberRole, "Updated Roles");
+          await interaction.member.roles.remove(config.verification.guildMemberRole, "Updated Roles");
         }
 
         if (config.verification.ranks.length > 0) {
           for (const role of config.verification.ranks) {
             if (interaction.member.roles.cache.has(role.role)) {
-              interaction.member.roles.remove(role.role, "Updated Roles");
+              await interaction.member.roles.remove(role.role, "Updated Roles");
             }
           }
         }
@@ -130,14 +131,14 @@ module.exports = {
           skywarsWLRatio: player.stats.skywars.WLRatio,
           skywarsPlayedGames: player.stats.skywars.playedGames,
 
-          duelsTitle: player.stats.duels.division,
-          duelsKills: player.stats.duels.kills,
-          duelsDeaths: player.stats.duels.deaths,
-          duelsKDRatio: player.stats.duels.KDRatio,
-          duelsWins: player.stats.duels.wins,
-          duelsLosses: player.stats.duels.losses,
-          duelsWLRatio: player.stats.duels.WLRatio,
-          duelsPlayedGames: player.stats.duels.playedGames,
+          duelsTitle: player.stats?.duels?.division || 0,
+          duelsKills: player.stats?.duels?.kills || 0,
+          duelsDeaths: player.stats?.duels?.deaths || 0,
+          duelsKDRatio: player.stats?.duels?.KDRatio || 0,
+          duelsWins: player.stats?.duels?.wins || 0,
+          duelsLosses: player.stats?.duels?.losses || 0,
+          duelsWLRatio: player.stats?.duels?.WLRatio || 0,
+          duelsPlayedGames: player.stats?.duels?.playedGames || 0,
 
           level: player.level,
           rank: player.rank,

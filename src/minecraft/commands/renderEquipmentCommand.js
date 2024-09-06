@@ -54,7 +54,8 @@ class EquipmentCommand extends minecraftCommand {
         response += response.split(" | ").length == 4 ? link : `${link} | `;
       }
 
-      this.send(`${username}'s Equipment: ${response}`, officer);
+      imgurUrl = response;
+      this.send(`/gc ${username}'s Equipment: Check Discord Bridge for image.`, officer);
     } catch (error) {
       this.send(`[ERROR] ${error}`, officer);
     }
