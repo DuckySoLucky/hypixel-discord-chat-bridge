@@ -62,7 +62,7 @@ module.exports = {
         throw new HypixelDiscordChatBridgeError("This player does not have a Discord linked.");
       }
 
-      if (discordUsername !== interaction.user.username && bypassChecks !== true) {
+      if (discordUsername?.toLowerCase() != interaction.user.username && bypassChecks !== true) {
         throw new HypixelDiscordChatBridgeError(
           `The player '${nickname}' has linked their Discord account to a different account ('${discordUsername}').`,
         );
@@ -92,7 +92,7 @@ module.exports = {
         throw new HypixelDiscordChatBridgeError("The update command does not exist. Please contact an administrator.");
       }
 
-      await updateRolesCommand.execute(interaction);
+      await updateRolesCommand.execute(interaction, user);
     } catch (error) {
       console.log(error);
       // eslint-disable-next-line no-ex-assign

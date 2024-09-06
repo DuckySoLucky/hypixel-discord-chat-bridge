@@ -24,8 +24,8 @@ class DuckCommand extends minecraftCommand {
         // eslint-disable-next-line no-throw-literal
         throw "An error occured while fetching the image. Please try again later.";
       }
-
-      this.send(`/gc Funny Duck: ${data.url}`);
+      imgurUrl = data.url;
+      this.send("/gc Funny Duck: Check Discord Bridge for image.");
     } catch (error) {
       this.send(`/gc [ERROR] ${error ?? "Something went wrong.."}`);
     }
