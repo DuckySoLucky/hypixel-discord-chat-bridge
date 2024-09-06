@@ -3,7 +3,7 @@ const { SuccessEmbed } = require("../../contracts/embedHandler.js");
 
 module.exports = {
   name: "blacklist",
-  description: "Demotes the given user by one guild rank.",
+  description: "Ignore add or remove the given user.",
   moderatorOnly: true,
   requiresBot: true,
   options: [

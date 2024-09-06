@@ -59,7 +59,8 @@ class ArmorCommand extends minecraftCommand {
         response += response.split(" | ").length == 4 ? link : `${link} | `;
       }
 
-      this.send(`/gc ${username}'s Armor: ${response}`);
+      imgurUrl = response;
+      this.send(`/gc ${username}'s Armor: Check Discord Bridge for image.`);
     } catch (error) {
       this.send(`/gc [ERROR] ${error}`);
     }
