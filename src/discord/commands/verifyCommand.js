@@ -133,7 +133,7 @@ module.exports = {
             iconURL: "https://i.imgur.com/uUuZx2E.png",
           });
 
-        await interaction.followUp({ embeds: [verificationTutorialEmbed], ephemeral: true  });
+        await interaction.followUp({ embeds: [verificationTutorialEmbed], ephemeral: true });
       }
     }
   },

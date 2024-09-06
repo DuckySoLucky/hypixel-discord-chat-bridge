@@ -25,7 +25,7 @@ class SlayersCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  async onCommand(username, message, officer) {
     try {
       const args = this.getArgs(message);
       const slayer = [
@@ -54,9 +54,10 @@ class SlayersCommand extends minecraftCommand {
 
       if (slayerType) {
         this.send(
-          `/gc ${username}'s ${capitalize(slayerType)} - ${
+          `${username}'s ${capitalize(slayerType)} - ${
             profile[slayerType].level
           } Levels | Experience: ${formatNumber(profile[slayerType].xp)}`,
+          officer,
         );
       } else {
         const slayer = Object.keys(profile).reduce(
@@ -64,10 +65,10 @@ class SlayersCommand extends minecraftCommand {
             `${acc} | ${capitalize(slayer)}: ${profile[slayer].level} (${formatNumber(profile[slayer].xp)})`,
           "",
         );
-        this.send(`/gc ${username}'s Slayer: ${slayer.slice(3)}`);
+        this.send(`${username}'s Slayer: ${slayer.slice(3)}`, officer);
       }
     } catch (error) {
-      this.send(`/gc [ERROR] ${error}`);
+      this.send(`[ERROR] ${error}`, officer);
     }
   }
 }

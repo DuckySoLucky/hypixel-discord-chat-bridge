@@ -11,7 +11,7 @@ class RabbitCommand extends minecraftCommand {
     this.options = [];
   }
 
-  async onCommand(username, message) {
+  async onCommand(username, message, officer) {
     // CREDITS: by @Kathund (https://github.com/Kathund)
     try {
       const { data, status } = await axios.get("https://imgs.kath.lol/rabbit");
@@ -24,10 +24,11 @@ class RabbitCommand extends minecraftCommand {
         // eslint-disable-next-line no-throw-literal
         throw "An error occured while fetching the image. Please try again later.";
       }
+
       imgurUrl = data.url;
-      this.send("/gc Funny rabbit: Check Discord Bridge for image.");
+      this.send("/gc Funny rabbit: Check Discord Bridge for image.", officer);
     } catch (error) {
-      this.send(`/gc [ERROR] ${error ?? "Something went wrong.."}`);
+      this.send(`[ERROR] ${error ?? "Something went wrong.."}`, officer);
     }
   }
 }
