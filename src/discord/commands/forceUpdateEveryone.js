@@ -33,7 +33,7 @@ module.exports = {
           .setTitle("Updating Users")
           .setDescription(`Progress: 0 / ${Object.keys(linked).length} (\`0%\`)`)
           .setFooter({
-            text: `by @kathund. | /help [command] for more information`,
+            text: `by @.kathund | /help [command] for more information`,
             iconURL: "https://i.imgur.com/uUuZx2E.png",
           });
 
@@ -59,7 +59,7 @@ module.exports = {
             `Progress: ${Object.keys(linked).indexOf(id)} / ${Object.keys(linked).length} (\`${((Object.keys(linked).indexOf(id) / Object.keys(linked).length) * 100).toFixed(2)}%\`)`,
           )
           .setFooter({
-            text: `by @kathund. | /help [command] for more information`,
+            text: `by @.kathund | /help [command] for more information`,
             iconURL: "https://i.imgur.com/uUuZx2E.png",
           });
 
@@ -81,7 +81,7 @@ module.exports = {
           .setTitle("Users Updated")
           .setDescription(description.join("\n"))
           .setFooter({
-            text: `by @kathund. | /help [command] for more information`,
+            text: `by @.kathund | /help [command] for more information`,
             iconURL: "https://i.imgur.com/uUuZx2E.png",
           });
 
@@ -93,7 +93,7 @@ module.exports = {
         .setAuthor({ name: "An Error has occurred" })
         .setDescription(`\`\`\`${error}\`\`\``)
         .setFooter({
-          text: `by @kathund. | /help [command] for more information`,
+          text: `by @.kathund | /help [command] for more information`,
           iconURL: "https://i.imgur.com/uUuZx2E.png",
         });
 
