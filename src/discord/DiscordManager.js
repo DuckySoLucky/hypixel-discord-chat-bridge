@@ -7,7 +7,6 @@ const StateHandler = require("./handlers/StateHandler.js");
 const CommandHandler = require("./CommandHandler.js");
 const config = require("../../config.json");
 const Logger = require(".././Logger.js");
-const path = require("node:path");
 const fs = require("fs");
 
 class DiscordManager extends CommunicationBridge {
@@ -24,7 +23,12 @@ class DiscordManager extends CommunicationBridge {
   connect() {
     global.imgurUrl = "";
     global.client = new Client({
-      intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent],
+      intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent,
+        GatewayIntentBits.GuildMembers,
+      ],
     });
 
     this.client = client;
@@ -48,12 +52,9 @@ class DiscordManager extends CommunicationBridge {
       client.commands.set(command.name, command);
     }
 
-    const eventsPath = path.join(__dirname, "events");
-    const eventFiles = fs.readdirSync(eventsPath).filter((file) => file.endsWith(".js"));
-
+    const eventFiles = fs.readdirSync("src/discord/events").filter((file) => file.endsWith(".js"));
     for (const file of eventFiles) {
-      const filePath = path.join(eventsPath, file);
-      const event = require(filePath);
+      const event = require(`./events/${file}`);
       event.once
         ? client.once(event.name, (...args) => event.execute(...args))
         : client.on(event.name, (...args) => event.execute(...args));
