@@ -2,6 +2,7 @@ const { formatUsername, formatNumber } = require("../../contracts/helperFunction
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const getCrimson = require("../../../API/stats/crimson.js");
+const { errorMessage } = require("../../Logger.js");
 
 class DojoCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -35,17 +36,17 @@ class DojoCommand extends minecraftCommand {
 
       this.send(
         `/gc ${username}'s Belt: ${profile.dojo.belt} | Best Force: ${formatNumber(
-          profile.dojo.force.points
+          profile.dojo.force.points,
         )} | Best Stamina: ${formatNumber(profile.dojo.stamina.points)} | Best Mastery: ${formatNumber(
-          profile.dojo.mastery.points
+          profile.dojo.mastery.points,
         )} | Best Discipline: ${formatNumber(profile.dojo.discipline.points)} | Best Swiftness: ${formatNumber(
-          profile.dojo.swiftness.points
+          profile.dojo.swiftness.points,
         )} | Best Control: ${formatNumber(profile.dojo.control.points)} | Best Tenacity: ${formatNumber(
-          profile.dojo.tenacity.points
-        )}`
+          profile.dojo.tenacity.points,
+        )}`,
       );
     } catch (error) {
-      console.log(error);
+      errorMessage(error);
       this.send(`/gc [ERROR] ${error}`);
     }
   }
