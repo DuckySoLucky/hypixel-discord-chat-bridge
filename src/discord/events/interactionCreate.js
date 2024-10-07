@@ -30,6 +30,10 @@ module.exports = {
           throw new HypixelDiscordChatBridgeError("Verification is disabled.");
         }
 
+        if (command.channelsCommand === true && config.statsChannels.enabled === false) {
+          throw new HypixelDiscordChatBridgeError("Channel Stats is disabled.");
+        }
+
         if (command.moderatorOnly === true && isModerator(interaction) === false) {
           throw new HypixelDiscordChatBridgeError("You don't have permission to use this command.");
         }
