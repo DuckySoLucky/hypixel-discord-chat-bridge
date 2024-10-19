@@ -9,9 +9,10 @@ const { readFileSync } = require("fs");
 module.exports = {
   name: "update",
   verificationCommand: true,
+  requiresBot: true,
   description: "Update your current roles",
 
-  execute: async (interaction, user) => {
+  execute: async (interaction, user = undefined, unverify = false) => {
     try {
       const linkedData = readFileSync("data/linked.json");
       if (!linkedData) {
@@ -39,11 +40,15 @@ module.exports = {
         const roles = [
           config.verification.verifiedRole,
           config.verification.guildMemberRole,
-          ...config.verification.ranks.map((r) => r.role),
+          ...config.verification.ranks.flatMap((r) => r.roles),
         ];
 
         for (const role of roles) {
           if (role === config.verification.verifiedRole && config.verification.removeVerificationRole === false) {
+            continue;
+          }
+
+          if (role === config.verification.unverifiedRole) {
             continue;
           }
 
@@ -52,9 +57,14 @@ module.exports = {
           }
         }
 
+        if (!interaction.member.roles.cache.has(config.verification.unverifiedRole)) {
+          await interaction.member.roles.add(config.verification.unverifiedRole, "Updated Roles");
+        }
+
         interaction.member.setNickname(null, "Updated Roles");
 
-        throw new HypixelDiscordChatBridgeError("You are not linked to a Minecraft account.");
+        if (unverify === false) throw new HypixelDiscordChatBridgeError("You are not linked to a Minecraft account.");
+        return;
       }
 
       if (!interaction.member.roles.cache.has(config.verification.verifiedRole)) {
@@ -77,13 +87,17 @@ module.exports = {
         if (config.verification.ranks.length > 0 && guildMember.rank) {
           const rank = config.verification.ranks.find((r) => r.name.toLowerCase() == guildMember.rank.toLowerCase());
           if (rank) {
-            for (const role of config.verification.ranks) {
-              if (interaction.member.roles.cache.has(role.role)) {
-                await interaction.member.roles.remove(role.role, "Updated Roles");
+            for (const rankRole of config.verification.ranks) {
+              for (const role of rankRole.roles) {
+                if (interaction.member.roles.cache.has(role)) {
+                  await interaction.member.roles.remove(role, "Updated Roles");
+                }
               }
             }
 
-            await interaction.member.roles.add(rank.role, "Updated Roles");
+            for (const role of rank.roles) {
+              await interaction.member.roles.add(role, "Updated Roles");
+            }
           }
         }
       } else {
