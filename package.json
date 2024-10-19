@@ -4,6 +4,7 @@
   "description": "A Hypixel guild chat and Discord chat bridge",
   "main": "index.js",
   "scripts": {
+    "setup": "node setup.mjs",
     "start": "node index.js",
     "test": "jest --detectOpenHandles --forceExit",
     "lint": "npx eslint .",
@@ -42,6 +43,7 @@
     "fs-promise": "^2.0.3",
     "hypixel-api-reborn": "^11.0.1",
     "imgur": "^2.2.0",
+    "inquirer": "^9.3.4",
     "lilyweight": "^2.7.0",
     "lodash": "^4.17.21",
     "mineflayer": "^4.8.1",
