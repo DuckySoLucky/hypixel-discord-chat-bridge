@@ -33,7 +33,7 @@ module.exports = {
 
       const updateRole = new SuccessEmbed(
         `You have successfully unlinked \`${await getUsername(uuid)}\`. Run \`/verify\` to link a new account.`,
-        { text: `by @kathund. | /help [command] for more information`, iconURL: "https://i.imgur.com/uUuZx2E.png" },
+        { text: `by @.kathund | /help [command] for more information`, iconURL: "https://i.imgur.com/uUuZx2E.png" },
       );
       await interaction.followUp({ embeds: [updateRole] });
     } catch (error) {
@@ -42,7 +42,7 @@ module.exports = {
         .setAuthor({ name: "An Error has occurred" })
         .setDescription(`\`\`\`${error}\`\`\``)
         .setFooter({
-          text: `by @kathund. | /help [command] for more information`,
+          text: `by @.kathund | /help [command] for more information`,
           iconURL: "https://i.imgur.com/uUuZx2E.png",
         });
 

@@ -52,7 +52,7 @@ module.exports = {
 
         const username = await getUsername(uuid);
         const embed = new SuccessEmbed(`<@${user.id}> is linked to \`${username}\` (\`${uuid}\`).`, {
-          text: `by @kathund. | /help [command] for more information`,
+          text: `by @.kathund | /help [command] for more information`,
           iconURL: "https://i.imgur.com/uUuZx2E.png",
         });
         await interaction.followUp({ embeds: [embed], ephemeral: true });
@@ -68,7 +68,7 @@ module.exports = {
         }
 
         const embed = new SuccessEmbed(`\`${name}\` (\`${uuid}\`) is linked to <@${discordID}>.`, {
-          text: `by @kathund. | /help [command] for more information`,
+          text: `by @.kathund | /help [command] for more information`,
           iconURL: "https://i.imgur.com/uUuZx2E.png",
         });
 
@@ -82,7 +82,7 @@ module.exports = {
         .setAuthor({ name: "An Error has occurred" })
         .setDescription(`\`\`\`${error}\`\`\``)
         .setFooter({
-          text: `by @kathund. | /help [command] for more information`,
+          text: `by @.kathund | /help [command] for more information`,
           iconURL: "https://i.imgur.com/uUuZx2E.png",
         });
 

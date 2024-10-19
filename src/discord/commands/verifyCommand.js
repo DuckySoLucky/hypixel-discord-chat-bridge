@@ -82,7 +82,7 @@ module.exports = {
         .setAuthor({ name: "Successfully linked!" })
         .setDescription(`${user ? `<@${user.id}>'s` : "Your"} account has been successfully linked to \`${nickname}\``)
         .setFooter({
-          text: `by @kathund. | /help [command] for more information`,
+          text: `by @.kathund | /help [command] for more information`,
           iconURL: "https://i.imgur.com/uUuZx2E.png",
         });
 
@@ -110,7 +110,7 @@ module.exports = {
         .setAuthor({ name: "An Error has occurred" })
         .setDescription(`\`\`\`${error}\`\`\``)
         .setFooter({
-          text: `by @kathund. | /help [command] for more information`,
+          text: `by @.kathund | /help [command] for more information`,
           iconURL: "https://i.imgur.com/uUuZx2E.png",
         });
 
@@ -130,7 +130,7 @@ module.exports = {
           )
           .setImage("https://media.discordapp.net/attachments/922202066653417512/1066476136953036800/tutorial.gif")
           .setFooter({
-            text: `by @kathund. | /help [command] for more information`,
+            text: `by @.kathund | /help [command] for more information`,
             iconURL: "https://i.imgur.com/uUuZx2E.png",
           });
 
