@@ -158,7 +158,7 @@ module.exports = {
 
       const updateRole = new SuccessEmbed(
         `<@${interaction.user.id}>'s roles have been successfully synced with \`${player.nickname ?? "Unknown"}\`!`,
-        { text: `by @kathund. | /help [command] for more information`, iconURL: "https://i.imgur.com/uUuZx2E.png" },
+        { text: `by @.kathund | /help [command] for more information`, iconURL: "https://i.imgur.com/uUuZx2E.png" },
       );
 
       await interaction.followUp({ embeds: [updateRole], ephemeral: true });
@@ -168,7 +168,7 @@ module.exports = {
         .setAuthor({ name: "An Error has occurred" })
         .setDescription(`\`\`\`${error}\`\`\``)
         .setFooter({
-          text: `by @kathund. | /help [command] for more information`,
+          text: `by @.kathund | /help [command] for more information`,
           iconURL: "https://i.imgur.com/uUuZx2E.png",
         });
 
