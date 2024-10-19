@@ -1,3 +1,4 @@
+const { errorMessage } = require("../../Logger.js");
 const config = require("../../../config.json");
 const cheerio = require("cheerio");
 const Rss = require("rss-parser");
@@ -50,7 +51,7 @@ async function checkForIncidents() {
       }
     }
   } catch (error) {
-    console.log(error);
+    errorMessage(error);
   }
 }
 
@@ -91,7 +92,7 @@ async function checkForHypixelUpdates(firstTime = false) {
       }
     }
   } catch (error) {
-    console.log(error);
+    errorMessage(error);
   }
 }
 
@@ -112,6 +113,6 @@ async function checkForSkyblockVersion() {
       skyblockVersion = data.version;
     }
   } catch (error) {
-    console.log(error);
+    errorMessage(error);
   }
 }

@@ -2,6 +2,7 @@ const { formatUsername, formatNumber } = require("../../contracts/helperFunction
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const getCrimson = require("../../../API/stats/crimson.js");
+const { errorMessage } = require("../../Logger.js");
 
 class TrophyFishCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -35,15 +36,15 @@ class TrophyFishCommand extends minecraftCommand {
 
       this.send(
         `/gc ${username}'s Trophy Fishing rank: ${profile.trophyFishing.rank} | Total Caught: ${formatNumber(
-          profile.trophyFishing.caught.total
+          profile.trophyFishing.caught.total,
         )} | Total Bronze: ${formatNumber(profile.trophyFishing.caught.bronze)} / 18 | Total Silver: ${formatNumber(
-          profile.trophyFishing.caught.silver
+          profile.trophyFishing.caught.silver,
         )} / 18 | Total Gold: ${formatNumber(profile.trophyFishing.caught.gold)} | Total Diamond: ${formatNumber(
-          profile.trophyFishing.caught.diamond
-        )} / 18`
+          profile.trophyFishing.caught.diamond,
+        )} / 18`,
       );
     } catch (error) {
-      console.log(error);
+      errorMessage(error);
       this.send(`/gc [ERROR] ${error}`);
     }
   }
