@@ -66,7 +66,7 @@ module.exports = async (profile) => {
           output.enriched++;
         }
       }
-      if(profile.rift.access.consumed_prism === true) {
+      if (profile?.rift?.access?.consumed_prism === true) {
         output.magicPower += 11
       }
 
