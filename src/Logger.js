@@ -18,7 +18,7 @@ const discordLogger = createLogger({
     format.timestamp({ format: getCurrentTime }),
     format.printf(({ timestamp, level, message }) => {
       return `[${timestamp}] ${level.toUpperCase()} > ${message}`;
-    })
+    }),
   ),
   transports: [discordTransport, combinedTransport],
 });
@@ -30,7 +30,7 @@ const minecraftLogger = createLogger({
     format.timestamp({ format: getCurrentTime }),
     format.printf(({ timestamp, level, message }) => {
       return `[${timestamp}] ${level.toUpperCase()} > ${message}`;
-    })
+    }),
   ),
   transports: [minecraftTransport, combinedTransport],
 });
@@ -42,7 +42,7 @@ const webLogger = createLogger({
     format.timestamp({ format: getCurrentTime }),
     format.printf(({ timestamp, level, message }) => {
       return `[${timestamp}] ${level.toUpperCase()} > ${message}`;
-    })
+    }),
   ),
   transports: [webTransport, combinedTransport],
 });
@@ -54,7 +54,7 @@ const warnLogger = createLogger({
     format.timestamp({ format: getCurrentTime }),
     format.printf(({ timestamp, level, message }) => {
       return `[${timestamp}] ${level.toUpperCase()} > ${message}`;
-    })
+    }),
   ),
   transports: [warnTransport, combinedTransport],
 });
@@ -66,7 +66,7 @@ const errorLogger = createLogger({
     format.timestamp({ format: getCurrentTime }),
     format.printf(({ timestamp, level, message }) => {
       return `[${timestamp}] ${level.toUpperCase()} > ${message}`;
-    })
+    }),
   ),
   transports: [errorTransport, combinedTransport],
 });
@@ -78,7 +78,7 @@ const broadcastLogger = createLogger({
     format.timestamp({ format: getCurrentTime }),
     format.printf(({ timestamp, level, message }) => {
       return `[${timestamp}] ${level.toUpperCase()} > ${message}`;
-    })
+    }),
   ),
   transports: [broadcastTransport, combinedTransport],
 });
@@ -119,7 +119,7 @@ function errorMessage(message) {
   if (config.other.logToFiles) {
     errorLogger.log("error", message);
   }
-  
+
   return console.log(chalk.bgRedBright.black(`[${getCurrentTime()}] Error >`) + " " + chalk.redBright(message));
 }
 
@@ -156,8 +156,8 @@ async function configUpdateMessage(message) {
   console.log();
   console.log(
     `${chalk.bgRedBright.black(`[${getCurrentTime()}] Config Update >`)} ${chalk.redBright("Added")} ${chalk.gray(
-      message
-    )} ${chalk.redBright("to config.json")}`
+      message,
+    )} ${chalk.redBright("to config.json")}`,
   );
 }
 

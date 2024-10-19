@@ -23,7 +23,7 @@ class PersonalBestCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  async onCommand(username, message, officer) {
     // CREDITS: by @dallincotton06 (https://github.com/dallincotton06)
     try {
       username = this.getArgs(message)[0] || username;
@@ -88,11 +88,11 @@ class PersonalBestCommand extends minecraftCommand {
         // eslint-disable-next-line no-throw-literal
         throw `${username} has no PB on ${floor} ${rank}`;
       } else {
-        this.send(`/gc ${username}'s PB on ${floor} with ${rank} rank is ${millisToMinutesAndSeconds(time)}`);
+        this.send(`${username}'s PB on ${floor} with ${rank} rank is ${millisToMinutesAndSeconds(time)}`, officer);
       }
     } catch (error) {
       console.log(error);
-      this.send(`/gc ERROR: ${error}`);
+      this.send(`ERROR: ${error}`, officer);
     }
   }
 }
