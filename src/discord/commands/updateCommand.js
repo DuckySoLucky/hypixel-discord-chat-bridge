@@ -40,6 +40,7 @@ module.exports = {
           config.verification.verifiedRole,
           config.verification.guildMemberRole,
           ...config.verification.ranks.map((r) => r.role),
+          ...config.verification.levelRoles.map((r) => r.roleId),
         ];
 
         for (const role of roles) {
@@ -100,52 +101,64 @@ module.exports = {
         }
       }
 
+      const stats = {
+        bedwarsStar: player.stats.bedwars.level,
+        bedwarsTokens: player.stats.bedwars.tokens,
+        bedwarsKills: player.stats.bedwars.kills,
+        bedwarsDeaths: player.stats.bedwars.deaths,
+        bedwarsKDRatio: player.stats.bedwars.KDRatio,
+        bedwarsFinalKills: player.stats.bedwars.finalKills,
+        bedwarsFinalDeathss: player.stats.bedwars.finalDeaths,
+        bedwarsFinalKDRatio: player.stats.bedwars.finalKDRatio,
+        bedwarsWins: player.stats.bedwars.wins,
+        bedwarsLosses: player.stats.bedwars.losses,
+        bedwarsWLRatio: player.stats.bedwars.WLRatio,
+        bedwarsBedsBroken: player.stats.bedwars.beds.broken,
+        bedwarsBedsLost: player.stats.bedwars.beds.lost,
+        bedwarsBedsBLRatio: player.stats.bedwars.beds.BLRatio,
+        bedwarsPlayedGames: player.stats.bedwars.playedGames,
+
+        skywarsStar: player.stats.skywars.level,
+        skywarsCoins: player.stats.skywars.coins,
+        skywarsTokens: player.stats.skywars.tokens,
+        skywarsSouls: player.stats.skywars.souls,
+        skywarsOpals: player.stats.skywars.opals,
+        skywarsKills: player.stats.skywars.kills,
+        skywarsDeaths: player.stats.skywars.deaths,
+        skywarsKDRatio: player.stats.skywars.KDRatio,
+        skywarsWins: player.stats.skywars.wins,
+        skywarsLosses: player.stats.skywars.losses,
+        skywarsWLRatio: player.stats.skywars.WLRatio,
+        skywarsPlayedGames: player.stats.skywars.playedGames,
+
+        duelsKills: player.stats?.duels?.kills || 0,
+        duelsDeaths: player.stats?.duels?.deaths || 0,
+        duelsKDRatio: player.stats?.duels?.KDRatio || 0,
+        duelsWins: player.stats?.duels?.wins || 0,
+        duelsLosses: player.stats?.duels?.losses || 0,
+        duelsWLRatio: player.stats?.duels?.WLRatio || 0,
+        duelsPlayedGames: player.stats?.duels?.playedGames || 0,
+
+        level: player.level,
+        rank: player.rank,
+        karma: player.karma,
+        achievementPoints: player.achievementPoints,
+      };
+      if (config.verification.levelRoles.length > 0) {
+        for (const role of config.verification.levelRoles) {
+          if (role.requirement > stats[role.type]) {
+            await interaction.member.roles.add(role.roleId, "Updated Roles");
+          }
+        }
+      }
+
       interaction.member.setNickname(
         replaceVariables(config.verification.name, {
-          bedwarsStar: player.stats.bedwars.level,
-          bedwarsTokens: player.stats.bedwars.tokens,
-          bedwarsKills: player.stats.bedwars.kills,
-          bedwarsDeaths: player.stats.bedwars.deaths,
-          bedwarsKDRatio: player.stats.bedwars.KDRatio,
-          bedwarsFinalKills: player.stats.bedwars.finalKills,
-          bedwarsFinalDeathss: player.stats.bedwars.finalDeaths,
-          bedwarsFinalKDRatio: player.stats.bedwars.finalKDRatio,
-          bedwarsWins: player.stats.bedwars.wins,
-          bedwarsLosses: player.stats.bedwars.losses,
-          bedwarsWLRatio: player.stats.bedwars.WLRatio,
-          bedwarsBedsBroken: player.stats.bedwars.beds.broken,
-          bedwarsBedsLost: player.stats.bedwars.beds.lost,
-          bedwarsBedsBLRatio: player.stats.bedwars.beds.BLRatio,
-          bedwarsPlayedGames: player.stats.bedwars.playedGames,
+          ...stats,
 
-          skywarsStar: player.stats.skywars.level,
-          skywarsCoins: player.stats.skywars.coins,
-          skywarsTokens: player.stats.skywars.tokens,
-          skywarsSouls: player.stats.skywars.souls,
-          skywarsOpals: player.stats.skywars.opals,
-          skywarsKills: player.stats.skywars.kills,
-          skywarsDeaths: player.stats.skywars.deaths,
-          skywarsKDRatio: player.stats.skywars.KDRatio,
-          skywarsWins: player.stats.skywars.wins,
-          skywarsLosses: player.stats.skywars.losses,
-          skywarsWLRatio: player.stats.skywars.WLRatio,
-          skywarsPlayedGames: player.stats.skywars.playedGames,
+          duelsTitle: player.stats?.duels?.division || "",
 
-          duelsTitle: player.stats?.duels?.division || 0,
-          duelsKills: player.stats?.duels?.kills || 0,
-          duelsDeaths: player.stats?.duels?.deaths || 0,
-          duelsKDRatio: player.stats?.duels?.KDRatio || 0,
-          duelsWins: player.stats?.duels?.wins || 0,
-          duelsLosses: player.stats?.duels?.losses || 0,
-          duelsWLRatio: player.stats?.duels?.WLRatio || 0,
-          duelsPlayedGames: player.stats?.duels?.playedGames || 0,
-
-          level: player.level,
-          rank: player.rank,
-          karma: player.karma,
-          achievementPoints: player.achievementPoints,
           username: player.nickname,
-
           guildRank: hypixelGuild.members.find((m) => m.uuid === uuid)?.rank ?? "Unknown",
           guildName: hypixelGuild.name,
         }),
