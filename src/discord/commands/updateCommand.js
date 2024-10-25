@@ -4,9 +4,9 @@ const hypixelRebornAPI = require("../../contracts/API/HypixelRebornAPI.js");
 const { replaceVariables } = require("../../contracts/helperFunctions.js");
 const { SuccessEmbed } = require("../../contracts/embedHandler.js");
 const getDungeons = require("../../../API/stats/dungeons.js");
+const getCrimson = require("../../../API/stats/crimson.js");
 const getSkills = require("../../../API/stats/skills.js");
 const getSlayer = require("../../../API/stats/slayer.js");
-const { getNetworth } = require("skyhelper-networth");
 const { EmbedBuilder } = require("discord.js");
 const config = require("../../../config.json");
 const { readFileSync } = require("fs");
@@ -73,10 +73,11 @@ module.exports = {
         getLatestProfile(uuid).catch(() => null),
       ]);
 
-      const [skills, slayer, dungeons] = await Promise.all([
+      const [skills, slayer, dungeons, crimson] = await Promise.all([
         sbProfile ? getSkills(sbProfile.profile) : null,
         sbProfile ? getSlayer(sbProfile.profile) : null,
         sbProfile ? getDungeons(sbProfile.profile) : null,
+        sbProfile ? getCrimson(sbProfile.profile) : null,
       ]);
 
       if (hypixelGuild === undefined) {
@@ -189,11 +190,34 @@ module.exports = {
         skyblockDungeonsClassArcherXp: dungeons?.classes?.archer?.xp || 0,
         skyblockDungeonsClassTankXp: dungeons?.classes?.tank?.xp || 0,
 
+        skyblockDungeonsClassAverage: dungeons?.classes?.healer?.xp || 0,
         skyblockDungeonsClassHealerLevel: dungeons?.classes?.healer?.level || 0,
         skyblockDungeonsClassMageLevel: dungeons?.classes?.mage?.level || 0,
         skyblockDungeonsClassBerserkLevel: dungeons?.classes?.berserk?.level || 0,
         skyblockDungeonsClassArcherLevel: dungeons?.classes?.archer?.level || 0,
         skyblockDungeonsClassTankLevel: dungeons?.classes?.tank?.level || 0,
+
+        skyblockDungeonsEssenceDiamond: dungeons?.essence?.diamond || 0,
+        skyblockDungeonsEssenceDragon: dungeons?.essence?.dragon || 0,
+        skyblockDungeonsEssenceSpider: dungeons?.essence?.spider || 0,
+        skyblockDungeonsEssenceWither: dungeons?.essence?.wither || 0,
+        skyblockDungeonsEssenceUndead: dungeons?.essence?.undead || 0,
+        skyblockDungeonsEssenceGold: dungeons?.essence?.gold || 0,
+        skyblockDungeonsEssenceIce: dungeons?.essence?.ice || 0,
+        skyblockDungeonsEssenceCrimson: dungeons?.essence?.crimson || 0,
+
+        skyblockDungeonsSecrets: dungeons?.secrets_found || 0,
+        skyblockDungeonsXp: dungeons?.catacombs?.skill?.xp || 0,
+        skyblockDungeonsLevel: dungeons?.catacombs?.skill?.level || 0,
+
+        skyblockCrimsonIsleReputationBarbarian: crimson?.reputation?.barbarian || 0,
+        skyblockCrimsonIsleReputationMage: crimson?.reputation?.mage || 0,
+
+        skyblockCrimsonIsleKuudrabasic: crimson?.kuudra?.basic || 0,
+        skyblockCrimsonIsleKuudrahot: crimson?.kuudra?.hot || 0,
+        skyblockCrimsonIsleKuudraburning: crimson?.kuudra?.burning || 0,
+        skyblockCrimsonIsleKuudrafiery: crimson?.kuudra?.fiery || 0,
+        skyblockCrimsonIsleKuudrainfernal: crimson?.kuudra?.infernal || 0,
       };
 
       if (config.verification.levelRoles.length > 0) {
