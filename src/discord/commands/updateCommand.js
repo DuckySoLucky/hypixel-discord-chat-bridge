@@ -1,7 +1,12 @@
+const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 const hypixelRebornAPI = require("../../contracts/API/HypixelRebornAPI.js");
 const { replaceVariables } = require("../../contracts/helperFunctions.js");
 const { SuccessEmbed } = require("../../contracts/embedHandler.js");
+const getDungeons = require("../../../API/stats/dungeons.js");
+const getSkills = require("../../../API/stats/skills.js");
+const getSlayer = require("../../../API/stats/slayer.js");
+const { getNetworth } = require("skyhelper-networth");
 const { EmbedBuilder } = require("discord.js");
 const config = require("../../../config.json");
 const { readFileSync } = require("fs");
@@ -62,9 +67,16 @@ module.exports = {
         await interaction.member.roles.add(config.verification.verifiedRole, "Updated Roles");
       }
 
-      const [hypixelGuild, player] = await Promise.all([
+      const [hypixelGuild, player, sbProfile] = await Promise.all([
         hypixelRebornAPI.getGuild("player", bot.username),
         hypixelRebornAPI.getPlayer(uuid),
+        getLatestProfile(uuid).catch(() => null),
+      ]);
+
+      const [skills, slayer, dungeons] = await Promise.all([
+        sbProfile ? getSkills(sbProfile.profile) : null,
+        sbProfile ? getSlayer(sbProfile.profile) : null,
+        sbProfile ? getDungeons(sbProfile.profile) : null,
       ]);
 
       if (hypixelGuild === undefined) {
@@ -142,7 +154,48 @@ module.exports = {
         level: player?.level || 0,
         karma: player?.karma || 0,
         achievementPoints: player?.achievementPoints || 0,
+
+        skyblockLevel: Math.floor(sbProfile?.profile?.leveling?.experience || 0 / 100),
+
+        skyblockSkillsFarming: skills?.farming || 0,
+        skyblockSkillsMining: skills?.mining || 0,
+        skyblockSkillsCombat: skills?.combat || 0,
+        skyblockSkillsForaging: skills?.foraging || 0,
+        skyblockSkillsFishing: skills?.fishing || 0,
+        skyblockSkillsEnchanting: skills?.enchanting || 0,
+        skyblockSkillsAlchemy: skills?.alchemy || 0,
+        skyblockSkillsCarpentry: skills?.carpentry || 0,
+        skyblockSkillsRunecrafting: skills?.runecrafting || 0,
+        skyblockSkillsSocial: skills?.social || 0,
+        skyblockSkillsTaming: skills?.taming || 0,
+
+        skyblockSlayerZombieXp: slayer?.zombie?.xp || 0,
+        skyblockSlayerSpiderXp: slayer?.spider?.xp || 0,
+        skyblockSlayerWolfXp: slayer?.wolf?.xp || 0,
+        skyblockSlayerEndermanXp: slayer?.enderman?.xp || 0,
+        skyblockSlayerBlazeXp: slayer?.blaze?.xp || 0,
+        skyblockSlayerVampireXp: slayer?.vampire?.xp || 0,
+
+        skyblockSlayerZombieLevel: slayer?.zombie?.level || 0,
+        skyblockSlayerSpiderLevel: slayer?.spider?.level || 0,
+        skyblockSlayerWolfLevel: slayer?.wolf?.level || 0,
+        skyblockSlayerEndermanLevel: slayer?.enderman?.level || 0,
+        skyblockSlayerBlazeLevel: slayer?.blaze?.level || 0,
+        skyblockSlayerVampireLevel: slayer?.vampire?.level || 0,
+
+        skyblockDungeonsClassHealerXp: dungeons?.classes?.healer?.xp || 0,
+        skyblockDungeonsClassMageXp: dungeons?.classes?.mage?.xp || 0,
+        skyblockDungeonsClassBerserkXp: dungeons?.classes?.berserk?.xp || 0,
+        skyblockDungeonsClassArcherXp: dungeons?.classes?.archer?.xp || 0,
+        skyblockDungeonsClassTankXp: dungeons?.classes?.tank?.xp || 0,
+
+        skyblockDungeonsClassHealerLevel: dungeons?.classes?.healer?.level || 0,
+        skyblockDungeonsClassMageLevel: dungeons?.classes?.mage?.level || 0,
+        skyblockDungeonsClassBerserkLevel: dungeons?.classes?.berserk?.level || 0,
+        skyblockDungeonsClassArcherLevel: dungeons?.classes?.archer?.level || 0,
+        skyblockDungeonsClassTankLevel: dungeons?.classes?.tank?.level || 0,
       };
+
       if (config.verification.levelRoles.length > 0) {
         for (const role of config.verification.levelRoles) {
           if (role.requirement > stats[role.type]) {
