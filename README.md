@@ -512,6 +512,98 @@ The `ranks` option is an array that takes in an object like the following exampl
 }
 ```
 
+The `levelRoles` option is an array that takes in an object like the following example, this allows roles to be given out if they get some requirement.
+```json
+{
+    "type": "bedwarsStar",
+    "requirement": 200,
+    "roleId": "987936050649391194"
+}
+```
+For type these are all the options that are supported
+
+<details>
+<summary>Level Roles Type Option Variables</summary>
+
+`{bedwarsStar}` - Player's BedWars Stars
+
+`{bedwarsTokens}` - Player's BedWars Tokens
+
+`{bedwarsKills}` - Player's BedWars Kills
+
+`{bedwarsDeaths}` - Player's BedWars Deaths
+
+`{bedwarsKDRatio}` - Player's BedWars KDRatio
+
+`{bedwarsFinalKills}` - Player's BedWars Final Kills
+
+`{bedwarsFinalDeathss}` - Player's BedWars Final Deaths
+
+`{bedwarsFinalKDRatio}` - Player's BedWars Final KDRatio
+
+`{bedwarsWins}` - Player's BedWars Wins
+
+`{bedwarsLosses}` - Player's BedWars Losses
+
+`{bedwarsWLRatio}` - Player's BedWars WLRatio
+
+`{bedwarsBedsBroken}` - Player's BedWars Beds Broken
+
+`{bedwarsBedsLost}` - Player's BedWars Beds Lost
+
+`{bedwarsBedsBLRatio}` - Player's BedWars Beds BLRatio
+
+`{bedwarsPlayedGames}` - Player's BedWars Played Games
+
+`{skywarsStar}` - Player's SkyWars Star
+
+`{skywarsCoins}` - Player's SkyWars Coins
+
+`{skywarsTokens}` - Player's SkyWars Tokens
+
+`{skywarsSouls}` - Player's SkyWars Souls
+
+`{skywarsOpals}` - Player's SkyWars Opals
+
+`{skywarsKills}` - Player's SkyWars Kills
+
+`{skywarsDeaths}` - Player's SkyWars Deaths
+
+`{skywarsKDRatio}` - Player's SkyWars KDRatio
+
+`{skywarsWins}` - Player's SkyWars Wins
+
+`{skywarsLosses}` - Player's SkyWars Losses
+
+`{skywarsWLRatio}` - Player's SkyWars WLRatio
+
+`{skywarsPlayedGames}` - Player's SkyWars Played Games
+
+`{duelsKills}` - Player's Duels Kills
+
+`{duelsDeaths}` - Player's Duels Deaths
+
+`{duelsKDRatio}` - Player's Duels KDRatio
+
+`{duelsWins}` - Player's Duels Wins
+
+`{duelsLosses}` - Player's Duels Losses
+
+`{duelsWLRatio}` - Player's Duels WLRatio
+
+`{duelsPlayedGames}` - Player's Duels Played Games
+
+`{level}` - Player's Hypixel Level
+
+`{rank}` - Player's Hypixel Rank
+
+`{karma}` - Player's Hypixel Rank
+
+`{achievementPoints}` - Player's Hypixel Achievement Points
+
+</details>
+<br>
+
 
 ### Chat Triggers Module
 

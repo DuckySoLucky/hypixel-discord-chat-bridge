@@ -154,9 +154,7 @@ module.exports = {
       interaction.member.setNickname(
         replaceVariables(config.verification.name, {
           ...stats,
-
           duelsTitle: player.stats?.duels?.division || "",
-
           rank: player.rank,
           username: player.nickname,
           guildRank: hypixelGuild.members.find((m) => m.uuid === uuid)?.rank ?? "Unknown",
