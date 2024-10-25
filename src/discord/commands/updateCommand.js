@@ -40,24 +40,25 @@ module.exports = {
       }
 
       const uuid = linked[interaction.user.id];
-      if (uuid === undefined) {
-        const roles = [
-          config.verification.verifiedRole,
-          config.verification.guildMemberRole,
-          ...config.verification.ranks.map((r) => r.role),
-          ...config.verification.levelRoles.map((r) => r.roleId),
-        ];
 
-        for (const role of roles) {
-          if (role === config.verification.verifiedRole && config.verification.removeVerificationRole === false) {
-            continue;
-          }
+      const roles = [
+        config.verification.verifiedRole,
+        config.verification.guildMemberRole,
+        ...config.verification.ranks.map((r) => r.role),
+        ...config.verification.levelRoles.map((r) => r.roleId),
+      ];
 
-          if (interaction.member.roles.cache.has(role)) {
-            await interaction.member.roles.remove(role, "Updated Roles");
-          }
+      for (const role of roles) {
+        if (role === config.verification.verifiedRole && config.verification.removeVerificationRole === false) {
+          continue;
         }
 
+        if (interaction.member.roles.cache.has(role)) {
+          await interaction.member.roles.remove(role, "Updated Roles");
+        }
+      }
+
+      if (uuid === undefined) {
         interaction.member.setNickname(null, "Updated Roles");
 
         throw new HypixelDiscordChatBridgeError("You are not linked to a Minecraft account.");
@@ -222,7 +223,7 @@ module.exports = {
 
       if (config.verification.levelRoles.length > 0) {
         for (const role of config.verification.levelRoles) {
-          if (role.requirement > stats[role.type]) {
+          if (stats[role.type] >= role.requirement) {
             await interaction.member.roles.add(role.roleId, "Updated Roles");
           }
         }
