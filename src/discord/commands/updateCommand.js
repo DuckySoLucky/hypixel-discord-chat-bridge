@@ -157,7 +157,7 @@ module.exports = {
         karma: player?.karma || 0,
         achievementPoints: player?.achievementPoints || 0,
 
-        skyblockLevel: Math.floor(sbProfile?.profile?.leveling?.experience || 0 / 100),
+        skyblockLevel: Math.floor((sbProfile?.profile?.leveling?.experience || 0) / 100),
 
         skyblockSkillsFarming: skills?.farming || 0,
         skyblockSkillsMining: skills?.mining || 0,
