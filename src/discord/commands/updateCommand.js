@@ -1,5 +1,6 @@
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
+const getChocolateFactory = require("../../../API/stats/chocolateFactory.js");
 const hypixelRebornAPI = require("../../contracts/API/HypixelRebornAPI.js");
 const { replaceVariables } = require("../../contracts/helperFunctions.js");
 const { SuccessEmbed } = require("../../contracts/embedHandler.js");
@@ -7,6 +8,8 @@ const getDungeons = require("../../../API/stats/dungeons.js");
 const getCrimson = require("../../../API/stats/crimson.js");
 const getSkills = require("../../../API/stats/skills.js");
 const getSlayer = require("../../../API/stats/slayer.js");
+const getJacob = require("../../../API/stats/jacob.js");
+const { getNetworth } = require("skyhelper-networth");
 const { EmbedBuilder } = require("discord.js");
 const config = require("../../../config.json");
 const { readFileSync } = require("fs");
@@ -74,11 +77,20 @@ module.exports = {
         getLatestProfile(uuid).catch(() => null),
       ]);
 
-      const [skills, slayer, dungeons, crimson] = await Promise.all([
+      const [skills, slayer, dungeons, crimson, networth, chocolateFactory, jacob] = await Promise.all([
         sbProfile ? getSkills(sbProfile.profile) : null,
         sbProfile ? getSlayer(sbProfile.profile) : null,
         sbProfile ? getDungeons(sbProfile.profile) : null,
         sbProfile ? getCrimson(sbProfile.profile) : null,
+        sbProfile
+          ? getNetworth(sbProfile.profile, sbProfile.profileData?.banking?.balance || 0, {
+              onlyNetworth: true,
+              v2Endpoint: true,
+              cache: true,
+            })
+          : null,
+        sbProfile ? getChocolateFactory(sbProfile.profile) : null,
+        sbProfile ? getJacob(sbProfile.profile) : null,
       ]);
 
       if (hypixelGuild === undefined) {
@@ -159,17 +171,30 @@ module.exports = {
 
         skyblockLevel: Math.floor((sbProfile?.profile?.leveling?.experience || 0) / 100),
 
-        skyblockSkillsFarming: skills?.farming || 0,
-        skyblockSkillsMining: skills?.mining || 0,
-        skyblockSkillsCombat: skills?.combat || 0,
-        skyblockSkillsForaging: skills?.foraging || 0,
-        skyblockSkillsFishing: skills?.fishing || 0,
-        skyblockSkillsEnchanting: skills?.enchanting || 0,
-        skyblockSkillsAlchemy: skills?.alchemy || 0,
-        skyblockSkillsCarpentry: skills?.carpentry || 0,
-        skyblockSkillsRunecrafting: skills?.runecrafting || 0,
-        skyblockSkillsSocial: skills?.social || 0,
-        skyblockSkillsTaming: skills?.taming || 0,
+        skyblockSkillsAverageLevel: 0,
+        skyblockSkillsFarmingLevel: skills?.farming?.level || 0,
+        skyblockSkillsMiningLevel: skills?.mining?.level || 0,
+        skyblockSkillsCombatLevel: skills?.combat?.level || 0,
+        skyblockSkillsForagingLevel: skills?.foraging?.level || 0,
+        skyblockSkillsFishingLevel: skills?.fishing?.level || 0,
+        skyblockSkillsEnchantingLevel: skills?.enchanting?.level || 0,
+        skyblockSkillsAlchemyLevel: skills?.alchemy?.level || 0,
+        skyblockSkillsCarpentryLevel: skills?.carpentry?.level || 0,
+        skyblockSkillsRunecraftingLevel: skills?.runecrafting?.level || 0,
+        skyblockSkillsSocialLevel: skills?.social?.level || 0,
+        skyblockSkillsTamingLevel: skills?.taming?.level || 0,
+
+        skyblockSkillsFarmingXp: skills?.farming?.xp || 0,
+        skyblockSkillsMiningXp: skills?.mining?.xp || 0,
+        skyblockSkillsCombatXp: skills?.combat?.xp || 0,
+        skyblockSkillsForagingXp: skills?.foraging?.xp || 0,
+        skyblockSkillsFishingXp: skills?.fishing?.xp || 0,
+        skyblockSkillsEnchantingXp: skills?.enchanting?.xp || 0,
+        skyblockSkillsAlchemyXp: skills?.alchemy?.xp || 0,
+        skyblockSkillsCarpentryXp: skills?.carpentry?.xp || 0,
+        skyblockSkillsRunecraftingXp: skills?.runecrafting?.xp || 0,
+        skyblockSkillsSocialXp: skills?.social?.xp || 0,
+        skyblockSkillsTamingXp: skills?.taming?.xp || 0,
 
         skyblockSlayerZombieXp: slayer?.zombie?.xp || 0,
         skyblockSlayerSpiderXp: slayer?.spider?.xp || 0,
@@ -219,7 +244,82 @@ module.exports = {
         skyblockCrimsonIsleKuudraburning: crimson?.kuudra?.burning || 0,
         skyblockCrimsonIsleKuudrafiery: crimson?.kuudra?.fiery || 0,
         skyblockCrimsonIsleKuudrainfernal: crimson?.kuudra?.infernal || 0,
+
+        skyblockPurse: networth?.purse || 0,
+        skyblockBank: networth?.bank || 0,
+
+        skyblockNetworth: networth?.networth || 0,
+        skyblockNetwrothArmor: networth?.types?.armor?.total || 0,
+        skyblockNetwrothEquipment: networth?.types?.equipment?.total || 0,
+        skyblockNetwrothWardrobe: networth?.types?.wardrobe?.total || 0,
+        skyblockNetwrothInventory: networth?.types?.inventory?.total || 0,
+        skyblockNetwrothEnderchest: networth?.types?.enderchest?.total || 0,
+        skyblockNetwrothAccessories: networth?.types?.accessories?.total || 0,
+        skyblockNetwrothPersonal_vault: networth?.types?.personal_vault?.total || 0,
+        skyblockNetwrothFishing_bag: networth?.types?.fishing_bag?.total || 0,
+        skyblockNetwrothStorage: networth?.types?.storage?.total || 0,
+        skyblockNetwrothMuseum: networth?.types?.museum?.total || 0,
+        skyblockNetwrothSacks: networth?.types?.sacks?.total || 0,
+        skyblockNetwrothEssence: networth?.types?.essence?.total || 0,
+        skyblockNetwrothPets: networth?.types?.pets?.total || 0,
+
+        skyblockNetworthUnsoulboundNetworth: networth?.unsoulboundNetworth || 0,
+        skyblockNetwrothArmorUnsoulbound: networth?.types?.armor?.unsoulboundTotal || 0,
+        skyblockNetwrothEquipmentUnsoulbound: networth?.types?.equipment?.unsoulboundTotal || 0,
+        skyblockNetwrothWardrobeUnsoulbound: networth?.types?.wardrobe?.unsoulboundTotal || 0,
+        skyblockNetwrothInventoryUnsoulbound: networth?.types?.inventory?.unsoulboundTotal || 0,
+        skyblockNetwrothEnderchestUnsoulbound: networth?.types?.enderchest?.unsoulboundTotal || 0,
+        skyblockNetwrothAccessoriesUnsoulbound: networth?.types?.accessories?.unsoulboundTotal || 0,
+        skyblockNetwrothPersonal_vaultUnsoulbound: networth?.types?.personal_vault?.unsoulboundTotal || 0,
+        skyblockNetwrothFishing_bagUnsoulbound: networth?.types?.fishing_bag?.unsoulboundTotal || 0,
+        skyblockNetwrothStorageUnsoulbound: networth?.types?.storage?.unsoulboundTotal || 0,
+        skyblockNetwrothMuseumUnsoulbound: networth?.types?.museum?.unsoulboundTotal || 0,
+        skyblockNetwrothSacksUnsoulbound: networth?.types?.sacks?.unsoulboundTotal || 0,
+        skyblockNetwrothEssenceUnsoulbound: networth?.types?.essence?.unsoulboundTotal || 0,
+        skyblockNetwrothPetsUnsoulbound: networth?.types?.pets?.unsoulboundTotal || 0,
+
+        skyblockChocolateFactoryLevel: chocolateFactory?.level || 0,
+        skyblockChocolateFactoryChocolateCurrent: chocolateFactory?.chocolate?.current || 0,
+        skyblockChocolateFactoryChocolateSincePrestige: chocolateFactory?.chocolate?.sincePrestige || 0,
+        skyblockChocolateFactoryChocolateTotal: chocolateFactory?.chocolate?.total || 0,
+
+        skyblockChocolateFactoryEmployeesBro: chocolateFactory?.employees?.bro || 0,
+        skyblockChocolateFactoryEmployeesCousin: chocolateFactory?.employees?.cousin || 0,
+        skyblockChocolateFactoryEmployeesSis: chocolateFactory?.employees?.sis || 0,
+        skyblockChocolateFactoryEmployeesFather: chocolateFactory?.employees?.father || 0,
+        skyblockChocolateFactoryEmployeesGrandma: chocolateFactory?.employees?.grandma || 0,
+
+        skyblockJacobMedalsGold: jacob?.medals?.gold || 0,
+        skyblockJacobMedalsSilver: jacob?.medals?.silver || 0,
+        skyblockJacobMedalsBronze: jacob?.medals?.bronze || 0,
+
+        skyblockJacobPerksLevelCap: jacob?.perks?.levelCap || 0,
+        skyblockJacobPerksDoubleDrops: jacob?.perks?.doubleDrops || 0,
+
+        skyblockJacobPersonalBestNetherWart: jacob?.personalBests?.netherWart || 0,
+        skyblockJacobPersonalBestCocoBeans: jacob?.personalBests?.cocoBeans || 0,
+        skyblockJacobPersonalBestMushroom: jacob?.personalBests?.mushroom || 0,
+        skyblockJacobPersonalBestWheat: jacob?.personalBests?.wheat || 0,
+        skyblockJacobPersonalBestPotato: jacob?.personalBests?.potato || 0,
+        skyblockJacobPersonalBestPumpkin: jacob?.personalBests?.pumpkin || 0,
+        skyblockJacobPersonalBestCarrot: jacob?.personalBests?.carrot || 0,
+        skyblockJacobPersonalBestCactus: jacob?.personalBests?.cactus || 0,
+        skyblockJacobPersonalBestMelon: jacob?.personalBests?.melon || 0,
+        skyblockJacobPersonalBestsugarCane: jacob?.personalBests?.sugarCane || 0,
       };
+
+      stats["skyblockSkillsAverageLevel"] = (
+        Object.keys(stats)
+          .filter((stat) => stat.startsWith("skyblockSkills"))
+          .filter((stat) => stat.endsWith("Level"))
+          .filter((skill) => !["skyblockSkillsRunecraftingLevel", "skyblockSkillsSocialLevel"].includes(skill))
+          .map((skill) => stats[skill] || 0)
+          .reduce((a, b) => a + b, 0) /
+        Object.keys(stats)
+          .filter((stat) => stat.startsWith("skyblockSkills"))
+          .filter((stat) => stat.endsWith("Level"))
+          .filter((skill) => !["skyblockSkillsRunecraftingLevel", "skyblockSkillsSocialLevel"].includes(skill)).length
+      ).toFixed(2);
 
       if (config.verification.levelRoles.length > 0) {
         for (const role of config.verification.levelRoles) {
