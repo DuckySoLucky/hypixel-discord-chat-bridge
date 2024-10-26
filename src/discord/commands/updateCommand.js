@@ -1,8 +1,8 @@
+const { formatNumber, replaceVariables } = require("../../contracts/helperFunctions.js");
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 const getChocolateFactory = require("../../../API/stats/chocolateFactory.js");
 const hypixelRebornAPI = require("../../contracts/API/HypixelRebornAPI.js");
-const { replaceVariables } = require("../../contracts/helperFunctions.js");
 const { SuccessEmbed } = require("../../contracts/embedHandler.js");
 const getDungeons = require("../../../API/stats/dungeons.js");
 const getCrimson = require("../../../API/stats/crimson.js");
@@ -144,7 +144,7 @@ module.exports = {
         bedwarsBedsBLRatio: player?.stats?.bedwars?.beds.BLRatio || 0,
         bedwarsPlayedGames: player?.stats?.bedwars?.playedGames || 0,
 
-        skywarsStar: player?.stats?.skywars?.level || 0,
+        skywarsLevel: player?.stats?.skywars?.level || 0,
         skywarsCoins: player?.stats?.skywars?.coins || 0,
         skywarsTokens: player?.stats?.skywars?.tokens || 0,
         skywarsSouls: player?.stats?.skywars?.souls || 0,
@@ -169,6 +169,8 @@ module.exports = {
         karma: player?.karma || 0,
         achievementPoints: player?.achievementPoints || 0,
 
+        skyblockBank: networth?.bank || 0,
+        skyblockPurse: networth?.purse || 0,
         skyblockLevel: Math.floor((sbProfile?.profile?.leveling?.experience || 0) / 100),
 
         skyblockSkillsAverageLevel: 0,
@@ -196,13 +198,6 @@ module.exports = {
         skyblockSkillsSocialXp: skills?.social?.xp || 0,
         skyblockSkillsTamingXp: skills?.taming?.xp || 0,
 
-        skyblockSlayerZombieXp: slayer?.zombie?.xp || 0,
-        skyblockSlayerSpiderXp: slayer?.spider?.xp || 0,
-        skyblockSlayerWolfXp: slayer?.wolf?.xp || 0,
-        skyblockSlayerEndermanXp: slayer?.enderman?.xp || 0,
-        skyblockSlayerBlazeXp: slayer?.blaze?.xp || 0,
-        skyblockSlayerVampireXp: slayer?.vampire?.xp || 0,
-
         skyblockSlayerZombieLevel: slayer?.zombie?.level || 0,
         skyblockSlayerSpiderLevel: slayer?.spider?.level || 0,
         skyblockSlayerWolfLevel: slayer?.wolf?.level || 0,
@@ -210,18 +205,29 @@ module.exports = {
         skyblockSlayerBlazeLevel: slayer?.blaze?.level || 0,
         skyblockSlayerVampireLevel: slayer?.vampire?.level || 0,
 
-        skyblockDungeonsClassHealerXp: dungeons?.classes?.healer?.xp || 0,
-        skyblockDungeonsClassMageXp: dungeons?.classes?.mage?.xp || 0,
-        skyblockDungeonsClassBerserkXp: dungeons?.classes?.berserk?.xp || 0,
-        skyblockDungeonsClassArcherXp: dungeons?.classes?.archer?.xp || 0,
-        skyblockDungeonsClassTankXp: dungeons?.classes?.tank?.xp || 0,
+        skyblockSlayerZombieXp: slayer?.zombie?.xp || 0,
+        skyblockSlayerSpiderXp: slayer?.spider?.xp || 0,
+        skyblockSlayerWolfXp: slayer?.wolf?.xp || 0,
+        skyblockSlayerEndermanXp: slayer?.enderman?.xp || 0,
+        skyblockSlayerBlazeXp: slayer?.blaze?.xp || 0,
+        skyblockSlayerVampireXp: slayer?.vampire?.xp || 0,
 
-        skyblockDungeonsClassAverage: dungeons?.classes?.healer?.xp || 0,
+        skyblockDungeonsSecrets: dungeons?.secrets_found || 0,
+        skyblockDungeonsXp: dungeons?.catacombs?.skill?.xp || 0,
+        skyblockDungeonsLevel: dungeons?.catacombs?.skill?.level || 0,
+
+        skyblockDungeonsClassAverageLevel: 0,
         skyblockDungeonsClassHealerLevel: dungeons?.classes?.healer?.level || 0,
         skyblockDungeonsClassMageLevel: dungeons?.classes?.mage?.level || 0,
         skyblockDungeonsClassBerserkLevel: dungeons?.classes?.berserk?.level || 0,
         skyblockDungeonsClassArcherLevel: dungeons?.classes?.archer?.level || 0,
         skyblockDungeonsClassTankLevel: dungeons?.classes?.tank?.level || 0,
+
+        skyblockDungeonsClassHealerXp: dungeons?.classes?.healer?.xp || 0,
+        skyblockDungeonsClassMageXp: dungeons?.classes?.mage?.xp || 0,
+        skyblockDungeonsClassBerserkXp: dungeons?.classes?.berserk?.xp || 0,
+        skyblockDungeonsClassArcherXp: dungeons?.classes?.archer?.xp || 0,
+        skyblockDungeonsClassTankXp: dungeons?.classes?.tank?.xp || 0,
 
         skyblockDungeonsEssenceDiamond: dungeons?.essence?.diamond || 0,
         skyblockDungeonsEssenceDragon: dungeons?.essence?.dragon || 0,
@@ -232,21 +238,14 @@ module.exports = {
         skyblockDungeonsEssenceIce: dungeons?.essence?.ice || 0,
         skyblockDungeonsEssenceCrimson: dungeons?.essence?.crimson || 0,
 
-        skyblockDungeonsSecrets: dungeons?.secrets_found || 0,
-        skyblockDungeonsXp: dungeons?.catacombs?.skill?.xp || 0,
-        skyblockDungeonsLevel: dungeons?.catacombs?.skill?.level || 0,
-
         skyblockCrimsonIsleReputationBarbarian: crimson?.reputation?.barbarian || 0,
         skyblockCrimsonIsleReputationMage: crimson?.reputation?.mage || 0,
 
-        skyblockCrimsonIsleKuudrabasic: crimson?.kuudra?.basic || 0,
-        skyblockCrimsonIsleKuudrahot: crimson?.kuudra?.hot || 0,
-        skyblockCrimsonIsleKuudraburning: crimson?.kuudra?.burning || 0,
-        skyblockCrimsonIsleKuudrafiery: crimson?.kuudra?.fiery || 0,
-        skyblockCrimsonIsleKuudrainfernal: crimson?.kuudra?.infernal || 0,
-
-        skyblockPurse: networth?.purse || 0,
-        skyblockBank: networth?.bank || 0,
+        skyblockCrimsonIsleKuudraBasic: crimson?.kuudra?.basic || 0,
+        skyblockCrimsonIsleKuudraHot: crimson?.kuudra?.hot || 0,
+        skyblockCrimsonIsleKuudraBurning: crimson?.kuudra?.burning || 0,
+        skyblockCrimsonIsleKuudraFiery: crimson?.kuudra?.fiery || 0,
+        skyblockCrimsonIsleKuudraInfernal: crimson?.kuudra?.infernal || 0,
 
         skyblockNetworth: networth?.networth || 0,
         skyblockNetwrothArmor: networth?.types?.armor?.total || 0,
@@ -255,23 +254,23 @@ module.exports = {
         skyblockNetwrothInventory: networth?.types?.inventory?.total || 0,
         skyblockNetwrothEnderchest: networth?.types?.enderchest?.total || 0,
         skyblockNetwrothAccessories: networth?.types?.accessories?.total || 0,
-        skyblockNetwrothPersonal_vault: networth?.types?.personal_vault?.total || 0,
-        skyblockNetwrothFishing_bag: networth?.types?.fishing_bag?.total || 0,
+        skyblockNetwrothPersonalVault: networth?.types?.personal_vault?.total || 0,
+        skyblockNetwrothFishingBag: networth?.types?.fishing_bag?.total || 0,
         skyblockNetwrothStorage: networth?.types?.storage?.total || 0,
         skyblockNetwrothMuseum: networth?.types?.museum?.total || 0,
         skyblockNetwrothSacks: networth?.types?.sacks?.total || 0,
         skyblockNetwrothEssence: networth?.types?.essence?.total || 0,
         skyblockNetwrothPets: networth?.types?.pets?.total || 0,
 
-        skyblockNetworthUnsoulboundNetworth: networth?.unsoulboundNetworth || 0,
+        skyblockNetworthNetworthUnsoulbound: networth?.unsoulboundNetworth || 0,
         skyblockNetwrothArmorUnsoulbound: networth?.types?.armor?.unsoulboundTotal || 0,
         skyblockNetwrothEquipmentUnsoulbound: networth?.types?.equipment?.unsoulboundTotal || 0,
         skyblockNetwrothWardrobeUnsoulbound: networth?.types?.wardrobe?.unsoulboundTotal || 0,
         skyblockNetwrothInventoryUnsoulbound: networth?.types?.inventory?.unsoulboundTotal || 0,
         skyblockNetwrothEnderchestUnsoulbound: networth?.types?.enderchest?.unsoulboundTotal || 0,
         skyblockNetwrothAccessoriesUnsoulbound: networth?.types?.accessories?.unsoulboundTotal || 0,
-        skyblockNetwrothPersonal_vaultUnsoulbound: networth?.types?.personal_vault?.unsoulboundTotal || 0,
-        skyblockNetwrothFishing_bagUnsoulbound: networth?.types?.fishing_bag?.unsoulboundTotal || 0,
+        skyblockNetwrothPersonalVaultUnsoulbound: networth?.types?.personal_vault?.unsoulboundTotal || 0,
+        skyblockNetwrothFishingBagUnsoulbound: networth?.types?.fishing_bag?.unsoulboundTotal || 0,
         skyblockNetwrothStorageUnsoulbound: networth?.types?.storage?.unsoulboundTotal || 0,
         skyblockNetwrothMuseumUnsoulbound: networth?.types?.museum?.unsoulboundTotal || 0,
         skyblockNetwrothSacksUnsoulbound: networth?.types?.sacks?.unsoulboundTotal || 0,
@@ -283,11 +282,11 @@ module.exports = {
         skyblockChocolateFactoryChocolateSincePrestige: chocolateFactory?.chocolate?.sincePrestige || 0,
         skyblockChocolateFactoryChocolateTotal: chocolateFactory?.chocolate?.total || 0,
 
-        skyblockChocolateFactoryEmployeesBro: chocolateFactory?.employees?.bro || 0,
-        skyblockChocolateFactoryEmployeesCousin: chocolateFactory?.employees?.cousin || 0,
-        skyblockChocolateFactoryEmployeesSis: chocolateFactory?.employees?.sis || 0,
-        skyblockChocolateFactoryEmployeesFather: chocolateFactory?.employees?.father || 0,
-        skyblockChocolateFactoryEmployeesGrandma: chocolateFactory?.employees?.grandma || 0,
+        skyblockChocolateFactoryEmployeeBro: chocolateFactory?.employees?.bro || 0,
+        skyblockChocolateFactoryEmployeeCousin: chocolateFactory?.employees?.cousin || 0,
+        skyblockChocolateFactoryEmployeeSis: chocolateFactory?.employees?.sis || 0,
+        skyblockChocolateFactoryEmployeeFather: chocolateFactory?.employees?.father || 0,
+        skyblockChocolateFactoryEmployeeGrandma: chocolateFactory?.employees?.grandma || 0,
 
         skyblockJacobMedalsGold: jacob?.medals?.gold || 0,
         skyblockJacobMedalsSilver: jacob?.medals?.silver || 0,
@@ -305,7 +304,7 @@ module.exports = {
         skyblockJacobPersonalBestCarrot: jacob?.personalBests?.carrot || 0,
         skyblockJacobPersonalBestCactus: jacob?.personalBests?.cactus || 0,
         skyblockJacobPersonalBestMelon: jacob?.personalBests?.melon || 0,
-        skyblockJacobPersonalBestsugarCane: jacob?.personalBests?.sugarCane || 0,
+        skyblockJacobPersonalBestSugarCane: jacob?.personalBests?.sugarCane || 0,
       };
 
       stats["skyblockSkillsAverageLevel"] = (
@@ -321,6 +320,17 @@ module.exports = {
           .filter((skill) => !["skyblockSkillsRunecraftingLevel", "skyblockSkillsSocialLevel"].includes(skill)).length
       ).toFixed(2);
 
+      stats["skyblockDungeonsClassAverageLevel"] = (
+        Object.keys(stats)
+          .filter((stat) => stat.startsWith("skyblockDungeonsClass"))
+          .filter((stat) => stat.endsWith("Level"))
+          .map((className) => stats[className] || 0)
+          .reduce((a, b) => a + b, 0) /
+        Object.keys(stats)
+          .filter((stat) => stat.startsWith("skyblockDungeonsClass"))
+          .filter((stat) => stat.endsWith("Level")).length
+      ).toFixed(2);
+
       if (config.verification.levelRoles.length > 0) {
         for (const role of config.verification.levelRoles) {
           if (stats[role.type] >= role.requirement) {
@@ -332,11 +342,55 @@ module.exports = {
       interaction.member.setNickname(
         replaceVariables(config.verification.name, {
           ...stats,
-          duelsTitle: player.stats?.duels?.division || "",
           rank: player.rank,
           username: player.nickname,
-          guildRank: hypixelGuild.members.find((m) => m.uuid === uuid)?.rank ?? "Unknown",
-          guildName: hypixelGuild.name,
+          guildRank: hypixelGuild.members.find((m) => m.uuid === uuid)?.rank ?? "",
+
+          duelsTitle: player.stats?.duels?.division || "",
+
+          skyblockPurseFormatted: formatNumber(stats.skyblockPurse),
+          skyblockBankFormatted: formatNumber(stats.skyblockBank),
+
+          skyblockSkillsFarmingXpFormated: formatNumber(stats.skyblockSkillsFarmingXp),
+          skyblockSkillsMiningXpFormated: formatNumber(stats.skyblockSkillsMiningXp),
+          skyblockSkillsCombatXpFormated: formatNumber(stats.skyblockSkillsCombatXp),
+          skyblockSkillsForagingXpFormated: formatNumber(stats.skyblockSkillsForagingXp),
+          skyblockSkillsFishingXpFormated: formatNumber(stats.skyblockSkillsFishingXp),
+          skyblockSkillsEnchantingXpFormated: formatNumber(stats.skyblockSkillsEnchantingXp),
+          skyblockSkillsAlchemyXpFormated: formatNumber(stats.skyblockSkillsAlchemyXp),
+          skyblockSkillsCarpentryXpFormated: formatNumber(stats.skyblockSkillsCarpentryXp),
+          skyblockSkillsRunecraftingXpFormated: formatNumber(stats.skyblockSkillsRunecraftingXp),
+          skyblockSkillsSocialXpFormated: formatNumber(stats.skyblockSkillsSocialXp),
+          skyblockSkillsTamingXpFormated: formatNumber(stats.skyblockSkillsTamingXp),
+
+          skyblockSlayerZombieXpFormatted: formatNumber(stats.skyblockSlayerZombieXp),
+          skyblockSlayerSpiderXpFormatted: formatNumber(stats.skyblockSlayerSpiderXp),
+          skyblockSlayerWolfXpFormatted: formatNumber(stats.skyblockSlayerWolfXp),
+          skyblockSlayerEndermanXpFormatted: formatNumber(stats.skyblockSlayerEndermanXp),
+          skyblockSlayerBlazeXpFormatted: formatNumber(stats.skyblockSlayerBlazeXp),
+          skyblockSlayerVampireXpFormatted: formatNumber(stats.skyblockSlayerVampireXp),
+
+          skyblockDungeonsXpFormatted: formatNumber(stats.skyblockDungeonsXp),
+
+          skyblockDungeonsClassHealerXpFormatted: formatNumber(stats.skyblockDungeonsClassHealerXp),
+          skyblockDungeonsClassMageXpFormatted: formatNumber(stats.skyblockDungeonsClassMageXp),
+          skyblockDungeonsClassBerserkXpFormatted: formatNumber(stats.skyblockDungeonsClassBerserkXp),
+          skyblockDungeonsClassArcherXpFormatted: formatNumber(stats.skyblockDungeonsClassArcherXp),
+          skyblockDungeonsClassTankXpFormatted: formatNumber(stats.skyblockDungeonsClassTankXp),
+
+          skyblockNetworthFormatted: formatNumber(stats.skyblockNetworth),
+          skyblockNetworthNetworthUnsoulboundFormatted: formatNumber(stats.skyblockNetworthNetworthUnsoulbound),
+
+          skyblockJacobPersonalBestNetherWartFormatted: formatNumber(stats.skyblockJacobPersonalBestNetherWart),
+          skyblockJacobPersonalBestCocoBeansFormatted: formatNumber(stats.skyblockJacobPersonalBestCocoBeans),
+          skyblockJacobPersonalBestMushroomFormatted: formatNumber(stats.skyblockJacobPersonalBestMushroom),
+          skyblockJacobPersonalBestWheatFormatted: formatNumber(stats.skyblockJacobPersonalBestWheat),
+          skyblockJacobPersonalBestPotatoFormatted: formatNumber(stats.skyblockJacobPersonalBestPotato),
+          skyblockJacobPersonalBestPumpkinFormatted: formatNumber(stats.skyblockJacobPersonalBestPumpkin),
+          skyblockJacobPersonalBestCarrotFormatted: formatNumber(stats.skyblockJacobPersonalBestCarrot),
+          skyblockJacobPersonalBestCactusFormatted: formatNumber(stats.skyblockJacobPersonalBestCactus),
+          skyblockJacobPersonalBestMelonFormatted: formatNumber(stats.skyblockJacobPersonalBestMelon),
+          skyblockJacobPersonalBestSugarCaneFormatted: formatNumber(stats.skyblockJacobPersonalBestSugarCane),
         }),
         "Updated Roles",
       );
