@@ -45,29 +45,28 @@ module.exports = {
       const uuid = linked[interaction.user.id];
 
       const roles = [
-        config.verification.verifiedRole,
         config.verification.guildMemberRole,
         ...config.verification.ranks.map((r) => r.role),
         ...config.verification.levelRoles.map((r) => r.roleId),
       ];
-
-      for (const role of roles) {
-        if (role === config.verification.verifiedRole && config.verification.removeVerificationRole === false) {
-          continue;
-        }
-
-        if (interaction.member.roles.cache.has(role)) {
-          await interaction.member.roles.remove(role, "Updated Roles");
-        }
-      }
+      const giveRoles = [];
 
       if (uuid === undefined) {
         interaction.member.setNickname(null, "Updated Roles");
+
+        if (interaction.member.roles.cache.has(config.verification.verifiedRole)) {
+          await interaction.member.roles.remove(config.verification.verifiedRole, "Updated Roles");
+        }
+
+        for (const role of roles) {
+          if (interaction.member.roles.cache.has(role)) await interaction.member.roles.remove(role, "Updated Roles");
+        }
 
         throw new HypixelDiscordChatBridgeError("You are not linked to a Minecraft account.");
       }
 
       if (!interaction.member.roles.cache.has(config.verification.verifiedRole)) {
+        giveRoles.push(config.verification.verifiedRole);
         await interaction.member.roles.add(config.verification.verifiedRole, "Updated Roles");
       }
 
@@ -99,6 +98,7 @@ module.exports = {
 
       const guildMember = hypixelGuild.members.find((m) => m.uuid === uuid);
       if (guildMember) {
+        giveRoles.push(config.verification.guildMemberRole);
         await interaction.member.roles.add(config.verification.guildMemberRole, "Updated Roles");
 
         if (config.verification.ranks.length > 0 && guildMember.rank) {
@@ -110,20 +110,13 @@ module.exports = {
               }
             }
 
+            giveRoles.push(rank.role);
             await interaction.member.roles.add(rank.role, "Updated Roles");
           }
         }
       } else {
         if (interaction.member.roles.cache.has(config.verification.guildMemberRole)) {
           await interaction.member.roles.remove(config.verification.guildMemberRole, "Updated Roles");
-        }
-
-        if (config.verification.ranks.length > 0) {
-          for (const role of config.verification.ranks) {
-            if (interaction.member.roles.cache.has(role.role)) {
-              await interaction.member.roles.remove(role.role, "Updated Roles");
-            }
-          }
         }
       }
 
@@ -334,6 +327,7 @@ module.exports = {
       if (config.verification.levelRoles.length > 0) {
         for (const role of config.verification.levelRoles) {
           if (stats[role.type] >= role.requirement) {
+            giveRoles.push(role.roleId);
             await interaction.member.roles.add(role.roleId, "Updated Roles");
           }
         }
@@ -394,6 +388,11 @@ module.exports = {
         }),
         "Updated Roles",
       );
+
+      for (const role of roles) {
+        if (giveRoles.includes(role)) return;
+        if (interaction.member.roles.cache.has(role)) await interaction.member.roles.remove(role, "Updated Roles");
+      }
 
       const updateRole = new SuccessEmbed(
         `<@${interaction.user.id}>'s roles have been successfully synced with \`${player.nickname ?? "Unknown"}\`!`,
