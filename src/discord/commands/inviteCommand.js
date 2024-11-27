@@ -7,7 +7,7 @@ module.exports = {
   requiresBot: true,
   options: [
     {
-      name: "name",
+      name: "username",
       description: "Minecraft Username",
       type: 3,
       required: true,
