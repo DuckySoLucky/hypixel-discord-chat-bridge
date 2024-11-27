@@ -1,7 +1,14 @@
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
+const { replaceVariables } = require("../../contracts/helperFunctions.js");
 const { EmbedBuilder } = require("discord.js");
 const config = require("../../../config.json");
 const fs = require("fs");
+
+function formatOptions(name, required) {
+  return replaceVariables(required ? ` ({${name}})` : ` [{${name}}]`, { username: "u" })
+    .replaceAll("{", "")
+    .replaceAll("}", "");
+}
 
 module.exports = {
   name: "help",
@@ -21,7 +28,7 @@ module.exports = {
     if (commandName === undefined) {
       const discordCommands = interaction.client.commands
         .map(({ name, options }) => {
-          const optionsString = options?.map(({ name, required }) => (required ? ` (${name})` : ` [${name}]`)).join("");
+          const optionsString = options?.map(({ name, required }) => formatOptions(name, required)).join("");
           return `- \`${name}${optionsString ? optionsString : ""}\`\n`;
         })
         .join("");
@@ -31,9 +38,7 @@ module.exports = {
         .filter((file) => file.endsWith(".js"))
         .map((file) => {
           const command = new (require(`../../minecraft/commands/${file}`))();
-          const optionsString = command.options
-            ?.map(({ name, required }) => (required ? ` (${name})` : ` [${name}]`))
-            .join("");
+          const optionsString = command.options?.map(({ name, required }) => formatOptions(name, required)).join("");
 
           return `- \`${command.name}${optionsString}\`\n`;
         })
@@ -42,7 +47,7 @@ module.exports = {
       const helpMenu = new EmbedBuilder()
         .setColor(0x0099ff)
         .setTitle("Hypixel Discord Chat Bridge Commands")
-        .setDescription("() = required argument, [] = optional argument")
+        .setDescription("`()` = **required** argument, `[]` = **optional** argument\n`u` = Minecraft Username")
         .addFields(
           {
             name: "**Minecraft**: ",
