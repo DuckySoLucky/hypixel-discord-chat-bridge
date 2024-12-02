@@ -21,7 +21,7 @@ module.exports = {
   ],
 
   execute: async (interaction) => {
-    const [name, reason] = [interaction.options.getString("name"), interaction.options.getString("reason")];
+    const [name, reason] = [interaction.options.getString("username"), interaction.options.getString("reason")];
     bot.chat(`/g kick ${name} ${reason}`);
 
     const embed = new SuccessEmbed(`Successfully kicked **${name}** from the guild.`);

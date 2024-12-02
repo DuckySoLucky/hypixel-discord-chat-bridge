@@ -32,7 +32,7 @@ module.exports = {
   ],
 
   execute: async (interaction) => {
-    const name = interaction.options.getString("name");
+    const name = interaction.options.getString("username");
     const arg = interaction.options.getString("arg").toLowerCase();
 
     if (arg == "add") {

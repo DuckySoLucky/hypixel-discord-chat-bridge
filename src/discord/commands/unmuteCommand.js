@@ -15,7 +15,7 @@ module.exports = {
   ],
 
   execute: async (interaction) => {
-    const name = interaction.options.getString("name");
+    const name = interaction.options.getString("username");
     bot.chat(`/g unmute ${name}`);
 
     const embed = new EmbedBuilder()

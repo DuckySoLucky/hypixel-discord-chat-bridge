@@ -15,7 +15,7 @@ module.exports = {
   ],
 
   execute: async (interaction) => {
-    const name = interaction.options.getString("name");
+    const name = interaction.options.getString("username");
     bot.chat(`/g promote ${name}`);
 
     const embed = new SuccessEmbed(`Successfully promoted \`${name}\` by one guild rank.`);
