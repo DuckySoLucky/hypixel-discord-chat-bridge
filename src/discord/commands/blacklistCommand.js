@@ -24,7 +24,7 @@ module.exports = {
       ],
     },
     {
-      name: "name",
+      name: "username",
       description: "Minecraft Username",
       type: 3,
       required: true,
@@ -32,7 +32,7 @@ module.exports = {
   ],
 
   execute: async (interaction) => {
-    const name = interaction.options.getString("name");
+    const name = interaction.options.getString("username");
     const arg = interaction.options.getString("arg").toLowerCase();
 
     if (arg == "add") {
