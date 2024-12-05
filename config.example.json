@@ -116,7 +116,7 @@
     "ranks": [
       {
         "name": "IN_GAME_RANK_NAME",
-        "role": "DISCORD_ROLE_ID"
+        "roles": ["DISCORD_ROLE_ID"]
       }
     ]
   },

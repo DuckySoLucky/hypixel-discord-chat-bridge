@@ -5,6 +5,7 @@ module.exports = {
   description: "Connect Discord account to a Minecraft",
   moderatorOnly: true,
   verificationCommand: true,
+  requiresBot: true,
   options: [
     {
       name: "user",

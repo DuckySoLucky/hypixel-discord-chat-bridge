@@ -7,6 +7,7 @@ const { EmbedBuilder } = require("discord.js");
 module.exports = {
   name: "unverify",
   description: "Remove your linked Minecraft account",
+  requiresBot: true,
   verificationCommand: true,
 
   execute: async (interaction) => {
@@ -36,6 +37,12 @@ module.exports = {
         { text: `by @.kathund | /help [command] for more information`, iconURL: "https://i.imgur.com/uUuZx2E.png" },
       );
       await interaction.followUp({ embeds: [updateRole] });
+      const updateRolesCommand = require("./updateCommand.js");
+      if (updateRolesCommand === undefined) {
+        throw new HypixelDiscordChatBridgeError("The update command does not exist. Please contact an administrator.");
+      }
+
+      await updateRolesCommand.execute(interaction, undefined, true);
     } catch (error) {
       const errorEmbed = new EmbedBuilder()
         .setColor(15548997)
