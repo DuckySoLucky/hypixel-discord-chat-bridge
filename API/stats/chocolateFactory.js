@@ -1,4 +1,5 @@
 // CREDITS: by @Kathund (https://github.com/Kathund)
+const { errorMessage } = require("../../src/Logger.js");
 
 module.exports = (profile) => {
   try {
@@ -18,7 +19,7 @@ module.exports = (profile) => {
       level: profile.events?.easter?.chocolate_level || 0,
     };
   } catch (error) {
-    console.log(error);
+    errorMessage(error);
     return null;
   }
 };

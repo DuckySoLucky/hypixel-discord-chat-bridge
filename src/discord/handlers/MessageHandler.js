@@ -1,5 +1,6 @@
 const { uploadImage } = require("../../contracts/API/imgurAPI.js");
 const { demojify } = require("discord-emoji-converter");
+const { errorMessage } = require("../../Logger.js");
 const config = require("../../../config.json");
 
 class MessageHandler {
@@ -68,7 +69,7 @@ class MessageHandler {
 
       this.discord.broadcastMessage(messageData);
     } catch (error) {
-      console.log(error);
+      errorMessage(error);
     }
   }
 
@@ -111,7 +112,7 @@ class MessageHandler {
 
       return mentionedUserName ?? null;
     } catch (error) {
-      console.log(error);
+      errorMessage(error);
       return null;
     }
   }

@@ -23,7 +23,7 @@ module.exports = {
         if (command === undefined) {
           return;
         }
-        
+
         Logger.discordMessage(`${interaction.user.username} - [${interaction.commandName}]`);
 
         if (command.verificationCommand === true && config.verification.enabled === false) {
@@ -41,8 +41,7 @@ module.exports = {
         await command.execute(interaction);
       }
     } catch (error) {
-      console.log(error);
-
+      Logger.errorMessage(error);
       const errrorMessage =
         error instanceof HypixelDiscordChatBridgeError
           ? ""
