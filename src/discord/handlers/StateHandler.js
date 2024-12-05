@@ -12,9 +12,25 @@ class StateHandler {
       activities: [{ name: `/help | by @duckysolucky` }],
     });
 
+    global.guild = await client.guilds.fetch(config.discord.bot.serverID);
+    Logger.discordMessage("Guild ready, successfully fetched " + guild.name);
+    
     const channel = await this.getChannel("Guild");
     if (channel === undefined) {
       return Logger.errorMessage(`Channel "Guild" not found!`);
+    }
+    
+    if (config.statsChannels.enabled) require("../other/statsChannels.js");
+
+    global.guild = await client.guilds.fetch(config.discord.bot.serverID);
+    if (guild === undefined) {
+      return Logger.errorMessage(`Guild not found!`);
+    }
+
+    Logger.discordMessage("Guild ready, successfully fetched " + guild.name);
+
+    if (config.verification.autoUpdater) {
+      require("../other/updateUsers.js");
     }
 
     global.guild = await client.guilds.fetch(config.discord.bot.serverID);
