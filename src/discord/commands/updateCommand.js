@@ -52,6 +52,10 @@ module.exports = {
           }
         }
 
+        if (!interaction.member.roles.cache.has(config.verification.unverifiedRole)) {
+          await interaction.member.roles.add(config.verification.unverifiedRole, "Updated Roles");
+        }
+
         interaction.member.setNickname(null, "Updated Roles");
 
         throw new HypixelDiscordChatBridgeError("You are not linked to a Minecraft account.");
