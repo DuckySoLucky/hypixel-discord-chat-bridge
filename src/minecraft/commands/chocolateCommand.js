@@ -19,7 +19,7 @@ class ChocolateCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message, officer) {
+  async onCommand(username, message) {
     try {
       username = this.getArgs(message)[0] || username;
 
@@ -43,10 +43,9 @@ class ChocolateCommand extends minecraftCommand {
         } | Cousin: ${chocolateFactory.employees.cousin} | Sis: ${chocolateFactory.employees.sis} | Father: ${
           chocolateFactory.employees.father
         } | Grandma: ${chocolateFactory.employees.grandma}`,
-        officer,
       );
     } catch (error) {
-      this.send(`[ERROR] ${error}`, officer);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

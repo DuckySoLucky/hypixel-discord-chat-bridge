@@ -12,7 +12,7 @@ class MayorCommand extends minecraftCommand {
     this.options = [];
   }
 
-  async onCommand(username, message, officer) {
+  async onCommand(username, message) {
     try {
       // CREDITS: by @Kathund (https://github.com/Kathund)
       const { data } = await axios.get(`https://api.hypixel.net/v2/resources/skyblock/election`);
@@ -26,7 +26,6 @@ class MayorCommand extends minecraftCommand {
         `/gc [MAYOR] ${data.mayor.name} is the current mayor of Skyblock! Perks: ${data.mayor.perks
           .map((perk) => perk.name)
           .join(", ")}, Minister Perk: ${data.mayor.minister.perk.name}`,
-        officer,
       );
       await delay(500);
       if (data.mayor.election.candidates.length > 0) {
@@ -37,13 +36,10 @@ class MayorCommand extends minecraftCommand {
           0,
         );
         const percentage = ((currentLeader.votes || 0) / totalVotes) * 100;
-        this.send(
-          `/gc [MAYOR] Current Election: ${currentLeader.name} has ${percentage.toFixed(2)}% of the votes.`,
-          officer,
-        );
+        this.send(`/gc [MAYOR] Current Election: ${currentLeader.name} has ${percentage.toFixed(2)}% of the votes.`);
       }
     } catch (error) {
-      this.send(`[ERROR] ${error}`, officer);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

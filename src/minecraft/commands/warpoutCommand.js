@@ -10,10 +10,10 @@ class warpoutCommand extends minecraftCommand {
     this.options = [];
     this.isOnCooldown = false;
   }
-  async onCommand(username, message, officer) {
+  async onCommand(username, message) {
     try {
       if (this.isOnCooldown) {
-        return this.send(`${username} Command is on cooldown`, officer);
+        return this.send(`${username} Command is on cooldown`);
       }
 
       this.isOnCooldown = true;
@@ -33,66 +33,66 @@ class warpoutCommand extends minecraftCommand {
         if (message.includes("You cannot invite that player since they're not online.")) {
           bot.removeListener("message", warpoutListener);
           this.isOnCooldown = false;
-          this.send(`${user} is offline!`, officer);
+          this.send(`${user} is offline!`);
         } else if (message.includes("You cannot invite that player!")) {
           bot.removeListener("message", warpoutListener);
           this.isOnCooldown = false;
-          this.send(`${user} has party requests disabled!`, officer);
+          this.send(`${user} has party requests disabled!`);
         } else if (message.includes("invited") && message.includes("to the party! They have 60 seconds to accept.")) {
-          this.send(`Partying ${user}...`, officer);
+          this.send(`Partying ${user}...`);
         } else if (message.includes(" joined the party.")) {
           bot.chat("/p warp");
         } else if (message.includes("warped to your server")) {
           bot.removeListener("message", warpoutListener);
           this.isOnCooldown = false;
-          this.send(`Successfully warped ${user}!`, officer);
+          this.send(`Successfully warped ${user}!`);
           bot.chat("/p disband");
           await delay(1500);
           bot.chat("/limbo");
         } else if (message.includes(" cannot warp from Limbo")) {
           bot.removeListener("message", warpoutListener);
           this.isOnCooldown = false;
-          this.send(`${user} cannot be warped from Limbo! Disbanding party..`, officer);
+          this.send(`${user} cannot be warped from Limbo! Disbanding party..`);
           bot.chat("/p disband");
         } else if (message.includes(" is not allowed on your server!")) {
           bot.removeListener("message", warpoutListener);
           this.isOnCooldown = false;
-          this.send(`${user} is not allowed on my server! Disbanding party..`, officer);
+          this.send(`${user} is not allowed on my server! Disbanding party..`);
           bot.chat("/p leave");
           await delay(1500);
           this.send("\u00a7");
         } else if (message.includes("You are not allowed to invite players.")) {
           bot.removeListener("message", warpoutListener);
           this.isOnCooldown = false;
-          this.send(`Somehow I'm not allowed to invite players? Disbanding party..`, officer);
+          this.send(`Somehow I'm not allowed to invite players? Disbanding party..`);
           bot.chat("/p disband");
           await delay(1500);
           bot.chat("/limbo");
         } else if (message.includes("You are not allowed to disband this party.")) {
           bot.removeListener("message", warpoutListener);
           this.isOnCooldown = false;
-          this.send(`Somehow I'm not allowed to disband this party? Leaving party..`, officer);
+          this.send(`Somehow I'm not allowed to disband this party? Leaving party..`);
           bot.chat("/p leave");
           await delay(1500);
           bot.chat("/limbo");
         } else if (message.includes("You can't party warp into limbo!")) {
           bot.removeListener("message", warpoutListener);
           this.isOnCooldown = false;
-          this.send(`Somehow I'm inside in limbo? Disbanding party..`, officer);
+          this.send(`Somehow I'm inside in limbo? Disbanding party..`);
           bot.chat("/p disband");
         } else if (message.includes("Couldn't find a player with that name!")) {
           bot.removeListener("message", warpoutListener);
           this.isOnCooldown = false;
-          this.send(`Couldn't find a player with that name!`, officer);
+          this.send(`Couldn't find a player with that name!`);
           bot.chat("/p disband");
         } else if (message.includes("You cannot party yourself!")) {
           bot.removeListener("message", warpoutListener);
           this.isOnCooldown = false;
-          this.send(`I cannot party myself!`, officer);
+          this.send(`I cannot party myself!`);
         } else if (message.includes("didn't warp correctly!")) {
           bot.removeListener("message", warpoutListener);
           this.isOnCooldown = false;
-          this.send(`${user} didn't warp correctly! Please try again..`, officer);
+          this.send(`${user} didn't warp correctly! Please try again..`);
           bot.chat("/p disband");
         }
       };
@@ -103,7 +103,7 @@ class warpoutCommand extends minecraftCommand {
         bot.removeListener("message", warpoutListener);
 
         if (this.isOnCooldown === true) {
-          this.send("Party expired.", officer);
+          this.send("Party expired.");
           bot.chat("/p disband");
           bot.chat("/limbo");
 
@@ -111,7 +111,7 @@ class warpoutCommand extends minecraftCommand {
         }
       }, 30000);
     } catch (error) {
-      this.send(`${username} [ERROR] ${error || "Something went wrong.."}`, officer);
+      this.send(`${username} [ERROR] ${error || "Something went wrong.."}`);
       this.isOnCooldown = false;
     }
   }

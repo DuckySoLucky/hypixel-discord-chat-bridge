@@ -18,7 +18,7 @@ class GuildExperienceCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message, officer) {
+  async onCommand(username, message) {
     username = this.getArgs(message)[0] || username;
 
     try {
@@ -31,7 +31,7 @@ class GuildExperienceCommand extends minecraftCommand {
         throw "Player is not in the Guild.";
       }
 
-      this.send(`${username}'s Weekly Guild Experience: ${player.weeklyExperience.toLocaleString()}.`, officer);
+      this.send(`${username}'s Weekly Guild Experience: ${player.weeklyExperience.toLocaleString()}.`);
     } catch (error) {
       this.send(
         `${error
@@ -39,7 +39,6 @@ class GuildExperienceCommand extends minecraftCommand {
           .replace("[hypixel-api-reborn] ", "")
           .replace("For help join our Discord Server https://discord.gg/NSEBNMM", "")
           .replace("Error:", "[ERROR]")}`,
-        officer,
       );
     }
   }

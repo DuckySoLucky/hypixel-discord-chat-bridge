@@ -23,7 +23,7 @@ class AuctionHouseCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message, officer) {
+  async onCommand(username, message) {
     try {
       username = this.getArgs(message)[0] || username;
 
@@ -41,7 +41,7 @@ class AuctionHouseCommand extends minecraftCommand {
       const player = playerResponse.data?.player || {};
 
       if (auctions.length === 0) {
-        return this.send("This player has no active auctions.", officer);
+        return this.send("This player has no active auctions.");
       }
 
       const activeAuctions = auctions.filter((auction) => auction.end >= Date.now());
@@ -91,10 +91,10 @@ class AuctionHouseCommand extends minecraftCommand {
       }
 
       imgurUrl = string;
-      this.send(`/gc $${username}'s Active Auctions: Check Discord Bridge for image.`, officer);
+      this.send(`/gc $${username}'s Active Auctions: Check Discord Bridge for image.`);
     } catch (error) {
       console.log(error);
-      this.send(`[ERROR] ${error}`, officer);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

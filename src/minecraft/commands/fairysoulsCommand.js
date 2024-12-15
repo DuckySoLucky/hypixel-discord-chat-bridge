@@ -18,7 +18,7 @@ class FairySoulsCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message, officer) {
+  async onCommand(username, message) {
     try {
       username = this.getArgs(message)[0] || username;
 
@@ -34,10 +34,9 @@ class FairySoulsCommand extends minecraftCommand {
           (fairy_soul.total_collected / total) *
           100
         ).toFixed(2)}%`,
-        officer,
       );
     } catch (error) {
-      this.send(`[ERROR] ${error}`, officer);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

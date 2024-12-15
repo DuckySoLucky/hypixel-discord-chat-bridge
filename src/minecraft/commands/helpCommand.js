@@ -10,11 +10,11 @@ class HelpCommand extends minecraftCommand {
     this.options = [];
   }
 
-  onCommand(username, message, officer) {
+  onCommand(username, message) {
     try {
-      this.send(`https://i.imgur.com/NsB9IuC.png`, officer);
+      this.send(`https://i.imgur.com/NsB9IuC.png`);
     } catch (error) {
-      this.send("[ERROR] Something went wrong..", officer);
+      this.send("[ERROR] Something went wrong..");
     }
   }
 }

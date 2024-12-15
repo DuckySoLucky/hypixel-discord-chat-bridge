@@ -20,7 +20,7 @@ class StatsCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message, officer) {
+  async onCommand(username, message) {
     try {
       username = this.getArgs(message)[0] || username;
       const data = await getLatestProfile(username);
@@ -39,11 +39,11 @@ class StatsCommand extends minecraftCommand {
           .map((skill) => profile.senither.skills[skill].total)
           .reduce((a, b) => a + b, 0),
       )} | Dungeons: ${formatNumber(profile.senither.dungeons.total)}`;
-      this.send(`${username}'s ${senitherW}`, officer);
+      this.send(`${username}'s ${senitherW}`);
       await delay(690);
-      this.send(`${username}'s ${lilyW}`, officer);
+      this.send(`${username}'s ${lilyW}`);
     } catch (error) {
-      this.send(`[ERROR] ${error}`, officer);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

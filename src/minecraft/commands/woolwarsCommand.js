@@ -18,7 +18,7 @@ class WoolwarsCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message, officer) {
+  async onCommand(username, message) {
     try {
       username = this.getArgs(message)[0] || username;
 
@@ -46,10 +46,9 @@ class WoolwarsCommand extends minecraftCommand {
         )} | KDR: ${(kills / deaths).toFixed(2)} | BB: ${formatNumber(blocks_broken)} | WP: ${formatNumber(
           wool_placed,
         )} | WPP: ${(wool_placed / games_played).toFixed(2)} | WPG: ${(wool_placed / blocks_broken).toFixed(2)}`,
-        officer,
       );
     } catch (error) {
-      this.send(`[ERROR] ${error}`, officer);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

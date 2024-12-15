@@ -14,7 +14,7 @@ class JacobCommand extends minecraftCommand {
     this.options = [];
   }
 
-  async onCommand(username, message, officer) {
+  async onCommand(username, message) {
     try {
       // CREDITS: by @Kathund (https://github.com/Kathund)
       username = this.getArgs(message)[0] || username;
@@ -25,7 +25,6 @@ class JacobCommand extends minecraftCommand {
 
       this.send(
         `${username}'s Gold Medals: ${profile.medals.gold} | Silver: ${profile.medals.silver} | Bronze: ${profile.medals.bronze} | Double Drops ${profile.perks.doubleDrops} / 15 | Level Cap: ${profile.perks.levelCap} / 10`,
-        officer,
       );
 
       await delay(250);
@@ -46,10 +45,9 @@ class JacobCommand extends minecraftCommand {
           profile.personalBests.sugarCane,
           0,
         )}`,
-        officer,
       );
     } catch (error) {
-      this.send(`[ERROR] ${error}`, officer);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

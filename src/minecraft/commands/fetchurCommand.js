@@ -11,13 +11,13 @@ class FetchurCommand extends minecraftCommand {
     this.options = [];
   }
 
-  async onCommand(username, message, officer) {
+  async onCommand(username, message) {
     try {
       const { text, description } = getFetchur();
 
-      this.send(`Fetchur Requests: ${text} | Description: ${description}`, officer);
+      this.send(`Fetchur Requests: ${text} | Description: ${description}`);
     } catch (error) {
-      this.send(`[ERROR] ${error || "Something went wrong.."}`, officer);
+      this.send(`[ERROR] ${error || "Something went wrong.."}`);
     }
   }
 }

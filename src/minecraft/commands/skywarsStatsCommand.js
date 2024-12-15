@@ -16,7 +16,7 @@ class SkywarsCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message, officer) {
+  async onCommand(username, message) {
     try {
       username = this.getArgs(message)[0] || username;
 
@@ -26,7 +26,6 @@ class SkywarsCommand extends minecraftCommand {
 
       this.send(
         `[${level}✫] ${player.nickname} | Kills: ${kills} KDR: ${KDRatio} | Wins: ${wins} WLR: ${WLRatio} | WS: ${winstreak}`,
-        officer,
       );
     } catch (error) {
       this.send(
@@ -35,7 +34,6 @@ class SkywarsCommand extends minecraftCommand {
           .replace("[hypixel-api-reborn] ", "")
           .replace("For help join our Discord Server https://discord.gg/NSEBNMM", "")
           .replace("Error:", "[ERROR]")}`,
-        officer,
       );
     }
   }

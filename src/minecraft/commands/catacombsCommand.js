@@ -19,7 +19,7 @@ class CatacombsCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message, officer) {
+  async onCommand(username, message) {
     try {
       username = this.getArgs(message)[0] || username;
 
@@ -56,11 +56,10 @@ class CatacombsCommand extends minecraftCommand {
           dungeons.secrets_found ?? 0,
           1,
         )} (${SR} S/R)`,
-        officer,
       );
     } catch (error) {
       console.log(error);
-      this.send(`[ERROR] ${error}`, officer);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

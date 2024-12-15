@@ -19,7 +19,7 @@ class TrophyFishCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message, officer) {
+  async onCommand(username, message) {
     try {
       // CREDITS: by @Kathund (https://github.com/Kathund)
       username = this.getArgs(message)[0] || username;
@@ -41,11 +41,10 @@ class TrophyFishCommand extends minecraftCommand {
         )} / 18 | Total Gold: ${formatNumber(profile.trophyFishing.caught.gold)} | Total Diamond: ${formatNumber(
           profile.trophyFishing.caught.diamond,
         )} / 18`,
-        officer,
       );
     } catch (error) {
       console.log(error);
-      this.send(`[ERROR] ${error}`, officer);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

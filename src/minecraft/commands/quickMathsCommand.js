@@ -20,7 +20,7 @@ class QuickMathsCommand extends minecraftCommand {
     this.options = [];
   }
 
-  async onCommand(username, message, officer) {
+  async onCommand(username, message) {
     try {
       const userUsername = username;
       const operands = [Math.floor(Math.random() * 10), Math.floor(Math.random() * 10)];
@@ -31,7 +31,7 @@ class QuickMathsCommand extends minecraftCommand {
       const answer = eval(operands.join(operator));
       const headStart = 250;
 
-      this.send(`${username} What is ${equation}? (You have ${headStart}ms headstart)`, officer);
+      this.send(`${username} What is ${equation}? (You have ${headStart}ms headstart)`);
       await delay(headStart);
 
       const startTime = Date.now();
@@ -43,7 +43,7 @@ class QuickMathsCommand extends minecraftCommand {
         }
 
         answered = true;
-        this.send(`${userUsername} Correct! It took you ${(Date.now() - startTime).toLocaleString()}ms`, officer);
+        this.send(`${userUsername} Correct! It took you ${(Date.now() - startTime).toLocaleString()}ms`);
         bot.removeListener("chat", listener);
       };
 
@@ -53,11 +53,11 @@ class QuickMathsCommand extends minecraftCommand {
         bot.removeListener("chat", listener);
 
         if (!answered) {
-          this.send(`${userUsername} Time's up! The answer was ${answer}`, officer);
+          this.send(`${userUsername} Time's up! The answer was ${answer}`);
         }
       }, 10000);
     } catch (error) {
-      this.send(`${username} [ERROR] ${error || "Something went wrong.."}`, officer);
+      this.send(`${username} [ERROR] ${error || "Something went wrong.."}`);
     }
   }
 }

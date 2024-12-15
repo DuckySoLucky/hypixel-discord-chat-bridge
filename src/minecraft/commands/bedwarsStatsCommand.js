@@ -18,7 +18,7 @@ class BedwarsCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message, officer) {
+  async onCommand(username, message) {
     try {
       const msg = this.getArgs(message).map((arg) => arg.replaceAll("/", ""));
       const modes = ["solo", "doubles", "threes", "fours", "4v4"];
@@ -36,7 +36,6 @@ class BedwarsCommand extends minecraftCommand {
           `[${level}✫] ${player.nickname} FK: ${formatNumber(finalKills)} FKDR: ${finalKDRatio} W: ${formatNumber(
             wins,
           )} WLR: ${WLRatio} BB: ${formatNumber(broken)} BLR: ${BLRatio} WS: ${winstreak}`,
-          officer,
         );
       } else if (mode !== undefined) {
         const { level } = player.stats.bedwars;
@@ -49,10 +48,9 @@ class BedwarsCommand extends minecraftCommand {
           )} FKDR: ${finalKDRatio} Wins: ${formatNumber(wins)} WLR: ${WLRatio} BB: ${formatNumber(
             broken,
           )} BLR: ${BLRatio} WS: ${winstreak}`,
-          officer,
         );
       } else {
-        this.send("Invalid mode. Valid modes: overall, solo, doubles, threes, fours, 4v4", officer);
+        this.send("Invalid mode. Valid modes: overall, solo, doubles, threes, fours, 4v4");
       }
     } catch (error) {
       this.send(
@@ -61,7 +59,6 @@ class BedwarsCommand extends minecraftCommand {
           .replace("[hypixel-api-reborn] ", "")
           .replace("For help join our Discord Server https://discord.gg/NSEBNMM", "")
           .replace("Error:", "[ERROR]")}`,
-        officer,
       );
     }
   }

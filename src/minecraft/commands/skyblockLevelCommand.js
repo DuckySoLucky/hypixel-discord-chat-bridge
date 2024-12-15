@@ -18,7 +18,7 @@ class CatacombsCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message, officer) {
+  async onCommand(username, message) {
     try {
       username = this.getArgs(message)[0] || username;
 
@@ -27,11 +27,11 @@ class CatacombsCommand extends minecraftCommand {
       username = formatUsername(username, data.profileData?.game_mode);
 
       const experience = data.profile.leveling?.experience ?? 0;
-      this.send(`${username}'s Skyblock Level: ${experience ? experience / 100 : 0}`, officer);
+      this.send(`${username}'s Skyblock Level: ${experience ? experience / 100 : 0}`);
     } catch (error) {
       console.log(error);
 
-      this.send(`[ERROR] ${error}`, officer);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

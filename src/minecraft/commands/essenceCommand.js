@@ -19,7 +19,7 @@ class EssenceCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message, officer) {
+  async onCommand(username, message) {
     try {
       // CREDITS: by @Kathund (https://github.com/Kathund)
       username = this.getArgs(message)[0] || username;
@@ -46,12 +46,11 @@ class EssenceCommand extends minecraftCommand {
           dungeons.essence.gold,
           0,
         )} | Ice: ${formatNumber(dungeons.essence.ice, 0)} | Crimson: ${formatNumber(dungeons.essence.crimson, 0)}`,
-        officer,
       );
     } catch (error) {
       console.log(error);
 
-      this.send(`[ERROR] ${error}`, officer);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

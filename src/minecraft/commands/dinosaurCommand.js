@@ -11,7 +11,7 @@ class DinosaurCommand extends minecraftCommand {
     this.options = [];
   }
 
-  async onCommand(username, message, officer) {
+  async onCommand(username, message) {
     // CREDITS: by @Kathund (https://github.com/Kathund)
     try {
       const { data, status } = await axios.get("https://imgs.kath.lol/dinosaur");
@@ -26,9 +26,9 @@ class DinosaurCommand extends minecraftCommand {
       }
 
       imgurUrl = data.url;
-      this.send("/gc Funny dino: Check Discord Bridge for image.", officer);
+      this.send("/gc Funny dino: Check Discord Bridge for image.");
     } catch (error) {
-      this.send(`[ERROR] ${error}`, officer);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

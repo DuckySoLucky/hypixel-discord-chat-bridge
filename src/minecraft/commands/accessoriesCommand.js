@@ -19,7 +19,7 @@ class AccessoriesCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message, officer) {
+  async onCommand(username, message) {
     try {
       username = this.getArgs(message)[0] || username;
 
@@ -50,10 +50,9 @@ class AccessoriesCommand extends minecraftCommand {
         `${username}'s Accessories: ${talismans?.total ?? 0} (${rarities}), Recombed: ${
           talismans?.recombed ?? 0
         }, Enriched: ${talismans?.enriched ?? 0} | Reforge: ${talismans.power} | Magic Power: ${talismans.magicPower}`,
-        officer,
       );
     } catch (error) {
-      this.send(`[ERROR] ${error}`, officer);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

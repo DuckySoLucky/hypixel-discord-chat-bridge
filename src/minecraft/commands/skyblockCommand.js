@@ -24,7 +24,7 @@ class SkyblockCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message, officer) {
+  async onCommand(username, message) {
     try {
       username = this.getArgs(message)[0] || username;
 
@@ -71,10 +71,9 @@ class SkyblockCommand extends minecraftCommand {
         `${username}'s Level: ${
           data.profile.leveling?.experience ? data.profile.leveling.experience / 100 : 0
         } | Skill Avg: ${skillAverage} | Slayer: ${slayerText} | Cata: ${catacombsLevel} | Class Avg: ${classAverage} | NW: ${networthValue} | MP: ${mp} | Hotm: ${hotmLevel}`,
-        officer,
       );
     } catch (error) {
-      this.send(`[ERROR] ${error}`, officer);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

@@ -23,7 +23,7 @@ class DuelsStatsCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message, officer) {
+  async onCommand(username, message) {
     try {
       const duelTypes = [
         "blitz",
@@ -71,7 +71,6 @@ class DuelsStatsCommand extends minecraftCommand {
           )} | CWS: ${player.stats.duels.winstreak} | BWS: ${player.stats.duels.bestWinstreak} | WLR: ${
             player.stats.duels.WLRatio
           }`,
-          officer,
         );
       } else {
         const duelData = player.stats.duels?.[duel]?.[Object.keys(player.stats.duels[duel])[0]];
@@ -85,7 +84,6 @@ class DuelsStatsCommand extends minecraftCommand {
           `[${duel.toUpperCase() ?? "Unknown"}] [${division}] ${
             username ?? 0
           } Wins: ${wins} | CWS: ${winstreak} | BWS: ${bestWinstreak} | WLR: ${WLRatio}`,
-          officer,
         );
       }
     } catch (error) {
@@ -95,7 +93,6 @@ class DuelsStatsCommand extends minecraftCommand {
           .replace("[hypixel-api-reborn] ", "")
           .replace("For help join our Discord Server https://discord.gg/NSEBNMM", "")
           .replace("Error:", "[ERROR]")}`,
-        officer,
       );
     }
   }

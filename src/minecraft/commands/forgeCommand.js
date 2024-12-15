@@ -19,7 +19,7 @@ class ForgeCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message, officer) {
+  async onCommand(username, message) {
     try {
       username = this.getArgs(message)[0] || username;
 
@@ -42,9 +42,9 @@ class ForgeCommand extends minecraftCommand {
       const forgeItems = hotm.forge.map((item) => {
         return `Slot ${item.slot}: ${item.name} ${item.timeFinishedText}`;
       });
-      this.send(`${username}'s Forge: ${forgeItems.join(" | ")}`, officer);
+      this.send(`${username}'s Forge: ${forgeItems.join(" | ")}`);
     } catch (error) {
-      this.send(`[ERROR] ${error}`, officer);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

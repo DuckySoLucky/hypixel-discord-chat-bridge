@@ -11,7 +11,7 @@ class ChickenCommand extends minecraftCommand {
     this.options = [];
   }
 
-  async onCommand(username, message, officer) {
+  async onCommand(username, message) {
     // CREDITS: by @Kathund (https://github.com/Kathund)
     try {
       const { data, status } = await axios.get("https://imgs.kath.lol/chicken");
@@ -26,9 +26,9 @@ class ChickenCommand extends minecraftCommand {
       }
 
       imgurUrl = data.url;
-      this.send("/gc Funny Chicken: Check Discord Bridge for image.", officer);
+      this.send("/gc Funny Chicken: Check Discord Bridge for image.");
     } catch (error) {
-      this.send(`[ERROR] ${error ?? "Something went wrong.."}`, officer);
+      this.send(`[ERROR] ${error ?? "Something went wrong.."}`);
     }
   }
 }

@@ -25,12 +25,12 @@ class RenderCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message, officer) {
+  async onCommand(username, message) {
     try {
       let itemNumber = 0;
       const arg = this.getArgs(message);
       if (!arg[0]) {
-        this.send("Wrong Usage: !render [name] [slot] | !render [slot]", officer);
+        this.send("Wrong Usage: !render [name] [slot] | !render [slot]");
       }
       if (!isNaN(Number(arg[0]))) {
         itemNumber = arg[0];
@@ -40,7 +40,7 @@ class RenderCommand extends minecraftCommand {
         if (!isNaN(Number(arg[1]))) {
           itemNumber = arg[1];
         } else {
-          this.send("Wrong Usage: !render [name] [slot] | !render [slot]", officer);
+          this.send("Wrong Usage: !render [name] [slot] | !render [slot]");
           return;
         }
       }
@@ -62,7 +62,7 @@ class RenderCommand extends minecraftCommand {
         inventoryData[itemNumber - 1] === undefined ||
         Object.keys(inventoryData[itemNumber - 1] || {}).length === 0
       ) {
-        return this.send(`Player does not have an item at slot ${itemNumber}.`, officer);
+        return this.send(`Player does not have an item at slot ${itemNumber}.`);
       }
 
       const Name = inventoryData[itemNumber - 1]?.tag?.display?.Name;
@@ -73,10 +73,10 @@ class RenderCommand extends minecraftCommand {
       const upload = await uploadImage(renderedItem);
 
       imgurUrl = upload.data.link;
-      this.send(`/gc ${username}'s item at slot ${itemNumber}: Check Discord Bridge for image.`, officer);
+      this.send(`/gc ${username}'s item at slot ${itemNumber}: Check Discord Bridge for image.`);
     } catch (error) {
       console.log(error);
-      this.send(`[ERROR] ${error}`, officer);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

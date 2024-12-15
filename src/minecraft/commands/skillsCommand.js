@@ -19,7 +19,7 @@ class SkillsCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message, officer) {
+  async onCommand(username, message) {
     try {
       username = this.getArgs(message)[0] || username;
 
@@ -45,9 +45,9 @@ class SkillsCommand extends minecraftCommand {
         })
         .join(", ");
 
-      this.send(`${username}'s Skill Average: ${skillAverage ?? 0} (${skillsFormatted})`, officer);
+      this.send(`${username}'s Skill Average: ${skillAverage ?? 0} (${skillsFormatted})`);
     } catch (error) {
-      this.send(`[ERROR] ${error}`, officer);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

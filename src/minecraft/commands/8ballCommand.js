@@ -17,7 +17,7 @@ class EightBallCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message, officer) {
+  async onCommand(username, message) {
     try {
       if (this.getArgs(message).length === 0) {
         // eslint-disable-next-line no-throw-literal
@@ -26,9 +26,9 @@ class EightBallCommand extends minecraftCommand {
 
       const { data } = await axios.get(`https://www.eightballapi.com/api`);
 
-      this.send(`${data.reading}`, officer);
+      this.send(`${data.reading}`);
     } catch (error) {
-      this.send(`[ERROR] ${error}`, officer);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }
