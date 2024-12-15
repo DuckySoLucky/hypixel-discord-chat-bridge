@@ -2,6 +2,7 @@ const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js")
 const { EmbedBuilder } = require("discord.js");
 const config = require("../../../config.json");
 const fs = require("fs");
+const { getCommands } = require("./infoCommand.js");
 
 module.exports = {
   name: "help",
@@ -16,92 +17,77 @@ module.exports = {
   ],
 
   execute: async (interaction) => {
-    const commandName = interaction.options.getString("command") || undefined;
+    try {
+      const commandName = interaction.options.getString("command") || undefined;
+      const { discordCommands, minecraftCommands } = getCommands(interaction.client.commands);
 
-    if (commandName === undefined) {
-      const discordCommands = interaction.client.commands
-        .map(({ name, options }) => {
-          const optionsString = options?.map(({ name, required }) => (required ? ` (${name})` : ` [${name}]`)).join("");
-          return `- \`${name}${optionsString ? optionsString : ""}\`\n`;
-        })
-        .join("");
+      if (commandName === undefined) {
+        const helpMenu = new EmbedBuilder()
+          .setColor(0x0099ff)
+          .setTitle("Hypixel Discord Chat Bridge Commands")
+          .setDescription("`()` = **required** argument, `[]` = **optional** argument\n`u` = Minecraft Username")
+          .addFields(
+            {
+              name: "**Minecraft**: ",
+              value: `${minecraftCommands}`,
+              inline: true,
+            },
+            {
+              name: "**Discord**: ",
+              value: `${discordCommands}`,
+              inline: true,
+            },
+          )
+          .setFooter({
+            text: "by @duckysolucky | /help [command] for more information",
+            iconURL: "https://imgur.com/tgwQJTX.png",
+          });
 
-      const minecraftCommands = fs
-        .readdirSync("./src/minecraft/commands")
-        .filter((file) => file.endsWith(".js"))
-        .map((file) => {
-          const command = new (require(`../../minecraft/commands/${file}`))();
-          const optionsString = command.options
-            ?.map(({ name, required }) => (required ? ` (${name})` : ` [${name}]`))
-            .join("");
+        await interaction.followUp({ embeds: [helpMenu] });
+      } else {
+        const minecraftCommand = fs
+          .readdirSync("./src/minecraft/commands")
+          .filter((file) => file.endsWith(".js"))
+          .map((file) => new (require(`../../minecraft/commands/${file}`))())
+          .find((command) => command.name === commandName || command.aliases.includes(commandName));
 
-          return `- \`${command.name}${optionsString}\`\n`;
-        })
-        .join("");
+        const type = minecraftCommand ? "minecraft" : "discord";
 
-      const helpMenu = new EmbedBuilder()
-        .setColor(0x0099ff)
-        .setTitle("Hypixel Discord Chat Bridge Commands")
-        .setDescription("() = required argument, [] = optional argument")
-        .addFields(
-          {
-            name: "**Minecraft**: ",
-            value: `${minecraftCommands}`,
-            inline: true,
-          },
-          {
-            name: "**Discord**: ",
-            value: `${discordCommands}`,
-            inline: true,
-          },
-        )
-        .setFooter({
-          text: "by @duckysolucky | /help [command] for more information",
-          iconURL: "https://imgur.com/tgwQJTX.png",
-        });
+        const command = interaction.client.commands.find((command) => command.name === commandName) ?? minecraftCommand;
+        if (command === undefined) {
+          throw new HypixelDiscordChatBridgeError(`Command ${commandName} not found.`);
+        }
 
-      await interaction.followUp({ embeds: [helpMenu] });
-    } else {
-      const minecraftCommand = fs
-        .readdirSync("./src/minecraft/commands")
-        .filter((file) => file.endsWith(".js"))
-        .map((file) => new (require(`../../minecraft/commands/${file}`))())
-        .find((command) => command.name === commandName || command.aliases.includes(commandName));
+        const description = `${
+          command.aliases
+            ? `\nAliases: ${command.aliases
+                .map((aliase) => {
+                  return `\`${config.minecraft.bot.prefix}${aliase}\``;
+                })
+                .join(", ")}\n\n`
+            : ""
+        }${command.description}\n\n${
+          command.options
+            ?.map(({ name, required, description }) => {
+              const optionString = required ? `(${name})` : `[${name}]`;
+              return `\`${optionString}\`: ${description}\n`;
+            })
+            .join("") || ""
+        }`;
 
-      const type = minecraftCommand ? "minecraft" : "discord";
+        const embed = new EmbedBuilder()
+          .setColor(0x0099ff)
+          .setTitle(`**${type === "discord" ? "/" : config.minecraft.bot.prefix}${command.name}**`)
+          .setDescription(description + "\n")
+          .setFooter({
+            text: "by @duckysolucky | () = required, [] = optional",
+            iconURL: "https://imgur.com/tgwQJTX.png",
+          });
 
-      const command = interaction.client.commands.find((command) => command.name === commandName) ?? minecraftCommand;
-      if (command === undefined) {
-        throw new HypixelDiscordChatBridgeError(`Command ${commandName} not found.`);
+        await interaction.followUp({ embeds: [embed] });
       }
-
-      const description = `${
-        command.aliases
-          ? `\nAliases: ${command.aliases
-              .map((aliase) => {
-                return `\`${config.minecraft.bot.prefix}${aliase}\``;
-              })
-              .join(", ")}\n\n`
-          : ""
-      }${command.description}\n\n${
-        command.options
-          ?.map(({ name, required, description }) => {
-            const optionString = required ? `(${name})` : `[${name}]`;
-            return `\`${optionString}\`: ${description}\n`;
-          })
-          .join("") || ""
-      }`;
-
-      const embed = new EmbedBuilder()
-        .setColor(0x0099ff)
-        .setTitle(`**${type === "discord" ? "/" : config.minecraft.bot.prefix}${command.name}**`)
-        .setDescription(description + "\n")
-        .setFooter({
-          text: "by @duckysolucky | () = required, [] = optional",
-          iconURL: "https://imgur.com/tgwQJTX.png",
-        });
-
-      await interaction.followUp({ embeds: [embed] });
+    } catch (error) {
+      console.log(error);
     }
   },
 };

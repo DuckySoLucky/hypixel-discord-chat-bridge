@@ -1,13 +1,14 @@
 /* eslint-disable no-throw-literal */
 const { getUUID } = require("../../src/contracts/API/mowojangAPI.js");
 const { getMuseum } = require("./getMuseum.js");
+const { getGarden } = require("./getGarden.js");
 const { isUuid } = require("../utils/uuid.js");
 const config = require("../../config.json");
 const axios = require("axios");
 
 const cache = new Map();
 
-async function getLatestProfile(uuid, options = { museum: false }) {
+async function getLatestProfile(uuid, options = { museum: false, garden: false }) {
   if (!isUuid(uuid)) {
     uuid = await getUUID(uuid).catch((error) => {
       throw error;
@@ -59,6 +60,7 @@ async function getLatestProfile(uuid, options = { museum: false }) {
     playerRes: playerRes.player,
     uuid: uuid,
     ...(options.museum ? await getMuseum(profileData.profile_id, uuid) : {}),
+    ...(options.garden ? await getGarden(profileData.profile_id) : {}),
   };
 
   cache.set(uuid, output);

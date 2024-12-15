@@ -11,7 +11,7 @@ module.exports = {
   verificationCommand: true,
   options: [
     {
-      name: "name",
+      name: "username",
       description: "Minecraft Username",
       type: 3,
       required: true,
@@ -46,7 +46,7 @@ module.exports = {
         }
       }
 
-      const username = interaction.options.getString("name");
+      const username = interaction.options.getString("username");
       const { socialMedia, nickname, uuid } = await hypixelRebornAPI.getPlayer(username);
       if (Object.values(linked).includes(uuid) === true) {
         if (bypassChecks === true) {
