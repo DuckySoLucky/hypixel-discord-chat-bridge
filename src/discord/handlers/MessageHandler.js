@@ -16,7 +16,7 @@ class MessageHandler {
 
       const discordUser = await message.guild.members.fetch(message.author.id);
       const memberRoles = discordUser.roles.cache.map((role) => role.id);
-      if (memberRoles.some((role) => config.discord.commands.blacklistRoles.includes(role))) {
+      if (memberRoles.includes(config.discord.commands.blacklistRole)) {
         return;
       }
 
