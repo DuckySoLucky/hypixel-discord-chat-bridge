@@ -10,7 +10,7 @@ function updateCode() {
 
   exec("git pull", (error, stdout, stderr) => {
     if (error) {
-      console.error(`Git pull error: ${error}`);
+      Logger.console.error(error);
       return;
     }
 

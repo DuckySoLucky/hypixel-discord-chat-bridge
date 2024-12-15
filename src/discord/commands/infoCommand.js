@@ -95,7 +95,7 @@ module.exports = {
         });
       await interaction.followUp({ embeds: [infoEmbed] });
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   },
 };

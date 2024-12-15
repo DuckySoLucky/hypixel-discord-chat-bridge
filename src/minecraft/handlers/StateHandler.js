@@ -19,7 +19,7 @@ class StateHandler extends eventHandler {
   }
 
   onLogin() {
-    Logger.minecraftMessage("Client ready, logged in as " + this.bot.username);
+    console.minecraft("Client ready, logged in as " + this.bot.username);
 
     this.loginAttempts = 0;
     this.exactDelay = 0;
@@ -31,13 +31,13 @@ class StateHandler extends eventHandler {
     }
 
     const loginDelay = this.exactDelay > 60000 ? 60000 : (this.loginAttempts + 1) * 50000;
-    Logger.warnMessage(`Minecraft bot has disconnected! Attempting reconnect in ${loginDelay / 1000} seconds`);
+    console.warn(`Minecraft bot has disconnected! Attempting reconnect in ${loginDelay / 1000} seconds`);
 
     setTimeout(() => this.minecraft.connect(), 2500);
   }
 
   onKicked(reason) {
-    Logger.warnMessage(`Minecraft bot has been kicked from the server for "${reason}"`);
+    console.warn(`Minecraft bot has been kicked from the server for "${reason}"`);
 
     this.loginAttempts++;
   }
