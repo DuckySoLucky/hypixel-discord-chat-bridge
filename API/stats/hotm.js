@@ -4,25 +4,8 @@ const miningConst = require("../constants/mining.js");
 const calcSkill = require("../constants/skills.js");
 const moment = require("moment");
 
-module.exports = (player, profile) => {
+module.exports = (profile) => {
   try {
-    const commissions = {
-      total: player?.achievements?.skyblock_hard_working_miner ?? 0,
-      milestone: 0,
-    };
-
-    // CREDITS: https://github.com/SkyCryptWebsite/SkyCrypt/blob/b9842bea6f1494fa2d2fd005b64f57d84646c188/src/stats/mining.js#L129
-    if (profile.objectives?.tutorial !== undefined) {
-      for (const key of profile.objectives.tutorial) {
-        if (key.startsWith("commission_milestone_reward_mining_xp_tier_") === false) {
-          continue;
-        }
-
-        const tier = parseInt(key.slice(43));
-        commissions.milestone = Math.max(commissions.milestone, tier);
-      }
-    }
-
     const forgeItems = [];
     if (profile.forge?.forge_processes?.forge_1) {
       const forge = Object.values(profile.forge.forge_processes.forge_1);
@@ -80,7 +63,6 @@ module.exports = (player, profile) => {
       },
       level: calcSkill("hotm", profile?.mining_core?.experience || 0),
       ability: titleCase(profile?.mining_core?.selected_pickaxe_ability || "none", true),
-      commissions: commissions,
       forge: forgeItems,
     };
   } catch (error) {
