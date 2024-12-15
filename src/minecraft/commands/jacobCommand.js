@@ -9,7 +9,7 @@ class JacobCommand extends minecraftCommand {
     super(minecraft);
 
     this.name = "jacob";
-    this.aliases = ["jacobs", "garden", "jacobcontest", "contest"];
+    this.aliases = ["jacobs", "jacobcontest", "contest"];
     this.description = "Jacob's Contest Stats of specified user.";
     this.options = [];
   }

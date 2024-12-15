@@ -1,12 +1,16 @@
 const MinecraftManager = require("./minecraft/MinecraftManager.js");
+const { existsSync, mkdirSync, writeFileSync } = require("fs");
 const DiscordManager = require("./discord/DiscordManager.js");
 const webManager = require("./web/WebsiteManager.js");
-// eslint-disable-next-line no-unused-vars
-const Configuration = require("./Configuration.js");
-// eslint-disable-next-line no-unused-vars
-const Updater = require("./Updater.js");
 
 class Application {
+  constructor() {
+    require("./Configuration.js");
+    require("./Updater.js");
+    if (!existsSync("./data/")) mkdirSync("./data/", { recursive: true });
+    if (!existsSync("./data/linked.json")) writeFileSync("./data/linked.json", JSON.stringify({}));
+  }
+
   async register() {
     this.discord = new DiscordManager(this);
     this.minecraft = new MinecraftManager(this);
