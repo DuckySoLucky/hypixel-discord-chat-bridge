@@ -22,6 +22,5 @@
     "no-constant-condition": ["error", { "checkLoops": false }],
     "import/extensions": ["warn", "always", { "ts": "never" }],
     "no-throw-literal": "error",
-    "no-console": "error"
   }
 }

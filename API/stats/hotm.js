@@ -1,6 +1,5 @@
 // CREDITS: by @Kathund (https://github.com/Kathund)
 const { titleCase } = require("../constants/functions.js");
-const { errorMessage } = require("../../src/Logger.js");
 const miningConst = require("../constants/mining.js");
 const calcSkill = require("../constants/skills.js");
 const moment = require("moment");
@@ -52,7 +51,7 @@ module.exports = (player, profile) => {
           forgeItem.timeFinishedText =
             timeFinished < Date.now() ? "Finished" : `ending ${moment(timeFinished).fromNow()}`;
         } else {
-          errorMessage(item);
+          console.error(item);
           forgeItem.name = "Unknown Item";
           forgeItem.id = `UNKNOWN-${item.id}`;
         }
@@ -85,7 +84,7 @@ module.exports = (player, profile) => {
       forge: forgeItems,
     };
   } catch (error) {
-    errorMessage(error);
+    console.error(error);
     return null;
   }
 };

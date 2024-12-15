@@ -3,7 +3,6 @@ const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { uploadImage } = require("../../contracts/API/imgurAPI.js");
 const { renderLore } = require("../../contracts/renderItem.js");
-const { errorMessage } = require("../../Logger.js");
 
 class RenderCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -76,7 +75,7 @@ class RenderCommand extends minecraftCommand {
       imgurUrl = upload.data.link;
       this.send(`/gc ${username}'s item at slot ${itemNumber}: Check Discord Bridge for image.`);
     } catch (error) {
-      errorMessage(error);
+      console.error(error);
       this.send(`/gc [ERROR] ${error}`);
     }
   }

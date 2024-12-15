@@ -33,7 +33,7 @@ class DiscordManager extends CommunicationBridge {
     this.client.on("messageCreate", (message) => this.messageHandler.onMessage(message));
 
     this.client.login(config.discord.bot.token).catch((error) => {
-      Logger.errorMessage(error);
+      Logger.console.error(error);
     });
 
     client.commands = new Collection();
@@ -106,7 +106,7 @@ class DiscordManager extends CommunicationBridge {
 
     const channel = await this.stateHandler.getChannel(chat || "Guild");
     if (channel === undefined) {
-      Logger.errorMessage(`Channel ${chat} not found!`);
+      Logger.console.error(`Channel ${chat} not found!`);
       return;
     }
     if (username === bot.username && message.endsWith("Check Discord Bridge for image.")) {
@@ -195,7 +195,7 @@ class DiscordManager extends CommunicationBridge {
   }
 
   async onBroadcastHeadedEmbed({ message, title, icon, color, channel }) {
-    Logger.broadcastMessage(message, "Event");
+    console.broadcast(message, "Event");
 
     channel = await this.stateHandler.getChannel(channel);
     channel.send({
@@ -213,7 +213,7 @@ class DiscordManager extends CommunicationBridge {
   }
 
   async onPlayerToggle({ fullMessage, username, message, color, channel }) {
-    Logger.broadcastMessage(message, "Event");
+    console.broadcast(message, "Event");
     channel = await this.stateHandler.getChannel(channel);
     switch (config.discord.other.messageMode.toLowerCase()) {
       case "bot":

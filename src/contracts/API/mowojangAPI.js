@@ -1,4 +1,3 @@
-const { errorMessage } = require("../../Logger.js");
 const axios = require("axios");
 
 const uuidCache = new Map();
@@ -29,7 +28,7 @@ async function getUUID(username) {
   } catch (error) {
     // eslint-disable-next-line no-throw-literal
     if (error.response.data === "Not found") throw "Invalid username.";
-    errorMessage(error);
+    console.error(error);
     throw error;
   }
 }
@@ -58,7 +57,7 @@ async function getUsername(uuid) {
 
     return data.name;
   } catch (error) {
-    errorMessage(error);
+    console.error(error);
     // eslint-disable-next-line no-throw-literal
     if (error.response?.data === "Not found") throw "Invalid UUID.";
     throw error;
@@ -76,7 +75,7 @@ async function resolveUsernameOrUUID(username) {
   } catch (error) {
     // eslint-disable-next-line no-throw-literal
     if (error.response.data === "Not found") throw "Invalid Username Or UUID.";
-    errorMessage(error);
+    console.error(error);
     throw error;
   }
 }

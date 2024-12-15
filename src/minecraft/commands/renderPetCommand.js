@@ -4,7 +4,6 @@ const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { uploadImage } = require("../../contracts/API/imgurAPI.js");
 const { renderLore } = require("../../contracts/renderItem.js");
 const getPets = require("../../../API/stats/pets.js");
-const { errorMessage } = require("../../Logger.js");
 
 class RenderCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -50,7 +49,7 @@ class RenderCommand extends minecraftCommand {
       imgurUrl = upload.data.link ?? "Something went Wrong..";
       return this.send(`/gc ${username}'s Active Pet: Check Discord Bridge for image.`);
     } catch (error) {
-      errorMessage(error);
+      console.error(error);
       this.send(`/gc [ERROR] ${error}`);
     }
   }

@@ -1,6 +1,5 @@
 const calcSkill = require("../constants/skills.js");
 const { titleCase } = require("../constants/functions.js");
-const { errorMessage } = require("../../src/Logger.js");
 
 module.exports = (profile) => {
   try {
@@ -96,7 +95,7 @@ module.exports = (profile) => {
       },
     };
   } catch (error) {
-    errorMessage(error);
+    console.error(error);
     return null;
   }
 };

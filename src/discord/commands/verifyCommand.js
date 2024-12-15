@@ -3,7 +3,6 @@ const hypixelRebornAPI = require("../../contracts/API/HypixelRebornAPI.js");
 const { writeFileSync, readFileSync } = require("fs");
 const config = require("../../../config.json");
 const { EmbedBuilder } = require("discord.js");
-const { errorMessage } = require("../../Logger.js");
 
 module.exports = {
   name: "verify",
@@ -95,7 +94,7 @@ module.exports = {
 
       await updateRolesCommand.execute(interaction, user);
     } catch (error) {
-      errorMessage(error);
+      console.error(error);
       // eslint-disable-next-line no-ex-assign
       error = error
         .toString()

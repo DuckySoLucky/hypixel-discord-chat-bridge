@@ -7,7 +7,7 @@ const CommandHandler = require("./CommandHandler.js");
 const config = require("../../config.json");
 const mineflayer = require("mineflayer");
 const Filter = require("bad-words");
-const { broadcastMessage } = require("../Logger.js");
+
 const filter = new Filter();
 const fileredWords = config.discord.other.filterWords ?? "";
 filter.addWords(...fileredWords);
@@ -48,7 +48,7 @@ class MinecraftManager extends CommunicationBridge {
   }
 
   async onBroadcast({ channel, username, message, replyingTo, discord }) {
-    broadcastMessage(`${username}: ${message}`, "Minecraft");
+    console.broadcast(`${username}: ${message}`, "Minecraft");
     if (this.bot.player === undefined) {
       return;
     }

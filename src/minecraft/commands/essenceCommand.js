@@ -2,7 +2,6 @@ const { formatNumber, formatUsername } = require("../../contracts/helperFunction
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const getDungeons = require("../../../API/stats/dungeons.js");
-const { errorMessage } = require("../../Logger.js");
 
 class EssenceCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -49,7 +48,7 @@ class EssenceCommand extends minecraftCommand {
         )} | Ice: ${formatNumber(dungeons.essence.ice, 0)} | Crimson: ${formatNumber(dungeons.essence.crimson, 0)}`,
       );
     } catch (error) {
-      errorMessage(error);
+      console.error(error);
 
       this.send(`/gc [ERROR] ${error}`);
     }

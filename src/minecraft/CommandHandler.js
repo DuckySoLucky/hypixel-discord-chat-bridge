@@ -1,4 +1,3 @@
-const { minecraftMessage } = require("../Logger.js");
 const { Collection } = require("discord.js");
 const config = require("../../config.json");
 const axios = require("axios");
@@ -34,7 +33,7 @@ class CommandHandler {
         return;
       }
 
-      minecraftMessage(`${player} - [${command.name}] ${message}`);
+      console.minecraft(`${player} - [${command.name}] ${message}`);
       command.onCommand(player, message);
     } else if (message.startsWith("-") && message.startsWith("- ") === false) {
       if (config.minecraft.commands.soopy === false || message.at(1) === "-") {
@@ -48,7 +47,7 @@ class CommandHandler {
 
       bot.chat(`/gc [SOOPY V2] ${message}`);
 
-      minecraftMessage(`${player} - [${command}] ${message}`);
+      console.minecraft(`${player} - [${command}] ${message}`);
 
       (async () => {
         try {

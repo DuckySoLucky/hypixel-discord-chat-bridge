@@ -1,7 +1,6 @@
 const { getSkyblockCalendar } = require("../../../API/functions/getCalendar.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-const { errorMessage } = require("../../Logger.js");
 const config = require("../../../config.json");
 const axios = require("axios");
 
@@ -49,7 +48,7 @@ if (config.minecraft.skyblockEventsNotifications.enabled) {
         }
       }
     } catch (e) {
-      errorMessage(e);
+      console.error(e);
       /* empty */
     }
   }, 60000);

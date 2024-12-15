@@ -2,7 +2,6 @@ const { formatUsername, formatNumber } = require("../../contracts/helperFunction
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const getCrimson = require("../../../API/stats/crimson.js");
-const { errorMessage } = require("../../Logger.js");
 
 class TrophyFishCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -44,7 +43,7 @@ class TrophyFishCommand extends minecraftCommand {
         )} / 18`,
       );
     } catch (error) {
-      errorMessage(error);
+      console.error(error);
       this.send(`/gc [ERROR] ${error}`);
     }
   }

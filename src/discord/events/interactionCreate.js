@@ -3,7 +3,6 @@ const { ErrorEmbed } = require("../../contracts/embedHandler.js");
 // eslint-disable-next-line no-unused-vars
 const { CommandInteraction } = require("discord.js");
 const config = require("../../../config.json");
-const Logger = require("../.././Logger.js");
 
 module.exports = {
   name: "interactionCreate",
@@ -24,7 +23,7 @@ module.exports = {
           return;
         }
 
-        Logger.discordMessage(`${interaction.user.username} - [${interaction.commandName}]`);
+        console.discord(`${interaction.user.username} - [${interaction.commandName}]`);
 
         if (command.verificationCommand === true && config.verification.enabled === false) {
           throw new HypixelDiscordChatBridgeError("Verification is disabled.");
@@ -41,7 +40,7 @@ module.exports = {
         await command.execute(interaction);
       }
     } catch (error) {
-      Logger.errorMessage(error);
+      console.error(error);
       const errrorMessage =
         error instanceof HypixelDiscordChatBridgeError
           ? ""

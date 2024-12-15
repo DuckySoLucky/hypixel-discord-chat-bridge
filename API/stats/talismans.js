@@ -1,6 +1,5 @@
 const { decodeData } = require("../../src/contracts/helperFunctions.js");
 const { titleCase } = require("../constants/functions.js");
-const { errorMessage } = require("../../src/Logger.js");
 
 module.exports = async (profile) => {
   try {
@@ -76,7 +75,7 @@ module.exports = async (profile) => {
       return null;
     }
   } catch (error) {
-    errorMessage(error);
+    console.error(error);
     return null;
   }
 };

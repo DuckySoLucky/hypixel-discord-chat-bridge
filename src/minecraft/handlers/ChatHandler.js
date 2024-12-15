@@ -713,7 +713,7 @@ class StateHandler extends eventHandler {
     }
 
     if (this.isTooFast(message)) {
-      return Logger.warnMessage(message);
+      return console.warn(message);
     }
 
     if (this.isPlayerNotFound(message)) {

@@ -175,13 +175,14 @@ async function updateMessage() {
   console.log(chalk.bgRed.black(" ".repeat(columns).repeat(3)));
 }
 
+console.discord = discordMessage;
+console.minecraft = minecraftMessage;
+console.web = webMessage;
+console.warn = warnMessage;
+console.error = errorMessage;
+console.broadcast = broadcastMessage;
+
 module.exports = {
-  discordMessage,
-  minecraftMessage,
-  webMessage,
-  warnMessage,
-  errorMessage,
-  broadcastMessage,
   getCurrentTime,
   configUpdateMessage,
   updateMessage,
