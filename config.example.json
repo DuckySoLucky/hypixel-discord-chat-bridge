@@ -28,19 +28,15 @@
       "autoAccept": false,
       "requirements": {
         "bedwarsStars": -1,
-        "bedwarsStarsWithFKDR": -1,
         "bedwarsFKDR": -1,
 
         "skywarsStars": -1,
-        "skywarsStarsWithKDR": -1,
         "skywarsKDR": -1,
 
         "duelsWins": -1,
-        "duelsWinsWithWLR": -1,
         "duelsWLR": -1,
 
         "senitherWeight": -1,
-        "lilyWeight": -1,
         "skyblockLevel": -1
       }
     },
