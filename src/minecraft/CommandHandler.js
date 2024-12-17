@@ -19,7 +19,7 @@ class CommandHandler {
     }
   }
 
-  handle(player, message) {
+  handle(player, message, officer) {
     if (message.startsWith(this.prefix)) {
       if (config.minecraft.commands.normal === false) {
         return;
@@ -34,6 +34,7 @@ class CommandHandler {
         return;
       }
 
+      command.officer = officer;
       Logger.minecraftMessage(`${player} - [${command.name}] ${message}`);
       command.onCommand(player, message);
     } else if (message.startsWith("-") && message.startsWith("- ") === false) {
@@ -46,7 +47,7 @@ class CommandHandler {
         return;
       }
 
-      bot.chat(`/gc [SOOPY V2] ${message}`);
+      bot.chat(`/${officer ? "oc" : "gc"} [SOOPY V2] ${message}`);
 
       Logger.minecraftMessage(`${player} - [${command}] ${message}`);
 
@@ -56,12 +57,12 @@ class CommandHandler {
           const response = await axios.get(URI);
 
           if (response?.data?.msg === undefined) {
-            return bot.chat(`/gc [SOOPY V2] An error occured while running the command`);
+            return bot.chat(`/${officer ? "oc" : "gc"} [SOOPY V2] An error occured while running the command`);
           }
 
-          bot.chat(`/gc [SOOPY V2] ${response.data.msg}`);
+          bot.chat(`/${officer ? "oc" : "gc"} [SOOPY V2] ${response.data.msg}`);
         } catch (e) {
-          bot.chat(`/gc [SOOPY V2] ${e.cause ?? e.message ?? "Unknown error"}`);
+          bot.chat(`/${officer ? "oc" : "gc"} [SOOPY V2] ${e.cause ?? e.message ?? "Unknown error"}`);
         }
       })();
     }
