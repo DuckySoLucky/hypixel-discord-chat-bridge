@@ -4,6 +4,7 @@ const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
 const { getUUID } = require("../../contracts/API/mowojangAPI.js");
 const getWeight = require("../../../API/stats/weight.js");
 const config = require("../../../config.json");
+const { EmbedBuilder } = require("discord.js");
 
 async function checkRequirements(uuid) {
   const [player, profile] = await Promise.all([hypixel.getPlayer(uuid), getLatestProfile(uuid)]);
