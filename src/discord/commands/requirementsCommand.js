@@ -167,6 +167,6 @@ module.exports = {
     if (name === null) throw new HypixelDiscordChatBridgeError("Please input a username");
     const playerInfo = await checkRequirements(await getUUID(name));
     const embed = generateEmbed(playerInfo);
-    await interaction.followup({ embeds: [embed] });
+    await interaction.followUp({ embeds: [embed] });
   },
 };
