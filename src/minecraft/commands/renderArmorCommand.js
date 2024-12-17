@@ -60,7 +60,7 @@ class ArmorCommand extends minecraftCommand {
       }
 
       imgurUrl = response;
-      this.send(`/gc ${username}'s Armor: Check Discord Bridge for image.`);
+      this.send(`${username}'s Armor: Check Discord Bridge for image.`);
     } catch (error) {
       this.send(`[ERROR] ${error}`);
     }

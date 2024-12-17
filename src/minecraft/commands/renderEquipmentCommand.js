@@ -55,7 +55,7 @@ class EquipmentCommand extends minecraftCommand {
       }
 
       imgurUrl = response;
-      this.send(`/gc ${username}'s Equipment: Check Discord Bridge for image.`);
+      this.send(`${username}'s Equipment: Check Discord Bridge for image.`);
     } catch (error) {
       this.send(`[ERROR] ${error}`);
     }

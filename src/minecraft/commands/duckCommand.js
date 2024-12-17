@@ -26,7 +26,7 @@ class DuckCommand extends minecraftCommand {
       }
 
       imgurUrl = data.url;
-      this.send("/gc Funny Duck: Check Discord Bridge for image.");
+      this.send("Funny Duck: Check Discord Bridge for image.");
     } catch (error) {
       this.send(`[ERROR] ${error ?? "Something went wrong.."}`);
     }

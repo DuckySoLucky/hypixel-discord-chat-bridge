@@ -26,7 +26,7 @@ class PicketCommand extends minecraftCommand {
       }
 
       imgurUrl = data.url;
-      this.send("/gc PICKET!! Check Discord Bridge for image.");
+      this.send("PICKET!! Check Discord Bridge for image.");
     } catch (error) {
       this.send(`[ERROR] ${error ?? "Something went wrong.."}`);
     }
