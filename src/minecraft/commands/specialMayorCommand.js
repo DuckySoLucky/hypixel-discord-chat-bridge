@@ -18,10 +18,29 @@ const yearMs = yearLength * monthMs;
 
 const yearZero = 1560275700000;
 
+const currentSkyblockYear = timeToSkyblockYear(Date.now());
+
+var yearsUntilSpecial = 0;
+var diffSkyblockYear = currentSkyblockYear;
+var specialMayor = "";
+
 
 function timeToSkyblockYear(time) {
     return Math.floor((time - yearZero) / yearMs) + 1;
   }
+
+function getSpecialMayor(skyblockYear) {
+    if (diffSkyblockYear % 24 == 8){
+        specialMayor = "Derpy";
+    } else if (diffSkyblockYear % 24 == 16){
+        specialMayor = "Jerry";
+    } else if (diffSkyblockYear % 24 == 0){
+        specialMayor = "Scorpius";
+    } else {
+        specialMayor = "Error!";
+    }
+    return specialMayor;
+}
 
 class SpecialMayorCommand extends minecraftCommand {
     constructor(minecraft) {
@@ -35,22 +54,6 @@ class SpecialMayorCommand extends minecraftCommand {
   
     async onCommand() {
         try {
-            const currentSkyblockYear = timeToSkyblockYear(Date.now());
-            var yearsUntilSpecial = 0;
-            var diffSkyblockYear = currentSkyblockYear;
-            var specialMayor = "";
-            function getSpecialMayor(skyblockYear) {
-                if (diffSkyblockYear % 24 == 8){
-                    specialMayor = "Derpy";
-                } else if (diffSkyblockYear % 24 == 16){
-                    specialMayor = "Jerry";
-                } else if (diffSkyblockYear % 24 == 0){
-                    specialMayor = "Scorpius";
-                } else {
-                    specialMayor = "Error!";
-                }
-                return specialMayor;
-            }
         
             if (currentSkyblockYear % 8 == 0){
                 specialMayor = getSpecialMayor(currentSkyblockYear);
