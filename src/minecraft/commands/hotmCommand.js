@@ -28,7 +28,7 @@ class HotmCommand extends minecraftCommand {
 
       username = formatUsername(username, data.profileData?.game_mode);
 
-      const hotm = getHotm(data.playerRes, data.profile);
+      const hotm = getHotm(data.profile);
 
       if (hotm == null) {
         // eslint-disable-next-line no-throw-literal
@@ -42,9 +42,7 @@ class HotmCommand extends minecraftCommand {
           hotm.powder.gemstone.total
         )} | Mithril Powder: ${formatNumber(hotm.powder.mithril.total)} | Glacite Powder: ${formatNumber(
           hotm.powder.glacite.total
-        )} | Selected Ability: ${hotm.ability} | Commissions Milestone: ${
-          hotm.commissions.milestone
-        } (${hotm.commissions.total.toLocaleString()})`
+        )} | Selected Ability: ${hotm.ability}`
       );
     } catch (error) {
       this.send(`/gc [ERROR] ${error}`);
