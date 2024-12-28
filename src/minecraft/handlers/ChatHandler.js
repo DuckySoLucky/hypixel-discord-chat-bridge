@@ -6,6 +6,7 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
 const { getUUID } = require("../../contracts/API/mowojangAPI.js");
 const eventHandler = require("../../contracts/EventHandler.js");
+const { isUuid } = require("../../../API/utils/uuid.js");
 const messages = require("../../../messages.json");
 const config = require("../../../config.json");
 const Logger = require("../../Logger.js");
