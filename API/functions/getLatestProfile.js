@@ -23,19 +23,14 @@ async function getLatestProfile(uuid, options = { museum: false, garden: false }
     }
   }
 
-  const [{ data: playerRes }, { data: profileRes }] = await Promise.all([
-    axios.get(`https://api.hypixel.net/v2/player?key=${config.minecraft.API.hypixelAPIkey}&uuid=${uuid}`),
+  const [{ data: profileRes }] = await Promise.all([
     axios.get(`https://api.hypixel.net/v2/skyblock/profiles?key=${config.minecraft.API.hypixelAPIkey}&uuid=${uuid}`),
   ]).catch((error) => {
     throw error?.response?.data?.cause ?? "Request to Hypixel API failed. Please try again!";
   });
 
-  if (playerRes.success === false || profileRes.success === false) {
+  if (profileRes.success === false) {
     throw "Request to Hypixel API failed. Please try again!";
-  }
-
-  if (playerRes.player == null) {
-    throw "Player not found. It looks like this player has never joined the Hypixel.";
   }
 
   if (profileRes.profiles == null || profileRes.profiles.length == 0) {
@@ -57,7 +52,6 @@ async function getLatestProfile(uuid, options = { museum: false, garden: false }
     profiles: profileRes.profiles,
     profile: profile,
     profileData: profileData,
-    playerRes: playerRes.player,
     uuid: uuid,
     ...(options.museum ? await getMuseum(profileData.profile_id, uuid) : {}),
     ...(options.garden ? await getGarden(profileData.profile_id) : {}),
