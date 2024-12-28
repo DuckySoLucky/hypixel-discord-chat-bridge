@@ -10,7 +10,6 @@ const { isUuid } = require("../../../API/utils/uuid.js");
 const messages = require("../../../messages.json");
 const { EmbedBuilder } = require("discord.js");
 const config = require("../../../config.json");
-const Logger = require("../../Logger.js");
 const { readFileSync } = require("fs");
 
 class StateHandler extends eventHandler {

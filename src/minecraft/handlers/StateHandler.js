@@ -1,5 +1,4 @@
 const eventHandler = require("../../contracts/EventHandler.js");
-const Logger = require("../../Logger.js");
 
 class StateHandler extends eventHandler {
   constructor(minecraft) {

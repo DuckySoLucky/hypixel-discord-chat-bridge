@@ -6,7 +6,6 @@ const MessageHandler = require("./handlers/MessageHandler.js");
 const StateHandler = require("./handlers/StateHandler.js");
 const CommandHandler = require("./CommandHandler.js");
 const config = require("../../config.json");
-const Logger = require(".././Logger.js");
 const path = require("node:path");
 const fs = require("fs");
 
@@ -33,7 +32,7 @@ class DiscordManager extends CommunicationBridge {
     this.client.on("messageCreate", (message) => this.messageHandler.onMessage(message));
 
     this.client.login(config.discord.bot.token).catch((error) => {
-      Logger.console.error(error);
+      console.error(error);
     });
 
     client.commands = new Collection();
@@ -93,7 +92,7 @@ class DiscordManager extends CommunicationBridge {
     const mode = chat === "debugChannel" ? "minecraft" : config.discord.other.messageMode.toLowerCase();
     message = chat === "debugChannel" ? fullMessage : message;
     if (message !== undefined && chat !== "debugChannel") {
-      Logger.broadcastMessage(
+      console.broadcast(
         `${username} [${guildRank.replace(/§[0-9a-fk-or]/g, "").replace(/^\[|\]$/g, "")}]: ${message}`,
         `Discord`,
       );
@@ -106,7 +105,7 @@ class DiscordManager extends CommunicationBridge {
 
     const channel = await this.stateHandler.getChannel(chat || "Guild");
     if (channel === undefined) {
-      Logger.console.error(`Channel ${chat} not found!`);
+      console.error(`Channel ${chat} not found!`);
       return;
     }
     if (username === bot.username && message.endsWith("Check Discord Bridge for image.")) {
@@ -181,7 +180,7 @@ class DiscordManager extends CommunicationBridge {
   }
 
   async onBroadcastCleanEmbed({ message, color, channel }) {
-    Logger.broadcastMessage(message, "Event");
+    console.broadcast(message, "Event");
 
     channel = await this.stateHandler.getChannel(channel);
     channel.send({

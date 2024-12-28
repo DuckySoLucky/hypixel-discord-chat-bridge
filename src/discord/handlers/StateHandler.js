@@ -18,7 +18,7 @@ class StateHandler {
 
     global.guild = await client.guilds.fetch(config.discord.bot.serverID);
     if (guild === undefined) {
-      return Logger.console.error(`Guild not found!`);
+      return console.error(`Guild not found!`);
     }
 
     console.discord("Guild ready, successfully fetched " + guild.name);
@@ -40,7 +40,7 @@ class StateHandler {
   async onClose() {
     const channel = await this.getChannel("Guild");
     if (channel === undefined) {
-      return Logger.console.error(`Channel "Guild" not found!`);
+      return console.error(`Channel "Guild" not found!`);
     }
 
     await channel.send({
@@ -55,7 +55,7 @@ class StateHandler {
 
   async getChannel(type) {
     if (typeof type !== "string" || type === undefined) {
-      return Logger.console.error(`Channel type must be a string!`);
+      return console.error(`Channel type must be a string!`);
     }
 
     switch (type.replace(/§[0-9a-fk-or]/g, "").trim()) {
