@@ -7,6 +7,7 @@ class Application {
   constructor() {
     require("./Configuration.js");
     require("./Updater.js");
+    require("./Logger.js");
     if (!existsSync("./data/")) mkdirSync("./data/", { recursive: true });
     if (!existsSync("./data/linked.json")) writeFileSync("./data/linked.json", JSON.stringify({}));
   }

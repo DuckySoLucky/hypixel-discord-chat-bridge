@@ -69,7 +69,7 @@ class EightBallCommand extends minecraftCommand {
         this.send(`/gc Closest to level up: ${topFiveMobs.join(", ")}`);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       this.send(`/gc [ERROR] ${error}`);
     }
   }
