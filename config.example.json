@@ -104,6 +104,7 @@
   "verification": {
     "enabled": false,
     "verifiedRole": "VERIFIED_ROLE_ID",
+    "unverifiedRole": "UNVERIFIED_ROLE_ID",
     "removeVerificationRole": true,
     "guildMemberRole": "GUILD_MEMBER_ROLE_ID",
     "autoUpdater": true,
