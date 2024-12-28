@@ -723,16 +723,17 @@ class StateHandler extends eventHandler {
 
   isAlreadyBlacklistedMessage(message) {
     return (
-      message.includes(`You've already ignored that player! /ignore remove Player to unignore them!`) &&
+      message.includes(`You've already blocked that player! /block remove <player> to unblock them!`) &&
       !message.includes(":")
     );
   }
+
   isBlacklistRemovedMessage(message) {
-    return message.startsWith("Removed") && message.includes("from your ignore list.") && !message.includes(":");
+    return message.startsWith("Unblocked") && message.endsWith(".") && !message.includes(":");
   }
 
   isBlacklistMessage(message) {
-    return message.startsWith("Added") && message.includes("to your ignore list.") && !message.includes(":");
+    return message.startsWith("Blocked") && message.endsWith(".") && !message.includes(":");
   }
 
   isGuildMessage(message) {
