@@ -17,7 +17,7 @@ module.exports = {
       required: false,
     },
     {
-      name: "name",
+      name: "username",
       description: "Minecraft Username",
       type: 3,
       required: false,
@@ -39,7 +39,7 @@ module.exports = {
       }
 
       const user = interaction.options.getUser("user");
-      const name = interaction.options.getString("name");
+      const name = interaction.options.getString("username");
       if (!user && !name) {
         throw new HypixelDiscordChatBridgeError("Please provide a user or a name.");
       }
