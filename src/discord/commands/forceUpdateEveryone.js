@@ -7,6 +7,7 @@ module.exports = {
   description: "Update a user's roles",
   moderatorOnly: true,
   verificationCommand: true,
+  requiresBot: true,
 
   execute: async (interaction, doNotRespond = false) => {
     try {

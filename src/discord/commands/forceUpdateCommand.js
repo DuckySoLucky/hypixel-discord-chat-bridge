@@ -5,6 +5,7 @@ module.exports = {
   description: "Update a user's roles",
   moderatorOnly: true,
   verificationCommand: true,
+  requiresBot: true,
   options: [
     {
       name: "user",
