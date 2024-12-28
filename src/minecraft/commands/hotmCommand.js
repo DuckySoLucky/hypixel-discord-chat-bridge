@@ -25,11 +25,8 @@ class HotmCommand extends minecraftCommand {
       username = this.getArgs(message)[0] || username;
 
       const data = await getLatestProfile(username);
-
       username = formatUsername(username, data.profileData?.game_mode);
-
       const hotm = getHotm(data.profile);
-
       if (hotm == null) {
         // eslint-disable-next-line no-throw-literal
         throw `${username} has never gone to Dwarven Mines on ${data.profileData.cute_name}.`;
@@ -39,10 +36,10 @@ class HotmCommand extends minecraftCommand {
 
       this.send(
         `/gc ${username}'s Hotm: ${level} | Gemstone Powder: ${formatNumber(
-          hotm.powder.gemstone.total
+          hotm.powder.gemstone.total,
         )} | Mithril Powder: ${formatNumber(hotm.powder.mithril.total)} | Glacite Powder: ${formatNumber(
-          hotm.powder.glacite.total
-        )} | Selected Ability: ${hotm.ability}`
+          hotm.powder.glacite.total,
+        )} | Selected Ability: ${hotm.ability}`,
       );
     } catch (error) {
       this.send(`/gc [ERROR] ${error}`);
