@@ -512,6 +512,45 @@ The `ranks` option is an array that takes in an object like the following exampl
 }
 ```
 
+### Stats Channels
+
+The Stats Channels are channels that show stats for your guild. These stats can be your guild level, amount of members in the guild and other.
+
+The `enabled` option determines whether the Stats Channels system is enabled. By default, this is set to false.
+
+The `autoUpdaterInterval` allows you to change how often the autoUpdater for the channels runs. By default this option is set to 5 making the autoUpdater run every 5 minutes.
+
+The `channels` option is an array that takes in an object like the following example, this allows the updater to know what channels there are and what to name them.
+```json
+{
+    "id": "CHANNEL_ID",
+    "name": "Guild Level: {guildLevel}"
+}
+```
+
+<details>
+<summary>Channel Name Variables</summary>
+
+`{guildName}` The name of the guild.
+
+`{guildLeve}` The current level of the guild.
+
+`{guildXP}` The **Raw** amount of xp your guild has.
+
+`{guildWeeklyXP}` The amount of xp your guild has gotten in the past week.
+
+`{guildMembers}` The amount of members currently in the guild.
+
+`{discordMembers}` The amount of users in your discord.
+
+`{discordChannels}` The amount of channels in your discord.
+
+`{discordRoles}` The amount of roles in your discord.
+
+</details>
+<br>
+
+
 
 ### Chat Triggers Module
 

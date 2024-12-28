@@ -60,6 +60,7 @@ class SuccessEmbed extends Embed {
   /**
    * Constructs a new SuccessEmbed instance.
    * @param {string} description - The description of the success.
+   * @param {object} footer - The footer of the success.
    */
   constructor(description, footer) {
     super();
@@ -70,6 +71,10 @@ class SuccessEmbed extends Embed {
     if (footer) this.setFooter(footer);
 
     this.setDescription(description);
+
+    if (footer) {
+      this.setFooter(footer);
+    }
   }
 }
 
