@@ -41,7 +41,7 @@ class SkyblockCommand extends minecraftCommand {
         }),
         getDungeons(data.profile),
         getTalismans(data.profile),
-        getHotm(data.player, data.profile),
+        getHotm(data.profile),
       ]);
 
       const skillAverage = (
