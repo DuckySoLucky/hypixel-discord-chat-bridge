@@ -27,7 +27,7 @@ class ForgeCommand extends minecraftCommand {
 
       username = formatUsername(username, data.profileData?.game_mode);
 
-      const hotm = getHotm(data.playerRes, data.profile);
+      const hotm = getHotm(data.profile);
 
       if (hotm == null) {
         // eslint-disable-next-line no-throw-literal
