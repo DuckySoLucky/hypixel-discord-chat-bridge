@@ -31,7 +31,7 @@ class QuickMathsCommand extends minecraftCommand {
       const answer = eval(operands.join(operator));
       const headStart = 250;
 
-      this.send(`/gc ${username} What is ${equation}? (You have ${headStart}ms headstart)`);
+      this.send(`${username} What is ${equation}? (You have ${headStart}ms headstart)`);
       await delay(headStart);
 
       const startTime = Date.now();
@@ -43,7 +43,7 @@ class QuickMathsCommand extends minecraftCommand {
         }
 
         answered = true;
-        this.send(`/gc ${userUsername} Correct! It took you ${(Date.now() - startTime).toLocaleString()}ms`);
+        this.send(`${userUsername} Correct! It took you ${(Date.now() - startTime).toLocaleString()}ms`);
         bot.removeListener("chat", listener);
       };
 
@@ -53,11 +53,11 @@ class QuickMathsCommand extends minecraftCommand {
         bot.removeListener("chat", listener);
 
         if (!answered) {
-          this.send(`/gc ${userUsername} Time's up! The answer was ${answer}`);
+          this.send(`${userUsername} Time's up! The answer was ${answer}`);
         }
       }, 10000);
     } catch (error) {
-      this.send(`/gc ${username} [ERROR] ${error || "Something went wrong.."}`);
+      this.send(`${username} [ERROR] ${error || "Something went wrong.."}`);
     }
   }
 }

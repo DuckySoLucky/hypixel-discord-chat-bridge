@@ -25,9 +25,9 @@ class KittyCommand extends minecraftCommand {
       const upload = await uploadImage(link);
 
       imgurUrl = upload.data.link;
-      this.send(`/gc Cute Cat: Check Discord Bridge for image.`);
+      this.send("Cute Cat: Check Discord Bridge for image.");
     } catch (error) {
-      this.send(`/gc [ERROR] ${error ?? "Something went wrong.."}`);
+      this.send(`[ERROR] ${error ?? "Something went wrong.."}`);
     }
   }
 }
