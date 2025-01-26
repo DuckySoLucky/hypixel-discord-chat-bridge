@@ -58,8 +58,12 @@ class MinecraftManager extends CommunicationBridge {
     }
 
     if (config.discord.other.filterMessages) {
-      message = filter.clean(message);
-      username = filter.clean(username);
+      try {
+        message = filter.clean(message);
+        username = filter.clean(username);
+      } catch (error) {
+        // Do nothing
+      }
     }
 
     message = replaceVariables(config.minecraft.bot.messageFormat, { username, message });
