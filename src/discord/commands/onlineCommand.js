@@ -7,10 +7,6 @@ module.exports = {
   requiresBot: true,
 
   execute: async (interaction) => {
-    if (bot === undefined || bot._client.chat === undefined) {
-      throw new HypixelDiscordChatBridgeError("Bot doesn't seem to be connected to Hypixel. Please try again.");
-    }
-
     const cachedMessages = [];
     const messages = new Promise((resolve, reject) => {
       const listener = (message) => {
