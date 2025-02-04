@@ -20,7 +20,7 @@ module.exports = (profile) => {
         };
 
         if (item.id in miningConst.forge.items) {
-          let forgeTime = miningConst.forge.items[item.id].time * 60 * 1000;
+          let forgeTime = miningConst.forge.items[item.id].duration;
           const quickForge = profile.mining_core?.nodes?.forge_time;
           if (quickForge != null) {
             forgeTime *= miningConst.forge.quickForgeMultiplier[quickForge];
