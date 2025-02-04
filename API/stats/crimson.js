@@ -13,7 +13,7 @@ module.exports = (profile) => {
       belt: getBelt(
         Object.keys(crimsonIsle.dojo ?? {})
           .filter((key) => key.startsWith("dojo_points"))
-          .reduce((acc, key) => acc + (crimsonIsle.dojo[key] ?? 0), 0)
+          .reduce((acc, key) => acc + (crimsonIsle.dojo[key] ?? 0), 0),
       ),
       force: {
         points: crimsonIsle.dojo?.dojo_points_mob_kb ?? 0,
@@ -110,7 +110,7 @@ function getTrophyFish(profile) {
   const trophyFishKeys = Object.keys(trophyFish);
 
   return {
-    rank: getTrophyFishRank((trophyFish.rewards ?? []).length),
+    rank: getTrophyFishRank(trophyFish.rewards ? trophyFish.rewards[trophyFish.rewards.length - 1] : 0),
     caught: {
       total: trophyFish.total_caught ?? 0,
       bronze: trophyFishKeys.filter((key) => key.endsWith("_bronze")).length,
