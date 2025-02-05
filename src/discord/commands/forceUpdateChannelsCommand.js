@@ -6,8 +6,9 @@ const config = require("../../../config.json");
 module.exports = {
   name: "force-update-channels",
   description: "Update the stats Channels",
-  moderatorOnly: true,
   channelsCommand: true,
+  moderatorOnly: true,
+  requiresBot: true,
 
   execute: async (interaction, hidden = false) => {
     const hypixelGuild = await hypixelRebornAPI.getGuild("player", bot.username);
@@ -31,11 +32,11 @@ module.exports = {
       );
     });
 
-    if (hidden) return
+    if (hidden) return;
     const embed = new SuccessEmbed("The channels have been updated successfully.", {
       text: `by @kathund. | /help [command] for more information`,
       iconURL: "https://i.imgur.com/uUuZx2E.png",
     });
-      await interaction.followUp({ embeds: [embed] });
+    await interaction.followUp({ embeds: [embed] });
   },
 };
