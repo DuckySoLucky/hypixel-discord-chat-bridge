@@ -6,12 +6,12 @@ module.exports = (profile) => {
         medals: {
           gold: profile.jacobs_contest?.medals_inv?.gold ?? 0,
           silver: profile.jacobs_contest?.medals_inv?.silver ?? 0,
-          bronze: profile.jacobs_contest?.medals_inv?.bronze ?? 0,
+          bronze: profile.jacobs_contest?.medals_inv?.bronze ?? 0
         },
         perks: {
           personalBests: profile.jacobs_contest.perks.personal_bests ?? false,
           levelCap: profile.jacobs_contest.perks.farming_level_cap ?? 0,
-          doubleDrops: profile.jacobs_contest.perks.double_drops ?? 0,
+          doubleDrops: profile.jacobs_contest.perks.double_drops ?? 0
         },
         personalBests: {
           netherWart: profile.jacobs_contest.personal_bests?.NETHER_STALK ?? 0,
@@ -23,8 +23,8 @@ module.exports = (profile) => {
           carrot: profile.jacobs_contest.personal_bests?.CARROT_ITEM ?? 0,
           cactus: profile.jacobs_contest.personal_bests?.CACTUS ?? 0,
           melon: profile.jacobs_contest.personal_bests?.MELON ?? 0,
-          sugarCane: profile.jacobs_contest.personal_bests?.SUGAR_CANE ?? 0,
-        },
+          sugarCane: profile.jacobs_contest.personal_bests?.SUGAR_CANE ?? 0
+        }
       };
     } else {
       return null;

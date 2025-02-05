@@ -24,7 +24,7 @@ async function getLatestProfile(uuid, options = { museum: false, garden: false }
   }
 
   const [{ data: profileRes }] = await Promise.all([
-    axios.get(`https://api.hypixel.net/v2/skyblock/profiles?key=${config.minecraft.API.hypixelAPIkey}&uuid=${uuid}`),
+    axios.get(`https://api.hypixel.net/v2/skyblock/profiles?key=${config.minecraft.API.hypixelAPIkey}&uuid=${uuid}`)
   ]).catch((error) => {
     throw error?.response?.data?.cause ?? "Request to Hypixel API failed. Please try again!";
   });
@@ -54,7 +54,7 @@ async function getLatestProfile(uuid, options = { museum: false, garden: false }
     profileData: profileData,
     uuid: uuid,
     ...(options.museum ? await getMuseum(profileData.profile_id, uuid) : {}),
-    ...(options.garden ? await getGarden(profileData.profile_id) : {}),
+    ...(options.garden ? await getGarden(profileData.profile_id) : {})
   };
 
   cache.set(uuid, output);

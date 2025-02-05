@@ -9,48 +9,27 @@ class StateHandler {
   async onReady() {
     Logger.discordMessage("Client ready, logged in as " + this.discord.client.user.tag);
     this.discord.client.user.setPresence({
-      activities: [{ name: `/help | by @duckysolucky` }],
+      activities: [{ name: `/help | by @duckysolucky` }]
     });
 
     global.guild = await client.guilds.fetch(config.discord.bot.serverID);
     Logger.discordMessage("Guild ready, successfully fetched " + guild.name);
-    
+
     const channel = await this.getChannel("Guild");
     if (channel === undefined) {
       return Logger.errorMessage(`Channel "Guild" not found!`);
     }
-    
+
+    if (config.verification.autoUpdater) require("../other/updateUsers.js");
     if (config.statsChannels.enabled) require("../other/statsChannels.js");
-
-    global.guild = await client.guilds.fetch(config.discord.bot.serverID);
-    if (guild === undefined) {
-      return Logger.errorMessage(`Guild not found!`);
-    }
-
-    Logger.discordMessage("Guild ready, successfully fetched " + guild.name);
-
-    if (config.verification.autoUpdater) {
-      require("../other/updateUsers.js");
-    }
-
-    global.guild = await client.guilds.fetch(config.discord.bot.serverID);
-    if (guild === undefined) {
-      return Logger.errorMessage(`Guild not found!`);
-    }
-
-    Logger.discordMessage("Guild ready, successfully fetched " + guild.name);
-
-    if (config.verification.autoUpdater) {
-      require("../other/updateUsers.js");
-    }
 
     channel.send({
       embeds: [
         {
           author: { name: `Chat Bridge is Online` },
-          color: 2067276,
-        },
-      ],
+          color: 2067276
+        }
+      ]
     });
   }
 
@@ -64,9 +43,9 @@ class StateHandler {
       embeds: [
         {
           author: { name: `Chat Bridge is Offline` },
-          color: 15548997,
-        },
-      ],
+          color: 15548997
+        }
+      ]
     });
   }
 

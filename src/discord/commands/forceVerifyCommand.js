@@ -11,14 +11,14 @@ module.exports = {
       name: "user",
       description: "Discord User",
       type: 6,
-      required: true,
+      required: true
     },
     {
       name: "username",
       description: "Minecraft Username",
       type: 3,
-      required: true,
-    },
+      required: true
+    }
   ],
 
   execute: async (interaction) => {
@@ -29,5 +29,5 @@ module.exports = {
     }
 
     await verifyCommand.execute(interaction, user, true);
-  },
+  }
 };

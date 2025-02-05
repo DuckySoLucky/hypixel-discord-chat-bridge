@@ -2,9 +2,9 @@ const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
 const { getUUID } = require("../../contracts/API/mowojangAPI.js");
+const { Embed } = require("../../contracts/embedHandler.js");
 const getWeight = require("../../../API/stats/weight.js");
 const config = require("../../../config.json");
-const { EmbedBuilder } = require("discord.js");
 
 async function checkRequirements(uuid) {
   const [player, profile] = await Promise.all([hypixel.getPlayer(uuid), getLatestProfile(uuid)]);
@@ -89,62 +89,62 @@ async function checkRequirements(uuid) {
     swLevel: swLevel.toLocaleString(),
     swKDR: swKDR.toLocaleString(),
     duelsWins: duelsWins.toLocaleString(),
-    dWLR: dWLR.toLocaleString(),
+    dWLR: dWLR.toLocaleString()
   };
 }
 
 function generateEmbed(data) {
-  return new EmbedBuilder()
+  return new Embed()
     .setColor(data.meetRequirements ? 2067276 : 15548997)
     .setTitle(
-      `${data.nickname} **${data.meetRequirements ? "has" : "hasn't"}** got the requirements to join the Guild!`,
+      `${data.nickname} **${data.meetRequirements ? "has" : "hasn't"}** got the requirements to join the Guild!`
     )
     .addFields(
       {
         name: "Bedwars Level",
         value: `${data.bwLevel}/${config.minecraft.guildRequirements.requirements.bedwarsStars.toLocaleString()}`,
-        inline: true,
+        inline: true
       },
       {
         name: "Skywars Level",
         value: `${data.swLevel}/${config.minecraft.guildRequirements.requirements.skywarsStars.toLocaleString()}`,
-        inline: true,
+        inline: true
       },
       {
         name: "Duels Wins",
         value: `${data.duelsWins}/${config.minecraft.guildRequirements.requirements.duelsWins.toLocaleString()}`,
-        inline: true,
+        inline: true
       },
       {
         name: "Bedwars FKDR",
         value: `${data.bwFKDR}/${config.minecraft.guildRequirements.requirements.bedwarsFKDR.toLocaleString()}`,
-        inline: true,
+        inline: true
       },
       {
         name: "Skywars KDR",
         value: `${data.swKDR}/${config.minecraft.guildRequirements.requirements.skywarsKDR.toLocaleString()}`,
-        inline: true,
+        inline: true
       },
       {
         name: "Duels WLR",
         value: `${data.dWLR}/${config.minecraft.guildRequirements.requirements.duelsWLR.toLocaleString()}`,
-        inline: true,
+        inline: true
       },
       {
         name: "Senither Weight",
         value: `${data.weight}/${config.minecraft.guildRequirements.requirements.senitherWeight.toLocaleString()}`,
-        inline: true,
+        inline: true
       },
       {
         name: "Skyblock Level",
         value: `${data.skyblockLevel}/${config.minecraft.guildRequirements.requirements.skyblockLevel.toLocaleString()}`,
-        inline: true,
-      },
+        inline: true
+      }
     )
     .setThumbnail(`https://www.mc-heads.net/avatar/${data.nickname}`)
     .setFooter({
       text: `by @duckysolucky | /help [command] for more information`,
-      iconURL: "https://imgur.com/tgwQJTX.png",
+      iconURL: "https://imgur.com/tgwQJTX.png"
     });
 }
 
@@ -158,8 +158,8 @@ module.exports = {
       name: "username",
       description: "minecraft username",
       type: 3,
-      required: false,
-    },
+      required: false
+    }
   ],
 
   execute: async (interaction) => {
@@ -168,5 +168,5 @@ module.exports = {
     const playerInfo = await checkRequirements(await getUUID(name));
     const embed = generateEmbed(playerInfo);
     await interaction.followUp({ embeds: [embed] });
-  },
+  }
 };

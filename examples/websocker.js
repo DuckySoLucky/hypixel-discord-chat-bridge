@@ -28,7 +28,7 @@ new Promise((resolve) => {
   const send = {
     type: "message",
     data: "/gc Example message",
-    token: "WEBSOCKET_TOKEN",
+    token: "WEBSOCKET_TOKEN"
   };
 
   // Send the message

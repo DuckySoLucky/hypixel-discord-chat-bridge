@@ -5,7 +5,7 @@ const axios = require("axios");
 async function getGarden(profileID, uuid) {
   try {
     const { data } = await axios.get(
-      `https://api.hypixel.net/v2/skyblock/garden?key=${config.minecraft.API.hypixelAPIkey}&profile=${profileID}`,
+      `https://api.hypixel.net/v2/skyblock/garden?key=${config.minecraft.API.hypixelAPIkey}&profile=${profileID}`
     );
 
     if (data === undefined || data.success === false) {

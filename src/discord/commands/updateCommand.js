@@ -1,8 +1,7 @@
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 const hypixelRebornAPI = require("../../contracts/API/HypixelRebornAPI.js");
 const { replaceVariables } = require("../../contracts/helperFunctions.js");
-const { SuccessEmbed } = require("../../contracts/embedHandler.js");
-const { EmbedBuilder } = require("discord.js");
+const { SuccessEmbed, ErrorEmbed } = require("../../contracts/embedHandler.js");
 const config = require("../../../config.json");
 const { readFileSync } = require("fs");
 
@@ -17,7 +16,7 @@ module.exports = {
       const linkedData = readFileSync("data/linked.json");
       if (!linkedData) {
         throw new HypixelDiscordChatBridgeError(
-          "The linked data file does not exist. Please contact an administrator.",
+          "The linked data file does not exist. Please contact an administrator."
         );
       }
 
@@ -40,7 +39,7 @@ module.exports = {
         const roles = [
           config.verification.verifiedRole,
           config.verification.guildMemberRole,
-          ...config.verification.ranks.flatMap((r) => r.roles),
+          ...config.verification.ranks.flatMap((r) => r.roles)
         ];
 
         for (const role of roles) {
@@ -73,7 +72,7 @@ module.exports = {
 
       const [hypixelGuild, player] = await Promise.all([
         hypixelRebornAPI.getGuild("player", bot.username),
-        hypixelRebornAPI.getPlayer(uuid),
+        hypixelRebornAPI.getPlayer(uuid)
       ]);
 
       if (hypixelGuild === undefined) {
@@ -161,28 +160,24 @@ module.exports = {
           username: player.nickname,
 
           guildRank: hypixelGuild.members.find((m) => m.uuid === uuid)?.rank ?? "Unknown",
-          guildName: hypixelGuild.name,
+          guildName: hypixelGuild.name
         }),
-        "Updated Roles",
+        "Updated Roles"
       );
 
       const updateRole = new SuccessEmbed(
         `<@${interaction.user.id}>'s roles have been successfully synced with \`${player.nickname ?? "Unknown"}\`!`,
-        { text: `by @.kathund | /help [command] for more information`, iconURL: "https://i.imgur.com/uUuZx2E.png" },
+        { text: `by @.kathund | /help [command] for more information`, iconURL: "https://i.imgur.com/uUuZx2E.png" }
       );
 
       await interaction.followUp({ embeds: [updateRole], ephemeral: true });
     } catch (error) {
-      const errorEmbed = new EmbedBuilder()
-        .setColor(15548997)
-        .setAuthor({ name: "An Error has occurred" })
-        .setDescription(`\`\`\`${error}\`\`\``)
-        .setFooter({
-          text: `by @.kathund | /help [command] for more information`,
-          iconURL: "https://i.imgur.com/uUuZx2E.png",
-        });
+      const errorEmbed = new ErrorEmbed(`\`\`\`${error}\`\`\``).setFooter({
+        text: `by @.kathund | /help [command] for more information`,
+        iconURL: "https://i.imgur.com/uUuZx2E.png"
+      });
 
       await interaction.editReply({ embeds: [errorEmbed], ephemeral: true });
     }
-  },
+  }
 };

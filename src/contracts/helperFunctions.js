@@ -275,7 +275,7 @@ function getTimestamp(unixTimestamp = Date.now()) {
     second: "numeric",
     hour12: false,
     timeZoneName: "short",
-    timeZone: "UTC",
+    timeZone: "UTC"
   });
 }
 
@@ -295,5 +295,5 @@ module.exports = {
   formatUsername,
   formatNumber,
   replaceVariables,
-  getTimestamp,
+  getTimestamp
 };

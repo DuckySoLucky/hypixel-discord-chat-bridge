@@ -15,8 +15,8 @@ class EquipmentCommand extends minecraftCommand {
       {
         name: "username",
         description: "Minecraft username",
-        required: false,
-      },
+        required: false
+      }
     ];
   }
 
@@ -33,7 +33,7 @@ class EquipmentCommand extends minecraftCommand {
       }
 
       const { i: inventoryData } = await decodeData(
-        Buffer.from(profile.profile.inventory?.equipment_contents?.data, "base64"),
+        Buffer.from(profile.profile.inventory?.equipment_contents?.data, "base64")
       );
 
       let response = "";

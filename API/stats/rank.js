@@ -17,7 +17,7 @@ const colorToCode = {
   LIGHT_PURPLE: "d",
   YELLOW: "e",
   WHITE: "f",
-  RESET: "r",
+  RESET: "r"
 };
 
 module.exports = (player) => {
@@ -52,7 +52,7 @@ function generateFormattedRank(rank, plusColor, plusPlusColor, prefix) {
     MODERATOR: "§2[MOD]",
     GAME_MASTER: "§2[GM]",
     ADMIN: "§c[ADMIN]",
-    YOUTUBER: "§c[§fYOUTUBE§c]",
+    YOUTUBER: "§c[§fYOUTUBE§c]"
   };
 
   return ranks[rank] || "§7";
