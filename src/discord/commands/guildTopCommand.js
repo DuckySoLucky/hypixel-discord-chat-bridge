@@ -48,7 +48,9 @@ module.exports = {
       })
       .join("");
 
-    const embed = new Embed("#2ECC71", "Top 10 Guild Members", description);
+    const embed = new Embed()
+      .setAuthor({ name: "Top 10 Guild Members" })
+      .setDescription(description);
 
     return await interaction.followUp({ embeds: [embed] });
   }

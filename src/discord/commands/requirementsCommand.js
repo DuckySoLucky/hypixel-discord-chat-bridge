@@ -2,9 +2,9 @@ const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
 const { getUUID } = require("../../contracts/API/mowojangAPI.js");
+const { Embed } = require("../../contracts/embedHandler.js");
 const getWeight = require("../../../API/stats/weight.js");
 const config = require("../../../config.json");
-const { EmbedBuilder } = require("discord.js");
 
 async function checkRequirements(uuid) {
   const [player, profile] = await Promise.all([hypixel.getPlayer(uuid), getLatestProfile(uuid)]);
@@ -94,7 +94,7 @@ async function checkRequirements(uuid) {
 }
 
 function generateEmbed(data) {
-  return new EmbedBuilder()
+  return new Embed()
     .setColor(data.meetRequirements ? 2067276 : 15548997)
     .setTitle(
       `${data.nickname} **${data.meetRequirements ? "has" : "hasn't"}** got the requirements to join the Guild!`

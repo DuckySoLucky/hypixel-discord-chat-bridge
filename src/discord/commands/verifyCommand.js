@@ -1,8 +1,8 @@
+const { Embed, ErrorEmbed, SuccessEmbed } = require("../../contracts/embedHandler.js");
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 const hypixelRebornAPI = require("../../contracts/API/HypixelRebornAPI.js");
 const { writeFileSync, readFileSync } = require("fs");
 const config = require("../../../config.json");
-const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
   name: "verify",
@@ -77,10 +77,10 @@ module.exports = {
       linked[interaction.user.id] = uuid;
       writeFileSync("data/linked.json", JSON.stringify(linked, null, 2));
 
-      const embed = new EmbedBuilder()
-        .setColor("4BB543")
+      const embed = new SuccessEmbed(
+        `${user ? `<@${user.id}>'s` : "Your"} account has been successfully linked to \`${nickname}\``
+      )
         .setAuthor({ name: "Successfully linked!" })
-        .setDescription(`${user ? `<@${user.id}>'s` : "Your"} account has been successfully linked to \`${nickname}\``)
         .setFooter({
           text: `by @.kathund | /help [command] for more information`,
           iconURL: "https://i.imgur.com/uUuZx2E.png"
@@ -105,14 +105,10 @@ module.exports = {
           "This player does not exist. (Mojang API might be down)"
         );
 
-      const errorEmbed = new EmbedBuilder()
-        .setColor(15548997)
-        .setAuthor({ name: "An Error has occurred" })
-        .setDescription(`\`\`\`${error}\`\`\``)
-        .setFooter({
-          text: `by @.kathund | /help [command] for more information`,
-          iconURL: "https://i.imgur.com/uUuZx2E.png"
-        });
+      const errorEmbed = new ErrorEmbed(`\`\`\`${error}\`\`\``).setFooter({
+        text: `by @.kathund | /help [command] for more information`,
+        iconURL: "https://i.imgur.com/uUuZx2E.png"
+      });
 
       await interaction.editReply({ embeds: [errorEmbed], ephemeral: true });
 
@@ -120,8 +116,7 @@ module.exports = {
         error !== "You are already linked to a Minecraft account. Please run /unverify first." &&
         error.includes("linked") === true
       ) {
-        const verificationTutorialEmbed = new EmbedBuilder()
-          .setColor(0x0099ff)
+        const verificationTutorialEmbed = new Embed()
           .setAuthor({ name: "Link with Hypixel Social Media" })
           .setDescription(
             `**Instructions:**\n1) Use your Minecraft client to connect to Hypixel.\n2) Once connected, and while in the lobby, right click "My Profile" in your hotbar. It is option #2.\n3) Click "Social Media" - this button is to the left of the Redstone block (the Status button).\n4) Click "Discord" - it is the second last option.\n5) Paste your Discord username into chat and hit enter. For reference: \`${

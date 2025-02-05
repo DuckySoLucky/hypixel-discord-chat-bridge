@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require("discord.js");
+const { Embed } = require("../../contracts/embedHandler.js");
 
 module.exports = {
   name: "ping",
@@ -8,15 +8,10 @@ module.exports = {
     const clientLatency = Date.now() - interaction.createdTimestamp;
     const apiLatency = interaction.client.ws.ping;
 
-    const embed = new EmbedBuilder()
-      .setColor(0x0099ff)
+    const embed = new Embed()
       .setTitle("🏓 Pong!")
-      .setDescription(`Client Latency: \`${clientLatency}ms\`\nAPI Latency: \`${apiLatency}ms\``)
-      .setFooter({
-        text: `by @duckysolucky | /help [command] for more information`,
-        iconURL: "https://imgur.com/tgwQJTX.png"
-      });
+      .setDescription(`Client Latency: \`${clientLatency}ms\`\nAPI Latency: \`${apiLatency}ms\``);
 
-    interaction.followUp({ embeds: [embed] });
+    await interaction.followUp({ embeds: [embed] });
   }
 };

@@ -1,5 +1,4 @@
 const { Embed } = require("../../contracts/embedHandler.js");
-const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 
 module.exports = {
   name: "online",
@@ -54,7 +53,7 @@ module.exports = {
       .filter((item) => item);
 
     const description = `${totalMembers}\n${onlineMembers}\n\n${online.join("\n")}`;
-    const embed = new Embed("#2ECC71", "Online Members", description);
+    const embed = new Embed().setAuthor({ name: "Online Members" }).setDescription(description);
 
     return await interaction.followUp({ embeds: [embed] });
   }

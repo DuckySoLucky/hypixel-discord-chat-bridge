@@ -1,7 +1,6 @@
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 const { getUUID, getUsername } = require("../../contracts/API/mowojangAPI.js");
-const { SuccessEmbed } = require("../../contracts/embedHandler.js");
-const { EmbedBuilder } = require("discord.js");
+const { SuccessEmbed, ErrorEmbed } = require("../../contracts/embedHandler.js");
 const { readFileSync } = require("fs");
 
 module.exports = {
@@ -77,14 +76,10 @@ module.exports = {
         throw new HypixelDiscordChatBridgeError("Please provide a user or a name, not both.");
       }
     } catch (error) {
-      const errorEmbed = new EmbedBuilder()
-        .setColor(15548997)
-        .setAuthor({ name: "An Error has occurred" })
-        .setDescription(`\`\`\`${error}\`\`\``)
-        .setFooter({
-          text: `by @.kathund | /help [command] for more information`,
-          iconURL: "https://i.imgur.com/uUuZx2E.png"
-        });
+      const errorEmbed = new ErrorEmbed(`\`\`\`${error}\`\`\``).setFooter({
+        text: `by @.kathund | /help [command] for more information`,
+        iconURL: "https://i.imgur.com/uUuZx2E.png"
+      });
 
       await interaction.editReply({ embeds: [errorEmbed] });
     }

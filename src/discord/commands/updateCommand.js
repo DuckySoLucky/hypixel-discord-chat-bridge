@@ -1,8 +1,7 @@
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 const hypixelRebornAPI = require("../../contracts/API/HypixelRebornAPI.js");
 const { replaceVariables } = require("../../contracts/helperFunctions.js");
-const { SuccessEmbed } = require("../../contracts/embedHandler.js");
-const { EmbedBuilder } = require("discord.js");
+const { SuccessEmbed, ErrorEmbed } = require("../../contracts/embedHandler.js");
 const config = require("../../../config.json");
 const { readFileSync } = require("fs");
 
@@ -173,14 +172,10 @@ module.exports = {
 
       await interaction.followUp({ embeds: [updateRole], ephemeral: true });
     } catch (error) {
-      const errorEmbed = new EmbedBuilder()
-        .setColor(15548997)
-        .setAuthor({ name: "An Error has occurred" })
-        .setDescription(`\`\`\`${error}\`\`\``)
-        .setFooter({
-          text: `by @.kathund | /help [command] for more information`,
-          iconURL: "https://i.imgur.com/uUuZx2E.png"
-        });
+      const errorEmbed = new ErrorEmbed(`\`\`\`${error}\`\`\``).setFooter({
+        text: `by @.kathund | /help [command] for more information`,
+        iconURL: "https://i.imgur.com/uUuZx2E.png"
+      });
 
       await interaction.editReply({ embeds: [errorEmbed], ephemeral: true });
     }

@@ -1,6 +1,6 @@
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
+const { ErrorEmbed, Embed } = require("../../contracts/embedHandler.js");
 const { readFileSync, writeFileSync } = require("fs");
-const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
   name: "force-update-everyone",
@@ -29,8 +29,7 @@ module.exports = {
       }
 
       if (doNotRespond === false) {
-        const embed = new EmbedBuilder()
-          .setColor(3447003)
+        const embed = new Embed()
           .setTitle("Updating Users")
           .setDescription(`Progress: 0 / ${Object.keys(linked).length} (\`0%\`)`)
           .setFooter({
@@ -53,8 +52,7 @@ module.exports = {
           description.push(`- <@${id}>`);
         });
 
-        const embed = new EmbedBuilder()
-          .setColor(3447003)
+        const embed = new Embed()
           .setTitle("Updating Users")
           .setDescription(
             `Progress: ${Object.keys(linked).indexOf(id)} / ${Object.keys(linked).length} (\`${((Object.keys(linked).indexOf(id) / Object.keys(linked).length) * 100).toFixed(2)}%\`)`
@@ -77,26 +75,18 @@ module.exports = {
 
         description.unshift(`Updated **${Object.keys(linked).length}** users.`);
 
-        const embed = new EmbedBuilder()
-          .setColor(3447003)
-          .setTitle("Users Updated")
-          .setDescription(description.join("\n"))
-          .setFooter({
-            text: `by @.kathund | /help [command] for more information`,
-            iconURL: "https://i.imgur.com/uUuZx2E.png"
-          });
+        const embed = new Embed().setTitle("Users Updated").setDescription(description.join("\n")).setFooter({
+          text: `by @.kathund | /help [command] for more information`,
+          iconURL: "https://i.imgur.com/uUuZx2E.png"
+        });
 
         await interaction.editReply({ embeds: [embed], ephemeral: true });
       }
     } catch (error) {
-      const errorEmbed = new EmbedBuilder()
-        .setColor(15548997)
-        .setAuthor({ name: "An Error has occurred" })
-        .setDescription(`\`\`\`${error}\`\`\``)
-        .setFooter({
-          text: `by @.kathund | /help [command] for more information`,
-          iconURL: "https://i.imgur.com/uUuZx2E.png"
-        });
+      const errorEmbed = new ErrorEmbed(`\`\`\`${error}\`\`\``).setFooter({
+        text: `by @.kathund | /help [command] for more information`,
+        iconURL: "https://i.imgur.com/uUuZx2E.png"
+      });
 
       await interaction.editReply({ embeds: [errorEmbed] });
     }

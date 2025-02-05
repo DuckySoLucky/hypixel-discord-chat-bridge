@@ -1,8 +1,7 @@
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
-const { SuccessEmbed } = require("../../contracts/embedHandler.js");
-const { writeFileSync, readFileSync } = require("fs");
+const { SuccessEmbed, ErrorEmbed } = require("../../contracts/embedHandler.js");
 const { getUsername } = require("../../contracts/API/mowojangAPI.js");
-const { EmbedBuilder } = require("discord.js");
+const { writeFileSync, readFileSync } = require("fs");
 
 module.exports = {
   name: "unverify",
@@ -44,14 +43,10 @@ module.exports = {
 
       await updateRolesCommand.execute(interaction, undefined, true);
     } catch (error) {
-      const errorEmbed = new EmbedBuilder()
-        .setColor(15548997)
-        .setAuthor({ name: "An Error has occurred" })
-        .setDescription(`\`\`\`${error}\`\`\``)
-        .setFooter({
-          text: `by @.kathund | /help [command] for more information`,
-          iconURL: "https://i.imgur.com/uUuZx2E.png"
-        });
+      const errorEmbed = new ErrorEmbed(`\`\`\`${error}\`\`\``).setFooter({
+        text: `by @.kathund | /help [command] for more information`,
+        iconURL: "https://i.imgur.com/uUuZx2E.png"
+      });
 
       await interaction.editReply({ embeds: [errorEmbed], ephemeral: true });
     }
