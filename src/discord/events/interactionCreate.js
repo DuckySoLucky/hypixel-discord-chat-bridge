@@ -73,15 +73,15 @@ module.exports = {
         const userID = interaction.user.id ?? "Unknown";
 
         const errorLog = new ErrorEmbed(
-          `Command: \`${commandName}\`\nOptions: \`${commandOptions}\`\nUser ID: \`${userID}\`\nUser: \`${username}\`\n\`\`\`${errorStack}\`\`\``,
+          `Command: \`${commandName}\`\nOptions: \`${commandOptions}\`\nUser ID: \`${userID}\`\nUser: \`${username}\`\n\`\`\`${errorStack}\`\`\``
         );
         interaction.client.channels.cache.get(config.discord.channels.loggingChannel).send({
           content: `<@&${config.discord.commands.commandRole}>`,
-          embeds: [errorLog],
+          embeds: [errorLog]
         });
       }
     }
-  },
+  }
 };
 
 function isBotOnline() {

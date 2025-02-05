@@ -15,7 +15,7 @@ module.exports = function calcSkill(skill, experience, type) {
       level: 0,
       xpCurrent: 0,
       xpForNext: xp_tables[table][0],
-      progress: 0,
+      progress: 0
     };
   }
   let xp = 0;
@@ -60,6 +60,6 @@ module.exports = function calcSkill(skill, experience, type) {
     xpCurrent,
     xpForNext,
     progress,
-    levelWithProgress: level + progress || 0,
+    levelWithProgress: level + progress || 0
   };
 };

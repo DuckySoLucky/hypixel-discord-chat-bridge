@@ -57,5 +57,5 @@ module.exports = {
     const embed = new Embed("#2ECC71", "Online Members", description);
 
     return await interaction.followUp({ embeds: [embed] });
-  },
+  }
 };

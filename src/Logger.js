@@ -20,7 +20,7 @@ const discordLogger = createLogger({
       return `[${timestamp}] ${level.toUpperCase()} > ${message}`;
     })
   ),
-  transports: [discordTransport, combinedTransport],
+  transports: [discordTransport, combinedTransport]
 });
 
 const minecraftLogger = createLogger({
@@ -32,7 +32,7 @@ const minecraftLogger = createLogger({
       return `[${timestamp}] ${level.toUpperCase()} > ${message}`;
     })
   ),
-  transports: [minecraftTransport, combinedTransport],
+  transports: [minecraftTransport, combinedTransport]
 });
 
 const webLogger = createLogger({
@@ -44,7 +44,7 @@ const webLogger = createLogger({
       return `[${timestamp}] ${level.toUpperCase()} > ${message}`;
     })
   ),
-  transports: [webTransport, combinedTransport],
+  transports: [webTransport, combinedTransport]
 });
 
 const warnLogger = createLogger({
@@ -56,7 +56,7 @@ const warnLogger = createLogger({
       return `[${timestamp}] ${level.toUpperCase()} > ${message}`;
     })
   ),
-  transports: [warnTransport, combinedTransport],
+  transports: [warnTransport, combinedTransport]
 });
 
 const errorLogger = createLogger({
@@ -68,7 +68,7 @@ const errorLogger = createLogger({
       return `[${timestamp}] ${level.toUpperCase()} > ${message}`;
     })
   ),
-  transports: [errorTransport, combinedTransport],
+  transports: [errorTransport, combinedTransport]
 });
 
 const broadcastLogger = createLogger({
@@ -80,7 +80,7 @@ const broadcastLogger = createLogger({
       return `[${timestamp}] ${level.toUpperCase()} > ${message}`;
     })
   ),
-  transports: [broadcastTransport, combinedTransport],
+  transports: [broadcastTransport, combinedTransport]
 });
 
 function discordMessage(message) {
@@ -119,7 +119,7 @@ function errorMessage(message) {
   if (config.other.logToFiles) {
     errorLogger.log("error", message);
   }
-  
+
   return console.log(chalk.bgRedBright.black(`[${getCurrentTime()}] Error >`) + " " + chalk.redBright(message));
 }
 
@@ -138,7 +138,7 @@ function getCurrentTime() {
     second: "numeric",
     hour12: false,
     timeZoneName: "short",
-    timeZone: "UTC",
+    timeZone: "UTC"
   });
 }
 
@@ -183,5 +183,5 @@ module.exports = {
   broadcastMessage,
   getCurrentTime,
   configUpdateMessage,
-  updateMessage,
+  updateMessage
 };

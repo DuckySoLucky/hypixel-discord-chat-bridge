@@ -16,7 +16,7 @@ module.exports = (profile) => {
           slot: item.slot,
           timeStarted: item.startTime,
           timeFinished: 0,
-          timeFinishedText: "",
+          timeFinishedText: ""
         };
 
         if (item.id in miningConst.forge.items) {
@@ -48,22 +48,22 @@ module.exports = (profile) => {
         mithril: {
           spent: profile?.mining_core?.powder_spent_mithril || 0,
           current: profile?.mining_core?.powder_mithril || 0,
-          total: profile?.mining_core?.powder_spent_mithril || 0 + profile?.mining_core?.powder_mithril || 0,
+          total: profile?.mining_core?.powder_spent_mithril || 0 + profile?.mining_core?.powder_mithril || 0
         },
         gemstone: {
           spent: profile?.mining_core?.powder_spent_gemstone || 0,
           current: profile?.mining_core?.powder_gemstone || 0,
-          total: profile?.mining_core?.powder_spent_gemstone || 0 + profile?.mining_core?.powder_gemstone || 0,
+          total: profile?.mining_core?.powder_spent_gemstone || 0 + profile?.mining_core?.powder_gemstone || 0
         },
         glacite: {
           spent: profile?.mining_core?.powder_spent_glacite || 0,
           current: profile?.mining_core?.powder_glacite || 0,
-          total: profile?.mining_core?.powder_spent_glacite || 0 + profile?.mining_core?.powder_glacite || 0,
-        },
+          total: profile?.mining_core?.powder_spent_glacite || 0 + profile?.mining_core?.powder_glacite || 0
+        }
       },
       level: calcSkill("hotm", profile?.mining_core?.experience || 0),
       ability: titleCase(profile?.mining_core?.selected_pickaxe_ability || "none", true),
-      forge: forgeItems,
+      forge: forgeItems
     };
   } catch (error) {
     console.log(error);

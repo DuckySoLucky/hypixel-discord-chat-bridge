@@ -19,7 +19,7 @@ module.exports = {
       const linkedData = readFileSync("data/linked.json");
       if (linkedData === undefined) {
         throw new HypixelDiscordChatBridgeError(
-          "The linked data file does not exist. Please contact an administrator.",
+          "The linked data file does not exist. Please contact an administrator."
         );
       }
 
@@ -35,7 +35,7 @@ module.exports = {
           .setDescription(`Progress: 0 / ${Object.keys(linked).length} (\`0%\`)`)
           .setFooter({
             text: `by @.kathund | /help [command] for more information`,
-            iconURL: "https://i.imgur.com/uUuZx2E.png",
+            iconURL: "https://i.imgur.com/uUuZx2E.png"
           });
 
         await interaction.editReply({ embeds: [embed], ephemeral: true });
@@ -57,11 +57,11 @@ module.exports = {
           .setColor(3447003)
           .setTitle("Updating Users")
           .setDescription(
-            `Progress: ${Object.keys(linked).indexOf(id)} / ${Object.keys(linked).length} (\`${((Object.keys(linked).indexOf(id) / Object.keys(linked).length) * 100).toFixed(2)}%\`)`,
+            `Progress: ${Object.keys(linked).indexOf(id)} / ${Object.keys(linked).length} (\`${((Object.keys(linked).indexOf(id) / Object.keys(linked).length) * 100).toFixed(2)}%\`)`
           )
           .setFooter({
             text: `by @.kathund | /help [command] for more information`,
-            iconURL: "https://i.imgur.com/uUuZx2E.png",
+            iconURL: "https://i.imgur.com/uUuZx2E.png"
           });
 
         if (doNotRespond === false) {
@@ -83,7 +83,7 @@ module.exports = {
           .setDescription(description.join("\n"))
           .setFooter({
             text: `by @.kathund | /help [command] for more information`,
-            iconURL: "https://i.imgur.com/uUuZx2E.png",
+            iconURL: "https://i.imgur.com/uUuZx2E.png"
           });
 
         await interaction.editReply({ embeds: [embed], ephemeral: true });
@@ -95,10 +95,10 @@ module.exports = {
         .setDescription(`\`\`\`${error}\`\`\``)
         .setFooter({
           text: `by @.kathund | /help [command] for more information`,
-          iconURL: "https://i.imgur.com/uUuZx2E.png",
+          iconURL: "https://i.imgur.com/uUuZx2E.png"
         });
 
       await interaction.editReply({ embeds: [errorEmbed] });
     }
-  },
+  }
 };

@@ -26,17 +26,17 @@ module.exports = {
 
           discordMembers: guild.memberCount,
           discordChannels: channels.size,
-          discordRoles: roles.size,
+          discordRoles: roles.size
         }),
-        "Updated Channels",
+        "Updated Channels"
       );
     });
 
     if (hidden) return;
     const embed = new SuccessEmbed("The channels have been updated successfully.", {
       text: `by @kathund. | /help [command] for more information`,
-      iconURL: "https://i.imgur.com/uUuZx2E.png",
+      iconURL: "https://i.imgur.com/uUuZx2E.png"
     });
     await interaction.followUp({ embeds: [embed] });
-  },
+  }
 };

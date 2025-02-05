@@ -12,8 +12,8 @@ module.exports = {
       name: "command",
       description: "Get information about a specific command",
       type: 3,
-      required: false,
-    },
+      required: false
+    }
   ],
 
   execute: async (interaction) => {
@@ -30,17 +30,17 @@ module.exports = {
             {
               name: "**Minecraft**: ",
               value: `${minecraftCommands}`,
-              inline: true,
+              inline: true
             },
             {
               name: "**Discord**: ",
               value: `${discordCommands}`,
-              inline: true,
-            },
+              inline: true
+            }
           )
           .setFooter({
             text: "by @duckysolucky | /help [command] for more information",
-            iconURL: "https://imgur.com/tgwQJTX.png",
+            iconURL: "https://imgur.com/tgwQJTX.png"
           });
 
         await interaction.followUp({ embeds: [helpMenu] });
@@ -81,7 +81,7 @@ module.exports = {
           .setDescription(description + "\n")
           .setFooter({
             text: "by @duckysolucky | () = required, [] = optional",
-            iconURL: "https://imgur.com/tgwQJTX.png",
+            iconURL: "https://imgur.com/tgwQJTX.png"
           });
 
         await interaction.followUp({ embeds: [embed] });
@@ -89,5 +89,5 @@ module.exports = {
     } catch (error) {
       console.log(error);
     }
-  },
+  }
 };

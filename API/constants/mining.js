@@ -118,7 +118,7 @@ module.exports = {
       TUNGSTEN_KEY: { name: "Tungsten Key", duration: 1800000 },
       UMBER_KEY: { name: "Umber Key", duration: 1800000 },
       SKELETON_KEY: { name: "Skeleton Key", duration: 1800000 },
-      PORTABLE_CAMPFIRE: { name: "Portable Campfire", duration: 1800000 },
+      PORTABLE_CAMPFIRE: { name: "Portable Campfire", duration: 1800000 }
     },
     quickForgeMultiplier: {
       1: 0.895,
@@ -140,8 +140,8 @@ module.exports = {
       17: 0.815,
       18: 0.81,
       19: 0.805,
-      20: 0.7,
-    },
+      20: 0.7
+    }
   },
   hotm: {
     perks: {
@@ -233,7 +233,7 @@ module.exports = {
       hungry_for_more: { name: "Dead Man's Chest", max: 50, type: "perk", level: 10 },
       excavator: { name: "Excavator", max: 50, type: "perk", level: 10 },
       rags_of_riches: { name: "Rags of Riches", max: 50, type: "perk", level: 10 },
-      hazardous_miner: { name: "Hazardous Miner", max: 1, type: "ability", level: 10 },
-    },
-  },
+      hazardous_miner: { name: "Hazardous Miner", max: 1, type: "ability", level: 10 }
+    }
+  }
 };

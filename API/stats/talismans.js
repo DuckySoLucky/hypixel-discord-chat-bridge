@@ -17,14 +17,14 @@ module.exports = async (profile) => {
       enriched: 0,
       total: 0,
       magicPower: 0,
-      power: "unknown",
+      power: "unknown"
     };
     if (
       profile.inventory?.bag_contents?.talisman_bag.data !== undefined &&
       profile.inventory?.inv_contents?.data !== null
     ) {
       const { i: talisman_bag_data } = await decodeData(
-        Buffer.from(profile.inventory.bag_contents.talisman_bag.data, "base64"),
+        Buffer.from(profile.inventory.bag_contents.talisman_bag.data, "base64")
       );
 
       output.power = titleCase(profile.accessory_bag_storage?.selected_power);
@@ -40,7 +40,7 @@ module.exports = async (profile) => {
         if (!names.includes(talisman.tag.ExtraAttributes.id)) {
           if (talisman.tag.ExtraAttributes.id === "ABICASE") {
             output.magicPower += Math.floor(profile.nether_island_player_data.abiphone.active_contacts.length / 2);
-            output.magicPower += power[getRarity(talisman.tag.display.Lore)]
+            output.magicPower += power[getRarity(talisman.tag.display.Lore)];
           } else if (talisman.tag.ExtraAttributes.id === "HEGEMONY_ARTIFACT") {
             output.magicPower += power[getRarity(talisman.tag.display.Lore)] * 2;
           } else {
@@ -67,7 +67,7 @@ module.exports = async (profile) => {
         }
       }
       if (profile?.rift?.access?.consumed_prism === true) {
-        output.magicPower += 11
+        output.magicPower += 11;
       }
 
       return output;
@@ -96,5 +96,5 @@ const power = {
   uncommon: 5,
   common: 3,
   special: 3,
-  very: 5,
+  very: 5
 };

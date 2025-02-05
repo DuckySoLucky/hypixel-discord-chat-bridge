@@ -10,8 +10,8 @@ module.exports = {
       name: "username",
       description: "Minecraft Username",
       type: 3,
-      required: true,
-    },
+      required: true
+    }
   ],
 
   execute: async (interaction) => {
@@ -24,11 +24,11 @@ module.exports = {
       .setDescription(`Successfully executed \`/g unmute ${name}\``)
       .setFooter({
         text: `by @duckysolucky | /help [command] for more information`,
-        iconURL: "https://imgur.com/tgwQJTX.png",
+        iconURL: "https://imgur.com/tgwQJTX.png"
       });
 
     await interaction.followUp({
-      embeds: [embed],
+      embeds: [embed]
     });
-  },
+  }
 };

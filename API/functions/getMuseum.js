@@ -5,7 +5,7 @@ const axios = require("axios");
 async function getMuseum(profileID, uuid) {
   try {
     const { data } = await axios.get(
-      `https://api.hypixel.net/v2/skyblock/museum?key=${config.minecraft.API.hypixelAPIkey}&profile=${profileID}`,
+      `https://api.hypixel.net/v2/skyblock/museum?key=${config.minecraft.API.hypixelAPIkey}&profile=${profileID}`
     );
 
     if (data === undefined || data.success === false) {
@@ -22,7 +22,7 @@ async function getMuseum(profileID, uuid) {
 
     return {
       museum: data.members ? data.members[uuid] : null,
-      museumData: data.members ? data.members : null,
+      museumData: data.members ? data.members : null
     };
   } catch (e) {
     throw new Error(e);

@@ -11,8 +11,8 @@ module.exports = {
       name: "user",
       description: "Discord User",
       type: 6,
-      required: true,
-    },
+      required: true
+    }
   ],
 
   execute: async (interaction) => {
@@ -23,5 +23,5 @@ module.exports = {
     }
 
     await updateRolesCommand.execute(interaction, user);
-  },
+  }
 };
