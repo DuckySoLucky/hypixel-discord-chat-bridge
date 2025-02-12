@@ -1,22 +1,22 @@
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 const hypixelRebornAPI = require("../../contracts/API/HypixelRebornAPI.js");
 const { replaceVariables } = require("../../contracts/helperFunctions.js");
-const { SuccessEmbed } = require("../../contracts/embedHandler.js");
-const { EmbedBuilder } = require("discord.js");
+const { SuccessEmbed, ErrorEmbed } = require("../../contracts/embedHandler.js");
 const config = require("../../../config.json");
 const { readFileSync } = require("fs");
 
 module.exports = {
   name: "update",
   verificationCommand: true,
+  requiresBot: true,
   description: "Update your current roles",
 
-  execute: async (interaction, user) => {
+  execute: async (interaction, user = undefined, unverify = false) => {
     try {
       const linkedData = readFileSync("data/linked.json");
       if (!linkedData) {
         throw new HypixelDiscordChatBridgeError(
-          "The linked data file does not exist. Please contact an administrator.",
+          "The linked data file does not exist. Please contact an administrator."
         );
       }
 
@@ -39,11 +39,15 @@ module.exports = {
         const roles = [
           config.verification.verifiedRole,
           config.verification.guildMemberRole,
-          ...config.verification.ranks.map((r) => r.role),
+          ...config.verification.ranks.flatMap((r) => r.roles)
         ];
 
         for (const role of roles) {
           if (role === config.verification.verifiedRole && config.verification.removeVerificationRole === false) {
+            continue;
+          }
+
+          if (role === config.verification.unverifiedRole) {
             continue;
           }
 
@@ -52,9 +56,14 @@ module.exports = {
           }
         }
 
+        if (!interaction.member.roles.cache.has(config.verification.unverifiedRole)) {
+          await interaction.member.roles.add(config.verification.unverifiedRole, "Updated Roles");
+        }
+
         interaction.member.setNickname(null, "Updated Roles");
 
-        throw new HypixelDiscordChatBridgeError("You are not linked to a Minecraft account.");
+        if (unverify === false) throw new HypixelDiscordChatBridgeError("You are not linked to a Minecraft account.");
+        return;
       }
 
       if (!interaction.member.roles.cache.has(config.verification.verifiedRole)) {
@@ -63,7 +72,7 @@ module.exports = {
 
       const [hypixelGuild, player] = await Promise.all([
         hypixelRebornAPI.getGuild("player", bot.username),
-        hypixelRebornAPI.getPlayer(uuid),
+        hypixelRebornAPI.getPlayer(uuid)
       ]);
 
       if (hypixelGuild === undefined) {
@@ -77,13 +86,17 @@ module.exports = {
         if (config.verification.ranks.length > 0 && guildMember.rank) {
           const rank = config.verification.ranks.find((r) => r.name.toLowerCase() == guildMember.rank.toLowerCase());
           if (rank) {
-            for (const role of config.verification.ranks) {
-              if (interaction.member.roles.cache.has(role.role)) {
-                await interaction.member.roles.remove(role.role, "Updated Roles");
+            for (const rankRole of config.verification.ranks) {
+              for (const role of rankRole.roles) {
+                if (interaction.member.roles.cache.has(role)) {
+                  await interaction.member.roles.remove(role, "Updated Roles");
+                }
               }
             }
 
-            await interaction.member.roles.add(rank.role, "Updated Roles");
+            for (const role of rank.roles) {
+              await interaction.member.roles.add(role, "Updated Roles");
+            }
           }
         }
       } else {
@@ -147,28 +160,24 @@ module.exports = {
           username: player.nickname,
 
           guildRank: hypixelGuild.members.find((m) => m.uuid === uuid)?.rank ?? "Unknown",
-          guildName: hypixelGuild.name,
+          guildName: hypixelGuild.name
         }),
-        "Updated Roles",
+        "Updated Roles"
       );
 
       const updateRole = new SuccessEmbed(
         `<@${interaction.user.id}>'s roles have been successfully synced with \`${player.nickname ?? "Unknown"}\`!`,
-        { text: `by @.kathund | /help [command] for more information`, iconURL: "https://i.imgur.com/uUuZx2E.png" },
+        { text: `by @.kathund | /help [command] for more information`, iconURL: "https://i.imgur.com/uUuZx2E.png" }
       );
 
       await interaction.followUp({ embeds: [updateRole], ephemeral: true });
     } catch (error) {
-      const errorEmbed = new EmbedBuilder()
-        .setColor(15548997)
-        .setAuthor({ name: "An Error has occurred" })
-        .setDescription(`\`\`\`${error}\`\`\``)
-        .setFooter({
-          text: `by @.kathund | /help [command] for more information`,
-          iconURL: "https://i.imgur.com/uUuZx2E.png",
-        });
+      const errorEmbed = new ErrorEmbed(`\`\`\`${error}\`\`\``).setFooter({
+        text: `by @.kathund | /help [command] for more information`,
+        iconURL: "https://i.imgur.com/uUuZx2E.png"
+      });
 
       await interaction.editReply({ embeds: [errorEmbed], ephemeral: true });
     }
-  },
+  }
 };

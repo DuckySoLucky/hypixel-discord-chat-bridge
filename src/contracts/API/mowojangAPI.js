@@ -21,7 +21,7 @@ async function getUUID(username) {
 
     uuidCache.set(username, {
       last_save: Date.now(),
-      id: data.id,
+      id: data.id
     });
 
     return data.id;
@@ -50,7 +50,7 @@ async function getUsername(uuid) {
 
     const cache = {
       last_save: Date.now(),
-      username: data.name,
+      username: data.name
     };
 
     usernameCache.set(uuid, cache);
@@ -70,7 +70,7 @@ async function resolveUsernameOrUUID(username) {
 
     return {
       username: data.name,
-      uuid: data.id,
+      uuid: data.id
     };
   } catch (error) {
     // eslint-disable-next-line no-throw-literal

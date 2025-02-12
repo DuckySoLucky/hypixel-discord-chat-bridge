@@ -51,15 +51,15 @@ class WebServer {
         res.end(
           JSON.stringify({
             success: true,
-            uptime: Date.now() - this.start,
-          }),
+            uptime: Date.now() - this.start
+          })
         );
       } else {
         res.end(
           JSON.stringify({
             success: false,
-            error: "Invalid route",
-          }),
+            error: "Invalid route"
+          })
         );
       }
     });

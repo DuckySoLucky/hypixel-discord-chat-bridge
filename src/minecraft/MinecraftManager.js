@@ -43,7 +43,7 @@ class MinecraftManager extends CommunicationBridge {
       version: "1.8.9",
       viewDistance: "tiny",
       chatLengthLimit: 256,
-      profilesFolder: "./auth-cache",
+      profilesFolder: "./auth-cache"
     });
   }
 
@@ -58,8 +58,12 @@ class MinecraftManager extends CommunicationBridge {
     }
 
     if (config.discord.other.filterMessages) {
-      message = filter.clean(message);
-      username = filter.clean(username);
+      try {
+        message = filter.clean(message);
+        username = filter.clean(username);
+      } catch (error) {
+        // Do nothing
+      }
     }
 
     message = replaceVariables(config.minecraft.bot.messageFormat, { username, message });

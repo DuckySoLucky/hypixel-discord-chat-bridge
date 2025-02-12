@@ -12,8 +12,8 @@ class CalculateCommand extends minecraftCommand {
       {
         name: "calculation",
         description: "Any kind of math equation",
-        required: true,
-      },
+        required: true
+      }
     ];
   }
 

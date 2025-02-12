@@ -10,8 +10,8 @@ module.exports = {
       name: "command",
       description: "Minecraft Command",
       type: 3,
-      required: true,
-    },
+      required: true
+    }
   ],
 
   execute: async (interaction) => {
@@ -21,5 +21,5 @@ module.exports = {
     const commandMessage = new SuccessEmbed(`Successfully executed \`/${command}\``);
 
     await interaction.followUp({ embeds: [commandMessage], ephemeral: true });
-  },
+  }
 };

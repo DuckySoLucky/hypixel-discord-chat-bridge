@@ -1,16 +1,16 @@
 // Credits https://github.com/Altpapier/hypixel-discord-guild-bridge/blob/master/helper/loreRenderer.js
 const Canvas = require("canvas");
 Canvas.registerFont("src/contracts/Fonts/2_Minecraft-Italic.otf", {
-  family: "MinecraftItalic",
+  family: "MinecraftItalic"
 });
 Canvas.registerFont("src/contracts/Fonts/MinecraftRegular-Bmg3.ttf", {
-  family: "Minecraft",
+  family: "Minecraft"
 });
 Canvas.registerFont("src/contracts/Fonts/minecraft-bold.otf", {
-  family: "MinecraftBold",
+  family: "MinecraftBold"
 });
 Canvas.registerFont("src/contracts/Fonts/unifont.ttf", {
-  family: "MinecraftUnicode",
+  family: "MinecraftUnicode"
 });
 
 const RGBA_COLOR = {
@@ -29,7 +29,7 @@ const RGBA_COLOR = {
   c: "rgba(255,85,85,1)",
   d: "rgba(255,85,255,1)",
   e: "rgba(255,255,85,1)",
-  f: "rgba(255,255,255,1)",
+  f: "rgba(255,255,255,1)"
 };
 
 async function getCanvasWidthAndHeight(lore) {

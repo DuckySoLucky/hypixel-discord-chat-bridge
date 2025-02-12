@@ -16,49 +16,49 @@ module.exports = (profile) => {
       ),
       force: {
         points: crimsonIsle.dojo?.dojo_points_mob_kb ?? 0,
-        rank: getScore(crimsonIsle.dojo?.dojo_points_mob_kb ?? 0),
+        rank: getScore(crimsonIsle.dojo?.dojo_points_mob_kb ?? 0)
       },
       stamina: {
         points: crimsonIsle.dojo?.dojo_points_wall_jump ?? 0,
-        rank: getScore(crimsonIsle.dojo?.dojo_points_wall_jump ?? 0),
+        rank: getScore(crimsonIsle.dojo?.dojo_points_wall_jump ?? 0)
       },
       mastery: {
         points: crimsonIsle.dojo?.dojo_points_archer ?? 0,
-        rank: getScore(crimsonIsle.dojo?.dojo_points_archer ?? 0),
+        rank: getScore(crimsonIsle.dojo?.dojo_points_archer ?? 0)
       },
       discipline: {
         points: crimsonIsle.dojo?.dojo_points_sword_swap ?? 0,
-        rank: getScore(crimsonIsle.dojo?.dojo_points_sword_swap ?? 0),
+        rank: getScore(crimsonIsle.dojo?.dojo_points_sword_swap ?? 0)
       },
       swiftness: {
         points: crimsonIsle.dojo?.dojo_points_snake ?? 0,
-        rank: getScore(crimsonIsle.dojo?.dojo_points_snake ?? 0),
+        rank: getScore(crimsonIsle.dojo?.dojo_points_snake ?? 0)
       },
       control: {
         points: crimsonIsle.dojo?.dojo_points_lock_head ?? 0,
-        rank: getScore(crimsonIsle.dojo?.dojo_points_lock_head ?? 0),
+        rank: getScore(crimsonIsle.dojo?.dojo_points_lock_head ?? 0)
       },
       tenacity: {
         points: crimsonIsle.dojo?.dojo_points_fireball ?? 0,
-        rank: getScore(crimsonIsle.dojo?.dojo_points_fireball ?? 0),
-      },
+        rank: getScore(crimsonIsle.dojo?.dojo_points_fireball ?? 0)
+      }
     };
 
     return {
       faction: titleCase(crimsonIsle.selected_faction || "none"),
       reputation: {
         barbarian: crimsonIsle.barbarians_reputation ?? 0,
-        mage: crimsonIsle.mages_reputation ?? 0,
+        mage: crimsonIsle.mages_reputation ?? 0
       },
       kuudra: {
         basic: crimsonIsle.kuudra_completed_tiers?.none ?? 0,
         hot: crimsonIsle.kuudra_completed_tiers?.hot ?? 0,
         burning: crimsonIsle.kuudra_completed_tiers?.burning ?? 0,
         fiery: crimsonIsle.kuudra_completed_tiers?.fiery ?? 0,
-        infernal: crimsonIsle.kuudra_completed_tiers?.infernal ?? 0,
+        infernal: crimsonIsle.kuudra_completed_tiers?.infernal ?? 0
       },
       dojo: dojo,
-      trophyFishing: getTrophyFish(profile),
+      trophyFishing: getTrophyFish(profile)
     };
   } catch (error) {
     console.error(error);
@@ -109,13 +109,13 @@ function getTrophyFish(profile) {
   const trophyFishKeys = Object.keys(trophyFish);
 
   return {
-    rank: getTrophyFishRank((trophyFish.rewards ?? []).length),
+    rank: getTrophyFishRank(trophyFish.rewards ? trophyFish.rewards[trophyFish.rewards.length - 1] : 0),
     caught: {
       total: trophyFish.total_caught ?? 0,
       bronze: trophyFishKeys.filter((key) => key.endsWith("_bronze")).length,
       silver: trophyFishKeys.filter((key) => key.endsWith("_silver")).length,
       gold: trophyFishKeys.filter((key) => key.endsWith("_gold")).length,
-      diamond: trophyFishKeys.filter((key) => key.endsWith("_diamond")).length,
-    },
+      diamond: trophyFishKeys.filter((key) => key.endsWith("_diamond")).length
+    }
   };
 }

@@ -11,5 +11,5 @@ function isUuid(uuid) {
 }
 
 module.exports = {
-  isUuid,
+  isUuid
 };

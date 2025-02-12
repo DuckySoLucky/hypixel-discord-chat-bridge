@@ -19,8 +19,8 @@ class SkyblockCommand extends minecraftCommand {
       {
         name: "username",
         description: "Minecraft username",
-        required: false,
-      },
+        required: false
+      }
     ];
   }
 
@@ -37,11 +37,11 @@ class SkyblockCommand extends minecraftCommand {
         getNetworth(data.profile, data.profileData?.banking?.balance || 0, {
           onlyNetworth: true,
           v2Endpoint: true,
-          cache: true,
+          cache: true
         }),
         getDungeons(data.profile),
         getTalismans(data.profile),
-        getHotm(data.profile),
+        getHotm(data.profile)
       ]);
 
       const skillAverage = (
@@ -55,7 +55,7 @@ class SkyblockCommand extends minecraftCommand {
       const slayerText = Object.keys(slayer)
         .reduce(
           (acc, slayerType) => `${acc} | ${slayerType.substring(0, 1).toUpperCase()}:${slayer[slayerType].level}`,
-          "",
+          ""
         )
         .slice(3);
       const catacombsLevel = dungeons.catacombs.skill.level;
@@ -70,7 +70,7 @@ class SkyblockCommand extends minecraftCommand {
       this.send(
         `/gc ${username}'s Level: ${
           data.profile.leveling?.experience ? data.profile.leveling.experience / 100 : 0
-        } | Skill Avg: ${skillAverage} | Slayer: ${slayerText} | Cata: ${catacombsLevel} | Class Avg: ${classAverage} | NW: ${networthValue} | MP: ${mp} | Hotm: ${hotmLevel}`,
+        } | Skill Avg: ${skillAverage} | Slayer: ${slayerText} | Cata: ${catacombsLevel} | Class Avg: ${classAverage} | NW: ${networthValue} | MP: ${mp} | Hotm: ${hotmLevel}`
       );
     } catch (error) {
       this.send(`/gc [ERROR] ${error}`);

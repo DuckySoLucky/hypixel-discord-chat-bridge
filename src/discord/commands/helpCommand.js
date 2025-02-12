@@ -1,8 +1,8 @@
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
-const { EmbedBuilder } = require("discord.js");
+const { Embed } = require("../../contracts/embedHandler.js");
+const { getCommands } = require("./infoCommand.js");
 const config = require("../../../config.json");
 const fs = require("fs");
-const { getCommands } = require("./infoCommand.js");
 
 module.exports = {
   name: "help",
@@ -12,8 +12,8 @@ module.exports = {
       name: "command",
       description: "Get information about a specific command",
       type: 3,
-      required: false,
-    },
+      required: false
+    }
   ],
 
   execute: async (interaction) => {
@@ -22,7 +22,7 @@ module.exports = {
       const { discordCommands, minecraftCommands } = getCommands(interaction.client.commands);
 
       if (commandName === undefined) {
-        const helpMenu = new EmbedBuilder()
+        const helpMenu = new Embed()
           .setColor(0x0099ff)
           .setTitle("Hypixel Discord Chat Bridge Commands")
           .setDescription("`()` = **required** argument, `[]` = **optional** argument\n`u` = Minecraft Username")
@@ -30,17 +30,17 @@ module.exports = {
             {
               name: "**Minecraft**: ",
               value: `${minecraftCommands}`,
-              inline: true,
+              inline: true
             },
             {
               name: "**Discord**: ",
               value: `${discordCommands}`,
-              inline: true,
-            },
+              inline: true
+            }
           )
           .setFooter({
             text: "by @duckysolucky | /help [command] for more information",
-            iconURL: "https://imgur.com/tgwQJTX.png",
+            iconURL: "https://imgur.com/tgwQJTX.png"
           });
 
         await interaction.followUp({ embeds: [helpMenu] });
@@ -75,13 +75,12 @@ module.exports = {
             .join("") || ""
         }`;
 
-        const embed = new EmbedBuilder()
-          .setColor(0x0099ff)
+        const embed = new Embed()
           .setTitle(`**${type === "discord" ? "/" : config.minecraft.bot.prefix}${command.name}**`)
           .setDescription(description + "\n")
           .setFooter({
             text: "by @duckysolucky | () = required, [] = optional",
-            iconURL: "https://imgur.com/tgwQJTX.png",
+            iconURL: "https://imgur.com/tgwQJTX.png"
           });
 
         await interaction.followUp({ embeds: [embed] });
@@ -89,5 +88,5 @@ module.exports = {
     } catch (error) {
       console.error(error);
     }
-  },
+  }
 };

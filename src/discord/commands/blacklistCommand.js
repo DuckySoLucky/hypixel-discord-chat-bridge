@@ -16,20 +16,20 @@ module.exports = {
       choices: [
         {
           name: "Add",
-          value: "add",
+          value: "add"
         },
         {
           name: "Remove",
-          value: "remove",
-        },
-      ],
+          value: "remove"
+        }
+      ]
     },
     {
       name: "username",
       description: "Minecraft Username",
       type: 3,
-      required: true,
-    },
+      required: true
+    }
   ],
 
   execute: async (interaction) => {
@@ -49,11 +49,11 @@ module.exports = {
     bot.chat("/limbo");
 
     const embed = new SuccessEmbed(
-      `Successfully ${arg == "add" ? "added" : "removed"} \`${name}\` ${arg == "add" ? "to" : "from"} the blacklist.`,
+      `Successfully ${arg == "add" ? "added" : "removed"} \`${name}\` ${arg == "add" ? "to" : "from"} the blacklist.`
     );
 
     await interaction.followUp({
-      embeds: [embed],
+      embeds: [embed]
     });
-  },
+  }
 };

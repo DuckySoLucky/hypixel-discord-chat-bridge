@@ -1,5 +1,5 @@
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
-const { ErrorEmbed } = require("../../contracts/embedHandler.js");
+const { ErrorEmbed, SuccessEmbed } = require("../../contracts/embedHandler.js");
 // eslint-disable-next-line no-unused-vars
 const { CommandInteraction } = require("discord.js");
 const config = require("../../../config.json");
@@ -29,6 +29,10 @@ module.exports = {
           throw new HypixelDiscordChatBridgeError("Verification is disabled.");
         }
 
+        if (command.channelsCommand === true && config.statsChannels.enabled === false) {
+          throw new HypixelDiscordChatBridgeError("Channel Stats is disabled.");
+        }
+
         if (command.moderatorOnly === true && isModerator(interaction) === false) {
           throw new HypixelDiscordChatBridgeError("You don't have permission to use this command.");
         }
@@ -38,6 +42,15 @@ module.exports = {
         }
 
         await command.execute(interaction);
+      } else if (interaction.isButton()) {
+        await interaction.deferReply({ ephemeral: true }).catch(() => {});
+        if (interaction.customId !== "joinRequestAccept") return;
+        const username = interaction?.message?.embeds?.[0]?.title.split(" ")?.[0] || undefined;
+        if (!username) throw new HypixelDiscordChatBridgeError("Something is missing");
+        bot.chat(`/g accept ${username}`);
+        const embed = new SuccessEmbed(`Successfully accepted **${username}** into the guild.`);
+
+        await interaction.followUp({ embeds: [embed] });
       }
     } catch (error) {
       console.error(error);
@@ -58,15 +71,15 @@ module.exports = {
         const userID = interaction.user.id ?? "Unknown";
 
         const errorLog = new ErrorEmbed(
-          `Command: \`${commandName}\`\nOptions: \`${commandOptions}\`\nUser ID: \`${userID}\`\nUser: \`${username}\`\n\`\`\`${errorStack}\`\`\``,
+          `Command: \`${commandName}\`\nOptions: \`${commandOptions}\`\nUser ID: \`${userID}\`\nUser: \`${username}\`\n\`\`\`${errorStack}\`\`\``
         );
         interaction.client.channels.cache.get(config.discord.channels.loggingChannel).send({
           content: `<@&${config.discord.commands.commandRole}>`,
-          embeds: [errorLog],
+          embeds: [errorLog]
         });
       }
     }
-  },
+  }
 };
 
 function isBotOnline() {
