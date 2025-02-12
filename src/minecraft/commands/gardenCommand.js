@@ -14,8 +14,8 @@ class GardenCommand extends minecraftCommand {
       {
         name: "username",
         description: "Minecraft username",
-        required: false,
-      },
+        required: false
+      }
     ];
   }
 
@@ -29,7 +29,7 @@ class GardenCommand extends minecraftCommand {
       const garden = getGarden(data.garden);
 
       this.send(
-        `${username}'s garden ${garden.level.level} | Crop Milestones: Wheat: ${garden.cropMilesstone.wheat.level} | Carrot: ${garden.cropMilesstone.carrot.level} | Cane: ${garden.cropMilesstone.sugarCane.level} | Potato: ${garden.cropMilesstone.potato.level} | Wart: ${garden.cropMilesstone.netherWart.level} | Pumpkin: ${garden.cropMilesstone.pumpkin.level} | Melon: ${garden.cropMilesstone.melon.level} | Mushroom: ${garden.cropMilesstone.mushroom.level} | Cocoa: ${garden.cropMilesstone.cocoaBeans.level} | Cactus: ${garden.cropMilesstone.cactus.level}`,
+        `${username}'s garden ${garden.level.level} | Crop Milestones: Wheat: ${garden.cropMilesstone.wheat.level} | Carrot: ${garden.cropMilesstone.carrot.level} | Cane: ${garden.cropMilesstone.sugarCane.level} | Potato: ${garden.cropMilesstone.potato.level} | Wart: ${garden.cropMilesstone.netherWart.level} | Pumpkin: ${garden.cropMilesstone.pumpkin.level} | Melon: ${garden.cropMilesstone.melon.level} | Mushroom: ${garden.cropMilesstone.mushroom.level} | Cocoa: ${garden.cropMilesstone.cocoaBeans.level} | Cactus: ${garden.cropMilesstone.cactus.level}`
       );
     } catch (error) {
       console.log(error);

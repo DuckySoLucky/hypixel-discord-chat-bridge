@@ -14,8 +14,8 @@ class AccessoriesCommand extends minecraftCommand {
       {
         name: "username",
         description: "Minecraft username",
-        required: false,
-      },
+        required: false
+      }
     ];
   }
 
@@ -49,7 +49,7 @@ class AccessoriesCommand extends minecraftCommand {
       this.send(
         `${username}'s Accessories: ${talismans?.total ?? 0} (${rarities}), Recombed: ${
           talismans?.recombed ?? 0
-        }, Enriched: ${talismans?.enriched ?? 0} | Reforge: ${talismans.power} | Magic Power: ${talismans.magicPower}`,
+        }, Enriched: ${talismans?.enriched ?? 0} | Reforge: ${talismans.power} | Magic Power: ${talismans.magicPower}`
       );
     } catch (error) {
       this.send(`[ERROR] ${error}`);

@@ -14,8 +14,8 @@ class ChocolateCommand extends minecraftCommand {
       {
         name: "username",
         description: "Minecraft username",
-        required: false,
-      },
+        required: false
+      }
     ];
   }
 
@@ -37,12 +37,12 @@ class ChocolateCommand extends minecraftCommand {
       this.send(
         `${username}'s Chocolate Factory: ${chocolateFactory.level} | Chocolate: ${addNotation(
           "oneLetters",
-          chocolateFactory.chocolate.current,
+          chocolateFactory.chocolate.current
         )} | Total Chocolate: ${addNotation("oneLetters", chocolateFactory.chocolate.total)} | Employees: Bro: ${
           chocolateFactory.employees.bro
         } | Cousin: ${chocolateFactory.employees.cousin} | Sis: ${chocolateFactory.employees.sis} | Father: ${
           chocolateFactory.employees.father
-        } | Grandma: ${chocolateFactory.employees.grandma}`,
+        } | Grandma: ${chocolateFactory.employees.grandma}`
       );
     } catch (error) {
       this.send(`[ERROR] ${error}`);

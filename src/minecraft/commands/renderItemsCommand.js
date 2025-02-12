@@ -15,13 +15,13 @@ class RenderCommand extends minecraftCommand {
       {
         name: "username",
         description: "Minecraft username",
-        required: false,
+        required: false
       },
       {
         name: "slot",
         description: "Slot number of item to render (1-36)",
-        required: false,
-      },
+        required: false
+      }
     ];
   }
 
@@ -55,7 +55,7 @@ class RenderCommand extends minecraftCommand {
       }
 
       const { i: inventoryData } = await decodeData(
-        Buffer.from(profile.profile.inventory?.inv_contents?.data, "base64"),
+        Buffer.from(profile.profile.inventory?.inv_contents?.data, "base64")
       );
 
       if (

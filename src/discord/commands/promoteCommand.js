@@ -10,8 +10,8 @@ module.exports = {
       name: "username",
       description: "Minecraft Username",
       type: 3,
-      required: true,
-    },
+      required: true
+    }
   ],
 
   execute: async (interaction) => {
@@ -21,7 +21,7 @@ module.exports = {
     const embed = new SuccessEmbed(`Successfully promoted \`${name}\` by one guild rank.`);
 
     await interaction.followUp({
-      embeds: [embed],
+      embeds: [embed]
     });
-  },
+  }
 };

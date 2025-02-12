@@ -30,9 +30,7 @@ class minecraftCommand {
         n++;
 
         if (n >= 5) {
-          return this.send(
-            "Command failed to send message after 5 attempts. Please try again later.",
-          );
+          return this.send("Command failed to send message after 5 attempts. Please try again later.");
         }
 
         await delay(250);
@@ -45,15 +43,13 @@ class minecraftCommand {
         n++;
 
         if (n >= 5) {
-          return this.send(
-            `Command failed to send message after 5 attempts. Please try again later.`,
-          );
+          return this.send(`Command failed to send message after 5 attempts. Please try again later.`);
         }
 
         await delay(250);
         return this.send(
           `${message} - ${helperFunctions.generateID(config.minecraft.bot.messageRepeatBypassLength)}`,
-          n + 1,
+          n + 1
         );
       }
     };

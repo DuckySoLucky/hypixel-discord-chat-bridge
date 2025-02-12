@@ -14,8 +14,8 @@ class HotmCommand extends minecraftCommand {
       {
         name: "username",
         description: "Minecraft username",
-        required: false,
-      },
+        required: false
+      }
     ];
   }
 
@@ -39,10 +39,10 @@ class HotmCommand extends minecraftCommand {
 
       this.send(
         `${username}'s Hotm: ${level} | Gemstone Powder: ${formatNumber(
-          hotm.powder.gemstone.total,
+          hotm.powder.gemstone.total
         )} | Mithril Powder: ${formatNumber(hotm.powder.mithril.total)} | Glacite Powder: ${formatNumber(
-          hotm.powder.glacite.total,
-        )} | Selected Ability: ${hotm.ability}`,
+          hotm.powder.glacite.total
+        )} | Selected Ability: ${hotm.ability}`
       );
     } catch (error) {
       this.send(`[ERROR] ${error}`);

@@ -18,9 +18,9 @@ const discordLogger = createLogger({
     format.timestamp({ format: getCurrentTime }),
     format.printf(({ timestamp, level, message }) => {
       return `[${timestamp}] ${level.toUpperCase()} > ${message}`;
-    }),
+    })
   ),
-  transports: [discordTransport, combinedTransport],
+  transports: [discordTransport, combinedTransport]
 });
 
 const minecraftLogger = createLogger({
@@ -30,9 +30,9 @@ const minecraftLogger = createLogger({
     format.timestamp({ format: getCurrentTime }),
     format.printf(({ timestamp, level, message }) => {
       return `[${timestamp}] ${level.toUpperCase()} > ${message}`;
-    }),
+    })
   ),
-  transports: [minecraftTransport, combinedTransport],
+  transports: [minecraftTransport, combinedTransport]
 });
 
 const webLogger = createLogger({
@@ -42,9 +42,9 @@ const webLogger = createLogger({
     format.timestamp({ format: getCurrentTime }),
     format.printf(({ timestamp, level, message }) => {
       return `[${timestamp}] ${level.toUpperCase()} > ${message}`;
-    }),
+    })
   ),
-  transports: [webTransport, combinedTransport],
+  transports: [webTransport, combinedTransport]
 });
 
 const warnLogger = createLogger({
@@ -54,9 +54,9 @@ const warnLogger = createLogger({
     format.timestamp({ format: getCurrentTime }),
     format.printf(({ timestamp, level, message }) => {
       return `[${timestamp}] ${level.toUpperCase()} > ${message}`;
-    }),
+    })
   ),
-  transports: [warnTransport, combinedTransport],
+  transports: [warnTransport, combinedTransport]
 });
 
 const errorLogger = createLogger({
@@ -66,9 +66,9 @@ const errorLogger = createLogger({
     format.timestamp({ format: getCurrentTime }),
     format.printf(({ timestamp, level, message }) => {
       return `[${timestamp}] ${level.toUpperCase()} > ${message}`;
-    }),
+    })
   ),
-  transports: [errorTransport, combinedTransport],
+  transports: [errorTransport, combinedTransport]
 });
 
 const broadcastLogger = createLogger({
@@ -78,9 +78,9 @@ const broadcastLogger = createLogger({
     format.timestamp({ format: getCurrentTime }),
     format.printf(({ timestamp, level, message }) => {
       return `[${timestamp}] ${level.toUpperCase()} > ${message}`;
-    }),
+    })
   ),
-  transports: [broadcastTransport, combinedTransport],
+  transports: [broadcastTransport, combinedTransport]
 });
 
 function discordMessage(message) {
@@ -138,7 +138,7 @@ function getCurrentTime() {
     second: "numeric",
     hour12: false,
     timeZoneName: "short",
-    timeZone: "UTC",
+    timeZone: "UTC"
   });
 }
 
@@ -156,8 +156,8 @@ async function configUpdateMessage(message) {
   console.log();
   console.log(
     `${chalk.bgRedBright.black(`[${getCurrentTime()}] Config Update >`)} ${chalk.redBright("Added")} ${chalk.gray(
-      message,
-    )} ${chalk.redBright("to config.json")}`,
+      message
+    )} ${chalk.redBright("to config.json")}`
   );
 }
 
@@ -183,5 +183,5 @@ module.exports = {
   broadcastMessage,
   getCurrentTime,
   configUpdateMessage,
-  updateMessage,
+  updateMessage
 };

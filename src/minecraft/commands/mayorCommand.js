@@ -25,7 +25,7 @@ class MayorCommand extends minecraftCommand {
       this.send(
         `[MAYOR] ${data.mayor.name} is the current mayor of Skyblock! Perks: ${data.mayor.perks
           .map((perk) => perk.name)
-          .join(", ")}, Minister Perk: ${data.mayor.minister.perk.name}`,
+          .join(", ")}, Minister Perk: ${data.mayor.minister.perk.name}`
       );
       await delay(500);
       if (data.mayor.election.candidates.length > 0) {
@@ -33,7 +33,7 @@ class MayorCommand extends minecraftCommand {
         if (!currentLeader) return;
         const totalVotes = data.mayor.election.candidates.reduce(
           (total, candidate) => total + (candidate.votes || 0),
-          0,
+          0
         );
         const percentage = ((currentLeader.votes || 0) / totalVotes) * 100;
         this.send(`[MAYOR] Current Election: ${currentLeader.name} has ${percentage.toFixed(2)}% of the votes.`);

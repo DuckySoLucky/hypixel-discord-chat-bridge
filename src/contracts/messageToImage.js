@@ -2,10 +2,10 @@
 
 const { registerFont, createCanvas, loadImage } = require("canvas");
 registerFont("src/contracts/Fonts/MinecraftRegular-Bmg3.ttf", {
-  family: "Minecraft",
+  family: "Minecraft"
 });
 registerFont("src/contracts/Fonts/unifont.ttf", {
-  family: "MinecraftUnicode",
+  family: "MinecraftUnicode"
 });
 
 const RGBA_COLOR = {
@@ -24,7 +24,7 @@ const RGBA_COLOR = {
   c: "rgba(255,85,85,1)",
   d: "rgba(255,85,255,1)",
   e: "rgba(255,255,85,1)",
-  f: "rgba(255,255,255,1)",
+  f: "rgba(255,255,255,1)"
 };
 
 function getHeight(message) {

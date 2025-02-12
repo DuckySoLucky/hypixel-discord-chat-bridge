@@ -12,8 +12,8 @@ class EightBallCommand extends minecraftCommand {
       {
         name: "question",
         description: "The question you want to ask the 8ball",
-        required: true,
-      },
+        required: true
+      }
     ];
   }
 

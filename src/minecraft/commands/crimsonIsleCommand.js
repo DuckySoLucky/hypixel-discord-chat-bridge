@@ -14,8 +14,8 @@ class CrimsonIsleCommand extends minecraftCommand {
       {
         name: "username",
         description: "Minecraft username",
-        required: false,
-      },
+        required: false
+      }
     ];
   }
 
@@ -35,8 +35,8 @@ class CrimsonIsleCommand extends minecraftCommand {
 
       this.send(
         `${username}'s faction: ${profile.faction} | Barb Rep: ${formatNumber(
-          profile.reputation.barbarian,
-        )} | Mage Rep: ${formatNumber(profile.reputation.mage)}`,
+          profile.reputation.barbarian
+        )} | Mage Rep: ${formatNumber(profile.reputation.mage)}`
       );
     } catch (error) {
       console.log(error);
