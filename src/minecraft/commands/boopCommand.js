@@ -13,8 +13,8 @@ class BoopCommand extends minecraftCommand {
       {
         name: "username",
         description: "User you want to boop!",
-        required: true,
-      },
+        required: true
+      }
     ];
     this.isOnCooldown = false;
   }
@@ -42,7 +42,7 @@ class BoopCommand extends minecraftCommand {
         bot.chat(
           `/w ${
             bot.username
-          } jaxieflaxie is the best wristspasm member! your cool if u see this - ${helperFunctions.generateID(24)}`,
+          } jaxieflaxie is the best wristspasm member! your cool if u see this - ${helperFunctions.generateID(24)}`
         );
         setTimeout(() => {
           bot.chat(`/w ${bot.username} ${helperFunctions.generateID(48)}`);

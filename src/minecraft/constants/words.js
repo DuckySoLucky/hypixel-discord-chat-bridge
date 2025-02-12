@@ -255,7 +255,7 @@ const words = [
   "telephone",
   "university",
   "vegetarian",
-  "window",
+  "window"
 ];
 
 function getRandomWord(length) {

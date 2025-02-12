@@ -14,8 +14,8 @@ class EightBallCommand extends minecraftCommand {
       {
         name: "username",
         description: "Mincraft Username",
-        required: false,
-      },
+        required: false
+      }
     ];
   }
 
@@ -43,7 +43,7 @@ class EightBallCommand extends minecraftCommand {
           this.send(
             `/gc ${username}'s ${mobData.name} Bestiary: ${mobData.kills} / ${mobData.nextTierKills} (${
               mobData.nextTierKills - mobData.kills
-            }) `,
+            }) `
           );
 
           await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -51,12 +51,12 @@ class EightBallCommand extends minecraftCommand {
       }
 
       this.send(
-        `/gc ${username}'s Bestiary Milestone: ${bestiary.milestone} / ${bestiary.maxMilestone} | Unlocked Tiers: ${bestiary.tiersUnlocked} / ${bestiary.totalTiers}`,
+        `/gc ${username}'s Bestiary Milestone: ${bestiary.milestone} / ${bestiary.maxMilestone} | Unlocked Tiers: ${bestiary.tiersUnlocked} / ${bestiary.totalTiers}`
       );
 
       if (playerUsername === username) {
         const bestiaryData = this.getBestiaryObject(bestiary).sort(
-          (a, b) => a.nextTierKills - a.kills - (b.nextTierKills - b.kills),
+          (a, b) => a.nextTierKills - a.kills - (b.nextTierKills - b.kills)
         );
 
         const topFive = bestiaryData.slice(0, 5);

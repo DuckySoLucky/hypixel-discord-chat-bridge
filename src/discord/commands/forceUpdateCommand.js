@@ -5,13 +5,14 @@ module.exports = {
   description: "Update a user's roles",
   moderatorOnly: true,
   verificationCommand: true,
+  requiresBot: true,
   options: [
     {
       name: "user",
       description: "Discord User",
       type: 6,
-      required: true,
-    },
+      required: true
+    }
   ],
 
   execute: async (interaction) => {
@@ -22,5 +23,5 @@ module.exports = {
     }
 
     await updateRolesCommand.execute(interaction, user);
-  },
+  }
 };

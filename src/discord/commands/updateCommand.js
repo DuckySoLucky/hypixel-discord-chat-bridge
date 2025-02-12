@@ -1,16 +1,15 @@
 const { formatNumber, replaceVariables } = require("../../contracts/helperFunctions.js");
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
+const { SuccessEmbed, ErrorEmbed } = require("../../contracts/embedHandler.js");
 const getChocolateFactory = require("../../../API/stats/chocolateFactory.js");
 const hypixelRebornAPI = require("../../contracts/API/HypixelRebornAPI.js");
-const { SuccessEmbed } = require("../../contracts/embedHandler.js");
 const getDungeons = require("../../../API/stats/dungeons.js");
 const getCrimson = require("../../../API/stats/crimson.js");
 const getSkills = require("../../../API/stats/skills.js");
 const getSlayer = require("../../../API/stats/slayer.js");
 const getJacob = require("../../../API/stats/jacob.js");
 const { getNetworth } = require("skyhelper-networth");
-const { EmbedBuilder } = require("discord.js");
 const config = require("../../../config.json");
 const { readFileSync } = require("fs");
 
@@ -24,7 +23,7 @@ module.exports = {
       const linkedData = readFileSync("data/linked.json");
       if (!linkedData) {
         throw new HypixelDiscordChatBridgeError(
-          "The linked data file does not exist. Please contact an administrator.",
+          "The linked data file does not exist. Please contact an administrator."
         );
       }
 
@@ -47,7 +46,7 @@ module.exports = {
       const roles = [
         config.verification.guildMemberRole,
         ...config.verification.ranks.map((r) => r.role),
-        ...config.verification.levelRoles.map((r) => r.roleId),
+        ...config.verification.levelRoles.map((r) => r.roleId)
       ];
       const giveRoles = [];
 
@@ -73,7 +72,7 @@ module.exports = {
       const [hypixelGuild, player, sbProfile] = await Promise.all([
         hypixelRebornAPI.getGuild("player", bot.username),
         hypixelRebornAPI.getPlayer(uuid),
-        getLatestProfile(uuid).catch(() => null),
+        getLatestProfile(uuid).catch(() => null)
       ]);
 
       const [skills, slayer, dungeons, crimson, networth, chocolateFactory, jacob] = await Promise.all([
@@ -85,11 +84,11 @@ module.exports = {
           ? getNetworth(sbProfile.profile, sbProfile.profileData?.banking?.balance || 0, {
               onlyNetworth: true,
               v2Endpoint: true,
-              cache: true,
+              cache: true
             })
           : null,
         sbProfile ? getChocolateFactory(sbProfile.profile) : null,
-        sbProfile ? getJacob(sbProfile.profile) : null,
+        sbProfile ? getJacob(sbProfile.profile) : null
       ]);
 
       if (hypixelGuild === undefined) {
@@ -297,7 +296,7 @@ module.exports = {
         skyblockJacobPersonalBestCarrot: jacob?.personalBests?.carrot || 0,
         skyblockJacobPersonalBestCactus: jacob?.personalBests?.cactus || 0,
         skyblockJacobPersonalBestMelon: jacob?.personalBests?.melon || 0,
-        skyblockJacobPersonalBestSugarCane: jacob?.personalBests?.sugarCane || 0,
+        skyblockJacobPersonalBestSugarCane: jacob?.personalBests?.sugarCane || 0
       };
 
       stats["skyblockSkillsAverageLevel"] = (
@@ -384,9 +383,9 @@ module.exports = {
           skyblockJacobPersonalBestCarrotFormatted: formatNumber(stats.skyblockJacobPersonalBestCarrot),
           skyblockJacobPersonalBestCactusFormatted: formatNumber(stats.skyblockJacobPersonalBestCactus),
           skyblockJacobPersonalBestMelonFormatted: formatNumber(stats.skyblockJacobPersonalBestMelon),
-          skyblockJacobPersonalBestSugarCaneFormatted: formatNumber(stats.skyblockJacobPersonalBestSugarCane),
+          skyblockJacobPersonalBestSugarCaneFormatted: formatNumber(stats.skyblockJacobPersonalBestSugarCane)
         }),
-        "Updated Roles",
+        "Updated Roles"
       );
 
       for (const role of roles) {
@@ -396,21 +395,17 @@ module.exports = {
 
       const updateRole = new SuccessEmbed(
         `<@${interaction.user.id}>'s roles have been successfully synced with \`${player.nickname ?? "Unknown"}\`!`,
-        { text: `by @.kathund | /help [command] for more information`, iconURL: "https://i.imgur.com/uUuZx2E.png" },
+        { text: `by @.kathund | /help [command] for more information`, iconURL: "https://i.imgur.com/uUuZx2E.png" }
       );
 
       await interaction.followUp({ embeds: [updateRole], ephemeral: true });
     } catch (error) {
-      const errorEmbed = new EmbedBuilder()
-        .setColor(15548997)
-        .setAuthor({ name: "An Error has occurred" })
-        .setDescription(`\`\`\`${error}\`\`\``)
-        .setFooter({
-          text: `by @.kathund | /help [command] for more information`,
-          iconURL: "https://i.imgur.com/uUuZx2E.png",
-        });
+      const errorEmbed = new ErrorEmbed(`\`\`\`${error}\`\`\``).setFooter({
+        text: `by @.kathund | /help [command] for more information`,
+        iconURL: "https://i.imgur.com/uUuZx2E.png"
+      });
 
       await interaction.editReply({ embeds: [errorEmbed], ephemeral: true });
     }
-  },
+  }
 };

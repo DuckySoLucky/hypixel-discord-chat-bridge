@@ -28,19 +28,15 @@
       "autoAccept": false,
       "requirements": {
         "bedwarsStars": -1,
-        "bedwarsStarsWithFKDR": -1,
         "bedwarsFKDR": -1,
 
         "skywarsStars": -1,
-        "skywarsStarsWithKDR": -1,
         "skywarsKDR": -1,
 
         "duelsWins": -1,
-        "duelsWinsWithWLR": -1,
         "duelsWLR": -1,
 
         "senitherWeight": -1,
-        "lilyWeight": -1,
         "skyblockLevel": -1
       }
     },
@@ -108,6 +104,7 @@
   "verification": {
     "enabled": false,
     "verifiedRole": "VERIFIED_ROLE_ID",
+    "unverifiedRole": "UNVERIFIED_ROLE_ID",
     "removeVerificationRole": true,
     "guildMemberRole": "GUILD_MEMBER_ROLE_ID",
     "autoUpdater": true,
@@ -123,7 +120,7 @@
     "ranks": [
       {
         "name": "IN_GAME_RANK_NAME",
-        "role": "DISCORD_ROLE_ID"
+        "roles": ["DISCORD_ROLE_ID"]
       }
     ]
   },
@@ -131,5 +128,10 @@
     "autoUpdater": true,
     "autoUpdaterInterval": 12,
     "logToFiles": true
+  },
+  "statsChannels": {
+    "enabled": false,
+    "autoUpdaterInterval": 5,
+    "channels": [{ "id": "CHANNEL_ID", "name": "Guild Level: {guildLevel}" }]
   }
 }

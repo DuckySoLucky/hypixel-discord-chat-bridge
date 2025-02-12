@@ -1,12 +1,12 @@
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
-const { SuccessEmbed } = require("../../contracts/embedHandler.js");
-const { writeFileSync, readFileSync } = require("fs");
+const { SuccessEmbed, ErrorEmbed } = require("../../contracts/embedHandler.js");
 const { getUsername } = require("../../contracts/API/mowojangAPI.js");
-const { EmbedBuilder } = require("discord.js");
+const { writeFileSync, readFileSync } = require("fs");
 
 module.exports = {
   name: "unverify",
   description: "Remove your linked Minecraft account",
+  requiresBot: true,
   verificationCommand: true,
 
   execute: async (interaction) => {
@@ -14,7 +14,7 @@ module.exports = {
       const linkedData = readFileSync("data/linked.json");
       if (!linkedData) {
         throw new HypixelDiscordChatBridgeError(
-          "The linked data file does not exist. Please contact an administrator.",
+          "The linked data file does not exist. Please contact an administrator."
         );
       }
 
@@ -33,20 +33,22 @@ module.exports = {
 
       const updateRole = new SuccessEmbed(
         `You have successfully unlinked \`${await getUsername(uuid)}\`. Run \`/verify\` to link a new account.`,
-        { text: `by @.kathund | /help [command] for more information`, iconURL: "https://i.imgur.com/uUuZx2E.png" },
+        { text: `by @.kathund | /help [command] for more information`, iconURL: "https://i.imgur.com/uUuZx2E.png" }
       );
       await interaction.followUp({ embeds: [updateRole] });
+      const updateRolesCommand = require("./updateCommand.js");
+      if (updateRolesCommand === undefined) {
+        throw new HypixelDiscordChatBridgeError("The update command does not exist. Please contact an administrator.");
+      }
+
+      await updateRolesCommand.execute(interaction, undefined, true);
     } catch (error) {
-      const errorEmbed = new EmbedBuilder()
-        .setColor(15548997)
-        .setAuthor({ name: "An Error has occurred" })
-        .setDescription(`\`\`\`${error}\`\`\``)
-        .setFooter({
-          text: `by @.kathund | /help [command] for more information`,
-          iconURL: "https://i.imgur.com/uUuZx2E.png",
-        });
+      const errorEmbed = new ErrorEmbed(`\`\`\`${error}\`\`\``).setFooter({
+        text: `by @.kathund | /help [command] for more information`,
+        iconURL: "https://i.imgur.com/uUuZx2E.png"
+      });
 
       await interaction.editReply({ embeds: [errorEmbed], ephemeral: true });
     }
-  },
+  }
 };

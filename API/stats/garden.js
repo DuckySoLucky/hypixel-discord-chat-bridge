@@ -13,7 +13,7 @@ module.exports = (profile) => {
       melon: calcSkill("melon", profile?.resources_collected?.MELON || 0),
       mushroom: calcSkill("mushroom", profile?.resources_collected?.MUSHROOM_COLLECTION || 0),
       cocoaBeans: calcSkill("cocoaBeans", profile?.resources_collected?.["INK_SACK:3"] || 0),
-      cactus: calcSkill("cactus", profile?.resources_collected?.CACTUS || 0),
-    },
+      cactus: calcSkill("cactus", profile?.resources_collected?.CACTUS || 0)
+    }
   };
 };

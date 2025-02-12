@@ -8,7 +8,7 @@ const symbols = {
     nameTiny: "HP",
     symbol: "❤",
     suffix: "",
-    color: "c",
+    color: "c"
   },
   defense: {
     name: "Defense",
@@ -17,7 +17,7 @@ const symbols = {
     nameTiny: "Def",
     symbol: "❈",
     suffix: "",
-    color: "a",
+    color: "a"
   },
   strength: {
     name: "Strength",
@@ -26,7 +26,7 @@ const symbols = {
     nameTiny: "Str",
     symbol: "❁",
     suffix: "",
-    color: "c",
+    color: "c"
   },
   speed: {
     name: "Speed",
@@ -35,7 +35,7 @@ const symbols = {
     nameTiny: "Spd",
     symbol: "✦",
     suffix: "",
-    color: "f",
+    color: "f"
   },
   crit_chance: {
     name: "Crit Chance",
@@ -44,7 +44,7 @@ const symbols = {
     nameTiny: "CC",
     symbol: "☣",
     suffix: "%",
-    color: "9",
+    color: "9"
   },
   crit_damage: {
     name: "Crit Damage",
@@ -53,7 +53,7 @@ const symbols = {
     nameTiny: "CD",
     symbol: "☠",
     suffix: "%",
-    color: "9",
+    color: "9"
   },
   intelligence: {
     name: "Intelligence",
@@ -62,7 +62,7 @@ const symbols = {
     nameTiny: "Int",
     symbol: "✎",
     suffix: "",
-    color: "b",
+    color: "b"
   },
   bonus_attack_speed: {
     name: "Bonus Attack Speed",
@@ -71,7 +71,7 @@ const symbols = {
     nameTiny: "Atk",
     symbol: "⚔",
     suffix: "%",
-    color: "e",
+    color: "e"
   },
   sea_creature_chance: {
     name: "Sea Creature Chance",
@@ -80,7 +80,7 @@ const symbols = {
     nameTiny: "SCC",
     symbol: "α",
     suffix: "%",
-    color: "3",
+    color: "3"
   },
   magic_find: {
     name: "Magic Find",
@@ -89,7 +89,7 @@ const symbols = {
     nameTiny: "MF",
     symbol: "✯",
     suffix: "",
-    color: "b",
+    color: "b"
   },
   pet_luck: {
     name: "Pet Luck",
@@ -98,7 +98,7 @@ const symbols = {
     nameTiny: "PL",
     symbol: "♣",
     suffix: "",
-    color: "d",
+    color: "d"
   },
   true_defense: {
     name: "True Defense",
@@ -107,7 +107,7 @@ const symbols = {
     nameTiny: "TD",
     symbol: "❂",
     suffix: "",
-    color: "f",
+    color: "f"
   },
   ferocity: {
     name: "Ferocity",
@@ -116,7 +116,7 @@ const symbols = {
     nameTiny: "Frc",
     symbol: "⫽",
     suffix: "",
-    color: "c",
+    color: "c"
   },
   ability_damage: {
     name: "Ability Damage",
@@ -125,7 +125,7 @@ const symbols = {
     nameTiny: "AD",
     symbol: "๑",
     suffix: "%",
-    color: "c",
+    color: "c"
   },
   mining_speed: {
     name: "Mining Speed",
@@ -134,7 +134,7 @@ const symbols = {
     nameTiny: "MngSpd",
     symbol: "⸕",
     suffix: "",
-    color: "6",
+    color: "6"
   },
   mining_fortune: {
     name: "Mining Fortune",
@@ -143,7 +143,7 @@ const symbols = {
     nameTiny: "MngFrt",
     symbol: "☘",
     suffix: "",
-    color: "6",
+    color: "6"
   },
   farming_fortune: {
     name: "Farming Fortune",
@@ -152,7 +152,7 @@ const symbols = {
     nameTiny: "FrmFrt",
     symbol: "☘",
     suffix: "",
-    color: "6",
+    color: "6"
   },
   foraging_fortune: {
     name: "Foraging Fortune",
@@ -161,7 +161,7 @@ const symbols = {
     nameTiny: "FrgFrt",
     symbol: "☘",
     suffix: "",
-    color: "6",
+    color: "6"
   },
   pristine: {
     name: "Pristine",
@@ -170,7 +170,7 @@ const symbols = {
     nameTiny: "Prs",
     symbol: "✧",
     suffix: "",
-    color: "5",
+    color: "5"
   },
   fishing_speed: {
     name: "Fishing Speed",
@@ -179,7 +179,7 @@ const symbols = {
     nameTiny: "FS",
     symbol: "☂",
     suffix: "",
-    color: "b",
+    color: "b"
   },
   breaking_power: {
     name: "Breaking Power",
@@ -188,7 +188,7 @@ const symbols = {
     nameTiny: "BP",
     symbol: "Ⓟ",
     suffix: "",
-    color: "2",
+    color: "2"
   },
   health_regen: {
     name: "Health Regen",
@@ -197,7 +197,7 @@ const symbols = {
     nameTiny: "HPR",
     symbol: "❣",
     suffix: "",
-    color: "c",
+    color: "c"
   },
   vitality: {
     name: "Vitality",
@@ -206,7 +206,7 @@ const symbols = {
     nameTiny: "Vit",
     symbol: "♨",
     suffix: "",
-    color: "5",
+    color: "5"
   },
   mending: {
     name: "Mending",
@@ -215,7 +215,7 @@ const symbols = {
     nameTiny: "Mend",
     symbol: "☄",
     suffix: "",
-    color: "a",
+    color: "a"
   },
   // todo: remove this once #1639 is merged and update wisdom values
   wisdom: {
@@ -225,7 +225,7 @@ const symbols = {
     nameTiny: "W",
     symbol: "☯",
     suffix: "",
-    color: "3",
+    color: "3"
   },
   mana_regen: {
     name: "Mana Regen",
@@ -234,7 +234,7 @@ const symbols = {
     nameTiny: "MPR",
     symbol: "🗲",
     suffix: "",
-    color: "b",
+    color: "b"
   },
   rift_time: {
     name: "Rift Time",
@@ -243,7 +243,7 @@ const symbols = {
     nameTiny: "RT",
     symbol: "ф",
     suffix: "",
-    color: "a",
+    color: "a"
   },
   undead: {
     name: "Undead",
@@ -252,8 +252,8 @@ const symbols = {
     nameTiny: "U",
     symbol: "༕",
     suffix: "",
-    color: "2",
-  },
+    color: "2"
+  }
 };
 
 module.exports = { symbols };

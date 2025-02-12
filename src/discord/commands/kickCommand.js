@@ -10,14 +10,14 @@ module.exports = {
       name: "username",
       description: "Minecraft Username",
       type: 3,
-      required: true,
+      required: true
     },
     {
       name: "reason",
       description: "Reason",
       type: 3,
-      required: true,
-    },
+      required: true
+    }
   ],
 
   execute: async (interaction) => {
@@ -27,7 +27,7 @@ module.exports = {
     const embed = new SuccessEmbed(`Successfully kicked **${name}** from the guild.`);
 
     await interaction.followUp({
-      embeds: [embed],
+      embeds: [embed]
     });
-  },
+  }
 };

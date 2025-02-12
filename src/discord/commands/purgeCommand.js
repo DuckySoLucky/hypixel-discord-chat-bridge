@@ -10,8 +10,8 @@ module.exports = {
       name: "amount",
       description: "The amount of messages to purge. (5 by default)",
       type: 4,
-      required: false,
-    },
+      required: false
+    }
   ],
 
   execute: async (interaction) => {
@@ -21,5 +21,5 @@ module.exports = {
     }
 
     await interaction.channel.bulkDelete(amount);
-  },
+  }
 };

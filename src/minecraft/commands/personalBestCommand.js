@@ -13,13 +13,13 @@ class PersonalBestCommand extends minecraftCommand {
       {
         name: "username",
         description: "Minecraft Username",
-        required: false,
+        required: false
       },
       {
         name: "Floor",
         description: "Floor of dungeons (M7, F7, ect)",
-        required: false,
-      },
+        required: false
+      }
     ];
   }
 
