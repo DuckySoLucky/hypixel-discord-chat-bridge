@@ -110,6 +110,13 @@
     "autoUpdater": true,
     "autoUpdaterInterval": 24,
     "name": "{username}",
+    "levelRoles": [
+      {
+        "type": "bedwarsStar",
+        "requirement": 200,
+        "roleId": "DISCORD_ROLE_ID"
+      }
+    ],
     "ranks": [
       {
         "name": "IN_GAME_RANK_NAME",
