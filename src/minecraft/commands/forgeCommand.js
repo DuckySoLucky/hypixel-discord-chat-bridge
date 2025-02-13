@@ -42,9 +42,9 @@ class ForgeCommand extends minecraftCommand {
       const forgeItems = hotm.forge.map((item) => {
         return `${item.slot}: ${item.name} ${item.timeFinishedText}`;
       });
-      this.send(`/gc ${username}'s Forge: ${forgeItems.join(" | ")}`);
+      this.send(`${username}'s Forge: ${forgeItems.join(" | ")}`);
     } catch (error) {
-      this.send(`/gc [ERROR] ${error}`);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

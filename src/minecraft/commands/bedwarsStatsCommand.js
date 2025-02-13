@@ -33,7 +33,7 @@ class BedwarsCommand extends minecraftCommand {
         const { broken, BLRatio } = player.stats.bedwars.beds;
 
         this.send(
-          `/gc [${level}✫] ${player.nickname} FK: ${formatNumber(finalKills)} FKDR: ${finalKDRatio} W: ${formatNumber(
+          `[${level}✫] ${player.nickname} FK: ${formatNumber(finalKills)} FKDR: ${finalKDRatio} W: ${formatNumber(
             wins
           )} WLR: ${WLRatio} BB: ${formatNumber(broken)} BLR: ${BLRatio} WS: ${winstreak}`
         );
@@ -43,18 +43,18 @@ class BedwarsCommand extends minecraftCommand {
         const { broken, BLRatio } = player.stats.bedwars[mode].beds;
 
         this.send(
-          `/gc [${level}✫] ${player.nickname} ${capitalize(mode)} FK: ${formatNumber(
+          `[${level}✫] ${player.nickname} ${capitalize(mode)} FK: ${formatNumber(
             finalKills
           )} FKDR: ${finalKDRatio} Wins: ${formatNumber(wins)} WLR: ${WLRatio} BB: ${formatNumber(
             broken
           )} BLR: ${BLRatio} WS: ${winstreak}`
         );
       } else {
-        this.send("/gc Invalid mode. Valid modes: overall, solo, doubles, threes, fours, 4v4");
+        this.send("Invalid mode. Valid modes: overall, solo, doubles, threes, fours, 4v4");
       }
     } catch (error) {
       this.send(
-        `/gc ${error
+        `${error
           .toString()
           .replace("[hypixel-api-reborn] ", "")
           .replace("For help join our Discord Server https://discord.gg/NSEBNMM", "")

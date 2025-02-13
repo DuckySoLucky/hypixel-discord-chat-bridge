@@ -68,12 +68,12 @@ class SkyblockCommand extends minecraftCommand {
       const mp = formatNumber(talismans?.magicPower ?? 0);
 
       this.send(
-        `/gc ${username}'s Level: ${
+        `${username}'s Level: ${
           data.profile.leveling?.experience ? data.profile.leveling.experience / 100 : 0
         } | Skill Avg: ${skillAverage} | Slayer: ${slayerText} | Cata: ${catacombsLevel} | Class Avg: ${classAverage} | NW: ${networthValue} | MP: ${mp} | Hotm: ${hotmLevel}`
       );
     } catch (error) {
-      this.send(`/gc [ERROR] ${error}`);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

@@ -36,7 +36,7 @@ class EssenceCommand extends minecraftCommand {
       }
 
       this.send(
-        `/gc ${username}'s Diamond Essence: ${formatNumber(dungeons.essence.diamond, 0)} | Dragon: ${formatNumber(
+        `${username}'s Diamond Essence: ${formatNumber(dungeons.essence.diamond, 0)} | Dragon: ${formatNumber(
           dungeons.essence.dragon,
           0
         )} Spider: ${formatNumber(dungeons.essence.spider, 0)} | Wither: ${formatNumber(
@@ -50,7 +50,7 @@ class EssenceCommand extends minecraftCommand {
     } catch (error) {
       console.log(error);
 
-      this.send(`/gc [ERROR] ${error}`);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

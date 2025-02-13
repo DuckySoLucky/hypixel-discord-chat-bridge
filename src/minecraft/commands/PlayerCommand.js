@@ -28,12 +28,11 @@ class PlayerCommand extends minecraftCommand {
       const guildName = guild ? guild.name : "None";
 
       this.send(
-        `/gc ${rank !== "Default" ? `[${rank}] ` : ""}${nickname}'s level: ${level} | Karma: ${formatNumber(karma, 0)} Achievement Points: ${formatNumber(achievementPoints, 0)} Guild: ${guildName} `
+        `${rank !== "Default" ? `[${rank}] ` : ""}${nickname}'s level: ${level} | Karma: ${formatNumber(karma, 0)} Achievement Points: ${formatNumber(achievementPoints, 0)} Guild: ${guildName} `
       );
     } catch (error) {
       console.log(error);
-
-      this.send(`/gc [ERROR] ${error}`);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

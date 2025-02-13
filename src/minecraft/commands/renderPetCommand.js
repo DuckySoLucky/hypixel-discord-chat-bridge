@@ -30,13 +30,13 @@ class RenderCommand extends minecraftCommand {
       username = formatUsername(username, data.profileData?.game_mode);
       const profile = getPets(data.profile);
       if (profile.length === 0) {
-        return this.send(`/gc ${username} does not have any pets.`);
+        return this.send(`${username} does not have any pets.`);
       }
 
       const pet = profile.pets.find((pet) => pet.active === true);
 
       if (pet === undefined) {
-        return this.send(`/gc ${username} does not have pet equiped.`);
+        return this.send(`${username} does not have pet equiped.`);
       }
 
       const renderedItem = await renderLore(
@@ -47,10 +47,10 @@ class RenderCommand extends minecraftCommand {
       const upload = await uploadImage(renderedItem);
 
       imgurUrl = upload.data.link ?? "Something went Wrong..";
-      return this.send(`/gc ${username}'s Active Pet: Check Discord Bridge for image.`);
+      return this.send(`${username}'s Active Pet: Check Discord Bridge for image.`);
     } catch (error) {
       console.log(error);
-      this.send(`/gc [ERROR] ${error}`);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

@@ -34,13 +34,13 @@ class CrimsonIsleCommand extends minecraftCommand {
       }
 
       this.send(
-        `/gc ${username}'s faction: ${profile.faction} | Barb Rep: ${formatNumber(
+        `${username}'s faction: ${profile.faction} | Barb Rep: ${formatNumber(
           profile.reputation.barbarian
         )} | Mage Rep: ${formatNumber(profile.reputation.mage)}`
       );
     } catch (error) {
       console.log(error);
-      this.send(`/gc [ERROR] ${error}`);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

@@ -41,7 +41,7 @@ class AuctionHouseCommand extends minecraftCommand {
       const player = playerResponse.data?.player || {};
 
       if (auctions.length === 0) {
-        return this.send(`/gc This player has no active auctions.`);
+        return this.send("This player has no active auctions.");
       }
 
       const activeAuctions = auctions.filter((auction) => auction.end >= Date.now());
@@ -91,10 +91,10 @@ class AuctionHouseCommand extends minecraftCommand {
       }
 
       imgurUrl = string;
-      this.send(`/gc ${username}'s Active Auctions: Check Discord Bridge for image.`);
+      this.send(`${username}'s Active Auctions: Check Discord Bridge for image.`);
     } catch (error) {
       console.log(error);
-      this.send(`/gc [ERROR] ${error}`);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }
