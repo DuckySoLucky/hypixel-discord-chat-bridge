@@ -66,7 +66,7 @@ class DuelsStatsCommand extends minecraftCommand {
 
       if (!duel) {
         this.send(
-          `/gc [Duels] [${player.stats.duels.division}] ${username} Wins: ${formatNumber(
+          `[Duels] [${player.stats.duels.division}] ${username} Wins: ${formatNumber(
             player.stats.duels.wins
           )} | CWS: ${player.stats.duels.winstreak} | BWS: ${player.stats.duels.bestWinstreak} | WLR: ${
             player.stats.duels.WLRatio
@@ -81,14 +81,14 @@ class DuelsStatsCommand extends minecraftCommand {
         const WLRatio = duelData?.WLRatio ?? 0;
 
         this.send(
-          `/gc [${duel.toUpperCase() ?? "Unknown"}] [${division}] ${
+          `[${duel.toUpperCase() ?? "Unknown"}] [${division}] ${
             username ?? 0
           } Wins: ${wins} | CWS: ${winstreak} | BWS: ${bestWinstreak} | WLR: ${WLRatio}`
         );
       }
     } catch (error) {
       this.send(
-        `/gc ${error
+        `${error
           .toString()
           .replace("[hypixel-api-reborn] ", "")
           .replace("For help join our Discord Server https://discord.gg/NSEBNMM", "")

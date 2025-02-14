@@ -32,14 +32,14 @@ class BooCommand extends minecraftCommand {
       }
 
       if (this.isOnCooldown) {
-        return this.send(`/gc ${this.name} Command is on cooldown`);
+        return this.send(`${this.name} Command is on cooldown`);
       }
 
       this.send(`/boo ${this.getArgs(message)[0]}`);
       await delay(690);
       this.send(`/msg ${this.getArgs(message)[0]} ${username} Booed You!`);
       await delay(690);
-      this.send(`/gc Booed ${this.getArgs(message)[0]}!`);
+      this.send(`Booed ${this.getArgs(message)[0]}!`);
       this.isOnCooldown = true;
       // CREDITS: @jaxieflaxie for finding this cooldown reset
       setTimeout(() => {
@@ -55,7 +55,7 @@ class BooCommand extends minecraftCommand {
       }, 30000);
       this.isOnCooldown = false;
     } catch (error) {
-      this.send(`/gc [ERROR] ${error}`);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

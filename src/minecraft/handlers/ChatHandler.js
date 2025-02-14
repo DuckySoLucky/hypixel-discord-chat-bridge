@@ -64,14 +64,14 @@ class StateHandler extends eventHandler {
           .getGuild("player", bot.username)
           .then(async (guild) => guild.members.map((member) => member.uuid));
         if ((config.minecraft.fragBot.whitelist && whitelisted.includes(username)) || members.includes(uuid)) {
-          this.send(`/party accept ${username}`);
+          bot.chat(`/party accept ${username}`);
           await delay(Math.floor(Math.random() * (6900 - 4200 + 1)) + 4200);
-          this.send(`/party leave`);
+          bot.chat(`/party leave`);
         }
       } else {
-        this.send(`/party accept ${username}`);
+        bot.chat(`/party accept ${username}`);
         await delay(Math.floor(Math.random() * (6900 - 4200 + 1)) + 4200);
-        this.send(`/party leave`);
+        bot.chat(`/party leave`);
       }
     }
 
@@ -652,13 +652,14 @@ class StateHandler extends eventHandler {
     }
 
     if (this.isCommand(match.groups.message)) {
+      const officer = match.groups.chatType === "§3Officer";
       if (this.isDiscordMessage(match.groups.message) === true) {
         const { player, command } = this.getCommandData(match.groups.message);
 
-        return this.command.handle(player, command);
+        return this.command.handle(player, command, officer);
       }
 
-      return this.command.handle(match.groups.username, match.groups.message);
+      return this.command.handle(match.groups.username, match.groups.message, officer);
     }
   }
 

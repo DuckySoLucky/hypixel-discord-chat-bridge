@@ -54,7 +54,7 @@ class SpecialMayorCommand extends minecraftCommand {
     try {
       if (currentSkyblockYear % 8 == 0) {
         specialMayor = getSpecialMayor(currentSkyblockYear);
-        this.send(`/gc Special Mayor this year! It is speculated to be ${specialMayor}.`);
+        this.send(`Special Mayor this year! It is speculated to be ${specialMayor}.`);
       } else {
         while (diffSkyblockYear % 8 != 0) {
           yearsUntilSpecial += 1;
@@ -62,12 +62,12 @@ class SpecialMayorCommand extends minecraftCommand {
           specialMayor = getSpecialMayor(diffSkyblockYear);
         }
         this.send(
-          `/gc Not Special Mayor, ${yearsUntilSpecial} years until the next one! It is speculated to be ${specialMayor}.`
+          `Not Special Mayor, ${yearsUntilSpecial} years until the next one! It is speculated to be ${specialMayor}.`
         );
       }
     } catch (error) {
       console.log(error);
-      this.send(`/gc [ERROR] ${error}`);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

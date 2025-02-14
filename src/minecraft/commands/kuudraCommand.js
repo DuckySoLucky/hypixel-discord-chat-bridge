@@ -34,7 +34,7 @@ class KuudraCommand extends minecraftCommand {
       }
 
       this.send(
-        `/gc ${username}'s Basic: ${formatNumber(profile.kuudra.basic)} | Hot: ${formatNumber(
+        `${username}'s Basic: ${formatNumber(profile.kuudra.basic)} | Hot: ${formatNumber(
           profile.kuudra.hot
         )} | Burning: ${formatNumber(profile.kuudra.burning)} | Fiery: ${formatNumber(
           profile.kuudra.fiery
@@ -42,7 +42,7 @@ class KuudraCommand extends minecraftCommand {
       );
     } catch (error) {
       console.error(error);
-      this.send(`/gc [ERROR] ${error}`);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

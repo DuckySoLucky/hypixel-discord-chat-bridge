@@ -23,7 +23,7 @@ class MayorCommand extends minecraftCommand {
       }
 
       this.send(
-        `/gc [MAYOR] ${data.mayor.name} is the current mayor of Skyblock! Perks: ${data.mayor.perks
+        `[MAYOR] ${data.mayor.name} is the current mayor of Skyblock! Perks: ${data.mayor.perks
           .map((perk) => perk.name)
           .join(", ")}, Minister Perk: ${data.mayor.minister.perk.name}`
       );
@@ -36,10 +36,10 @@ class MayorCommand extends minecraftCommand {
           0
         );
         const percentage = ((currentLeader.votes || 0) / totalVotes) * 100;
-        this.send(`/gc [MAYOR] Current Election: ${currentLeader.name} has ${percentage.toFixed(2)}% of the votes.`);
+        this.send(`[MAYOR] Current Election: ${currentLeader.name} has ${percentage.toFixed(2)}% of the votes.`);
       }
     } catch (error) {
-      this.send(`/gc [ERROR] ${error}`);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }
