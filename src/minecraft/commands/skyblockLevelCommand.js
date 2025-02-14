@@ -29,8 +29,7 @@ class CatacombsCommand extends minecraftCommand {
       const experience = data.profile.leveling?.experience ?? 0;
       this.send(`${username}'s Skyblock Level: ${experience ? experience / 100 : 0}`);
     } catch (error) {
-      console.log(error);
-
+      console.error(error);
       this.send(`[ERROR] ${error}`);
     }
   }

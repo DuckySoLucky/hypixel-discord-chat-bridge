@@ -95,7 +95,7 @@ module.exports = {
 
       await updateRolesCommand.execute(interaction, user);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       // eslint-disable-next-line no-ex-assign
       error = error
         .toString()

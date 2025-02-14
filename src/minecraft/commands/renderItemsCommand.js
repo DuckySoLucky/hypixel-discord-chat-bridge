@@ -1,7 +1,7 @@
-const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
-const { uploadImage } = require("../../contracts/API/imgurAPI.js");
 const { decodeData, formatUsername } = require("../../contracts/helperFunctions.js");
+const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
+const { uploadImage } = require("../../contracts/API/imgurAPI.js");
 const { renderLore } = require("../../contracts/renderItem.js");
 
 class RenderCommand extends minecraftCommand {
@@ -75,7 +75,7 @@ class RenderCommand extends minecraftCommand {
       imgurUrl = upload.data.link;
       this.send(`${username}'s item at slot ${itemNumber}: Check Discord Bridge for image.`);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       this.send(`[ERROR] ${error}`);
     }
   }

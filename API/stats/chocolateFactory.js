@@ -18,7 +18,7 @@ module.exports = (profile) => {
       level: profile.events?.easter?.chocolate_level || 0
     };
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return null;
   }
 };

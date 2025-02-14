@@ -68,7 +68,7 @@ class MessageHandler {
 
       this.discord.broadcastMessage(messageData);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -111,7 +111,7 @@ class MessageHandler {
 
       return mentionedUserName ?? null;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return null;
     }
   }

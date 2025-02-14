@@ -28,7 +28,7 @@ async function getUUID(username) {
   } catch (error) {
     // eslint-disable-next-line no-throw-literal
     if (error.response.data === "Not found") throw "Invalid username.";
-    console.log(error);
+    console.error(error);
     throw error;
   }
 }
@@ -57,7 +57,7 @@ async function getUsername(uuid) {
 
     return data.name;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     // eslint-disable-next-line no-throw-literal
     if (error.response?.data === "Not found") throw "Invalid UUID.";
     throw error;
@@ -75,7 +75,7 @@ async function resolveUsernameOrUUID(username) {
   } catch (error) {
     // eslint-disable-next-line no-throw-literal
     if (error.response.data === "Not found") throw "Invalid Username Or UUID.";
-    console.log(error);
+    console.error(error);
     throw error;
   }
 }

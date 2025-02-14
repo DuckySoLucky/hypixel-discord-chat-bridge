@@ -50,7 +50,7 @@ async function checkForIncidents() {
       }
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }
 
@@ -91,7 +91,7 @@ async function checkForHypixelUpdates(firstTime = false) {
       }
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }
 
@@ -112,6 +112,6 @@ async function checkForSkyblockVersion() {
       skyblockVersion = data.version;
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }

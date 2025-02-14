@@ -69,7 +69,7 @@ class BestiaryCommand extends minecraftCommand {
         this.send(`Closest to level up: ${topFiveMobs.join(", ")}`);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       this.send(`[ERROR] ${error}`);
     }
   }

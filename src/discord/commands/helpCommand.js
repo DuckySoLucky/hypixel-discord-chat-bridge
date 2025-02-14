@@ -86,7 +86,7 @@ module.exports = {
         await interaction.followUp({ embeds: [embed] });
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 };

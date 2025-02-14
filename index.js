@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 process.on("uncaughtException", (error) => console.log(error));
 const app = require("./src/Application.js");
 

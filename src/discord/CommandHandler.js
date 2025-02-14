@@ -24,7 +24,7 @@ class CommandHandler {
 
     rest
       .put(Routes.applicationGuildCommands(clientID, config.discord.bot.serverID), { body: commands })
-      .catch(console.error);
+      .catch((e) => console.error(e));
   }
 }
 

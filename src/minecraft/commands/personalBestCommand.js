@@ -2,6 +2,7 @@ const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js
 const { formatUsername } = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const getDungeons = require("../../../API/stats/dungeons.js");
+
 class PersonalBestCommand extends minecraftCommand {
   constructor(minecraft) {
     super(minecraft);
@@ -91,7 +92,7 @@ class PersonalBestCommand extends minecraftCommand {
         this.send(`${username}'s PB on ${floor} with ${rank} rank is ${millisToMinutesAndSeconds(time)}`);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       this.send(`ERROR: ${error}`);
     }
   }

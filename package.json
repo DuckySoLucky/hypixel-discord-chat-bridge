@@ -6,10 +6,10 @@
   "scripts": {
     "start": "node index.js",
     "test": "jest --detectOpenHandles --forceExit",
-    "lint": "npx eslint .",
-    "lint:fix": "npx eslint . --fix",
-    "prettier": "npx prettier --check .",
-    "prettier:fix": "npx prettier --write .",
+    "lint": "npx eslint src/",
+    "lint:fix": "npx eslint src/ --fix",
+    "prettier": "npx prettier src/ --check",
+    "prettier:fix": "npx prettier src/ --write",
     "nodemon": "nodemon index"
   },
   "repository": {

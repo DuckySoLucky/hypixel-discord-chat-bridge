@@ -49,7 +49,7 @@ class RenderCommand extends minecraftCommand {
       imgurUrl = upload.data.link ?? "Something went Wrong..";
       return this.send(`${username}'s Active Pet: Check Discord Bridge for image.`);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       this.send(`[ERROR] ${error}`);
     }
   }

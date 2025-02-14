@@ -9,7 +9,6 @@ const eventHandler = require("../../contracts/EventHandler.js");
 const { isUuid } = require("../../../API/utils/uuid.js");
 const messages = require("../../../messages.json");
 const config = require("../../../config.json");
-const Logger = require("../../Logger.js");
 const { readFileSync } = require("fs");
 
 class StateHandler extends eventHandler {
@@ -589,7 +588,7 @@ class StateHandler extends eventHandler {
     }
 
     if (this.isTooFast(message)) {
-      return Logger.warnMessage(message);
+      return console.warn(message);
     }
 
     if (this.isPlayerNotFound(message)) {

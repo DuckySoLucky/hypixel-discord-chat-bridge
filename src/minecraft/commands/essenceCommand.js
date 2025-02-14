@@ -48,7 +48,7 @@ class EssenceCommand extends minecraftCommand {
         )} | Ice: ${formatNumber(dungeons.essence.ice, 0)} | Crimson: ${formatNumber(dungeons.essence.crimson, 0)}`
       );
     } catch (error) {
-      console.log(error);
+      console.error(error);
 
       this.send(`[ERROR] ${error}`);
     }

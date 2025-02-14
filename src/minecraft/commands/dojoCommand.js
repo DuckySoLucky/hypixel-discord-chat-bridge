@@ -45,7 +45,7 @@ class DojoCommand extends minecraftCommand {
         )}`
       );
     } catch (error) {
-      console.log(error);
+      console.error(error);
       this.send(`[ERROR] ${error}`);
     }
   }

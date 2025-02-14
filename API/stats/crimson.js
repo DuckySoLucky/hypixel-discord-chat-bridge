@@ -1,5 +1,4 @@
 // CREDITS: by @Kathund (https://github.com/Kathund)
-
 const { titleCase } = require("../constants/functions.js");
 
 module.exports = (profile) => {
@@ -62,7 +61,7 @@ module.exports = (profile) => {
       trophyFishing: getTrophyFish(profile)
     };
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return null;
   }
 };

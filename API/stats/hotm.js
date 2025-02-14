@@ -34,7 +34,7 @@ module.exports = (profile) => {
           forgeItem.timeFinishedText =
             timeFinished < Date.now() ? "Finished" : `ending ${moment(timeFinished).fromNow()}`;
         } else {
-          console.log(item);
+          console.error(item);
           forgeItem.name = "Unknown Item";
           forgeItem.id = `UNKNOWN-${item.id}`;
         }
@@ -66,7 +66,7 @@ module.exports = (profile) => {
       forge: forgeItems
     };
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return null;
   }
 };

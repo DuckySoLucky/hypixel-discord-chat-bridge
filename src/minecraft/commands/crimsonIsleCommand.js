@@ -39,7 +39,7 @@ class CrimsonIsleCommand extends minecraftCommand {
         )} | Mage Rep: ${formatNumber(profile.reputation.mage)}`
       );
     } catch (error) {
-      console.log(error);
+      console.error(error);
       this.send(`[ERROR] ${error}`);
     }
   }

@@ -1,5 +1,4 @@
 const config = require("../../../config.json");
-const Logger = require("../../Logger.js");
 
 class StateHandler {
   constructor(discord) {
@@ -7,17 +6,17 @@ class StateHandler {
   }
 
   async onReady() {
-    Logger.discordMessage("Client ready, logged in as " + this.discord.client.user.tag);
+    console.discord("Client ready, logged in as " + this.discord.client.user.tag);
     this.discord.client.user.setPresence({
       activities: [{ name: `/help | by @duckysolucky` }]
     });
 
     global.guild = await client.guilds.fetch(config.discord.bot.serverID);
-    Logger.discordMessage("Guild ready, successfully fetched " + guild.name);
+    console.discord(`Guild ready, successfully fetched ${guild.name}`);
 
     const channel = await this.getChannel("Guild");
     if (channel === undefined) {
-      return Logger.errorMessage(`Channel "Guild" not found!`);
+      return console.error(`Channel "Guild" not found!`);
     }
 
     if (config.verification.autoUpdater) require("../other/updateUsers.js");
@@ -36,7 +35,7 @@ class StateHandler {
   async onClose() {
     const channel = await this.getChannel("Guild");
     if (channel === undefined) {
-      return Logger.errorMessage(`Channel "Guild" not found!`);
+      return console.error(`Channel "Guild" not found!`);
     }
 
     await channel.send({
@@ -51,7 +50,7 @@ class StateHandler {
 
   async getChannel(type) {
     if (typeof type !== "string" || type === undefined) {
-      return Logger.errorMessage(`Channel type must be a string!`);
+      return console.error(`Channel type must be a string!`);
     }
 
     switch (type.replace(/§[0-9a-fk-or]/g, "").trim()) {

@@ -41,7 +41,7 @@ class KuudraCommand extends minecraftCommand {
         )} | Infernal: ${formatNumber(profile.kuudra.infernal)}`
       );
     } catch (error) {
-      console.log(error);
+      console.error(error);
       this.send(`[ERROR] ${error}`);
     }
   }
