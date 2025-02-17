@@ -10,6 +10,7 @@ if (config.minecraft.skyblockEventsNotifications.enabled) {
   setInterval(async () => {
     try {
       const eventBOT = new minecraftCommand(bot);
+      eventBOT.officer = false;
       const EVENTS = getSkyblockCalendar();
 
       for (const event in EVENTS.events) {
