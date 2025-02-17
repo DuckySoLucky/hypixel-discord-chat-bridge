@@ -15,5 +15,5 @@ module.exports = {
 
     const items = data.i;
     return items;
-  },
+  }
 };

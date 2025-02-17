@@ -14,8 +14,8 @@ class ForgeCommand extends minecraftCommand {
       {
         name: "username",
         description: "Minecraft username",
-        required: false,
-      },
+        required: false
+      }
     ];
   }
 
@@ -24,10 +24,9 @@ class ForgeCommand extends minecraftCommand {
       username = this.getArgs(message)[0] || username;
 
       const data = await getLatestProfile(username);
-
       username = formatUsername(username, data.profileData?.game_mode);
 
-      const hotm = getHotm(data.playerRes, data.profile);
+      const hotm = getHotm(data.profile);
 
       if (hotm == null) {
         // eslint-disable-next-line no-throw-literal
@@ -40,11 +39,11 @@ class ForgeCommand extends minecraftCommand {
       }
 
       const forgeItems = hotm.forge.map((item) => {
-        return `Slot ${item.slot}: ${item.name} ${item.timeFinishedText}`;
+        return `${item.slot}: ${item.name} ${item.timeFinishedText}`;
       });
-      this.send(`/gc ${username}'s Forge: ${forgeItems.join(" | ")}`);
+      this.send(`${username}'s Forge: ${forgeItems.join(" | ")}`);
     } catch (error) {
-      this.send(`/gc [ERROR] ${error}`);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

@@ -14,8 +14,8 @@ class DojoCommand extends minecraftCommand {
       {
         name: "username",
         description: "Minecraft username",
-        required: false,
-      },
+        required: false
+      }
     ];
   }
 
@@ -34,7 +34,7 @@ class DojoCommand extends minecraftCommand {
       }
 
       this.send(
-        `/gc ${username}'s Belt: ${profile.dojo.belt} | Best Force: ${formatNumber(
+        `${username}'s Belt: ${profile.dojo.belt} | Best Force: ${formatNumber(
           profile.dojo.force.points
         )} | Best Stamina: ${formatNumber(profile.dojo.stamina.points)} | Best Mastery: ${formatNumber(
           profile.dojo.mastery.points
@@ -45,8 +45,8 @@ class DojoCommand extends minecraftCommand {
         )}`
       );
     } catch (error) {
-      console.log(error);
-      this.send(`/gc [ERROR] ${error}`);
+      console.error(error);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

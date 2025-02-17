@@ -14,8 +14,8 @@ class CrimsonIsleCommand extends minecraftCommand {
       {
         name: "username",
         description: "Minecraft username",
-        required: false,
-      },
+        required: false
+      }
     ];
   }
 
@@ -34,13 +34,13 @@ class CrimsonIsleCommand extends minecraftCommand {
       }
 
       this.send(
-        `/gc ${username}'s faction: ${profile.faction} | Barb Rep: ${formatNumber(
-          profile.reputation.barbarian,
-        )} | Mage Rep: ${formatNumber(profile.reputation.mage)}`,
+        `${username}'s faction: ${profile.faction} | Barb Rep: ${formatNumber(
+          profile.reputation.barbarian
+        )} | Mage Rep: ${formatNumber(profile.reputation.mage)}`
       );
     } catch (error) {
-      console.log(error);
-      this.send(`/gc [ERROR] ${error}`);
+      console.error(error);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

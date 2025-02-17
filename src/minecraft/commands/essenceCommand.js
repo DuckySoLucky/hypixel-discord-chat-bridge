@@ -14,8 +14,8 @@ class EssenceCommand extends minecraftCommand {
       {
         name: "username",
         description: "Minecraft username",
-        required: false,
-      },
+        required: false
+      }
     ];
   }
 
@@ -36,21 +36,21 @@ class EssenceCommand extends minecraftCommand {
       }
 
       this.send(
-        `/gc ${username}'s Diamond Essence: ${formatNumber(dungeons.essence.diamond, 0)} | Dragon: ${formatNumber(
+        `${username}'s Diamond Essence: ${formatNumber(dungeons.essence.diamond, 0)} | Dragon: ${formatNumber(
           dungeons.essence.dragon,
-          0,
+          0
         )} Spider: ${formatNumber(dungeons.essence.spider, 0)} | Wither: ${formatNumber(
           dungeons.essence.wither,
-          0,
+          0
         )} | Undead: ${formatNumber(dungeons.essence.undead, 0)} | Gold: ${formatNumber(
           dungeons.essence.gold,
-          0,
-        )} | Ice: ${formatNumber(dungeons.essence.ice, 0)} | Crimson: ${formatNumber(dungeons.essence.crimson, 0)}`,
+          0
+        )} | Ice: ${formatNumber(dungeons.essence.ice, 0)} | Crimson: ${formatNumber(dungeons.essence.crimson, 0)}`
       );
     } catch (error) {
-      console.log(error);
+      console.error(error);
 
-      this.send(`/gc [ERROR] ${error}`);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

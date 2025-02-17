@@ -13,8 +13,8 @@ class BoopCommand extends minecraftCommand {
       {
         name: "username",
         description: "User you want to boop!",
-        required: true,
-      },
+        required: true
+      }
     ];
     this.isOnCooldown = false;
   }
@@ -28,21 +28,21 @@ class BoopCommand extends minecraftCommand {
       }
 
       if (this.isOnCooldown) {
-        return this.send(`/gc ${this.name} Command is on cooldown`);
+        return this.send(`${this.name} Command is on cooldown`);
       }
 
-      this.send(`/boop ${this.getArgs(message)[0]}`);
+      bot.chat(`/boop ${this.getArgs(message)[0]}`);
       await delay(690);
-      this.send(`/msg ${this.getArgs(message)[0]} ${username} Booped You!`);
+      bot.chat(`/msg ${this.getArgs(message)[0]} ${username} Booped You!`);
       await delay(690);
-      this.send(`/gc Booped ${this.getArgs(message)[0]}!`);
+      this.send(`Booped ${this.getArgs(message)[0]}!`);
       this.isOnCooldown = true;
       // CREDITS: @jaxieflaxie for finding this cooldown reset
       setTimeout(() => {
         bot.chat(
           `/w ${
             bot.username
-          } jaxieflaxie is the best wristspasm member! your cool if u see this - ${helperFunctions.generateID(24)}`,
+          } jaxieflaxie is the best wristspasm member! your cool if u see this - ${helperFunctions.generateID(24)}`
         );
         setTimeout(() => {
           bot.chat(`/w ${bot.username} ${helperFunctions.generateID(48)}`);
@@ -51,7 +51,7 @@ class BoopCommand extends minecraftCommand {
       }, 30000);
       this.isOnCooldown = false;
     } catch (error) {
-      this.send(`/gc [ERROR] ${error}`);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

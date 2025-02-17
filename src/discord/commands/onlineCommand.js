@@ -1,5 +1,4 @@
 const { Embed } = require("../../contracts/embedHandler.js");
-const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 
 module.exports = {
   name: "online",
@@ -7,10 +6,6 @@ module.exports = {
   requiresBot: true,
 
   execute: async (interaction) => {
-    if (bot === undefined || bot._client.chat === undefined) {
-      throw new HypixelDiscordChatBridgeError("Bot doesn't seem to be connected to Hypixel. Please try again.");
-    }
-
     const cachedMessages = [];
     const messages = new Promise((resolve, reject) => {
       const listener = (message) => {
@@ -58,8 +53,8 @@ module.exports = {
       .filter((item) => item);
 
     const description = `${totalMembers}\n${onlineMembers}\n\n${online.join("\n")}`;
-    const embed = new Embed("#2ECC71", "Online Members", description);
+    const embed = new Embed().setAuthor({ name: "Online Members" }).setDescription(description);
 
     return await interaction.followUp({ embeds: [embed] });
-  },
+  }
 };

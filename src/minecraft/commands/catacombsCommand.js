@@ -1,7 +1,7 @@
-const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const getDungeons = require("../../../API/stats/dungeons.js");
 const { formatNumber, formatUsername } = require("../../contracts/helperFunctions.js");
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
+const minecraftCommand = require("../../contracts/minecraftCommand.js");
+const getDungeons = require("../../../API/stats/dungeons.js");
 
 class CatacombsCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -14,8 +14,8 @@ class CatacombsCommand extends minecraftCommand {
       {
         name: "username",
         description: "Minecraft username",
-        required: false,
-      },
+        required: false
+      }
     ];
   }
 
@@ -48,19 +48,18 @@ class CatacombsCommand extends minecraftCommand {
       const SR = isNaN(SRValue) || SRValue === Infinity ? 0 : SRValue.toFixed(2);
 
       this.send(
-        `/gc ${username}'s Catacombs: ${level} | Selected Class: ${
+        `${username}'s Catacombs: ${level} | Selected Class: ${
           dungeons.selected_class
         } | Class Average: ${classAvrg} (${dungeons.classes.healer.level}H, ${dungeons.classes.mage.level}M, ${
           dungeons.classes.berserk.level
         }B, ${dungeons.classes.archer.level}A, ${dungeons.classes.tank.level}T) | Secrets: ${formatNumber(
           dungeons.secrets_found ?? 0,
-          1,
-        )} (${SR} S/R)`,
+          1
+        )} (${SR} S/R)`
       );
     } catch (error) {
-      console.log(error);
-
-      this.send(`/gc [ERROR] ${error}`);
+      console.error(error);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

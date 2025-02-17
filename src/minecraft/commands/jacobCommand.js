@@ -9,7 +9,7 @@ class JacobCommand extends minecraftCommand {
     super(minecraft);
 
     this.name = "jacob";
-    this.aliases = ["jacobs", "garden", "jacobcontest", "contest"];
+    this.aliases = ["jacobs", "jacobcontest", "contest"];
     this.description = "Jacob's Contest Stats of specified user.";
     this.options = [];
   }
@@ -24,12 +24,12 @@ class JacobCommand extends minecraftCommand {
       const profile = getJacob(data.profile);
 
       this.send(
-        `/gc ${username}'s Gold Medals: ${profile.medals.gold} | Silver: ${profile.medals.silver} | Bronze: ${profile.medals.bronze} | Double Drops ${profile.perks.doubleDrops} / 15 | Level Cap: ${profile.perks.levelCap} / 10`
+        `${username}'s Gold Medals: ${profile.medals.gold} | Silver: ${profile.medals.silver} | Bronze: ${profile.medals.bronze} | Double Drops ${profile.perks.doubleDrops} / 15 | Level Cap: ${profile.perks.levelCap} / 10`
       );
 
       await delay(250);
       this.send(
-        `/gc Best NW: ${formatNumber(profile.personalBests.netherWart, 0)} | Cocoa: ${formatNumber(
+        `Best NW: ${formatNumber(profile.personalBests.netherWart, 0)} | Cocoa: ${formatNumber(
           profile.personalBests.cocoBeans,
           0
         )} | Mushroom: ${formatNumber(profile.personalBests.mushroom, 0)} | Wheat: ${formatNumber(
@@ -47,7 +47,7 @@ class JacobCommand extends minecraftCommand {
         )}`
       );
     } catch (error) {
-      this.send(`/gc [ERROR] ${error}`);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

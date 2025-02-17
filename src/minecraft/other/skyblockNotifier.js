@@ -50,7 +50,7 @@ async function checkForIncidents() {
       }
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }
 
@@ -59,7 +59,7 @@ async function checkForHypixelUpdates(firstTime = false) {
   try {
     const [{ items: news }, { items: skyblockNews }] = await Promise.all([
       parser.parseURL("https://hypixel.net/forums/news-and-announcements.4/index.rss"),
-      parser.parseURL("https://hypixel.net/forums/skyblock-patch-notes.158/index.rss"),
+      parser.parseURL("https://hypixel.net/forums/skyblock-patch-notes.158/index.rss")
     ]);
 
     const latestFeed = news.concat(skyblockNews);
@@ -72,8 +72,8 @@ async function checkForHypixelUpdates(firstTime = false) {
       if (bot !== undefined && bot._client.chat !== undefined && firstTime === false) {
         const response = await axios.get(link, {
           headers: {
-            "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0",
-          },
+            "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0"
+          }
         });
 
         const $ = cheerio.load(response.data);
@@ -91,7 +91,7 @@ async function checkForHypixelUpdates(firstTime = false) {
       }
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }
 
@@ -105,13 +105,13 @@ async function checkForSkyblockVersion() {
     if (skyblockVersion !== data.version) {
       if (skyblockVersion !== undefined) {
         bot.chat(
-          `/gc [HYPIXEL SKYBLOCK] Skyblock version has been updated to ${data.version}! Server restarts might occur!`,
+          `/gc [HYPIXEL SKYBLOCK] Skyblock version has been updated to ${data.version}! Server restarts might occur!`
         );
       }
 
       skyblockVersion = data.version;
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }

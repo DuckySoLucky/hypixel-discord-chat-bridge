@@ -19,7 +19,7 @@ function formatBestiaryMobs(userProfile, mobs) {
       nextTierKills: nextTierKills ?? null,
       maxKills: maxKills,
       tier: tier,
-      maxTier: mobBracket.indexOf(maxKills) + 1,
+      maxTier: mobBracket.indexOf(maxKills) + 1
     });
   }
 
@@ -44,7 +44,7 @@ function getBestiary(userProfile) {
           if (key === "name") continue;
 
           output[category][key] = {
-            name: value.name,
+            name: value.name
           };
 
           output[category][key].mobs = formatBestiaryMobs(userProfile, value.mobs);
@@ -69,14 +69,14 @@ function getBestiary(userProfile) {
       tiersUnlocked,
       totalTiers,
       milestone: tiersUnlocked / 10,
-      maxMilestone: totalTiers / 10,
+      maxMilestone: totalTiers / 10
     };
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return null;
   }
 }
 
 module.exports = {
-  getBestiary,
+  getBestiary
 };

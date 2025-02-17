@@ -1,5 +1,4 @@
 const config = require("../../config.json");
-const { webMessage } = require("../Logger.js");
 const WebSocket = require("ws");
 const http = require("http");
 
@@ -17,7 +16,7 @@ class WebServer {
     const wss = new WebSocket.Server({ noServer: true });
 
     wss.on("connection", (ws) => {
-      webMessage("Client has connected to the server.");
+      console.web("Client has connected to the server.");
       ws.on("message", (message) => {
         message = JSON.parse(message);
         if (typeof message !== "object") {
@@ -25,7 +24,7 @@ class WebServer {
         }
 
         if (message.type === "message" && message.token === config.web.token && message.data) {
-          webMessage(`Received: ${JSON.stringify(message)}`);
+          console.web(`Received: ${JSON.stringify(message)}`);
           bot.chat(message.data);
         }
       });
@@ -44,7 +43,7 @@ class WebServer {
     });
 
     server.listen(this.port, () => {
-      webMessage(`WebSocket running at http://localhost:${this.port}/`);
+      console.web(`WebSocket running at http://localhost:${this.port}/`);
     });
 
     server.on("request", (req, res) => {
@@ -52,15 +51,15 @@ class WebServer {
         res.end(
           JSON.stringify({
             success: true,
-            uptime: Date.now() - this.start,
-          }),
+            uptime: Date.now() - this.start
+          })
         );
       } else {
         res.end(
           JSON.stringify({
             success: false,
-            error: "Invalid route",
-          }),
+            error: "Invalid route"
+          })
         );
       }
     });

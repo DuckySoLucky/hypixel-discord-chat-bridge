@@ -38,7 +38,7 @@ class MessageHandler {
         username: formattedUsername.replaceAll(" ", ""),
         message: content,
         replyingTo: await this.fetchReply(message),
-        discord: message,
+        discord: message
       };
 
       const images = content.split(" ").filter((line) => line.startsWith("http"));
@@ -68,7 +68,7 @@ class MessageHandler {
 
       this.discord.broadcastMessage(messageData);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -111,7 +111,7 @@ class MessageHandler {
 
       return mentionedUserName ?? null;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return null;
     }
   }
@@ -164,7 +164,7 @@ class MessageHandler {
     const validChannelIds = [
       config.discord.channels.officerChannel,
       config.discord.channels.guildChatChannel,
-      config.discord.channels.debugChannel,
+      config.discord.channels.debugChannel
     ];
 
     return isValid && validChannelIds.includes(message.channel.id);

@@ -15,13 +15,13 @@ class SlayersCommand extends minecraftCommand {
       {
         name: "username",
         description: "Minecraft username",
-        required: false,
+        required: false
       },
       {
         name: "slayer",
         description: "Slayer type",
-        required: false,
-      },
+        required: false
+      }
     ];
   }
 
@@ -40,7 +40,7 @@ class SlayersCommand extends minecraftCommand {
         "blaze",
         "demonlord",
         "vamp",
-        "vampire",
+        "vampire"
       ];
 
       const slayerType = slayer.includes(args[1]) ? args[1] : null;
@@ -54,20 +54,20 @@ class SlayersCommand extends minecraftCommand {
 
       if (slayerType) {
         this.send(
-          `/gc ${username}'s ${capitalize(slayerType)} - ${
+          `${username}'s ${capitalize(slayerType)} - ${
             profile[slayerType].level
-          } Levels | Experience: ${formatNumber(profile[slayerType].xp)}`,
+          } Levels | Experience: ${formatNumber(profile[slayerType].xp)}`
         );
       } else {
         const slayer = Object.keys(profile).reduce(
           (acc, slayer) =>
             `${acc} | ${capitalize(slayer)}: ${profile[slayer].level} (${formatNumber(profile[slayer].xp)})`,
-          "",
+          ""
         );
-        this.send(`/gc ${username}'s Slayer: ${slayer.slice(3)}`);
+        this.send(`${username}'s Slayer: ${slayer.slice(3)}`);
       }
     } catch (error) {
-      this.send(`/gc [ERROR] ${error}`);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

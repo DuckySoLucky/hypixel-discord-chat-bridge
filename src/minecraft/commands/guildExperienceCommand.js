@@ -13,8 +13,8 @@ class GuildExperienceCommand extends minecraftCommand {
       {
         name: "username",
         description: "Minecraft username",
-        required: false,
-      },
+        required: false
+      }
     ];
   }
 
@@ -31,14 +31,14 @@ class GuildExperienceCommand extends minecraftCommand {
         throw "Player is not in the Guild.";
       }
 
-      this.send(`/gc ${username}'s Weekly Guild Experience: ${player.weeklyExperience.toLocaleString()}.`);
+      this.send(`${username}'s Weekly Guild Experience: ${player.weeklyExperience.toLocaleString()}.`);
     } catch (error) {
       this.send(
-        `/gc ${error
+        `${error
           .toString()
           .replace("[hypixel-api-reborn] ", "")
           .replace("For help join our Discord Server https://discord.gg/NSEBNMM", "")
-          .replace("Error:", "[ERROR]")}`,
+          .replace("Error:", "[ERROR]")}`
       );
     }
   }

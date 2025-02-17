@@ -13,8 +13,8 @@ class GuildInformationCommand extends minecraftCommand {
       {
         name: "guild",
         description: "Guild name",
-        required: true,
-      },
+        required: true
+      }
     ];
   }
 
@@ -27,17 +27,17 @@ class GuildInformationCommand extends minecraftCommand {
       const guild = await hypixel.getGuild("name", guildName);
 
       this.send(
-        `/gc Guild ${guildName} | Tag: [${guild.tag}] | Members: ${guild.members.length} | Level: ${
+        `Guild ${guildName} | Tag: [${guild.tag}] | Members: ${guild.members.length} | Level: ${
           guild.level
-        } | Weekly GEXP: ${formatNumber(guild.totalWeeklyGexp)}`,
+        } | Weekly GEXP: ${formatNumber(guild.totalWeeklyGexp)}`
       );
     } catch (error) {
       this.send(
-        `/gc ${error
+        `${error
           .toString()
           .replace("[hypixel-api-reborn] ", "")
           .replace("For help join our Discord Server https://discord.gg/NSEBNMM", "")
-          .replace("Error:", "[ERROR]")}`,
+          .replace("Error:", "[ERROR]")}`
       );
     }
   }

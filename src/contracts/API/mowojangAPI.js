@@ -21,14 +21,14 @@ async function getUUID(username) {
 
     uuidCache.set(username, {
       last_save: Date.now(),
-      id: data.id,
+      id: data.id
     });
 
     return data.id;
   } catch (error) {
     // eslint-disable-next-line no-throw-literal
     if (error.response.data === "Not found") throw "Invalid username.";
-    console.log(error);
+    console.error(error);
     throw error;
   }
 }
@@ -50,14 +50,14 @@ async function getUsername(uuid) {
 
     const cache = {
       last_save: Date.now(),
-      username: data.name,
+      username: data.name
     };
 
     usernameCache.set(uuid, cache);
 
     return data.name;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     // eslint-disable-next-line no-throw-literal
     if (error.response?.data === "Not found") throw "Invalid UUID.";
     throw error;
@@ -70,12 +70,12 @@ async function resolveUsernameOrUUID(username) {
 
     return {
       username: data.name,
-      uuid: data.id,
+      uuid: data.id
     };
   } catch (error) {
     // eslint-disable-next-line no-throw-literal
     if (error.response.data === "Not found") throw "Invalid Username Or UUID.";
-    console.log(error);
+    console.error(error);
     throw error;
   }
 }

@@ -2,6 +2,7 @@ const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js
 const { formatUsername } = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const getDungeons = require("../../../API/stats/dungeons.js");
+
 class PersonalBestCommand extends minecraftCommand {
   constructor(minecraft) {
     super(minecraft);
@@ -13,13 +14,13 @@ class PersonalBestCommand extends minecraftCommand {
       {
         name: "username",
         description: "Minecraft Username",
-        required: false,
+        required: false
       },
       {
         name: "Floor",
         description: "Floor of dungeons (M7, F7, ect)",
-        required: false,
-      },
+        required: false
+      }
     ];
   }
 
@@ -88,11 +89,11 @@ class PersonalBestCommand extends minecraftCommand {
         // eslint-disable-next-line no-throw-literal
         throw `${username} has no PB on ${floor} ${rank}`;
       } else {
-        this.send(`/gc ${username}'s PB on ${floor} with ${rank} rank is ${millisToMinutesAndSeconds(time)}`);
+        this.send(`${username}'s PB on ${floor} with ${rank} rank is ${millisToMinutesAndSeconds(time)}`);
       }
     } catch (error) {
-      console.log(error);
-      this.send(`/gc ERROR: ${error}`);
+      console.error(error);
+      this.send(`ERROR: ${error}`);
     }
   }
 }

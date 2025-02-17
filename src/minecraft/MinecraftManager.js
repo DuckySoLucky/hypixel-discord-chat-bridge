@@ -6,8 +6,8 @@ const ChatHandler = require("./handlers/ChatHandler.js");
 const CommandHandler = require("./CommandHandler.js");
 const config = require("../../config.json");
 const mineflayer = require("mineflayer");
-const Logger = require("../Logger.js");
 const Filter = require("bad-words");
+
 const filter = new Filter();
 const fileredWords = config.discord.other.filterWords ?? "";
 filter.addWords(...fileredWords);
@@ -43,12 +43,12 @@ class MinecraftManager extends CommunicationBridge {
       version: "1.8.9",
       viewDistance: "tiny",
       chatLengthLimit: 256,
-      profilesFolder: "./auth-cache",
+      profilesFolder: "./auth-cache"
     });
   }
 
   async onBroadcast({ channel, username, message, replyingTo, discord }) {
-    Logger.broadcastMessage(`${username}: ${message}`, "Minecraft");
+    console.broadcast(`${username}: ${message}`, "Minecraft");
     if (this.bot.player === undefined) {
       return;
     }
@@ -58,8 +58,12 @@ class MinecraftManager extends CommunicationBridge {
     }
 
     if (config.discord.other.filterMessages) {
-      message = filter.clean(message);
-      username = filter.clean(username);
+      try {
+        message = filter.clean(message);
+        username = filter.clean(username);
+      } catch (error) {
+        // Do nothing
+      }
     }
 
     message = replaceVariables(config.minecraft.bot.messageFormat, { username, message });

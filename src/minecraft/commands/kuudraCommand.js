@@ -14,8 +14,8 @@ class KuudraCommand extends minecraftCommand {
       {
         name: "username",
         description: "Minecraft username",
-        required: false,
-      },
+        required: false
+      }
     ];
   }
 
@@ -34,15 +34,15 @@ class KuudraCommand extends minecraftCommand {
       }
 
       this.send(
-        `/gc ${username}'s Basic: ${formatNumber(profile.kuudra.basic)} | Hot: ${formatNumber(
-          profile.kuudra.hot,
+        `${username}'s Basic: ${formatNumber(profile.kuudra.basic)} | Hot: ${formatNumber(
+          profile.kuudra.hot
         )} | Burning: ${formatNumber(profile.kuudra.burning)} | Fiery: ${formatNumber(
-          profile.kuudra.fiery,
-        )} | Infernal: ${formatNumber(profile.kuudra.infernal)}`,
+          profile.kuudra.fiery
+        )} | Infernal: ${formatNumber(profile.kuudra.infernal)}`
       );
     } catch (error) {
-      console.log(error);
-      this.send(`/gc [ERROR] ${error}`);
+      console.error(error);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

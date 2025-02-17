@@ -1,8 +1,8 @@
+/* eslint-disable no-console */
 const customLevels = { discord: 0, minecraft: 1, web: 2, warn: 3, error: 4, broadcast: 5, max: 6 };
 const { createLogger, format, transports } = require("winston");
 const config = require("../config.json");
 const chalk = require("chalk");
-
 const discordTransport = new transports.File({ level: "discord", filename: "./logs/discord.log" });
 const minecraftTransport = new transports.File({ level: "minecraft", filename: "./logs/minecraft.log" });
 const webTransport = new transports.File({ level: "web", filename: "./logs/web.log" });
@@ -20,7 +20,7 @@ const discordLogger = createLogger({
       return `[${timestamp}] ${level.toUpperCase()} > ${message}`;
     })
   ),
-  transports: [discordTransport, combinedTransport],
+  transports: [discordTransport, combinedTransport]
 });
 
 const minecraftLogger = createLogger({
@@ -32,7 +32,7 @@ const minecraftLogger = createLogger({
       return `[${timestamp}] ${level.toUpperCase()} > ${message}`;
     })
   ),
-  transports: [minecraftTransport, combinedTransport],
+  transports: [minecraftTransport, combinedTransport]
 });
 
 const webLogger = createLogger({
@@ -44,7 +44,7 @@ const webLogger = createLogger({
       return `[${timestamp}] ${level.toUpperCase()} > ${message}`;
     })
   ),
-  transports: [webTransport, combinedTransport],
+  transports: [webTransport, combinedTransport]
 });
 
 const warnLogger = createLogger({
@@ -56,7 +56,7 @@ const warnLogger = createLogger({
       return `[${timestamp}] ${level.toUpperCase()} > ${message}`;
     })
   ),
-  transports: [warnTransport, combinedTransport],
+  transports: [warnTransport, combinedTransport]
 });
 
 const errorLogger = createLogger({
@@ -68,7 +68,7 @@ const errorLogger = createLogger({
       return `[${timestamp}] ${level.toUpperCase()} > ${message}`;
     })
   ),
-  transports: [errorTransport, combinedTransport],
+  transports: [errorTransport, combinedTransport]
 });
 
 const broadcastLogger = createLogger({
@@ -80,7 +80,7 @@ const broadcastLogger = createLogger({
       return `[${timestamp}] ${level.toUpperCase()} > ${message}`;
     })
   ),
-  transports: [broadcastTransport, combinedTransport],
+  transports: [broadcastTransport, combinedTransport]
 });
 
 function discordMessage(message) {
@@ -115,12 +115,13 @@ function warnMessage(message) {
   return console.log(chalk.bgYellow.black(`[${getCurrentTime()}] Warning >`) + " " + chalk.yellow(message));
 }
 
-function errorMessage(message) {
+function errorMessage(error) {
+  const errorString = `${error.toString()}${error.stack?.replace(error.toString(), "")}`;
   if (config.other.logToFiles) {
-    errorLogger.log("error", message);
+    errorLogger.log("error", errorString);
   }
-  
-  return console.log(chalk.bgRedBright.black(`[${getCurrentTime()}] Error >`) + " " + chalk.redBright(message));
+
+  return console.log(chalk.bgRedBright.black(`[${getCurrentTime()}] Error >`) + " " + chalk.redBright(errorString));
 }
 
 function broadcastMessage(message, location) {
@@ -138,7 +139,7 @@ function getCurrentTime() {
     second: "numeric",
     hour12: false,
     timeZoneName: "short",
-    timeZone: "UTC",
+    timeZone: "UTC"
   });
 }
 
@@ -174,14 +175,15 @@ async function updateMessage() {
   console.log(chalk.bgRed.black(" ".repeat(columns).repeat(3)));
 }
 
+console.discord = discordMessage;
+console.minecraft = minecraftMessage;
+console.web = webMessage;
+console.warn = warnMessage;
+console.error = errorMessage;
+console.broadcast = broadcastMessage;
+
 module.exports = {
-  discordMessage,
-  minecraftMessage,
-  webMessage,
-  warnMessage,
-  errorMessage,
-  broadcastMessage,
   getCurrentTime,
   configUpdateMessage,
-  updateMessage,
+  updateMessage
 };

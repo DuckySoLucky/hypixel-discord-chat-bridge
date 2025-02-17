@@ -14,8 +14,8 @@ class TrophyFishCommand extends minecraftCommand {
       {
         name: "username",
         description: "Minecraft username",
-        required: false,
-      },
+        required: false
+      }
     ];
   }
 
@@ -34,7 +34,7 @@ class TrophyFishCommand extends minecraftCommand {
       }
 
       this.send(
-        `/gc ${username}'s Trophy Fishing rank: ${profile.trophyFishing.rank} | Total Caught: ${formatNumber(
+        `${username}'s Trophy Fishing rank: ${profile.trophyFishing.rank} | Total Caught: ${formatNumber(
           profile.trophyFishing.caught.total
         )} | Total Bronze: ${formatNumber(profile.trophyFishing.caught.bronze)} / 18 | Total Silver: ${formatNumber(
           profile.trophyFishing.caught.silver
@@ -43,8 +43,8 @@ class TrophyFishCommand extends minecraftCommand {
         )} / 18`
       );
     } catch (error) {
-      console.log(error);
-      this.send(`/gc [ERROR] ${error}`);
+      console.error(error);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

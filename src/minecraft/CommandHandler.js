@@ -1,6 +1,5 @@
 const { Collection } = require("discord.js");
 const config = require("../../config.json");
-const Logger = require("../Logger.js");
 const axios = require("axios");
 const fs = require("fs");
 
@@ -19,7 +18,7 @@ class CommandHandler {
     }
   }
 
-  handle(player, message) {
+  handle(player, message, officer) {
     if (message.startsWith(this.prefix)) {
       if (config.minecraft.commands.normal === false) {
         return;
@@ -34,7 +33,8 @@ class CommandHandler {
         return;
       }
 
-      Logger.minecraftMessage(`${player} - [${command.name}] ${message}`);
+      console.minecraft(`${player} - [${command.name}] ${message}`);
+      command.officer = officer;
       command.onCommand(player, message);
     } else if (message.startsWith("-") && message.startsWith("- ") === false) {
       if (config.minecraft.commands.soopy === false || message.at(1) === "-") {
@@ -46,9 +46,9 @@ class CommandHandler {
         return;
       }
 
-      bot.chat(`/gc [SOOPY V2] ${message}`);
+      bot.chat(`/${officer ? "oc" : "gc"} [SOOPY V2] ${message}`);
 
-      Logger.minecraftMessage(`${player} - [${command}] ${message}`);
+      console.minecraft(`${player} - [${command}] ${message}`);
 
       (async () => {
         try {
@@ -56,12 +56,12 @@ class CommandHandler {
           const response = await axios.get(URI);
 
           if (response?.data?.msg === undefined) {
-            return bot.chat(`/gc [SOOPY V2] An error occured while running the command`);
+            return bot.chat(`/${officer ? "oc" : "gc"} [SOOPY V2] An error occured while running the command`);
           }
 
-          bot.chat(`/gc [SOOPY V2] ${response.data.msg}`);
+          bot.chat(`/${officer ? "oc" : "gc"} [SOOPY V2] ${response.data.msg}`);
         } catch (e) {
-          bot.chat(`/gc [SOOPY V2] ${e.cause ?? e.message ?? "Unknown error"}`);
+          bot.chat(`/${officer ? "oc" : "gc"} [SOOPY V2] ${e.cause ?? e.message ?? "Unknown error"}`);
         }
       })();
     }

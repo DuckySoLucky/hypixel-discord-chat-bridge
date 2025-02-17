@@ -12,8 +12,8 @@ class CalculateCommand extends minecraftCommand {
       {
         name: "calculation",
         description: "Any kind of math equation",
-        required: true,
-      },
+        required: true
+      }
     ];
   }
 
@@ -23,12 +23,12 @@ class CalculateCommand extends minecraftCommand {
       const answer = eval(calculation);
 
       if (answer === Infinity) {
-        return this.send(`/gc Something went wrong.. Somehow you broke it (the answer was infinity)`);
+        return this.send("Something went wrong.. Somehow you broke it (the answer was infinity)");
       }
 
-      this.send(`/gc ${calculation} = ${formatNumber(answer)} (${answer.toLocaleString()})`);
+      this.send(`${calculation} = ${formatNumber(answer)} (${answer.toLocaleString()})`);
     } catch (error) {
-      this.send(`/gc [ERROR] ${error}`);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

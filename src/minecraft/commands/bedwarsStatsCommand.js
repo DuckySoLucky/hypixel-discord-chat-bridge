@@ -13,8 +13,8 @@ class BedwarsCommand extends minecraftCommand {
       {
         name: "username",
         description: "Minecraft username",
-        required: false,
-      },
+        required: false
+      }
     ];
   }
 
@@ -24,7 +24,7 @@ class BedwarsCommand extends minecraftCommand {
       const modes = ["solo", "doubles", "threes", "fours", "4v4"];
 
       const mode = modes.includes(msg[0]) ? msg[0] : "overall";
-      username = modes.includes(msg[0]) ? msg[1] : msg[0] || username;
+      username = modes.includes(msg[0]) ? (msg[1] ? msg[1] : username) : msg[0] || username;
 
       const player = await hypixel.getPlayer(username);
 
@@ -33,9 +33,9 @@ class BedwarsCommand extends minecraftCommand {
         const { broken, BLRatio } = player.stats.bedwars.beds;
 
         this.send(
-          `/gc [${level}✫] ${player.nickname} FK: ${formatNumber(finalKills)} FKDR: ${finalKDRatio} W: ${formatNumber(
-            wins,
-          )} WLR: ${WLRatio} BB: ${formatNumber(broken)} BLR: ${BLRatio} WS: ${winstreak}`,
+          `[${level}✫] ${player.nickname} FK: ${formatNumber(finalKills)} FKDR: ${finalKDRatio} W: ${formatNumber(
+            wins
+          )} WLR: ${WLRatio} BB: ${formatNumber(broken)} BLR: ${BLRatio} WS: ${winstreak}`
         );
       } else if (mode !== undefined) {
         const { level } = player.stats.bedwars;
@@ -43,22 +43,22 @@ class BedwarsCommand extends minecraftCommand {
         const { broken, BLRatio } = player.stats.bedwars[mode].beds;
 
         this.send(
-          `/gc [${level}✫] ${player.nickname} ${capitalize(mode)} FK: ${formatNumber(
-            finalKills,
+          `[${level}✫] ${player.nickname} ${capitalize(mode)} FK: ${formatNumber(
+            finalKills
           )} FKDR: ${finalKDRatio} Wins: ${formatNumber(wins)} WLR: ${WLRatio} BB: ${formatNumber(
-            broken,
-          )} BLR: ${BLRatio} WS: ${winstreak}`,
+            broken
+          )} BLR: ${BLRatio} WS: ${winstreak}`
         );
       } else {
-        this.send("/gc Invalid mode. Valid modes: overall, solo, doubles, threes, fours, 4v4");
+        this.send("Invalid mode. Valid modes: overall, solo, doubles, threes, fours, 4v4");
       }
     } catch (error) {
       this.send(
-        `/gc ${error
+        `${error
           .toString()
           .replace("[hypixel-api-reborn] ", "")
           .replace("For help join our Discord Server https://discord.gg/NSEBNMM", "")
-          .replace("Error:", "[ERROR]")}`,
+          .replace("Error:", "[ERROR]")}`
       );
     }
   }

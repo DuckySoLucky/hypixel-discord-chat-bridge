@@ -3,7 +3,7 @@ const { formatUsername } = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { getBestiary } = require("../../../API/stats/bestiary.js");
 
-class EightBallCommand extends minecraftCommand {
+class BestiaryCommand extends minecraftCommand {
   constructor(minecraft) {
     super(minecraft);
 
@@ -14,8 +14,8 @@ class EightBallCommand extends minecraftCommand {
       {
         name: "username",
         description: "Mincraft Username",
-        required: false,
-      },
+        required: false
+      }
     ];
   }
 
@@ -33,7 +33,7 @@ class EightBallCommand extends minecraftCommand {
 
       const bestiary = getBestiary(data.profile);
       if (bestiary === null) {
-        return this.send(`/gc This player has not yet joined SkyBlock since the bestiary update.`);
+        return this.send("This player has not yet joined SkyBlock since the bestiary update.");
       }
 
       if (mob) {
@@ -41,9 +41,9 @@ class EightBallCommand extends minecraftCommand {
 
         if (mobData) {
           this.send(
-            `/gc ${username}'s ${mobData.name} Bestiary: ${mobData.kills} / ${mobData.nextTierKills} (${
+            `${username}'s ${mobData.name} Bestiary: ${mobData.kills} / ${mobData.nextTierKills} (${
               mobData.nextTierKills - mobData.kills
-            }) `,
+            }) `
           );
 
           await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -51,12 +51,12 @@ class EightBallCommand extends minecraftCommand {
       }
 
       this.send(
-        `/gc ${username}'s Bestiary Milestone: ${bestiary.milestone} / ${bestiary.maxMilestone} | Unlocked Tiers: ${bestiary.tiersUnlocked} / ${bestiary.totalTiers}`,
+        `${username}'s Bestiary Milestone: ${bestiary.milestone} / ${bestiary.maxMilestone} | Unlocked Tiers: ${bestiary.tiersUnlocked} / ${bestiary.totalTiers}`
       );
 
       if (playerUsername === username) {
         const bestiaryData = this.getBestiaryObject(bestiary).sort(
-          (a, b) => a.nextTierKills - a.kills - (b.nextTierKills - b.kills),
+          (a, b) => a.nextTierKills - a.kills - (b.nextTierKills - b.kills)
         );
 
         const topFive = bestiaryData.slice(0, 5);
@@ -66,11 +66,11 @@ class EightBallCommand extends minecraftCommand {
 
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
-        this.send(`/gc Closest to level up: ${topFiveMobs.join(", ")}`);
+        this.send(`Closest to level up: ${topFiveMobs.join(", ")}`);
       }
     } catch (error) {
-      console.log(error);
-      this.send(`/gc [ERROR] ${error}`);
+      console.error(error);
+      this.send(`[ERROR] ${error}`);
     }
   }
 
@@ -91,4 +91,4 @@ class EightBallCommand extends minecraftCommand {
   }
 }
 
-module.exports = EightBallCommand;
+module.exports = BestiaryCommand;

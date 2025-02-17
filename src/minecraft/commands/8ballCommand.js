@@ -12,8 +12,8 @@ class EightBallCommand extends minecraftCommand {
       {
         name: "question",
         description: "The question you want to ask the 8ball",
-        required: true,
-      },
+        required: true
+      }
     ];
   }
 
@@ -26,9 +26,9 @@ class EightBallCommand extends minecraftCommand {
 
       const { data } = await axios.get(`https://www.eightballapi.com/api`);
 
-      this.send(`/gc ${data.reading}`);
+      this.send(`${data.reading}`);
     } catch (error) {
-      this.send(`/gc [ERROR] ${error}`);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

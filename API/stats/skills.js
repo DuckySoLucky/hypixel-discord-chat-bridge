@@ -12,7 +12,7 @@ module.exports = function getSkills(profile) {
     carpentry: profile?.player_data?.experience?.SKILL_CARPENTRY || 0,
     runecrafting: profile?.player_data?.experience?.SKILL_RUNECRAFTING || 0,
     social: profile?.player_data?.experience?.SKILL_SOCIAL || 0,
-    taming: profile?.player_data?.experience?.SKILL_TAMING || 0,
+    taming: profile?.player_data?.experience?.SKILL_TAMING || 0
   };
 
   return {
@@ -26,6 +26,6 @@ module.exports = function getSkills(profile) {
     carpentry: calcSkill("carpentry", skill_experience["carpentry"]),
     runecrafting: calcSkill("runecrafting", skill_experience["runecrafting"]),
     social: calcSkill("social", skill_experience["social"]),
-    taming: calcSkill("taming", skill_experience["taming"]),
+    taming: calcSkill("taming", skill_experience["taming"])
   };
 };

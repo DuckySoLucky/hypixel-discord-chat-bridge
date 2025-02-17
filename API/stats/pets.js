@@ -13,7 +13,7 @@ const rarities = [
   "divine",
   "supreme",
   "special",
-  "very_special",
+  "very_special"
 ];
 
 module.exports = (profile) => {
@@ -31,7 +31,7 @@ module.exports = (profile) => {
       head: "/head/bc8ea1f51f253ff5142ca11ae45193a4ad8c3ab5e9c6eec8ba7a4fcb7bac40",
       type: "???",
       maxTier: "LEGENDARY",
-      maxLevel: 100,
+      maxLevel: 100
     };
 
     petData.typeGroup = petData.typeGroup ?? pet.type;
@@ -210,8 +210,8 @@ module.exports = (profile) => {
     lore.push(
       "",
       `§7Total XP: §e${formatNumber(pet.exp, true, 10)} §6/ §e${formatNumber(pet.xpMaxLevel, true, 10)} §6(${Math.floor(
-        (pet.exp / pet.xpMaxLevel) * 100,
-      )}%)`,
+        (pet.exp / pet.xpMaxLevel) * 100
+      )}%)`
     );
 
     if (petData.obtainsExp !== "feed") {
@@ -267,7 +267,7 @@ module.exports = (profile) => {
 
   return {
     auto_pet: profile.autopet,
-    pets: output,
+    pets: output
   };
 };
 

@@ -10,7 +10,7 @@ module.exports = (profile) => {
         level: 0,
         xpForNext: xp_tables.slayer[slayer][0],
         progress: 0,
-        kills: {},
+        kills: {}
       };
     }
 
@@ -49,7 +49,7 @@ module.exports = (profile) => {
       level,
       xpForNext,
       progress,
-      kills,
+      kills
     };
   }
 
@@ -59,6 +59,6 @@ module.exports = (profile) => {
     wolf: getSlayer("wolf"),
     enderman: getSlayer("enderman"),
     blaze: getSlayer("blaze"),
-    vampire: getSlayer("vampire"),
+    vampire: getSlayer("vampire")
   };
 };

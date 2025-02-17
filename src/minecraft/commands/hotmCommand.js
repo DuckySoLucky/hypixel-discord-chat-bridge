@@ -14,8 +14,8 @@ class HotmCommand extends minecraftCommand {
       {
         name: "username",
         description: "Minecraft username",
-        required: false,
-      },
+        required: false
+      }
     ];
   }
 
@@ -25,11 +25,8 @@ class HotmCommand extends minecraftCommand {
       username = this.getArgs(message)[0] || username;
 
       const data = await getLatestProfile(username);
-
       username = formatUsername(username, data.profileData?.game_mode);
-
-      const hotm = getHotm(data.playerRes, data.profile);
-
+      const hotm = getHotm(data.profile);
       if (hotm == null) {
         // eslint-disable-next-line no-throw-literal
         throw `${username} has never gone to Dwarven Mines on ${data.profileData.cute_name}.`;
@@ -38,16 +35,14 @@ class HotmCommand extends minecraftCommand {
       const level = (hotm.level.levelWithProgress || 0).toFixed(2);
 
       this.send(
-        `/gc ${username}'s Hotm: ${level} | Gemstone Powder: ${formatNumber(
+        `${username}'s Hotm: ${level} | Gemstone Powder: ${formatNumber(
           hotm.powder.gemstone.total
         )} | Mithril Powder: ${formatNumber(hotm.powder.mithril.total)} | Glacite Powder: ${formatNumber(
           hotm.powder.glacite.total
-        )} | Selected Ability: ${hotm.ability} | Commissions Milestone: ${
-          hotm.commissions.milestone
-        } (${hotm.commissions.total.toLocaleString()})`
+        )} | Selected Ability: ${hotm.ability}`
       );
     } catch (error) {
-      this.send(`/gc [ERROR] ${error}`);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

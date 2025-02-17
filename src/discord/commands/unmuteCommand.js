@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require("discord.js");
+const { SuccessEmbed } = require("../../contracts/embedHandler.js");
 
 module.exports = {
   name: "unmute",
@@ -7,28 +7,19 @@ module.exports = {
   requiresBot: true,
   options: [
     {
-      name: "name",
+      name: "username",
       description: "Minecraft Username",
       type: 3,
-      required: true,
-    },
+      required: true
+    }
   ],
 
   execute: async (interaction) => {
-    const name = interaction.options.getString("name");
+    const name = interaction.options.getString("username");
     bot.chat(`/g unmute ${name}`);
 
-    const embed = new EmbedBuilder()
-      .setColor(5763719)
-      .setAuthor({ name: "Unmute" })
-      .setDescription(`Successfully executed \`/g unmute ${name}\``)
-      .setFooter({
-        text: `by @duckysolucky | /help [command] for more information`,
-        iconURL: "https://imgur.com/tgwQJTX.png",
-      });
+    const embed = new SuccessEmbed(`Successfully executed \`/g unmute ${name}\``).setAuthor({ name: "Unmute" });
 
-    await interaction.followUp({
-      embeds: [embed],
-    });
-  },
+    await interaction.followUp({ embeds: [embed] });
+  }
 };

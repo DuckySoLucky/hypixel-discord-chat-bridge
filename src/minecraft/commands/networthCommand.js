@@ -1,7 +1,7 @@
+const { formatNumber, formatUsername } = require("../../contracts/helperFunctions.js");
+const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { getNetworth } = require("skyhelper-networth");
-const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
-const { formatNumber, formatUsername } = require("../../contracts/helperFunctions.js");
 
 class NetWorthCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -14,8 +14,8 @@ class NetWorthCommand extends minecraftCommand {
       {
         name: "username",
         description: "Minecraft username",
-        required: false,
-      },
+        required: false
+      }
     ];
   }
 
@@ -31,11 +31,11 @@ class NetWorthCommand extends minecraftCommand {
         museumData: data.museum,
         onlyNetworth: true,
         v2Endpoint: true,
-        cache: true,
+        cache: true
       });
 
       if (profile.noInventory === true) {
-        return this.send(`/gc ${username} has an Inventory API off!`);
+        return this.send(`${username} has an Inventory API off!`);
       }
 
       const networth = formatNumber(profile.networth);
@@ -45,11 +45,11 @@ class NetWorthCommand extends minecraftCommand {
       const museum = data.museum ? formatNumber(profile.types.museum?.total ?? 0) : "N/A";
 
       this.send(
-        `/gc ${username}'s Networth is ${networth} | Unsoulbound Networth: ${unsoulboundNetworth} | Purse: ${purse} | Bank: ${bank} | Museum: ${museum}`,
+        `${username}'s Networth is ${networth} | Unsoulbound Networth: ${unsoulboundNetworth} | Purse: ${purse} | Bank: ${bank} | Museum: ${museum}`
       );
     } catch (error) {
-      console.log(error);
-      this.send(`/gc [ERROR] ${error}`);
+      console.error(error);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

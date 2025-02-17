@@ -7,21 +7,21 @@ module.exports = {
   requiresBot: true,
   options: [
     {
-      name: "name",
+      name: "username",
       description: "Minecraft Username",
       type: 3,
-      required: true,
-    },
+      required: true
+    }
   ],
 
   execute: async (interaction) => {
-    const name = interaction.options.getString("name");
+    const name = interaction.options.getString("username");
     bot.chat(`/g demote ${name}`);
 
     const embed = new SuccessEmbed(`Successfully demoted \`${name}\` by one guild rank.`);
 
     await interaction.followUp({
-      embeds: [embed],
+      embeds: [embed]
     });
-  },
+  }
 };

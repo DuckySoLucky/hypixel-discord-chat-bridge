@@ -7,27 +7,27 @@ module.exports = {
   requiresBot: true,
   options: [
     {
-      name: "name",
+      name: "username",
       description: "Minecraft Username",
       type: 3,
-      required: true,
+      required: true
     },
     {
       name: "time",
       description: "Time",
       type: 3,
-      required: true,
-    },
+      required: true
+    }
   ],
 
   execute: async (interaction) => {
-    const [name, time] = [interaction.options.getString("name"), interaction.options.getString("time")];
+    const [name, time] = [interaction.options.getString("username"), interaction.options.getString("time")];
     bot.chat(`/g mute ${name} ${time}`);
 
     const embed = new SuccessEmbed(`Successfully muted **${name}** for ${time}.`);
 
     await interaction.followUp({
-      embeds: [embed],
+      embeds: [embed]
     });
-  },
+  }
 };

@@ -18,8 +18,8 @@ class AuctionHouseCommand extends minecraftCommand {
       {
         name: "username",
         description: "Minecraft username",
-        required: false,
-      },
+        required: false
+      }
     ];
   }
 
@@ -34,14 +34,14 @@ class AuctionHouseCommand extends minecraftCommand {
       const { hypixelAPIkey } = config.minecraft.API;
       const [auctionResponse, playerResponse] = await Promise.all([
         axios.get(`https://api.hypixel.net/v2/skyblock/auction?key=${hypixelAPIkey}&player=${uuid}`),
-        axios.get(`https://api.hypixel.net/v2/player?key=${hypixelAPIkey}&uuid=${uuid}`),
+        axios.get(`https://api.hypixel.net/v2/player?key=${hypixelAPIkey}&uuid=${uuid}`)
       ]);
 
       const auctions = auctionResponse.data?.auctions || [];
       const player = playerResponse.data?.player || {};
 
       if (auctions.length === 0) {
-        return this.send(`/gc This player has no active auctions.`);
+        return this.send("This player has no active auctions.");
       }
 
       const activeAuctions = auctions.filter((auction) => auction.end >= Date.now());
@@ -58,7 +58,7 @@ class AuctionHouseCommand extends minecraftCommand {
             const bidderUUID = auction.bids[auction.bids.length - 1].bidder;
 
             const bidderResponse = await axios.get(
-              `https://api.hypixel.net/player?key=${hypixelAPIkey}&uuid=${bidderUUID}`,
+              `https://api.hypixel.net/player?key=${hypixelAPIkey}&uuid=${bidderUUID}`
             );
 
             const bidder = bidderResponse.data?.player || {};
@@ -75,7 +75,7 @@ class AuctionHouseCommand extends minecraftCommand {
               `§7`,
               `§7Top Bid: §6${amount.toLocaleString()} coins`,
               `§7Bidder: ${getRank(bidder)} ${bidder.displayname}`,
-              `§7`,
+              `§7`
             );
           }
         } else {
@@ -91,10 +91,10 @@ class AuctionHouseCommand extends minecraftCommand {
       }
 
       imgurUrl = string;
-      this.send(`/gc $${username}'s Active Auctions: Check Discord Bridge for image.`);
+      this.send(`${username}'s Active Auctions: Check Discord Bridge for image.`);
     } catch (error) {
-      console.log(error);
-      this.send(`/gc [ERROR] ${error}`);
+      console.error(error);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

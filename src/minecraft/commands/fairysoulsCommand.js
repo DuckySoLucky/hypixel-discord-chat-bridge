@@ -13,8 +13,8 @@ class FairySoulsCommand extends minecraftCommand {
       {
         name: "username",
         description: "Minecraft username",
-        required: false,
-      },
+        required: false
+      }
     ];
   }
 
@@ -30,13 +30,13 @@ class FairySoulsCommand extends minecraftCommand {
       const { fairy_soul } = data.profile;
 
       this.send(
-        `/gc ${username}'s Fairy Souls: ${fairy_soul.total_collected}/${total} | Progress: ${(
+        `${username}'s Fairy Souls: ${fairy_soul.total_collected}/${total} | Progress: ${(
           (fairy_soul.total_collected / total) *
           100
-        ).toFixed(2)}%`,
+        ).toFixed(2)}%`
       );
     } catch (error) {
-      this.send(`/gc [ERROR] ${error}`);
+      this.send(`[ERROR] ${error}`);
     }
   }
 }

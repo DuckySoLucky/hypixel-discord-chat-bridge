@@ -48,7 +48,7 @@ if (config.minecraft.skyblockEventsNotifications.enabled) {
         }
       }
     } catch (e) {
-      console.log(e);
+      console.error(e);
       /* empty */
     }
   }, 60000);

@@ -7,10 +7,10 @@
     "setup": "node setup.mjs",
     "start": "node index.js",
     "test": "jest --detectOpenHandles --forceExit",
-    "lint": "npx eslint .",
-    "lint:fix": "npx eslint . --fix",
-    "prettier": "npx prettier --check .",
-    "prettier:fix": "npx prettier --write .",
+    "lint": "npx eslint src/",
+    "lint:fix": "npx eslint src/ --fix",
+    "prettier": "npx prettier src/ --check",
+    "prettier:fix": "npx prettier src/ --write",
     "nodemon": "nodemon index"
   },
   "repository": {
@@ -52,7 +52,7 @@
     "node-cron": "^3.0.2",
     "prismarine-nbt": "^2.2.1",
     "rss-parser": "^3.13.0",
-    "skyhelper-networth": "1.18.5",
+    "skyhelper-networth": "^1.25.0",
     "util": "^0.12.5",
     "winston": "^3.13.0",
     "ws": "^8.16.0"
