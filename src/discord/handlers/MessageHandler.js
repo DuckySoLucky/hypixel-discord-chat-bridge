@@ -66,6 +66,27 @@ class MessageHandler {
         return;
       }
 
+      if (messageData.message.length > 220) {
+        const messageParts = messageData.message.match(/.{1,200}/g);
+        if (messageParts === null) {
+          return;
+        }
+
+        for (const part of messageParts) {
+          messageData.message = part;
+          this.discord.broadcastMessage(messageData);
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+
+          if (messageParts.indexOf(part) >= 3) {
+            messageData.message = "Message too long. Truncated.";
+            this.discord.broadcastMessage(messageData);
+            return;
+          }
+        }
+
+        return;
+      }
+
       this.discord.broadcastMessage(messageData);
     } catch (error) {
       console.error(error);

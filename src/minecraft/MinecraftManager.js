@@ -79,7 +79,7 @@ class MinecraftManager extends CommunicationBridge {
       receivedMessage = receivedMessage.toString();
 
       if (
-        receivedMessage.includes(message) &&
+        receivedMessage.trim().includes(message.trim()) &&
         (this.chatHandler.isGuildMessage(receivedMessage) || this.chatHandler.isOfficerMessage(receivedMessage))
       ) {
         bot.removeListener("message", messageListener);
