@@ -25,8 +25,8 @@ class BooCommand extends minecraftCommand {
         throw "You must provide a user to boo!";
       }
 
-      if (9 !== new Date().getMonth()) {
-        throw "It's not October!";
+      if (new Date().getMonth() !== 9) {
+        throw "You can only do this during Halloween!";
       }
 
       if (this.isOnCooldown) {
