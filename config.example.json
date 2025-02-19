@@ -107,7 +107,7 @@
     "unverifiedRole": "UNVERIFIED_ROLE_ID",
     "removeVerificationRole": true,
     "guildMemberRole": "GUILD_MEMBER_ROLE_ID",
-    "autoUpdater": true,
+    "autoUpdater": false,
     "autoUpdaterInterval": 24,
     "name": "{username}",
     "levelRoles": [

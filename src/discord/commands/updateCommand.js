@@ -76,7 +76,7 @@ module.exports = {
       ]);
 
       const [skills, slayer, dungeons, crimson, networth, chocolateFactory, jacob] = await Promise.all([
-        sbProfile ? getSkills(sbProfile.profile) : null,
+        sbProfile ? getSkills(sbProfile.profile, sbProfile.profileData) : null,
         sbProfile ? getSlayer(sbProfile.profile) : null,
         sbProfile ? getDungeons(sbProfile.profile) : null,
         sbProfile ? getCrimson(sbProfile.profile) : null,

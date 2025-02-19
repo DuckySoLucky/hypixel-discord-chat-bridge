@@ -6,7 +6,7 @@ const getSlayer = require("../stats/slayer.js");
 
 module.exports = (profile) => {
   const { skills_levels, skills_experience } = formatLilySkills(getSkills(profile));
-  const { catacombs_experience, catacombs, master_mode } = formatLilyDungeons(getDungeons(profile));
+  const { catacombs_experience, catacombs, master_mode } = formatLilyDungeons(getDungeons(profile) ?? {});
   const { slayer_experience } = formatLilySlayer(getSlayer(profile));
 
   const lily = getWeightRaw(

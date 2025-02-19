@@ -279,6 +279,15 @@ function getTimestamp(unixTimestamp = Date.now()) {
   });
 }
 
+function splitMessage(message, amount) {
+  const messages = [];
+  for (let i = 0; i < message.length; i += amount) {
+    messages.push(message.slice(i, i + amount));
+  }
+
+  return messages;
+}
+
 module.exports = {
   replaceAllRanks,
   addNotation,
@@ -295,5 +304,6 @@ module.exports = {
   formatUsername,
   formatNumber,
   replaceVariables,
-  getTimestamp
+  getTimestamp,
+  splitMessage
 };

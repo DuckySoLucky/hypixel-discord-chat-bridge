@@ -32,7 +32,7 @@ module.exports = (profile) => {
           forgeItem.timeStarted = item.startTime;
           forgeItem.timeFinished = timeFinished;
           forgeItem.timeFinishedText =
-            timeFinished < Date.now() ? "Finished" : `ending ${moment(timeFinished).fromNow()}`;
+            timeFinished < Date.now() ? "(FINISHED)" : ` (${moment(timeFinished).fromNow()})`;
         } else {
           console.error(item);
           forgeItem.name = "Unknown Item";
@@ -62,7 +62,7 @@ module.exports = (profile) => {
         }
       },
       level: calcSkill("hotm", profile?.mining_core?.experience || 0),
-      ability: titleCase(profile?.mining_core?.selected_pickaxe_ability || "none", true),
+      ability: miningConst.hotm.perks[profile?.mining_core?.selected_pickaxe_ability]?.name || "None",
       forge: forgeItems
     };
   } catch (error) {

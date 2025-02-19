@@ -32,7 +32,7 @@ class SkyblockCommand extends minecraftCommand {
       username = formatUsername(username, data.profileData.game_mode);
 
       const [skills, slayer, networth, dungeons, talismans, hotm] = await Promise.all([
-        getSkills(data.profile),
+        getSkills(data.profile, data.profileData),
         getSlayer(data.profile),
         getNetworth(data.profile, data.profileData?.banking?.balance || 0, {
           onlyNetworth: true,

@@ -1,4 +1,4 @@
-const { Client, Collection, AttachmentBuilder, GatewayIntentBits } = require("discord.js");
+const { Client, Collection, AttachmentBuilder, GatewayIntentBits, embedLength } = require("discord.js");
 const CommunicationBridge = require("../contracts/CommunicationBridge.js");
 const { replaceVariables } = require("../contracts/helperFunctions.js");
 const messageToImage = require("../contracts/messageToImage.js");
@@ -7,6 +7,7 @@ const StateHandler = require("./handlers/StateHandler.js");
 const CommandHandler = require("./CommandHandler.js");
 const config = require("../../config.json");
 const fs = require("fs");
+const { ErrorEmbed } = require("../contracts/embedHandler.js");
 
 class DiscordManager extends CommunicationBridge {
   constructor(app) {
@@ -68,18 +69,29 @@ class DiscordManager extends CommunicationBridge {
 
   async getWebhook(discord, type) {
     const channel = await this.stateHandler.getChannel(type);
-    const webhooks = await channel.fetchWebhooks();
+    try {
+      const webhooks = await channel.fetchWebhooks();
 
-    if (webhooks.size === 0) {
-      channel.createWebhook({
-        name: "Hypixel Chat Bridge",
-        avatar: "https://imgur.com/tgwQJTX.png"
+      if (webhooks.size === 0) {
+        channel.createWebhook({
+          name: "Hypixel Chat Bridge",
+          avatar: "https://imgur.com/tgwQJTX.png"
+        });
+
+        await this.getWebhook(discord, type);
+      }
+
+      return webhooks.first();
+    } catch (error) {
+      console.log(error);
+      channel.send({
+        embeds: [
+          new ErrorEmbed(
+            "An error occurred while trying to fetch the webhooks. Please make sure the bot has the `MANAGE_WEBHOOKS` permission."
+          )
+        ]
       });
-
-      await this.getWebhook(discord, type);
     }
-
-    return webhooks.first();
   }
 
   async onBroadcast({ fullMessage, chat, chatType, username, rank, guildRank, message, color = 1752220 }) {
@@ -148,6 +160,10 @@ class DiscordManager extends CommunicationBridge {
         }
 
         this.app.discord.webhook = await this.getWebhook(this.app.discord, chatType);
+        if (this.app.discord.webhook === undefined) {
+          return;
+        }
+
         this.app.discord.webhook.send({
           content: message,
           username: username,
@@ -237,6 +253,10 @@ class DiscordManager extends CommunicationBridge {
         }
 
         this.app.discord.webhook = await this.getWebhook(this.app.discord, "Guild");
+        if (this.app.discord.webhook === undefined) {
+          return;
+        }
+
         this.app.discord.webhook.send({
           username: username,
           avatarURL: `https://www.mc-heads.net/avatar/${username}`,

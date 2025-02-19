@@ -2,6 +2,15 @@ const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const getSkills = require("../../../API/stats/skills.js");
 const { formatUsername } = require("../../contracts/helperFunctions.js");
+const {
+  getSkillLevelCaps,
+  getSkillAverage,
+  getSocialSkillExperience,
+  getLevelByXp
+} = require("../../../API/constants/skills.js");
+const { profile } = require("winston");
+const helperFunctions = require("../../contracts/helperFunctions.js");
+const { capitalize } = require("lodash");
 
 class SkillsCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -27,25 +36,15 @@ class SkillsCommand extends minecraftCommand {
 
       username = formatUsername(username, data.profileData.cute_name);
 
-      const profile = getSkills(data.profile);
+      const skillAverage = getSkillAverage(data.profile);
+      const skills = getSkills(data.profile, data.profileData);
 
-      const skillAverage = (
-        Object.keys(profile)
-          .filter((skill) => !["runecrafting", "social"].includes(skill))
-          .map((skill) => profile[skill].levelWithProgress || 0)
-          .reduce((a, b) => a + b, 0) /
-        (Object.keys(profile).length - 2)
-      ).toFixed(2);
+      const formattedSkills = [];
+      for (const [skill, data] of Object.entries(skills)) {
+        formattedSkills.push(`${capitalize(skill)}: ${helperFunctions.toFixed(data.levelWithProgress, 2)}`);
+      }
 
-      const skillsFormatted = Object.keys(profile)
-        .map((skill) => {
-          const level = Math.floor(profile[skill].levelWithProgress ?? 0);
-          const skillName = skill[0].toUpperCase() + skill[1];
-          return `${level}${skillName}`;
-        })
-        .join(", ");
-
-      this.send(`${username}'s Skill Average: ${skillAverage ?? 0} (${skillsFormatted})`);
+      this.send(`${username}'s Skill Average: ${skillAverage ?? 0} (${formattedSkills.join(", ")})`);
     } catch (error) {
       this.send(`[ERROR] ${error}`);
     }
