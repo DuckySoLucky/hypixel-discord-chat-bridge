@@ -7,12 +7,13 @@ for (const symbol in symbols) {
   SYMBOLS[symbol] = symbols[symbol].symbol;
 }
 
-function formatStat(stat) {
-  const statFloored = Math.floor(stat);
-  if (statFloored > 0) {
-    return `§a+${statFloored}`;
+function formatStat(stat, red = false) {
+  const formattedStat = stat.toFixed(2).replace(/\.?0+$/, "");
+  const color = red ? "§c" : "§a";
+  if (stat > 0) {
+    return `${color}+${formattedStat}`;
   } else {
-    return `§a${statFloored}`;
+    return `${color}${formattedStat}`;
   }
 }
 
@@ -91,13 +92,13 @@ class Pet {
           list.push(`§7Defense: ${formatStat(newStats[stat])}`);
           break;
         case "strength":
-          list.push(`§7Strength: ${formatStat(newStats[stat])}`);
+          list.push(`§7Strength: ${formatStat(newStats[stat], true)}`);
           break;
         case "crit_chance":
-          list.push(`§7Crit Chance: ${formatStat(newStats[stat])}%`);
+          list.push(`§7Crit Chance: ${formatStat(newStats[stat], true)}%`);
           break;
         case "crit_damage":
-          list.push(`§7Crit Damage: ${formatStat(newStats[stat])}%`);
+          list.push(`§7Crit Damage: ${formatStat(newStats[stat], true)}%`);
           break;
         case "intelligence":
           list.push(`§7Intelligence: ${formatStat(newStats[stat])}`);
@@ -106,10 +107,10 @@ class Pet {
           list.push(`§7Speed: ${formatStat(newStats[stat])}`);
           break;
         case "bonus_attack_speed":
-          list.push(`§7Bonus Attack Speed: ${formatStat(newStats[stat])}%`);
+          list.push(`§7Bonus Attack Speed: ${formatStat(newStats[stat], true)}%`);
           break;
         case "sea_creature_chance":
-          list.push(`§7Sea Creature Chance: ${formatStat(newStats[stat])}%`);
+          list.push(`§7Sea Creature Chance: ${formatStat(newStats[stat], true)}%`);
           break;
         case "magic_find":
           list.push(`§7Magic Find: ${formatStat(newStats[stat])}`);
@@ -127,7 +128,7 @@ class Pet {
           list.push(`§7Damage: ${formatStat(newStats[stat])}`);
           break;
         case "ferocity":
-          list.push(`§7Ferocity: ${formatStat(newStats[stat])}`);
+          list.push(`§7Ferocity: ${formatStat(newStats[stat], true)}`);
           break;
         case "mining_speed":
           list.push(`§7Mining Speed: ${formatStat(newStats[stat])}`);
@@ -162,8 +163,11 @@ class Pet {
         case "swing_range":
           list.push(`§7Swing Range: ${formatStat(newStats[stat])}`);
           break;
-        case "cold_resistence":
-          list.push(`§7Cold Resistence: ${formatStat(newStats[stat])}`);
+        case "cold_resistance":
+          list.push(`§7Cold Resistance: ${formatStat(newStats[stat])}`);
+          break;
+        case "heat_resistance":
+          list.push(`§7Heat Resistance: ${formatStat(newStats[stat])}`);
           break;
         default:
           list.push(`§cUNKNOWN: ${stat}`);
@@ -330,7 +334,7 @@ class Eerie extends Pet {
     const mult = getValue(this.rarity, { legendary: 0.01 });
 
     const primalFearKills = this.profile.kills
-      ? this.profile.kills.kills.find((mob) => mob.entityId === "primal_fear")?.amount ?? 0
+      ? (this.profile.kills.kills.find((mob) => mob.entityId === "primal_fear")?.amount ?? 0)
       : 0;
     const kills = Math.max(primalFearKills, 150);
 
@@ -475,6 +479,9 @@ class Rabbit extends Pet {
     if (this.rarity >= LEGENDARY) {
       list.push(this.third);
     }
+    if (this.rarity >= MYTHIC) {
+      list.push(this.fourth);
+    }
     return list;
   }
 
@@ -501,6 +508,15 @@ class Rabbit extends Pet {
       desc: [`§7Farming minions work §a${round(this.level * mult, 1)}% §7faster while on your island.`]
     };
   }
+
+  get fourth() {
+    return {
+      name: "§6Chocolate Injections",
+      desc: [
+        `§7Increases §6Chocolate Factory§7 production by §a+${round(0.01 + (this.level - 1) * 0.0004, 3)}x§7. Duplicate §aChocolate Rabbits§7 that you find grant §6${round(1.3 + (this.level - 1) * 0.32, 1)}% Chocolate§7.`
+      ]
+    };
+  }
 }
 
 class Armadillo extends Pet {
@@ -511,12 +527,12 @@ class Armadillo extends Pet {
   }
 
   get abilities() {
-    const list = [this.first, this.second, this.third];
+    const list = [this.first, this.second];
     if (this.rarity >= RARE) {
-      list.push(this.fourth);
+      list.push(this.third);
     }
     if (this.rarity >= LEGENDARY) {
-      list.push(this.fifth);
+      list.push(this.fourth);
     }
     return list;
   }
@@ -524,43 +540,31 @@ class Armadillo extends Pet {
   get first() {
     return {
       name: "§6Rideable",
-      desc: [`§7Right-click on your summoned pet to ride it!`]
+      desc: [`§7Right-click on your summoned pet to ride it! Moves faster based on your §f${SYMBOLS.speed} Speed§7.`]
     };
   }
 
   get second() {
     return {
       name: "§6Tunneler",
-      desc: [
-        `§7The Armadillo breaks all stone or ore in its path while you are riding it in the §3Crystal Hollows §7using your held item.`
-      ]
+      desc: [`§7While riding in the §5Crystal Hollows§7, this Pet breaks all blocks in its path using your held item.`]
     };
   }
 
   get third() {
+    const mult = getValue(this.rarity, { rare: 0.2, epic: 0.3, legendary: 0.4 });
     return {
-      name: "§6Earth Surfer",
-      desc: [`§7The Armadillo moves faster based on your §f${SYMBOLS.speed} Speed§7.`]
+      name: "§6Rolling Miner",
+      desc: [
+        `§7Every §a${round(60 - this.level * mult, 1)} §7seconds, the next §5Gemstone§7 you mine gives §a2x §7drops.`
+      ]
     };
   }
 
   get fourth() {
-    const mult = getValue(this.rarity, { rare: 0.2, epic: 0.3 });
     return {
-      name: "§6Rolling Miner",
-      desc: [`§7Every §a${round(60 - this.level * mult, 1)} §7seconds, the next gemstone you mine gives §a2x §7drops.`]
-    };
-  }
-
-  get fifth() {
-    const mult = getValue(this.rarity, { legendary: 0.5 });
-    return {
-      name: "§6Mobile Tank",
-      desc: [
-        `§7For every §a${round(100 - this.level * mult, 1)} ${SYMBOLS.defense} Defense§7, gain §f+1 ${
-          SYMBOLS.speed
-        } Speed §7and §6+1 ${SYMBOLS.mining_speed} Mining Speed§7.`
-      ]
+      name: "§6Long Claws",
+      desc: [`§7Grants §e+${round(this.level * 3)} ${SYMBOLS.mining_spread} Mining Spread§7 while mining Hard Stone.`]
     };
   }
 }
@@ -1015,8 +1019,8 @@ class WitherSkeleton extends Pet {
 class Bal extends Pet {
   get stats() {
     return {
-      ferocity: this.level * 0.1,
-      strength: this.level * 0.25
+      mining_fortune: this.level * 1,
+      heat_resistance: this.level * 1.5
     };
   }
 
@@ -1032,30 +1036,28 @@ class Bal extends Pet {
   }
 
   get first() {
+    const mult = getValue(this.rarity, { epic: 0.02, legendary: 0.03 });
     return {
-      name: "§6Protective Skin",
-      desc: [`§7§7Gives §cheat immunity§7.`]
+      name: "§6Furnace",
+      desc: [`§7Grants §5+${round(this.level * mult, 1)} ${SYMBOLS.pristine} Pristine§7 while in the §cMagma Fields§7.`]
     };
   }
 
   get second() {
-    const mult = getValue(this.rarity, { epic: 0.1 });
+    const mult = getValue(this.rarity, { epic: 0.04 });
     return {
-      name: "§6Fire Whip",
+      name: "§6Dispersion",
       desc: [
-        `§7Every §a5s §7while in combat on public islands, Bal will strike nearby enemies with his fire whip dealing §c${round(
-          this.level * mult,
-          1
-        )}% §7of your damage as §ftrue damage§7.`
+        `§7While in the §5Crystal Hollows§7, killing mobs reduces your §c${SYMBOLS.heat_resistance} Heat§7 by §c${floor(this.level * mult, 1)}§7.`
       ]
     };
   }
 
   get third() {
-    const mult = getValue(this.rarity, { legendary: 0.15 });
+    const mult = getValue(this.rarity, { legendary: 0.1 });
     return {
-      name: "§6Made of Lava",
-      desc: [`§7Gain §a${round(this.level * mult, 1)}% §7on ALL stats when inside the §cMagma Fields§7.`]
+      name: "§6Chimney",
+      desc: [`§7Reduce Pickaxe Ability cooldowns by §a${floor(this.level * mult, 1)}%§7.`]
     };
   }
 }
@@ -1209,9 +1211,10 @@ class GoldenDragon extends Pet {
   get stats() {
     const stats = {};
     if (this.level >= 100) {
-      const goldCollectionDigits = this.profile.collections?.mining?.collections
-        ?.find((collection) => collection.id === "GOLD_INGOT")
-        ?.amount.toString().length;
+      const goldCollectionDigits =
+        this.profile.collections?.mining?.collections
+          ?.find((collection) => collection.id === "GOLD_INGOT")
+          ?.amount.toString().length ?? 0;
 
       stats.strength = Math.floor(25 + Math.max(0, this.level - 100) * 0.25) + 10 * goldCollectionDigits;
       stats.bonus_attack_speed = Math.floor(25 + Math.max(0, this.level - 100) * 0.25);
@@ -3889,7 +3892,7 @@ class Penguin extends Pet {
     return {
       name: "§6Thick Blubber",
       desc: [
-        `§7Each time you catch a Sea Creature, reduce your §b${SYMBOLS.cold_resistence} Cold §7by §a${round(1 + floor(this.level / val), 1)}§7.`
+        `§7Each time you catch a Sea Creature, reduce your §b${SYMBOLS.cold_resistance} Cold §7by §a${round(1 + floor(this.level / val), 1)}§7.`
       ]
     };
   }
@@ -3919,7 +3922,7 @@ class Mammoth extends Pet {
   get stats() {
     return {
       defense: 0.5 * this.level,
-      cold_resistence: 0.1 * this.level
+      cold_resistance: 0.1 * this.level
     };
   }
 
@@ -3935,7 +3938,7 @@ class Mammoth extends Pet {
     return {
       name: "§6Wooly Coat",
       desc: [
-        `§7Gain a §a${round(this.level * mult, 1)}% §7chance for mobs to not inflict §b${SYMBOLS.cold_resistence} Cold §7when damaging you in the §bGlacite Mineshafts§7.`
+        `§7Gain a §a${round(this.level * mult, 1)}% §7chance for mobs to not inflict §b${SYMBOLS.cold_resistance} Cold §7when damaging you in the §bGlacite Mineshafts§7.`
       ]
     };
   }
@@ -4013,7 +4016,7 @@ class GlaciteGolem extends Pet {
   get stats() {
     return {
       mining_speed: 1.25 * this.level,
-      cold_resistence: 0.05 * this.level
+      cold_resistance: 0.05 * this.level
     };
   }
 
@@ -5150,6 +5153,11 @@ const pet_items = {
     tier: "UNCOMMON",
     description:
       "§7Adds particles matching your §c+ §7color to your pet and yourself, defaulting to red. §8Editable in Hypixel lobbies."
+  },
+  PET_ITEM_TITANIUM_MINECART: {
+    name: "Titanium Minecart",
+    tier: "RARE",
+    description: `§7Grants §6+33.3 ${SYMBOLS.mining_fortune} Mining Fortune§7 when mining §fTitanium Ore§7.`
   }
 };
 
