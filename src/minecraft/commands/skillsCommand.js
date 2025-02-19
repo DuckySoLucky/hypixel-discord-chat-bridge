@@ -1,7 +1,6 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const getSkills = require("../../../API/stats/skills.js");
-const { formatUsername } = require("../../contracts/helperFunctions.js");
 const { getSkillAverage } = require("../../../API/constants/skills.js");
 const helperFunctions = require("../../contracts/helperFunctions.js");
 const { capitalize } = require("lodash");
@@ -27,7 +26,7 @@ class SkillsCommand extends minecraftCommand {
       const args = this.getArgs(message);
       player = args[0] || player;
 
-      const { username, profile, profileData } = await getLatestProfile(player, { museum: true });
+      const { username, profile, profileData } = await getLatestProfile(player);
 
       const skillAverage = getSkillAverage(profile);
       const skills = getSkills(profile, profileData);

@@ -1,7 +1,7 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const getWeight = require("../../../API/stats/weight.js");
-const {  formatNumber } = require("../../contracts/helperFunctions.js");
+const { formatNumber } = require("../../contracts/helperFunctions.js");
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 
 class StatsCommand extends minecraftCommand {
