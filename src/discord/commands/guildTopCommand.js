@@ -1,3 +1,4 @@
+const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 const { Embed } = require("../../contracts/embedHandler.js");
 
 module.exports = {
@@ -33,11 +34,14 @@ module.exports = {
 
       setTimeout(() => {
         bot.removeListener("message", listener);
-        reject("Command timed out. Please try again.");
-      }, 5000);
+        resolve(cachedMessages);
+      }, 1000);
     });
 
     const message = await messages;
+    if (message.length === 0) {
+      throw new HypixelDiscordChatBridgeError("Could not retrieve the top 10 guild members.");
+    }
 
     const trimmedMessages = message.map((message) => message.trim()).filter((message) => message.includes("."));
     const description = trimmedMessages
