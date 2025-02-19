@@ -44,7 +44,7 @@ module.exports = (profile) => {
       petData.hatching?.level > pet.level
         ? petData.hatching.name
         : petData.name
-          ? petData.name[pet.rarity] ?? petData.name.default
+          ? (petData.name[pet.rarity] ?? petData.name.default)
           : titleCase(pet.type.replaceAll("_", " "));
 
     // Rarity upgrades
@@ -155,7 +155,10 @@ module.exports = (profile) => {
       if (!heldItemObj) {
         heldItemObj = constants.pet_items[heldItem];
       }
-      lore.push("", `§6Held Item: §${constants.rarityColors[heldItemObj.tier.toLowerCase()]}${heldItemObj.name}`);
+      lore.push(
+        "",
+        `§6Held Item: §${constants.rarityColors[(heldItemObj?.tier ?? "COMMON").toLowerCase()]}${heldItemObj?.name ?? "???"}`
+      );
 
       if (heldItem in constants.pet_items) {
         lore.push(constants.pet_items[heldItem].description);
