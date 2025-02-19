@@ -2,6 +2,18 @@ const { getRandomWord, scrambleWord } = require("../constants/words.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const getWord = (message) => message.split(" ").pop();
 
+const getUsername = (message) => {
+  const match = message.match(
+    /^(?:(?:\[(?<rank>[^\]]+)\] )?(?:(?<username>\w+)(?: \[(?<guildRank>[^\]]+)\])?: )?)?(?<message>.+)$/
+  );
+
+  if (!match) {
+    return null;
+  }
+
+  return match.groups.username;
+};
+
 const cooldowns = new Map();
 
 class unscrambleCommand extends minecraftCommand {
@@ -23,7 +35,6 @@ class unscrambleCommand extends minecraftCommand {
 
   async onCommand(username, message) {
     try {
-      const userUsername = username;
       const length = this.getArgs(message)[0];
       const answer = getRandomWord(length);
       const scrambledWord = scrambleWord(answer);
@@ -44,7 +55,9 @@ class unscrambleCommand extends minecraftCommand {
       cooldowns.set(this.name, Date.now());
       const listener = (username, message) => {
         if (getWord(message) === answer) {
-          this.send(`${userUsername} guessed it right! Time elapsed: ${(Date.now() - startTime).toLocaleString()}ms!`);
+          this.send(
+            `${getUsername(message)} guessed it right! Time elapsed: ${(Date.now() - startTime).toLocaleString()}ms!`
+          );
           bot.removeListener("chat", listener);
           answered = true;
           cooldowns.delete(this.name);

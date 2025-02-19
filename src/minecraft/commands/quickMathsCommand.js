@@ -10,6 +10,18 @@ const getAnswer = (message) => {
   return message.split(": ")[1];
 };
 
+const getUsername = (message) => {
+  const match = message.match(
+    /^(?:(?:\[(?<rank>[^\]]+)\] )?(?:(?<username>\w+)(?: \[(?<guildRank>[^\]]+)\])?: )?)?(?<message>.+)$/
+  );
+
+  if (!match) {
+    return null;
+  }
+
+  return match.groups.username;
+};
+
 class QuickMathsCommand extends minecraftCommand {
   constructor(minecraft) {
     super(minecraft);
@@ -43,7 +55,7 @@ class QuickMathsCommand extends minecraftCommand {
         }
 
         answered = true;
-        this.send(`${userUsername} Correct! It took you ${(Date.now() - startTime).toLocaleString()}ms`);
+        this.send(`${getUsername(message)} Correct! It took you ${(Date.now() - startTime).toLocaleString()}ms`);
         bot.removeListener("chat", listener);
       };
 
