@@ -1,6 +1,5 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-const helperFunctions = require("../../contracts/helperFunctions.js");
 
 class BooCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -21,13 +20,12 @@ class BooCommand extends minecraftCommand {
 
   async onCommand(username, message) {
     try {
-      if (this.getArgs(message).length === 0) {
-        // eslint-disable-next-line no-throw-literal
+      const args = this.getArgs(message);
+      if (args.length === 0) {
         throw "You must provide a user to boo!";
       }
 
       if (9 !== new Date().getMonth()) {
-        // eslint-disable-next-line no-throw-literal
         throw "It's not October!";
       }
 
@@ -35,27 +33,19 @@ class BooCommand extends minecraftCommand {
         return this.send(`${this.name} Command is on cooldown`);
       }
 
-      this.send(`/boo ${this.getArgs(message)[0]}`);
-      await delay(690);
-      this.send(`/msg ${this.getArgs(message)[0]} ${username} Booed You!`);
-      await delay(690);
-      this.send(`Booed ${this.getArgs(message)[0]}!`);
       this.isOnCooldown = true;
-      // CREDITS: @jaxieflaxie for finding this cooldown reset
+      bot.chat(`/boo ${args[0]}`);
+      await delay(1000);
+      bot.chat(`/msg ${args[0]} ${username} Booed You!`);
+      await delay(1000);
+      this.send(`Booed ${args[0]}!`);
+
       setTimeout(() => {
-        bot.chat(
-          `/w ${
-            bot.username
-          } jaxieflaxie is the best wristspasm member! your cool if u see this - ${helperFunctions.generateID(24)}`
-        );
-        setTimeout(() => {
-          bot.chat(`/w ${bot.username} ${helperFunctions.generateID(48)}`);
-          this.isOnCooldown = false;
-        }, 30000);
+        this.isOnCooldown = false;
       }, 30000);
-      this.isOnCooldown = false;
     } catch (error) {
       this.send(`[ERROR] ${error}`);
+      this.isOnCooldown = false;
     }
   }
 }

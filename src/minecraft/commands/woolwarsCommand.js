@@ -25,14 +25,12 @@ class WoolwarsCommand extends minecraftCommand {
       const response = await hypixel.getPlayer(username, { raw: true });
 
       if (response.player === null) {
-        // eslint-disable-next-line no-throw-literal
         throw "This player has never joined Hypixel.";
       }
 
       const woolWars = response?.player?.stats?.WoolGames?.wool_wars?.stats;
 
       if (woolWars == undefined) {
-        // eslint-disable-next-line no-throw-literal
         throw "This player has never played WoolWars.";
       }
 

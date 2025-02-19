@@ -50,7 +50,6 @@ class minecraftCommand {
           bot.once("message", listener);
 
           bot.chat(`/${this.officer ? "oc" : "gc"} ${message}`);
-          console.log(`/${this.officer ? "oc" : "gc"} ${message}`);
 
           setTimeout(() => {
             bot.removeListener("message", listener);

@@ -31,7 +31,7 @@ class QuickMathsCommand extends minecraftCommand {
       const answer = eval(operands.join(operator));
       const headStart = 250;
 
-      this.send(`${username} What is ${equation}? (You have ${headStart}ms headstart)`);
+      this.send(`${username} What is ${equation}?`);
       await delay(headStart);
 
       const startTime = Date.now();

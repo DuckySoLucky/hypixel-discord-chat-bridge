@@ -1,78 +1,67 @@
-const constants = require("../constants/bestiary.js");
+const { getBestiaryConstants } = require("../constants/bestiary.js");
 
-function formatBestiaryMobs(userProfile, mobs) {
-  const output = [];
-  for (const mob of mobs) {
-    const mobBracket = constants.BESTIARY_BRACKETS[mob.bracket];
-
-    const totalKills = mob.mobs.reduce((acc, cur) => {
-      return acc + (userProfile.bestiary.kills[cur] ?? 0);
-    }, 0);
-
-    const maxKills = mob.cap;
-    const nextTierKills = mobBracket.find((tier) => totalKills < tier && tier <= maxKills);
-    const tier = nextTierKills ? mobBracket.indexOf(nextTierKills) : mobBracket.indexOf(maxKills) + 1;
-
-    output.push({
-      name: mob.name,
-      kills: totalKills,
-      nextTierKills: nextTierKills ?? null,
-      maxKills: maxKills,
-      tier: tier,
-      maxTier: mobBracket.indexOf(maxKills) + 1
-    });
-  }
-
-  return output;
+let BESTIARY_CONSTANTS = {};
+async function updateConstants() {
+  BESTIARY_CONSTANTS = await getBestiaryConstants();
 }
 
-function getBestiary(userProfile) {
+updateConstants();
+setInterval(updateConstants, 1000 * 60 * 60 * 12);
+
+function formatMobs(bestiary, categoryMobs) {
+  const result = [];
+  for (const mob of categoryMobs) {
+    const mobBracket = BESTIARY_CONSTANTS.brackets[mob.bracket];
+
+    const totalKills = bestiary ? mob.mobs.reduce((a, b) => a + (bestiary?.kills?.[b] || 0), 0) : 0;
+    const nextTierKills = mobBracket.find((tier) => totalKills < tier && tier <= mob.cap);
+    const currentTier = nextTierKills ? mobBracket.indexOf(nextTierKills) : mobBracket.indexOf(mob.cap) + 1;
+    const nextTier = nextTierKills ? nextTierKills - totalKills : null;
+
+    result.push({
+      name: mob.name,
+      emoji: mob.emoji,
+      kills: totalKills,
+      nextTierKills: nextTierKills,
+      nextTier: nextTier,
+      maxKills: mob.cap,
+      tier: currentTier,
+      maxTier: mobBracket.findLastIndex((a) => a <= mob.cap) + 1
+    });
+  }
+  return result;
+}
+
+function getBestiary(profile) {
   try {
-    if (userProfile.bestiary?.kills === undefined) {
-      return null;
-    }
-
     const output = {};
-    let tiersUnlocked = 0,
-      totalTiers = 0;
-    for (const [category, data] of Object.entries(constants.BESTIARY)) {
-      const { name, mobs } = data;
-      output[category] = { name };
-
-      if (category === "fishing") {
-        for (const [key, value] of Object.entries(data)) {
-          if (key === "name") continue;
-
-          output[category][key] = {
-            name: value.name
-          };
-
-          output[category][key].mobs = formatBestiaryMobs(userProfile, value.mobs);
-
-          tiersUnlocked += output[category][key].mobs.reduce((acc, cur) => acc + cur.tier, 0);
-          totalTiers += output[category][key].mobs.reduce((acc, cur) => acc + cur.maxTier, 0);
-          output[category][key].mobsUnlocked = output[category][key].mobs.length;
-          output[category][key].mobsMaxed = output[category][key].mobs.filter((mob) => mob.tier === mob.maxTier).length;
-        }
-      } else {
-        output[category].mobs = formatBestiaryMobs(userProfile, mobs);
-        output[category].mobsUnlocked = output[category].mobs.length;
-        output[category].mobsMaxed = output[category].mobs.filter((mob) => mob.tier === mob.maxTier).length;
-
-        tiersUnlocked += output[category].mobs.reduce((acc, cur) => acc + cur.tier, 0);
-        totalTiers += output[category].mobs.reduce((acc, cur) => acc + cur.maxTier, 0);
-      }
+    const islands = JSON.parse(JSON.stringify(BESTIARY_CONSTANTS.islands));
+    for (const [id, island] of Object.entries(islands)) {
+      const mobs = formatMobs(profile.bestiary, island.mobs);
+      output[id] = {
+        ...island,
+        mobs,
+        familiesCompleted: mobs.filter((mob) => mob.tier === mob.maxTier).length,
+        familiesUnlocked: mobs.filter((mob) => mob.kills > 0).length,
+        totalFamilies: mobs.length,
+        familyTiers: mobs.reduce((a, b) => a + b.tier, 0),
+        maxFamilyTiers: mobs.reduce((a, b) => a + b.maxTier, 0)
+      };
     }
 
+    const bestiaryData = Object.values(output);
     return {
-      categories: output,
-      tiersUnlocked,
-      totalTiers,
-      milestone: tiersUnlocked / 10,
-      maxMilestone: totalTiers / 10
+      level: bestiaryData.reduce((a, b) => a + b.familyTiers, 0) / 10,
+      maxLevel: bestiaryData.reduce((a, b) => a + b.maxFamilyTiers, 0) / 10,
+      familiesUnlocked: bestiaryData.reduce((a, b) => a + b.familiesUnlocked, 0),
+      familiesCompleted: bestiaryData.reduce((a, b) => a + b.familiesCompleted, 0),
+      totalFamilies: bestiaryData.reduce((a, b) => a + b.totalFamilies, 0),
+      familyTiers: bestiaryData.reduce((a, b) => a + b.familyTiers, 0),
+      maxFamilyTiers: bestiaryData.reduce((a, b) => a + b.maxFamilyTiers, 0),
+      categories: output
     };
   } catch (error) {
-    console.error(error);
+    console.log(error);
     return null;
   }
 }

@@ -1,19 +1,19 @@
-const calcSkill = require("../constants/skills.js");
+const { getLevelByXp } = require("../constants/skills.js");
 
 module.exports = (profile) => {
   return {
-    level: calcSkill("gardenXp", profile?.garden_experience || 0),
+    level: getLevelByXp(profile?.garden_experience),
     cropMilesstone: {
-      wheat: calcSkill("wheat", profile?.resources_collected?.WHEAT || 0),
-      carrot: calcSkill("carrot", profile?.resources_collected?.CARROT_ITEM || 0),
-      sugarCane: calcSkill("sugarCane", profile?.resources_collected?.SUGAR_CANE || 0),
-      potato: calcSkill("potato", profile?.resources_collected?.POTATO_ITEM || 0),
-      netherWart: calcSkill("netherWart", profile?.resources_collected?.NETHER_STALK || 0),
-      pumpkin: calcSkill("pumpkin", profile?.resources_collected?.PUMPKIN || 0),
-      melon: calcSkill("melon", profile?.resources_collected?.MELON || 0),
-      mushroom: calcSkill("mushroom", profile?.resources_collected?.MUSHROOM_COLLECTION || 0),
-      cocoaBeans: calcSkill("cocoaBeans", profile?.resources_collected?.["INK_SACK:3"] || 0),
-      cactus: calcSkill("cactus", profile?.resources_collected?.CACTUS || 0)
+      wheat: getLevelByXp(profile?.resources_collected?.WHEAT, { type: "garden" }),
+      carrot: getLevelByXp(profile?.resources_collected?.CARROT_ITEM, { type: "CARROT_ITEM" }),
+      sugarCane: getLevelByXp(profile?.resources_collected?.SUGAR_CANE, { type: "SUGAR_CANE" }),
+      potato: getLevelByXp(profile?.resources_collected?.POTATO_ITEM, { type: "POTATO_ITEM" }),
+      netherWart: getLevelByXp(profile?.resources_collected?.NETHER_STALK, { type: "NETHER_STALK" }),
+      pumpkin: getLevelByXp(profile?.resources_collected?.PUMPKIN, { type: "PUMPKIN" }),
+      melon: getLevelByXp(profile?.resources_collected?.MELON, { type: "MELON" }),
+      mushroom: getLevelByXp(profile?.resources_collected?.MUSHROOM_COLLECTION, { type: "MUSHROOM_COLLECTION" }),
+      cocoaBeans: getLevelByXp(profile?.resources_collected?.["INK_SACK:3"], { type: "INK_SACK:3" }),
+      cactus: getLevelByXp(profile?.resources_collected?.CACTUS, { type: "CACTUS" })
     }
   };
 };

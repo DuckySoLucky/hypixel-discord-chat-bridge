@@ -1,8 +1,8 @@
-const { formatUsername, formatNumber } = require("../../contracts/helperFunctions.js");
-const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
+const { formatNumber } = require("../../contracts/helperFunctions.js");
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const getJacob = require("../../../API/stats/jacob.js");
+const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 
 class JacobCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -14,35 +14,36 @@ class JacobCommand extends minecraftCommand {
     this.options = [];
   }
 
-  async onCommand(username, message) {
+  async onCommand(player, message) {
     try {
       // CREDITS: by @Kathund (https://github.com/Kathund)
-      username = this.getArgs(message)[0] || username;
+      const args = this.getArgs(message);
+      player = args[0] || player;
 
-      const data = await getLatestProfile(username);
-      username = formatUsername(username, data.profileData?.game_mode);
-      const profile = getJacob(data.profile);
+      const { username, profile } = await getLatestProfile(player);
+
+      const jacobData = getJacob(profile);
 
       this.send(
-        `${username}'s Gold Medals: ${profile.medals.gold} | Silver: ${profile.medals.silver} | Bronze: ${profile.medals.bronze} | Double Drops ${profile.perks.doubleDrops} / 15 | Level Cap: ${profile.perks.levelCap} / 10`
+        `${username}'s Gold Medals: ${jacobData.medals.gold} | Silver: ${jacobData.medals.silver} | Bronze: ${jacobData.medals.bronze} | Double Drops ${jacobData.perks.doubleDrops} / 15 | Level Cap: ${jacobData.perks.levelCap} / 10`
       );
 
-      await delay(250);
+      await delay(1000);
       this.send(
-        `Best NW: ${formatNumber(profile.personalBests.netherWart, 0)} | Cocoa: ${formatNumber(
-          profile.personalBests.cocoBeans,
+        `Best NW: ${formatNumber(jacobData.personalBests.netherWart, 0)} | Cocoa: ${formatNumber(
+          jacobData.personalBests.cocoBeans,
           0
-        )} | Mushroom: ${formatNumber(profile.personalBests.mushroom, 0)} | Wheat: ${formatNumber(
-          profile.personalBests.wheat,
+        )} | Mushroom: ${formatNumber(jacobData.personalBests.mushroom, 0)} | Wheat: ${formatNumber(
+          jacobData.personalBests.wheat,
           0
-        )} | Potato: ${formatNumber(profile.personalBests.potato, 0)} | Pumpkin: ${formatNumber(
-          profile.personalBests.pumpkin,
+        )} | Potato: ${formatNumber(jacobData.personalBests.potato, 0)} | Pumpkin: ${formatNumber(
+          jacobData.personalBests.pumpkin,
           0
-        )} | Best Carrot: ${formatNumber(profile.personalBests.carrot, 0)} | Cactus: ${formatNumber(
-          profile.personalBests.cactus,
+        )} | Best Carrot: ${formatNumber(jacobData.personalBests.carrot, 0)} | Cactus: ${formatNumber(
+          jacobData.personalBests.cactus,
           0
-        )} | Melon: ${formatNumber(profile.personalBests.melon, 0)} | Cane: ${formatNumber(
-          profile.personalBests.sugarCane,
+        )} | Melon: ${formatNumber(jacobData.personalBests.melon, 0)} | Cane: ${formatNumber(
+          jacobData.personalBests.sugarCane,
           0
         )}`
       );

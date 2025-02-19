@@ -1,7 +1,7 @@
-const { formatUsername, formatNumber } = require("../../contracts/helperFunctions.js");
-const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
+const { formatNumber } = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const getCrimson = require("../../../API/stats/crimson.js");
+const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 
 class KuudraCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -19,26 +19,26 @@ class KuudraCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  async onCommand(player, message) {
     try {
       // CREDITS: by @Kathund (https://github.com/Kathund)
-      username = this.getArgs(message)[0] || username;
+      const args = this.getArgs(message);
+      player = args[0] || player;
 
-      const data = await getLatestProfile(username);
-      username = formatUsername(username, data.profileData?.game_mode);
-      const profile = getCrimson(data.profile);
+      const { username, profile, profileData } = await getLatestProfile(player);
 
-      if (profile == null) {
-        // eslint-disable-next-line no-throw-literal
-        throw `${username} has never gone to Crimson Isle on ${data.profileData.cute_name}.`;
+      const crimsonIsle = getCrimson(profile);
+
+      if (crimsonIsle == null) {
+        throw `${username} has never gone to Crimson Isle on ${profileData.cute_name}.`;
       }
 
       this.send(
-        `${username}'s Basic: ${formatNumber(profile.kuudra.basic)} | Hot: ${formatNumber(
-          profile.kuudra.hot
-        )} | Burning: ${formatNumber(profile.kuudra.burning)} | Fiery: ${formatNumber(
-          profile.kuudra.fiery
-        )} | Infernal: ${formatNumber(profile.kuudra.infernal)}`
+        `${username}'s Basic: ${formatNumber(crimsonIsle.kuudra.basic)} | Hot: ${formatNumber(
+          crimsonIsle.kuudra.hot
+        )} | Burning: ${formatNumber(crimsonIsle.kuudra.burning)} | Fiery: ${formatNumber(
+          crimsonIsle.kuudra.fiery
+        )} | Infernal: ${formatNumber(crimsonIsle.kuudra.infernal)}`
       );
     } catch (error) {
       console.error(error);

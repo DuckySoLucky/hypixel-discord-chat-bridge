@@ -263,7 +263,6 @@ function getRandomWord(length) {
     const filteredWords = words.filter((word) => word.length == length);
 
     if (filteredWords.length === 0) {
-      // eslint-disable-next-line no-throw-literal
       throw `No words found with the ${length} characters.`;
     }
 

@@ -2,13 +2,7 @@ const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const getSkills = require("../../../API/stats/skills.js");
 const { formatUsername } = require("../../contracts/helperFunctions.js");
-const {
-  getSkillLevelCaps,
-  getSkillAverage,
-  getSocialSkillExperience,
-  getLevelByXp
-} = require("../../../API/constants/skills.js");
-const { profile } = require("winston");
+const { getSkillAverage } = require("../../../API/constants/skills.js");
 const helperFunctions = require("../../contracts/helperFunctions.js");
 const { capitalize } = require("lodash");
 
@@ -28,20 +22,19 @@ class SkillsCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  async onCommand(player, message) {
     try {
-      username = this.getArgs(message)[0] || username;
+      const args = this.getArgs(message);
+      player = args[0] || player;
 
-      const data = await getLatestProfile(username);
+      const { username, profile, profileData } = await getLatestProfile(player, { museum: true });
 
-      username = formatUsername(username, data.profileData.cute_name);
-
-      const skillAverage = getSkillAverage(data.profile);
-      const skills = getSkills(data.profile, data.profileData);
+      const skillAverage = getSkillAverage(profile);
+      const skills = getSkills(profile, profileData);
 
       const formattedSkills = [];
       for (const [skill, data] of Object.entries(skills)) {
-        formattedSkills.push(`${capitalize(skill)}: ${helperFunctions.toFixed(data.levelWithProgress, 2)}`);
+        formattedSkills.push(`${capitalize(skill)}: ${helperFunctions.formatNumber(data.levelWithProgress, 2)}`);
       }
 
       this.send(`${username}'s Skill Average: ${skillAverage ?? 0} (${formattedSkills.join(", ")})`);

@@ -11,7 +11,6 @@ async function uploadImage(image) {
   });
 
   if (response.success === false) {
-    // eslint-disable-next-line no-throw-literal
     throw "An error occured while uploading the image. Please try again later.";
   }
 

@@ -1,4 +1,4 @@
-const { capitalize, formatNumber } = require("../../contracts/helperFunctions.js");
+const { capitalize, formatNumber, formatError } = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
 
@@ -53,13 +53,7 @@ class BedwarsCommand extends minecraftCommand {
         this.send("Invalid mode. Valid modes: overall, solo, doubles, threes, fours, 4v4");
       }
     } catch (error) {
-      this.send(
-        `${error
-          .toString()
-          .replace("[hypixel-api-reborn] ", "")
-          .replace("For help join our Discord Server https://discord.gg/NSEBNMM", "")
-          .replace("Error:", "[ERROR]")}`
-      );
+      this.send(formatError(error));
     }
   }
 }

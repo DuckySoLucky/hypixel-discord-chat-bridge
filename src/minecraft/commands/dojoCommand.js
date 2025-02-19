@@ -29,7 +29,6 @@ class DojoCommand extends minecraftCommand {
       const profile = getCrimson(data.profile);
 
       if (profile == null) {
-        // eslint-disable-next-line no-throw-literal
         throw `${username} has never gone to Crimson Isle on ${data.profileData.cute_name}.`;
       }
 

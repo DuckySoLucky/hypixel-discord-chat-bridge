@@ -20,7 +20,6 @@ class warpoutCommand extends minecraftCommand {
 
       const user = this.getArgs(message)[0];
       if (user === undefined) {
-        // eslint-disable-next-line no-throw-literal
         throw "Please provide a username!";
       }
       bot.chat("/lobby megawalls");

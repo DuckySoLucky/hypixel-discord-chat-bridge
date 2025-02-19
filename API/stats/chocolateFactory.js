@@ -2,6 +2,10 @@
 
 module.exports = (profile) => {
   try {
+    if (!profile.events?.easter) {
+      return null;
+    }
+
     return {
       chocolate: {
         current: profile.events?.easter?.chocolate || 0,

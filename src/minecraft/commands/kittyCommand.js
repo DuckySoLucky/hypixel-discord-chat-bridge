@@ -17,7 +17,6 @@ class KittyCommand extends minecraftCommand {
       const { data } = await axios.get(`https://api.thecatapi.com/v1/images/search`);
 
       if (data === undefined) {
-        // eslint-disable-next-line no-throw-literal
         throw "An error occured while fetching the image. Please try again later.";
       }
 

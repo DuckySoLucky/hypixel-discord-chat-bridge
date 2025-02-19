@@ -1,5 +1,6 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
+const { formatError } = require("../../contracts/helperFunctions.js");
 
 class UHCStatsCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -27,13 +28,7 @@ class UHCStatsCommand extends minecraftCommand {
 
       this.send(`[${starLevel}✫] ${player.nickname} | KDR: ${KDRatio} | W: ${wins} | Heads: ${headsEaten}`);
     } catch (error) {
-      this.send(
-        `${error
-          .toString()
-          .replace("[hypixel-api-reborn] ", "")
-          .replace("For help join our Discord Server https://discord.gg/NSEBNMM", "")
-          .replace("Error:", "[ERROR]")}`
-      );
+      this.send(formatError(error));
     }
   }
 }

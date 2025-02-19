@@ -1,6 +1,7 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
 const { getUUID } = require("../../contracts/API/mowojangAPI.js");
+const { formatError } = require("../../contracts/helperFunctions.js");
 
 class GuildExperienceCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -27,19 +28,12 @@ class GuildExperienceCommand extends minecraftCommand {
       const player = guild.members.find((member) => member.uuid == uuid);
 
       if (player === undefined) {
-        // eslint-disable-next-line no-throw-literal
         throw "Player is not in the Guild.";
       }
 
       this.send(`${username}'s Weekly Guild Experience: ${player.weeklyExperience.toLocaleString()}.`);
     } catch (error) {
-      this.send(
-        `${error
-          .toString()
-          .replace("[hypixel-api-reborn] ", "")
-          .replace("For help join our Discord Server https://discord.gg/NSEBNMM", "")
-          .replace("Error:", "[ERROR]")}`
-      );
+      this.send(formatError(error));
     }
   }
 }

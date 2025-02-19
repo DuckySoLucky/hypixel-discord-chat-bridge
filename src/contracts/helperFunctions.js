@@ -85,6 +85,10 @@ function addCommas(num) {
 }
 
 function toFixed(num, fixed) {
+  if (isNaN(num) || isNaN(Number(fixed))) {
+    return 0;
+  }
+
   const response = new RegExp("^-?\\d+(?:.\\d{0," + (fixed || -1) + "})?");
   return num.toString().match(response)[0];
 }
@@ -288,6 +292,14 @@ function splitMessage(message, amount) {
   return messages;
 }
 
+function formatError(error) {
+  return error
+    .toString()
+    .replace("[hypixel-api-reborn] ", "")
+    .replace("For help join our Discord Server https://discord.gg/NSEBNMM", "")
+    .replace("Error:", "[ERROR]");
+}
+
 module.exports = {
   replaceAllRanks,
   addNotation,
@@ -305,5 +317,6 @@ module.exports = {
   formatNumber,
   replaceVariables,
   getTimestamp,
-  splitMessage
+  splitMessage,
+  formatError
 };

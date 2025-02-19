@@ -1,4 +1,4 @@
-const { formatUsername, formatNumber } = require("../../contracts/helperFunctions.js");
+const { formatNumber } = require("../../contracts/helperFunctions.js");
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const getCrimson = require("../../../API/stats/crimson.js");
@@ -19,24 +19,23 @@ class CrimsonIsleCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  async onCommand(player, message) {
     try {
       // CREDITS: by @Kathund (https://github.com/Kathund)
-      username = this.getArgs(message)[0] || username;
+      const args = this.getArgs(message);
+      player = args[0] || player;
 
-      const data = await getLatestProfile(username);
-      username = formatUsername(username, data.profileData?.game_mode);
-      const profile = getCrimson(data.profile);
+      const { username, profile, profileData } = await getLatestProfile(player);
 
-      if (profile == null) {
-        // eslint-disable-next-line no-throw-literal
-        throw `${username} has never gone to Crimson Isle on ${data.profileData.cute_name}.`;
+      const crimsonData = getCrimson(profile);
+      if (crimsonData == null) {
+        throw `${username} has never gone to Crimson Isle on ${profileData.profileData.cute_name}.`;
       }
 
       this.send(
-        `${username}'s faction: ${profile.faction} | Barb Rep: ${formatNumber(
-          profile.reputation.barbarian
-        )} | Mage Rep: ${formatNumber(profile.reputation.mage)}`
+        `${username}'s faction: ${crimsonData.faction} | Barb Rep: ${formatNumber(
+          crimsonData.reputation.barbarian
+        )} | Mage Rep: ${formatNumber(crimsonData.reputation.mage)}`
       );
     } catch (error) {
       console.error(error);

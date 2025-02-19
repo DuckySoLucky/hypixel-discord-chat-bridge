@@ -1,7 +1,8 @@
-const { formatNumber, formatUsername } = require("../../contracts/helperFunctions.js");
+const { formatNumber } = require("../../contracts/helperFunctions.js");
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const getDungeons = require("../../../API/stats/dungeons.js");
+const { toFixed } = require("../../../API/constants/functions.js");
 
 class CatacombsCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -19,43 +20,26 @@ class CatacombsCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  async onCommand(player, message) {
     try {
-      username = this.getArgs(message)[0] || username;
+      const args = this.getArgs(message);
+      player = args[0] || player;
 
-      const data = await getLatestProfile(username);
+      const { username, profile, profileData } = await getLatestProfile(player);
 
-      username = formatUsername(username, data.profileData?.game_mode);
-
-      const dungeons = getDungeons(data.profile);
-
+      const dungeons = getDungeons(profile);
       if (dungeons == null) {
-        // eslint-disable-next-line no-throw-literal
-        throw `${username} has never played dungeons on ${data.profileData.cute_name}.`;
+        throw `${username} has never played dungeons on ${profileData.cute_name}.`;
       }
 
-      const completions = Object.values(dungeons.catacombs)
-        .flatMap((floors) => Object.values(floors || {}))
-        .reduce((total, floor) => total + (floor.completions || 0), 0);
-
-      const level = (dungeons.catacombs.skill.levelWithProgress || 0).toFixed(1);
-      const classAvrg = (
-        Object.values(dungeons.classes).reduce((total, { levelWithProgress = 0 }) => total + levelWithProgress, 0) /
-        Object.keys(dungeons.classes).length
-      ).toFixed(1);
-
-      const SRValue = dungeons.secrets_found / completions;
-      const SR = isNaN(SRValue) || SRValue === Infinity ? 0 : SRValue.toFixed(2);
+      const classes = Object.entries(dungeons.classes)
+        .map(([key, value]) => `${toFixed(value.levelWithProgress, 2)}${key.at(0).toUpperCase()}`)
+        .join(", ");
 
       this.send(
-        `${username}'s Catacombs: ${level} | Selected Class: ${
-          dungeons.selected_class
-        } | Class Average: ${classAvrg} (${dungeons.classes.healer.level}H, ${dungeons.classes.mage.level}M, ${
-          dungeons.classes.berserk.level
-        }B, ${dungeons.classes.archer.level}A, ${dungeons.classes.tank.level}T) | Secrets: ${formatNumber(
-          dungeons.secrets_found ?? 0,
-          1
-        )} (${SR} S/R)`
+        `${username}'s Catacombs: ${toFixed(dungeons.dungeons.levelWithProgress, 2)} | Selected Class: ${
+          dungeons.selectedClass
+        } | Class Average: ${toFixed(dungeons.classAverage, 2)} | Secrets Found: ${formatNumber(dungeons.secretsFound)} | Classes: ${classes}`
       );
     } catch (error) {
       console.error(error);

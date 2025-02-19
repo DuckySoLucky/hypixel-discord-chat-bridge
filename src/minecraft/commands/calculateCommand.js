@@ -20,13 +20,21 @@ class CalculateCommand extends minecraftCommand {
   onCommand(username, message) {
     try {
       const calculation = message.replace(/[^-()\d/*+.]/g, "");
+      if (calculation.trim() === "9+10") {
+        return this.send("9 + 10 = 21");
+      }
+
       const answer = eval(calculation);
 
       if (answer === Infinity) {
         return this.send("Something went wrong.. Somehow you broke it (the answer was infinity)");
       }
 
-      this.send(`${calculation} = ${formatNumber(answer)} (${answer.toLocaleString()})`);
+      return this.send(
+        answer > 1000000
+          ? `${calculation} = ${formatNumber(answer)} (${answer.toLocaleString()})`
+          : `${calculation} = ${formatNumber(answer)}`
+      );
     } catch (error) {
       this.send(`[ERROR] ${error}`);
     }

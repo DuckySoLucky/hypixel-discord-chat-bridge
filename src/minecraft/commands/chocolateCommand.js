@@ -1,7 +1,8 @@
-const { formatUsername, addNotation } = require("../../contracts/helperFunctions.js");
+const { formatNumber } = require("../../contracts/helperFunctions.js");
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const getChocolateFactory = require("../../../API/stats/chocolateFactory.js");
+const { titleCase } = require("../../../API/constants/functions.js");
 
 class ChocolateCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -19,30 +20,27 @@ class ChocolateCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  async onCommand(player, message) {
     try {
-      username = this.getArgs(message)[0] || username;
+      const args = this.getArgs(message);
+      player = args[0] || player;
 
-      const data = await getLatestProfile(username);
+      const { username, profile, profileData } = await getLatestProfile(player);
 
-      username = formatUsername(username, data.profileData?.game_mode);
-
-      const chocolateFactory = getChocolateFactory(data.profile);
+      const chocolateFactory = getChocolateFactory(profile);
 
       if (chocolateFactory == null) {
-        // eslint-disable-next-line no-throw-literal
-        throw `${username} has never interacted with the Chocolate Factory on ${data.profileData.cute_name}.`;
+        throw `${username} has never interacted with the Chocolate Factory on ${profileData.cute_name}.`;
       }
 
+      const employes = Object.entries(chocolateFactory.employees)
+        .map(([employee, amount]) => `${titleCase(employee)}: ${amount}`)
+        .join(", ");
+
       this.send(
-        `${username}'s Chocolate Factory: ${chocolateFactory.level} | Chocolate: ${addNotation(
-          "oneLetters",
+        `${username}'s Chocolate Prestige: ${chocolateFactory.level} | Chocolate: ${formatNumber(
           chocolateFactory.chocolate.current
-        )} | Total Chocolate: ${addNotation("oneLetters", chocolateFactory.chocolate.total)} | Employees: Bro: ${
-          chocolateFactory.employees.bro
-        } | Cousin: ${chocolateFactory.employees.cousin} | Sis: ${chocolateFactory.employees.sis} | Father: ${
-          chocolateFactory.employees.father
-        } | Grandma: ${chocolateFactory.employees.grandma}`
+        )} | Total Chocolate: ${formatNumber(chocolateFactory.chocolate.total)} | Employees: ${employes}`
       );
     } catch (error) {
       this.send(`[ERROR] ${error}`);

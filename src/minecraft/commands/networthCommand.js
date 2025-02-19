@@ -1,4 +1,4 @@
-const { formatNumber, formatUsername } = require("../../contracts/helperFunctions.js");
+const { formatNumber } = require("../../contracts/helperFunctions.js");
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { getNetworth } = require("skyhelper-networth");
@@ -19,16 +19,15 @@ class NetWorthCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  async onCommand(player, message) {
     try {
-      username = this.getArgs(message)[0] || username;
+      const args = this.getArgs(message);
+      player = args[0] || player;
 
-      const data = await getLatestProfile(username, { museum: true });
+      const { username, profile, museum, profileData } = await getLatestProfile(player, { museum: true });
 
-      username = formatUsername(username, data.profileData?.game_mode);
-
-      const profile = await getNetworth(data.profile, data.profileData?.banking?.balance || 0, {
-        museumData: data.museum,
+      const networthData = await getNetworth(profile, profileData?.banking?.balance || 0, {
+        museumData: museum,
         onlyNetworth: true,
         v2Endpoint: true,
         cache: true
@@ -38,14 +37,14 @@ class NetWorthCommand extends minecraftCommand {
         return this.send(`${username} has an Inventory API off!`);
       }
 
-      const networth = formatNumber(profile.networth);
-      const unsoulboundNetworth = formatNumber(profile.unsoulboundNetworth);
-      const purse = formatNumber(profile.purse);
-      const bank = profile.bank ? formatNumber(profile.bank) : "N/A";
-      const museum = data.museum ? formatNumber(profile.types.museum?.total ?? 0) : "N/A";
+      const networth = formatNumber(networthData.networth);
+      const unsoulboundNetworth = formatNumber(networthData.unsoulboundNetworth);
+      const purse = formatNumber(networthData.purse);
+      const bank = networthData.bank ? formatNumber(networthData.bank) : "N/A";
+      const museumData = museum ? formatNumber(networthData.types.museum?.total ?? 0) : "N/A";
 
       this.send(
-        `${username}'s Networth is ${networth} | Unsoulbound Networth: ${unsoulboundNetworth} | Purse: ${purse} | Bank: ${bank} | Museum: ${museum}`
+        `${username}'s Networth is ${networth} | Unsoulbound Networth: ${unsoulboundNetworth} | Purse: ${purse} | Bank: ${bank} | Museum: ${museumData}`
       );
     } catch (error) {
       console.error(error);

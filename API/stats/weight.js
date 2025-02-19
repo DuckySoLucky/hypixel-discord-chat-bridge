@@ -4,8 +4,8 @@ const getSkills = require("../stats/skills.js");
 const getDungeons = require("../stats/dungeons.js");
 const getSlayer = require("../stats/slayer.js");
 
-module.exports = (profile) => {
-  const { skills_levels, skills_experience } = formatLilySkills(getSkills(profile));
+module.exports = (profile, profileData) => {
+  const { skills_levels, skills_experience } = formatLilySkills(getSkills(profile, profileData));
   const { catacombs_experience, catacombs, master_mode } = formatLilyDungeons(getDungeons(profile) ?? {});
   const { slayer_experience } = formatLilySlayer(getSlayer(profile));
 

@@ -1,6 +1,5 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
-const { formatUsername } = require("../../contracts/helperFunctions.js");
 
 class FairySoulsCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -18,17 +17,15 @@ class FairySoulsCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  async onCommand(player, message) {
     try {
-      username = this.getArgs(message)[0] || username;
+      const args = this.getArgs(message);
+      player = args[0] || player;
 
-      const data = await getLatestProfile(username);
-      username = formatUsername(username, data.profileData.game_mode);
+      const { username, profile, profileData } = await getLatestProfile(player);
 
-      const total = data.profileData.game_mode === "island" ? 5 : 247;
-
-      const { fairy_soul } = data.profile;
-
+      const total = profileData.game_mode === "island" ? 5 : 247;
+      const fairy_soul = profile.fairy_soul;
       this.send(
         `${username}'s Fairy Souls: ${fairy_soul.total_collected}/${total} | Progress: ${(
           (fairy_soul.total_collected / total) *

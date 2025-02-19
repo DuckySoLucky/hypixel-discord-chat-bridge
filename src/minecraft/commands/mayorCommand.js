@@ -18,7 +18,6 @@ class MayorCommand extends minecraftCommand {
       const { data } = await axios.get(`https://api.hypixel.net/v2/resources/skyblock/election`);
 
       if (data === undefined || data.success === false) {
-        // eslint-disable-next-line no-throw-literal
         throw "Request to Hypixel API failed. Please try again!";
       }
 

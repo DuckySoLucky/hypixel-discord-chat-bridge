@@ -1,10 +1,11 @@
 /* eslint-disable no-throw-literal */
-const { getUUID } = require("../../src/contracts/API/mowojangAPI.js");
+const { getUUID, getUsername } = require("../../src/contracts/API/mowojangAPI.js");
 const { getMuseum } = require("./getMuseum.js");
 const { getGarden } = require("./getGarden.js");
 const { isUuid } = require("../utils/uuid.js");
 const config = require("../../config.json");
 const axios = require("axios");
+const { formatUsername } = require("../../src/contracts/helperFunctions.js");
 
 const cache = new Map();
 
@@ -23,7 +24,8 @@ async function getLatestProfile(uuid, options = { museum: false, garden: false }
     }
   }
 
-  const [{ data: profileRes }] = await Promise.all([
+  const [username, { data: profileRes }] = await Promise.all([
+    getUsername(uuid),
     axios.get(`https://api.hypixel.net/v2/skyblock/profiles?key=${config.minecraft.API.hypixelAPIkey}&uuid=${uuid}`)
   ]).catch((error) => {
     throw error?.response?.data?.cause ?? "Request to Hypixel API failed. Please try again!";
@@ -48,6 +50,8 @@ async function getLatestProfile(uuid, options = { museum: false, garden: false }
   }
 
   const output = {
+    username: formatUsername(username, profileData.game_mode),
+    rawUsername: username,
     last_save: Date.now(),
     profiles: profileRes.profiles,
     profile: profile,

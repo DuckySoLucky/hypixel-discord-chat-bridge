@@ -1,5 +1,5 @@
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
-const { formatUsername } = require("../../contracts/helperFunctions.js");
+const { formatNumber } = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const getTalismans = require("../../../API/stats/talismans.js");
 
@@ -19,37 +19,32 @@ class AccessoriesCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  async onCommand(player, message) {
     try {
-      username = this.getArgs(message)[0] || username;
+      const args = this.getArgs(message);
+      player = args[0] ?? player;
 
-      const data = await getLatestProfile(username);
+      const { profile, username } = await getLatestProfile(player);
 
       if (
-        data.profile.inventory?.bag_contents?.talisman_bag.data == undefined &&
-        data.profile.inventory?.inv_contents?.data == null
+        profile.inventory?.bag_contents?.talisman_bag.data == undefined &&
+        profile.inventory?.inv_contents?.data == null
       ) {
-        // eslint-disable-next-line no-throw-literal
-        throw `${username} has Inventory API off.`;
+        throw `${username} has Talisman API off.`;
       }
 
-      username = formatUsername(username, data.profileData?.game_mode);
+      const talismans = await getTalismans(profile);
+      if (talismans === undefined) {
+        throw `Couldn't parse ${username}'s talismans.`;
+      }
 
-      const talismans = await getTalismans(data.profile);
-
-      const rarities = Object.keys(talismans)
-        .map((key) => {
-          if (["recombed", "enriched", "total", "magicPower", "power", "names"].includes(key)) return;
-
-          return [`${talismans[key]}${key[0].toUpperCase()}`];
-        })
-        .filter((x) => x)
+      const formattedRarities = Object.entries(talismans.rarities)
+        .filter(([, amount]) => amount > 0)
+        .map(([rarity, amount]) => `${amount}${rarity.at(0).toUpperCase()}`)
         .join(", ");
 
       this.send(
-        `${username}'s Accessories: ${talismans?.total ?? 0} (${rarities}), Recombed: ${
-          talismans?.recombed ?? 0
-        }, Enriched: ${talismans?.enriched ?? 0} | Reforge: ${talismans.power} | Magic Power: ${talismans.magicPower}`
+        `${username}'s Accessories: ${talismans.amount} (${formatNumber(talismans.magicalPower)} MP), Recombed: ${talismans.recombed}, Enriched: ${talismans.enriched} (${formattedRarities})`
       );
     } catch (error) {
       this.send(`[ERROR] ${error}`);

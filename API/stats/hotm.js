@@ -1,7 +1,6 @@
 // CREDITS: by @Kathund (https://github.com/Kathund)
-const { titleCase } = require("../constants/functions.js");
 const miningConst = require("../constants/mining.js");
-const calcSkill = require("../constants/skills.js");
+const { getLevelByXp } = require("../constants/skills.js");
 const moment = require("moment");
 
 module.exports = (profile) => {
@@ -61,7 +60,7 @@ module.exports = (profile) => {
           total: profile?.mining_core?.powder_spent_glacite || 0 + profile?.mining_core?.powder_glacite || 0
         }
       },
-      level: calcSkill("hotm", profile?.mining_core?.experience || 0),
+      level: getLevelByXp(profile?.mining_core?.experience, { type: "hotm" }),
       ability: miningConst.hotm.perks[profile?.mining_core?.selected_pickaxe_ability]?.name || "None",
       forge: forgeItems
     };

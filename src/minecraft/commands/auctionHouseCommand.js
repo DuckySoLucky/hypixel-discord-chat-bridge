@@ -23,13 +23,12 @@ class AuctionHouseCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  async onCommand(player, message) {
     try {
-      username = this.getArgs(message)[0] || username;
+      const args = this.getArgs(message);
+      player = args[0] ?? player;
 
-      let string = "";
-
-      const uuid = await getUUID(username);
+      const uuid = await getUUID(player);
 
       const { hypixelAPIkey } = config.minecraft.API;
       const [auctionResponse, playerResponse] = await Promise.all([
@@ -38,7 +37,7 @@ class AuctionHouseCommand extends minecraftCommand {
       ]);
 
       const auctions = auctionResponse.data?.auctions || [];
-      const player = playerResponse.data?.player || {};
+      const playerData = playerResponse.data?.player || {};
 
       if (auctions.length === 0) {
         return this.send("This player has no active auctions.");
@@ -46,10 +45,11 @@ class AuctionHouseCommand extends minecraftCommand {
 
       const activeAuctions = auctions.filter((auction) => auction.end >= Date.now());
 
+      let string = "";
       for (const auction of activeAuctions) {
         const lore = auction.item_lore.split("\n");
 
-        lore.push("§8§m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯", `§7Seller: ${getRank(player)} ${player.displayname}`);
+        lore.push("§8§m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯", `§7Seller: ${getRank(playerData)} ${player.displayname}`);
 
         if (auction.bin === undefined) {
           if (auction.bids.length === 0) {
@@ -63,7 +63,6 @@ class AuctionHouseCommand extends minecraftCommand {
 
             const bidder = bidderResponse.data?.player || {};
             if (bidder === undefined) {
-              // eslint-disable-next-line no-throw-literal
               throw `Failed to get bidder for auction ${auction.uuid}`;
             }
 
@@ -91,7 +90,7 @@ class AuctionHouseCommand extends minecraftCommand {
       }
 
       imgurUrl = string;
-      this.send(`${username}'s Active Auctions: Check Discord Bridge for image.`);
+      this.send(`${player}'s Active Auctions: Check Discord Bridge for image.`);
     } catch (error) {
       console.error(error);
       this.send(`[ERROR] ${error}`);

@@ -1,5 +1,4 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const { formatUsername } = require("../../contracts/helperFunctions.js");
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 
 class CatacombsCommand extends minecraftCommand {
@@ -18,15 +17,14 @@ class CatacombsCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  async onCommand(player, message) {
     try {
-      username = this.getArgs(message)[0] || username;
+      const args = this.getArgs(message);
+      player = args[0] || player;
 
-      const data = await getLatestProfile(username);
+      const { username, profile } = await getLatestProfile(player);
 
-      username = formatUsername(username, data.profileData?.game_mode);
-
-      const experience = data.profile.leveling?.experience ?? 0;
+      const experience = profile.leveling?.experience ?? 0;
       this.send(`${username}'s Skyblock Level: ${experience ? experience / 100 : 0}`);
     } catch (error) {
       console.error(error);

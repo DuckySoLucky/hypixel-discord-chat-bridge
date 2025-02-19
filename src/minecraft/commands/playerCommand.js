@@ -1,5 +1,5 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const { formatNumber } = require("../../contracts/helperFunctions.js");
+const { formatNumber, formatError } = require("../../contracts/helperFunctions.js");
 const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
 
 class PlayerCommand extends minecraftCommand {
@@ -28,11 +28,11 @@ class PlayerCommand extends minecraftCommand {
       const guildName = guild ? guild.name : "None";
 
       this.send(
-        `${rank !== "Default" ? `[${rank}] ` : ""}${nickname}'s level: ${level} | Karma: ${formatNumber(karma, 0)} Achievement Points: ${formatNumber(achievementPoints, 0)} Guild: ${guildName} `
+        `${rank !== "Default" ? `[${rank}] ` : ""}${nickname}'s level: ${level} | Karma: ${formatNumber(karma, 0)} | Achievement Points: ${formatNumber(achievementPoints, 0)} Guild: ${guildName}`
       );
     } catch (error) {
       console.error(error);
-      this.send(`[ERROR] ${error}`);
+      this.send(formatError(error));
     }
   }
 }
