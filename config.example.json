@@ -20,8 +20,8 @@
       "guildExp": 50000
     },
     "API": {
-      "hypixelAPIkey": "HYPIXEL_API_KEY",
-      "imgurAPIkey": "IMGUR_API_KEY"
+      "hypixelAPIkey": "",
+      "imgurAPIkey": ""
     },
     "guildRequirements": {
       "enabled": false,
@@ -70,21 +70,21 @@
   },
   "discord": {
     "bot": {
-      "token": "DISCORD_BOT_TOKEN",
-      "serverID": "DISCORD_SERVER_ID"
+      "token": "",
+      "serverID": ""
     },
     "channels": {
-      "guildChatChannel": "GUILD_CHAT_CHANNEL_ID",
-      "officerChannel": "OFFICER_CHANNEL_ID",
-      "loggingChannel": "LOGGING_CHANNEL_ID",
+      "guildChatChannel": "",
+      "officerChannel": "",
+      "loggingChannel": "",
       "debugMode": true,
-      "debugChannel": "DEBUG_CHANNEL_ID",
-      "allowedBots": ["BOT_USER_ID"]
+      "debugChannel": "",
+      "allowedBots": [""]
     },
     "commands": {
       "checkPerms": true,
-      "commandRole": "COMMAND_ROLE_ID",
-      "blacklistRoles": ["BLACKLIST_ROLE_ID"],
+      "commandRole": "",
+      "blacklistRole": "",
       "users": ["486155512568741900"]
     },
     "other": {
@@ -99,14 +99,14 @@
   "web": {
     "enabled": false,
     "port": 1439,
-    "token": "WEBSOCKET_TOKEN"
+    "token": ""
   },
   "verification": {
     "enabled": false,
-    "verifiedRole": "VERIFIED_ROLE_ID",
-    "unverifiedRole": "UNVERIFIED_ROLE_ID",
+    "verifiedRole": "",
+    "unverifiedRole": "",
     "removeVerificationRole": true,
-    "guildMemberRole": "GUILD_MEMBER_ROLE_ID",
+    "guildMemberRole": "",
     "autoUpdater": true,
     "autoUpdaterInterval": 24,
     "name": "{username}",
@@ -114,7 +114,7 @@
       {
         "type": "bedwarsStar",
         "requirement": 200,
-        "roleId": "DISCORD_ROLE_ID"
+        "roleId": ""
       }
     ],
     "ranks": [
