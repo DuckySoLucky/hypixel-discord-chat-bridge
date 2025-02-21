@@ -25,24 +25,29 @@ class EssenceCommand extends minecraftCommand {
       const args = this.getArgs(message);
       player = args[0] || player;
 
-      const { username, profile, profileData } = await getLatestProfile(player);
+      const { username, profile } = await getLatestProfile(player);
 
-      const dungeons = getDungeons(profile);
-      if (dungeons == null) {
-        throw `${username} has never played dungeons on ${profileData.cute_name}.`;
-      }
-
+      const essence = {
+        diamond: profile.currencies?.essence?.DIAMOND?.current || 0,
+        dragon: profile.currencies?.essence?.DRAGON?.current || 0,
+        spider: profile.currencies?.essence?.SPIDER?.current || 0,
+        wither: profile.currencies?.essence?.WITHER?.current || 0,
+        undead: profile.currencies?.essence?.UNDEAD?.current || 0,
+        gold: profile.currencies?.essence?.GOLD?.current || 0,
+        ice: profile.currencies?.essence?.ICE?.current || 0,
+        crimson: profile.currencies?.essence?.CRIMSON?.current || 0
+      };
       this.send(
-        `${username}'s Diamond Essence: ${formatNumber(dungeons.essence.diamond, 0)} | Dragon: ${formatNumber(
-          dungeons.essence.dragon,
+        `${username}'s Diamond Essence: ${formatNumber(essence.diamond, 0)} | Dragon: ${formatNumber(
+          essence.dragon,
           0
-        )} Spider: ${formatNumber(dungeons.essence.spider, 0)} | Wither: ${formatNumber(
-          dungeons.essence.wither,
+        )} Spider: ${formatNumber(essence.spider, 0)} | Wither: ${formatNumber(essence.wither, 0)} | Undead: ${formatNumber(
+          essence.undead,
           0
-        )} | Undead: ${formatNumber(dungeons.essence.undead, 0)} | Gold: ${formatNumber(
-          dungeons.essence.gold,
+        )} | Gold: ${formatNumber(essence.gold, 0)} | Ice: ${formatNumber(essence.ice, 0)} | Crimson: ${formatNumber(
+          essence.crimson,
           0
-        )} | Ice: ${formatNumber(dungeons.essence.ice, 0)} | Crimson: ${formatNumber(dungeons.essence.crimson, 0)}`
+        )}`
       );
     } catch (error) {
       console.error(error);
