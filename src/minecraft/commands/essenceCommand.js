@@ -1,7 +1,6 @@
 const { formatNumber } = require("../../contracts/helperFunctions.js");
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const getDungeons = require("../../../API/stats/dungeons.js");
 
 class EssenceCommand extends minecraftCommand {
   constructor(minecraft) {
