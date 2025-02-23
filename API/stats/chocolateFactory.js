@@ -17,7 +17,9 @@ module.exports = (profile) => {
         cousin: profile.events?.easter?.employees.rabbit_cousin || 0,
         sis: profile.events?.easter?.employees.rabbit_sis || 0,
         father: profile.events?.easter?.employees.rabbit_father || 0,
-        grandma: profile.events?.easter?.employees.rabbit_grandma || 0
+        grandma: profile.events?.easter?.employees.rabbit_grandma || 0,
+        uncle: profile.events?.easter?.employees.rabbit_uncle || 0,
+        dog: profile.events?.easter?.employees.rabbit_dog || 0
       },
       level: profile.events?.easter?.chocolate_level || 0
     };

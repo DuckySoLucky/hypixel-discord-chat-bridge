@@ -7,7 +7,7 @@ const { titleCase } = require("../../../API/constants/functions.js");
 class ChocolateCommand extends minecraftCommand {
   constructor(minecraft) {
     super(minecraft);
-
+2
     this.name = "chocolatefactory";
     this.aliases = ["cf", "factory", "chocolate"];
     this.description = "Skyblock Chocolate Factory Stats of specified user.";

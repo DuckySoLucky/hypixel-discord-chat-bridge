@@ -3,10 +3,10 @@ const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const getTalismans = require("../../../API/stats/talismans.js");
 const getDungeons = require("../../../API/stats/dungeons.js");
-const getSkills = require("../../../API/stats/skills.js");
 const getSlayer = require("../../../API/stats/slayer.js");
 const getHotm = require("../../../API/stats/hotm.js");
 const { getNetworth } = require("skyhelper-networth");
+const { getSkillAverage } = require("../../../API/constants/skills.js");
 
 class SkyblockCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -31,8 +31,8 @@ class SkyblockCommand extends minecraftCommand {
       const data = await getLatestProfile(username);
       username = formatUsername(username, data.profileData.game_mode);
 
-      const [skills, slayer, networth, dungeons, talismans, hotm] = await Promise.all([
-        getSkills(data.profile, data.profileData),
+      const [skillAverage, slayer, networth, dungeons, talismans, hotm] = await Promise.all([
+        getSkillAverage(data.profile, null),
         getSlayer(data.profile),
         getNetworth(data.profile, data.profileData?.banking?.balance || 0, {
           onlyNetworth: true,
@@ -44,33 +44,20 @@ class SkyblockCommand extends minecraftCommand {
         getHotm(data.profile)
       ]);
 
-      const skillAverage = (
-        Object.keys(skills)
-          .filter((skill) => !["runecrafting", "social"].includes(skill))
-          .map((skill) => skills[skill].level)
-          .reduce((a, b) => a + b, 0) /
-        (Object.keys(skills).length - 2)
-      ).toFixed(1);
-
       const slayerText = Object.keys(slayer)
-        .reduce(
-          (acc, slayerType) => `${acc} | ${slayerType.substring(0, 1).toUpperCase()}:${slayer[slayerType].level}`,
-          ""
-        )
-        .slice(3);
-      const catacombsLevel = dungeons.catacombs.skill.level;
-      const classAverage =
-        Object.values(dungeons.classes)
-          .map((value) => value.level)
-          .reduce((a, b) => a + b, 0) / Object.keys(dungeons.classes).length;
+        .map((key) => `${slayer[key].level}${key[0].toUpperCase()}`)
+        .join(", ");
+
+      const catacombsLevel = dungeons.dungeons.level;
+      const classAverage = formatNumber(dungeons.classAverage);
       const networthValue = formatNumber(networth.networth);
-      const hotmLevel = hotm?.level?.level ?? 0;
-      const mp = formatNumber(talismans?.magicPower ?? 0);
+      const hotmLevel = hotm.level.level;
+      const magicalPower = talismans.magicalPower;
 
       this.send(
         `${username}'s Level: ${
           data.profile.leveling?.experience ? data.profile.leveling.experience / 100 : 0
-        } | Skill Avg: ${skillAverage} | Slayer: ${slayerText} | Cata: ${catacombsLevel} | Class Avg: ${classAverage} | NW: ${networthValue} | MP: ${mp} | Hotm: ${hotmLevel}`
+        } | Skill Avg: ${skillAverage} | Slayer: ${slayerText} | Cata: ${catacombsLevel} | Class Avg: ${classAverage} | NW: ${networthValue} | MP: ${magicalPower} | Hotm: ${hotmLevel}`
       );
     } catch (error) {
       this.send(`[ERROR] ${error}`);

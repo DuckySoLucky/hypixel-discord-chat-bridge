@@ -1,7 +1,8 @@
 const { formatNumber } = require("../../contracts/helperFunctions.js");
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const getDungeons = require("../../../API/stats/dungeons.js");
+const getEssence = require("../../../API/stats/essence.js");
+const { titleCase } = require("../../../API/constants/functions.js");
 
 class EssenceCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -27,23 +28,16 @@ class EssenceCommand extends minecraftCommand {
 
       const { username, profile, profileData } = await getLatestProfile(player);
 
-      const dungeons = getDungeons(profile);
-      if (dungeons == null) {
-        throw `${username} has never played dungeons on ${profileData.cute_name}.`;
+      const essence = getEssence(profile);
+      if (essence == null) {
+        throw `${username} has never unlocked essence on ${profileData.cute_name}.`;
       }
 
-      this.send(
-        `${username}'s Diamond Essence: ${formatNumber(dungeons.essence.diamond, 0)} | Dragon: ${formatNumber(
-          dungeons.essence.dragon,
-          0
-        )} Spider: ${formatNumber(dungeons.essence.spider, 0)} | Wither: ${formatNumber(
-          dungeons.essence.wither,
-          0
-        )} | Undead: ${formatNumber(dungeons.essence.undead, 0)} | Gold: ${formatNumber(
-          dungeons.essence.gold,
-          0
-        )} | Ice: ${formatNumber(dungeons.essence.ice, 0)} | Crimson: ${formatNumber(dungeons.essence.crimson, 0)}`
-      );
+      const essenceString = Object.entries(essence)
+        .map(([key, value]) => `${titleCase(key)}: ${formatNumber(value)}`)
+        .join(", ");
+
+      this.send(`${username}'s Essence: ${essenceString}`);
     } catch (error) {
       console.error(error);
 
