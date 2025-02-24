@@ -39,7 +39,7 @@
     "express": "^4.21.2",
     "fs-promise": "^2.0.3",
     "hypixel-api-reborn": "^11.0.1",
-    "imgur": "^2.2.0",
+    "imgur": "^2.4.3",
     "lilyweight": "^2.7.0",
     "lodash": "^4.17.21",
     "mineflayer": "^4.8.1",
