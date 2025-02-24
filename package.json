@@ -31,7 +31,7 @@
   "dependencies": {
     "@discordjs/rest": "^1.5.0",
     "axios": "^1.7.9",
-    "bad-words": "^3.0.4",
+    "bad-words": "^4.0.0",
     "canvas": "^2.11.2",
     "chalk": "^4.1.0",
     "cheerio": "1.0.0-rc.12",
