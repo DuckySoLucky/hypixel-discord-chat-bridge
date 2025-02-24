@@ -33,7 +33,7 @@
     "axios": "^1.7.9",
     "bad-words": "^4.0.0",
     "canvas": "^2.11.2",
-    "chalk": "^4.1.0",
+    "chalk": "^5.4.1",
     "cheerio": "1.0.0-rc.12",
     "discord-api-types": "^0.37.55",
     "discord-emoji-converter": "^1.2.8",
