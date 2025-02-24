@@ -72,7 +72,7 @@ module.exports = {
           iconURL: "https://i.imgur.com/uUuZx2E.png"
         });
 
-        await interaction.followUp({ embeds: [embed], flags:MessageFlags.Ephemeral});
+        await interaction.followUp({ embeds: [embed], flags: MessageFlags.Ephemeral });
       } else {
         throw new HypixelDiscordChatBridgeError("Please provide a user or a name, not both.");
       }

@@ -49,7 +49,7 @@ module.exports = {
         iconURL: "https://i.imgur.com/uUuZx2E.png"
       });
 
-      await interaction.editReply({ embeds: [errorEmbed], flags:MessageFlags.Ephemeral});
+      await interaction.editReply({ embeds: [errorEmbed], flags: MessageFlags.Ephemeral });
     }
   }
 };

@@ -1,4 +1,3 @@
-/* eslint-disable no-throw-literal */
 const config = require("../../config.json");
 const axios = require("axios");
 

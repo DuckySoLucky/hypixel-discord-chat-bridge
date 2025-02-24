@@ -29,7 +29,7 @@ module.exports = (profile) => {
     } else {
       return null;
     }
-  } catch (error) {
+  } catch {
     return null;
   }
 };

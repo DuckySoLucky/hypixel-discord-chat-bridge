@@ -12,7 +12,7 @@ async function checkRequirements(uuid) {
 
   const weightData = getWeight(profile.profile, profile.uuid);
   const weight = weightData?.senither?.total || 0;
-  const skyblockLevel = (profile.profile?.leveling?.experience || 0) / 100 ?? 0;
+  const skyblockLevel = (profile.profile?.leveling?.experience || 0) / 100;
 
   const bwLevel = player.stats.bedwars.level;
   const bwFKDR = player.stats.bedwars.finalKDRatio;

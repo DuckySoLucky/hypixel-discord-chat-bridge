@@ -44,7 +44,7 @@ module.exports = (profile) => {
       petData.hatching?.level > pet.level
         ? petData.hatching.name
         : petData.name
-          ? (petData.name[pet.rarity] ?? petData.name.default)
+          ? petData.name[pet.rarity] ?? petData.name.default
           : titleCase(pet.type.replaceAll("_", " "));
 
     // Rarity upgrades
@@ -60,8 +60,7 @@ module.exports = (profile) => {
 
     // Get texture
     if (typeof petData.head === "object") {
-      pet.texture_path =
-        `https://sky.shiiyu.moe${petData.head[pet.rarity]}` ?? `https://sky.shiiyu.moe${petData.head.default}`;
+      pet.texture_path = `https://sky.shiiyu.moe${petData.head[pet.rarity] ?? petData.head.default}`;
     } else {
       pet.texture_path = `https://sky.shiiyu.moe${petData.head}`;
     }

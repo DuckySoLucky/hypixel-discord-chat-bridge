@@ -35,18 +35,15 @@ class PersonalBestCommand extends minecraftCommand {
     const floors = ["e", "f1", "f2", "f3", "f4", "f5", "f6", "f7", "m1", "m2", "m3", "m4", "m5", "m6", "m7"];
     const ranks = ["", "any", "s", "s+"];
     if (floors.includes(floor) === false) {
-      // eslint-disable-next-line no-throw-literal
       throw "Invalid Usage: !pb [user] [floor (m7/f4/etc)] [rank (S+, S, any)]";
     }
 
     if (ranks.includes(rank) === false) {
-      // eslint-disable-next-line no-throw-literal
       throw "Invalid Usage: !pb [user] [floor (m7/f4/etc)] [rank (S+, S, any)]";
     }
 
     const personalBest = getPersonalBest(profile);
     if (personalBest === null) {
-      // eslint-disable-next-line no-throw-literal
       throw `${username} has never done dungeons before.`;
     }
 
@@ -60,7 +57,6 @@ class PersonalBestCommand extends minecraftCommand {
 
     const time = floorData[rankType];
     if (time === null) {
-      // eslint-disable-next-line no-throw-literal
       throw `${username} has no PB on ${floor} ${rank}`;
     }
 

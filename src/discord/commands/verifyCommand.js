@@ -87,7 +87,7 @@ module.exports = {
           iconURL: "https://i.imgur.com/uUuZx2E.png"
         });
 
-      await interaction.editReply({ embeds: [embed], flags:MessageFlags.Ephemeral});
+      await interaction.editReply({ embeds: [embed], flags: MessageFlags.Ephemeral });
 
       const updateRolesCommand = require("./updateCommand.js");
       if (updateRolesCommand === undefined) {
@@ -111,7 +111,7 @@ module.exports = {
         iconURL: "https://i.imgur.com/uUuZx2E.png"
       });
 
-      await interaction.editReply({ embeds: [errorEmbed], flags:MessageFlags.Ephemeral});
+      await interaction.editReply({ embeds: [errorEmbed], flags: MessageFlags.Ephemeral });
 
       if (
         error !== "You are already linked to a Minecraft account. Please run /unverify first." &&
@@ -130,7 +130,7 @@ module.exports = {
             iconURL: "https://i.imgur.com/uUuZx2E.png"
           });
 
-        await interaction.followUp({ embeds: [verificationTutorialEmbed], flags:MessageFlags.Ephemeral});
+        await interaction.followUp({ embeds: [verificationTutorialEmbed], flags: MessageFlags.Ephemeral });
       }
     }
   }

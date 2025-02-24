@@ -8,7 +8,7 @@ module.exports = {
       }
       str = splitStr.join(" ");
       return str;
-    } catch (err) {
+    } catch {
       return null;
     }
   },

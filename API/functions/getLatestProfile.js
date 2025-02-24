@@ -1,4 +1,3 @@
-/* eslint-disable no-throw-literal */
 const { getUUID, getUsername } = require("../../src/contracts/API/mowojangAPI.js");
 const { getMuseum } = require("./getMuseum.js");
 const { getGarden } = require("./getGarden.js");

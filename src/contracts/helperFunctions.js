@@ -79,7 +79,7 @@ function getRarityColor(rarity) {
 function addCommas(num) {
   try {
     return num.toLocaleString();
-  } catch (error) {
+  } catch {
     return 0;
   }
 }

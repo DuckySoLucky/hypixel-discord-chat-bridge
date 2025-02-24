@@ -21,6 +21,6 @@ module.exports = {
 
     const commandMessage = new SuccessEmbed(`Successfully executed \`/${command}\``);
 
-    await interaction.followUp({ embeds: [commandMessage], flags:MessageFlags.Ephemeral});
+    await interaction.followUp({ embeds: [commandMessage], flags: MessageFlags.Ephemeral });
   }
 };
