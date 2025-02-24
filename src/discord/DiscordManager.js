@@ -2,12 +2,12 @@ const { Client, Collection, AttachmentBuilder, GatewayIntentBits } = require("di
 const CommunicationBridge = require("../contracts/CommunicationBridge.js");
 const { replaceVariables } = require("../contracts/helperFunctions.js");
 const messageToImage = require("../contracts/messageToImage.js");
+const { ErrorEmbed } = require("../contracts/embedHandler.js");
 const MessageHandler = require("./handlers/MessageHandler.js");
 const StateHandler = require("./handlers/StateHandler.js");
 const CommandHandler = require("./CommandHandler.js");
 const config = require("../../config.json");
 const fs = require("fs");
-const { ErrorEmbed } = require("../contracts/embedHandler.js");
 
 class DiscordManager extends CommunicationBridge {
   constructor(app) {
