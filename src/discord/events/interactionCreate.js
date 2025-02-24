@@ -1,7 +1,7 @@
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 const { ErrorEmbed, SuccessEmbed } = require("../../contracts/embedHandler.js");
 // eslint-disable-next-line no-unused-vars
-const { CommandInteraction } = require("discord.js");
+const { CommandInteraction, MessageFlags } = require("discord.js");
 const config = require("../../../config.json");
 
 module.exports = {
@@ -43,7 +43,7 @@ module.exports = {
 
         await command.execute(interaction);
       } else if (interaction.isButton()) {
-        await interaction.deferReply({ ephemeral: true }).catch(() => {});
+        await interaction.deferReply({ flags:MessageFlags.Ephemeral}).catch(() => {});
         if (interaction.customId !== "joinRequestAccept") return;
         const username = interaction?.message?.embeds?.[0]?.title.split(" ")?.[0] || undefined;
         if (!username) throw new HypixelDiscordChatBridgeError("Something is missing");

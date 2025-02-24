@@ -2,6 +2,7 @@ const { Embed, ErrorEmbed, SuccessEmbed } = require("../../contracts/embedHandle
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 const hypixelRebornAPI = require("../../contracts/API/HypixelRebornAPI.js");
 const { writeFileSync, readFileSync } = require("fs");
+const { MessageFlags } = require("discord.js");
 const config = require("../../../config.json");
 
 module.exports = {
@@ -86,7 +87,7 @@ module.exports = {
           iconURL: "https://i.imgur.com/uUuZx2E.png"
         });
 
-      await interaction.editReply({ embeds: [embed], ephemeral: true });
+      await interaction.editReply({ embeds: [embed], flags:MessageFlags.Ephemeral});
 
       const updateRolesCommand = require("./updateCommand.js");
       if (updateRolesCommand === undefined) {
@@ -110,7 +111,7 @@ module.exports = {
         iconURL: "https://i.imgur.com/uUuZx2E.png"
       });
 
-      await interaction.editReply({ embeds: [errorEmbed], ephemeral: true });
+      await interaction.editReply({ embeds: [errorEmbed], flags:MessageFlags.Ephemeral});
 
       if (
         error !== "You are already linked to a Minecraft account. Please run /unverify first." &&
@@ -129,7 +130,7 @@ module.exports = {
             iconURL: "https://i.imgur.com/uUuZx2E.png"
           });
 
-        await interaction.followUp({ embeds: [verificationTutorialEmbed], ephemeral: true });
+        await interaction.followUp({ embeds: [verificationTutorialEmbed], flags:MessageFlags.Ephemeral});
       }
     }
   }

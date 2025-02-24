@@ -1,4 +1,5 @@
 const { SuccessEmbed } = require("../../contracts/embedHandler.js");
+const { MessageFlags } = require("discord.js");
 
 module.exports = {
   name: "execute",
@@ -20,6 +21,6 @@ module.exports = {
 
     const commandMessage = new SuccessEmbed(`Successfully executed \`/${command}\``);
 
-    await interaction.followUp({ embeds: [commandMessage], ephemeral: true });
+    await interaction.followUp({ embeds: [commandMessage], flags:MessageFlags.Ephemeral});
   }
 };

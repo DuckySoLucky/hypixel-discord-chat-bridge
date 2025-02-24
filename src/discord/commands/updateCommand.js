@@ -10,6 +10,7 @@ const getSkills = require("../../../API/stats/skills.js");
 const getSlayer = require("../../../API/stats/slayer.js");
 const getJacob = require("../../../API/stats/jacob.js");
 const { getNetworth } = require("skyhelper-networth");
+const { MessageFlags } = require("discord.js");
 const config = require("../../../config.json");
 const { readFileSync } = require("fs");
 
@@ -398,14 +399,14 @@ module.exports = {
         { text: `by @.kathund | /help [command] for more information`, iconURL: "https://i.imgur.com/uUuZx2E.png" }
       );
 
-      await interaction.followUp({ embeds: [updateRole], ephemeral: true });
+      await interaction.followUp({ embeds: [updateRole], flags: MessageFlags.Ephemeral });
     } catch (error) {
       const errorEmbed = new ErrorEmbed(`\`\`\`${error}\`\`\``).setFooter({
         text: `by @.kathund | /help [command] for more information`,
         iconURL: "https://i.imgur.com/uUuZx2E.png"
       });
 
-      await interaction.editReply({ embeds: [errorEmbed], ephemeral: true });
+      await interaction.editReply({ embeds: [errorEmbed], flags: MessageFlags.Ephemeral });
     }
   }
 };
