@@ -44,7 +44,7 @@ module.exports = (profile) => {
       petData.hatching?.level > pet.level
         ? petData.hatching.name
         : petData.name
-          ? petData.name[pet.rarity] ?? petData.name.default
+          ? (petData.name[pet.rarity] ?? petData.name.default)
           : titleCase(pet.type.replaceAll("_", " "));
 
     // Rarity upgrades
