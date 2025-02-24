@@ -179,14 +179,9 @@ class MessageHandler {
   }
 
   shouldBroadcastMessage(message) {
-    const isBot =
-      message.author.bot && config.discord.channels.allowedBots.includes(message.author.id) === false ? true : false;
+    const isBot = message.author.bot && config.discord.channels.allowedBots.includes(message.author.id) === false ? true : false;
     const isValid = !isBot && (message.content.length > 0 || message.attachments.size > 0);
-    const validChannelIds = [
-      config.discord.channels.officerChannel,
-      config.discord.channels.guildChatChannel,
-      config.discord.channels.debugChannel
-    ];
+    const validChannelIds = [config.discord.channels.officerChannel, config.discord.channels.guildChatChannel, config.discord.channels.debugChannel];
 
     return isValid && validChannelIds.includes(message.channel.id);
   }

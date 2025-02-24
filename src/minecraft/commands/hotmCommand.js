@@ -1,9 +1,10 @@
-const { formatNumber } = require("../../contracts/helperFunctions.js");
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const getHotm = require("../../../API/stats/hotm.js");
+const { formatNumber } = require("../../contracts/helperFunctions.js");
+const { getHotm } = require("../../../API/stats/hotm.js");
 
 class HotmCommand extends minecraftCommand {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super(minecraft);
 
@@ -19,6 +20,10 @@ class HotmCommand extends minecraftCommand {
     ];
   }
 
+  /**
+   * @param {string} player
+   * @param {string} message
+   * */
   async onCommand(player, message) {
     try {
       // CREDITS: by @Kathund (https://github.com/Kathund)
@@ -35,9 +40,7 @@ class HotmCommand extends minecraftCommand {
       this.send(
         `${username}'s Hotm: ${formatNumber(hotm.level.levelWithProgress, 2)} | Gemstone Powder: ${formatNumber(
           hotm.powder.gemstone.total
-        )} | Mithril Powder: ${formatNumber(hotm.powder.mithril.total)} | Glacite Powder: ${formatNumber(
-          hotm.powder.glacite.total
-        )} | Selected Ability: ${hotm.ability}`
+        )} | Mithril Powder: ${formatNumber(hotm.powder.mithril.total)} | Glacite Powder: ${formatNumber(hotm.powder.glacite.total)} | Selected Ability: ${hotm.ability}`
       );
     } catch (error) {
       this.send(`[ERROR] ${error}`);

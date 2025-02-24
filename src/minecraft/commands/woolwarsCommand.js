@@ -3,6 +3,7 @@ const { formatNumber } = require("../../contracts/helperFunctions.js");
 const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
 
 class WoolwarsCommand extends minecraftCommand {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super(minecraft);
 
@@ -18,49 +19,33 @@ class WoolwarsCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  /**
+   * @param {string} player
+   * @param {string} message
+   * */
+  async onCommand(player, message) {
     try {
-      username = this.getArgs(message)[0] || username;
+      player = this.getArgs(message)[0] || player;
 
-      const response = await hypixel.getPlayer(username, { raw: true });
-
-      if (response.player === null) {
-        throw "This player has never joined Hypixel.";
+      const hypixelPlayer = await hypixel.getPlayer(player);
+      if (hypixelPlayer.stats?.woolwars === undefined) {
+        return this.send(`${player} has never played WoolWars.`);
       }
 
-      const woolWars = response?.player?.stats?.WoolGames?.wool_wars?.stats;
-
-      if (woolWars == undefined) {
-        throw "This player has never played WoolWars.";
-      }
-
-      const { wins = 0, games_played = 0, kills = 0, deaths = 0, blocks_broken = 0, wool_placed = 0 } = woolWars;
-      const experience = response.player?.stats?.WoolGames?.progression?.experience ?? 0;
-      const level = getWoolWarsStar(experience);
+      const { level } = hypixelPlayer.stats.woolwars;
+      const { roundWins, gamesPlayed, woolsPlaced, blocksBroken, KDRatio } = hypixelPlayer.stats.woolwars.stats.overall;
 
       this.send(
-        `[${Math.floor(level)}✫] ${username}: W: ${formatNumber(wins ?? 0)} | WLR: ${(wins / games_played).toFixed(
+        `[${Math.floor(level)}✫] ${player}: W: ${formatNumber(roundWins)} | WLR: ${(roundWins / gamesPlayed).toFixed(
           2
-        )} | KDR: ${(kills / deaths).toFixed(2)} | BB: ${formatNumber(blocks_broken)} | WP: ${formatNumber(
-          wool_placed
-        )} | WPP: ${(wool_placed / games_played).toFixed(2)} | WPG: ${(wool_placed / blocks_broken).toFixed(2)}`
+        )} | KDR: ${KDRatio} | BB: ${formatNumber(blocksBroken)} | WP: ${formatNumber(
+          woolsPlaced
+        )} | WPP: ${formatNumber(woolsPlaced / gamesPlayed)} | WPG: ${(woolsPlaced / blocksBroken).toFixed(2)}`
       );
     } catch (error) {
       this.send(`[ERROR] ${error}`);
     }
   }
-}
-
-function getWoolWarsStar(exp) {
-  const minimalExp = [0, 1e3, 3e3, 6e3, 1e4, 15e3];
-  const baseLevel = minimalExp.length;
-  const baseExp = minimalExp[minimalExp.length - 1];
-  if (exp >= baseExp) {
-    return (exp - baseExp) / 5e3 + baseLevel;
-  }
-
-  const lvl = minimalExp.findIndex((x) => exp < x);
-  return lvl + exp / minimalExp[lvl];
 }
 
 module.exports = WoolwarsCommand;

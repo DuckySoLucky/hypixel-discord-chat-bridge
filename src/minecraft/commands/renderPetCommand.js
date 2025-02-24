@@ -1,17 +1,15 @@
-const { getRarityColor, formatUsername } = require("../../contracts/helperFunctions.js");
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
+const { titleCase } = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const { uploadImage } = require("../../contracts/API/imgurAPI.js");
-const { renderLore } = require("../../contracts/renderItem.js");
-const getPets = require("../../../API/stats/pets.js");
 
 class RenderCommand extends minecraftCommand {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super(minecraft);
 
     this.name = "pet";
     this.aliases = ["pets"];
-    this.description = "Renders active pet of specified user.";
+    this.description = "Sends an active pet of specified user.";
     this.options = [
       {
         name: "username",
@@ -21,33 +19,28 @@ class RenderCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  /**
+   * @param {string} player
+   * @param {string} message
+   * */
+  async onCommand(player, message) {
     try {
-      username = this.getArgs(message)[0] || username;
+      const args = this.getArgs(message);
+      player = args[0] || player;
 
-      const data = await getLatestProfile(username);
+      const { username, profile } = await getLatestProfile(player);
 
-      username = formatUsername(username, data.profileData?.game_mode);
-      const profile = getPets(data.profile);
-      if (profile.length === 0) {
+      const pets = profile.pets_data?.pets ?? [];
+      if (pets.length === 0) {
         return this.send(`${username} does not have any pets.`);
       }
 
-      const pet = profile.pets.find((pet) => pet.active === true);
-
-      if (pet === undefined) {
+      const activePet = pets.find((pet) => pet.active === true);
+      if (activePet === undefined) {
         return this.send(`${username} does not have pet equiped.`);
       }
 
-      const renderedItem = await renderLore(
-        `§7[Lvl ${pet.level}] §${getRarityColor(pet.tier)}${pet.display_name}`,
-        pet.lore
-      );
-
-      const upload = await uploadImage(renderedItem);
-
-      imgurUrl = upload.data.link ?? "Something went Wrong..";
-      return this.send(`${username}'s Active Pet: Check Discord Bridge for image.`);
+      this.send(`${username}'s Active Pet: ${titleCase(activePet.tier)} ${titleCase(activePet.type)}`);
     } catch (error) {
       console.error(error);
       this.send(`[ERROR] ${error}`);

@@ -156,9 +156,7 @@ async function configUpdateMessage(message) {
   console.log(chalk.bgRed.black(" ".repeat(columns).repeat(3)));
   console.log();
   console.log(
-    `${chalk.bgRedBright.black(`[${getCurrentTime()}] Config Update >`)} ${chalk.redBright("Added")} ${chalk.gray(
-      message
-    )} ${chalk.redBright("to config.json")}`
+    `${chalk.bgRedBright.black(`[${getCurrentTime()}] Config Update >`)} ${chalk.redBright("Added")} ${chalk.gray(message)} ${chalk.redBright("to config.json")}`
   );
 }
 

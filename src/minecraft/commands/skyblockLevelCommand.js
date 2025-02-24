@@ -1,7 +1,8 @@
-const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
+const minecraftCommand = require("../../contracts/minecraftCommand.js");
 
 class CatacombsCommand extends minecraftCommand {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super(minecraft);
 
@@ -17,6 +18,10 @@ class CatacombsCommand extends minecraftCommand {
     ];
   }
 
+  /**
+   * @param {string} player
+   * @param {string} message
+   * */
   async onCommand(player, message) {
     try {
       const args = this.getArgs(message);
@@ -25,7 +30,8 @@ class CatacombsCommand extends minecraftCommand {
       const { username, profile } = await getLatestProfile(player);
 
       const experience = profile.leveling?.experience ?? 0;
-      this.send(`${username}'s Skyblock Level: ${experience ? experience / 100 : 0}`);
+      const level = experience ? experience / 100 : 0;
+      this.send(`${username}'s Skyblock Level: ${level}`);
     } catch (error) {
       console.error(error);
       this.send(`[ERROR] ${error}`);

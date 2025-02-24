@@ -1,4 +1,5 @@
 // CREDITS: https://github.com/slothpixel/core (Modified)
+// @ts-nocheck
 const { nth, parseTimestamp } = require("../../src/contracts/helperFunctions.js");
 
 const months = [

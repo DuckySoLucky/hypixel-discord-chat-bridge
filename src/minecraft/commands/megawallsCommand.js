@@ -3,6 +3,7 @@ const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
 const { formatError } = require("../../contracts/helperFunctions.js");
 
 class EightBallCommand extends minecraftCommand {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super(minecraft);
 
@@ -18,18 +19,22 @@ class EightBallCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  /**
+   * @param {string} player
+   * @param {string} message
+   * */
+  async onCommand(player, message) {
     try {
-      username = this.getArgs(message)[0] || username;
+      player = this.getArgs(message)[0] || player;
 
-      const {
-        stats: { megawalls }
-      } = await hypixel.getPlayer(username);
+      const hypixelPlayer = await hypixel.getPlayer(player);
+      if (hypixelPlayer.stats?.megawalls === undefined) {
+        return this.send("This player has no Megawalls stats.");
+      }
 
-      const { selectedClass = "None", finalKills, finalKDRatio, wins, WLRatio, kills, KDRatio, assists } = megawalls;
-
+      const { selectedClass = "None", finalKills, finalKDRatio, wins, WLRatio, kills, KDRatio, assists } = hypixelPlayer.stats.megawalls;
       this.send(
-        `${username}'s Megawalls: Class: ${
+        `${player}'s Megawalls: Class: ${
           selectedClass ?? "None"
         } | FK: ${finalKills} | FKDR: ${finalKDRatio} | W: ${wins} | WLR: ${WLRatio} | K: ${kills} | KDR: ${KDRatio} | A: ${assists}`
       );

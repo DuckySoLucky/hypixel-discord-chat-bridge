@@ -1,8 +1,10 @@
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
-const getPersonalBest = require("../../../API/stats/dungeonsPersonalBest.js");
+const { getPersonalBest } = require("../../../API/stats/dungeonsPersonalBest.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
+const prettyms = require("pretty-ms");
 
 class PersonalBestCommand extends minecraftCommand {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super(minecraft);
 
@@ -23,6 +25,10 @@ class PersonalBestCommand extends minecraftCommand {
     ];
   }
 
+  /**
+   * @param {string} player
+   * @param {string} message
+   * */
   async onCommand(player, message) {
     // CREDITS: by @dallincotton06 (https://github.com/dallincotton06)
     const args = this.getArgs(message);
@@ -50,11 +56,9 @@ class PersonalBestCommand extends minecraftCommand {
       throw `${username} has never done dungeons before.`;
     }
 
-    console.log(floor);
-    console.log(rank);
-
     const dungeon = floor.at(0) === "m" ? personalBest.master : personalBest.normal;
     const floorNumber = floor.at(1);
+    // @ts-ignore
     const floorData = dungeon[`floor_${floorNumber}`];
     const rankType = rank === "s+" ? "fastest_s_plus" : rank === "s" ? "fastest_s" : "fastest";
 
@@ -64,16 +68,9 @@ class PersonalBestCommand extends minecraftCommand {
       throw `${username} has no PB on ${floor} ${rank}`;
     }
 
-    this.send(
-      `${username}'s PB on ${floor.toUpperCase()} with ${rank.toUpperCase()} rank is ${millisToMinutesAndSeconds(time)}`
-    );
+    // @ts-ignore
+    this.send(`${username}'s PB on ${floor.toUpperCase()} with ${rank.toUpperCase()} rank is ${prettyms(time, { secondsDecimalDigits: 0 })}`);
   }
-}
-
-function millisToMinutesAndSeconds(time) {
-  const minutes = Math.floor(time / 60000);
-  const seconds = ((time % 60000) / 1000).toFixed(0);
-  return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
 }
 
 module.exports = PersonalBestCommand;

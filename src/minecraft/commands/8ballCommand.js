@@ -1,7 +1,9 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const axios = require("axios");
+// @ts-ignore
+const { get } = require("axios");
 
 class EightBallCommand extends minecraftCommand {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super(minecraft);
 
@@ -17,15 +19,19 @@ class EightBallCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  /**
+   * @param {string} player
+   * @param {string} message
+   * */
+  async onCommand(player, message) {
     try {
       if (this.getArgs(message).length === 0) {
         throw "You must provide a question.";
       }
 
-      const response = await axios.get(`https://www.eightballapi.com/api`);
+      const response = await get(`https://www.eightballapi.com/api`);
       if (response?.data === undefined) {
-        return this.send("Wouldn't you like to know weather boy");
+        return this.send("Wouldn't you like to know weather boy.");
       }
 
       this.send(`${response.data.reading}`);

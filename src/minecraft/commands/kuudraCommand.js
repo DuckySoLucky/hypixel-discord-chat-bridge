@@ -1,9 +1,10 @@
-const { formatNumber } = require("../../contracts/helperFunctions.js");
-const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const getCrimson = require("../../../API/stats/crimson.js");
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
+const minecraftCommand = require("../../contracts/minecraftCommand.js");
+const { formatNumber } = require("../../contracts/helperFunctions.js");
+const { getKuudra } = require("../../../API/stats/crimson.js");
 
 class KuudraCommand extends minecraftCommand {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super(minecraft);
 
@@ -19,6 +20,10 @@ class KuudraCommand extends minecraftCommand {
     ];
   }
 
+  /**
+   * @param {string} player
+   * @param {string} message
+   * */
   async onCommand(player, message) {
     try {
       // CREDITS: by @Kathund (https://github.com/Kathund)
@@ -27,18 +32,15 @@ class KuudraCommand extends minecraftCommand {
 
       const { username, profile, profileData } = await getLatestProfile(player);
 
-      const crimsonIsle = getCrimson(profile);
-
-      if (crimsonIsle == null) {
+      const kuudraData = getKuudra(profile);
+      if (kuudraData == null) {
         throw `${username} has never gone to Crimson Isle on ${profileData.cute_name}.`;
       }
 
       this.send(
-        `${username}'s Basic: ${formatNumber(crimsonIsle.kuudra.basic)} | Hot: ${formatNumber(
-          crimsonIsle.kuudra.hot
-        )} | Burning: ${formatNumber(crimsonIsle.kuudra.burning)} | Fiery: ${formatNumber(
-          crimsonIsle.kuudra.fiery
-        )} | Infernal: ${formatNumber(crimsonIsle.kuudra.infernal)}`
+        `${username}'s Basic: ${formatNumber(kuudraData.basic)} | Hot: ${formatNumber(
+          kuudraData.hot
+        )} | Burning: ${formatNumber(kuudraData.burning)} | Fiery: ${formatNumber(kuudraData.fiery)} | Infernal: ${formatNumber(kuudraData.infernal)}`
       );
     } catch (error) {
       console.error(error);

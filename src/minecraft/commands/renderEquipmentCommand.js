@@ -1,10 +1,11 @@
-const { decodeData, formatUsername } = require("../../contracts/helperFunctions.js");
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
-const { uploadImage } = require("../../contracts/API/imgurAPI.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
+const { uploadImage } = require("../../contracts/API/imgurAPI.js");
 const { renderLore } = require("../../contracts/renderItem.js");
+const { decodeData } = require("../../../API/utils/nbt.js");
 
 class EquipmentCommand extends minecraftCommand {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super(minecraft);
 
@@ -20,23 +21,22 @@ class EquipmentCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  /**
+   * @param {string} player
+   * @param {string} message
+   * */
+  async onCommand(player, message) {
+    // CREDITS: by @Altpapier (https://github.com/Altpapier/hypixel-discord-guild-bridge/blob/master/ingameCommands/render.js)
     try {
-      username = this.getArgs(message)[0] || username;
+      const args = this.getArgs(message);
+      player = args[0] || player;
 
-      const profile = await getLatestProfile(username);
-
-      username = formatUsername(username, profile.profileData?.game_mode);
-
-      if (profile.profile.inventory?.equipment_contents?.data === undefined) {
+      const { username, profile } = await getLatestProfile(player);
+      if (profile.inventory?.equipment_contents?.data === undefined) {
         return this.send(`This player has an Inventory API off.`);
       }
 
-      const { i: inventoryData } = await decodeData(
-        Buffer.from(profile.profile.inventory?.equipment_contents?.data, "base64")
-      );
-
-      let response = "";
+      const inventoryData = (await decodeData(Buffer.from(profile.inventory?.equipment_contents?.data, "base64"))).i;
       for (const piece of Object.values(inventoryData)) {
         if (piece?.tag?.display?.Name === undefined || piece?.tag?.display?.Lore === undefined) {
           continue;
@@ -46,16 +46,14 @@ class EquipmentCommand extends minecraftCommand {
         const Lore = piece?.tag?.display?.Lore;
 
         const renderedItem = await renderLore(Name, Lore);
+        if (renderedItem === null) {
+          return this.send("An error occured while rendering the item.");
+        }
 
-        const upload = await uploadImage(renderedItem);
-
-        const link = upload.data.link;
-
-        response += response.split(" | ").length == 4 ? link : `${link} | `;
+        await uploadImage(renderedItem);
       }
 
-      imgurUrl = response;
-      this.send(`${username}'s Equipment: Check Discord Bridge for image.`);
+      this.send(`${username}'s equipment has been rendered, check Discord for the images.`);
     } catch (error) {
       this.send(`[ERROR] ${error}`);
     }

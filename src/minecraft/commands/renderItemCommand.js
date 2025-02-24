@@ -1,10 +1,11 @@
-const { decodeData, formatUsername } = require("../../contracts/helperFunctions.js");
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { uploadImage } = require("../../contracts/API/imgurAPI.js");
 const { renderLore } = require("../../contracts/renderItem.js");
+const { decodeData } = require("../../../API/utils/nbt.js");
 
 class RenderCommand extends minecraftCommand {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super(minecraft);
 
@@ -25,7 +26,12 @@ class RenderCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  /**
+   * @param {string} player
+   * @param {string} message
+   * */
+  async onCommand(player, message) {
+    // CREDITS: by @Altpapier (https://github.com/Altpapier/hypixel-discord-guild-bridge/blob/master/ingameCommands/render.js)
     try {
       let itemNumber = 0;
       const arg = this.getArgs(message);
@@ -33,46 +39,37 @@ class RenderCommand extends minecraftCommand {
         this.send("Wrong Usage: !render [name] [slot] | !render [slot]");
       }
       if (!isNaN(Number(arg[0]))) {
-        itemNumber = arg[0];
-        username = arg[1] || username;
+        itemNumber = parseInt(arg[0]);
+        player = arg[1] || player;
       } else {
-        username = arg[0];
+        player = arg[0];
         if (!isNaN(Number(arg[1]))) {
-          itemNumber = arg[1];
+          itemNumber = parseInt(arg[1]);
         } else {
           this.send("Wrong Usage: !render [name] [slot] | !render [slot]");
           return;
         }
       }
 
-      const profile = await getLatestProfile(username);
-
-      username = formatUsername(username, profile.profileData?.game_mode);
-
-      if (profile.profile.inventory?.inv_contents?.data === undefined) {
+      const { profile, username } = await getLatestProfile(player);
+      if (profile.inventory?.inv_contents?.data === undefined) {
         throw `${username} has Inventory API off.`;
       }
 
-      const { i: inventoryData } = await decodeData(
-        Buffer.from(profile.profile.inventory?.inv_contents?.data, "base64")
-      );
-
-      if (
-        inventoryData[itemNumber - 1] === undefined ||
-        Object.keys(inventoryData[itemNumber - 1] || {}).length === 0
-      ) {
+      const inventoryData = (await decodeData(Buffer.from(profile.inventory?.inv_contents?.data, "base64"))).i;
+      const item = inventoryData[itemNumber - 1];
+      if (item === undefined) {
         return this.send(`Player does not have an item at slot ${itemNumber}.`);
       }
 
-      const Name = inventoryData[itemNumber - 1]?.tag?.display?.Name;
-      const Lore = inventoryData[itemNumber - 1]?.tag?.display?.Lore;
+      const renderedItem = await renderLore(item.tag.display.Name, item.tag.display.Lore);
+      if (renderedItem === null) {
+        return this.send(`Item at slot ${itemNumber} is not renderable.`);
+      }
 
-      const renderedItem = await renderLore(Name, Lore);
+      await uploadImage(renderedItem);
 
-      const upload = await uploadImage(renderedItem);
-
-      imgurUrl = upload.data.link;
-      this.send(`${username}'s item at slot ${itemNumber}: Check Discord Bridge for image.`);
+      this.send(`${username}'s item at slot ${itemNumber} can be found in Discord Channel.`);
     } catch (error) {
       console.error(error);
       this.send(`[ERROR] ${error}`);

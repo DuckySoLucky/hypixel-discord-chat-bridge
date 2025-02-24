@@ -2,6 +2,7 @@ const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 
 class FairySoulsCommand extends minecraftCommand {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super(minecraft);
 
@@ -17,6 +18,10 @@ class FairySoulsCommand extends minecraftCommand {
     ];
   }
 
+  /**
+   * @param {string} player
+   * @param {string} message
+   * */
   async onCommand(player, message) {
     try {
       const args = this.getArgs(message);
@@ -24,14 +29,9 @@ class FairySoulsCommand extends minecraftCommand {
 
       const { username, profile, profileData } = await getLatestProfile(player);
 
-      const total = profileData.game_mode === "island" ? 5 : 247;
+      const total = profileData.game_mode === "island" ? 5 : 248;
       const fairy_soul = profile.fairy_soul;
-      this.send(
-        `${username}'s Fairy Souls: ${fairy_soul.total_collected}/${total} | Progress: ${(
-          (fairy_soul.total_collected / total) *
-          100
-        ).toFixed(2)}%`
-      );
+      this.send(`${username}'s Fairy Souls: ${fairy_soul.total_collected} / ${total} | Progress: ${((fairy_soul.total_collected / total) * 100).toFixed(2)}%`);
     } catch (error) {
       this.send(`[ERROR] ${error}`);
     }

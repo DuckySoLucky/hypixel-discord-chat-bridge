@@ -1,13 +1,15 @@
-const { addCommas, timeSince } = require("../../contracts/helperFunctions.js");
+const { timeSince, formatNumber } = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { uploadImage } = require("../../contracts/API/imgurAPI.js");
 const { getUUID } = require("../../contracts/API/mowojangAPI.js");
 const { renderLore } = require("../../contracts/renderItem.js");
-const getRank = require("../../../API/stats/rank.js");
+const { getRank } = require("../../../API/stats/rank.js");
 const config = require("../../../config.json");
-const axios = require("axios");
+// @ts-ignore
+const { get } = require("axios");
 
 class AuctionHouseCommand extends minecraftCommand {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super(minecraft);
 
@@ -23,6 +25,10 @@ class AuctionHouseCommand extends minecraftCommand {
     ];
   }
 
+  /**
+   * @param {string} player
+   * @param {string} message
+   * */
   async onCommand(player, message) {
     try {
       const args = this.getArgs(message);
@@ -30,40 +36,43 @@ class AuctionHouseCommand extends minecraftCommand {
 
       const uuid = await getUUID(player);
 
-      const { hypixelAPIkey } = config.minecraft.API;
       const [auctionResponse, playerResponse] = await Promise.all([
-        axios.get(`https://api.hypixel.net/v2/skyblock/auction?key=${hypixelAPIkey}&player=${uuid}`),
-        axios.get(`https://api.hypixel.net/v2/player?key=${hypixelAPIkey}&uuid=${uuid}`)
+        get(`https://api.hypixel.net/v2/skyblock/auction?key=${config.minecraft.API.hypixelAPIkey}&player=${uuid}`),
+        get(`https://api.hypixel.net/v2/player?key=${config.minecraft.API.hypixelAPIkey}&uuid=${uuid}`)
       ]);
 
-      const auctions = auctionResponse.data?.auctions || [];
+      /** @type {import("../../../types/player.js").Player} */
       const playerData = playerResponse.data?.player || {};
+      if (playerData === undefined) {
+        return this.send(`Couldn't find player ${player}.`);
+      }
 
+      /** @type {import("../../../types/auctions.js").Auction[] | []} */
+      const auctions = auctionResponse.data?.auctions || [];
       if (auctions.length === 0) {
         return this.send("This player has no active auctions.");
       }
 
-      const activeAuctions = auctions.filter((auction) => auction.end >= Date.now());
+      const activeAuctions = auctions.filter((auction) => auction.end >= Date.now() && auction.claimed === false);
+      if (activeAuctions.length === 0) {
+        return this.send("This player has no active auctions.");
+      }
 
-      let string = "";
       for (const auction of activeAuctions) {
         const lore = auction.item_lore.split("\n");
-
-        lore.push("§8§m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯", `§7Seller: ${getRank(playerData)} ${player.displayname}`);
-
+        lore.push("§8§m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯", `§7Seller: ${getRank(playerData)} ${playerData.displayname}`);
         if (auction.bin === undefined) {
           if (auction.bids.length === 0) {
-            lore.push(`§7Starting Bid: §6${addCommas(auction.starting_bid)} coins`, `§7`);
+            lore.push(`§7Starting Bid: §6${formatNumber(auction.starting_bid)} coins`, `§7`);
           } else if (auction.bids.length > 0) {
             const bidderUUID = auction.bids[auction.bids.length - 1].bidder;
 
-            const bidderResponse = await axios.get(
-              `https://api.hypixel.net/player?key=${hypixelAPIkey}&uuid=${bidderUUID}`
-            );
+            const bidderResponse = await get(`https://api.hypixel.net/player?key=${config.minecraft.API.hypixelAPIkey}&uuid=${bidderUUID}`);
 
+            /** @type {import("../../../types/player.js").Player} */
             const bidder = bidderResponse.data?.player || {};
             if (bidder === undefined) {
-              throw `Failed to get bidder for auction ${auction.uuid}`;
+              continue;
             }
 
             const { amount } = auction.bids[auction.bids.length - 1];
@@ -84,15 +93,17 @@ class AuctionHouseCommand extends minecraftCommand {
         lore.push(`§7Ends in: §e${timeSince(auction.end)}`, `§7`, `§eClick to inspect`);
 
         const renderedItem = await renderLore(` ${auction.item_name}`, lore);
-        const upload = await uploadImage(renderedItem);
+        if (renderedItem === null) {
+          this.send(`[ERROR] Couldn't render item ${auction.item_name}.`);
+          return;
+        }
 
-        string += string === "" ? upload.data.link : " | " + upload.data.link;
+        await uploadImage(renderedItem);
       }
 
-      imgurUrl = string;
-      this.send(`${player}'s Active Auctions: Check Discord Bridge for image.`);
+      this.send(`${player}'s Active Auctions: Check Discord Bridge for image. (Hypixel banned Imgur links from the chat)`);
     } catch (error) {
-      console.error(error);
+      console.log(error);
       this.send(`[ERROR] ${error}`);
     }
   }

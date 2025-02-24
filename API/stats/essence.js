@@ -1,4 +1,9 @@
-module.exports = (profile) => {
+/**
+ * Returns the essence of a profile.
+ * @param {import("../../types/profiles").Member} profile
+ * @returns {import("./essence.types").Essence | null}
+ */
+function getEssence(profile) {
   try {
     return {
       diamond: profile.currencies?.essence?.DIAMOND?.current || 0,
@@ -14,4 +19,8 @@ module.exports = (profile) => {
     console.error(error);
     return null;
   }
+}
+
+module.exports = {
+  getEssence
 };

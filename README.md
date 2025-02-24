@@ -1,17 +1,16 @@
 # Hypixel Discord Chat Bridge
 
-A two-way chat bridge between [Hypixel](https://hypixel.net/) guild chat and a [Discord](https://discord.com/) channel.
-The application utilizes [discord.js v14](https://github.com/discordjs/discord.js) for communicating with Discord, and
-[mineflayer](https://github.com/PrismarineJS/mineflayer) for communicating with Hypixel.
+A two-way chat bridge between [Hypixel](https://hypixel.net/) guild chat and a [Discord](https://discord.com/) channel. The application utilizes
+[discord.js v14](https://github.com/discordjs/discord.js) for communicating with Discord, and [mineflayer](https://github.com/PrismarineJS/mineflayer) for communicating
+with Hypixel.
 
-> [!WARNING] This software allows access to Hypixel using Mineflayer, a non-standard Minecraft client. Using this
-> application carries the risk of your Minecraft account being banned from Hypixel. Therefore, use it at your own
-> discretion. I hold no responsibility for any bans resulting from its usage.
+> [!WARNING] This software allows access to Hypixel using Mineflayer, a non-standard Minecraft client. Using this application carries the risk of your Minecraft account
+> being banned from Hypixel. Therefore, use it at your own discretion. I hold no responsibility for any bans resulting from its usage.
 
 <hr>
 
-If you found this project helpful or interesting, please consider giving it a star. It helps other developers find the
-project and shows your appreciation for the work that went into it. Thank you!
+If you found this project helpful or interesting, please consider giving it a star. It helps other developers find the project and shows your appreciation for the work
+that went into it. Thank you!
 
 ## Table of Content
 
@@ -37,10 +36,9 @@ Next go into the `hypixel-discord-chat-bridge` folder and install all the depend
 
     npm install
 
-While the dependencies are being installed you can edit the configuration file. The configuration file is called
-`config.example.json`. It is pretty self explanatory, but if you need help with it, you can check out the
-[Configuration](#configuration) section. Once you are done editing, save it as another file by the name of
-`config.json`. Both files are required for the bot to work.
+While the dependencies are being installed you can edit the configuration file. The configuration file is called `config.example.json`. It is pretty self explanatory, but
+if you need help with it, you can check out the [Configuration](#configuration) section. Once you are done editing, save it as another file by the name of `config.json`.
+Both files are required for the bot to work.
 
 Once edited and the dependencies are installed, you can start the application using:
 
@@ -58,8 +56,7 @@ Using the link provided in the console, you sign into the Minecraft account of y
 
 ### Setup
 
-In here we are going to clone the repository, set up the configuration file, volume directory, build the image, and run
-the container.
+In here we are going to clone the repository, set up the configuration file, volume directory, build the image, and run the container.
 
 - Clone the repository and enter the directory:
 
@@ -81,8 +78,7 @@ the container.
 
       chown -R 1000:1000 /opt/docker/hypixel-discord-chat-bridge/
 
-- Edit the configuration file called `config.json` in `/opt/docker/hypixel-discord-chat-bridge/` using the
-  [Configuration](#configuration) section.
+- Edit the configuration file called `config.json` in `/opt/docker/hypixel-discord-chat-bridge/` using the [Configuration](#configuration) section.
 
 - Build the image using:
 
@@ -116,26 +112,23 @@ the container.
 
 #### Bot
 
-The `bot` section contains configuration options for the minecraft bot, including the `prefix`, `messageFormat`, and
-`messageRepeatBypassLength`.
+The `bot` section contains configuration options for the minecraft bot, including the `prefix`, `messageFormat`, and `messageRepeatBypassLength`.
 
 The prefix option determines the command prefix used for minecraft commands. By default, this is set to `!`.
 
-The messageFormat option is a format for the chat message on the minecraft side, this can be customized to whatever you
-want, default format is `{username} » {message}`, some of the popular formats are `{username} > {message}` and
-`{username}: {message}`.
+The messageFormat option is a format for the chat message on the minecraft side, this can be customized to whatever you want, default format is `{username} » {message}`,
+some of the popular formats are `{username} > {message}` and `{username}: {message}`.
 
 > Possible options for this are `{username}` and `{message}`.
 
-The messageRepeatBypassLength option is a number value that determines the length of a string that will be sent after
-message in case `You cannot say the same message twice!` occurs.
+The messageRepeatBypassLength option is a number value that determines the length of a string that will be sent after message in case
+`You cannot say the same message twice!` occurs.
 
 ### Frag Bot
 
 > [!NOTE]  
-> Please be aware that this feature is now obsolete, as the Hypixel's
-> [August Patch](https://hypixel.net/threads/august-3rd-skyblock-patch-notes.5450046/) has introduced support for solo
-> dungeons.
+> Please be aware that this feature is now obsolete, as the Hypixel's [August Patch](https://hypixel.net/threads/august-3rd-skyblock-patch-notes.5450046/) has introduced
+> support for solo dungeons.
 
 The fragBot section contains options for the bot's fragBot feature, which manages a whitelist and blacklist of users.
 
@@ -143,34 +136,30 @@ The `enabled` option determines whether the fragBot is enabled. By default, this
 
 The `whitelist` option determines whether the whitelist feature is enabled. By default, this is set to false.
 
-The `whitelisted` option is an array of user usernames or UUIDs that will be added to the whitelist which already
-includes Guild members. By default, this is set to an empty array.
+The `whitelisted` option is an array of user usernames or UUIDs that will be added to the whitelist which already includes Guild members. By default, this is set to an
+empty array.
 
 The `blacklist` option determines whether the blacklist feature is enabled. By default, this is set to false.
 
-The `blacklisted` option is an array of user usernames or UUIDs, blacklisted played won't be able to use fragBot. By
-default, this is set to an empty array.
+The `blacklisted` option is an array of user usernames or UUIDs, blacklisted played won't be able to use fragBot. By default, this is set to an empty array.
 
 ### Guild
 
 The guild section contains options related to the Hypixel guild.
 
-The `guildExp` option is a number value required for the `!gexp` command, which is used to check how much more guild
-experience a user needs to collect to meet the guild's requirements. By default, this is set to 50,000.
+The `guildExp` option is a number value required for the `!gexp` command, which is used to check how much more guild experience a user needs to collect to meet the
+guild's requirements. By default, this is set to 50,000.
 
 ### API
 
-The API options include information about APIs which are being used, the only values which needs to be changed are
-`hypixelAPIkey` and `imgurAPIkey`.
+The API options include information about APIs which are being used, the only values which needs to be changed are `hypixelAPIkey` and `imgurAPIkey`.
 
-You can receive Hypixel API key by going to [Hypixel Developer Dashboard](https://developer.hypixel.net/dashboard/) and
-creating new application.
+You can receive Hypixel API key by going to [Hypixel Developer Dashboard](https://developer.hypixel.net/dashboard/) and creating new application.
 
 > Hypixel API is used for most of stats related commands.
 
-Imgur API can be generated [Here](https://api.imgur.com/oauth2/addclient). For `Authorization type` you should select
-`Anonymous usage without user authorization`. Once you have created the application, you can find the `Client ID` and
-`Client Secret` on the application page and you can use the `Client ID` as the `imgurAPIkey`.
+Imgur API can be generated [Here](https://api.imgur.com/oauth2/addclient). For `Authorization type` you should select `Anonymous usage without user authorization`. Once
+you have created the application, you can find the `Client ID` and `Client Secret` on the application page and you can use the `Client ID` as the `imgurAPIkey`.
 
 > Imgur API is used for rendering commands like `!armor`, `!pet`, `!equipment` etc.
 
@@ -180,26 +169,22 @@ The `guildRequirements` section contains options related to the Hypixel Guild's 
 
 The `enabled` option determines whether guild requirements are enabled. By default, this is set to false.
 
-The `autoAccept` option determines whether guild invites should be automatically accepted if the user meets the guild's
-requirements. By default, this is set to false.
+The `autoAccept` option determines whether guild invites should be automatically accepted if the user meets the guild's requirements. By default, this is set to false.
 
-The requirements option is an object containing various requirements for joining the guild, including `bedwarsStars`,
-`bedwarsStarsWithFKDR`, `bedwarsFKDR`, `skywarsStars`, `skywarsStarsWithKDR`, `skywarsKDR`, `duelsWins`,
-`duelsWinsWithWLR`, `duelsWLR`, `senitherWeight`, `lilyWeight`, and `skyblockLevel`. By default, all of these
-requirements are set to 0.
+The requirements option is an object containing various requirements for joining the guild, including `bedwarsStars`, `bedwarsStarsWithFKDR`, `bedwarsFKDR`,
+`skywarsStars`, `skywarsStarsWithKDR`, `skywarsKDR`, `duelsWins`, `duelsWinsWithWLR`, `duelsWLR` and `skyblockLevel`. By default, all of these requirements are set to 0.
 
 ### skyblockEventsNotifications
 
-The bot also has a feature called event notifier. It lets you send messages in the guild chat before an event starts. By
-default, all events are turned on.
+The bot also has a feature called event notifier. It lets you send messages in the guild chat before an event starts. By default, all events are turned on.
 
 The `skyblockEventsNotifications` object contains the settings related to Skyblock events notifications.
 
-The `enabled` property determines whether the feature is enabled or not. If it's set to true, the bot will send a
-message to the Guild chat 5 minutes and moment before the event starts.
+The `enabled` property determines whether the feature is enabled or not. If it's set to true, the bot will send a message to the Guild chat 5 minutes and moment before
+the event starts.
 
-The `notifiers` object contains a list of events that the bot will notify for, and whether each event is enabled or not.
-By default, all events are enabled. You can disable an event by setting its value to false.
+The `notifiers` object contains a list of events that the bot will notify for, and whether each event is enabled or not. By default, all events are enabled. You can
+disable an event by setting its value to false.
 
 Here's a list of the supported events:
 
@@ -216,8 +201,8 @@ Here's a list of the supported events:
 - SPOOKY_FESTIVAL: When the Spooky Festival event starts.
 - TRAVELING_ZOO: When the Traveling Zoo event starts.
 
-The `customTime` is object that has key with minute amount and value with events which will be sent key minutes before
-event occurs. For example `"10": ["JACOBS_CONTEST"]` will send message 10 minutes before Jacob's Contest event starts
+The `customTime` is object that has key with minute amount and value with events which will be sent key minutes before event occurs. For example
+`"10": ["JACOBS_CONTEST"]` will send message 10 minutes before Jacob's Contest event starts
 
 Preview
 
@@ -225,17 +210,14 @@ Preview
 
 ### hypixelUpdates
 
-This configuration enables Hypixel updates and includes settings for Hypixel news, status updates, and skyblock version
-changes.
+This configuration enables Hypixel updates and includes settings for Hypixel news, status updates, and skyblock version changes.
 
-The `enabled` property determines whether the feature is enabled or not. If it's set to true, the bot will send a
-message to the Guild chat when a new Hypixel news article is posted, when Hypixel's status changes, and when the
-Skyblock version changes.
+The `enabled` property determines whether the feature is enabled or not. If it's set to true, the bot will send a message to the Guild chat when a new Hypixel news
+article is posted, when Hypixel's status changes, and when the Skyblock version changes.
 
 The `hypixelNews` property determines whether the bot should send a message when a new Hypixel news article is posted.
 
-The `statusUpdates` property determines whether the bot should send a message when new incident occurs or update
-regarding it is posted.
+The `statusUpdates` property determines whether the bot should send a message when new incident occurs or update regarding it is posted.
 
 The `skyblockVersion` property determines whether the bot should send a message when the Skyblock version changes.
 
@@ -243,11 +225,9 @@ The `skyblockVersion` property determines whether the bot should send a message 
 
 The `commands` object contains the settings related to the bot's commands.
 
-The `normal` property determines whether the normal commands are enabled or not. If it's set to true, the bot will
-listen for commands in the guild chat.
+The `normal` property determines whether the normal commands are enabled or not. If it's set to true, the bot will listen for commands in the guild chat.
 
-The `soopy` property determines whether the Soopy commands are enabled or not. If it's set to true, the bot will listen
-for commands in the guild chat.
+The `soopy` property determines whether the Soopy commands are enabled or not. If it's set to true, the bot will listen for commands in the guild chat.
 
 #### Discord
 
@@ -255,12 +235,11 @@ for commands in the guild chat.
 
 The `bot` options include the `token`, and `serverID` options.
 
-The `token` is the Discord application token, if you don't already have a Discord App, you can
-[create a new app](https://discordapp.com/developers), then convert the app to a Discord bot, and then get your Discord
-bot token on the "Bot" page.
+The `token` is the Discord application token, if you don't already have a Discord App, you can [create a new app](https://discordapp.com/developers), then convert the app
+to a Discord bot, and then get your Discord bot token on the "Bot" page.
 
-The `serverID` is the ID of the server. You can get it by right clicking on server and clicking on Copy ID. You need to
-enable Developer Mode in Discord to do this, You can enable it by going to `Settings > App > Advanced > Developer Mode`.
+The `serverID` is the ID of the server. You can get it by right clicking on server and clicking on Copy ID. You need to enable Developer Mode in Discord to do this, You
+can enable it by going to `Settings > App > Advanced > Developer Mode`.
 
 ### Channels
 
@@ -268,35 +247,29 @@ The `guildChatChannel` is the ID of the text channel where the bot is gonna send
 
 The `officerChannel` is the ID of the text channel where the bot is gonna send messages from Officer Chat.
 
-The `loggingChannel` is the ID of the text channel where the bot is gonna send guild logs, for example guild kicks,
-invites, mutes etc.
+The `loggingChannel` is the ID of the text channel where the bot is gonna send guild logs, for example guild kicks, invites, mutes etc.
 
 The `debugMode` is a boolean setting which is an ability to toggle `debugChannel`
 
-The `debugChannel` is the ID of text channel the bot should be linked with for the chat, the bot will send every single
-minecraft message here, anyone can send and execute commands from this channel and it will be executed in minecraft.
-This is useful for debugging and testing purposes.
+The `debugChannel` is the ID of text channel the bot should be linked with for the chat, the bot will send every single minecraft message here, anyone can send and
+execute commands from this channel and it will be executed in minecraft. This is useful for debugging and testing purposes.
 
-The `allowedBots` is a list of discord bot IDs which are allowed to send messages in the guild chat, their messages will
-not be blocked.
+The `allowedBots` is a list of discord bot IDs which are allowed to send messages in the guild chat, their messages will not be blocked.
 
 ### Commands
 
-The `checkPerms` is ability to toggle checking permissions for commands, if it's set to `true` the bot will check if
-user has required role to execute the command.
+The `checkPerms` is ability to toggle checking permissions for commands, if it's set to `true` the bot will check if user has required role to execute the command.
 
-The `commandRole` is the ID of any role on the server , any user with the role will be able to run all the Discord
-commands built into the bot, like `/kick` and `/promote`.
+The `commandRole` is the ID of any role on the server , any user with the role will be able to run all the Discord commands built into the bot, like `/kick` and
+`/promote`.
 
-The `users` is a list of user IDs which are allowed to run all the Discord commands, this is an alternative to the
-`commandRole` option.
+The `users` is a list of user IDs which are allowed to run all the Discord commands, this is an alternative to the `commandRole` option.
 
 ### Other
 
-The `messageMode` can either be `bot`, `webhook` or `minecraft`. This selects how the messages should be displayed when
-sent from Minecraft to Discord. If webhook mode is selected the bot requires the `Manage Webhooks` permission in the
-channel it's running in. The bot always requires the `Send Messages` and `View Channel` permissions in the channel
-you're using it in.
+The `messageMode` can either be `bot`, `webhook` or `minecraft`. This selects how the messages should be displayed when sent from Minecraft to Discord. If webhook mode is
+selected the bot requires the `Manage Webhooks` permission in the channel it's running in. The bot always requires the `Send Messages` and `View Channel` permissions in
+the channel you're using it in.
 
 - Webhook Example
 
@@ -309,15 +282,14 @@ you're using it in.
 - Minecraft Example (Default)
   > ![image](https://cdn.discordapp.com/attachments/1072863636596465726/1152304997824999554/Qwack_Bot.png)
 
-> Note - The Discord rate limit for webhooks is 30 requests every 60 seconds, where as for bot and minecraft messages
-> it's 5 messages every 5 seconds. Using webhooks effectively halves the number of messages the bot can send per minute
-> which may cause issues in an active guild.
+> Note - The Discord rate limit for webhooks is 30 requests every 60 seconds, where as for bot and minecraft messages it's 5 messages every 5 seconds. Using webhooks
+> effectively halves the number of messages the bot can send per minute which may cause issues in an active guild.
 
-The messageFormat option is a format for the chat message on the discord side, this can be customized to whatever you
-want, default format is `{chatType} > {skin} {rank} {username} {guildRank}§f: {message}`.
+The messageFormat option is a format for the chat message on the discord side, this can be customized to whatever you want, default format is
+`{chatType} > {skin} {rank} {username} {guildRank}§f: {message}`.
 
-> Possible options for this are `{chatType}`, `{skin}`, `{rank}`, `{username}`, `{guildRank}` and `{message}`. They're
-> self explanation but here's in case you don't know what they are:
+> Possible options for this are `{chatType}`, `{skin}`, `{rank}`, `{username}`, `{guildRank}` and `{message}`. They're self explanation but here's in case you don't know
+> what they are:
 >
 > - `{chatType}` - Type of chat message, the only possible cases are `Guild` and `Officer`
 > - `{skin}` - Skin of the player who sent the message
@@ -381,11 +353,10 @@ The autoLimbo is ability to toggle if the bot is sent to Limbo or stays in publi
 | render       | Renders item of specified user.             | `!render [player] [slot]`      | `!render DuckySoSkilled`   | `DuckySoSkilled's item at slot 1 » https://i.imgur.com/U2dIcSc.png`                                                                                                                                                          |
 | skills       | Skills and Skill Average of specified user. | `!skills [player]`             | `!skills DuckySoSkilled`   | `Skill Average » 54.44 Farming - 60.00 Mining - 60.00 Combat - 60.00 Enchanting - 60.00 Fishing - 50.00 Foraging - 50.00 Alchemy - 50.00 Taming - 50.00 Carpentry - 50.00`                                                   |
 | skywars      | Skywars stats of specified user.            | `!skywars [player]`            | `!skywars DuckySoSkilled`  | `[38✫] Refraction KDR: 6.04 WLR: 1.01 WS: 0`                                                                                                                                                                                 |
-| skyblock     | Skyblock Stats of specified user.           | `!skyblock [player]`           | `!skyblock DeathStreeks`   | `DeathStreeks's Level » 354.59 Senither Weight » 44,455 Lily Weight » 39,268 Skill Average » 54.4 Slayer » 7,918,100 Catacombs » 62 Class Average » 50 Networth » 133 B Accessories » 98 Recombobulated » 97 Enriched » 44`  |
+| skyblock     | Skyblock Stats of specified user.           | `!skyblock [player]`           | `!skyblock DeathStreeks`   | `DeathStreeks's Level » 354.59 Skill Average » 54.4 Slayer » 7,918,100 Catacombs » 62 Class Average » 50 Networth » 133 B Accessories » 98 Recombobulated » 97 Enriched » 44`                                                |
 | personalbest | View Best times of a user's dungeon runs.   | `!pb [player] [floor] [score]` | `!pb For_Science51 F7 S+`  | `For_Science51's PB on F7 woth S+ score is 4:57`                                                                                                                                                                             |
 | slayer       | Slayer of specified user.                   | `!slayer [player] [type]`      | `!slayer DeathStreeks`     | `DeathStreeks's Slayer -  Zombie: Level: 9 Experience: 3,165,000 Spider: Level: 9 Experience: 1,000,625 Wolf: Level: 9 Experience: 1,002,000 Enderman: Level: 9 Experience: 1,715,475 Blaze: Level: 9 Experience: 1,035,000` |
 | UHC          | UHC Stats of specified user.                | `!UHC [player]`                | `!UHC DuckySoSkilled`      | `[6✫] Refraction KDR: 2.54 WLR: 69 Heads: 578`                                                                                                                                                                               |
-| weight       | Skyblock Stats of specified user.           | `!weight [player]`             | `!weight DuckySoSkilled`   | `Refraction's Senither Weight » 27721.82 Skills: 12991.95 Dungeons: 11353.90` & `Refraction's Lily Weight » 28342.24 Skills » 12310.84 Slayer » 4476.85 Dungeons » 11554.55`                                                 |
 | woolwars     | WoolWars stats of specified user.           | `!woolwars [player]`           | `!woolwars DuckySoSkilled` | `[2✫] DuckySoSkilled » W: 5 WLR: 0.5 KDR: 1.19 BB: 37 WP: 45`                                                                                                                                                                |
 
 ### Soopy V2 Commands
@@ -396,8 +367,7 @@ Bot also supports Soopy V2 commands, prefix is same as mod's prefix.
 
 #### Web
 
-The web section contains configuration options for the web server, including the enabled, port, token, and WebSocket
-functionality.
+The web section contains configuration options for the web server, including the enabled, port, token, and WebSocket functionality.
 
 The enabled option determines whether the web server is enabled. By default, this is set to false.
 
@@ -405,12 +375,11 @@ The port option is the port the web server will listen on. By default, this is s
 
 The token option is the token required to access the web server.
 
-The web server also supports WebSocket connections for third-party applications to listen to chat messages. This is
-achieved by connecting to the `/chat` endpoint. Through this endpoint, clients can receive real-time updates on messages
-sent in the chat.
+The web server also supports WebSocket connections for third-party applications to listen to chat messages. This is achieved by connecting to the `/chat` endpoint.
+Through this endpoint, clients can receive real-time updates on messages sent in the chat.
 
-Additionally, there's an `/uptime` endpoint available to check the server's uptime. This endpoint can be accessed to
-verify if the WebSocket server is running and to retrieve information about its uptime.
+Additionally, there's an `/uptime` endpoint available to check the server's uptime. This endpoint can be accessed to verify if the WebSocket server is running and to
+retrieve information about its uptime.
 
 An example of how to connect to the WebSocket server using JavaScript:
 
@@ -456,8 +425,8 @@ new Promise((resolve) => {
 
 ### Verification
 
-The verification section contains configuration options for the verification system. These options include a full global
-toggle, verfied role, guild member role, auto updater, custom usernames and ranks.
+The verification section contains configuration options for the verification system. These options include a full global toggle, verfied role, guild member role, auto
+updater, custom usernames and ranks.
 
 The `enabled` option determines whether the verification system is enabled. By default, this is set to false.
 
@@ -465,14 +434,11 @@ The `verifiedRole` option determines what role user will receive upon successful
 
 The `guildMemberRole` option determines what role user will receive upon being member of the guild.
 
-The `autoUpdater` option allows you to toggle the auto updating of all verified users. This option is set to `true` by
-default.
+The `autoUpdater` option allows you to toggle the auto updating of all verified users. This option is set to `true` by default.
 
-The `autoUpdaterInterval` allows you to change how often the autoUpdater runs. By default this option is set to `24`
-making the autoUpdater run every 24 hours.
+The `autoUpdaterInterval` allows you to change how often the autoUpdater runs. By default this option is set to `24` making the autoUpdater run every 24 hours.
 
-The `levelRoles` option is an array that takes in an object like the following example, this allows roles to be given
-out if they get some requirement.
+The `levelRoles` option is an array that takes in an object like the following example, this allows roles to be given out if they get some requirement.
 
 ```json
 {
@@ -482,8 +448,8 @@ out if they get some requirement.
 }
 ```
 
-The `name` option lets you set what a verfied user has there nickname set to in the server. By default its set to
-`{username}` Below are all the variables that are supported.
+The `name` option lets you set what a verfied user has there nickname set to in the server. By default its set to `{username}` Below are all the variables that are
+supported.
 
 <details>
 <summary>Type Option Variables</summary>
@@ -758,8 +724,7 @@ The `name` option lets you set what a verfied user has there nickname set to in 
 <details>
 <summary>NetWorth</summary>
 
-**NOTE:** Every key here has an Unsoulbound one also. Eg `{skyblockNetworthUnsoulbound}` and
-`{skyblockNetwrothArmorUnsoulbound}`
+**NOTE:** Every key here has an Unsoulbound one also. Eg `{skyblockNetworthUnsoulbound}` and `{skyblockNetwrothArmorUnsoulbound}`
 
 `{skyblockNetworth}` - Player's SkyBlock Networth
 
@@ -858,13 +823,12 @@ The `name` option lets you set what a verfied user has there nickname set to in 
 </details>
 <br>
 
-The `name` option lets you set what a verfied user has there nickname set to in the server. By default its set to
-`{username}` Below are all the variables that are supported.
+The `name` option lets you set what a verfied user has there nickname set to in the server. By default its set to `{username}` Below are all the variables that are
+supported.
 
 <details>
 
-**NOTE:** Everything in the `levelRoles` Type Options section is supported here. These are only the ones that are
-exclusive to this set of variables
+**NOTE:** Everything in the `levelRoles` Type Options section is supported here. These are only the ones that are exclusive to this set of variables
 
 <summary>Name Option Variables</summary>
 
@@ -1007,8 +971,7 @@ exclusive to this set of variables
 </details>
 <br>
 
-The `ranks` option is an array that takes in an object like the following example, this allows ingame ranks to have a
-synced discord role.
+The `ranks` option is an array that takes in an object like the following example, this allows ingame ranks to have a synced discord role.
 
 ```json
 {
@@ -1019,16 +982,14 @@ synced discord role.
 
 ### Stats Channels
 
-The Stats Channels are channels that show stats for your guild. These stats can be your guild level, amount of members
-in the guild and other.
+The Stats Channels are channels that show stats for your guild. These stats can be your guild level, amount of members in the guild and other.
 
 The `enabled` option determines whether the Stats Channels system is enabled. By default, this is set to false.
 
-The `autoUpdaterInterval` allows you to change how often the autoUpdater for the channels runs. By default this option
-is set to 5 making the autoUpdater run every 5 minutes.
+The `autoUpdaterInterval` allows you to change how often the autoUpdater for the channels runs. By default this option is set to 5 making the autoUpdater run every 5
+minutes.
 
-The `channels` option is an array that takes in an object like the following example, this allows the updater to know
-what channels there are and what to name them.
+The `channels` option is an array that takes in an object like the following example, this allows the updater to know what channels there are and what to name them.
 
 ```json
 {
@@ -1061,8 +1022,8 @@ what channels there are and what to name them.
 
 ### Chat Triggers Module
 
-If you think that message format is boring, you can check out my repository for ChatTriggers module which changes the
-way messages from Bot look like. [Click Here](https://github.com/DuckySoLucky/Hypixel-Guild-Chat-Format)
+If you think that message format is boring, you can check out my repository for ChatTriggers module which changes the way messages from Bot look like.
+[Click Here](https://github.com/DuckySoLucky/Hypixel-Guild-Chat-Format)
 
 > [!IMPORTANT]  
 > This CTJS module has been deprecated and is no longer maintained.
@@ -1077,7 +1038,6 @@ way messages from Bot look like. [Click Here](https://github.com/DuckySoLucky/Hy
 - [SkyHelper API](https://github.com/Altpapier/SkyHelperAPI)
 - [Mowojang API](https://mowojang.matdoes.dev/)
 - [Hypixel API](http://api.hypixel.net/)
-- [LilyWeight](https://github.com/Antonio32A/lilyweight)
 - [Altpapier](https://github.com/altpapier/hypixel-discord-guild-bridge/)
 - [SkyCrypt](https://github.com/SkyCryptWebsite/SkyCrypt)
 - [Senither](https://github.com/Senither)

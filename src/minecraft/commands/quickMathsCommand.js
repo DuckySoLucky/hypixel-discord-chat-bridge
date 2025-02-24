@@ -1,7 +1,12 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
+const { delay } = require("../../contracts/helperFunctions.js");
 const config = require("../../../config.json");
 
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+/**
+ * Returns the answer
+ * @param {string} message
+ * @returns {string}
+ */
 const getAnswer = (message) => {
   if (message.includes(config.minecraft.bot.messageFormat)) {
     return message.split(config.minecraft.bot.messageFormat)[1].trim();
@@ -10,12 +15,15 @@ const getAnswer = (message) => {
   return message.split(": ")[1];
 };
 
+/**
+ * Returns the username
+ * @param {string} message
+ * @returns {string | null}
+ */
 const getUsername = (message) => {
-  const match = message.match(
-    /^(?:(?:\[(?<rank>[^\]]+)\] )?(?:(?<username>\w+)(?: \[(?<guildRank>[^\]]+)\])?: )?)?(?<message>.+)$/
-  );
+  const match = message.match(/^(?:(?:\[(?<rank>[^\]]+)\] )?(?:(?<username>\w+)(?: \[(?<guildRank>[^\]]+)\])?: )?)?(?<message>.+)$/);
 
-  if (!match) {
+  if (!match?.groups) {
     return null;
   }
 
@@ -23,6 +31,7 @@ const getUsername = (message) => {
 };
 
 class QuickMathsCommand extends minecraftCommand {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super(minecraft);
 
@@ -32,9 +41,13 @@ class QuickMathsCommand extends minecraftCommand {
     this.options = [];
   }
 
-  async onCommand(username, message) {
+  /**
+   * @param {string} player
+   * @param {string} message
+   * */
+  async onCommand(player, message) {
     try {
-      const userUsername = username;
+      const userUsername = player;
       const operands = [Math.floor(Math.random() * 10), Math.floor(Math.random() * 10)];
       const operators = ["+", "-", "*"];
       const operator = operators[Math.floor(Math.random() * operators.length)];
@@ -43,12 +56,18 @@ class QuickMathsCommand extends minecraftCommand {
       const answer = eval(operands.join(operator));
       const headStart = 250;
 
-      this.send(`${username} What is ${equation}?`);
+      this.send(`${player} What is ${equation}?`);
       await delay(headStart);
 
       const startTime = Date.now();
       let answered = false;
 
+      /**
+       * Listener for the chat event.
+       * @param {string} username
+       * @param {player} message
+       * @returns {void}
+       */
       const listener = (username, message) => {
         if (getAnswer(message) !== answer.toString()) {
           return;
@@ -69,7 +88,7 @@ class QuickMathsCommand extends minecraftCommand {
         }
       }, 10000);
     } catch (error) {
-      this.send(`${username} [ERROR] ${error || "Something went wrong.."}`);
+      this.send(`${player} [ERROR] ${error || "Something went wrong.."}`);
     }
   }
 }

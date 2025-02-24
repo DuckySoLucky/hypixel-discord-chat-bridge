@@ -1,7 +1,8 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const { delay } = require("../../contracts/helperFunctions.js");
 
 class BoopCommand extends minecraftCommand {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super(minecraft);
 
@@ -18,7 +19,11 @@ class BoopCommand extends minecraftCommand {
     this.isOnCooldown = false;
   }
 
-  async onCommand(username, message) {
+  /**
+   * @param {string} player
+   * @param {string} message
+   * */
+  async onCommand(player, message) {
     // CREDITS: by @Zickles (https://github.com/Zickles)
     try {
       const args = this.getArgs(message);
@@ -26,7 +31,7 @@ class BoopCommand extends minecraftCommand {
         throw "You must provide a user to boo!";
       }
 
-      username = args[0];
+      player = args[0];
       if (this.isOnCooldown) {
         return this.send(`${this.name} Command is on cooldown`);
       }

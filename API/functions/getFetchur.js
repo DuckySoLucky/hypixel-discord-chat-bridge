@@ -4,12 +4,8 @@ function getFetchur() {
   const today = new Date();
   today.setHours(today.getHours() - 6);
   const day = today.getDate();
-  let item;
-  if (day <= 12) {
-    item = items[day];
-  }
-  item = items[day % 12];
-
+  // @ts-ignore
+  const item = day <= 12 ? items[day] : items[day % 12];
   return item;
 }
 

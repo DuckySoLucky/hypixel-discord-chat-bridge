@@ -1,9 +1,10 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
+const { formatError } = require("../../contracts/helperFunctions.js");
 const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
 const { getUUID } = require("../../contracts/API/mowojangAPI.js");
-const { formatError } = require("../../contracts/helperFunctions.js");
 
 class GuildExperienceCommand extends minecraftCommand {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super(minecraft);
 
@@ -19,19 +20,26 @@ class GuildExperienceCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
-    username = this.getArgs(message)[0] || username;
+  /**
+   * @param {string} player
+   * @param {string} message
+   * */
+  async onCommand(player, message) {
+    player = this.getArgs(message)[0] || player;
 
     try {
-      const [uuid, guild] = await Promise.all([getUUID(username), hypixel.getGuild("player", username)]);
+      const [uuid, guild] = await Promise.all([getUUID(player), hypixel.getGuild("player", player, { noCaching: false })]);
 
-      const player = guild.members.find((member) => member.uuid == uuid);
+      /** @type {import('hypixel-api-reborn').Guild['members']} */
+      const guildMembers = guild.members;
 
-      if (player === undefined) {
+      const member = guildMembers.find((member) => member.uuid == uuid);
+
+      if (member === undefined) {
         throw "Player is not in the Guild.";
       }
 
-      this.send(`${username}'s Weekly Guild Experience: ${player.weeklyExperience.toLocaleString()}.`);
+      this.send(`${player}'s Weekly Guild Experience: ${member.weeklyExperience.toLocaleString()}.`);
     } catch (error) {
       this.send(formatError(error));
     }

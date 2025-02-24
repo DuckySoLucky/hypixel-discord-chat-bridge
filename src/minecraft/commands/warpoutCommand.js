@@ -1,7 +1,7 @@
+const { delay } = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
 class warpoutCommand extends minecraftCommand {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super(minecraft);
     this.name = "warpout";
@@ -10,10 +10,14 @@ class warpoutCommand extends minecraftCommand {
     this.options = [];
     this.isOnCooldown = false;
   }
-  async onCommand(username, message) {
+  /**
+   * @param {string} player
+   * @param {string} message
+   * */
+  async onCommand(player, message) {
     try {
       if (this.isOnCooldown) {
-        return this.send(`${username} Command is on cooldown`);
+        return this.send(`${player} Command is on cooldown`);
       }
 
       this.isOnCooldown = true;
@@ -26,6 +30,7 @@ class warpoutCommand extends minecraftCommand {
       await delay(250);
       bot.chat("/play skyblock");
 
+      // @ts-ignore
       const warpoutListener = async (message) => {
         message = message.toString();
 
@@ -110,7 +115,7 @@ class warpoutCommand extends minecraftCommand {
         }
       }, 30000);
     } catch (error) {
-      this.send(`${username} [ERROR] ${error || "Something went wrong.."}`);
+      this.send(`${player} [ERROR] ${error || "Something went wrong.."}`);
       this.isOnCooldown = false;
     }
   }

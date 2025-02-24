@@ -1,8 +1,10 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-const axios = require("axios");
+const { delay } = require("../../contracts/helperFunctions.js");
+// @ts-ignore
+const { get } = require("axios");
 
 class MayorCommand extends minecraftCommand {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super(minecraft);
 
@@ -12,28 +14,35 @@ class MayorCommand extends minecraftCommand {
     this.options = [];
   }
 
-  async onCommand(username, message) {
+  /**
+   * @param {string} player
+   * @param {string} message
+   * */
+  async onCommand(player, message) {
     try {
       // CREDITS: by @Kathund (https://github.com/Kathund)
-      const { data } = await axios.get(`https://api.hypixel.net/v2/resources/skyblock/election`);
-
-      if (data === undefined || data.success === false) {
+      const response = await get(`https://api.hypixel.net/v2/resources/skyblock/election`);
+      if (response === undefined || response.data === undefined || response.data.success === false) {
         throw "Request to Hypixel API failed. Please try again!";
       }
+
+      /** @type {import("../../../types/election.js").Mayor} */
+      const data = response.data;
 
       this.send(
         `[MAYOR] ${data.mayor.name} is the current mayor of Skyblock! Perks: ${data.mayor.perks
           .map((perk) => perk.name)
-          .join(", ")}, Minister Perk: ${data.mayor.minister.perk.name}`
+          .join(", ")}, Minister Perk: ${data.mayor.minister?.perk?.name ?? "Unknown"}`
       );
-      await delay(500);
+
+      await delay(1000);
       if (data.mayor.election.candidates.length > 0) {
         const currentLeader = data.mayor.election.candidates.sort((a, b) => (b.votes || 0) - (a.votes || 0))[0];
-        if (!currentLeader) return;
-        const totalVotes = data.mayor.election.candidates.reduce(
-          (total, candidate) => total + (candidate.votes || 0),
-          0
-        );
+        if (!currentLeader) {
+          return this.send(`[MAYOR] No current leader.`);
+        }
+
+        const totalVotes = data.mayor.election.candidates.reduce((total, candidate) => total + (candidate.votes || 0), 0);
         const percentage = ((currentLeader.votes || 0) / totalVotes) * 100;
         this.send(`[MAYOR] Current Election: ${currentLeader.name} has ${percentage.toFixed(2)}% of the votes.`);
       }

@@ -1,14 +1,44 @@
 // CREDITS: by @Kathund (https://github.com/Kathund)
-const { titleCase } = require("../constants/functions.js");
+const { titleCase } = require("../../src/contracts/helperFunctions.js");
 
-module.exports = (profile) => {
+/**
+ * Returns the Crimson Isle stats of a player.
+ * @param {import("../../types/profiles.js").Member} profile
+ * @returns {import("./crimson.types").CrimsonIsle | null}
+ */
+function getCrimsonIsle(profile) {
   try {
-    const crimsonIsle = profile.nether_island_player_data ?? {};
-    if (profile?.nether_island_player_data === undefined && profile?.trophy_fish === undefined) {
-      return;
+    const crimsonIsle = profile.nether_island_player_data;
+    if (crimsonIsle === undefined) {
+      return null;
     }
 
-    const dojo = {
+    return {
+      faction: titleCase(crimsonIsle.selected_faction || "none"),
+      reputation: {
+        barbarian: crimsonIsle.barbarians_reputation ?? 0,
+        mage: crimsonIsle.mages_reputation ?? 0
+      }
+    };
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+/**
+ * Returns the Dojo stats of a player.
+ * @param {import("../../types/profiles.js").Member} profile
+ * @returns {import("./crimson.types").Dojo | null}
+ */
+function getDojo(profile) {
+  try {
+    const crimsonIsle = profile.nether_island_player_data;
+    if (crimsonIsle === undefined) {
+      return null;
+    }
+
+    return {
       belt: getBelt(
         Object.keys(crimsonIsle.dojo ?? {})
           .filter((key) => key.startsWith("dojo_points"))
@@ -43,28 +73,17 @@ module.exports = (profile) => {
         rank: getScore(crimsonIsle.dojo?.dojo_points_fireball ?? 0)
       }
     };
-
-    return {
-      faction: titleCase(crimsonIsle.selected_faction || "none"),
-      reputation: {
-        barbarian: crimsonIsle.barbarians_reputation ?? 0,
-        mage: crimsonIsle.mages_reputation ?? 0
-      },
-      kuudra: {
-        basic: crimsonIsle.kuudra_completed_tiers?.none ?? 0,
-        hot: crimsonIsle.kuudra_completed_tiers?.hot ?? 0,
-        burning: crimsonIsle.kuudra_completed_tiers?.burning ?? 0,
-        fiery: crimsonIsle.kuudra_completed_tiers?.fiery ?? 0,
-        infernal: crimsonIsle.kuudra_completed_tiers?.infernal ?? 0
-      },
-      dojo: dojo,
-      trophyFishing: getTrophyFish(profile)
-    };
   } catch (error) {
     console.error(error);
     return null;
   }
-};
+}
+
+/**
+ * Returns the score rank of a dojo.
+ * @param {number} points
+ * @returns {string}
+ */
 
 function getScore(points) {
   if (points >= 1000) {
@@ -82,6 +101,11 @@ function getScore(points) {
   }
 }
 
+/**
+ * Returns the belt of a dojo.
+ * @param {number} points
+ * @returns {string}
+ */
 function getBelt(points) {
   if (points >= 7000) {
     return "Black";
@@ -98,24 +122,74 @@ function getBelt(points) {
   return "White";
 }
 
+/**
+ * Returns the Kuudra stats of a player.
+ * @param {import("../../types/profiles.js").Member} profile
+ * @returns {import("./crimson.types").Kuudra | null}
+ */
+function getKuudra(profile) {
+  try {
+    const crimsonIsle = profile.nether_island_player_data;
+    if (!crimsonIsle) {
+      return null;
+    }
+
+    return {
+      basic: crimsonIsle.kuudra_completed_tiers?.none ?? 0,
+      hot: crimsonIsle.kuudra_completed_tiers?.hot ?? 0,
+      burning: crimsonIsle.kuudra_completed_tiers?.burning ?? 0,
+      fiery: crimsonIsle.kuudra_completed_tiers?.fiery ?? 0,
+      infernal: crimsonIsle.kuudra_completed_tiers?.infernal ?? 0
+    };
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+/**
+ * Returns the trophy fish rank of a player.
+ * @param {number} rewards
+ * @returns {string}
+ */
 function getTrophyFishRank(rewards) {
   const names = ["None", "Bronze", "Silver", "Gold", "Diamond"];
 
-  return names[rewards];
+  return names[rewards] ?? "None";
 }
 
+/**
+ * Returns the trophy fish stats of a player.
+ * @param {import("../../types/profiles.js").Member} profile
+ * @returns {import("./crimson.types").TrophyFishing | null}
+ */
 function getTrophyFish(profile) {
-  const trophyFish = profile?.trophy_fish ?? {};
-  const trophyFishKeys = Object.keys(trophyFish);
-
-  return {
-    rank: getTrophyFishRank(trophyFish.rewards ? trophyFish.rewards[trophyFish.rewards.length - 1] : 0),
-    caught: {
-      total: trophyFish.total_caught ?? 0,
-      bronze: trophyFishKeys.filter((key) => key.endsWith("_bronze")).length,
-      silver: trophyFishKeys.filter((key) => key.endsWith("_silver")).length,
-      gold: trophyFishKeys.filter((key) => key.endsWith("_gold")).length,
-      diamond: trophyFishKeys.filter((key) => key.endsWith("_diamond")).length
+  try {
+    const trophyFish = profile?.trophy_fish;
+    if (trophyFish === undefined) {
+      return null;
     }
-  };
+
+    const trophyFishKeys = Object.keys(trophyFish);
+    return {
+      rank: getTrophyFishRank(trophyFish.rewards ? trophyFish.rewards[trophyFish.rewards.length - 1] : 0),
+      caught: {
+        total: trophyFish.total_caught ?? 0,
+        bronze: trophyFishKeys.filter((key) => key.endsWith("_bronze")).length,
+        silver: trophyFishKeys.filter((key) => key.endsWith("_silver")).length,
+        gold: trophyFishKeys.filter((key) => key.endsWith("_gold")).length,
+        diamond: trophyFishKeys.filter((key) => key.endsWith("_diamond")).length
+      }
+    };
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 }
+
+module.exports = {
+  getCrimsonIsle,
+  getTrophyFish,
+  getKuudra,
+  getDojo
+};
