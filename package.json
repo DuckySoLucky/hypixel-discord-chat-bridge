@@ -43,7 +43,6 @@
     "lilyweight": "^2.7.2",
     "lodash": "^4.17.21",
     "mineflayer": "^4.26.0",
-    "mkdirp": "^3.0.1",
     "moment": "^2.29.4",
     "node-cron": "^3.0.2",
     "prismarine-nbt": "^2.2.1",
