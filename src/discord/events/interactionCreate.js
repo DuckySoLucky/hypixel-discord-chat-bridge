@@ -54,10 +54,7 @@ module.exports = {
       }
     } catch (error) {
       console.error(error);
-      const errrorMessage =
-        error instanceof HypixelDiscordChatBridgeError
-          ? ""
-          : "Please try again later. The error has been sent to the Developers.\n\n";
+      const errrorMessage = error instanceof HypixelDiscordChatBridgeError ? "" : "Please try again later. The error has been sent to the Developers.\n\n";
 
       const errorEmbed = new ErrorEmbed(`${errrorMessage}\`\`\`${error}\`\`\``);
 
@@ -94,10 +91,7 @@ function isModerator(interaction) {
   const user = interaction.member;
   const userRoles = user.roles.cache.map((role) => role.id);
 
-  if (
-    config.discord.commands.checkPerms === true &&
-    !(userRoles.includes(config.discord.commands.commandRole) || config.discord.commands.users.includes(user.id))
-  ) {
+  if (config.discord.commands.checkPerms === true && !(userRoles.includes(config.discord.commands.commandRole) || config.discord.commands.users.includes(user.id))) {
     return false;
   }
 

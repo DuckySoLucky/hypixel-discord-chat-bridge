@@ -1,9 +1,10 @@
-const { formatNumber } = require("../../contracts/helperFunctions.js");
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const { getNetworth } = require("skyhelper-networth");
+const { formatNumber } = require("../../contracts/helperFunctions.js");
+const { ProfileNetworthCalculator } = require("skyhelper-networth-v2");
 
 class NetWorthCommand extends minecraftCommand {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super(minecraft);
 
@@ -19,32 +20,38 @@ class NetWorthCommand extends minecraftCommand {
     ];
   }
 
+  /**
+   * @param {string} player
+   * @param {string} message
+   * */
   async onCommand(player, message) {
     try {
       const args = this.getArgs(message);
       player = args[0] || player;
 
       const { username, profile, museum, profileData } = await getLatestProfile(player, { museum: true });
+      const bankingBalance = profileData.banking?.balance ?? 0;
 
-      const networthData = await getNetworth(profile, profileData?.banking?.balance || 0, {
-        museumData: museum,
-        onlyNetworth: true,
-        v2Endpoint: true,
-        cache: true
-      });
+      const networthManager = new ProfileNetworthCalculator(profile, museum, bankingBalance);
+      const networthData = await networthManager.getNetworth({ onlyNetworth: true });
+      const nonCosmeticNetworthData = await networthManager.getNonCosmeticNetworth({ onlyNetworth: true });
 
-      if (profile.noInventory === true) {
+      if (networthData.noInventory === true) {
         return this.send(`${username} has an Inventory API off!`);
       }
 
       const networth = formatNumber(networthData.networth);
       const unsoulboundNetworth = formatNumber(networthData.unsoulboundNetworth);
+      const nonCosmeticNetworth = formatNumber(nonCosmeticNetworthData.networth);
+      const nonCosmeticUnsoulboundNetworth = formatNumber(nonCosmeticNetworthData.unsoulboundNetworth);
+
       const purse = formatNumber(networthData.purse);
-      const bank = networthData.bank ? formatNumber(networthData.bank) : "N/A";
+      const bank = profileData.banking?.balance ? formatNumber(profileData.banking.balance) : "N/A";
+      const personalBank = profile.profile?.bank_account ? formatNumber(profile.profile.bank_account) : "N/A";
       const museumData = museum ? formatNumber(networthData.types.museum?.total ?? 0) : "N/A";
 
       this.send(
-        `${username}'s Networth is ${networth} | Unsoulbound Networth: ${unsoulboundNetworth} | Purse: ${purse} | Bank: ${bank} | Museum: ${museumData}`
+        `${username}'s Networth is ${networth} | Non-Cosmetic Networth: ${nonCosmeticNetworth} | Unsoulbound Networth: ${unsoulboundNetworth} | Non-Cosmetic Unsoulbound Networth: ${nonCosmeticUnsoulboundNetworth} | Purse: ${purse} | Bank: ${bank} + ${personalBank} | Museum: ${museumData}`
       );
     } catch (error) {
       console.error(error);

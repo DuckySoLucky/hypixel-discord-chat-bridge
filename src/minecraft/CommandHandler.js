@@ -4,6 +4,7 @@ const axios = require("axios");
 const fs = require("fs");
 
 class CommandHandler {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     this.minecraft = minecraft;
 
@@ -26,8 +27,7 @@ class CommandHandler {
 
       const args = message.slice(this.prefix.length).trim().split(/ +/);
       const commandName = args.shift().toLowerCase();
-      const command =
-        this.commands.get(commandName) ?? this.commands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
+      const command = this.commands.get(commandName) ?? this.commands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
 
       if (command === undefined) {
         return;

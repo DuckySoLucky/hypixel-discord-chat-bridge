@@ -1,7 +1,8 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
 const { formatError } = require("../../contracts/helperFunctions.js");
+const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
 class SkywarsCommand extends minecraftCommand {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super(minecraft);
 
@@ -17,17 +18,22 @@ class SkywarsCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  /**
+   * @param {string} player
+   * @param {string} message
+   * */
+  async onCommand(player, message) {
     try {
-      username = this.getArgs(message)[0] || username;
+      player = this.getArgs(message)[0] || player;
 
-      const player = await hypixel.getPlayer(username);
+      const hypixelPlayer = await hypixel.getPlayer(player);
+      if (hypixelPlayer.stats?.skywars === undefined) {
+        return this.send(`${player} has no Skywars stats.`);
+      }
 
-      const { wins, kills, level, KDRatio, WLRatio, winstreak } = player.stats.skywars;
+      const { wins, kills, level, KDRatio, WLRatio, coins } = hypixelPlayer.stats.skywars;
 
-      this.send(
-        `[${level}✫] ${player.nickname} | Kills: ${kills} KDR: ${KDRatio} | Wins: ${wins} WLR: ${WLRatio} | WS: ${winstreak}`
-      );
+      this.send(`[${level}✫] ${hypixelPlayer.nickname} | Kills: ${kills} KDR: ${KDRatio} | Wins: ${wins} WLR: ${WLRatio} | Coins: ${coins}`);
     } catch (error) {
       this.send(formatError(error));
     }

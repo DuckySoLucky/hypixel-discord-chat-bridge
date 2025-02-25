@@ -46,9 +46,7 @@ class StateHandler extends eventHandler {
     }
 
     if (this.isPartyMessage(message) && config.minecraft.fragBot.enabled === true) {
-      const username = message.substr(54).startsWith("[")
-        ? message.substr(54).split(" ")[1].trim()
-        : message.substr(54).split(" ")[0].trim();
+      const username = message.substr(54).startsWith("[") ? message.substr(54).split(" ")[1].trim() : message.substr(54).split(" ")[0].trim();
 
       const { blacklist, blacklisted, whitelist, whitelisted } = config.minecraft.fragBot;
       if (blacklist || whitelist) {
@@ -60,9 +58,7 @@ class StateHandler extends eventHandler {
           }
         }
 
-        const members = await hypixel
-          .getGuild("player", bot.username)
-          .then(async (guild) => guild.members.map((member) => member.uuid));
+        const members = await hypixel.getGuild("player", bot.username).then(async (guild) => guild.members.map((member) => member.uuid));
         if ((config.minecraft.fragBot.whitelist && whitelisted.includes(username)) || members.includes(uuid)) {
           bot.chat(`/party accept ${username}`);
           await delay(Math.floor(Math.random() * (6900 - 4200 + 1)) + 4200);
@@ -76,9 +72,7 @@ class StateHandler extends eventHandler {
     }
 
     if (this.isRequestMessage(message)) {
-      const username = replaceAllRanks(
-        message.split("has")[0].replaceAll("-----------------------------------------------------\n", "")
-      );
+      const username = replaceAllRanks(message.split("has")[0].replaceAll("-----------------------------------------------------\n", ""));
       const uuid = await getUUID(username);
       if (config.minecraft.guildRequirements.enabled) {
         const playerInfo = await checkRequirements(uuid);
@@ -88,7 +82,7 @@ class StateHandler extends eventHandler {
             playerInfo.bwLevel
           }✫] FKDR: ${playerInfo.bwFKDR} | [SW] [${playerInfo.swLevel}✫] KDR: ${playerInfo.swKDR} | [Duels] Wins: ${
             playerInfo.duelsWins
-          } WLR: ${playerInfo.dWLR} | SB Weight: ${playerInfo.weight} | SB Level: ${playerInfo.skyblockLevel}`
+          } WLR: ${playerInfo.dWLR} | SB Level: ${playerInfo.skyblockLevel}`
         );
         await delay(1000);
 
@@ -100,9 +94,7 @@ class StateHandler extends eventHandler {
         const acceptButton = new ActionRowBuilder().addComponents(
           new ButtonBuilder().setCustomId("joinRequestAccept").setLabel("Accept Request").setStyle(ButtonStyle.Success)
         );
-        await client.channels.cache
-          .get(`${config.discord.channels.loggingChannel}`)
-          .send({ embeds: [statsEmbed], components: [acceptButton] });
+        await client.channels.cache.get(`${config.discord.channels.loggingChannel}`).send({ embeds: [statsEmbed], components: [acceptButton] });
       }
     }
 
@@ -723,10 +715,7 @@ class StateHandler extends eventHandler {
   }
 
   isAlreadyBlacklistedMessage(message) {
-    return (
-      message.includes(`You've already blocked that player! /block remove <player> to unblock them!`) &&
-      !message.includes(":")
-    );
+    return message.includes(`You've already blocked that player! /block remove <player> to unblock them!`) && !message.includes(":");
   }
 
   isBlacklistRemovedMessage(message) {
@@ -816,19 +805,11 @@ class StateHandler extends eventHandler {
   }
 
   isOnlineInvite(message) {
-    return (
-      message.includes("You invited") &&
-      message.includes("to your guild. They have 5 minutes to accept.") &&
-      !message.includes(":")
-    );
+    return message.includes("You invited") && message.includes("to your guild. They have 5 minutes to accept.") && !message.includes(":");
   }
 
   isOfflineInvite(message) {
-    return (
-      message.includes("You sent an offline invite to") &&
-      message.includes("They will have 5 minutes to accept once they come online!") &&
-      !message.includes(":")
-    );
+    return message.includes("You sent an offline invite to") && message.includes("They will have 5 minutes to accept once they come online!") && !message.includes(":");
   }
 
   isFailedInvite(message) {

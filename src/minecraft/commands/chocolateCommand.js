@@ -1,13 +1,13 @@
-const { formatNumber } = require("../../contracts/helperFunctions.js");
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
+const { getChocolateFactory } = require("../../../API/stats/chocolateFactory.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const getChocolateFactory = require("../../../API/stats/chocolateFactory.js");
-const { titleCase } = require("../../../API/constants/functions.js");
+const { formatNumber, titleCase } = require("../../contracts/helperFunctions.js");
 
 class ChocolateCommand extends minecraftCommand {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super(minecraft);
-2
+    2;
     this.name = "chocolatefactory";
     this.aliases = ["cf", "factory", "chocolate"];
     this.description = "Skyblock Chocolate Factory Stats of specified user.";
@@ -20,6 +20,10 @@ class ChocolateCommand extends minecraftCommand {
     ];
   }
 
+  /**
+   * @param {string} player
+   * @param {string} message
+   * */
   async onCommand(player, message) {
     try {
       const args = this.getArgs(message);
@@ -28,7 +32,6 @@ class ChocolateCommand extends minecraftCommand {
       const { username, profile, profileData } = await getLatestProfile(player);
 
       const chocolateFactory = getChocolateFactory(profile);
-
       if (chocolateFactory == null) {
         throw `${username} has never interacted with the Chocolate Factory on ${profileData.cute_name}.`;
       }

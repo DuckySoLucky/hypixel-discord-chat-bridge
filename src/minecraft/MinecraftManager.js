@@ -78,10 +78,7 @@ class MinecraftManager extends CommunicationBridge {
     const messageListener = (receivedMessage) => {
       receivedMessage = receivedMessage.toString();
 
-      if (
-        receivedMessage.trim().includes(message.trim()) &&
-        (this.chatHandler.isGuildMessage(receivedMessage) || this.chatHandler.isOfficerMessage(receivedMessage))
-      ) {
+      if (receivedMessage.trim().includes(message.trim()) && (this.chatHandler.isGuildMessage(receivedMessage) || this.chatHandler.isOfficerMessage(receivedMessage))) {
         bot.removeListener("message", messageListener);
         successfullySent = true;
       }

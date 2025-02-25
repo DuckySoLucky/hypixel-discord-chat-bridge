@@ -23,10 +23,20 @@ var yearsUntilSpecial = 0;
 var diffSkyblockYear = currentSkyblockYear;
 var specialMayor = "";
 
+/**
+ * Returns the current Skyblock year
+ * @param {number} time
+ * @returns {number}
+ */
 function timeToSkyblockYear(time) {
   return Math.floor((time - yearZero) / yearMs) + 1;
 }
 
+/**
+ * Returns the special mayor for the given year
+ * @param {number} skyblockYear
+ * @returns {string}
+ */
 function getSpecialMayor(skyblockYear) {
   if (diffSkyblockYear % 24 == 8) {
     specialMayor = "Derpy";
@@ -37,10 +47,12 @@ function getSpecialMayor(skyblockYear) {
   } else {
     specialMayor = "Error!";
   }
+
   return specialMayor;
 }
 
 class SpecialMayorCommand extends minecraftCommand {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super(minecraft);
 
@@ -61,9 +73,8 @@ class SpecialMayorCommand extends minecraftCommand {
           diffSkyblockYear += 1;
           specialMayor = getSpecialMayor(diffSkyblockYear);
         }
-        this.send(
-          `Not Special Mayor, ${yearsUntilSpecial} years until the next one! It is speculated to be ${specialMayor}.`
-        );
+
+        this.send(`Not Special Mayor, ${yearsUntilSpecial} years until the next one! It is speculated to be ${specialMayor}.`);
       }
     } catch (error) {
       console.log(error);

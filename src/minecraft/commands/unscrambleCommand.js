@@ -1,13 +1,22 @@
 const { getRandomWord, scrambleWord } = require("../constants/words.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const getWord = (message) => message.split(" ").pop();
 
+/**
+ * Returns the word
+ * @param {string} message
+ * @returns {string}
+ */
+const getWord = (message) => message.split(" ").pop() ?? "";
+
+/**
+ * Returns the username
+ * @param {string} message
+ * @returns {string | null}
+ */
 const getUsername = (message) => {
-  const match = message.match(
-    /^(?:(?:\[(?<rank>[^\]]+)\] )?(?:(?<username>\w+)(?: \[(?<guildRank>[^\]]+)\])?: )?)?(?<message>.+)$/
-  );
+  const match = message.match(/^(?:(?:\[(?<rank>[^\]]+)\] )?(?:(?<username>\w+)(?: \[(?<guildRank>[^\]]+)\])?: )?)?(?<message>.+)$/);
 
-  if (!match) {
+  if (!match?.groups) {
     return null;
   }
 
@@ -17,6 +26,7 @@ const getUsername = (message) => {
 const cooldowns = new Map();
 
 class unscrambleCommand extends minecraftCommand {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super(minecraft);
 
@@ -33,7 +43,11 @@ class unscrambleCommand extends minecraftCommand {
     this.cooldown = 30 * 1000;
   }
 
-  async onCommand(username, message) {
+  /**
+   * @param {string} player
+   * @param {string} message
+   * */
+  async onCommand(player, message) {
     try {
       const length = this.getArgs(message)[0];
       const answer = getRandomWord(length);
@@ -53,11 +67,14 @@ class unscrambleCommand extends minecraftCommand {
 
       let answered = false;
       cooldowns.set(this.name, Date.now());
+      /**
+       * Listener for chat event
+       * @param {string} username
+       * @param {string} message
+       */
       const listener = (username, message) => {
         if (getWord(message) === answer) {
-          this.send(
-            `${getUsername(message)} guessed it right! Time elapsed: ${(Date.now() - startTime).toLocaleString()}ms!`
-          );
+          this.send(`${getUsername(message)} guessed it right! Time elapsed: ${(Date.now() - startTime).toLocaleString()}ms!`);
           bot.removeListener("chat", listener);
           answered = true;
           cooldowns.delete(this.name);

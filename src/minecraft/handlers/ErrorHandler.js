@@ -3,6 +3,7 @@ const eventHandler = require("../../contracts/EventHandler.js");
 const Logger = require("../.././Logger.js");
 
 class StateHandler extends eventHandler {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super();
 

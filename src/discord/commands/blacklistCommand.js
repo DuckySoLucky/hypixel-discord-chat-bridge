@@ -48,9 +48,7 @@ module.exports = {
     await delay(250);
     bot.chat("/limbo");
 
-    const embed = new SuccessEmbed(
-      `Successfully ${arg == "add" ? "added" : "removed"} \`${name}\` ${arg == "add" ? "to" : "from"} the blacklist.`
-    );
+    const embed = new SuccessEmbed(`Successfully ${arg == "add" ? "added" : "removed"} \`${name}\` ${arg == "add" ? "to" : "from"} the blacklist.`);
 
     await interaction.followUp({
       embeds: [embed]

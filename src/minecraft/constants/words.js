@@ -258,6 +258,11 @@ const words = [
   "window"
 ];
 
+/**
+ * Get a random word from the list.
+ * @param {number} length
+ * @returns {string}
+ */
 function getRandomWord(length) {
   if (length !== undefined) {
     const filteredWords = words.filter((word) => word.length == length);
@@ -272,6 +277,11 @@ function getRandomWord(length) {
   }
 }
 
+/**
+ * Return a scrambled version of the word.
+ * @param {string} word
+ * @returns {string}
+ */
 function scrambleWord(word) {
   const chars = word.split("");
 

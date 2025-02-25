@@ -23,9 +23,7 @@ module.exports = {
     try {
       const linkedData = readFileSync("data/linked.json");
       if (!linkedData) {
-        throw new HypixelDiscordChatBridgeError(
-          "The linked data file does not exist. Please contact an administrator."
-        );
+        throw new HypixelDiscordChatBridgeError("The linked data file does not exist. Please contact an administrator.");
       }
 
       const linked = JSON.parse(linkedData);
@@ -44,11 +42,7 @@ module.exports = {
 
       const uuid = linked[interaction.user.id];
 
-      const roles = [
-        config.verification.guildMemberRole,
-        ...config.verification.ranks.map((r) => r.role),
-        ...config.verification.levelRoles.map((r) => r.roleId)
-      ];
+      const roles = [config.verification.guildMemberRole, ...config.verification.ranks.map((r) => r.role), ...config.verification.levelRoles.map((r) => r.roleId)];
       const giveRoles = [];
 
       if (uuid === undefined) {
@@ -394,10 +388,10 @@ module.exports = {
         if (interaction.member.roles.cache.has(role)) await interaction.member.roles.remove(role, "Updated Roles");
       }
 
-      const updateRole = new SuccessEmbed(
-        `<@${interaction.user.id}>'s roles have been successfully synced with \`${player.nickname ?? "Unknown"}\`!`,
-        { text: `by @.kathund | /help [command] for more information`, iconURL: "https://i.imgur.com/uUuZx2E.png" }
-      );
+      const updateRole = new SuccessEmbed(`<@${interaction.user.id}>'s roles have been successfully synced with \`${player.nickname ?? "Unknown"}\`!`, {
+        text: `by @.kathund | /help [command] for more information`,
+        iconURL: "https://i.imgur.com/uUuZx2E.png"
+      });
 
       await interaction.followUp({ embeds: [updateRole], flags: MessageFlags.Ephemeral });
     } catch (error) {

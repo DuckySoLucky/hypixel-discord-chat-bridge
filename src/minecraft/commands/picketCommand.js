@@ -1,7 +1,10 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const axios = require("axios");
+const { uploadImage } = require("../../contracts/API/imgurAPI.js");
+// @ts-ignore
+const { get } = require("axios");
 
 class PicketCommand extends minecraftCommand {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super(minecraft);
 
@@ -11,20 +14,26 @@ class PicketCommand extends minecraftCommand {
     this.options = [];
   }
 
-  async onCommand(username, message) {
+  /**
+   * @param {string} player
+   * @param {string} message
+   * */
+  async onCommand(player, message) {
     // CREDITS: by @Kathund (https://github.com/Kathund)
     try {
-      const { data, status } = await axios.get("https://imgs.kath.lol/picket");
+      const { data, status } = await get("https://imgs.kath.lol/picket");
       if (status !== 200) {
         throw "An error occured while fetching the image. Please try again later.";
       }
 
-      if (data === undefined) {
+      if (data?.url === undefined) {
         throw "An error occured while fetching the image. Please try again later.";
       }
 
-      imgurUrl = data.url;
-      this.send("PICKET!! Check Discord Bridge for image.");
+      const buffer = await get(data.url, { responseType: "arraybuffer" });
+      await uploadImage(buffer.data);
+
+      this.send("Picket image uploaded to Discord channel.");
     } catch (error) {
       this.send(`[ERROR] ${error ?? "Something went wrong.."}`);
     }

@@ -3,6 +3,7 @@ const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const getHotm = require("../../../API/stats/hotm.js");
 
 class ForgeCommand extends minecraftCommand {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super(minecraft);
 
@@ -18,6 +19,10 @@ class ForgeCommand extends minecraftCommand {
     ];
   }
 
+  /**
+   * @param {string} player
+   * @param {string} message
+   * */
   async onCommand(player, message) {
     try {
       const args = this.getArgs(message);
@@ -25,16 +30,16 @@ class ForgeCommand extends minecraftCommand {
 
       const { username, profile, profileData } = await getLatestProfile(player);
 
-      const hotm = getHotm(profile);
-      if (hotm == null) {
+      const forge = getHotm.getForge(profile);
+      if (forge == null) {
         throw `${username} has never gone to Dwarven Mines on ${profileData.cute_name}.`;
       }
 
-      if (hotm.forge.length === 0 || hotm.forge == null) {
+      if (forge.length === 0 || forge == null) {
         throw `${username} has no items in their forge.`;
       }
 
-      const forgeItems = hotm.forge.map((item) => `${item.slot}: ${item.name} ${item.timeFinishedText}`);
+      const forgeItems = forge.map((item) => `${item.slot}: ${item.name} ${item.timeFinishedText}`);
       this.send(`${username}'s Forge: ${forgeItems.join(" | ")}`);
     } catch (error) {
       this.send(`[ERROR] ${error}`);

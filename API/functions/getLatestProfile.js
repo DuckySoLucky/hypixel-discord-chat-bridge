@@ -1,13 +1,33 @@
 const { getUUID, getUsername } = require("../../src/contracts/API/mowojangAPI.js");
+const { formatUsername } = require("../../src/contracts/helperFunctions.js");
 const { getMuseum } = require("./getMuseum.js");
 const { getGarden } = require("./getGarden.js");
 const { isUuid } = require("../utils/uuid.js");
 const config = require("../../config.json");
-const axios = require("axios");
-const { formatUsername } = require("../../src/contracts/helperFunctions.js");
+// @ts-ignore
+const { get } = require("axios");
 
 const cache = new Map();
 
+/**
+ *
+ * @param {string} uuid
+ * @param {{
+ *  museum?: boolean,
+ *  garden?: boolean
+ * }} options
+ * @returns {Promise<{
+ * username: string,
+ * rawUsername: string,
+ * last_save: number,
+ * profiles: import("../../types/profiles").Profile[],
+ * profile: import("../../types/profiles").Member,
+ * profileData: import("../../types/profiles").Profile,
+ * uuid: string,
+ * museum?: object,
+ * garden?: import("../../types/garden.js").Garden
+ * }>}
+ */
 async function getLatestProfile(uuid, options = { museum: false, garden: false }) {
   if (!isUuid(uuid)) {
     uuid = await getUUID(uuid).catch((error) => {
@@ -25,7 +45,7 @@ async function getLatestProfile(uuid, options = { museum: false, garden: false }
 
   const [username, { data: profileRes }] = await Promise.all([
     getUsername(uuid),
-    axios.get(`https://api.hypixel.net/v2/skyblock/profiles?key=${config.minecraft.API.hypixelAPIkey}&uuid=${uuid}`)
+    get(`https://api.hypixel.net/v2/skyblock/profiles?key=${config.minecraft.API.hypixelAPIkey}&uuid=${uuid}`)
   ]).catch((error) => {
     throw error?.response?.data?.cause ?? "Request to Hypixel API failed. Please try again!";
   });
@@ -34,11 +54,13 @@ async function getLatestProfile(uuid, options = { museum: false, garden: false }
     throw "Request to Hypixel API failed. Please try again!";
   }
 
-  if (profileRes.profiles == null || profileRes.profiles.length == 0) {
+  /** @type {import("../../types/profiles").Profile[]} */
+  const allProfiles = profileRes.profiles;
+  if (allProfiles == null || allProfiles.length == 0) {
     throw "Player has no SkyBlock profiles.";
   }
 
-  const profileData = profileRes.profiles.find((a) => a.selected) || null;
+  const profileData = allProfiles.find((a) => a.selected) || null;
   if (profileData == null) {
     throw "Player does not have selected profile.";
   }

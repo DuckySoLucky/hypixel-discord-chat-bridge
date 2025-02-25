@@ -8,9 +8,7 @@ module.exports = {
     const clientLatency = Date.now() - interaction.createdTimestamp;
     const apiLatency = interaction.client.ws.ping;
 
-    const embed = new Embed()
-      .setTitle("🏓 Pong!")
-      .setDescription(`Client Latency: \`${clientLatency}ms\`\nAPI Latency: \`${apiLatency}ms\``);
+    const embed = new Embed().setTitle("🏓 Pong!").setDescription(`Client Latency: \`${clientLatency}ms\`\nAPI Latency: \`${apiLatency}ms\``);
 
     await interaction.followUp({ embeds: [embed] });
   }

@@ -70,13 +70,9 @@ module.exports = {
         },
         {
           name: `**Discord Information**`,
-          value: `Guild Channel: ${
-            config.discord.channels.guildChatChannel ? `<#${config.discord.channels.guildChatChannel}>` : "None"
-          }\nOfficer Channel: ${
+          value: `Guild Channel: ${config.discord.channels.guildChatChannel ? `<#${config.discord.channels.guildChatChannel}>` : "None"}\nOfficer Channel: ${
             config.discord.channels.officerChannel ? `<#${config.discord.channels.officerChannel}>` : "None"
-          }\nGuild Logs Channel: ${
-            config.discord.channels.loggingChannel ? `<#${config.discord.channels.loggingChannel}>` : "None"
-          }\nDebugging Channel: ${
+          }\nGuild Logs Channel: ${config.discord.channels.loggingChannel ? `<#${config.discord.channels.loggingChannel}>` : "None"}\nDebugging Channel: ${
             config.discord.channels.debugChannel ? `<#${config.discord.channels.debugChannel}>` : "None"
           }\nCommand Role: <@&${config.discord.commands.commandRole}>\nMessage Mode: \`${
             config.discord.other.messageMode

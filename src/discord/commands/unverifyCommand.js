@@ -14,9 +14,7 @@ module.exports = {
     try {
       const linkedData = readFileSync("data/linked.json");
       if (!linkedData) {
-        throw new HypixelDiscordChatBridgeError(
-          "The linked data file does not exist. Please contact an administrator."
-        );
+        throw new HypixelDiscordChatBridgeError("The linked data file does not exist. Please contact an administrator.");
       }
 
       const linked = JSON.parse(linkedData);
@@ -32,10 +30,10 @@ module.exports = {
       delete linked[interaction.user.id];
       writeFileSync("data/linked.json", JSON.stringify(linked, null, 2));
 
-      const updateRole = new SuccessEmbed(
-        `You have successfully unlinked \`${await getUsername(uuid)}\`. Run \`/verify\` to link a new account.`,
-        { text: `by @.kathund | /help [command] for more information`, iconURL: "https://i.imgur.com/uUuZx2E.png" }
-      );
+      const updateRole = new SuccessEmbed(`You have successfully unlinked \`${await getUsername(uuid)}\`. Run \`/verify\` to link a new account.`, {
+        text: `by @.kathund | /help [command] for more information`,
+        iconURL: "https://i.imgur.com/uUuZx2E.png"
+      });
       await interaction.followUp({ embeds: [updateRole] });
       const updateRolesCommand = require("./updateCommand.js");
       if (updateRolesCommand === undefined) {

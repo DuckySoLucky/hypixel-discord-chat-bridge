@@ -1,9 +1,10 @@
-const nbt = require("prismarine-nbt");
 const moment = require("moment");
-const util = require("util");
 
-const parseNbt = util.promisify(nbt.parse);
-
+/**
+ * Replaces all ranks in a string with an empty string
+ * @param {string} input
+ * @returns {string}
+ */
 function replaceAllRanks(input) {
   input = input.replaceAll("[OWNER] ", "");
   input = input.replaceAll("[ADMIN] ", "");
@@ -19,43 +20,11 @@ function replaceAllRanks(input) {
   return input;
 }
 
-function addNotation(type, value) {
-  let returnVal = value;
-  let notList = [];
-  if (type === "shortScale") {
-    notList = [" Thousand", " Million", " Billion", " Trillion", " Quadrillion", " Quintillion"];
-  }
-
-  if (type === "oneLetters") {
-    notList = [" K", " M", " B", " T"];
-  }
-
-  let checkNum = 1000;
-  if (type !== "none" && type !== "commas") {
-    let notValue = notList[notList.length - 1];
-    for (let u = notList.length; u >= 1; u--) {
-      notValue = notList.shift();
-      for (let o = 3; o >= 1; o--) {
-        if (value >= checkNum) {
-          returnVal = value / (checkNum / 100);
-          returnVal = Math.floor(returnVal);
-          returnVal = (returnVal / Math.pow(10, o)) * 10;
-          returnVal = +returnVal.toFixed(o - 1) + notValue;
-        }
-        checkNum *= 10;
-      }
-    }
-  } else {
-    returnVal = numberWithCommas(value.toFixed(0));
-  }
-
-  return returnVal;
-}
-
-function numberWithCommas(x) {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
+/**
+ * Generates a random ID
+ * @param {number} length
+ * @returns {string}
+ */
 function generateID(length) {
   let result = "";
   const characters = "abcde0123456789",
@@ -63,83 +32,37 @@ function generateID(length) {
   for (var i = 0; i < length; i++) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
+
   return result;
 }
 
-function getRarityColor(rarity) {
-  if (rarity.toLowerCase() == "mythic") return "d";
-  if (rarity.toLowerCase() == "legendary") return "6";
-  if (rarity.toLowerCase() == "epic") return "5";
-  if (rarity.toLowerCase() == "rare") return "9";
-  if (rarity.toLowerCase() == "uncommon") return "a";
-  if (rarity.toLowerCase() == "common") return "f";
-  else return "f";
-}
-
-function addCommas(num) {
-  try {
-    return num.toLocaleString();
-  } catch {
-    return 0;
-  }
-}
-
-function toFixed(num, fixed) {
-  if (isNaN(num) || isNaN(Number(fixed))) {
-    return 0;
-  }
-
-  const response = new RegExp("^-?\\d+(?:.\\d{0," + (fixed || -1) + "})?");
-  return num.toString().match(response)[0];
-}
-
+/**
+ * Returns a humanized string representing the time since the given
+ * @param {number} endTime
+ * @param {number} startTime
+ * @returns {string}
+ */
 function timeSince(endTime, startTime = new Date().getTime()) {
-  var secondsPast = (startTime - endTime) / 1000;
-  secondsPast = Math.abs(secondsPast);
-
-  if (secondsPast < 60) {
-    return parseInt(secondsPast) + "s";
-  }
-  if (secondsPast < 3600) {
-    return parseInt(secondsPast / 60) + "m";
-  }
-  if (secondsPast <= 86400) {
-    return parseInt(secondsPast / 3600) + "h";
-  }
-  if (secondsPast > 86400) {
-    const d = toFixed(parseInt(secondsPast / 86400), 0);
-    secondsPast -= 3600 * 24 * d;
-    const h = toFixed(parseInt(secondsPast / 3600), 0);
-    secondsPast -= 3600 * h;
-    const m = toFixed(parseInt(secondsPast / 60), 0);
-    secondsPast -= 60 * m;
-    const s = toFixed(parseInt(secondsPast), 0);
-    return d + "d " + h + "h " + m + "m " + s + "s";
-  }
+  return moment.duration(endTime - startTime).humanize();
 }
 
-function capitalize(str) {
-  if (!str) return str;
-  const words = str.replace(/_/g, " ").toLowerCase().split(" ");
-
-  const upperCased = words.map((word) => {
-    return word.charAt(0).toUpperCase() + word.substr(1);
-  });
-
-  return upperCased.join(" ");
-}
-
-async function decodeData(buffer) {
-  const parsedNbt = await parseNbt(buffer);
-  return nbt.simplify(parsedNbt);
-}
-
+/**
+ * Returns the ordinal suffix for a given number
+ * @param {number} i
+ * @returns {string}
+ */
 function nth(i) {
   return i + ["st", "nd", "rd"][((((i + 90) % 100) - 10) % 10) - 1] || `${i}th`;
 }
 
 const units = new Set(["y", "M", "w", "d", "h", "m", "s"]);
 
+/**
+ * Parses a date
+ * @param {string} mathString
+ * @param {moment.Moment} time
+ * @returns
+ */
 function parseDateMath(mathString, time) {
   const strippedMathString = mathString.replace(/\s/g, "");
   const dateTime = time;
@@ -188,10 +111,13 @@ function parseDateMath(mathString, time) {
       return;
     }
     if (type === 0) {
+      // @ts-ignore
       dateTime.startOf(unit);
     } else if (type === 1) {
+      // @ts-ignore
       dateTime.add(number, unit);
     } else if (type === 2) {
+      // @ts-ignore
       dateTime.subtract(number, unit);
     }
   }
@@ -199,7 +125,12 @@ function parseDateMath(mathString, time) {
   return dateTime;
 }
 
-const parseTimestamp = function (text) {
+/**
+ * Parses a timestamp
+ * @param {string} text
+ * @returns {number | moment.Moment | undefined}
+ */
+function parseTimestamp(text) {
   if (!text) return;
 
   if (typeof text !== "string") {
@@ -238,9 +169,16 @@ const parseTimestamp = function (text) {
   }
 
   const dateMath = parseDateMath(mathString, time);
-  return dateMath ? dateMath.valueOf() : undefined;
-};
 
+  return dateMath ? dateMath.valueOf() : undefined;
+}
+
+/**
+ *  Formats a username based on the gamemode
+ * @param {string} username
+ * @param {string} gamemode
+ * @returns {string}
+ */
 function formatUsername(username, gamemode) {
   if (gamemode === "ironman") return `♲ ${username}`;
   if (gamemode === "bingo") return `Ⓑ ${username}`;
@@ -249,12 +187,20 @@ function formatUsername(username, gamemode) {
   return username;
 }
 
+/**
+ * Formats a number
+ * @param {number} number
+ * @param {number} decimals
+ * @returns
+ */
 function formatNumber(number, decimals = 2) {
   if (number === undefined || number === 0) return 0;
 
   const isNegative = number < 0;
 
-  if (number < 100000 && number > -100000) return parseInt(number).toLocaleString();
+  if (number < 100000 && number > -100000) {
+    return Number(number).toLocaleString();
+  }
 
   const abbrev = ["", "K", "M", "B", "T", "Qa", "Qi", "S", "O", "N", "D"];
   const unformattedNumber = Math.abs(number);
@@ -265,24 +211,23 @@ function formatNumber(number, decimals = 2) {
   return `${isNegative ? "-" : ""}${shortNumber}${abbrev[abbrevIndex]}`;
 }
 
+/**
+ * Replaces variables in a string
+ * @param {string} template
+ * @param {object} variables
+ * @returns
+ */
 function replaceVariables(template, variables) {
+  // @ts-ignore
   return template.replace(/\{(\w+)\}/g, (match, name) => variables[name] ?? match);
 }
 
-function getTimestamp(unixTimestamp = Date.now()) {
-  return new Date(unixTimestamp).toLocaleString("en-US", {
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
-    hour12: false,
-    timeZoneName: "short",
-    timeZone: "UTC"
-  });
-}
-
+/**
+ * Splits a message into multiple messages
+ * @param {string} message
+ * @param {number} amount
+ * @returns {string[]}
+ */
 function splitMessage(message, amount) {
   const messages = [];
   for (let i = 0; i < message.length; i += amount) {
@@ -292,31 +237,55 @@ function splitMessage(message, amount) {
   return messages;
 }
 
+/**
+ * Formats an error message
+ * @param {Error} error
+ * @returns {string}
+ */
 function formatError(error) {
-  return error
-    .toString()
-    .replace("[hypixel-api-reborn] ", "")
-    .replace("For help join our Discord Server https://discord.gg/NSEBNMM", "")
-    .replace("Error:", "[ERROR]");
+  return error.toString().replace("[hypixel-api-reborn] ", "").replace("For help join our Discord Server https://discord.gg/NSEBNMM", "").replace("Error:", "[ERROR]");
+}
+
+/**
+ * Returns a promise that resolves after the given time
+ * @param {number} ms
+ * @returns {Promise<void>}
+ */
+async function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+/**
+ * Converts a string to title case
+ * @param {string} str
+ * @returns {string}
+ */
+function titleCase(str) {
+  if (!str) return "";
+
+  if (typeof str !== "string") {
+    return "";
+  }
+
+  return str
+    .toLowerCase()
+    .replaceAll("_", " ")
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 }
 
 module.exports = {
   replaceAllRanks,
-  addNotation,
   generateID,
-  getRarityColor,
-  addCommas,
-  toFixed,
   timeSince,
-  capitalize,
-  decodeData,
-  numberWithCommas,
   nth,
   parseTimestamp,
   formatUsername,
   formatNumber,
   replaceVariables,
-  getTimestamp,
   splitMessage,
-  formatError
+  formatError,
+  delay,
+  titleCase
 };

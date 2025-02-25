@@ -1,3 +1,12 @@
+/**
+ * @typedef {Record<number, {
+ *  name: string,
+ * quantity: number,
+ * text: string,
+ * image: string,
+ * description: string
+ * }>} fetchur_items
+ */
 module.exports = {
   0: {
     name: "Red Wool",

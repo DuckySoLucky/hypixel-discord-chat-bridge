@@ -1,11 +1,11 @@
-const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
-const getSkills = require("../../../API/stats/skills.js");
+const { formatNumber, titleCase } = require("../../contracts/helperFunctions.js");
 const { getSkillAverage } = require("../../../API/constants/skills.js");
-const helperFunctions = require("../../contracts/helperFunctions.js");
-const { capitalize } = require("lodash");
+const minecraftCommand = require("../../contracts/minecraftCommand.js");
+const { getSkills } = require("../../../API/stats/skills.js");
 
 class SkillsCommand extends minecraftCommand {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super(minecraft);
 
@@ -21,6 +21,10 @@ class SkillsCommand extends minecraftCommand {
     ];
   }
 
+  /**
+   * @param {string} player
+   * @param {string} message
+   * */
   async onCommand(player, message) {
     try {
       const args = this.getArgs(message);
@@ -28,12 +32,15 @@ class SkillsCommand extends minecraftCommand {
 
       const { username, profile, profileData } = await getLatestProfile(player);
 
-      const skillAverage = getSkillAverage(profile);
+      const skillAverage = getSkillAverage(profile, null, {});
       const skills = getSkills(profile, profileData);
+      if (!skills) {
+        return this.send(`${username} has no skills.`);
+      }
 
       const formattedSkills = [];
       for (const [skill, data] of Object.entries(skills)) {
-        formattedSkills.push(`${capitalize(skill)}: ${helperFunctions.formatNumber(data.levelWithProgress, 2)}`);
+        formattedSkills.push(`${titleCase(skill)}: ${formatNumber(data.levelWithProgress, 2)}`);
       }
 
       this.send(`${username}'s Skill Average: ${skillAverage ?? 0} (${formattedSkills.join(", ")})`);

@@ -1,9 +1,10 @@
-const { formatUsername, formatNumber } = require("../../contracts/helperFunctions.js");
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const getCrimson = require("../../../API/stats/crimson.js");
+const { formatNumber } = require("../../contracts/helperFunctions.js");
+const { getDojo } = require("../../../API/stats/crimson.js");
 
 class DojoCommand extends minecraftCommand {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super(minecraft);
 
@@ -19,29 +20,31 @@ class DojoCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  /**
+   * @param {string} player
+   * @param {string} message
+   * */
+  async onCommand(player, message) {
     try {
       // CREDITS: by @Kathund (https://github.com/Kathund)
-      username = this.getArgs(message)[0] || username;
+      const args = this.getArgs(message);
+      player = args[0] || player;
 
-      const data = await getLatestProfile(username);
-      username = formatUsername(username, data.profileData?.game_mode);
-      const profile = getCrimson(data.profile);
+      const { username, profile, profileData } = await getLatestProfile(player);
 
-      if (profile == null) {
-        throw `${username} has never gone to Crimson Isle on ${data.profileData.cute_name}.`;
+      const dojo = getDojo(profile);
+      if (dojo == null) {
+        throw `${username} has never gone to Crimson Isle on ${profileData.cute_name}.`;
       }
 
       this.send(
-        `${username}'s Belt: ${profile.dojo.belt} | Best Force: ${formatNumber(
-          profile.dojo.force.points
-        )} | Best Stamina: ${formatNumber(profile.dojo.stamina.points)} | Best Mastery: ${formatNumber(
-          profile.dojo.mastery.points
-        )} | Best Discipline: ${formatNumber(profile.dojo.discipline.points)} | Best Swiftness: ${formatNumber(
-          profile.dojo.swiftness.points
-        )} | Best Control: ${formatNumber(profile.dojo.control.points)} | Best Tenacity: ${formatNumber(
-          profile.dojo.tenacity.points
-        )}`
+        `${username}'s Belt: ${dojo.belt} | Best Force: ${formatNumber(
+          dojo.force.points
+        )} | Best Stamina: ${formatNumber(dojo.stamina.points)} | Best Mastery: ${formatNumber(
+          dojo.mastery.points
+        )} | Best Discipline: ${formatNumber(dojo.discipline.points)} | Best Swiftness: ${formatNumber(
+          dojo.swiftness.points
+        )} | Best Control: ${formatNumber(dojo.control.points)} | Best Tenacity: ${formatNumber(dojo.tenacity.points)}`
       );
     } catch (error) {
       console.error(error);

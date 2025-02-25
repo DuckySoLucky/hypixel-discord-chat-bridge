@@ -19,9 +19,7 @@ module.exports = {
 
       const linkedData = readFileSync("data/linked.json");
       if (linkedData === undefined) {
-        throw new HypixelDiscordChatBridgeError(
-          "The linked data file does not exist. Please contact an administrator."
-        );
+        throw new HypixelDiscordChatBridgeError("The linked data file does not exist. Please contact an administrator.");
       }
 
       const linked = JSON.parse(linkedData);

@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "checkJs": true,
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "target": "es2023",
+    "module": "commonjs",
+    "strict": true
+  },
+  "include": ["API/**/*", "types/**/*.d.ts", "src/minecraft/commands/*"],
+  "globals": {
+    "bot": "readonly",
+    "client": "readonly"
+  }
+}

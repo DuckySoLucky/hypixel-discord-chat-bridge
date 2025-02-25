@@ -1,20 +1,40 @@
 const config = require("../../config.json");
-const axios = require("axios");
+// @ts-ignore
+const { get } = require("axios");
 
-async function getGarden(profileID, uuid) {
-  try {
-    const { data } = await axios.get(
-      `https://api.hypixel.net/v2/skyblock/garden?key=${config.minecraft.API.hypixelAPIkey}&profile=${profileID}`
-    );
+const cache = new Map();
 
-    if (data === undefined || data.success === false) {
-      throw "Request to Hypixel API failed. Please try again!";
+/**
+ * Returns the garden of a profile
+ * @param {string} profileID
+ * @returns {Promise<{ garden: import("../../types/garden").Garden}>}
+ */
+async function getGarden(profileID) {
+  if (cache.has(profileID)) {
+    const data = cache.get(profileID);
+
+    if (data.last_save + 300000 > Date.now()) {
+      return data.data;
     }
-
-    return { garden: data.garden };
-  } catch (e) {
-    throw new Error(e);
   }
+
+  const { data } = await get(`https://api.hypixel.net/v2/skyblock/garden?key=${config.minecraft.API.hypixelAPIkey}&profile=${profileID}`);
+
+  if (data === undefined || data.success === false) {
+    throw "Request to Hypixel API failed. Please try again!";
+  }
+
+  const gardenData = data.garden;
+  if (gardenData === null || Object.keys(gardenData).length === 0) {
+    // throw "Profile doesn't have a garden.";
+  }
+
+  cache.set(profileID, {
+    data: gardenData,
+    last_save: Date.now()
+  });
+
+  return { garden: gardenData };
 }
 
 module.exports = { getGarden };
