@@ -3,8 +3,7 @@ const { describe, it, expect, beforeEach } = require("@jest/globals");
 
 describe("ChatHandler", () => {
   describe("uncoloredRegex", () => {
-    const regex =
-      /^(?<chatType>\w+) > (?:(?:\[(?<rank>[^\]]+)\] )?(?:(?<username>\w+)(?: \[(?<guildRank>[^\]]+)\])?: )?)?(?<message>.+)$/;
+    const regex = /^(?<chatType>\w+) > (?:(?:\[(?<rank>[^\]]+)\] )?(?:(?<username>\w+)(?: \[(?<guildRank>[^\]]+)\])?: )?)?(?<message>.+)$/;
 
     it("should match a regular message", () => {
       const message = "Guild > [MVP+] DuckySoLucky [Staff]: Test Message";

@@ -1,7 +1,8 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const { delay } = require("../../contracts/helperFunctions.js");
 
 class BooCommand extends minecraftCommand {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super(minecraft);
 
@@ -18,7 +19,11 @@ class BooCommand extends minecraftCommand {
     this.isOnCooldown = false;
   }
 
-  async onCommand(username, message) {
+  /**
+   * @param {string} player
+   * @param {string} message
+   * */
+  async onCommand(player, message) {
     try {
       const args = this.getArgs(message);
       if (args.length === 0) {
@@ -36,7 +41,7 @@ class BooCommand extends minecraftCommand {
       this.isOnCooldown = true;
       bot.chat(`/boo ${args[0]}`);
       await delay(1000);
-      bot.chat(`/msg ${args[0]} ${username} Booed You!`);
+      bot.chat(`/msg ${args[0]} ${player} Booed You!`);
       await delay(1000);
       this.send(`Booed ${args[0]}!`);
 

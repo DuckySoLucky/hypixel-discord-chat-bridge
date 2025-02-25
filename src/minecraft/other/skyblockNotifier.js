@@ -104,9 +104,7 @@ async function checkForSkyblockVersion() {
 
     if (skyblockVersion !== data.version) {
       if (skyblockVersion !== undefined) {
-        bot.chat(
-          `/gc [HYPIXEL SKYBLOCK] Skyblock version has been updated to ${data.version}! Server restarts might occur!`
-        );
+        bot.chat(`/gc [HYPIXEL SKYBLOCK] Skyblock version has been updated to ${data.version}! Server restarts might occur!`);
       }
 
       skyblockVersion = data.version;

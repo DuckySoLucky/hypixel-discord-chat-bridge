@@ -1,18 +1,17 @@
-const { decodeData } = require("../../src/contracts/helperFunctions.js");
+const { MAGICAL_POWER } = require("../constants/accessories.js");
+const { decodeData } = require("../utils/nbt.js");
 
-const MAGICAL_POWER = {
-  common: 3,
-  uncommon: 5,
-  rare: 8,
-  epic: 12,
-  legendary: 16,
-  mythic: 22,
-  special: 3,
-  very: 5
-};
-
+/**
+ * Returns the amount of magical power an accessory provides.
+ * @param {string} rarity
+ * @param {string} rarity
+ * @param {string} id
+ * @returns {number}
+ */
 function getMagicalPower(rarity, id) {
-  if (rarity === undefined) return 0;
+  if (rarity === undefined) {
+    return 0;
+  }
 
   if (id !== null && typeof id === "string") {
     // Hegemony artifact provides double MP
@@ -29,8 +28,28 @@ function getMagicalPower(rarity, id) {
   return MAGICAL_POWER[rarity] ?? 0;
 }
 
-module.exports = async (profile) => {
+/**
+ * Returns the rarity of an accessory.
+ * @param {string[]} lore
+ * @returns {string}
+ */
+function getRarity(lore) {
+  let last_index = lore[lore.length - 1];
+  last_index = last_index.replace(/\u00A7[0-9A-FK-OR]/gi, "").toLowerCase();
+  if (last_index.startsWith("a ")) last_index = last_index.substring(2);
+  last_index = last_index.substring(0, last_index.indexOf(" "));
+  return last_index;
+}
+
+/**
+ *
+ * @param {import("../../types/profiles.js").Member} profile
+ * @returns {Promise<import("./accessories.types").Accessories | null>}
+ */
+
+async function getAccessories(profile) {
   try {
+    /** @type {import("./accessories.types").Accessories}*/
     const output = {
       amount: 0,
       magicalPower: 0,
@@ -48,7 +67,7 @@ module.exports = async (profile) => {
       }
     };
 
-    const talismanBag = profile.inventory?.bag_contents?.talisman_bag.data;
+    const talismanBag = profile.inventory?.bag_contents?.talisman_bag?.data ?? "";
     const accessories = (await decodeData(Buffer.from(talismanBag, "base64")))?.i;
     if (!accessories?.length) {
       return output;
@@ -74,12 +93,8 @@ module.exports = async (profile) => {
     console.error(error);
     return null;
   }
-};
-
-function getRarity(lore) {
-  let last_index = lore[lore.length - 1];
-  last_index = last_index.replace(/\u00A7[0-9A-FK-OR]/gi, "").toLowerCase();
-  if (last_index.startsWith("a ")) last_index = last_index.substring(2);
-  last_index = last_index.substring(0, last_index.indexOf(" "));
-  return last_index;
 }
+
+module.exports = {
+  getAccessories
+};

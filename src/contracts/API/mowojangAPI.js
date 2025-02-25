@@ -1,8 +1,14 @@
-const axios = require("axios");
+// @ts-ignore
+const { get } = require("axios");
 
 const uuidCache = new Map();
 const usernameCache = new Map();
 
+/**
+ * Get UUID from username
+ * @param {string} username
+ * @returns {Promise<string>}
+ */
 async function getUUID(username) {
   try {
     if (uuidCache.has(username)) {
@@ -13,7 +19,7 @@ async function getUUID(username) {
       }
     }
 
-    const { data } = await axios.get(`https://mowojang.matdoes.dev/${username}`);
+    const { data } = await get(`https://mowojang.matdoes.dev/${username}`);
 
     if (data.errorMessage || data.id === undefined) {
       throw data.errorMessage ?? "Invalid username.";
@@ -26,12 +32,18 @@ async function getUUID(username) {
 
     return data.id;
   } catch (error) {
+    // @ts-ignore
     if (error.response.data === "Not found") throw "Invalid username.";
     console.error(error);
     throw error;
   }
 }
 
+/**
+ * Get username from UUID
+ * @param {string} uuid
+ * @returns {Promise<string>}
+ */
 async function getUsername(uuid) {
   try {
     if (usernameCache.has(uuid)) {
@@ -42,7 +54,7 @@ async function getUsername(uuid) {
       }
     }
 
-    const { data } = await axios.get(`https://mowojang.matdoes.dev/${uuid}`);
+    const { data } = await get(`https://mowojang.matdoes.dev/${uuid}`);
     if (data.errorMessage || data.name === undefined) {
       throw data.errorMessage ?? "Invalid UUID.";
     }
@@ -57,21 +69,27 @@ async function getUsername(uuid) {
     return data.name;
   } catch (error) {
     console.error(error);
-
+    // @ts-ignore
     if (error.response?.data === "Not found") throw "Invalid UUID.";
     throw error;
   }
 }
 
+/**
+ * Get UUID from username
+ * @param {string} username
+ * @returns {Promise<{ username: string, uuid: string }>}
+ */
 async function resolveUsernameOrUUID(username) {
   try {
-    const { data } = await axios.get(`https://mowojang.matdoes.dev/${username}`);
+    const { data } = await get(`https://mowojang.matdoes.dev/${username}`);
 
     return {
       username: data.name,
       uuid: data.id
     };
   } catch (error) {
+    // @ts-ignore
     if (error.response.data === "Not found") throw "Invalid Username Or UUID.";
     console.error(error);
     throw error;

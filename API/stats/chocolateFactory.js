@@ -1,6 +1,10 @@
 // CREDITS: by @Kathund (https://github.com/Kathund)
 
-module.exports = (profile) => {
+/**
+ * @param {import("../../types/profiles").Member} profile
+ * @returns {import("./chocolateFactory.types").ChocolateFactory | null}
+ */
+function getChocolateFactory(profile) {
   try {
     if (!profile.events?.easter) {
       return null;
@@ -27,4 +31,8 @@ module.exports = (profile) => {
     console.error(error);
     return null;
   }
+}
+
+module.exports = {
+  getChocolateFactory
 };

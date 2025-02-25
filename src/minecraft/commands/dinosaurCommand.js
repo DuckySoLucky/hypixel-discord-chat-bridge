@@ -1,7 +1,10 @@
+const { uploadImage } = require("../../contracts/API/imgurAPI.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const axios = require("axios");
+// @ts-ignore
+const { get } = require("axios");
 
 class DinosaurCommand extends minecraftCommand {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super(minecraft);
 
@@ -11,20 +14,26 @@ class DinosaurCommand extends minecraftCommand {
     this.options = [];
   }
 
-  async onCommand(username, message) {
+  /**
+   * @param {string} player
+   * @param {string} message
+   * */
+  async onCommand(player, message) {
     // CREDITS: by @Kathund (https://github.com/Kathund)
     try {
-      const { data, status } = await axios.get("https://imgs.kath.lol/dinosaur");
+      const { data, status } = await get("https://imgs.kath.lol/dinosaur");
       if (status !== 200) {
         throw "An error occured while fetching the image. Please try again later.";
       }
 
-      if (data === undefined) {
+      if (data?.url === undefined) {
         throw "An error occured while fetching the image. Please try again later.";
       }
 
-      imgurUrl = data.url;
-      this.send("Funny dino: Check Discord Bridge for image.");
+      const buffer = await get(data.url, { responseType: "arraybuffer" });
+      await uploadImage(buffer.data);
+
+      this.send("Dinosaur image uploaded to Discord channel.");
     } catch (error) {
       this.send(`[ERROR] ${error}`);
     }

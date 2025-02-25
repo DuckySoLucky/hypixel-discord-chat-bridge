@@ -22,9 +22,7 @@ module.exports = {
     try {
       const linkedData = readFileSync("data/linked.json");
       if (linkedData === undefined) {
-        throw new HypixelDiscordChatBridgeError(
-          "The linked data file does not exist. Please contact an administrator."
-        );
+        throw new HypixelDiscordChatBridgeError("The linked data file does not exist. Please contact an administrator.");
       }
 
       const linked = JSON.parse(linkedData);
@@ -40,9 +38,7 @@ module.exports = {
         if (bypassChecks === true) {
           delete linked[interaction.user.id];
         } else {
-          throw new HypixelDiscordChatBridgeError(
-            "You are already linked to a Minecraft account. Please run /unverify first."
-          );
+          throw new HypixelDiscordChatBridgeError("You are already linked to a Minecraft account. Please run /unverify first.");
         }
       }
 
@@ -52,9 +48,7 @@ module.exports = {
         if (bypassChecks === true) {
           delete linked[Object.keys(linked).find((key) => linked[key] === uuid)];
         } else {
-          throw new HypixelDiscordChatBridgeError(
-            "This player is already linked to a Discord account. Please contact an administrator."
-          );
+          throw new HypixelDiscordChatBridgeError("This player is already linked to a Discord account. Please contact an administrator.");
         }
       }
 
@@ -64,9 +58,7 @@ module.exports = {
       }
 
       if (discordUsername?.toLowerCase() != interaction.user.username && bypassChecks !== true) {
-        throw new HypixelDiscordChatBridgeError(
-          `The player '${nickname}' has linked their Discord account to a different account ('${discordUsername}').`
-        );
+        throw new HypixelDiscordChatBridgeError(`The player '${nickname}' has linked their Discord account to a different account ('${discordUsername}').`);
       }
 
       const linkedRole = guild.roles.cache.get(config.verification.verifiedRole);
@@ -77,9 +69,7 @@ module.exports = {
       linked[interaction.user.id] = uuid;
       writeFileSync("data/linked.json", JSON.stringify(linked, null, 2));
 
-      const embed = new SuccessEmbed(
-        `${user ? `<@${user.id}>'s` : "Your"} account has been successfully linked to \`${nickname}\``
-      )
+      const embed = new SuccessEmbed(`${user ? `<@${user.id}>'s` : "Your"} account has been successfully linked to \`${nickname}\``)
         .setAuthor({ name: "Successfully linked!" })
         .setFooter({
           text: `by @.kathund | /help [command] for more information`,
@@ -100,10 +90,7 @@ module.exports = {
       error = error
         .toString()
         .replaceAll("Error: [hypixel-api-reborn] ", "")
-        .replaceAll(
-          "Unprocessable Entity! For help join our Discord Server https://discord.gg/NSEBNMM",
-          "This player does not exist. (Mojang API might be down)"
-        );
+        .replaceAll("Unprocessable Entity! For help join our Discord Server https://discord.gg/NSEBNMM", "This player does not exist. (Mojang API might be down)");
 
       const errorEmbed = new ErrorEmbed(`\`\`\`${error}\`\`\``).setFooter({
         text: `by @.kathund | /help [command] for more information`,
@@ -112,10 +99,7 @@ module.exports = {
 
       await interaction.editReply({ embeds: [errorEmbed], ephemeral: true });
 
-      if (
-        error !== "You are already linked to a Minecraft account. Please run /unverify first." &&
-        error.includes("linked") === true
-      ) {
+      if (error !== "You are already linked to a Minecraft account. Please run /unverify first." && error.includes("linked") === true) {
         const verificationTutorialEmbed = new Embed()
           .setAuthor({ name: "Link with Hypixel Social Media" })
           .setDescription(

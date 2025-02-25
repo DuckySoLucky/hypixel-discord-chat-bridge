@@ -1,5 +1,16 @@
-const axios = require("axios");
+// @ts-ignore
+const { get } = require("axios");
 
+/**
+ * @typedef {import('./bestiary.types').BestiaryConstant} BestiaryConstants
+ * @typedef {import('./bestiary.types').Mob} Mob
+ * @typedef {import('./bestiary.types').RawMob} RawMob
+ */
+
+/**
+ * @param {RawMob[]} mobs
+ * @returns {Mob[]}
+ * */
 function formatBestiaryMobs(mobs) {
   const output = [];
   for (const mob of mobs) {
@@ -14,20 +25,24 @@ function formatBestiaryMobs(mobs) {
   return output;
 }
 
+/** @type {Partial<{ lastUpdated: number, data: BestiaryConstants }>} */
 const cache = {};
+
+/**
+ * @returns {Promise<BestiaryConstants | null>}
+ * */
 async function getBestiaryConstants() {
   if (cache.lastUpdated && cache.lastUpdated + 1000 * 60 * 60 * 12 > Date.now()) {
-    return cache.data;
+    return cache.data ?? null;
   }
 
-  const response = await axios.get(
-    "https://raw.githubusercontent.com/NotEnoughUpdates/NotEnoughUpdates-REPO/refs/heads/master/constants/bestiary.json"
-  );
+  const response = await get("https://raw.githubusercontent.com/NotEnoughUpdates/NotEnoughUpdates-REPO/refs/heads/master/constants/bestiary.json");
   const bestiary = response?.data;
   if (!bestiary) {
     return null;
   }
 
+  /** @type {BestiaryConstants} */
   const output = { brackets: bestiary.brackets, islands: {} };
   for (const [islandId, islandData] of Object.entries(bestiary).filter(([key]) => key !== "brackets")) {
     if (islandData.hasSubcategories === true) {
@@ -37,9 +52,7 @@ async function getBestiaryConstants() {
         }
 
         const id = islandId === categoryId ? islandId : `${islandId}:${categoryId}`;
-        const name = categoryData.name.includes(islandData.name)
-          ? categoryData.name
-          : `${categoryData.name} ${islandData.name}`;
+        const name = categoryData.name.includes(islandData.name) ? categoryData.name : `${categoryData.name} ${islandData.name}`;
         output.islands[id] = {
           name: name,
           mobs: formatBestiaryMobs(categoryData.mobs)

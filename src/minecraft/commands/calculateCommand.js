@@ -2,6 +2,7 @@ const { formatNumber } = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 
 class CalculateCommand extends minecraftCommand {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super(minecraft);
 
@@ -17,7 +18,11 @@ class CalculateCommand extends minecraftCommand {
     ];
   }
 
-  onCommand(username, message) {
+  /**
+   * @param {string} player
+   * @param {string} message
+   * */
+  onCommand(player, message) {
     try {
       const calculation = message.replace(/[^-()\d/*+.]/g, "");
       if (calculation.trim() === "9+10") {
@@ -25,16 +30,15 @@ class CalculateCommand extends minecraftCommand {
       }
 
       const answer = eval(calculation);
-
       if (answer === Infinity) {
         return this.send("Something went wrong.. Somehow you broke it (the answer was infinity)");
       }
 
-      return this.send(
-        answer > 1000000
-          ? `${calculation} = ${formatNumber(answer)} (${answer.toLocaleString()})`
-          : `${calculation} = ${formatNumber(answer)}`
-      );
+      if (answer > 1000000) {
+        return this.send(`${calculation} = ${formatNumber(answer)} (${answer.toLocaleString()})`);
+      }
+
+      return this.send(`${calculation} = ${formatNumber(answer)}`);
     } catch (error) {
       this.send(`[ERROR] ${error}`);
     }

@@ -2,6 +2,7 @@ const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { getFetchur } = require("../../../API/functions/getFetchur.js");
 
 class FetchurCommand extends minecraftCommand {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super(minecraft);
 
@@ -11,7 +12,11 @@ class FetchurCommand extends minecraftCommand {
     this.options = [];
   }
 
-  async onCommand(username, message) {
+  /**
+   * @param {string} player
+   * @param {string} message
+   * */
+  async onCommand(player, message) {
     try {
       const { text, description } = getFetchur();
 

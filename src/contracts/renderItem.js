@@ -32,6 +32,11 @@ const RGBA_COLOR = {
   f: "rgba(255,255,255,1)"
 };
 
+/**
+ * Get the width and height of the canvas
+ * @param {string[]} lore
+ * @returns {Promise<{height: number, width: number} | undefined>}
+ */
 async function getCanvasWidthAndHeight(lore) {
   const canvas = Canvas.createCanvas(1, 1);
   const ctx = canvas.getContext("2d");
@@ -49,10 +54,16 @@ async function getCanvasWidthAndHeight(lore) {
   return { height: lore.length * 24 + 15, width: highestWidth + 20 };
 }
 
+/**
+ * Render lore
+ * @param {string} itemName
+ * @param {string[]} lore
+ * @returns
+ */
 async function renderLore(itemName, lore) {
   if (itemName) lore.unshift(itemName);
   const measurements = await getCanvasWidthAndHeight(lore);
-  if (!measurements) return;
+  if (!measurements) return null;
   const canvas = Canvas.createCanvas(measurements.width, measurements.height);
   const ctx = canvas.getContext("2d");
   // BACKGROUND
@@ -73,6 +84,7 @@ async function renderLore(itemName, lore) {
     if (splitItem[0].length == 0) splitItem.shift();
 
     for (const toRenderItem of splitItem) {
+      // @ts-ignore
       ctx.fillStyle = RGBA_COLOR[toRenderItem[0]];
 
       if (toRenderItem.startsWith("l")) {
@@ -83,6 +95,7 @@ async function renderLore(itemName, lore) {
         ctx.font = "24px Minecraft, MinecraftUnicode";
       }
 
+      // @ts-ignore
       ctx.fillText(toRenderItem.substring(1), width, index * 24 + 29);
       width += ctx.measureText(toRenderItem.substring(1)).width;
     }

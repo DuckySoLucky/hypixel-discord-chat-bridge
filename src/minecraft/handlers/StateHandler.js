@@ -1,6 +1,7 @@
 const eventHandler = require("../../contracts/EventHandler.js");
 
 class StateHandler extends eventHandler {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super();
 

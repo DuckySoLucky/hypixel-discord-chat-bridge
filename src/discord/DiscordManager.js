@@ -23,12 +23,7 @@ class DiscordManager extends CommunicationBridge {
   connect() {
     global.imgurUrl = "";
     global.client = new Client({
-      intents: [
-        GatewayIntentBits.Guilds,
-        GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.MessageContent,
-        GatewayIntentBits.GuildMembers
-      ]
+      intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers]
     });
 
     this.client = client;
@@ -55,9 +50,7 @@ class DiscordManager extends CommunicationBridge {
     const eventFiles = fs.readdirSync("src/discord/events").filter((file) => file.endsWith(".js"));
     for (const file of eventFiles) {
       const event = require(`./events/${file}`);
-      event.once
-        ? client.once(event.name, (...args) => event.execute(...args))
-        : client.on(event.name, (...args) => event.execute(...args));
+      event.once ? client.once(event.name, (...args) => event.execute(...args)) : client.on(event.name, (...args) => event.execute(...args));
     }
 
     process.on("SIGINT", async () => {
@@ -85,30 +78,20 @@ class DiscordManager extends CommunicationBridge {
     } catch (error) {
       console.log(error);
       channel.send({
-        embeds: [
-          new ErrorEmbed(
-            "An error occurred while trying to fetch the webhooks. Please make sure the bot has the `MANAGE_WEBHOOKS` permission."
-          )
-        ]
+        embeds: [new ErrorEmbed("An error occurred while trying to fetch the webhooks. Please make sure the bot has the `MANAGE_WEBHOOKS` permission.")]
       });
     }
   }
 
   async onBroadcast({ fullMessage, chat, chatType, username, rank, guildRank, message, color = 1752220 }) {
-    if (
-      (chat === undefined && chatType !== "debugChannel") ||
-      ((username === undefined || message === undefined) && chat !== "debugChannel")
-    ) {
+    if ((chat === undefined && chatType !== "debugChannel") || ((username === undefined || message === undefined) && chat !== "debugChannel")) {
       return;
     }
 
     const mode = chat === "debugChannel" ? "minecraft" : config.discord.other.messageMode.toLowerCase();
     message = chat === "debugChannel" ? fullMessage : message;
     if (message !== undefined && chat !== "debugChannel") {
-      console.broadcast(
-        `${username} [${guildRank.replace(/§[0-9a-fk-or]/g, "").replace(/^\[|\]$/g, "")}]: ${message}`,
-        `Discord`
-      );
+      console.broadcast(`${username} [${guildRank.replace(/§[0-9a-fk-or]/g, "").replace(/^\[|\]$/g, "")}]: ${message}`, `Discord`);
     }
 
     // ? custom message format (config.discord.other.messageFormat)

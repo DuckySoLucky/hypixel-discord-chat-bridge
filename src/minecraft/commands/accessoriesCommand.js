@@ -1,9 +1,10 @@
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
-const { formatNumber } = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const getTalismans = require("../../../API/stats/talismans.js");
+const { getAccessories } = require("../../../API/stats/accessories.js");
+const { formatNumber } = require("../../contracts/helperFunctions.js");
 
 class AccessoriesCommand extends minecraftCommand {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super(minecraft);
 
@@ -19,6 +20,10 @@ class AccessoriesCommand extends minecraftCommand {
     ];
   }
 
+  /**
+   * @param {string} player
+   * @param {string} message
+   * */
   async onCommand(player, message) {
     try {
       const args = this.getArgs(message);
@@ -26,21 +31,18 @@ class AccessoriesCommand extends minecraftCommand {
 
       const { profile, username } = await getLatestProfile(player);
 
-      if (
-        profile.inventory?.bag_contents?.talisman_bag.data == undefined &&
-        profile.inventory?.inv_contents?.data == null
-      ) {
+      if (profile.inventory?.bag_contents?.talisman_bag?.data == undefined && profile.inventory?.inv_contents?.data == null) {
         throw `${username} has Talisman API off.`;
       }
 
-      const talismans = await getTalismans(profile);
-      if (talismans === undefined) {
+      const talismans = await getAccessories(profile);
+      if (!talismans) {
         throw `Couldn't parse ${username}'s talismans.`;
       }
 
       const formattedRarities = Object.entries(talismans.rarities)
         .filter(([, amount]) => amount > 0)
-        .map(([rarity, amount]) => `${amount}${rarity.at(0).toUpperCase()}`)
+        .map(([rarity, amount]) => `${amount}${(rarity?.at(0) ?? "").toUpperCase()}`)
         .join(", ");
 
       this.send(

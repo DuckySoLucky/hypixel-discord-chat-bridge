@@ -201,19 +201,7 @@ const skillTables = {
     farming: 60,
     taming: 60
   },
-  skills: [
-    "combat",
-    "farming",
-    "fishing",
-    "mining",
-    "foraging",
-    "enchanting",
-    "alchemy",
-    "carpentry",
-    "runecrafting",
-    "social",
-    "taming"
-  ],
+  skills: ["combat", "farming", "fishing", "mining", "foraging", "enchanting", "alchemy", "carpentry", "runecrafting", "social", "taming"],
   classes: ["healer", "mage", "berserk", "archer", "tank"],
   cosmeticSkills: ["runecrafting", "social"],
   infiniteLeveling: ["dungeoneering", "skyblockLevel"],

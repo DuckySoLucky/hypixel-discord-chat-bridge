@@ -1,7 +1,11 @@
+const { titleCase } = require("../../src/contracts/helperFunctions.js");
 const { getLevelByXp } = require("../constants/skills.js");
-const { titleCase } = require("../constants/functions.js");
-
-module.exports = (profile) => {
+/**
+ * Returns Dungeons stats of the player.
+ * @param {import("../../types/profiles").Member} profile
+ * @returns {import("../../API/stats/dungeons.types").Dungeons | null}
+ */
+function getDungeons(profile) {
   try {
     const dungeons = profile?.dungeons;
     if (dungeons === undefined) {
@@ -29,4 +33,8 @@ module.exports = (profile) => {
     console.error(error);
     return null;
   }
+}
+
+module.exports = {
+  getDungeons
 };

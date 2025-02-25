@@ -1,8 +1,10 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { uploadImage } = require("../../contracts/API/imgurAPI.js");
-const axios = require("axios");
+// @ts-ignore
+const { get } = require("axios");
 
 class KittyCommand extends minecraftCommand {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super(minecraft);
 
@@ -12,19 +14,25 @@ class KittyCommand extends minecraftCommand {
     this.options = [];
   }
 
-  async onCommand(username, message) {
+  /**
+   * @param {string} player
+   * @param {string} message
+   * */
+  async onCommand(player, message) {
     try {
-      const { data } = await axios.get(`https://api.thecatapi.com/v1/images/search`);
-
+      const { data } = await get(`https://api.thecatapi.com/v1/images/search`);
       if (data === undefined) {
         throw "An error occured while fetching the image. Please try again later.";
       }
 
-      const link = data[0].url;
-      const upload = await uploadImage(link);
+      if (data[0].url === undefined) {
+        throw "An error occured while fetching the image. Please try again later.";
+      }
 
-      imgurUrl = upload.data.link;
-      this.send("Cute Cat: Check Discord Bridge for image.");
+      const buffer = await get(data[0].url, { responseType: "arraybuffer" });
+      await uploadImage(buffer.data);
+
+      this.send("Cat image uploaded to Discord channel.");
     } catch (error) {
       this.send(`[ERROR] ${error ?? "Something went wrong.."}`);
     }

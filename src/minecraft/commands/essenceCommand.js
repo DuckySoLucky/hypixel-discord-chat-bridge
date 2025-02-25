@@ -1,10 +1,10 @@
-const { formatNumber } = require("../../contracts/helperFunctions.js");
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
+const { formatNumber, titleCase } = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const getEssence = require("../../../API/stats/essence.js");
-const { titleCase } = require("../../../API/constants/functions.js");
+const { getEssence } = require("../../../API/stats/essence.js");
 
 class EssenceCommand extends minecraftCommand {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super(minecraft);
 
@@ -20,6 +20,10 @@ class EssenceCommand extends minecraftCommand {
     ];
   }
 
+  /**
+   * @param {string} player
+   * @param {string} message
+   * */
   async onCommand(player, message) {
     try {
       // CREDITS: by @Kathund (https://github.com/Kathund)

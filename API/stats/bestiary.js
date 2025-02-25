@@ -1,14 +1,29 @@
 const { getBestiaryConstants } = require("../constants/bestiary.js");
 
+/**
+ * @typedef {import('../constants/bestiary.types').BestiaryConstant} BestiaryConstants
+ * @typedef {import('../constants/bestiary.types').Mob} Mob
+ * @typedef {import('./bestiary.types').Bestiary} Bestiary
+ */
+
+/** @type {Partial<BestiaryConstants | null>} */
 let BESTIARY_CONSTANTS = {};
 async function updateConstants() {
   BESTIARY_CONSTANTS = await getBestiaryConstants();
 }
 
-updateConstants();
 setInterval(updateConstants, 1000 * 60 * 60 * 12);
+updateConstants();
 
+/**
+ * @param {import("../../types/profiles.js").Member['bestiary']} bestiary
+ * @param {Mob[]} categoryMobs
+ */
 function formatMobs(bestiary, categoryMobs) {
+  if (!BESTIARY_CONSTANTS?.brackets) {
+    return [];
+  }
+
   const result = [];
   for (const mob of categoryMobs) {
     const mobBracket = BESTIARY_CONSTANTS.brackets[mob.bracket];
@@ -20,7 +35,6 @@ function formatMobs(bestiary, categoryMobs) {
 
     result.push({
       name: mob.name,
-      emoji: mob.emoji,
       kills: totalKills,
       nextTierKills: nextTierKills,
       nextTier: nextTier,
@@ -32,9 +46,19 @@ function formatMobs(bestiary, categoryMobs) {
   return result;
 }
 
+/**
+ * @param {import("../../types/profiles.js").Member} profile
+ * @returns {Bestiary | null}
+ */
 function getBestiary(profile) {
+  if (!BESTIARY_CONSTANTS) {
+    return null;
+  }
+
   try {
+    /** @type {Bestiary['categories']} */
     const output = {};
+
     const islands = JSON.parse(JSON.stringify(BESTIARY_CONSTANTS.islands));
     for (const [id, island] of Object.entries(islands)) {
       const mobs = formatMobs(profile.bestiary, island.mobs);

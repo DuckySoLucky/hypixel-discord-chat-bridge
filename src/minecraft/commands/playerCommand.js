@@ -1,8 +1,9 @@
-const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { formatNumber, formatError } = require("../../contracts/helperFunctions.js");
+const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
 
 class PlayerCommand extends minecraftCommand {
+  /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super(minecraft);
 
@@ -18,13 +19,18 @@ class PlayerCommand extends minecraftCommand {
     ];
   }
 
-  async onCommand(username, message) {
+  /**
+   * @param {string} player
+   * @param {string} message
+   * */
+  async onCommand(player, message) {
     try {
       // CREDITS: by @Kathund (https://github.com/Kathund)
-      username = this.getArgs(message)[0] || username;
-      const { achievementPoints, nickname, rank, karma, level, guild } = await hypixel.getPlayer(username, {
+      player = this.getArgs(message)[0] || player;
+      const { achievementPoints, nickname, rank, karma, level, guild } = await hypixel.getPlayer(player, {
         guild: true
       });
+
       const guildName = guild ? guild.name : "None";
 
       this.send(

@@ -1,4 +1,9 @@
 //CREDIT: https://github.com/Senither/hypixel-skyblock-facade (Modified)
+/**
+ * Returns whether or not the provided string is a valid UUID.
+ * @param {string} uuid
+ * @returns {boolean}
+ */
 function isUuid(uuid) {
   if (uuid === undefined || uuid === null || typeof uuid !== "string") {
     return false;
