@@ -2,13 +2,13 @@ const { formatNumber, replaceVariables } = require("../../contracts/helperFuncti
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 const { SuccessEmbed, ErrorEmbed } = require("../../contracts/embedHandler.js");
-const getChocolateFactory = require("../../../API/stats/chocolateFactory.js");
+const { getChocolateFactory } = require("../../../API/stats/chocolateFactory.js");
 const hypixelRebornAPI = require("../../contracts/API/HypixelRebornAPI.js");
-const getDungeons = require("../../../API/stats/dungeons.js");
-const getCrimson = require("../../../API/stats/crimson.js");
-const getSkills = require("../../../API/stats/skills.js");
-const getSlayer = require("../../../API/stats/slayer.js");
-const getJacob = require("../../../API/stats/jacob.js");
+const { getCrimsonIsle } = require("../../../API/stats/crimson.js");
+const { getDungeons } = require("../../../API/stats/dungeons.js");
+const { getSlayer } = require("../../../API/stats/slayer.js");
+const { getSkills } = require("../../../API/stats/skills.js");
+const { getJacob } = require("../../../API/stats/jacob.js");
 const { getNetworth } = require("skyhelper-networth");
 const config = require("../../../config.json");
 const { readFileSync } = require("fs");
@@ -41,7 +41,7 @@ module.exports = {
 
       const uuid = linked[interaction.user.id];
 
-      const roles = [config.verification.guildMemberRole, ...config.verification.ranks.map((r) => r.role), ...config.verification.levelRoles.map((r) => r.roleId)];
+      const roles = [config.verification.guildMemberRole, ...config.verification.ranks.flatMap((r) => r.roles), ...config.verification.levelRoles.map((r) => r.roleId)];
       const giveRoles = [];
 
       if (uuid === undefined) {
@@ -73,7 +73,7 @@ module.exports = {
         sbProfile ? getSkills(sbProfile.profile, sbProfile.profileData) : null,
         sbProfile ? getSlayer(sbProfile.profile) : null,
         sbProfile ? getDungeons(sbProfile.profile) : null,
-        sbProfile ? getCrimson(sbProfile.profile) : null,
+        sbProfile ? getCrimsonIsle(sbProfile.profile) : null,
         sbProfile
           ? getNetworth(sbProfile.profile, sbProfile.profileData?.banking?.balance || 0, {
               onlyNetworth: true,
@@ -97,14 +97,10 @@ module.exports = {
         if (config.verification.ranks.length > 0 && guildMember.rank) {
           const rank = config.verification.ranks.find((r) => r.name.toLowerCase() == guildMember.rank.toLowerCase());
           if (rank) {
-            for (const role of config.verification.ranks) {
-              if (interaction.member.roles.cache.has(role.role)) {
-                await interaction.member.roles.remove(role.role, "Updated Roles");
-              }
+            for (const role of rank.roles) {
+              giveRoles.push(role);
+              await interaction.member.roles.add(role, "Updated Roles");
             }
-
-            giveRoles.push(rank.role);
-            await interaction.member.roles.add(rank.role, "Updated Roles");
           }
         }
       } else {
@@ -198,7 +194,7 @@ module.exports = {
         skyblockSlayerBlazeXp: slayer?.blaze?.xp || 0,
         skyblockSlayerVampireXp: slayer?.vampire?.xp || 0,
 
-        skyblockDungeonsSecrets: dungeons?.secrets_found || 0,
+        skyblockDungeonsSecrets: dungeons?.secretsFound || 0,
         skyblockDungeonsXp: dungeons?.catacombs?.skill?.xp || 0,
         skyblockDungeonsLevel: dungeons?.catacombs?.skill?.level || 0,
 
@@ -281,8 +277,8 @@ module.exports = {
         skyblockJacobPerksLevelCap: jacob?.perks?.levelCap || 0,
         skyblockJacobPerksDoubleDrops: jacob?.perks?.doubleDrops || 0,
 
-        skyblockJacobPersonalBestNetherWart: jacob?.personalBests?.netherWart || 0,
-        skyblockJacobPersonalBestCocoBeans: jacob?.personalBests?.cocoBeans || 0,
+        skyblockJacobPersonalBestNetherWart: jacob?.personalBests?.nether_wart || 0,
+        skyblockJacobPersonalBestCocoBeans: jacob?.personalBests?.coco_beans || 0,
         skyblockJacobPersonalBestMushroom: jacob?.personalBests?.mushroom || 0,
         skyblockJacobPersonalBestWheat: jacob?.personalBests?.wheat || 0,
         skyblockJacobPersonalBestPotato: jacob?.personalBests?.potato || 0,
@@ -290,7 +286,7 @@ module.exports = {
         skyblockJacobPersonalBestCarrot: jacob?.personalBests?.carrot || 0,
         skyblockJacobPersonalBestCactus: jacob?.personalBests?.cactus || 0,
         skyblockJacobPersonalBestMelon: jacob?.personalBests?.melon || 0,
-        skyblockJacobPersonalBestSugarCane: jacob?.personalBests?.sugarCane || 0
+        skyblockJacobPersonalBestSugarCane: jacob?.personalBests?.sugar_cane || 0
       };
 
       stats["skyblockSkillsAverageLevel"] = (
@@ -383,7 +379,7 @@ module.exports = {
       );
 
       for (const role of roles) {
-        if (giveRoles.includes(role)) return;
+        if (giveRoles.includes(role)) continue;
         if (interaction.member.roles.cache.has(role)) await interaction.member.roles.remove(role, "Updated Roles");
       }
 
