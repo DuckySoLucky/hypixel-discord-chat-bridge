@@ -34,7 +34,7 @@ function getJacob(profile) {
         sugar_cane: profile.jacobs_contest.personal_bests?.SUGAR_CANE ?? 0
       }
     };
-  } catch (error) {
+  } catch {
     return null;
   }
 }

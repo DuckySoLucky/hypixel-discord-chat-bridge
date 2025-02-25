@@ -80,7 +80,7 @@ function getSlayer(profile) {
       blaze: getSlayerLevel(profile, "blaze"),
       vampire: getSlayerLevel(profile, "vampire")
     };
-  } catch (error) {
+  } catch {
     return null;
   }
 }

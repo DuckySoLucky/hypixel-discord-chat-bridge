@@ -9,7 +9,7 @@ async function checkRequirements(uuid) {
   const [player, profile] = await Promise.all([hypixel.getPlayer(uuid), getLatestProfile(uuid)]);
   let meetRequirements = false;
 
-  const skyblockLevel = (profile.profile?.leveling?.experience || 0) / 100 ?? 0;
+  const skyblockLevel = (profile.leveling?.experience ?? 0) / 100;
 
   const bwLevel = player.stats.bedwars.level;
   const bwFKDR = player.stats.bedwars.finalKDRatio;
