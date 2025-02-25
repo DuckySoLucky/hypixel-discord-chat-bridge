@@ -1,13 +1,12 @@
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const { getChocolateFactory } = require("../../../API/stats/chocolateFactory.js");
-const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { formatNumber, titleCase } = require("../../contracts/helperFunctions.js");
+const minecraftCommand = require("../../contracts/minecraftCommand.js");
 
 class ChocolateCommand extends minecraftCommand {
   /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
     super(minecraft);
-    2;
     this.name = "chocolatefactory";
     this.aliases = ["cf", "factory", "chocolate"];
     this.description = "Skyblock Chocolate Factory Stats of specified user.";
