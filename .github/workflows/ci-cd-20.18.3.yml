@@ -1,5 +1,5 @@
 # This CI Workflow was deployed and configured by WarpWing and Nate.
-name: CI/CD (20.x)
+name: CI/CD (20.18.3)
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  NODE_VERSION: "20.x"
+  NODE_VERSION: "20.18.3"
 
 jobs:
   es-lint:
