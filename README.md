@@ -23,7 +23,7 @@ that went into it. Thank you!
 ## NodeJS
 
 - Git
-- NodeJS >= 16.9
+- NodeJS >= 20
 - A Minecraft account
 
 ### Setup Guide for NodeJS
