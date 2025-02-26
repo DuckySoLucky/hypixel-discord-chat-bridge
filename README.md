@@ -143,13 +143,6 @@ The `blacklist` option determines whether the blacklist feature is enabled. By d
 
 The `blacklisted` option is an array of user usernames or UUIDs, blacklisted played won't be able to use fragBot. By default, this is set to an empty array.
 
-### Guild
-
-The guild section contains options related to the Hypixel guild.
-
-The `guildExp` option is a number value required for the `!gexp` command, which is used to check how much more guild experience a user needs to collect to meet the
-guild's requirements. By default, this is set to 50,000.
-
 ### API
 
 The API options include information about APIs which are being used, the only values which needs to be changed are `hypixelAPIkey` and `imgurAPIkey`.
