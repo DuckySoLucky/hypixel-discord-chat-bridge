@@ -46,7 +46,10 @@ module.exports = {
     const trimmedMessages = message.map((message) => message.trim()).filter((message) => message.includes("."));
     const description = trimmedMessages
       .map((message) => {
-        const [position, , name, guildExperience] = message.split(" ");
+        const [position, mightBeName, tempName, tempGuildExperience] = message.split(" ");
+        const isExperience = !isNaN(parseInt(tempGuildExperience.replaceAll("`", "")));
+        const name = isExperience ? tempName : mightBeName;
+        const guildExperience = isExperience ? tempGuildExperience : tempName;
 
         return `\`${position}\` **${name}** - \`${guildExperience}\` Guild Experience\n`;
       })
