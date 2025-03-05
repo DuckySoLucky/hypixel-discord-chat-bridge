@@ -1,6 +1,7 @@
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 const { ErrorEmbed, Embed } = require("../../contracts/embedHandler.js");
 const { readFileSync, writeFileSync } = require("fs");
+const { MessageFlags } = require("discord.js");
 
 module.exports = {
   name: "force-update-everyone",
@@ -35,7 +36,7 @@ module.exports = {
             iconURL: "https://i.imgur.com/uUuZx2E.png"
           });
 
-        await interaction.editReply({ embeds: [embed], ephemeral: true });
+        await interaction.editReply({ embeds: [embed], flags: MessageFlags.Ephemeral });
       }
 
       const description = [];
@@ -61,7 +62,7 @@ module.exports = {
           });
 
         if (doNotRespond === false) {
-          await interaction.editReply({ embeds: [embed], ephemeral: true });
+          await interaction.editReply({ embeds: [embed], flags: MessageFlags.Ephemeral });
         }
       }
 
@@ -78,7 +79,7 @@ module.exports = {
           iconURL: "https://i.imgur.com/uUuZx2E.png"
         });
 
-        await interaction.editReply({ embeds: [embed], ephemeral: true });
+        await interaction.editReply({ embeds: [embed], flags: MessageFlags.Ephemeral });
       }
     } catch (error) {
       const errorEmbed = new ErrorEmbed(`\`\`\`${error}\`\`\``).setFooter({

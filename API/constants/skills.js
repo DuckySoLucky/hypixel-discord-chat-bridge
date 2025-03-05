@@ -63,7 +63,7 @@ function getLevelByXp(xp, extra = {}) {
 
   /** the maximum level that any player can achieve (used for gold progress bars) */
   // @ts-ignore
-  const maxLevel = isInfiniteLevelable ? Math.max(uncappedLevel, levelCap) : skillTables.maxedSkillCaps[extra.type] ?? levelCap;
+  const maxLevel = isInfiniteLevelable ? Math.max(uncappedLevel, levelCap) : (skillTables.maxedSkillCaps[extra.type] ?? levelCap);
 
   /** the level as displayed by in game UI */
   const level = isInfiniteLevelable ? uncappedLevel : Math.min(levelCap, uncappedLevel);

@@ -61,7 +61,7 @@ class MinecraftManager extends CommunicationBridge {
       try {
         message = filter.clean(message);
         username = filter.clean(username);
-      } catch (error) {
+      } catch {
         // Do nothing
       }
     }

@@ -1,7 +1,5 @@
-// eslint-disable-next-line import/extensions
-const { Routes } = require("discord-api-types/v9");
+const { REST, Routes } = require("discord.js");
 const config = require("../../config.json");
-const { REST } = require("@discordjs/rest");
 const fs = require("fs");
 
 class CommandHandler {
@@ -15,7 +13,7 @@ class CommandHandler {
       const command = require(`./commands/${file}`);
       if (command.verificationCommand === true && config.verification.enabled === false) continue;
       if (command.channelsCommand === true && config.statsChannels.enabled === false) continue;
-      commands.push(command);
+      commands.push({ contexts: [0], integration_types: [0], ...command });
     }
 
     const rest = new REST({ version: "10" }).setToken(config.discord.bot.token);

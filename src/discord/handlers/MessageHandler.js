@@ -56,7 +56,7 @@ class MessageHandler {
             if (messageData.message.includes(imgurLink.data.link) === false) {
               messageData.message += ` ${imgurLink.data.link}`;
             }
-          } catch (error) {
+          } catch {
             messageData.message += ` ${attachment}`;
           }
         }
@@ -190,7 +190,7 @@ class MessageHandler {
     // ? demojify() function has a bug. It throws an error when it encounters channel with emoji in its name. Example: #💬・guild-chat
     try {
       return demojify(content);
-    } catch (e) {
+    } catch {
       return content;
     }
   }
