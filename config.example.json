@@ -16,9 +16,6 @@
       "blacklist": false,
       "blacklisted": []
     },
-    "guild": {
-      "guildExp": 50000
-    },
     "API": {
       "hypixelAPIkey": "HYPIXEL_API_KEY",
       "imgurAPIkey": "IMGUR_API_KEY"
