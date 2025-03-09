@@ -35,7 +35,7 @@ module.exports = {
     }
 
     const user = interaction?.options?.getUser("user");
-    const everyone = extra.everyone ?? interaction?.options?.getBoolean("everyone");
+    const everyone = extra.everyone || interaction?.options?.getBoolean("everyone");
     if (!user && !everyone) {
       throw new HypixelDiscordChatBridgeError("You must specify a user or everyone.");
     }
