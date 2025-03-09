@@ -281,7 +281,7 @@ async function updateRoles({ discordId, uuid }) {
   };
 
   if (verificationRoles.custom.length > 0) {
-    for (const role of verificationRoles.custom) {
+    for (const role of verificationRoles.custom.filter((r) => r.requirements.some((req) => req.type !== "guildRank"))) {
       if (role.enabled === false) {
         continue;
       }
