@@ -24,18 +24,18 @@ async function updateRoles({ discordId, uuid }) {
 
   const verificationRoles = config.verification.roles;
   const roles = [verificationRoles.guildMember.roleId, ...verificationRoles.custom.flatMap((r) => r.roleId)];
+  for (const role of roles) {
+    if (member.roles.cache.has(role)) {
+      await member.roles.remove(role, "Updated Roles");
+      // console.log(`Removed ${(await guild.roles.fetch(role)).name}`);
+    }
+  }
+
   if (!uuid) {
     member.setNickname(null, "Updated Roles");
     if (verificationRoles.verified.enabled && member.roles.cache.has(verificationRoles.verified.roleId)) {
       await member.roles.remove(verificationRoles.verified.roleId, "Updated Roles");
       // console.log("Removed verified role");
-    }
-
-    for (const role of roles) {
-      if (member.roles.cache.has(role)) {
-        await member.roles.remove(role, "Updated Roles");
-        // console.log(`Removed ${(await guild.roles.fetch(role)).name}`);
-      }
     }
 
     throw new HypixelDiscordChatBridgeError("You are not linked to a Minecraft account.");
