@@ -23,7 +23,7 @@ module.exports = {
     }
   ],
 
-  execute: async (interaction) => {
+  execute: async (interaction, extra = { everyone: false, hidden: false }) => {
     const linkedData = fs.readFileSync("data/linked.json");
     if (!linkedData) {
       throw new HypixelDiscordChatBridgeError("The linked data file does not exist. Please contact an administrator.");
@@ -34,8 +34,8 @@ module.exports = {
       throw new HypixelDiscordChatBridgeError("The linked data file is malformed. Please contact an administrator.");
     }
 
-    const user = interaction.options.getUser("user");
-    const everyone = interaction.options.getBoolean("everyone");
+    const user = interaction?.options?.getUser("user");
+    const everyone = extra.everyone ?? interaction?.options?.getBoolean("everyone");
     if (!user && !everyone) {
       throw new HypixelDiscordChatBridgeError("You must specify a user or everyone.");
     }
@@ -45,12 +45,15 @@ module.exports = {
     }
 
     if (user) {
-      await updateRolesCommand.execute(interaction, { discordId: user.id });
+      await updateRolesCommand.execute(interaction, { discordId: user.id, hidden: extra.hidden });
     }
 
-    const discordIds = Object.values(linked);
-    for (const discordId of discordIds) {
-      await updateRolesCommand.execute(interaction, { discordId });
+    if (everyone) {
+      const discordIds = Object.values(linked);
+      for (const discordId of discordIds) {
+        await updateRolesCommand.execute(interaction, { discordId, hidden: extra.hidden });
+        console.log(`Updated roles for ${discordId}`);
+      }
     }
   }
 };

@@ -15,6 +15,7 @@ const { getNetworth } = require("skyhelper-networth");
 const config = require("../../../config.json");
 const fs = require("fs");
 const { getUsername } = require("../../contracts/API/mowojangAPI.js");
+const { hideLinkEmbed } = require("discord.js");
 
 async function updateRoles({ discordId, uuid }) {
   const member = await guild.members.fetch(discordId);
@@ -310,7 +311,7 @@ module.exports = {
   verificationCommand: true,
   description: "Update your current roles",
 
-  execute: async (interaction, extra = { discordId: null }) => {
+  execute: async (interaction, extra = { discordId: null, hidden: false }) => {
     try {
       const linkedData = fs.readFileSync("data/linked.json");
       if (!linkedData) {
@@ -330,22 +331,26 @@ module.exports = {
 
       await updateRoles({ discordId, uuid });
 
-      const updateRole = new SuccessEmbed(
-        `Successfully synced ${extra.discordId ? `<@${extra.discordId}>` : "your"} roles with \`${await getUsername(uuid)}\`'s stats!`
-      ).setFooter({
-        text: `by @.kathund | /help [command] for more information`,
-        iconURL: "https://i.imgur.com/uUuZx2E.png"
-      });
+      if (!extra.hidden) {
+        const updateRole = new SuccessEmbed(
+          `Successfully synced ${extra.discordId ? `<@${extra.discordId}>` : "your"} roles with \`${await getUsername(uuid)}\`'s stats!`
+        ).setFooter({
+          text: `by @.kathund | /help [command] for more information`,
+          iconURL: "https://i.imgur.com/uUuZx2E.png"
+        });
 
-      await interaction.followUp({ embeds: [updateRole], ephemeral: true });
+        await interaction.followUp({ embeds: [updateRole], ephemeral: true });
+      }
     } catch (error) {
       console.log(error);
-      const errorEmbed = new ErrorEmbed(`\`\`\`${error}\`\`\``).setFooter({
-        text: `by @.kathund | /help [command] for more information`,
-        iconURL: "https://i.imgur.com/uUuZx2E.png"
-      });
+      if (!extra.hidden) {
+        const errorEmbed = new ErrorEmbed(`\`\`\`${error}\`\`\``).setFooter({
+          text: `by @.kathund | /help [command] for more information`,
+          iconURL: "https://i.imgur.com/uUuZx2E.png"
+        });
 
-      await interaction.editReply({ embeds: [errorEmbed], ephemeral: true });
+        await interaction.editReply({ embeds: [errorEmbed], ephemeral: true });
+      }
     }
   },
 

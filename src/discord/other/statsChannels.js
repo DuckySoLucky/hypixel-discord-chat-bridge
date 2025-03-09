@@ -4,5 +4,5 @@ const cron = require("node-cron");
 
 if (config.statsChannels.enabled) {
   cron.schedule(`*/${config.statsChannels.autoUpdaterInterval} * * * *`, () => updateChannels.execute(null, { hidden: true }));
-  console.log("Stats channels enabled");
+  console.discord(`StatsChannels ready, executing every ${config.statsChannels.autoUpdaterInterval} minutes.`);
 }
