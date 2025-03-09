@@ -28,6 +28,9 @@ importers:
       discord-api-types:
         specifier: ^0.37.55
         version: 0.37.119
+      discord-emoji-converter:
+        specifier: ^1.2.8
+        version: 1.2.10
       discord.js:
         specifier: ^14.13.0
         version: 14.18.0
@@ -998,6 +1001,9 @@ packages:
 
   discord-api-types@0.37.119:
     resolution: { integrity: sha512-WasbGFXEB+VQWXlo6IpW3oUv73Yuau1Ig4AZF/m13tXcTKnMpc/mHjpztIlz4+BM9FG9BHQkEXiPto3bKduQUg== }
+
+  discord-emoji-converter@1.2.10:
+    resolution: {integrity: sha512-5E1zGTVRhIlgZUCnHzgZ1r2kL8SONmaCcIs8wC8d9a9lotxtyWTN2BRA6lidQohj4Yt/hW8ImuCeG2du8+82DQ==}
 
   discord.js@14.18.0:
     resolution: { integrity: sha512-SvU5kVUvwunQhN2/+0t55QW/1EHfB1lp0TtLZUSXVHDmyHTrdOj5LRKdR0zLcybaA15F+NtdWuWmGOX9lE+CAw== }
@@ -4044,6 +4050,8 @@ snapshots:
   discontinuous-range@1.0.0: {}
 
   discord-api-types@0.37.119: {}
+
+  discord-emoji-converter@1.2.10: {}
 
   discord.js@14.18.0:
     dependencies:
