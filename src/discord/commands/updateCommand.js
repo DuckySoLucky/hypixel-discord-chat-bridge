@@ -15,7 +15,6 @@ const { getNetworth } = require("skyhelper-networth");
 const config = require("../../../config.json");
 const fs = require("fs");
 const { getUsername } = require("../../contracts/API/mowojangAPI.js");
-const { hideLinkEmbed } = require("discord.js");
 
 async function updateRoles({ discordId, uuid }) {
   const member = await guild.members.fetch(discordId);

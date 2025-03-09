@@ -21,7 +21,6 @@ class DiscordManager extends CommunicationBridge {
   }
 
   connect() {
-    global.imgurUrl = "";
     global.client = new Client({
       intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers]
     });
@@ -103,11 +102,6 @@ class DiscordManager extends CommunicationBridge {
     if (channel === undefined) {
       console.error(`Channel ${chat} not found!`);
       return;
-    }
-
-    if (username === bot.username && message.endsWith("Check Discord Bridge for image.")) {
-      channel.send(imgurUrl);
-      imgurUrl = "";
     }
 
     switch (mode) {

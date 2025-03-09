@@ -1,7 +1,6 @@
 const { checkRequirements, generateEmbed } = require("../../discord/commands/requirementsCommand.js");
 const { replaceAllRanks, replaceVariables } = require("../../contracts/helperFunctions.js");
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
-const updateRolesCommand = require("../../discord/commands/updateCommand.js");
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
 const { getUUID } = require("../../contracts/API/mowojangAPI.js");
