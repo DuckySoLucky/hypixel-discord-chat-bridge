@@ -10,6 +10,7 @@ const { isUuid } = require("../../../API/utils/uuid.js");
 const messages = require("../../../messages.json");
 const config = require("../../../config.json");
 const { readFileSync } = require("fs");
+const updateCommand = require("../../discord/commands/updateCommand.js");
 
 class StateHandler extends eventHandler {
   constructor(minecraft, command, discord) {
@@ -125,144 +126,109 @@ class StateHandler extends eventHandler {
     }
 
     if (this.isJoinMessage(message)) {
-      const username = message
-        .replace(/\[(.*?)\]/g, "")
-        .trim()
-        .split(/ +/g)[0];
+      const username = this.getUsernameFromEventMessage(message);
+      setTimeout(() => this.tryToUpdateUser(username), 15000);
+
       await delay(1000);
-      bot.chat(
-        `/gc ${replaceVariables(messages.guildJoinMessage, {
-          prefix: config.minecraft.bot.prefix
-        })} | by @duckysolucky`
-      );
-      await this.updateUser(username);
+      bot.chat(`/gc ${replaceVariables(messages.guildJoinMessage, { prefix: config.minecraft.bot.prefix })} | by @duckysolucky`);
+
+      const broadcastMessage = {
+        message: replaceVariables(messages.joinMessage, { username }),
+        title: `Member Joined`,
+        icon: `https://mc-heads.net/avatar/${username}`,
+        color: 2067276
+      };
+
       return [
-        this.minecraft.broadcastHeadedEmbed({
-          message: replaceVariables(messages.joinMessage, { username }),
-          title: `Member Joined`,
-          icon: `https://mc-heads.net/avatar/${username}`,
-          color: 2067276,
-          channel: "Logger"
-        }),
-        this.minecraft.broadcastHeadedEmbed({
-          message: replaceVariables(messages.joinMessage, { username }),
-          title: `Member Joined`,
-          icon: `https://mc-heads.net/avatar/${username}`,
-          color: 2067276,
-          channel: "Guild"
-        })
+        this.minecraft.broadcastHeadedEmbed({ ...broadcastMessage, channel: "Logger" }),
+        this.minecraft.broadcastHeadedEmbed({ ...broadcastMessage, channel: "Guild" })
       ];
     }
 
     if (this.isLeaveMessage(message)) {
-      const username = message
-        .replace(/\[(.*?)\]/g, "")
-        .trim()
-        .split(/ +/g)[0];
-      await this.updateUser(username);
+      const username = this.getUsernameFromEventMessage(message);
+      setTimeout(() => this.tryToUpdateUser(username), 15000);
+
+      const broadcastMessage = {
+        message: replaceVariables(messages.leaveMessage, { username }),
+        title: `Member Left`,
+        icon: `https://mc-heads.net/avatar/${username}`,
+        color: 2067276
+      };
+
       return [
-        this.minecraft.broadcastHeadedEmbed({
-          message: replaceVariables(messages.leaveMessage, { username }),
-          title: `Member Left`,
-          icon: `https://mc-heads.net/avatar/${username}`,
-          color: 15548997,
-          channel: "Logger"
-        }),
-        this.minecraft.broadcastHeadedEmbed({
-          message: replaceVariables(messages.leaveMessage, { username }),
-          title: `Member Left`,
-          icon: `https://mc-heads.net/avatar/${username}`,
-          color: 15548997,
-          channel: "Guild"
-        })
+        this.minecraft.broadcastHeadedEmbed({ ...broadcastMessage, channel: "Logger" }),
+        this.minecraft.broadcastHeadedEmbed({ ...broadcastMessage, channel: "Guild" })
       ];
     }
 
     if (this.isKickMessage(message)) {
-      const username = message
-        .replace(/\[(.*?)\]/g, "")
-        .trim()
-        .split(/ +/g)[0];
-      await this.updateUser(username);
+      const username = this.getUsernameFromEventMessage(message);
+      setTimeout(() => this.tryToUpdateUser(username), 15000);
+
+      const broadcastMessage = {
+        message: replaceVariables(messages.kickMessage, { username }),
+        title: `Member Kicked`,
+        icon: `https://mc-heads.net/avatar/${username}`,
+        color: 15548997
+      };
+
       return [
-        this.minecraft.broadcastHeadedEmbed({
-          message: replaceVariables(messages.kickMessage, { username }),
-          title: `Member Kicked`,
-          icon: `https://mc-heads.net/avatar/${username}`,
-          color: 15548997,
-          channel: "Logger"
-        }),
-        this.minecraft.broadcastHeadedEmbed({
-          message: replaceVariables(messages.kickMessage, { username }),
-          title: `Member Kicked`,
-          icon: `https://mc-heads.net/avatar/${username}`,
-          color: 15548997,
-          channel: "Guild"
-        })
+        this.minecraft.broadcastHeadedEmbed({ ...broadcastMessage, channel: "Logger" }),
+        this.minecraft.broadcastHeadedEmbed({ ...broadcastMessage, channel: "Guild" })
       ];
     }
 
     if (this.isPromotionMessage(message)) {
-      const username = message
-        .replace(/\[(.*?)\]/g, "")
-        .trim()
-        .split(/ +/g)[0];
+      const username = this.getUsernameFromEventMessage(message);
       const rank = message
         .replace(/\[(.*?)\]/g, "")
         .trim()
         .split(" to ")
         .pop()
         .trim();
-      await this.updateUser(username);
-      return [
-        this.minecraft.broadcastCleanEmbed({
-          message: replaceVariables(messages.promotionMessage, {
-            username,
-            rank
-          }),
-          color: 2067276,
-          channel: "Guild"
+
+      setTimeout(() => this.tryToUpdateUser(username), 15000);
+
+      const broadcastMessage = {
+        message: replaceVariables(messages.promotionMessage, {
+          username,
+          rank
         }),
-        this.minecraft.broadcastCleanEmbed({
-          message: replaceVariables(messages.promotionMessage, {
-            username,
-            rank
-          }),
-          color: 2067276,
-          channel: "Logger"
-        })
+        title: `Member Promoted`,
+        icon: `https://mc-heads.net/avatar/${username}`,
+        color: 2067276
+      };
+
+      return [
+        this.minecraft.broadcastCleanEmbed({ ...broadcastMessage, channel: "Guild" }),
+        this.minecraft.broadcastCleanEmbed({ ...broadcastMessage, channel: "Logger" })
       ];
     }
 
     if (this.isDemotionMessage(message)) {
-      const username = message
-        .replace(/\[(.*?)\]/g, "")
-        .trim()
-        .split(/ +/g)[0];
+      const username = this.getUsernameFromEventMessage(message);
       const rank = message
         .replace(/\[(.*?)\]/g, "")
         .trim()
         .split(" to ")
         .pop()
         .trim();
-      await this.updateUser(username);
-      return [
-        this.minecraft.broadcastCleanEmbed({
-          message: replaceVariables(messages.demotionMessage, {
-            username,
-            rank
-          }),
-          color: 15548997,
-          channel: "Guild"
+      setTimeout(() => this.tryToUpdateUser(username), 15000);
+
+      const broadcastMessage = {
+        message: replaceVariables(messages.demotionMessage, {
+          username,
+          rank
         }),
-        this.minecraft.broadcastCleanEmbed({
-          message: replaceVariables(messages.demotionMessage, {
-            username,
-            rank
-          }),
-          color: 15548997,
-          channel: "Logger"
-        })
+        title: `Member Demoted`,
+        icon: `https://mc-heads.net/avatar/${username}`,
+        color: 15548997
+      };
+
+      return [
+        this.minecraft.broadcastCleanEmbed({ ...broadcastMessage, channel: "Guild" }),
+        this.minecraft.broadcastCleanEmbed({ ...broadcastMessage, channel: "Logger" })
       ];
     }
 
@@ -710,6 +676,17 @@ class StateHandler extends eventHandler {
     return "7";
   }
 
+  getUsernameFromEventMessage(message) {
+    const regex = /(?:\[(?<rank>[^\]]+)\] )?(?<username>[^\s]+) (?<event>.+)/;
+
+    const match = message.match(regex);
+    if (match === null) {
+      return "";
+    }
+
+    return match.groups.username;
+  }
+
   isMessageFromBot(username) {
     return bot.username === username;
   }
@@ -921,32 +898,30 @@ class StateHandler extends eventHandler {
     }
   }
 
-  async updateUser(player) {
+  async tryToUpdateUser(uuid) {
     try {
-      if (isUuid(player) === false) {
-        player = await getUUID(player);
-      }
-
       if (config.verification.enabled === false) {
         return;
+      }
+
+      if (isUuid(uuid) === false) {
+        uuid = await getUUID(uuid);
       }
 
       const linkedData = readFileSync("data/linked.json");
       if (linkedData === undefined) {
         return;
       }
-      const linked = JSON.parse(linkedData);
+
+      const linked = JSON.parse(linkedData.toString());
       if (linked === undefined) {
         return;
       }
 
-      const linkedUser = Object.values(linked).find((u) => player);
-      if (linkedUser === undefined) {
-        return;
-      }
+      const discordId = linked[uuid];
+      updateCommand.updateRoles({ discordId, uuid });
 
-      const user = await guild.members.fetch(linkedUser);
-      await updateRolesCommand.execute(null, user);
+      console.log(`Updated roles for ${uuid}`);
     } catch {
       //
     }

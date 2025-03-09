@@ -98,27 +98,60 @@
     "token": "WEBSOCKET_TOKEN"
   },
   "verification": {
-    "enabled": false,
-    "verifiedRole": "VERIFIED_ROLE_ID",
-    "unverifiedRole": "UNVERIFIED_ROLE_ID",
-    "removeVerificationRole": true,
-    "guildMemberRole": "GUILD_MEMBER_ROLE_ID",
-    "autoUpdater": false,
-    "autoUpdaterInterval": 24,
-    "name": "{username}",
-    "levelRoles": [
-      {
-        "type": "bedwarsStar",
-        "requirement": 200,
-        "roleId": "DISCORD_ROLE_ID"
-      }
-    ],
-    "ranks": [
-      {
-        "name": "IN_GAME_RANK_NAME",
-        "roles": ["DISCORD_ROLE_ID"]
-      }
-    ]
+    "enabled": true,
+    "nickname": "{username}",
+    "roles": {
+      "verified": {
+        "enabled": false,
+        "roleId": "1003353024720277504"
+      },
+      "guildMember": {
+        "enabled": true,
+        "roleId": "600313217603993617"
+      },
+      "custom": [
+        {
+          "roleId": "1324671329458458665",
+          "requirements": [
+            {
+              "type": "bedwarsStar",
+              "value": 100
+            }
+          ]
+        },
+        {
+          "roleId": "1324671329458458665",
+          "requirements": [
+            {
+              "type": "guildRank",
+              "value": "Novice"
+            }
+          ]
+        },
+        {
+          "roleId": "1324671329458458665",
+          "requirements": [
+            {
+              "type": "guildRank",
+              "value": "Test"
+            }
+          ]
+        },
+        {
+          "roleId": "1324671329458458665",
+          "requirements": [
+            {
+              "type": "skyblockLevel",
+              "value": 15
+            }
+          ]
+        }
+      ]
+    },
+    "autoRoleUpdater": {
+      "enabled": true,
+      "interval": 24
+    }
   },
   "other": {
     "autoUpdater": true,

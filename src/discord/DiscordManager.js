@@ -104,6 +104,7 @@ class DiscordManager extends CommunicationBridge {
       console.error(`Channel ${chat} not found!`);
       return;
     }
+
     if (username === bot.username && message.endsWith("Check Discord Bridge for image.")) {
       channel.send(imgurUrl);
       imgurUrl = "";
@@ -183,6 +184,10 @@ class DiscordManager extends CommunicationBridge {
     console.broadcast(message, "Event");
 
     channel = await this.stateHandler.getChannel(channel);
+    if (channel === undefined) {
+      console.log(`Channel ${channel} not found!`);
+    }
+
     channel.send({
       embeds: [
         {
@@ -197,6 +202,11 @@ class DiscordManager extends CommunicationBridge {
     console.broadcast(message, "Event");
 
     channel = await this.stateHandler.getChannel(channel);
+    if (channel === undefined) {
+      console.log(`Channel ${channel} not found!`);
+      return;
+    }
+
     channel.send({
       embeds: [
         {
@@ -213,7 +223,13 @@ class DiscordManager extends CommunicationBridge {
 
   async onPlayerToggle({ fullMessage, username, message, color, channel }) {
     console.broadcast(message, "Event");
+
     channel = await this.stateHandler.getChannel(channel);
+    if (channel === undefined) {
+      console.log(`Channel ${channel} not found!`);
+      return;
+    }
+
     switch (config.discord.other.messageMode.toLowerCase()) {
       case "bot":
         channel.send({

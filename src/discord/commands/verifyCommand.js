@@ -1,6 +1,8 @@
 const { Embed, ErrorEmbed, SuccessEmbed } = require("../../contracts/embedHandler.js");
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 const hypixelRebornAPI = require("../../contracts/API/HypixelRebornAPI.js");
+const { formatError } = require("../../contracts/helperFunctions.js");
+const updateRolesCommand = require("./updateCommand.js");
 const { writeFileSync, readFileSync } = require("fs");
 const config = require("../../../config.json");
 
@@ -18,58 +20,41 @@ module.exports = {
     }
   ],
 
-  execute: async (interaction, user, bypassChecks = false) => {
+  execute: async (interaction, extra = {}) => {
     try {
       const linkedData = readFileSync("data/linked.json");
-      if (linkedData === undefined) {
+      if (!linkedData) {
         throw new HypixelDiscordChatBridgeError("The linked data file does not exist. Please contact an administrator.");
       }
 
-      const linked = JSON.parse(linkedData);
-      if (linked === undefined) {
+      const linked = JSON.parse(linkedData.toString("utf8"));
+      if (!linked) {
         throw new HypixelDiscordChatBridgeError("The linked data file is malformed. Please contact an administrator.");
       }
 
-      if (bypassChecks === true && user !== undefined) {
-        interaction.user = user;
-      }
-
-      if (Object.keys(linked).includes(interaction.user.id) === true) {
-        if (bypassChecks === true) {
-          delete linked[interaction.user.id];
-        } else {
-          throw new HypixelDiscordChatBridgeError("You are already linked to a Minecraft account. Please run /unverify first.");
-        }
+      const linkedRole = guild.roles.cache.get(config.verification.roles.verified.roleId);
+      if (!linkedRole) {
+        throw new HypixelDiscordChatBridgeError("The verified role does not exist. Please contact an administrator.");
       }
 
       const username = interaction.options.getString("username");
       const { socialMedia, nickname, uuid } = await hypixelRebornAPI.getPlayer(username);
-      if (Object.values(linked).includes(uuid) === true) {
-        if (bypassChecks === true) {
-          delete linked[Object.keys(linked).find((key) => linked[key] === uuid)];
-        } else {
-          throw new HypixelDiscordChatBridgeError("This player is already linked to a Discord account. Please contact an administrator.");
-        }
-      }
 
       const discordUsername = socialMedia.find((media) => media.id === "DISCORD")?.link;
-      if (discordUsername === undefined && bypassChecks !== true) {
-        throw new HypixelDiscordChatBridgeError("This player does not have a Discord linked.");
+      if (!discordUsername) {
+        throw new HypixelDiscordChatBridgeError(`The player '${nickname}' has not linked their Discord account. Please follow the instructions below.`);
       }
 
-      if (discordUsername?.toLowerCase() != interaction.user.username && bypassChecks !== true) {
-        throw new HypixelDiscordChatBridgeError(`The player '${nickname}' has linked their Discord account to a different account ('${discordUsername}').`);
+      if (discordUsername.toLowerCase() !== interaction.user.username) {
+        throw new HypixelDiscordChatBridgeError(
+          `The player '${nickname}' has linked their Discord account to a different account ('${discordUsername}'). Please follow the instructions below.`
+        );
       }
 
-      const linkedRole = guild.roles.cache.get(config.verification.verifiedRole);
-      if (linkedRole === undefined) {
-        throw new HypixelDiscordChatBridgeError("The verified role does not exist. Please contact an administrator.");
-      }
-
-      linked[interaction.user.id] = uuid;
+      linked[uuid] = interaction.user.id;
       writeFileSync("data/linked.json", JSON.stringify(linked, null, 2));
 
-      const embed = new SuccessEmbed(`${user ? `<@${user.id}>'s` : "Your"} account has been successfully linked to \`${nickname}\``)
+      const embed = new SuccessEmbed(`${extra.user ? `<@${extra.user.id}>'s` : "Your"} account has been successfully linked to \`${nickname}\``)
         .setAuthor({ name: "Successfully linked!" })
         .setFooter({
           text: `by @.kathund | /help [command] for more information`,
@@ -78,19 +63,11 @@ module.exports = {
 
       await interaction.editReply({ embeds: [embed], ephemeral: true });
 
-      const updateRolesCommand = require("./updateCommand.js");
-      if (updateRolesCommand === undefined) {
-        throw new HypixelDiscordChatBridgeError("The update command does not exist. Please contact an administrator.");
-      }
-
-      await updateRolesCommand.execute(interaction, user);
+      await updateRolesCommand.execute(interaction);
     } catch (error) {
       console.error(error);
       // eslint-disable-next-line no-ex-assign
-      error = error
-        .toString()
-        .replaceAll("Error: [hypixel-api-reborn] ", "")
-        .replaceAll("Unprocessable Entity! For help join our Discord Server https://discord.gg/NSEBNMM", "This player does not exist. (Mojang API might be down)");
+      error = formatError(error);
 
       const errorEmbed = new ErrorEmbed(`\`\`\`${error}\`\`\``).setFooter({
         text: `by @.kathund | /help [command] for more information`,
@@ -98,14 +75,11 @@ module.exports = {
       });
 
       await interaction.editReply({ embeds: [errorEmbed], ephemeral: true });
-
-      if (error !== "You are already linked to a Minecraft account. Please run /unverify first." && error.includes("linked") === true) {
+      if (error.includes("Please follow the instructions below.")) {
         const verificationTutorialEmbed = new Embed()
           .setAuthor({ name: "Link with Hypixel Social Media" })
           .setDescription(
-            `**Instructions:**\n1) Use your Minecraft client to connect to Hypixel.\n2) Once connected, and while in the lobby, right click "My Profile" in your hotbar. It is option #2.\n3) Click "Social Media" - this button is to the left of the Redstone block (the Status button).\n4) Click "Discord" - it is the second last option.\n5) Paste your Discord username into chat and hit enter. For reference: \`${
-              interaction.user.username ?? interaction.user.tag
-            }\`\n6) You're done! Wait around 30 seconds and then try again.\n\n**Getting "The URL isn't valid!"?**\nHypixel has limitations on the characters supported in a Discord username. Try changing your Discord username temporarily to something without special characters, updating it in-game, and trying again.`
+            `**Instructions:**\n1) Use your Minecraft client to connect to Hypixel.\n2) Once connected, and while in the lobby, right click "My Profile" in your hotbar. It is option #2.\n3) Click "Social Media" - this button is to the left of the Redstone block (the Status button).\n4) Click "Discord" - it is the second last option.\n5) Paste your Discord username into chat and hit enter. For reference: \`${interaction.user.username ?? interaction.user.tag}\`\n6) You're done! Wait around 30 seconds and then try again.\n\n**Getting "The URL isn't valid!"?**\nHypixel has limitations on the characters supported in a Discord username. Try changing your Discord username temporarily to something without special characters, updating it in-game, and trying again.`
           )
           .setImage("https://media.discordapp.net/attachments/922202066653417512/1066476136953036800/tutorial.gif")
           .setFooter({

@@ -50,7 +50,8 @@ class StateHandler {
 
   async getChannel(type) {
     if (typeof type !== "string" || type === undefined) {
-      return console.error(`Channel type must be a string!`);
+      console.error(`Channel type must be a string! Received: ${type}`);
+      return;
     }
 
     switch (type.replace(/§[0-9a-fk-or]/g, "").trim()) {
