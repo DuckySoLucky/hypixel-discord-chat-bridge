@@ -166,4 +166,24 @@ describe("ChatHandler", () => {
       expect(match.command).toBe("-rtca");
     });
   });
+
+  describe("getUsernameFromEventMessage", () => {
+    it("should return the username from the message with a MVP+ rank", () => {
+      const message = "[MVP+] DuckySoSkilled left the guild!";
+      const username = chatHandler.getUsernameFromEventMessage(message);
+      expect(username).toBe("DuckySoSkilled");
+    });
+
+    it("should return the username from the message with a VIP rank", () => {
+      const message = "[VIP] DuckySoSkilled left the guild!";
+      const username = chatHandler.getUsernameFromEventMessage(message);
+      expect(username).toBe("DuckySoSkilled");
+    });
+
+    it("should return the username from the message without a rank", () => {
+      const message = "DuckySoSkilled left the guild!";
+      const username = chatHandler.getUsernameFromEventMessage(message);
+      expect(username).toBe("DuckySoSkilled");
+    });
+  });
 });

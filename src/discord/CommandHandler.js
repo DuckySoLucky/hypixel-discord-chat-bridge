@@ -13,9 +13,18 @@ class CommandHandler {
 
     for (const file of commandFiles) {
       const command = require(`./commands/${file}`);
-      if (command.inactivityCommand === true && config.verification.inactivity.enabled == false) continue;
-      if (command.verificationCommand === true && config.verification.enabled === false) continue;
-      if (command.channelsCommand === true && config.statsChannels.enabled === false) continue;
+      if (command.inactivityCommand === true && config.verification.inactivity.enabled == false) {
+        continue;
+      }
+
+      if (command.verificationCommand === true && config.verification.enabled === false) {
+        continue;
+      }
+
+      if (command.channelsCommand === true && config.statsChannels.enabled === false) {
+        continue;
+      }
+
       commands.push(command);
     }
 

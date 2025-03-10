@@ -1,8 +1,8 @@
-const updateChannels = require("../commands/forceUpdateChannelsCommand.js");
+const updateChannels = require("../commands/updateChannels.js");
 const config = require("../../../config.json");
 const cron = require("node-cron");
 
 if (config.statsChannels.enabled) {
-  console.log("Stats channels enabled");
-  cron.schedule(`*/${config.verification.autoUpdaterInterval} * * * *`, () => updateChannels.execute(null, true));
+  cron.schedule(`*/${config.statsChannels.autoUpdaterInterval} * * * *`, () => updateChannels.execute(null, { hidden: true }));
+  console.discord(`StatsChannels ready, executing every ${config.statsChannels.autoUpdaterInterval} minutes.`);
 }

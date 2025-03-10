@@ -20,7 +20,7 @@ class StateHandler {
     }
 
     if (config.verification.inactivity.enabled) require("../other/removeExpiredInactivity.js");
-    if (config.verification.autoUpdater) require("../other/updateUsers.js");
+    if (config.verification.autoRoleUpdater.enabled) require("../other/updateUsers.js");
     if (config.statsChannels.enabled) require("../other/statsChannels.js");
 
     channel.send({
@@ -51,7 +51,8 @@ class StateHandler {
 
   async getChannel(type) {
     if (typeof type !== "string" || type === undefined) {
-      return console.error(`Channel type must be a string!`);
+      console.error(`Channel type must be a string! Received: ${type}`);
+      return;
     }
 
     switch (type.replace(/§[0-9a-fk-or]/g, "").trim()) {
