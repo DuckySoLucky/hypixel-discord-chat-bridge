@@ -74,6 +74,11 @@
     ]
   },
   "engines": {
-    "node": ">=20.18.3"
+    "node": ">=20.18.3",
+    "pnpm": ">=10.0.0",
+    "deno": "forbidden, use node instead",
+    "npm": "forbidden, use pnpm instead",
+    "yarn": "forbidden, use pnpm instead",
+    "bun": "forbidden, use pnpm instead"
   }
 }

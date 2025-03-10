@@ -24,6 +24,7 @@ that went into it. Thank you!
 
 - Git
 - NodeJS >= 20.18.3
+- pnpm >= 10.0.0
 - A Minecraft account
 
 ### Setup Guide for NodeJS
@@ -32,9 +33,13 @@ To get started, clone down the repository using:
 
     git clone https://github.com/DuckySoLucky/hypixel-discord-chat-bridge.git
 
-Next go into the `hypixel-discord-chat-bridge` folder and install all the dependencies using NPM.
+If you don't already have pnpm installed, install it using:
 
-    npm install
+    npm install pnpm --gbloal
+
+Next go into the `hypixel-discord-chat-bridge` folder and install all the dependencies using PNPM.
+
+    pnpm install
 
 While the dependencies are being installed you can edit the configuration file. The configuration file is called `config.example.json`. It is pretty self explanatory, but
 if you need help with it, you can check out the [Configuration](#configuration) section. Once you are done editing, save it as another file by the name of `config.json`.

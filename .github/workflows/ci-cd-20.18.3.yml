@@ -10,36 +10,69 @@ env:
   NODE_VERSION: "20.18.3"
 
 jobs:
-  es-lint:
+  pnpm:
+    name: install dependencies (pnpm)
     runs-on: ubuntu-latest
     steps:
       - name: Git checkout
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: "10"
+
       - name: Use Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
 
       - name: Install node dependencies
-        run: npm i
+        run: pnpm i
 
-      - name: es-lint
-        run: npm run lint
+  es-lint:
+    name: es-lint
+    needs: [pnpm]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Install node dependencies
+        run: pnpm i
+
+      - name: Check es-lint
+        run: pnpm lint
 
   prettier:
+    name: prettier
+    needs: [pnpm]
     runs-on: ubuntu-latest
     steps:
       - name: Git checkout
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+
       - name: Use Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
 
       - name: Install node dependencies
-        run: npm i
+        run: pnpm i
 
-      - name: Prettier
-        run: npm run prettier
+      - name: Check prettier
+        run: pnpm prettier
