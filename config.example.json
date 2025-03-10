@@ -152,7 +152,6 @@
       "enabled": true,
       "interval": 24
     },
-
     "inactivity": {
       "enabled": false,
       "channel": "INACTIVITY_LOG_CHANNEL"
