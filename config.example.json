@@ -118,7 +118,11 @@
         "name": "IN_GAME_RANK_NAME",
         "roles": ["DISCORD_ROLE_ID"]
       }
-    ]
+    ],
+    "inactivity": {
+      "enabled": false,
+      "channel": "INACTIVITY_LOG_CHANNEL"
+    }
   },
   "other": {
     "autoUpdater": true,

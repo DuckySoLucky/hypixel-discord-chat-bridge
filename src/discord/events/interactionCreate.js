@@ -1,5 +1,6 @@
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 const { ErrorEmbed, SuccessEmbed } = require("../../contracts/embedHandler.js");
+const { handleInactivitySubmit } = require("../commands/inactivityCommand.js");
 // eslint-disable-next-line no-unused-vars
 const { CommandInteraction } = require("discord.js");
 const config = require("../../../config.json");
@@ -13,17 +14,16 @@ module.exports = {
     try {
       if (interaction.isChatInputCommand()) {
         const memberRoles = interaction.member.roles.cache.map((role) => role.id);
-        await interaction.deferReply({ ephemeral: false }).catch(() => {});
-        if (memberRoles.some((role) => config.discord.commands.blacklistRoles.includes(role))) {
-          throw new HypixelDiscordChatBridgeError("You are blacklisted from the bot.");
-        }
-
         const command = interaction.client.commands.get(interaction.commandName);
         if (command === undefined) {
           return;
         }
 
         console.discord(`${interaction.user.username} - [${interaction.commandName}]`);
+        if (command.inactivityCommand !== true) await interaction.deferReply({ ephemeral: false }).catch(() => {});
+        if (memberRoles.some((role) => config.discord.commands.blacklistRoles.includes(role))) {
+          throw new HypixelDiscordChatBridgeError("You are blacklisted from the bot.");
+        }
 
         if (command.verificationCommand === true && config.verification.enabled === false) {
           throw new HypixelDiscordChatBridgeError("Verification is disabled.");
@@ -34,6 +34,10 @@ module.exports = {
         }
 
         if (command.moderatorOnly === true && isModerator(interaction) === false) {
+          throw new HypixelDiscordChatBridgeError("You don't have permission to use this command.");
+        }
+
+        if (command.guildOnly === true && isGuildMember(interaction) === false) {
           throw new HypixelDiscordChatBridgeError("You don't have permission to use this command.");
         }
 
@@ -51,14 +55,20 @@ module.exports = {
         const embed = new SuccessEmbed(`Successfully accepted **${username}** into the guild.`);
 
         await interaction.followUp({ embeds: [embed] });
+      } else if (interaction.isModalSubmit()) {
+        await interaction.deferReply({ ephemeral: true }).catch(() => {});
+        if (interaction.customId === "inactivityForm") await handleInactivitySubmit(interaction);
       }
     } catch (error) {
       console.error(error);
       const errrorMessage = error instanceof HypixelDiscordChatBridgeError ? "" : "Please try again later. The error has been sent to the Developers.\n\n";
 
       const errorEmbed = new ErrorEmbed(`${errrorMessage}\`\`\`${error}\`\`\``);
-
-      await interaction.editReply({ embeds: [errorEmbed] });
+      if (interaction.replied || interaction.deferred) {
+        await interaction.editReply({ embeds: [errorEmbed] });
+      } else {
+        await interaction.reply({ embeds: [errorEmbed] });
+      }
 
       if (error instanceof HypixelDiscordChatBridgeError === false) {
         const username = interaction.user.username ?? interaction.user.tag ?? "Unknown";
@@ -92,6 +102,17 @@ function isModerator(interaction) {
   const userRoles = user.roles.cache.map((role) => role.id);
 
   if (config.discord.commands.checkPerms === true && !(userRoles.includes(config.discord.commands.commandRole) || config.discord.commands.users.includes(user.id))) {
+    return false;
+  }
+
+  return true;
+}
+
+function isGuildMember(interaction) {
+  const user = interaction.member;
+  const userRoles = user.roles.cache.map((role) => role.id);
+
+  if (config.discord.commands.checkPerms === true && !(userRoles.includes(config.verification.guildMemberRole) || config.discord.commands.users.includes(user.id))) {
     return false;
   }
 
