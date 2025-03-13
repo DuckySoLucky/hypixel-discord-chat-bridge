@@ -98,58 +98,21 @@
     "token": "WEBSOCKET_TOKEN"
   },
   "verification": {
-    "enabled": true,
+    "enabled": false,
     "nickname": "{username}",
     "roles": {
       "verified": {
         "enabled": false,
-        "roleId": "1003353024720277504"
+        "roleId": ""
       },
       "guildMember": {
-        "enabled": true,
-        "roleId": "600313217603993617"
+        "enabled": false,
+        "roleId": ""
       },
-      "custom": [
-        {
-          "roleId": "1324671329458458665",
-          "requirements": [
-            {
-              "type": "bedwarsStar",
-              "value": 100
-            }
-          ]
-        },
-        {
-          "roleId": "1324671329458458665",
-          "requirements": [
-            {
-              "type": "guildRank",
-              "value": "Novice"
-            }
-          ]
-        },
-        {
-          "roleId": "1324671329458458665",
-          "requirements": [
-            {
-              "type": "guildRank",
-              "value": "Test"
-            }
-          ]
-        },
-        {
-          "roleId": "1324671329458458665",
-          "requirements": [
-            {
-              "type": "skyblockLevel",
-              "value": 15
-            }
-          ]
-        }
-      ]
+      "custom": []
     },
     "autoRoleUpdater": {
-      "enabled": true,
+      "enabled": false,
       "interval": 24
     }
   },
