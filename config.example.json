@@ -114,6 +114,11 @@
     "autoRoleUpdater": {
       "enabled": false,
       "interval": 24
+    },
+    "inactivity": {
+      "enabled": false,
+      "channel": "INACTIVITY_LOG_CHANNEL",
+      "maxInactivityTime": 30
     }
   },
   "other": {
