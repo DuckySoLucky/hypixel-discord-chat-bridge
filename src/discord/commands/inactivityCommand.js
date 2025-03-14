@@ -32,10 +32,16 @@ async function handleInactivitySubmit(interaction) {
     throw new HypixelDiscordChatBridgeError("The linked data file does not exist. Please contact an administrator.");
   }
 
-  const linked = JSON.parse(linkedData);
+  const linked = JSON.parse(linkedData.toString());
   if (!linked) {
     throw new HypixelDiscordChatBridgeError("The linked data file is malformed. Please contact an administrator.");
   }
+
+  const uuid = Object.entries(linked).find(([, value]) => value === interaction.user.id)?.[0];
+  if (!uuid) {
+    throw new HypixelDiscordChatBridgeError("You are not linked to a Minecraft account.");
+  }
+  const username = await getUsername(uuid);
 
   const inactivityData = readFileSync("data/inactivity.json");
   if (!inactivityData) {
@@ -47,22 +53,26 @@ async function handleInactivitySubmit(interaction) {
     throw new HypixelDiscordChatBridgeError("The inactivity data file is malformed. Please contact an administrator.");
   }
 
-  if (inactivity[interaction.user.id]) {
+  if (inactivity[uuid]) {
     const embed = new Embed()
       .setTitle("Inactivity Failed")
-      .setDescription(`You are already inactive until <t:${inactivity[interaction.user.id].expire}:F> (<t:${inactivity[interaction.user.id].expire}:R>)`)
+      .setDescription(`You are already inactive until <t:${inactivity[uuid].expire}:F> (<t:${inactivity[uuid].expire}:R>)`)
       .setFooter({
         text: `by @.kathund | /help [command] for more information`,
         iconURL: "https://i.imgur.com/uUuZx2E.png"
       });
-    return await interaction.reply({ embeds: [embed] });
+    return await interaction.followUp({ embeds: [embed] });
   }
-
-  const uuid = linked[interaction.user.id];
-  const username = await getUsername(uuid);
 
   const time = Math.floor(ms(interaction.fields.getTextInputValue("inactivityTime")) / 1000);
   if (isNaN(time)) throw new HypixelDiscordChatBridgeError("Please input a valid time");
+
+  if (time > config.verification.inactivity.maxInactivityTime * 86400) {
+    throw new HypixelDiscordChatBridgeError(
+      `You can only request inactivity for ${config.verification.inactivity.maxInactivityTime} day(s) or less. Please contact an administrator if you need more time.`
+    );
+  }
+
   const reason = interaction.fields.getTextInputValue("inactivityReason") || "None";
   const expire = Math.floor(Date.now() / 1000) + time;
   const date = Math.floor(new Date().getTime() / 1000);
@@ -83,7 +93,7 @@ async function handleInactivitySubmit(interaction) {
     throw new HypixelDiscordChatBridgeError("Inactivity channel not found. Please contact an administrator.");
   }
 
-  inactivity[interaction.user.id] = { uuid, reason, expire };
+  inactivity[uuid] = { id: interaction.user.id, reason, expire };
   writeFileSync("data/inactivity.json", JSON.stringify(inactivity, null, 2));
   await channel.send({ embeds: [inactivityEmbed] });
   const inactivityResponse = new SuccessEmbed(`Inactivity request has been successfully sent to the guild staff.`).setFooter({
@@ -98,6 +108,7 @@ module.exports = {
   description: "Send an inactivity notice to the guild staff",
   inactivityCommand: true,
   guildOnly: true,
+  linkedOnly: true,
   verifiedOnly: true,
   handleInactivitySubmit,
   removeExpiredInactivity,

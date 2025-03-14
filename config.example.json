@@ -117,7 +117,8 @@
     },
     "inactivity": {
       "enabled": false,
-      "channel": "INACTIVITY_LOG_CHANNEL"
+      "channel": "INACTIVITY_LOG_CHANNEL",
+      "maxInactivityTime": 30
     }
   },
   "other": {

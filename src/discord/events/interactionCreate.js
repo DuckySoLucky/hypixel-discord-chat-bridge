@@ -4,6 +4,7 @@ const { handleInactivitySubmit } = require("../commands/inactivityCommand.js");
 // eslint-disable-next-line no-unused-vars
 const { CommandInteraction } = require("discord.js");
 const config = require("../../../config.json");
+const { readFileSync } = require("fs");
 
 module.exports = {
   name: "interactionCreate",
@@ -37,8 +38,16 @@ module.exports = {
           throw new HypixelDiscordChatBridgeError("You don't have permission to use this command.");
         }
 
+        if (command.verifiedOnly === true && isVerifiedMember(interaction) === false) {
+          throw new HypixelDiscordChatBridgeError("You don't have permission to use this command.");
+        }
+
         if (command.guildOnly === true && isGuildMember(interaction) === false) {
           throw new HypixelDiscordChatBridgeError("You don't have permission to use this command.");
+        }
+
+        if (command.linkedOnly === true && isLinkedMember(interaction) === false) {
+          throw new HypixelDiscordChatBridgeError("You are not linked to a Minecraft account.");
         }
 
         if (command.requiresBot === true && isBotOnline() === false) {
@@ -112,7 +121,43 @@ function isGuildMember(interaction) {
   const user = interaction.member;
   const userRoles = user.roles.cache.map((role) => role.id);
 
-  if (config.discord.commands.checkPerms === true && !(userRoles.includes(config.verification.guildMemberRole) || config.discord.commands.users.includes(user.id))) {
+  if (
+    config.discord.commands.checkPerms === true &&
+    !(userRoles.includes(config.verification.roles.guildMember.roleId) || config.discord.commands.users.includes(user.id))
+  ) {
+    return false;
+  }
+
+  return true;
+}
+
+function isVerifiedMember(interaction) {
+  const user = interaction.member;
+  const userRoles = user.roles.cache.map((role) => role.id);
+
+  if (
+    config.discord.commands.checkPerms === true &&
+    !(userRoles.includes(config.verification.roles.verified.roleId) || config.discord.commands.users.includes(user.id))
+  ) {
+    return false;
+  }
+
+  return true;
+}
+
+function isLinkedMember(interaction) {
+  const linkedData = readFileSync("data/linked.json");
+  if (!linkedData) {
+    throw new HypixelDiscordChatBridgeError("The linked data file does not exist. Please contact an administrator.");
+  }
+
+  const linked = JSON.parse(linkedData.toString());
+  if (!linked) {
+    throw new HypixelDiscordChatBridgeError("The linked data file is malformed. Please contact an administrator.");
+  }
+
+  const uuid = Object.entries(linked).find(([, value]) => value === interaction.user.id)?.[0];
+  if (!uuid) {
     return false;
   }
 

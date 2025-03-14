@@ -29,7 +29,7 @@ module.exports = {
       throw new HypixelDiscordChatBridgeError("The linked data file does not exist. Please contact an administrator.");
     }
 
-    const linked = JSON.parse(linkedData);
+    const linked = JSON.parse(linkedData.toString());
     if (!linked) {
       throw new HypixelDiscordChatBridgeError("The linked data file is malformed. Please contact an administrator.");
     }
@@ -65,13 +65,13 @@ module.exports = {
       await interaction.editReply({ embeds: [progressEmbed] });
 
       const username = await getUsername(member.uuid);
-      const linkedUser = Object.keys(linked).find((key) => linked[key] === member.uuid);
+      const linkedUser = Object.keys(linked).find((value) => value === member.uuid);
       if (linkedUser === undefined) {
         skippedString += `${username} » User not verified | ${member.weeklyExperience.toLocaleString()}\n`;
         continue;
       }
 
-      const inactive = Object.keys(inactivity).find((key) => inactivity[key].uuid === member.uuid);
+      const inactive = Object.keys(inactivity).find((value) => value === member.uuid);
       if (inactive) {
         inactiveString += `${username} » Member Inactive | ${inactivity[inactive].reason}`;
         continue;
