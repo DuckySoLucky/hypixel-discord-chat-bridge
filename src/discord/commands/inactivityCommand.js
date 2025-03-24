@@ -1,4 +1,3 @@
-const { ActionRowBuilder, TextInputBuilder, TextInputStyle, ModalBuilder } = require("discord.js");
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 const { Embed, SuccessEmbed } = require("../../contracts/embedHandler.js");
 const { getUsername } = require("../../contracts/API/mowojangAPI.js");
