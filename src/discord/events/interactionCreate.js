@@ -1,6 +1,5 @@
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 const { ErrorEmbed, SuccessEmbed } = require("../../contracts/embedHandler.js");
-const { handleInactivitySubmit } = require("../commands/inactivityCommand.js");
 // eslint-disable-next-line no-unused-vars
 const { CommandInteraction } = require("discord.js");
 const config = require("../../../config.json");
@@ -21,7 +20,7 @@ module.exports = {
         }
 
         console.discord(`${interaction.user.username} - [${interaction.commandName}]`);
-        if (command.inactivityCommand !== true) await interaction.deferReply({ ephemeral: false }).catch(() => {});
+        await interaction.deferReply({ ephemeral: false }).catch(() => {});
         if (memberRoles.some((role) => config.discord.commands.blacklistRoles.includes(role))) {
           throw new HypixelDiscordChatBridgeError("You are blacklisted from the bot.");
         }
@@ -64,9 +63,6 @@ module.exports = {
         const embed = new SuccessEmbed(`Successfully accepted **${username}** into the guild.`);
 
         await interaction.followUp({ embeds: [embed] });
-      } else if (interaction.isModalSubmit()) {
-        await interaction.deferReply({ ephemeral: true }).catch(() => {});
-        if (interaction.customId === "inactivityForm") await handleInactivitySubmit(interaction);
       }
     } catch (error) {
       console.error(error);
