@@ -16,9 +16,6 @@
       "blacklist": false,
       "blacklisted": []
     },
-    "guild": {
-      "guildExp": 50000
-    },
     "API": {
       "hypixelAPIkey": "HYPIXEL_API_KEY",
       "imgurAPIkey": "IMGUR_API_KEY"
@@ -102,26 +99,22 @@
   },
   "verification": {
     "enabled": false,
-    "verifiedRole": "VERIFIED_ROLE_ID",
-    "unverifiedRole": "UNVERIFIED_ROLE_ID",
-    "removeVerificationRole": true,
-    "guildMemberRole": "GUILD_MEMBER_ROLE_ID",
-    "autoUpdater": false,
-    "autoUpdaterInterval": 24,
-    "name": "{username}",
-    "levelRoles": [
-      {
-        "type": "bedwarsStar",
-        "requirement": 200,
-        "roleId": "DISCORD_ROLE_ID"
-      }
-    ],
-    "ranks": [
-      {
-        "name": "IN_GAME_RANK_NAME",
-        "roles": ["DISCORD_ROLE_ID"]
-      }
-    ]
+    "nickname": "{username}",
+    "roles": {
+      "verified": {
+        "enabled": false,
+        "roleId": ""
+      },
+      "guildMember": {
+        "enabled": false,
+        "roleId": ""
+      },
+      "custom": []
+    },
+    "autoRoleUpdater": {
+      "enabled": false,
+      "interval": 24
+    }
   },
   "other": {
     "autoUpdater": true,

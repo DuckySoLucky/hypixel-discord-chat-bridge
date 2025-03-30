@@ -48,6 +48,7 @@
     "mkdirp": "^3.0.1",
     "moment": "^2.29.4",
     "node-cron": "^3.0.2",
+    "node-emoji": "^2.2.0",
     "pretty-ms": "^7.0.1",
     "prismarine-nbt": "^2.2.1",
     "rss-parser": "^3.13.0",
@@ -71,5 +72,8 @@
     "onlyBuiltDependencies": [
       "canvas"
     ]
+  },
+  "engines": {
+    "node": ">=20.18.3"
   }
 }

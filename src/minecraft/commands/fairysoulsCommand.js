@@ -29,7 +29,7 @@ class FairySoulsCommand extends minecraftCommand {
 
       const { username, profile, profileData } = await getLatestProfile(player);
 
-      const total = profileData.game_mode === "island" ? 5 : 248;
+      const total = profileData.game_mode === "island" ? 5 : 253;
       const fairy_soul = profile.fairy_soul;
       this.send(`${username}'s Fairy Souls: ${fairy_soul.total_collected} / ${total} | Progress: ${((fairy_soul.total_collected / total) * 100).toFixed(2)}%`);
     } catch (error) {

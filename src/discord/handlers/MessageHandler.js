@@ -1,6 +1,7 @@
 const { uploadImage } = require("../../contracts/API/imgurAPI.js");
 const { demojify } = require("discord-emoji-converter");
 const config = require("../../../config.json");
+const emoji = require("node-emoji");
 
 class MessageHandler {
   constructor(discord, command) {
@@ -187,9 +188,10 @@ class MessageHandler {
   }
 
   formatEmojis(content) {
-    // ? demojify() function has a bug. It throws an error when it encounters channel with emoji in its name. Example: #💬・guild-chat
     try {
-      return demojify(content);
+      content = emoji.unemojify(content);
+      content = demojify(content);
+      return content;
     } catch (e) {
       return content;
     }

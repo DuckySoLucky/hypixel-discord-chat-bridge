@@ -11,6 +11,7 @@
   "include": ["API/**/*", "types/**/*.d.ts", "src/minecraft/commands/*"],
   "globals": {
     "bot": "readonly",
-    "client": "readonly"
+    "client": "readonly",
+    "guild": "readonly"
   }
 }

@@ -32,6 +32,10 @@ class ErrorEmbed extends Embed {
 
     this.setAuthor({ name: "An Error has occurred" });
     this.setColor(15548997);
+    this.setFooter({
+      text: `by @duckysolucky | /help [command] for more information`,
+      iconURL: "https://imgur.com/tgwQJTX.png"
+    });
 
     this.setDescription(description);
   }
@@ -51,6 +55,10 @@ class SuccessEmbed extends Embed {
 
     this.setAuthor({ name: "Success" });
     this.setColor(5763719);
+    this.setFooter({
+      text: `by @duckysolucky | /help [command] for more information`,
+      iconURL: "https://imgur.com/tgwQJTX.png"
+    });
 
     this.setDescription(description);
   }

@@ -1,0 +1,45 @@
+# This CI Workflow was deployed and configured by WarpWing and Nate.
+name: CI/CD (20.18.3)
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: "20.18.3"
+
+jobs:
+  es-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install node dependencies
+        run: npm i
+
+      - name: es-lint
+        run: npm run lint
+
+  prettier:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install node dependencies
+        run: npm i
+
+      - name: Prettier
+        run: npm run prettier
