@@ -152,7 +152,7 @@ class StateHandler extends eventHandler {
         message: replaceVariables(messages.leaveMessage, { username }),
         title: `Member Left`,
         icon: `https://mc-heads.net/avatar/${username}`,
-        color: 2067276
+        color: 15548997
       };
 
       return [
