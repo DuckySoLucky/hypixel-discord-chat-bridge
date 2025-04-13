@@ -31,8 +31,6 @@ class minecraftCommand {
       return;
     }
 
-    message = message.replaceAll("ez", "e-z").replaceAll("EZ", "E-Z");
-
     const startTime = Date.now();
     const maxExecutionTime = 10000;
 
