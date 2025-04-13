@@ -33,6 +33,8 @@ class MayorCommand extends minecraftCommand {
         `[MAYOR] ${data.mayor.name} is the current mayor of Skyblock! Perks: ${data.mayor.perks
           .map((perk) => perk.name)
           .join(", ")}, Minister Perk: ${data.mayor.minister?.perk?.name ?? "Unknown"}`
+          .replaceAll("ez", "e-z")
+          .replaceAll("EZ", "E-Z")
       );
 
       await delay(1000);
