@@ -855,7 +855,7 @@ class StateHandler extends eventHandler {
   }
 
   isGuildLevelUpMessage(message) {
-    return message.includes("The guild has reached Level") && !message.includes(":");
+    return message.includes("The Guild has reached Level") && !message.includes("!");
   }
 
   minecraftChatColorToHex(color) {
