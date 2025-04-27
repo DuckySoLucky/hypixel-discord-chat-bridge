@@ -16,11 +16,11 @@ module.exports = {
 
     const stats = {
       guildName: hypixelGuild.name,
-      guildLevel: hypixelGuild.level,
+      guildLevel: hypixelGuild.level.toFixed(0),
+      guildLevelWithProgress: hypixelGuild.level,
       guildXP: hypixelGuild.experience,
       guildWeeklyXP: hypixelGuild.totalWeeklyGexp,
       guildMembers: hypixelGuild.members.length,
-
       discordMembers: guild.memberCount,
       discordChannels: channels.size,
       discordRoles: roles.size

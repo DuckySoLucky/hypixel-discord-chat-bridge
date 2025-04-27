@@ -49,17 +49,11 @@ class MessageHandler {
 
       if (images.length > 0) {
         for (const attachment of images) {
-          try {
-            const imgurLink = await uploadImage(attachment);
-
-            messageData.message = messageData.message.replace(attachment, imgurLink.data.link);
-
-            if (messageData.message.includes(imgurLink.data.link) === false) {
-              messageData.message += ` ${imgurLink.data.link}`;
-            }
-          } catch (error) {
-            messageData.message += ` ${attachment}`;
+          if (messageData.message.includes(attachment)) {
+            continue;
           }
+
+          messageData.message += ` ${attachment}`;
         }
       }
 
