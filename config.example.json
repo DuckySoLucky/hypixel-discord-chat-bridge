@@ -75,6 +75,7 @@
       "loggingChannel": "LOGGING_CHANNEL_ID",
       "debugMode": true,
       "debugChannel": "DEBUG_CHANNEL_ID",
+      "debugChannelMessageMode": "text",
       "allowedBots": ["BOT_USER_ID"]
     },
     "commands": {
@@ -84,7 +85,7 @@
       "users": ["486155512568741900"]
     },
     "other": {
-      "messageMode": "minecraft",
+      "messageMode": "bot",
       "messageFormat": "{chatType} > {skin} {rank} {username} {guildRank}§f: {message}",
       "filterMessages": true,
       "filterWords": ["dox", "doxx", "doxed", "doxxed", "doxing", "doxxing", "doxes", "doxxes"],

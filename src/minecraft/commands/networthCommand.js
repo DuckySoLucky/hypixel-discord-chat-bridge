@@ -1,7 +1,7 @@
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { formatNumber } = require("../../contracts/helperFunctions.js");
-const { ProfileNetworthCalculator } = require("skyhelper-networth-v2");
+const { ProfileNetworthCalculator } = require("skyhelper-networth");
 
 class NetWorthCommand extends minecraftCommand {
   /** @param {import("minecraft-protocol").Client} minecraft */
