@@ -3,6 +3,7 @@ const { ErrorEmbed, SuccessEmbed } = require("../../contracts/embedHandler.js");
 // eslint-disable-next-line no-unused-vars
 const { CommandInteraction } = require("discord.js");
 const config = require("../../../config.json");
+const { isLinkedMember, isGuildMember, isVerifiedMember } = require("../../contracts/verificaiton.js");
 
 module.exports = {
   name: "interactionCreate",
@@ -13,17 +14,16 @@ module.exports = {
     try {
       if (interaction.isChatInputCommand()) {
         const memberRoles = interaction.member.roles.cache.map((role) => role.id);
-        await interaction.deferReply({ ephemeral: false }).catch(() => {});
-        if (memberRoles.some((role) => config.discord.commands.blacklistRoles.includes(role))) {
-          throw new HypixelDiscordChatBridgeError("You are blacklisted from the bot.");
-        }
-
         const command = interaction.client.commands.get(interaction.commandName);
         if (command === undefined) {
           return;
         }
 
         console.discord(`${interaction.user.username} - [${interaction.commandName}]`);
+        await interaction.deferReply({ ephemeral: false }).catch(() => {});
+        if (memberRoles.some((role) => config.discord.commands.blacklistRoles.includes(role))) {
+          throw new HypixelDiscordChatBridgeError("You are blacklisted from the bot.");
+        }
 
         if (command.verificationCommand === true && config.verification.enabled === false) {
           throw new HypixelDiscordChatBridgeError("Verification is disabled.");
@@ -35,6 +35,18 @@ module.exports = {
 
         if (command.moderatorOnly === true && isModerator(interaction) === false) {
           throw new HypixelDiscordChatBridgeError("You don't have permission to use this command.");
+        }
+
+        if (command.verifiedOnly === true && isVerifiedMember(interaction) === false) {
+          throw new HypixelDiscordChatBridgeError("You don't have permission to use this command.");
+        }
+
+        if (command.guildOnly === true && isGuildMember(interaction) === false) {
+          throw new HypixelDiscordChatBridgeError("You don't have permission to use this command.");
+        }
+
+        if (command.linkedOnly === true && isLinkedMember(interaction) === false) {
+          throw new HypixelDiscordChatBridgeError("You are not linked to a Minecraft account.");
         }
 
         if (command.requiresBot === true && isBotOnline() === false) {
@@ -57,8 +69,11 @@ module.exports = {
       const errrorMessage = error instanceof HypixelDiscordChatBridgeError ? "" : "Please try again later. The error has been sent to the Developers.\n\n";
 
       const errorEmbed = new ErrorEmbed(`${errrorMessage}\`\`\`${error}\`\`\``);
-
-      await interaction.editReply({ embeds: [errorEmbed] });
+      if (interaction.replied || interaction.deferred) {
+        await interaction.editReply({ embeds: [errorEmbed] });
+      } else {
+        await interaction.reply({ embeds: [errorEmbed] });
+      }
 
       if (error instanceof HypixelDiscordChatBridgeError === false) {
         const username = interaction.user.username ?? interaction.user.tag ?? "Unknown";
