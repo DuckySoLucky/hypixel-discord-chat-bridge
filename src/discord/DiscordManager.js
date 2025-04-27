@@ -100,7 +100,7 @@ class DiscordManager extends CommunicationBridge {
 
     const channel = await this.stateHandler.getChannel(chat || "Guild");
     if (channel === undefined) {
-      console.error(`Channel ${chat} not found!`);
+      console.error(`Channel ${chat.replace(/§[0-9a-fk-or]/g, "").trim()} not found!`);
       return;
     }
 
@@ -179,7 +179,7 @@ class DiscordManager extends CommunicationBridge {
 
     channel = await this.stateHandler.getChannel(channel);
     if (channel === undefined) {
-      console.log(`Channel ${channel} not found!`);
+      console.log(`Channel ${channel.replace(/§[0-9a-fk-or]/g, "").trim()} not found!`);
     }
 
     channel.send({
@@ -197,7 +197,7 @@ class DiscordManager extends CommunicationBridge {
 
     channel = await this.stateHandler.getChannel(channel);
     if (channel === undefined) {
-      console.log(`Channel ${channel} not found!`);
+      console.log(`Channel ${channel.replace(/§[0-9a-fk-or]/g, "").trim()} not found!`);
       return;
     }
 
@@ -220,7 +220,7 @@ class DiscordManager extends CommunicationBridge {
 
     channel = await this.stateHandler.getChannel(channel);
     if (channel === undefined) {
-      console.log(`Channel ${channel} not found!`);
+      console.log(`Channel ${channel.replace(/§[0-9a-fk-or]/g, "").trim()} not found!`);
       return;
     }
 
