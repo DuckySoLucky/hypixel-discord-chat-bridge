@@ -22,8 +22,6 @@ module.exports = {
 
   execute: async (interaction) => {
     const amount = interaction.options.getInteger("amount");
-    await interaction.deferReply();
-
     const linkedData = readFileSync("data/linked.json");
     if (!linkedData) {
       throw new HypixelDiscordChatBridgeError("The linked data file does not exist. Please contact an administrator.");

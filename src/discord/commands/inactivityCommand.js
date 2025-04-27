@@ -35,7 +35,7 @@ module.exports = {
   options: [
     {
       name: "time",
-      description: "The time you are inactive for. (eg 2d, 2w)",
+      description: "The time you are inactive for (e.g. 1d, 72h, 2w)",
       type: 3,
       required: true
     },
@@ -86,7 +86,9 @@ module.exports = {
     }
 
     const time = Math.floor(ms(interaction.options.getString("time")) / 1000);
-    if (isNaN(time)) throw new HypixelDiscordChatBridgeError("Please input a valid time");
+    if (isNaN(time)) {
+      throw new HypixelDiscordChatBridgeError("Please input a valid time");
+    }
 
     if (time > config.verification.inactivity.maxInactivityTime * 86400) {
       throw new HypixelDiscordChatBridgeError(
