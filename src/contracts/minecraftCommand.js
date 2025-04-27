@@ -25,8 +25,9 @@ class minecraftCommand {
    * Sends a message in the Minecraft chat.
    * @param {string} message
    * @param {number} maxRetries - Maximum number of retries (default: 5)
+   * @param {boolean} isErrorMessage - Flag to prevent recursive error messages
    */
-  async send(message, maxRetries = 5) {
+  async send(message, maxRetries = 5, isErrorMessage = false) {
     if (!bot?._client?.chat) {
       return;
     }
@@ -38,7 +39,7 @@ class minecraftCommand {
       const messages = splitMessage(message, 256);
       for (const msg of messages) {
         await delay(1000);
-        await this.send(msg, maxRetries);
+        await this.send(msg, maxRetries, isErrorMessage);
 
         if (Date.now() - startTime > maxExecutionTime) {
           console.error("Message sending timed out after 10 seconds");
@@ -84,14 +85,17 @@ class minecraftCommand {
           return;
         } catch (error) {
           if (Date.now() - startTime > maxExecutionTime) {
-            console.error("Message sending timed out after 30 seconds");
+            console.error("Message sending timed out after 10 seconds");
             return;
           }
 
           // @ts-ignore
           if (error.message === "rate-limited") {
             if (i === maxRetries - 1) {
-              this.send(`Command failed to send message after ${maxRetries} attempts. Please try again later.`);
+              this.send(`Command failed to send message after ${maxRetries} attempts. Please try again later.`, 1);
+              if (!isErrorMessage) {
+                console.error(`Command failed to send message after ${maxRetries} attempts due to rate limiting.`);
+              }
               return;
             }
             await delay(2000);

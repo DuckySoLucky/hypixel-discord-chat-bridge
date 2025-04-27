@@ -36,7 +36,7 @@ class RenderCommand extends minecraftCommand {
       let itemNumber = 0;
       const arg = this.getArgs(message);
       if (!arg[0]) {
-        this.send("Wrong Usage: !render [name] [slot] | !render [slot]");
+        return this.send("Wrong Usage: !render [name] [slot]");
       }
       if (!isNaN(Number(arg[0]))) {
         itemNumber = parseInt(arg[0]);
@@ -46,8 +46,7 @@ class RenderCommand extends minecraftCommand {
         if (!isNaN(Number(arg[1]))) {
           itemNumber = parseInt(arg[1]);
         } else {
-          this.send("Wrong Usage: !render [name] [slot] | !render [slot]");
-          return;
+          return this.send("Wrong Usage: !render [name] [slot]");
         }
       }
 

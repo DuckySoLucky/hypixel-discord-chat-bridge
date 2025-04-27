@@ -239,7 +239,7 @@ function splitMessage(message, amount) {
 
 /**
  * Formats an error message
- * @param {Error} error
+ * @param {Error | unknown} error
  * @returns {string}
  */
 function formatError(error) {

@@ -116,7 +116,7 @@ function warnMessage(message) {
 }
 
 function errorMessage(error) {
-  const errorString = `${error.toString()}${error.stack?.replace(error.toString(), "")}`;
+  const errorString = `${error.toString()}${error.stack?.replace(error.toString(), "") ?? ""}`;
   if (config.other.logToFiles) {
     errorLogger.log("error", errorString);
   }

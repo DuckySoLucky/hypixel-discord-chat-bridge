@@ -46,22 +46,23 @@ class CommandHandler {
         return;
       }
 
-      bot.chat(`/${officer ? "oc" : "gc"} [SOOPY V2] ${message}`);
+      const chat = officer ? "oc" : "gc";
+
+      bot.chat(`/${chat} [SOOPY V2] ${message}`);
 
       console.minecraft(`${player} - [${command}] ${message}`);
-
       (async () => {
         try {
           const URI = encodeURI(`https://soopy.dev/api/guildBot/runCommand?user=${player}&cmd=${message.slice(1)}`);
           const response = await axios.get(URI);
 
           if (response?.data?.msg === undefined) {
-            return bot.chat(`/${officer ? "oc" : "gc"} [SOOPY V2] An error occured while running the command`);
+            return bot.chat(`/${chat} [SOOPY V2] An error occured while running the command`);
           }
 
-          bot.chat(`/${officer ? "oc" : "gc"} [SOOPY V2] ${response.data.msg}`);
+          bot.chat(`/${chat} [SOOPY V2] ${response.data.msg}`);
         } catch (e) {
-          bot.chat(`/${officer ? "oc" : "gc"} [SOOPY V2] ${e.cause ?? e.message ?? "Unknown error"}`);
+          bot.chat(`/${chat} [SOOPY V2] ${e.cause ?? e.message ?? "Unknown error"}`);
         }
       })();
     }

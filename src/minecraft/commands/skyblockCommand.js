@@ -3,10 +3,10 @@ const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { getAccessories } = require("../../../API/stats/accessories.js");
 const { getSkillAverage } = require("../../../API/constants/skills.js");
 const { formatNumber } = require("../../contracts/helperFunctions.js");
+const { ProfileNetworthCalculator } = require("skyhelper-networth");
 const { getDungeons } = require("../../../API/stats/dungeons.js");
 const { getSlayer } = require("../../../API/stats/slayer.js");
 const { getHotm } = require("../../../API/stats/hotm.js");
-const { getNetworth } = require("skyhelper-networth");
 
 class SkyblockCommand extends minecraftCommand {
   /** @param {import("minecraft-protocol").Client} minecraft */
@@ -34,16 +34,14 @@ class SkyblockCommand extends minecraftCommand {
       const args = this.getArgs(message);
       player = args[0] || player;
 
-      const { username, profile, profileData } = await getLatestProfile(player);
+      const { username, profile, museum, profileData } = await getLatestProfile(player, { museum: true });
+      const bankingBalance = profileData.banking?.balance ?? 0;
 
+      const networthManager = new ProfileNetworthCalculator(profile, museum, bankingBalance);
       const [skillAverage, slayer, networth, dungeons, talismans, hotm] = await Promise.all([
         getSkillAverage(profile, null),
         getSlayer(profile),
-        getNetworth(profile, profileData?.banking?.balance || 0, {
-          onlyNetworth: true,
-          v2Endpoint: true,
-          cache: true
-        }),
+        networthManager.getNetworth({ onlyNetworth: true }),
         getDungeons(profile),
         getAccessories(profile),
         getHotm(profile)

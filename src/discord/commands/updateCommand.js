@@ -6,12 +6,12 @@ const { getChocolateFactory } = require("../../../API/stats/chocolateFactory.js"
 const hypixelRebornAPI = require("../../contracts/API/HypixelRebornAPI.js");
 const { getCrimsonIsle, getKuudra } = require("../../../API/stats/crimson.js");
 const { getSkillAverage } = require("../../../API/constants/skills.js");
+const { ProfileNetworthCalculator } = require("skyhelper-networth");
 const { getDungeons } = require("../../../API/stats/dungeons.js");
 const { getEssence } = require("../../../API/stats/essence.js");
 const { getSlayer } = require("../../../API/stats/slayer.js");
 const { getSkills } = require("../../../API/stats/skills.js");
 const { getJacob } = require("../../../API/stats/jacob.js");
-const { getNetworth } = require("skyhelper-networth");
 const config = require("../../../config.json");
 const fs = require("fs");
 const { getUsername } = require("../../contracts/API/mowojangAPI.js");
@@ -24,12 +24,7 @@ async function updateRoles({ discordId, uuid }) {
 
   const verificationRoles = config.verification.roles;
   const roles = [verificationRoles.guildMember.roleId, ...verificationRoles.custom.flatMap((r) => r.roleId)];
-  for (const role of roles) {
-    if (member.roles.cache.has(role)) {
-      await member.roles.remove(role, "Updated Roles");
-      // console.log(`Removed ${(await guild.roles.fetch(role)).name}`);
-    }
-  }
+  const addedRoles = [];
 
   if (!uuid) {
     member.setNickname(null, "Updated Roles");
@@ -43,13 +38,14 @@ async function updateRoles({ discordId, uuid }) {
 
   if (verificationRoles.verified.enabled) {
     await member.roles.add(verificationRoles.verified.roleId, "Updated Roles");
+    addedRoles.push(verificationRoles.verified.roleId);
     // console.log("Added verified role");
   }
 
   const [hypixelGuild, player, skyblock] = await Promise.all([
     hypixelRebornAPI.getGuild("player", bot.username, { noCaching: true, noCacheCheck: true }),
     hypixelRebornAPI.getPlayer(uuid),
-    getLatestProfile(uuid).catch(() => ({ profile: null, profileData: null }))
+    getLatestProfile(uuid, { museum: true }).catch(() => ({ profile: null, profileData: null }))
   ]);
 
   if (hypixelGuild === undefined) {
@@ -58,12 +54,16 @@ async function updateRoles({ discordId, uuid }) {
 
   const profile = /** @type {import("../../../types/profiles.js").Member} */ (skyblock.profile ?? {});
   const profileData = /** @type {import("../../../types/profiles.js").Profile} */ (skyblock.profileData ?? {});
+  // @ts-ignore
+  const museum = skyblock.museum ?? null;
+  const bank = profileData?.banking?.balance ?? 0;
+  const networthManager = new ProfileNetworthCalculator(profile, museum, bank);
   const [skills, slayer, dungeons, crimson, networth, chocolateFactory, jacob, essence, kuudra] = await Promise.all([
     getSkills(profile, profileData),
     getSlayer(profile),
     getDungeons(profile),
     getCrimsonIsle(profile),
-    getNetworth(profile, profileData?.banking?.balance ?? 0, { onlyNetworth: true, v2Endpoint: true, cache: true }),
+    networthManager.getNetworth({ onlyNetworth: true }),
     getChocolateFactory(profile),
     getJacob(profile),
     getEssence(profile),
@@ -74,6 +74,7 @@ async function updateRoles({ discordId, uuid }) {
   if (guildMember) {
     if (verificationRoles.guildMember.enabled) {
       await member.roles.add(verificationRoles.guildMember.roleId, "Updated Roles");
+      addedRoles.push(verificationRoles.guildMember.roleId);
       // console.log("Added guild member role");
     }
 
@@ -85,6 +86,8 @@ async function updateRoles({ discordId, uuid }) {
     );
     if (guildRank && guildRank.enabled !== false) {
       await member.roles.add(guildRank.roleId, "Updated Roles");
+      addedRoles.push(guildRank.roleId);
+
       // console.log(`Added ${(await guild.roles.fetch(guildRank.roleId)).name}`);
     }
   } else {
@@ -289,6 +292,7 @@ async function updateRoles({ discordId, uuid }) {
       const meetsRequirements = role.requirements.every((req) => req.value <= stats[req.type]);
       if (meetsRequirements) {
         await member.roles.add(role.roleId, "Updated Roles");
+        addedRoles.push(role.roleId);
         // console.log(
         //   `Added ${(await guild.roles.fetch(role.roleId)).name} cuz he meets the requirements for ${role.requirements.map((req) => `${req.type} >= ${req.value}`).join(" and ")}`
         // );
@@ -303,6 +307,14 @@ async function updateRoles({ discordId, uuid }) {
     ),
     "Updated Roles"
   );
+
+  for (const role of roles) {
+    if (addedRoles.includes(role)) return;
+    if (member.roles.cache.has(role)) {
+      await member.roles.remove(role, "Updated Roles");
+      // console.log(`Removed ${(await guild.roles.fetch(role)).name}`);
+    }
+  }
 }
 
 module.exports = {
