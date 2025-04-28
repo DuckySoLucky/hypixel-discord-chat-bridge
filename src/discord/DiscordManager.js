@@ -93,7 +93,7 @@ class DiscordManager extends CommunicationBridge {
       console.broadcast(`${username} [${guildRank.replace(/§[0-9a-fk-or]/g, "").replace(/^\[|\]$/g, "")}]: ${message}`, `Discord`);
     }
 
-    if (config.discord.other.messageMode === "minecraft") {
+    if (mode === "minecraft") {
       message = replaceVariables(config.discord.other.messageFormat, { chatType, username, rank, guildRank, message });
     }
 
