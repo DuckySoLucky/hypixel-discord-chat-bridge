@@ -61,6 +61,9 @@ importers:
       moment:
         specifier: ^2.29.4
         version: 2.30.1
+      ms:
+        specifier: ^2.1.3
+        version: 2.1.3
       node-cron:
         specifier: ^3.0.2
         version: 3.0.3
@@ -77,8 +80,11 @@ importers:
         specifier: ^3.13.0
         version: 3.13.0
       skyhelper-networth:
-        specifier: ^2.2.0
-        version: 2.2.0
+        specifier: ^1.25.0
+        version: 1.27.3
+      skyhelper-networth-v2:
+        specifier: github:Altpapier/SkyHelper-Networth#pull/46/head
+        version: skyhelper-networth@https://codeload.github.com/Altpapier/SkyHelper-Networth/tar.gz/6b9c4eacc461bb883e5f171ae6b56d025af01a9e
       util:
         specifier: ^0.12.5
         version: 0.12.5
@@ -668,9 +674,6 @@ packages:
 
   axios@1.7.9:
     resolution: { integrity: sha512-LhLcE7Hbiryz8oMDdDptSrWowmB4Bl6RCt6sIJKpRB4XtVf0iEgewX3au/pJqm+Py1kCASkb/FFKjxQaLtxJvw== }
-
-  axios@1.9.0:
-    resolution: { integrity: sha512-re4CqKTJaURpzbLHtIi6XpDv20/CnpXOtjRY5/CU32L8gU8ek9UIivcfvSWvmKEngmVbrUtPpdDwWDWL7DNHvg== }
 
   babel-jest@29.7.0:
     resolution: { integrity: sha512-BrvGY3xZSwEcCzKvKsCi2GgHqDqsYkOP4/by5xCgIwGXQxIEh+8ew3gmrE1y7XRR6LHZIj6yLYnUi/mm2KXKBg== }
@@ -2549,8 +2552,9 @@ packages:
   skyhelper-networth@1.27.3:
     resolution: { integrity: sha512-UYs2Jc1swM0ClggVzeCH/i44r9y+eKts88jv5feNn84ZUn9SewhXrrngdbAbJI/4/0t6S4yrq4MGNadDvKjg9A== }
 
-  skyhelper-networth@2.2.0:
-    resolution: { integrity: sha512-MBqfDDkIyOIDnNNDMOqAFf5epXM/gwiqYzm556G0mpg4J74SzcgLDZQuOEH5sr1UDN5WjbxegI9yhTeLs0R92w== }
+  skyhelper-networth@https://codeload.github.com/Altpapier/SkyHelper-Networth/tar.gz/6b9c4eacc461bb883e5f171ae6b56d025af01a9e:
+    resolution: { tarball: https://codeload.github.com/Altpapier/SkyHelper-Networth/tar.gz/6b9c4eacc461bb883e5f171ae6b56d025af01a9e }
+    version: 2.0.0
 
   slash@3.0.0:
     resolution: { integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q== }
@@ -3675,14 +3679,6 @@ snapshots:
       - debug
 
   axios@1.7.9:
-    dependencies:
-      follow-redirects: 1.15.9(debug@4.4.0)
-      form-data: 4.0.2
-      proxy-from-env: 1.1.0
-    transitivePeerDependencies:
-      - debug
-
-  axios@1.9.0:
     dependencies:
       follow-redirects: 1.15.9(debug@4.4.0)
       form-data: 4.0.2
@@ -6050,9 +6046,9 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  skyhelper-networth@2.2.0:
+  skyhelper-networth@https://codeload.github.com/Altpapier/SkyHelper-Networth/tar.gz/6b9c4eacc461bb883e5f171ae6b56d025af01a9e:
     dependencies:
-      axios: 1.9.0
+      axios: 1.7.9
       prismarine-nbt: 2.7.0
     transitivePeerDependencies:
       - debug

@@ -47,6 +47,7 @@
     "mineflayer": "^4.8.1",
     "mkdirp": "^3.0.1",
     "moment": "^2.29.4",
+    "ms": "^2.1.3",
     "node-cron": "^3.0.2",
     "node-emoji": "^2.2.0",
     "pretty-ms": "^7.0.1",
