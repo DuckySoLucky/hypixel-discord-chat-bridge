@@ -7,9 +7,9 @@ const config = require("../../../config.json");
 
 /**
  * Uploads image to Discord channel
- * @param {Buffer<ArrayBufferLike>} image
+ * @param {Buffer<ArrayBufferLike>|string} image
  */
-async function uploadImage(image) {
+async function uploadImage(image, url = false) {
   // const response = await imgurClient.upload({
   //  image: image
   // });
@@ -18,12 +18,17 @@ async function uploadImage(image) {
   // }
   // return response;
 
+  const data = { files: [image], content: null };
+  if (url) {
+    // @ts-ignore
+    data.content = image;
+    data.files = [];
+  }
+
   try {
     /** @type {import('discord.js').Client} */
     // @ts-ignore
-    await client.channels.cache.get(config.discord.channels.guildChatChannel).send({
-      files: [image]
-    });
+    await client.channels.cache.get(config.discord.channels.guildChatChannel).send(data);
 
     console.log("Image uploaded to Discord channel.");
   } catch (error) {
