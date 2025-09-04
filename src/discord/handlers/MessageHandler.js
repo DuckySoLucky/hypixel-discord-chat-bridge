@@ -1,6 +1,5 @@
-const { demojify } = require("discord-emoji-converter");
 const config = require("../../../config.json");
-const emoji = require("node-emoji");
+const { unemojify } = require("node-emoji");
 
 class MessageHandler {
   constructor(discord, command) {
@@ -30,7 +29,7 @@ class MessageHandler {
         return;
       }
 
-      const formattedUsername = this.formatEmojis(username);
+      const formattedUsername = unemojify(username);
 
       const messageData = {
         member: message.member.user,
@@ -40,21 +39,6 @@ class MessageHandler {
         replyingTo: await this.fetchReply(message),
         discord: message
       };
-
-      const images = content.split(" ").filter((line) => line.startsWith("http"));
-      for (const attachment of message.attachments.values()) {
-        images.push(attachment.url);
-      }
-
-      if (images.length > 0) {
-        for (const attachment of images) {
-          if (messageData.message.includes(attachment)) {
-            continue;
-          }
-
-          messageData.message += ` ${attachment}`;
-        }
-      }
 
       if (messageData.message.length === 0) {
         return;
@@ -165,29 +149,38 @@ class MessageHandler {
       output = output.replace(emojiMentionPattern, ":$1:");
     }
 
+    if (message.stickers.size > 0) {
+      const sticker = message.stickers.first();
+      output = output ? `[${sticker.name}] ${output}` : `[${sticker.name}]`;
+    }
+
+    if (message.attachments.size > 0) {
+      const attachments = [...message.attachments.values()]
+        .map((attachment) => {
+          const dot = attachment.name.lastIndexOf(".");
+          const clean = (dot !== -1 ? attachment.name.slice(0, dot) : attachment.name).replace(/\./g, "_");
+          return `[${clean}]`;
+        })
+        .join(" ");
+
+      output = output ? `${attachments} ${output}` : attachments;
+    }
+
     // Replace IP Adresses with [Content Redacted]
     const IPAddressPattern = /(?:\d{1,3}\s*\s\s*){3}\d{1,3}/g;
     output = output.replaceAll(IPAddressPattern, "[Content Redacted]");
 
-    return this.formatEmojis(output);
+    output = unemojify(output);
+
+    return output;
   }
 
   shouldBroadcastMessage(message) {
     const isBot = message.author.bot && config.discord.channels.allowedBots.includes(message.author.id) === false ? true : false;
-    const isValid = !isBot && (message.content.length > 0 || message.attachments.size > 0);
+    const isValid = !isBot && (message.content.length > 0 || message.attachments.size > 0 || message.stickers.size > 0);
     const validChannelIds = [config.discord.channels.officerChannel, config.discord.channels.guildChatChannel, config.discord.channels.debugChannel];
 
     return isValid && validChannelIds.includes(message.channel.id);
-  }
-
-  formatEmojis(content) {
-    try {
-      content = emoji.unemojify(content);
-      content = demojify(content);
-      return content;
-    } catch (e) {
-      return content;
-    }
   }
 }
 
