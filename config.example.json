@@ -61,7 +61,8 @@
       "enabled": true,
       "hypixelNews": true,
       "statusUpdates": true,
-      "skyblockVersion": true
+      "skyblockVersion": true,
+      "alphaPlayerCountTracker": true
     }
   },
   "discord": {

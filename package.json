@@ -52,7 +52,7 @@
     "pretty-ms": "^7.0.1",
     "prismarine-nbt": "^2.2.1",
     "rss-parser": "^3.13.0",
-    "skyhelper-networth": "^2.4.1",
+    "skyhelper-networth": "^2.4.3",
     "util": "^0.12.5",
     "winston": "^3.13.0",
     "ws": "^8.16.0"

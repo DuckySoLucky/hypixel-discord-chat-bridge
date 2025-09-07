@@ -31,8 +31,12 @@ class MinecraftManager extends CommunicationBridge {
     this.stateHandler.registerEvents(this.bot);
     this.chatHandler.registerEvents(this.bot);
 
-    require("./other/eventNotifier.js");
-    require("./other/skyblockNotifier.js");
+    this.bot.on("login", () => {
+      console.log("Minecraft bot is ready!");
+      require("./other/eventNotifier.js");
+      require("./other/skyblockNotifier.js");
+      require("./other/alphaPlayerCountTracker.js");
+    });
   }
 
   createBotConnection() {
