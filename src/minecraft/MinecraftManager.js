@@ -70,6 +70,14 @@ class MinecraftManager extends CommunicationBridge {
       }
     }
 
+    if (config.discord.other.stripEmojisFromUsernames) {
+      try {
+        username = username.replace(/:[\w\-_]+:/g, '');
+      } catch (error) {
+        // Do nothing
+      }
+    }
+
     message = replaceVariables(config.minecraft.bot.messageFormat, { username, message });
 
     const chat = channel === config.discord.channels.officerChannel ? "/oc" : "/gc";
