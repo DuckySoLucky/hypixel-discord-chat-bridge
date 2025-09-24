@@ -88,6 +88,7 @@
     "other": {
       "messageMode": "bot",
       "messageFormat": "{chatType} > {skin} {rank} {username} {guildRank}§f: {message}",
+      "stripEmojisFromUsernames": true,
       "filterMessages": true,
       "filterWords": ["dox", "doxx", "doxed", "doxxed", "doxing", "doxxing", "doxes", "doxxes"],
       "joinMessage": true,
