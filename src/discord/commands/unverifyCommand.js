@@ -16,17 +16,17 @@ module.exports = {
         throw new HypixelDiscordChatBridgeError("The linked data file does not exist. Please contact an administrator.");
       }
 
-      const linked = JSON.parse(linkedData);
+      const linked = JSON.parse(linkedData.toString("utf8"));
       if (!linked) {
         throw new HypixelDiscordChatBridgeError("The linked data file is malformed. Please contact an administrator.");
       }
 
-      const uuid = linked[interaction.user.id];
-      if (uuid === undefined) {
+      const uuid = Object.entries(linked).find(([, value]) => value === interaction.user.id)?.[0];
+      if (!uuid) {
         throw new HypixelDiscordChatBridgeError(`You are not verified. Please run /verify to continue.`);
       }
 
-      delete linked[interaction.user.id];
+      delete linked[uuid];
       writeFileSync("data/linked.json", JSON.stringify(linked, null, 2));
 
       const updateRole = new SuccessEmbed(`You have successfully unlinked \`${await getUsername(uuid)}\`. Run \`/verify\` to link a new account.`, {

@@ -51,6 +51,13 @@ module.exports = {
         );
       }
 
+      if (linked[uuid] !== undefined) throw new HypixelDiscordChatBridgeError(`The player '${nickname}' is already linked please /unverify first.`);
+
+      const linkedUser = Object.entries(linked).find(([, value]) => value === interaction.user.id)?.[0];
+      if (linkedUser) {
+        throw new HypixelDiscordChatBridgeError(`You are already verified. Please run /unverify to continue.`);
+      }
+
       linked[uuid] = interaction.user.id;
       writeFileSync("data/linked.json", JSON.stringify(linked, null, 2));
 
