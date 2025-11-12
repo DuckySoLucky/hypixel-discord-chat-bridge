@@ -268,7 +268,7 @@ function getRandomWord(length) {
     const filteredWords = words.filter((word) => word.length == length);
 
     if (filteredWords.length === 0) {
-      throw `No words found with the ${length} characters.`;
+      throw `No words found with ${length} characters.`;
     }
 
     return filteredWords[Math.floor(Math.random() * filteredWords.length)];
