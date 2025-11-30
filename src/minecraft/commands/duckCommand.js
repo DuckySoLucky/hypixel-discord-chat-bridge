@@ -30,8 +30,7 @@ class DuckCommand extends minecraftCommand {
         throw "An error occured while fetching the image. Please try again later.";
       }
 
-      const buffer = await get(data.url, { responseType: "arraybuffer" });
-      await uploadImage(buffer.data);
+      await uploadImage(data.url, true);
 
       this.send("Duck image uploaded to Discord channel.");
     } catch (error) {
