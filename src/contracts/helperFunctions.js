@@ -6,11 +6,13 @@ const moment = require("moment");
  * @returns {string}
  */
 function replaceAllRanks(input) {
-  input = input.replaceAll("[OWNER] ", "");
-  input = input.replaceAll("[ADMIN] ", "");
+  input = input.replaceAll("[ዞ] ", "");
+  input = input.replaceAll("[MINISTER], "");
   input = input.replaceAll("[MCP] ", "");
-  input = input.replaceAll("[GM] ", "");
+  input = input.replaceAll("[MOJANG] ", "");
+  input = input.replaceAll("[EVENTS] ", "");
   input = input.replaceAll("[PIG+++] ", "");
+  input = input.replaceAll("[INNIT] ", "");
   input = input.replaceAll("[YOUTUBE] ", "");
   input = input.replaceAll("[MVP++] ", "");
   input = input.replaceAll("[MVP+] ", "");
