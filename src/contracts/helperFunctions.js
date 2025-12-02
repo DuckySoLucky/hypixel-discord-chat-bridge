@@ -7,7 +7,7 @@ const moment = require("moment");
  */
 function replaceAllRanks(input) {
   input = input.replaceAll("[ዞ] ", "");
-  input = input.replaceAll("[MINISTER], "");
+  input = input.replaceAll("[MINISTER] ", "");
   input = input.replaceAll("[MCP] ", "");
   input = input.replaceAll("[MOJANG] ", "");
   input = input.replaceAll("[EVENTS] ", "");
