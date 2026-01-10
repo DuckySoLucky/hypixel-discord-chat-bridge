@@ -22,6 +22,8 @@ async function updateRoles({ discordId, uuid }) {
     return;
   }
 
+  if (guild.ownerId === member.user.id) throw new HypixelDiscordChatBridgeError("This user owns the server thus the bot cannot update it");
+
   const verificationRoles = config.verification.roles;
   const roles = [verificationRoles.guildMember.roleId, ...verificationRoles.custom.flatMap((r) => r.roleId)];
   const addedRoles = [];
