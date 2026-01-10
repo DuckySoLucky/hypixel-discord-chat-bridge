@@ -72,7 +72,7 @@ class MinecraftManager extends CommunicationBridge {
 
     if (config.discord.other.stripEmojisFromUsernames) {
       try {
-        username = username.replace(/:[\w\-_]+:/g, '');
+        username = username.replace(/:[\w\-_]+:/g, "");
       } catch (error) {
         // Do nothing
       }
