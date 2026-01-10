@@ -16,6 +16,16 @@ const config = require("../../../config.json");
 const fs = require("fs");
 const { getUsername } = require("../../contracts/API/mowojangAPI.js");
 
+function getNetworthCalculator(profile, museum, bank) {
+  try {
+    return new ProfileNetworthCalculator(profile, museum, bank);
+  } catch {
+    return {
+      getNetworth: async () => ({})
+    };
+  }
+}
+
 async function updateRoles({ discordId, uuid }) {
   const member = await guild.members.fetch(discordId);
   if (!member) {
@@ -57,7 +67,7 @@ async function updateRoles({ discordId, uuid }) {
   // @ts-ignore
   const museum = skyblock.museum ?? null;
   const bank = profileData?.banking?.balance ?? 0;
-  const networthManager = new ProfileNetworthCalculator(profile, museum, bank);
+  const networthManager = getNetworthCalculator(profile, museum, bank);
   const [skills, slayer, dungeons, crimson, networth, chocolateFactory, jacob, essence, kuudra] = await Promise.all([
     getSkills(profile, profileData),
     getSlayer(profile),
