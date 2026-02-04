@@ -35,7 +35,6 @@
     "chalk": "^4.1.0",
     "cheerio": "^1.2.0",
     "discord.js": "^14.25.1",
-    "express": "^5.2.1",
     "fs-promise": "^2.0.3",
     "hypixel-api-reborn": "11.1.0",
     "imgur": "^2.5.0",
