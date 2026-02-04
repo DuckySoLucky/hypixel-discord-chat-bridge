@@ -1,12 +1,13 @@
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 const { ErrorEmbed, SuccessEmbed } = require("../../contracts/embedHandler.js");
 // eslint-disable-next-line no-unused-vars
-const { CommandInteraction } = require("discord.js");
+const { CommandInteraction, MessageFlags } = require("discord.js");
 const config = require("../../../config.json");
 const { isLinkedMember, isGuildMember, isVerifiedMember } = require("../../contracts/verificaiton.js");
+const { Events } = require("discord.js");
 
 module.exports = {
-  name: "interactionCreate",
+  name: Events.InteractionCreate,
   /**
    * @param {CommandInteraction} interaction
    */
@@ -20,7 +21,7 @@ module.exports = {
         }
 
         console.discord(`${interaction.user.username} - [${interaction.commandName}]`);
-        await interaction.deferReply({ ephemeral: false }).catch(() => {});
+        await interaction.deferReply().catch(() => {});
         if (memberRoles.some((role) => config.discord.commands.blacklistRoles.includes(role))) {
           throw new HypixelDiscordChatBridgeError("You are blacklisted from the bot.");
         }
@@ -55,7 +56,7 @@ module.exports = {
 
         await command.execute(interaction);
       } else if (interaction.isButton()) {
-        await interaction.deferReply({ ephemeral: true }).catch(() => {});
+        await interaction.deferReply({ flags: MessageFlags.Ephemeral }).catch(() => {});
         if (interaction.customId !== "joinRequestAccept") return;
         const username = interaction?.message?.embeds?.[0]?.title.split(" ")?.[0] || undefined;
         if (!username) throw new HypixelDiscordChatBridgeError("Something is missing");

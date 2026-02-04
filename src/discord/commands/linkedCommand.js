@@ -2,6 +2,7 @@ const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js")
 const { getUUID, getUsername } = require("../../contracts/API/mowojangAPI.js");
 const { SuccessEmbed, ErrorEmbed } = require("../../contracts/embedHandler.js");
 const { readFileSync } = require("fs");
+const { MessageFlags } = require("discord.js");
 
 module.exports = {
   name: "linked",
@@ -52,7 +53,7 @@ module.exports = {
           text: `by @.kathund | /help [command] for more information`,
           iconURL: "https://i.imgur.com/uUuZx2E.png"
         });
-        await interaction.followUp({ embeds: [embed], ephemeral: true });
+        await interaction.followUp({ embeds: [embed], flags: MessageFlags.Ephemeral });
       } else if (!user && name) {
         const uuid = await getUUID(name);
         if (uuid === undefined) {
@@ -69,7 +70,7 @@ module.exports = {
           iconURL: "https://i.imgur.com/uUuZx2E.png"
         });
 
-        await interaction.followUp({ embeds: [embed], ephemeral: true });
+        await interaction.followUp({ embeds: [embed], flags: MessageFlags.Ephemeral });
       } else {
         throw new HypixelDiscordChatBridgeError("Please provide a user or a name, not both.");
       }

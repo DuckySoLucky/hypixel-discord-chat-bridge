@@ -15,6 +15,7 @@ const { getJacob } = require("../../../API/stats/jacob.js");
 const config = require("../../../config.json");
 const fs = require("fs");
 const { getUsername } = require("../../contracts/API/mowojangAPI.js");
+const { MessageFlags } = require("discord.js");
 
 function getNetworthCalculator(profile, museum, bank) {
   try {
@@ -362,7 +363,7 @@ module.exports = {
           iconURL: "https://i.imgur.com/uUuZx2E.png"
         });
 
-        await interaction.followUp({ embeds: [updateRole], ephemeral: true });
+        await interaction.followUp({ embeds: [updateRole], flags: MessageFlags.Ephemeral });
       }
     } catch (error) {
       console.log(error);
@@ -372,7 +373,7 @@ module.exports = {
           iconURL: "https://i.imgur.com/uUuZx2E.png"
         });
 
-        await interaction.editReply({ embeds: [errorEmbed], ephemeral: true });
+        await interaction.editReply({ embeds: [errorEmbed], flags: MessageFlags.Ephemeral });
       }
     }
   },

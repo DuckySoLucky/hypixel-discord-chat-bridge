@@ -1,4 +1,4 @@
-const { Client, Collection, AttachmentBuilder, GatewayIntentBits } = require("discord.js");
+const { Client, Collection, AttachmentBuilder, GatewayIntentBits, Events } = require("discord.js");
 const CommunicationBridge = require("../contracts/CommunicationBridge.js");
 const { replaceVariables } = require("../contracts/helperFunctions.js");
 const messageToImage = require("../contracts/messageToImage.js");
@@ -27,8 +27,8 @@ class DiscordManager extends CommunicationBridge {
 
     this.client = client;
 
-    this.client.on("ready", () => this.stateHandler.onReady());
-    this.client.on("messageCreate", (message) => this.messageHandler.onMessage(message));
+    this.client.on(Events.ClientReady, () => this.stateHandler.onReady());
+    this.client.on(Events.MessageCreate, (message) => this.messageHandler.onMessage(message));
 
     this.client.login(config.discord.bot.token).catch((error) => {
       console.error(error);
