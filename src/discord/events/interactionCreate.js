@@ -1,10 +1,9 @@
+const { isLinkedMember, isGuildMember, isVerifiedMember } = require("../../contracts/verificaiton.js");
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 const { ErrorEmbed, SuccessEmbed } = require("../../contracts/embedHandler.js");
 // eslint-disable-next-line no-unused-vars
-const { CommandInteraction, MessageFlags } = require("discord.js");
+const { CommandInteraction, MessageFlags, Events } = require("discord.js");
 const config = require("../../../config.json");
-const { isLinkedMember, isGuildMember, isVerifiedMember } = require("../../contracts/verificaiton.js");
-const { Events } = require("discord.js");
 
 module.exports = {
   name: Events.InteractionCreate,

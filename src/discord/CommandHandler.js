@@ -1,6 +1,5 @@
-// eslint-disable-next-line import/extensions
-const config = require("../../config.json");
 const { REST, Routes } = require("discord.js");
+const config = require("../../config.json");
 const fs = require("fs");
 
 class CommandHandler {
