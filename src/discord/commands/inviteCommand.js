@@ -1,18 +1,13 @@
+const { SlashCommandBuilder } = require("discord.js");
 const { SuccessEmbed } = require("../../contracts/embedHandler.js");
 
 module.exports = {
-  name: "invite",
-  description: "Invites the given user to the guild.",
+  data: new SlashCommandBuilder()
+    .setName("invite")
+    .setDescription("Invites the given user to the guild.")
+    .addStringOption((option) => option.setName("username").setDescription("Minecraft Username").setRequired(true)),
   moderatorOnly: true,
   requiresBot: true,
-  options: [
-    {
-      name: "username",
-      description: "Minecraft Username",
-      type: 3,
-      required: true
-    }
-  ],
 
   execute: async (interaction) => {
     const name = interaction.options.getString("username");

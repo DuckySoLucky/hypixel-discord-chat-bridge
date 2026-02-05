@@ -4,6 +4,7 @@ const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
 const { getUUID } = require("../../contracts/API/mowojangAPI.js");
 const { Embed } = require("../../contracts/embedHandler.js");
 const config = require("../../../config.json");
+const { SlashCommandBuilder } = require("discord.js");
 
 async function checkRequirements(uuid) {
   const [player, profile] = await Promise.all([hypixel.getPlayer(uuid), getLatestProfile(uuid)]);
@@ -110,18 +111,12 @@ function generateEmbed(data) {
 }
 
 module.exports = {
+  data: new SlashCommandBuilder()
+    .setName("requirements")
+    .setDescription("Check a user's requirements to join the guild")
+    .addStringOption((option) => option.setName("username").setDescription("Minecraft Username")),
   checkRequirements,
   generateEmbed,
-  name: "requirements",
-  description: "Checks a user's requirements to join the guild.",
-  options: [
-    {
-      name: "username",
-      description: "minecraft username",
-      type: 3,
-      required: false
-    }
-  ],
 
   execute: async (interaction) => {
     const name = interaction.options.getString("username") || interaction?.member?.nickname || null;

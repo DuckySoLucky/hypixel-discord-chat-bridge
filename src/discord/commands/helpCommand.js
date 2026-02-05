@@ -3,18 +3,13 @@ const { Embed } = require("../../contracts/embedHandler.js");
 const { getCommands } = require("./infoCommand.js");
 const config = require("../../../config.json");
 const fs = require("fs");
+const { SlashCommandBuilder } = require("discord.js");
 
 module.exports = {
-  name: "help",
-  description: "Shows help menu.",
-  options: [
-    {
-      name: "command",
-      description: "Get information about a specific command",
-      type: 3,
-      required: false
-    }
-  ],
+  data: new SlashCommandBuilder()
+    .setName("help")
+    .setDescription("Shows the help menu.")
+    .addStringOption((option) => option.setName("command").setDescription("Bot information about a specific command")),
 
   execute: async (interaction) => {
     try {

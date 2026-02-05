@@ -1,18 +1,13 @@
+const { SlashCommandBuilder } = require("discord.js");
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 
 module.exports = {
-  name: "purge",
-  description: "Purge x messages from a channel.",
+  data: new SlashCommandBuilder()
+    .setName("purge")
+    .setDescription("Purge x messages from a channel.")
+    .addIntegerOption((option) => option.setName("amount").setDescription("The amount of messages to purge. (5 by default)")),
   moderatorOnly: true,
   requiresBot: true,
-  options: [
-    {
-      name: "amount",
-      description: "The amount of messages to purge. (5 by default)",
-      type: 4,
-      required: false
-    }
-  ],
 
   execute: async (interaction) => {
     const amount = interaction.options.getInteger("amount") ?? 5;

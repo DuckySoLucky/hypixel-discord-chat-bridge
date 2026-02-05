@@ -26,6 +26,7 @@ class DiscordManager extends CommunicationBridge {
     });
 
     this.client = client;
+    this.commandHandler.loadCommands();
 
     this.client.on(Events.ClientReady, () => this.stateHandler.onReady());
     this.client.on(Events.MessageCreate, (message) => this.messageHandler.onMessage(message));
@@ -33,18 +34,6 @@ class DiscordManager extends CommunicationBridge {
     this.client.login(config.discord.bot.token).catch((error) => {
       console.error(error);
     });
-
-    client.commands = new Collection();
-    const commandFiles = fs.readdirSync("src/discord/commands").filter((file) => file.endsWith(".js"));
-
-    for (const file of commandFiles) {
-      const command = require(`./commands/${file}`);
-      if (command.verificationCommand === true && config.verification.enabled === false) {
-        continue;
-      }
-
-      client.commands.set(command.name, command);
-    }
 
     const eventFiles = fs.readdirSync("src/discord/events").filter((file) => file.endsWith(".js"));
     for (const file of eventFiles) {

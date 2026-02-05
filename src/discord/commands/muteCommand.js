@@ -1,24 +1,14 @@
+const { SlashCommandBuilder } = require("discord.js");
 const { SuccessEmbed } = require("../../contracts/embedHandler.js");
 
 module.exports = {
-  name: "mute",
-  description: "Mutes the given user for a given amount of time.",
+  data: new SlashCommandBuilder()
+    .setName("mute")
+    .setDescription("Mutes the given user for a given amount of time.")
+    .addStringOption((option) => option.setName("username").setDescription("Minecraft Username").setRequired(true))
+    .addStringOption((option) => option.setName("time").setDescription("Time").setRequired(true)),
   moderatorOnly: true,
   requiresBot: true,
-  options: [
-    {
-      name: "username",
-      description: "Minecraft Username",
-      type: 3,
-      required: true
-    },
-    {
-      name: "time",
-      description: "Time",
-      type: 3,
-      required: true
-    }
-  ],
 
   execute: async (interaction) => {
     const [name, time] = [interaction.options.getString("username"), interaction.options.getString("time")];

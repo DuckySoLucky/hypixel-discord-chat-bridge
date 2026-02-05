@@ -1,8 +1,8 @@
+const { SlashCommandBuilder } = require("discord.js");
 const { Embed } = require("../../contracts/embedHandler.js");
 
 module.exports = {
-  name: "ping",
-  description: "Shows the latency of the bot.",
+  data: new SlashCommandBuilder().setName("ping").setDescription("Show the latency of the bot."),
 
   execute: async (interaction) => {
     const clientLatency = Date.now() - interaction.createdTimestamp;

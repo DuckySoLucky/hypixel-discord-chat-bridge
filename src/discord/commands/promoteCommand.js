@@ -1,18 +1,13 @@
+const { SlashCommandBuilder } = require("discord.js");
 const { SuccessEmbed } = require("../../contracts/embedHandler.js");
 
 module.exports = {
-  name: "promote",
-  description: "Promotes the given user by one guild rank.",
+  data: new SlashCommandBuilder()
+    .setName("promote")
+    .setDescription("Promote the given user by one guild rank.")
+    .addStringOption((option) => option.setName("username").setDescription("Minecraft Username").setRequired(true)),
   moderatorOnly: true,
   requiresBot: true,
-  options: [
-    {
-      name: "username",
-      description: "Minecraft Username",
-      type: 3,
-      required: true
-    }
-  ],
 
   execute: async (interaction) => {
     const name = interaction.options.getString("username");

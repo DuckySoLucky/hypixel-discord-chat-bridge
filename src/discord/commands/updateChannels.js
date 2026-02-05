@@ -2,10 +2,10 @@ const hypixelRebornAPI = require("../../contracts/API/HypixelRebornAPI.js");
 const { replaceVariables } = require("../../contracts/helperFunctions.js");
 const { SuccessEmbed } = require("../../contracts/embedHandler.js");
 const config = require("../../../config.json");
+const { SlashCommandBuilder } = require("discord.js");
 
 module.exports = {
-  name: "update-channels",
-  description: "Update the stats Channels",
+  data: new SlashCommandBuilder().setName("update-channels").setDescription("Update the stats Channels"),
   channelsCommand: true,
   moderatorOnly: true,
   requiresBot: true,

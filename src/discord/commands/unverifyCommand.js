@@ -2,11 +2,10 @@ const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js")
 const { SuccessEmbed, ErrorEmbed } = require("../../contracts/embedHandler.js");
 const { getUsername } = require("../../contracts/API/mowojangAPI.js");
 const { writeFileSync, readFileSync } = require("fs");
-const { MessageFlags } = require("discord.js");
+const { MessageFlags, SlashCommandBuilder } = require("discord.js");
 
 module.exports = {
-  name: "unverify",
-  description: "Remove your linked Minecraft account",
+  data: new SlashCommandBuilder().setName("unverify").setDescription("Remove your linked Minecraft account"),
   requiresBot: true,
   verificationCommand: true,
 

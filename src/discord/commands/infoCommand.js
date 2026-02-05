@@ -3,6 +3,7 @@ const { replaceVariables } = require("../../contracts/helperFunctions.js");
 const { Embed } = require("../../contracts/embedHandler.js");
 const config = require("../../../config.json");
 const fs = require("fs");
+const { SlashCommandBuilder } = require("discord.js");
 
 function formatOptions(name, required) {
   return replaceVariables(required ? ` ({${name}})` : ` [{${name}}]`, { username: "u" })
@@ -12,7 +13,8 @@ function formatOptions(name, required) {
 
 function getCommands(commands) {
   const discordCommands = commands
-    .map(({ name, options }) => {
+    .map(({ data }) => {
+      const { name, options } = data.toJSON();
       const optionsString = options?.map(({ name, required }) => formatOptions(name, required)).join("");
       return `- \`${name}${optionsString ? optionsString : ""}\`\n`;
     })
@@ -33,8 +35,7 @@ function getCommands(commands) {
 }
 
 module.exports = {
-  name: "info",
-  description: "Shows information about the bot.",
+  data: new SlashCommandBuilder().setName("info").setDescription("Shows information about the bot."),
   requiresBot: true,
   getCommands,
   execute: async (interaction) => {

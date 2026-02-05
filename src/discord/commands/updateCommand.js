@@ -15,7 +15,7 @@ const { getJacob } = require("../../../API/stats/jacob.js");
 const config = require("../../../config.json");
 const fs = require("fs");
 const { getUsername } = require("../../contracts/API/mowojangAPI.js");
-const { MessageFlags } = require("discord.js");
+const { MessageFlags, SlashCommandBuilder } = require("discord.js");
 
 function getNetworthCalculator(profile, museum, bank) {
   try {
@@ -331,9 +331,8 @@ async function updateRoles({ discordId, uuid }) {
 }
 
 module.exports = {
-  name: "update",
+  data: new SlashCommandBuilder().setName("update").setDescription("Update your current roles"),
   verificationCommand: true,
-  description: "Update your current roles",
 
   execute: async (interaction, extra = { discordId: null, hidden: false }) => {
     try {

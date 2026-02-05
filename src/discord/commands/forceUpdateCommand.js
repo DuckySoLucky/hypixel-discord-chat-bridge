@@ -1,27 +1,17 @@
+const { SlashCommandBuilder } = require("discord.js");
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 const updateRolesCommand = require("./updateCommand.js");
 const fs = require("fs");
 
 module.exports = {
-  name: "force-update",
-  description: "Update user's or everyone's roles",
+  data: new SlashCommandBuilder()
+    .setName("force-update")
+    .setDescription("Update user's or everyone's roles")
+    .addUserOption((option) => option.setName("user").setDescription("Discord Username"))
+    .addBooleanOption((option) => option.setName("everyone").setDescription("Update everyone's roles")),
   moderatorOnly: true,
   verificationCommand: true,
   requiresBot: true,
-  options: [
-    {
-      name: "user",
-      description: "Discord User",
-      type: 6,
-      required: false
-    },
-    {
-      name: "everyone",
-      description: "Update everyone's roles",
-      type: 5,
-      required: false
-    }
-  ],
 
   execute: async (interaction, extra = { everyone: false, hidden: false }) => {
     const linkedData = fs.readFileSync("data/linked.json");

@@ -1,18 +1,23 @@
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 const { Embed } = require("../../contracts/embedHandler.js");
+const { SlashCommandBuilder } = require("discord.js");
 
 module.exports = {
-  name: "guildtop",
-  description: "Top 10 members with the most guild experience.",
+  data: new SlashCommandBuilder()
+    .setName("guildtop")
+    .setDescription("Top 10 members with the most guild experience.")
+    .addStringOption((option) =>
+      option
+        .setName("time")
+        .setDescription("Days ago")
+        .addChoices(
+          ...Array.from({ length: 14 }, (_, index) => ({
+            name: `${index + 1} Day ago`,
+            value: (index + 1).toString()
+          }))
+        )
+    ),
   requiresBot: true,
-  options: [
-    {
-      name: "time",
-      description: "Days Ago",
-      type: 3,
-      required: false
-    }
-  ],
 
   execute: async (interaction) => {
     const time = interaction.options.getString("time");

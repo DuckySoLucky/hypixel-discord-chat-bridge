@@ -3,22 +3,16 @@ const hypixelRebornAPI = require("../../contracts/API/HypixelRebornAPI.js");
 const { Embed, SuccessEmbed } = require("../../contracts/embedHandler.js");
 const { getUsername } = require("../../contracts/API/mowojangAPI.js");
 const { writeFileSync, readFileSync } = require("fs");
+const { SlashCommandBuilder } = require("discord.js");
 
 module.exports = {
-  name: "gexpcheck",
-  description: "Shows everything under an set amount of gexp",
+  data: new SlashCommandBuilder()
+    .setName("gexpcheck")
+    .setDescription("Shows everyone under an set amount of gexp")
+    .addNumberOption((option) => option.setName("amount").setDescription("Members below this GEXP number").setRequired(true).setMinValue(1)),
   inactivityCommand: true,
   moderatorOnly: true,
   requiresBot: true,
-  options: [
-    {
-      type: 4,
-      name: "amount",
-      description: "Members below this GEXP number",
-      min_value: 1,
-      required: true
-    }
-  ],
 
   execute: async (interaction) => {
     const amount = interaction.options.getInteger("amount");

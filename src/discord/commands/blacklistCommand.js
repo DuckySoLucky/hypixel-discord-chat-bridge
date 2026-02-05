@@ -1,36 +1,31 @@
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const { SuccessEmbed } = require("../../contracts/embedHandler.js");
+const { SlashCommandBuilder } = require("discord.js");
 
 module.exports = {
-  name: "blacklist",
-  description: "Ignore add or remove the given user.",
+  data: new SlashCommandBuilder()
+    .setName("blacklist")
+    .setDescription("Ignore add or remove the given user.")
+    .addStringOption((option) =>
+      option
+        .setName("arg")
+        .setDescription("Add or Remove")
+        .addChoices(
+          {
+            name: "Add",
+            value: "add"
+          },
+          {
+            name: "Remove",
+            value: "remove"
+          }
+        )
+        .setRequired(true)
+    )
+    .addStringOption((option) => option.setName("username").setDescription("Minecraft Username").setRequired(true)),
   moderatorOnly: true,
   requiresBot: true,
-  options: [
-    {
-      name: "arg",
-      description: "Add or Remove",
-      type: 3,
-      required: true,
-      choices: [
-        {
-          name: "Add",
-          value: "add"
-        },
-        {
-          name: "Remove",
-          value: "remove"
-        }
-      ]
-    },
-    {
-      name: "username",
-      description: "Minecraft Username",
-      type: 3,
-      required: true
-    }
-  ],
 
   execute: async (interaction) => {
     const name = interaction.options.getString("username");

@@ -1,8 +1,8 @@
+const { SlashCommandBuilder } = require("discord.js");
 const { Embed } = require("../../contracts/embedHandler.js");
 
 module.exports = {
-  name: "online",
-  description: "List of online members.",
+  data: new SlashCommandBuilder().setName("online").setDescription("List of online members."),
   requiresBot: true,
 
   execute: async (interaction) => {

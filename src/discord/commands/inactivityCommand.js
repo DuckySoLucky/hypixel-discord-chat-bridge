@@ -4,6 +4,7 @@ const { getUsername } = require("../../contracts/API/mowojangAPI.js");
 const { writeFileSync, readFileSync } = require("fs");
 const config = require("../../../config.json");
 const ms = require("ms");
+const { SlashCommandBuilder } = require("discord.js");
 
 function removeExpiredInactivity() {
   const inactivityData = readFileSync("data/inactivity.json");
@@ -25,27 +26,16 @@ function removeExpiredInactivity() {
 }
 
 module.exports = {
-  name: "inactivity",
-  description: "Send an inactivity notice to the guild staff",
+  data: new SlashCommandBuilder()
+    .setName("inactivity")
+    .setDescription("Send an inactivity notice to the guild staff")
+    .addStringOption((option) => option.setName("time").setDescription("The time you are inactive for (e.g. 1d, 72h, 2w)").setRequired(true))
+    .addStringOption((option) => option.setName("reason").setDescription("The reason you are going away")),
   inactivityCommand: true,
   guildOnly: true,
   linkedOnly: true,
   verifiedOnly: true,
   removeExpiredInactivity,
-  options: [
-    {
-      name: "time",
-      description: "The time you are inactive for (e.g. 1d, 72h, 2w)",
-      type: 3,
-      required: true
-    },
-    {
-      name: "reason",
-      description: "The reason you are going away",
-      type: 3,
-      required: false
-    }
-  ],
 
   execute: async (interaction) => {
     const linkedData = readFileSync("data/linked.json");

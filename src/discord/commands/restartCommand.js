@@ -1,9 +1,9 @@
 const app = require("./../../Application.js");
 const { Embed } = require("../../contracts/embedHandler.js");
+const { SlashCommandBuilder } = require("discord.js");
 
 module.exports = {
-  name: "restart",
-  description: "Restarts the bot.",
+  data: new SlashCommandBuilder().setName("restart").setDescription("Restarts the bot."),
   moderatorOnly: true,
 
   execute: async (interaction) => {

@@ -2,27 +2,16 @@ const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js")
 const { getUUID, getUsername } = require("../../contracts/API/mowojangAPI.js");
 const { SuccessEmbed, ErrorEmbed } = require("../../contracts/embedHandler.js");
 const { readFileSync } = require("fs");
-const { MessageFlags } = require("discord.js");
+const { MessageFlags, SlashCommandBuilder } = require("discord.js");
 
 module.exports = {
-  name: "linked",
-  description: "View who a user is linked to",
+  data: new SlashCommandBuilder()
+    .setName("linked")
+    .setDescription("View who a user is linked to")
+    .addUserOption((option) => option.setName("user").setDescription("Discord Username"))
+    .addStringOption((option) => option.setName("username").setDescription("Minecraft Username")),
   moderatorOnly: true,
   verificationCommand: true,
-  options: [
-    {
-      name: "user",
-      description: "Discord User",
-      type: 6,
-      required: false
-    },
-    {
-      name: "username",
-      description: "Minecraft Username",
-      type: 3,
-      required: false
-    }
-  ],
 
   execute: async (interaction) => {
     try {

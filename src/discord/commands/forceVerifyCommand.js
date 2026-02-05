@@ -5,28 +5,17 @@ const { formatError } = require("../../contracts/helperFunctions.js");
 const updateRolesCommand = require("./updateCommand.js");
 const { writeFileSync, readFileSync } = require("fs");
 const config = require("../../../config.json");
-const { MessageFlags } = require("discord.js");
+const { MessageFlags, SlashCommandBuilder } = require("discord.js");
 
 module.exports = {
-  name: "force-verify",
-  description: "Connect Discord account to a Minecraft",
+  data: new SlashCommandBuilder()
+    .setName("force-verify")
+    .setDescription("Connect Discord account to a Minecraft")
+    .addUserOption((option) => option.setName("user").setDescription("Discord Username").setRequired(true))
+    .addStringOption((option) => option.setName("username").setDescription("Minecraft Username").setRequired(true)),
   moderatorOnly: true,
   verificationCommand: true,
   requiresBot: true,
-  options: [
-    {
-      name: "user",
-      description: "Discord user",
-      type: 6,
-      required: true
-    },
-    {
-      name: "username",
-      description: "Minecraft Username",
-      type: 3,
-      required: true
-    }
-  ],
 
   execute: async (interaction) => {
     try {

@@ -1,14 +1,8 @@
 module.exports = {
-  name: "",
-  description: "",
-  options: [
-    {
-      name: "",
-      description: "",
-      type: 3,
-      required: false,
-    },
-  ],
+  data: new SlashCommandBuilder()
+    .setName("NAME")
+    .setDescription("DESCRIPTION")
+    .addStringOption((option) => option.setName("OPTION_NAME").setDescription("OPTION_DESCRIPTION")),
 
   execute: async (interaction) => {},
 };
