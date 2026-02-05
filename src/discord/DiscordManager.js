@@ -1,4 +1,4 @@
-const { Client, Collection, AttachmentBuilder, GatewayIntentBits, Events } = require("discord.js");
+const { Client, AttachmentBuilder, GatewayIntentBits, Events } = require("discord.js");
 const CommunicationBridge = require("../contracts/CommunicationBridge.js");
 const { replaceVariables } = require("../contracts/helperFunctions.js");
 const messageToImage = require("../contracts/messageToImage.js");
