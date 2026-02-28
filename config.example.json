@@ -105,6 +105,7 @@
     "nickname": {
       "enabled": true,
       "nickname": "{username}",
+      "removeCommas": false
     },
     "roles": {
       "verified": {
