@@ -127,7 +127,8 @@
   "other": {
     "autoUpdater": true,
     "autoUpdaterInterval": 12,
-    "logToFiles": true
+    "logToFiles": true,
+    "timezone": "UTC"
   },
   "statsChannels": {
     "enabled": false,

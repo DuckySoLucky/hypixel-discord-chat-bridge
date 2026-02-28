@@ -24,5 +24,5 @@ function updateCode() {
   });
 }
 
-cron.schedule(`0 */${config.other.autoUpdaterInterval} * * *`, () => updateCode());
+cron.schedule(`0 */${config.other.autoUpdaterInterval} * * *`, () => updateCode(), { timezone: config.other.timezone });
 updateCode();
