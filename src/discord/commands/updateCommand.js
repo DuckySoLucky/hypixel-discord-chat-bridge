@@ -40,7 +40,7 @@ async function updateRoles({ discordId, uuid }) {
   const addedRoles = [];
 
   if (!uuid) {
-    member.setNickname(null, "Updated Roles");
+    if (config.verification.nickname.enabled) member.setNickname(null, "Updated Roles");
     if (verificationRoles.verified.enabled && member.roles.cache.has(verificationRoles.verified.roleId)) {
       await member.roles.remove(verificationRoles.verified.roleId, "Updated Roles");
       // console.log("Removed verified role");
@@ -313,13 +313,15 @@ async function updateRoles({ discordId, uuid }) {
     }
   }
 
-  member.setNickname(
-    replaceVariables(
-      config.verification.nickname,
-      Object.fromEntries(Object.entries(stats).map(([key, value]) => [key, typeof value === "number" ? formatNumber(value) : value]))
-    ),
-    "Updated Roles"
-  );
+  if (config.verification.nickname.enabled) {
+    member.setNickname(
+      replaceVariables(
+        config.verification.nickname,
+        Object.fromEntries(Object.entries(stats).map(([key, value]) => [key, typeof value === "number" ? formatNumber(value) : value]))
+      ),
+      "Updated Roles"
+    );
+  }
 
   for (const role of roles) {
     if (addedRoles.includes(role)) return;
