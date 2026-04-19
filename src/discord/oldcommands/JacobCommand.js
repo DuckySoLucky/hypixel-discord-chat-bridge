@@ -90,6 +90,9 @@ class JacobCommand extends DiscordCommand {
                 else if(crop.toLowerCase() == "cane"){
                     crop = "Sugar Cane"
                 }
+                else if(crop.toLowerCase() == "rose"){
+                    crop = "Wild Rose"
+                }
                 else{
                     crop = await capitalizeFirstLetter(crop)
                 }

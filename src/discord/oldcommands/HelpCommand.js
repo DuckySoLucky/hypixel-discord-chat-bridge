@@ -80,11 +80,10 @@ class HelpCommand extends DiscordCommand {
           ],
           color: 0x2eebf4,
           footer: {
-            text: 'Made by Azael & Yonko'
+            text: 'Made by Azael'
           },
           timestamp: new Date()
         }], 
-        files: ["/srv/Tempest/bridge/src/assets/TEMPEST_-_BRIDGE_2022.png"]
       })
     }
     else if (user.toLowerCase()=="discord"){
@@ -112,11 +111,10 @@ class HelpCommand extends DiscordCommand {
           ],
           color: 0x2eebf4,
           footer: {
-            text: 'Made by Azael & Yonko'
+            text: 'Made by Azael'
           },
           timestamp: new Date()
         }], 
-        files: ["/srv/Tempest/bridge/src/assets/TEMPEST_-_BRIDGE_2022.png"]
       })
     }
     else if(user.toLowerCase()=="minecraft"){
@@ -152,11 +150,10 @@ class HelpCommand extends DiscordCommand {
           ],
           color: 0x2eebf4,
           footer: {
-            text: 'Made by Azael & Yonko'
+            text: 'Made by Azael'
           },
           timestamp: new Date()
         }], 
-        files: ["/srv/Tempest/bridge/src/assets/TEMPEST_-_BRIDGE_2022.png"]
       })
     }
     return
@@ -192,7 +189,6 @@ class HelpCommand extends DiscordCommand {
         },
         timestamp: new Date()
       }], 
-      files: ["/srv/Tempest/bridge/src/assets/TEMPEST_-_BRIDGE_2022.png"]
     }) */
   }
 }

@@ -1,15 +1,7 @@
 const { ApplicationFlagsBitField } = require('discord.js');
 const DiscordCommand = require('../../contracts/DiscordCommand')
 const { Embed } = require("../../contracts/embedHandler.js");
-const axios = require("axios")
-const fs = require('fs');
 
-let dataFilePath = "/srv/Tempest/bridge/guildData.json"
-let predeterminedRanks = ['Guild Master', 'Elder', 'Legend', 'Champion', 'Knight', 'Recruit'];
-
-function writeDataToFile(data) {
-  fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2), 'utf-8');
-}
 const executeCommand = async (bot) => {
   if (!bot || !bot._client.chat) {
     throw new HypixelDiscordChatBridgeError(
@@ -76,7 +68,7 @@ const executeCommand = async (bot) => {
 };
 const sortOnline = (online) => {
   // Define the rank order for sorting
-  const rankOrder = ["Guild Master", "Elder", "Legend", "Champion", "Knight", "Recruit"];
+  const rankOrder = ["Guild Master", "Baka", "Master", "Expert", "Challenger", "Beginner"];
 
   // Sort the `online` array based on the rank order
   const sortedOnline = online
@@ -87,47 +79,13 @@ const sortOnline = (online) => {
       // Format the rank and player list
       const formattedRank = `\n**${rank}**`;
 
-      const formattedPlayers = players.map((player) => `✦ ${player.replace("_", "\\_").replace("[VIP]", "").replace("[VIP+]", "").replace("[MVP]", "").replace("[MVP+]", "").replace("[MVP++]", "").replace("[YOUTUBE]", "")}`).join(" ");
+      const formattedPlayers = players.map((player) => `✦ ${player.replace("[VIP]", "").replace("[VIP+]", "").replace("[MVP]", "").replace("[MVP+]", "").replace("[MVP++]", "").replace("[YOUTUBE]", "")}`).join(" ");
 
-      return `${formattedRank}\n${formattedPlayers}`;
+      return `${formattedRank}\n${formattedPlayers.replaceAll("_", "\\_")}`;
     })
     .filter(Boolean); // Remove undefined entries
 
   return sortedOnline;
-};
-const deepMergeGuildData = (data1, data2) => {
-  // Define the rank hierarchy
-  const rankOrder = ["Guild Master", "Elder", "Legend", "Champion", "Knight", "Recruit"];
-
-  // Combine totalMembers and onlineMembers as numbers
-  const totalMembers = (parseInt(data1.totalMembers, 10) || 0) + (parseInt(data2.totalMembers, 10) || 0);
-  const onlineMembers = (parseInt(data1.onlineMembers, 10) || 0) + (parseInt(data2.onlineMembers, 10) || 0);
-
-  // Merge online array based on rank
-  const onlineMap = new Map();
-
-  [...data1.online, ...data2.online].forEach(({ rank, players }) => {
-    if (!onlineMap.has(rank)) {
-      onlineMap.set(rank, new Set(players)); // Use Set to avoid duplicate players
-    } else {
-      players.forEach((player) => onlineMap.get(rank).add(player)); // Add players to the existing rank
-    }
-  });
-
-  // Convert Map back to array
-  let online = Array.from(onlineMap, ([rank, playersSet]) => ({
-    rank,
-    players: Array.from(playersSet),
-  }));
-
-  // Sort the online array by the predefined rank order
-  online = online.sort((a, b) => rankOrder.indexOf(a.rank) - rankOrder.indexOf(b.rank));
-
-  return {
-    totalMembers: totalMembers.toString(),
-    onlineMembers: onlineMembers.toString(),
-    online,
-  };
 };
 
 class GuildList extends DiscordCommand {
@@ -141,9 +99,7 @@ class GuildList extends DiscordCommand {
 
   async onCommand(cat) {
     let skyData = await executeCommand(bot)
-    const { data } = await axios.post('http://192.168.0.6:3001/api/list', { message: "a" }, { headers: { Authorization: "yonkowashere" } })
-    const combinedData = deepMergeGuildData(skyData, data.data)
-    const description = `**Total Members** ${combinedData.totalMembers}\n**Online Members:** ${combinedData.onlineMembers}\n${sortOnline(combinedData.online).join("\n")}`;
+    const description = `**Total Members** ${skyData.totalMembers}\n**Online Members:** ${skyData.onlineMembers}\n${sortOnline(skyData.online).join("\n")}`;
     const embed = new Embed("#2ECC71", "Guild List", description);
 
     cat.channel.send({

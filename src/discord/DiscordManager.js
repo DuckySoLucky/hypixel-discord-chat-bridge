@@ -11,25 +11,7 @@ const path = require("node:path");
 const fs = require("fs");
 const axios = require('axios');
 const { description } = require("./commands/updateCommand.js");
-async function apicall(username, message, type, guildRank) {
-  try {
-    const response = await axios.post(
-      'http://192.168.0.6:3001/api/message',
-      { author: username, guild: "aria", message, type, guildRank }, // Simplified object property assignment
-      {
-        headers: {
-          Authorization: "yonkowashere"
-        }
-      }
-    )
-  } catch (error) {
-    if (error.code === 'ECONNREFUSED') {
-      console.error('Connection refused: Aria is offline');
-    } else {
-      console.error('An error occurred:', error.message);
-    }
-  }
-}
+
 class DiscordManager extends CommunicationBridge {
   constructor(app) {
     super();
@@ -133,7 +115,6 @@ class DiscordManager extends CommunicationBridge {
       channel.send(imgurUrl);
       imgurUrl = "";
     }
-    await apicall(username, message, chat||"Guild", guildRank,)
 
     switch (mode) {
       case "bot":
@@ -351,10 +332,6 @@ class DiscordManager extends CommunicationBridge {
   }
 
   async onTextEmbedBroadcast({ username, message, guildRank, url, overflow }) {
-    if (username !== this.app.minecraft.bot.username) {
-      apicall(username, overflow, "Guild", guildRank)
-    }
-
     Logger.broadcastMessage(`${username} [${guildRank}]: ${message}`, "Event")
     switch (config.discord.other.messageMode.toLowerCase()) {
       case 'bot':

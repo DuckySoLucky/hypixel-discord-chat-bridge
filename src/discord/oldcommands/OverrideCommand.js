@@ -32,7 +32,7 @@ class OverrideCommand extends DiscordCommand {
 
     this.sendMinecraftMessage(`/${command}`);
 
-    message.reply(`\`/${command}\` has been executed in TempestSky`);
+    message.reply(`\`/${command}\` has been executed in Bakacord`);
 }
 }
 

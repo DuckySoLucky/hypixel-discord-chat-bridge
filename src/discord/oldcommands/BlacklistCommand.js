@@ -11,20 +11,28 @@ async function getUsernameFromUUID(uuid) {
   return username
 }
 async function getUUIDFromUsername(username) {
-  if (!(/^[a-zA-Z0-9_]{2,16}$/mg.test(username))) {
-    return "Error"
-  }
-  else {
-    const { data } = await axios.get('https://api.mojang.com/users/profiles/minecraft/' + username)
-    let uuid = data.id
-    let user = username
-    return data.id
-  }
+    if (!(/^[a-zA-Z0-9_]{2,16}$/mg.test(username))) {
+        return "Error"
+    }
+    else {
+        try {
+            const { data } = await axios.get('https://api.mojang.com/users/profiles/minecraft/' + username)
+            let uuid = data.id
+            let user = username
+            return uuid
+        } catch {
+            const { data } = await axios.get('https://api.ashcon.app/mojang/v2/user/' + username)
+            let uuid = data.uuid.replace("-","");
+            let user = username
+            return uuid
+        }
+
+    }
 }
 class BlacklistCommand extends DiscordCommand {
   constructor(discord) {
     super(discord)
-    this.permission = "commander"
+    this.permission = 'commander'
 
     this.name = 'blacklist'
 
@@ -32,10 +40,9 @@ class BlacklistCommand extends DiscordCommand {
   }
 
   onCommand(message) {
-    if (message.channel.id != "1074902281130086410") return
     let args = this.getArgs(message)
     getUUIDFromUsername(args[1]).then(async uuid => {
-      let blacklist = fs.readFileSync('/tempest/blacklist.txt', 'utf-8');
+      let blacklist = fs.readFileSync('./src/blacklist.txt', 'utf-8');
       let blacklistedIDs = blacklist.trim().split('\n');
       if (args[0] == "add") {
         if (!blacklist.includes(uuid)) {
@@ -50,14 +57,14 @@ class BlacklistCommand extends DiscordCommand {
               },
               author: {
                 name: `${args[1]}`,
-                icon_url: 'https://www.mc-heads.net/avatar/' + args[1],
+                icon_url: 'https://minotar.net/helm/' + args[1]+'.png',
               },
             }],
           })
           blacklist += uuid + "\n";
 
           // write the updated blacklist back to the file
-          fs.writeFileSync('/tempest/blacklist.txt', blacklist, 'utf-8');
+          fs.writeFileSync('./src/blacklist.txt', blacklist, 'utf-8');
         }
         else {
           message.channel.send({
@@ -70,7 +77,7 @@ class BlacklistCommand extends DiscordCommand {
               },
               author: {
                 name: `${args[1]}`,
-                icon_url: 'https://www.mc-heads.net/avatar/' + args[1],
+                icon_url: 'https://minotar.net/helm/' + args[1]+'.png',
               },
             }],
           })
@@ -89,7 +96,7 @@ class BlacklistCommand extends DiscordCommand {
             },
             author: {
               name: `${args[1]}`,
-              icon_url: 'https://www.mc-heads.net/avatar/' + args[1],
+              icon_url: 'https://minotar.net/helm/' + args[1]+'.png',
             },
           }],
         })
@@ -99,7 +106,7 @@ class BlacklistCommand extends DiscordCommand {
 
           // write the updated blacklist back to the file
           blacklist = blacklistedIDs.join('\n') + '\n';
-          fs.writeFileSync('blacklist.txt', blacklist, 'utf-8');
+          fs.writeFileSync('./src/blacklist.txt', blacklist, 'utf-8');
         }
       }
       else if (args[0] == "check") {
@@ -115,7 +122,7 @@ class BlacklistCommand extends DiscordCommand {
               },
               author: {
                 name: `${args[1]}`,
-                icon_url: 'https://www.mc-heads.net/avatar/' + args[1],
+                icon_url: 'https://minotar.net/helm/' + args[1]+'.png',
               },
             }],
           })
@@ -132,7 +139,7 @@ class BlacklistCommand extends DiscordCommand {
               },
               author: {
                 name: `${args[1]}`,
-                icon_url: 'https://www.mc-heads.net/avatar/' + args[1],
+                icon_url: 'https://minotar.net/helm/' + args[1]+'.png',
               },
             }],
           })

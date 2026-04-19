@@ -11,7 +11,7 @@ class PingCommand extends minecraftCommand {
   }
 
   onCommand(username, message) {
-    this.send(`/gc Join our Discord Server! https://discord.gg/qcTBPxR`)
+    this.send(`/gc Join our Discord Server! https://discord.gg/wdD9pDHN`)
   }
 }
 

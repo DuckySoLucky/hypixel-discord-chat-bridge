@@ -47,9 +47,9 @@ async function getUUIDFromUsername(username) {
     }
 }
 async function getStatsFromUUID(name, profile) {
-    let legend = readOrUpdateNumber('/srv/Tempest/bridge/level.json' ,"legend");
-    let champion = readOrUpdateNumber('/srv/Tempest/bridge/level.json' ,"champion");
-    let knight = readOrUpdateNumber('/srv/Tempest/bridge/level.json' ,"knight");
+    let challenger = 12000
+    let expert = 20000
+    let master = 30000
 
     try {
         if (name == undefined) {

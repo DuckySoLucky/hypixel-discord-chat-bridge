@@ -8,17 +8,6 @@ const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
 const { url } = require("inspector");
-async function apicall(message) {
-  try {
-    const response = await axios.post('http://192.168.0.6:3001/api/command', { message: message }, { headers: { Authorization: "yonkowashere" } })
-  } catch (error) {
-    if (error.code === 'ECONNREFUSED') {
-      console.error('Connection refused: Aria is offline');
-    } else {
-      console.error('An error occurred:', error.message);
-    }
-  }
-}
 
 async function downloadUploadDeleteImage(imageUrl) {
   try {
@@ -202,6 +191,8 @@ class MessageHandler {
         })
         prom.then(() => {
           if(this.shouldBroadcastMessage(message)){
+            if(message.channel.id==config.discord.channels.officerChannel) return
+
             this.discord.broadcastMessage({
               username: message.member.displayName,
               message: message.content.replace(/<[@|#|!|&]{1,2}(\d+){16,}>/g, '\n')
@@ -238,12 +229,6 @@ class MessageHandler {
         replyingTo: await this.fetchReply(message),
         discord: message,
       };
-      if(message.channel.id==config.discord.channels.guildChatChannel){
-        await apicall(`/gc ${formattedUsername.replaceAll(" ", "")}: ${content}`)
-      }
-      if(message.channel.id==config.discord.channels.officerChannel){
-        await apicall(`/oc ${formattedUsername.replaceAll(" ", "")}: ${content}`)
-      }
       const images = content.split(" ").filter((line) => line.startsWith("http"));
       for (const attachment of message.attachments.values()) {
         images.push(attachment.url);

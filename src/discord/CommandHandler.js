@@ -97,10 +97,16 @@ class CommandHandler {
   }
 
   isCommander(member) {
-    return member.roles.cache.find(r => r.id == config.discord.commands.commandRole)
+    return (
+      member.roles.cache.find(r => r.id == config.discord.commands.commandRole) ||
+      config.discord.commands.users.includes(member.id)
+    )
   }
   isMod(member) {
-    return member.roles.cache.find(r => r.id == config.discord.commands.modRole)
+    return (
+      member.roles.cache.find(r => r.id == config.discord.commands.modRole) ||
+      config.discord.commands.users.includes(member.id)
+    );
   }
   isOwner(member) {
     return member.id == this.discord.app.config.discord.ownerId

@@ -235,17 +235,7 @@ function makeid(length) {
   }
  return result;
 }
-async function apicall(message) {
-  try {
-    const response = await axios.post('http://192.168.0.6:3001/api/command', { message: message }, { headers: { Authorization: "yonkowashere" } })
-  } catch (error) {
-    if (error.code === 'ECONNREFUSED') {
-      console.error('Connection refused: Aria is offline');
-    } else {
-      console.error('An error occurred:', error.reason);
-    }
-  }
-}
+
 class StateHandler extends eventHandler {
   constructor(minecraft, command, discord) {
     super();
@@ -312,39 +302,63 @@ class StateHandler extends eventHandler {
 
     if (this.isRequestMessage(message)) {
       const username = replaceAllRanks(
-        message.split("has")[0].replaceAll("-----------------------------------------------------\n", ""),
+        message.split(" has")[0].replaceAll("-----------------------------------------------------\n", ""),
       );
       const uuid = await getUUID(username);
       if (config.minecraft.guildRequirements.enabled) {
-        const [profile] = await Promise.all([ getLatestProfile(uuid)]);
-        let meetRequirements = false;
-        const skyblockLevel = (profile.profile?.leveling?.experience || 0) / 100 ?? 0;
-
-        if (
-          skyblockLevel > config.minecraft.guildRequirements.requirements.skyblockLevel &&
-          config.minecraft.guildRequirements.requirements.skyblockLevel > 0
-        ) {
-          meetRequirements = true;
-        }
-
-        bot.chat(
-          `/oc ${username} ${meetRequirements ? "meets" : "Doesn't meet"} Requirements.  SB Level: ${skyblockLevel.toLocaleString()}`,
-        );
-        await delay(1000);
-
-        if (meetRequirements === true) {
-          if (config.minecraft.guildRequirements.autoAccept === true) {
-            bot.chat(`/guild accept ${username}`);
+        const output = await Promise.all([getLatestProfile(uuid)]);
+        let newlvl = 0
+        let blacklist = fs.readFileSync('./src/blacklist.txt', "utf-8")
+        if (!blacklist.includes(uuid)) {
+          for (let b = 0; b < Object.keys(output[0].profiles).length; b++) {
+            let profile = output[0].profiles[b]
+            if (newlvl < profile.members[uuid].leveling?.experience) {
+              newlvl = profile.members[uuid].leveling?.experience
+            }
           }
+          let meetRequirements = false;
+          const skyblockLevel = newlvl / 100 ?? 0;
 
+          if (
+            skyblockLevel > config.minecraft.guildRequirements.requirements.skyblockLevel &&
+            config.minecraft.guildRequirements.requirements.skyblockLevel > 0
+          ) {
+            meetRequirements = true;
+          }
+          console.log(
+            `/oc [STATCHECK] ${username}${meetRequirements ? "meets" : "doesn't meet"} the requirements. SB Level: ${skyblockLevel.toLocaleString()}`,
+          )
+          bot.chat(
+            `/oc [STATCHECK] ${username}${meetRequirements ? "meets" : "doesn't meet"} the requirements. SB Level: ${skyblockLevel.toLocaleString()}`,
+          );
+          await delay(1000);
+
+          if (meetRequirements === true) {
+            if (config.minecraft.guildRequirements.autoAccept === true) {
+              bot.chat(`/guild accept ${username}`);
+            }
+
+            const statsEmbed = new EmbedBuilder()
+              .setColor(2067276)
+              .setTitle(`${username} has requested to join the Guild!`)
+              .setDescription(`Skyblock level: ${skyblockLevel.toLocaleString()}`)
+
+              .setThumbnail(`https://minotar.net/helm/${username}.png`)
+
+            await client.channels.cache.get(`${config.discord.channels.loggingChannel}`).send({ embeds: [statsEmbed] });
+          }
+        } else {
+          bot.chat(
+            `/oc ${username} is blacklisted from the guild, do not accept.`,
+          );
           const statsEmbed = new EmbedBuilder()
-            .setColor(2067276)
-            .setTitle(`${username} has requested to join the Guild!`)
-            .setDescription(`Skyblock level: ${skyblockLevel.toLocaleString()}`)
+              .setColor(2067276)
+              .setTitle(`${username} has been blocked from joining the Guild!`)
+              .setDescription(`Make sure not to accept this person. They are blacklisted.`)
 
-            .setThumbnail(`https://www.mc-heads.net/avatar/${username}`)
+              .setThumbnail(`https://minotar.net/helm/${username}.png`)
 
-          await client.channels.cache.get(`${config.discord.channels.loggingChannel}`).send({ embeds: [statsEmbed] });
+            await client.channels.cache.get(`${config.discord.channels.officerChannel}`).send({ embeds: [statsEmbed] });
         }
       }
     }
@@ -352,7 +366,6 @@ class StateHandler extends eventHandler {
     if (this.isLoginMessage(message)) {
       if (config.discord.other.joinMessage === true) {
         const username = message.split(">")[1].trim().split("joined.")[0].trim();
-        apicall(`/gc ${username} joined. {${makeid(12)}}`)
         return this.minecraft.broadcastPlayerToggle({
           fullMessage: colouredMessage,
           username: username,
@@ -366,7 +379,6 @@ class StateHandler extends eventHandler {
     if (this.isLogoutMessage(message)) {
       if (config.discord.other.joinMessage === true) {
         const username = message.split(">")[1].trim().split("left.")[0].trim();
-        apicall(`/gc ${username} left. {${makeid(12)}}`)
         return this.minecraft.broadcastPlayerToggle({
           fullMessage: colouredMessage,
           username: username,
@@ -389,7 +401,6 @@ class StateHandler extends eventHandler {
         })}`,
       );
       await this.updateUser(username);
-      apicall(`/gc ${username} has joined Sky. {${makeid(12)}}`)
       return [
         this.minecraft.broadcastHeadedEmbed({
           message: replaceVariables(messages.joinMessage, { username }),
@@ -407,7 +418,6 @@ class StateHandler extends eventHandler {
         .trim()
         .split(/ +/g)[0];
       await this.updateUser(username);
-      apicall(`/gc ${username} left the guild. {${makeid(12)}}`)
 
       return [
 
@@ -428,7 +438,6 @@ class StateHandler extends eventHandler {
         .trim()
         .split(/ +/g)[0];
       await this.updateUser(username);
-      apicall(`/gc ${username} was kicked from the guild. {${makeid(12)}}`)
 
       return [
 
@@ -454,7 +463,6 @@ class StateHandler extends eventHandler {
         .pop()
         .trim();
       await this.updateUser(username);
-      apicall(`/gc ${username} was promoted to ${rank} {${makeid(12)}}`)
 
       return [
         this.minecraft.broadcastCleanEmbed({
@@ -481,7 +489,6 @@ class StateHandler extends eventHandler {
         .pop()
         .trim();
       await this.updateUser(username);
-      apicall(`/gc ${username} was demoted to ${rank} {${makeid(12)}}`)
 
       return [
         this.minecraft.broadcastCleanEmbed({

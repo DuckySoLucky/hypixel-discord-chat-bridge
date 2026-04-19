@@ -1,7 +1,15 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const config = require("../../../config.json");
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
+function makeid(length) {
+  var result           = '';
+  var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength = characters.length;
+  for ( var i = 0; i < length; i++ ) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+ return result;
+}
 class warpoutCommand extends minecraftCommand {
   constructor(minecraft) {
     super(minecraft);
@@ -13,13 +21,11 @@ class warpoutCommand extends minecraftCommand {
   }
   async onCommand(username, message) {
     try {
-      if (this.isOnCooldown) {
-        return this.warpSend(`/gc ${username} Command is on cooldown`);
-      }
 
       this.isOnCooldown = true;
-
+      
       const user = this.getArgs(message)[0];
+      console.log(user)
       if (user === undefined) {
         // eslint-disable-next-line no-throw-literal
         throw "Please provide a username!";
@@ -33,20 +39,19 @@ class warpoutCommand extends minecraftCommand {
 
         if (message.includes("You cannot invite that player since they're not online.")) {
           bot.removeListener("message", warpoutListener);
-          this.isOnCooldown = false;
-          this.warpSend(`/gc ${user} is offline!`);
+          this.warpSend(`/gc ${user} is offline! {${makeid(7)}}`);
         } else if (message.includes("You cannot invite that player!")) {
           bot.removeListener("message", warpoutListener);
           this.isOnCooldown = false;
-          this.warpSend(`/gc ${user} has party requests disabled!`);
+          this.warpSend(`/gc ${user} has party requests disabled! {${makeid(7)}}`);
         } else if (message.includes("invited") && message.includes("to the party! They have 60 seconds to accept.")) {
-          this.warpSend(`/gc Partying ${user}...`);
+          this.warpSend(`/gc Partying ${user}... {${makeid(7)}}`);
         } else if (message.includes(" joined the party.")) {
           this.warpSend("/p warp");
         } else if (message.includes("warped to your server")) {
           bot.removeListener("message", warpoutListener);
           this.isOnCooldown = false;
-          this.warpSend(`/gc Successfully warped ${user}!`);
+          this.warpSend(`/gc Successfully warped ${user}! {${makeid(7)}}`);
           this.warpSend("/p disband");
           await delay(1500);
           this.warpSend("\u00a7");

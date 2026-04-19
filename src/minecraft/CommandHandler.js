@@ -3,17 +3,7 @@ const config = require("../../config.json");
 const Logger = require("../Logger.js");
 const axios = require("axios");
 const fs = require("fs");
-async function apicall(message) {
-  try {
-    const response = await axios.post('http://192.168.0.6:3001/api/command', { message: message }, { headers: { Authorization: "yonkowashere" } })
-  } catch (error) {
-    if (error.code === 'ECONNREFUSED') {
-      console.error('Connection refused: Aria is offline');
-    } else {
-      console.error('An error occurred:', error.message);
-    }
-  }
-}
+
 class CommandHandler {
   constructor(minecraft) {
     this.minecraft = minecraft;

@@ -11,15 +11,15 @@ function readOrUpdateNumber(jsonFilePath, role) {
   role = role.toLowerCase()
   // Return the number from the JSON data based on the role
   if (role === 'legend') {
-      return jsonData.legend;
+    return jsonData.legend;
   } else if (role === 'champion') {
-      return jsonData.champion;
+    return jsonData.champion;
   } else if (role === 'knight') {
-      return jsonData.knight;
+    return jsonData.knight;
   } else if (role === 'recruit') {
-      return jsonData.recruit;
+    return jsonData.recruit;
   } else {
-      throw new Error('Invalid role. Use "Legend", "Champion", "Knight", or "Recruit".');
+    throw new Error('Invalid role. Use "Legend", "Champion", "Knight", or "Recruit".');
   }
 }
 
@@ -48,7 +48,7 @@ async function getGMemberFromUUID(uuid, message) {
     }
     const { data } = await axios.get(`https://api.hypixel.net/v2/guild?key=${config.minecraft.API.hypixelAPIkey}&player=` + uuid)
     try {
-      if (data.guild.name_lower != "tempestsky") {
+      if (data.guild.name_lower != "bakacord") {
         let ret = "This player is not in our guild."
         return ret
       }
@@ -57,7 +57,7 @@ async function getGMemberFromUUID(uuid, message) {
       let ret = "Please confirm the name of the player you're trying to look up."
       return ret
     }
-    if (data.guild.name_lower != "tempestsky") {
+    if (data.guild.name_lower != "bakacord") {
       let ret = "This player is not in our guild."
       return ret
     }
@@ -76,7 +76,7 @@ async function getGMemberFromUUID(uuid, message) {
           joined = new Date(joined).toLocaleString()
           let newData = data.guild.members[i];
           let expValue = Object.values(newData.expHistory)
-  
+
           let total = expValue[0] + expValue[1] + expValue[2] + expValue[3] + expValue[4] + expValue[5] + expValue[6]
           let xp = total
           try {
@@ -89,7 +89,7 @@ async function getGMemberFromUUID(uuid, message) {
         else if (i == data.guild.members.length) {
           for (s = 0; s < 100; s++) {
             await new Promise(resolve => setTimeout(resolve, 50));
-            if(s==100){
+            if (s == 100) {
               return
             }
           }
@@ -111,45 +111,40 @@ async function getGMemberFromUUID(uuid, message) {
   }
 }
 async function getActivity(uuid, rank, xp) {
-  let legend = readOrUpdateNumber('/srv/Tempest/bridge/level.json' ,"legend");
-  let champion = readOrUpdateNumber('/srv/Tempest/bridge/level.json' ,"champion");
-  let knight = readOrUpdateNumber('/srv/Tempest/bridge/level.json' ,"knight");
-  
-  legend = legend * 100
-  champion = champion * 100
-  knight = knight * 100
+  let challenger = 12000
+  let expert = 20000
+  let master = 30000
 
   const { data } = await axios.get(`https://api.hypixel.net/v2/skyblock/profiles?key=${config.minecraft.API.hypixelAPIkey}&uuid=${uuid}`)
   let name = await getUsernameFromUUID(uuid)
   let newlvl = 0
   for (b = 0; b < Object.keys(data.profiles).length; b++) {
-    if(newlvl < data.profiles[b]?.members[uuid]?.leveling?.experience){
+    if (newlvl < data.profiles[b]?.members[uuid]?.leveling?.experience) {
       newlvl = data.profiles[b]?.members[uuid]?.leveling?.experience
     }
   }
 
-  if(name=="raffalt") return
-  if(rank=="Elder") return;
-  if(rank=="Guild Master") return;
-  if (newlvl >= legend) {
-    if(rank=="Legend") return
-    ini.push(`${name} Legend`)
+  if (rank == "Baka") return;
+  if (rank == "Guild Master") return;
+  if (newlvl >= master) {
+    if (rank == "Master") return
+    ini.push(`${name} Master`)
     return
   };
-  if (newlvl >= champion) {
-    if(rank=="Champion") return
-    ini.push(`${name} Champion`)
+  if (newlvl >= expert) {
+    if (rank == "Expert") return
+    ini.push(`${name} Expert`)
     return
   }
-  else if (newlvl >= knight) {
-    if(rank=="Knight") return
-    ini.push(`${name} Knight`)
+  else if (newlvl >= challenger) {
+    if (rank == "Challenger") return
+    ini.push(`${name} Challenger`)
 
     return
   }
   else {
-    if(rank=="Recruit") return
-    ini.push(`${name} Recruit`)
+    if (rank == "Beginner") return
+    ini.push(`${name} Beginner`)
 
     return
   }
@@ -170,10 +165,7 @@ class AutoclaimCommand extends DiscordCommand {
   onCommand(message) {
     let args = message.content.trim().split(/\s+/);
 
-    if (args.length < 2 || args[1].toLowerCase() !== 'sky') {
-      return;
-    }
-    getGMemberFromUsername("xephor_ex", message).then(a => {
+    getGMemberFromUsername("shana_splatoon", message).then(a => {
       let cat = 0
       let cat2 = 0
       let cat3 = 0
