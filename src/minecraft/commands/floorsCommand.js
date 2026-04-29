@@ -103,7 +103,9 @@ class FloorsCommand extends minecraftCommand {
         throw `${username} has never done ${floorId} before.`;
       }
 
-      this.send(`${username}'s ${floorId} completions ${floorData.timesPlayed} | S+: ${floorData.fastestTimeSPlus} | S: ${floorData.fastestTimeS}`);
+      this.send(
+        `${username}'s ${floorId} completions ${floorData.timesPlayed} | S+: ${prettyms(floorData.fastestTimeSPlus, { secondsDecimalDigits: 0 })} | S: ${prettyms(floorData.fastestTimeS, { secondsDecimalDigits: 0 })}`
+      );
     } catch (error) {
       console.error(error);
       this.send(`[ERROR] ${error}`);

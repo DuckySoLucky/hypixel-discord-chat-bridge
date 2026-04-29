@@ -46,7 +46,7 @@
     "ms": "^2.1.3",
     "node-cron": "^4.2.1",
     "node-emoji": "^2.2.0",
-    "pretty-ms": "^9.3.0",
+    "pretty-ms": "^7.0.1",
     "prismarine-nbt": "^2.8.0",
     "rss-parser": "^3.13.0",
     "skyhelper-networth": "^2.7.0",
