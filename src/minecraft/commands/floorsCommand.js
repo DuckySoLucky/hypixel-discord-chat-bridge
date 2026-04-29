@@ -83,7 +83,7 @@ class FloorsCommand extends minecraftCommand {
         .filter((key) => !key.endsWith("0"))
         .forEach((floor) => {
           // @ts-ignore
-          const floorData = catacombs[floor];
+          const floorData = masterCatacombs[floor];
           if (floorData === null) return;
           floors.push({
             id: floor.replaceAll("floor", "m"),
