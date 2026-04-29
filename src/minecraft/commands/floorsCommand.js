@@ -1,5 +1,4 @@
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
-const { getPersonalBest } = require("../../../API/stats/dungeonsPersonalBest.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const prettyms = require("pretty-ms");
 
