@@ -4,6 +4,15 @@ const fs = require("fs");
 const exampleConfig = JSON.parse(fs.readFileSync("config.example.json"));
 const config = JSON.parse(fs.readFileSync("config.json"));
 
+// Migrate Config Values
+function migrateConfig(config) {
+  config.verification ??= {};
+  const nickname = config.verification.nickname;
+  if (typeof nickname === "string") config.verification.nickname = { nickname };
+}
+
+migrateConfig(config);
+
 function checkConfig(object, exampleObject) {
   for (const [key, value] of Object.entries(exampleObject)) {
     if (key === "messageFormat" && object[key] && object[key].length <= 2) {
