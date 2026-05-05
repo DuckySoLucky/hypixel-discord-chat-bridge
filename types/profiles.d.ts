@@ -1,3 +1,17 @@
+import { Garden } from "../API/stats/garden.types";
+
+export type LatestProfile = {
+  username: string;
+  rawUsername: string;
+  last_save: number;
+  profiles: Profile[];
+  profile: Member;
+  profileData: Profile;
+  uuid: string;
+  museum?: object;
+  garden?: Garden;
+};
+
 export type Profile = {
   profile_id: string;
   cute_name: string;

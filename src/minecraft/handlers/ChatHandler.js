@@ -1,6 +1,7 @@
 const { checkRequirements, generateEmbed } = require("../../discord/commands/requirementsCommand.js");
 const { replaceAllRanks, replaceVariables } = require("../../contracts/helperFunctions.js");
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
+const updateCommand = require("../../discord/commands/updateCommand.js");
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
 const { getUUID } = require("../../contracts/API/mowojangAPI.js");
@@ -9,7 +10,6 @@ const { isUuid } = require("../../../API/utils/uuid.js");
 const messages = require("../../../messages.json");
 const config = require("../../../config.json");
 const { readFileSync } = require("fs");
-const updateCommand = require("../../discord/commands/updateCommand.js");
 
 class StateHandler extends eventHandler {
   constructor(minecraft, command, discord) {
@@ -72,29 +72,21 @@ class StateHandler extends eventHandler {
     }
 
     if (this.isRequestMessage(message)) {
-      const username = replaceAllRanks(message.split("has")[0].replaceAll("-----------------------------------------------------\n", ""));
-      const uuid = await getUUID(username);
+      const username = replaceAllRanks(message.split("has")[0].replaceAll("-----------------------------------------------------\n", "")).trim();
+      const logMessage = await client.channels.cache.get(`${config.discord.channels.loggingChannel}`).send({
+        embeds: [{ color: 2067276, description: replaceVariables(messages.requestMessage, { username }) }],
+        components: [new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("joinRequestAccept").setLabel("Accept Request").setStyle(ButtonStyle.Success))]
+      });
+
       if (config.minecraft.guildRequirements.enabled) {
-        const playerInfo = await checkRequirements(uuid);
-
-        bot.chat(
-          `/oc ${playerInfo.nickname} ${playerInfo.meetRequirements ? "meets" : "Doesn't meet"} Requirements. [BW] [${
-            playerInfo.bwLevel
-          }✫] FKDR: ${playerInfo.bwFKDR} | [SW] [${playerInfo.swLevel}✫] KDR: ${playerInfo.swKDR} | [Duels] Wins: ${
-            playerInfo.duelsWins
-          } WLR: ${playerInfo.dWLR} | SB Level: ${playerInfo.skyblockLevel}`
-        );
+        const uuid = await getUUID(username);
+        const data = await checkRequirements(uuid);
+        bot.chat(`/oc ${data.username} ${data.passed ? "meets" : "Doesn't meet"} Requirements. More info in the guild logs channel`);
         await delay(1000);
-
-        if (playerInfo.meetRequirements === true && config.minecraft.guildRequirements.autoAccept) {
-          bot.chat(`/guild accept ${username}`);
-        }
-
-        const statsEmbed = generateEmbed(playerInfo);
-        const acceptButton = new ActionRowBuilder().addComponents(
-          new ButtonBuilder().setCustomId("joinRequestAccept").setLabel("Accept Request").setStyle(ButtonStyle.Success)
-        );
-        await client.channels.cache.get(`${config.discord.channels.loggingChannel}`).send({ embeds: [statsEmbed], components: [acceptButton] });
+        if (data.passed && config.minecraft.guildRequirements.autoAccept) bot.chat(`/guild accept ${username}`);
+        const embed = generateEmbed(data);
+        await logMessage.edit({ embeds: [...logMessage.embeds, embed] });
+        await client.channels.cache.get(`${config.discord.channels.officerChannel}`).send({ embeds: [embed] });
       }
     }
 
@@ -572,11 +564,11 @@ class StateHandler extends eventHandler {
     }
 
     /*if (this.isPartyMessage(message)) {
-      this.minecraft.broadcastCleanEmbed({ 
-        message: `${message}`, 
-        color: 15548997, 
-        channel: 'Guild' 
-      })  
+      this.minecraft.broadcastCleanEmbed({
+        message: `${message}`,
+        color: 15548997,
+        channel: 'Guild'
+      })
     }*/
 
     const regex =
@@ -918,6 +910,7 @@ class StateHandler extends eventHandler {
       }
 
       const discordId = linked[uuid];
+      if (discordId === undefined) return;
       updateCommand.updateRoles({ discordId, uuid });
 
       console.log(`Updated roles for ${uuid}`);

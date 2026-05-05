@@ -9,6 +9,27 @@ function migrateConfig(config) {
   config.verification ??= {};
   const nickname = config.verification.nickname;
   if (typeof nickname === "string") config.verification.nickname = { nickname };
+
+  const REQUIREMENT_MAP = {
+    bedwarsStar: "bedwarsStars",
+    bedwarsFinalKDRatio: "bedwarsFKDR",
+    skywarsStar: "skywarsStars",
+    skywarsKDRatio: "skywarsKDR",
+    duelsWins: "duelsWins",
+    duelsWLRatio: "duelsWLR",
+    skyblockLevel: "skyblockLevel"
+  };
+
+  config.minecraft ??= {};
+  config.minecraft.guildRequirements ??= {};
+  config.minecraft.guildRequirements.requirements ??= {};
+  const oldReq = config.minecraft.guildRequirements.requirements;
+
+  config.minecraft.guildRequirements.requirements = Object.fromEntries(
+    Object.entries(REQUIREMENT_MAP)
+      .map(([newKey, oldKey]) => [newKey, oldReq[oldKey]])
+      .filter(([, value]) => value !== -1 && value !== undefined)
+  );
 }
 
 migrateConfig(config);

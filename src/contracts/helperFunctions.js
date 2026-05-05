@@ -277,6 +277,19 @@ function titleCase(str) {
     .join(" ");
 }
 
+/**
+ * Converts camelCase to title case
+ * @param {string} str
+ * @returns {string}
+ */
+function titleCaseCamel(str) {
+  if (!str || typeof str !== "string") return "";
+
+  const withUnderscores = str.replace(/([a-z])([A-Z])/g, "$1_$2");
+
+  return titleCase(withUnderscores);
+}
+
 module.exports = {
   replaceAllRanks,
   generateID,
@@ -289,5 +302,6 @@ module.exports = {
   splitMessage,
   formatError,
   delay,
-  titleCase
+  titleCase,
+  titleCaseCamel
 };

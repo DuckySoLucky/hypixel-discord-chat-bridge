@@ -16,7 +16,7 @@ module.exports = {
 
     const stats = {
       guildName: hypixelGuild.name,
-      guildLevel: hypixelGuild.level.toFixed(0),
+      guildLevel: Math.floor(hypixelGuild.level).toFixed(0),
       guildLevelWithProgress: hypixelGuild.level,
       guildXP: hypixelGuild.experience,
       guildWeeklyXP: hypixelGuild.totalWeeklyGexp,

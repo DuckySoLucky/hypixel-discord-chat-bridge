@@ -57,7 +57,7 @@ module.exports = {
       } else if (interaction.isButton()) {
         await interaction.deferReply({ flags: MessageFlags.Ephemeral }).catch(() => {});
         if (interaction.customId !== "joinRequestAccept") return;
-        const username = interaction?.message?.embeds?.[0]?.title.split(" ")?.[0] || undefined;
+        const username = interaction?.message?.embeds?.[0]?.description.split(" ")?.[0] || undefined;
         if (!username) throw new HypixelDiscordChatBridgeError("Something is missing");
         bot.chat(`/g accept ${username}`);
         const embed = new SuccessEmbed(`Successfully accepted **${username}** into the guild.`);

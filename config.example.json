@@ -23,18 +23,8 @@
     "guildRequirements": {
       "enabled": false,
       "autoAccept": false,
-      "requirements": {
-        "bedwarsStars": -1,
-        "bedwarsFKDR": -1,
-
-        "skywarsStars": -1,
-        "skywarsKDR": -1,
-
-        "duelsWins": -1,
-        "duelsWLR": -1,
-
-        "skyblockLevel": -1
-      }
+      "requiredToHave": 1,
+      "requirements": {}
     },
     "skyblockEventsNotifications": {
       "enabled": true,

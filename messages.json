@@ -26,5 +26,6 @@
   "blacklistMessage": "{username} has been successfully blacklisted.",
   "blacklistRemoveMessage": "{username} has been successfully removed from the blacklist.",
   "alreadyBlacklistedMessage": "Player is already blacklisted.",
-  "guildLevelUpMessage": "The guild has reached level {level}"
+  "guildLevelUpMessage": "The guild has reached level {level}",
+  "requestMessage": "{username} requested to join the guild."
 }

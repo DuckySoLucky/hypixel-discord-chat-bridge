@@ -11,23 +11,12 @@ const { get } = require("axios");
 const cache = new Map();
 
 /**
- *
  * @param {string} uuid
  * @param {{
  *  museum?: boolean,
  *  garden?: boolean
  * }} options
- * @returns {Promise<{
- * username: string,
- * rawUsername: string,
- * last_save: number,
- * profiles: import("../../types/profiles").Profile[],
- * profile: import("../../types/profiles").Member,
- * profileData: import("../../types/profiles").Profile,
- * uuid: string,
- * museum?: object,
- * garden?: import("../../types/garden.js").Garden
- * }>}
+ * @returns {Promise<import("../../types/profiles.js").LatestProfile>}
  */
 async function getLatestProfile(uuid, options = { museum: false, garden: false }) {
   if (!isUuid(uuid)) {
@@ -85,6 +74,7 @@ async function getLatestProfile(uuid, options = { museum: false, garden: false }
 
   cache.set(uuid, output);
 
+  // @ts-ignore
   return output;
 }
 
