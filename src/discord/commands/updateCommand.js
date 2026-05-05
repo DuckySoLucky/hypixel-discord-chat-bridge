@@ -316,7 +316,7 @@ async function updateRoles({ discordId, uuid }) {
   if (config.verification.nickname.enabled) {
     member.setNickname(
       replaceVariables(
-        config.verification.nickname,
+        config.verification.nickname.nickname,
         Object.fromEntries(Object.entries(stats).map(([key, value]) => [key, typeof value === "number" ? formatNumber(value) : value]))
       ).replace(/,/g, config.verification.nickname.removeCommas ? "" : ","),
       "Updated Roles"
