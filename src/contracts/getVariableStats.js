@@ -88,6 +88,9 @@ async function getPlayerVariableStats(uuid, hypixelGuild = null, player = null, 
 
   return {
     username: player?.nickname ?? "",
+    level: player?.level ?? 0,
+    karma: player?.karma ?? 0,
+    achievementPoints: player?.achievementPoints ?? 0,
     guildRank: guildMember?.rank ?? "",
     guildName: hypixelGuild.name,
 
@@ -198,10 +201,6 @@ async function getPlayerVariableStats(uuid, hypixelGuild = null, player = null, 
     duelsLosses: player?.stats?.duels?.losses ?? 0,
     duelsWLRatio: player?.stats?.duels?.WLRatio ?? 0,
     duelsPlayedGames: player?.stats?.duels?.playedGames ?? 0,
-
-    level: player?.level ?? 0,
-    karma: player?.karma ?? 0,
-    achievementPoints: player?.achievementPoints ?? 0,
 
     skyblockBank: networth?.bank ?? 0,
     skyblockPurse: networth?.purse ?? 0,

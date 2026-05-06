@@ -4,7 +4,9 @@ A two-way chat bridge between [Hypixel](https://hypixel.net/) guild chat and a [
 [discord.js v14](https://github.com/discordjs/discord.js) for communicating with Discord, and [mineflayer](https://github.com/PrismarineJS/mineflayer) for communicating
 with Hypixel.
 
-> [!WARNING] This software allows access to Hypixel using Mineflayer, a non-standard Minecraft client. Using this application carries the risk of your Minecraft account
+<!-- prettier-ignore -->
+> [!WARNING]
+> This software allows access to Hypixel using Mineflayer, a non-standard Minecraft client. Using this application carries the risk of your Minecraft account
 > being banned from Hypixel. Therefore, use it at your own discretion. I hold no responsibility for any bans resulting from its usage.
 
 <hr>
@@ -126,9 +128,10 @@ The messageRepeatBypassLength option is a number value that determines the lengt
 
 ### Frag Bot
 
-> [!NOTE]  
-> Please be aware that this feature is now obsolete, as the Hypixel's [August Patch](https://hypixel.net/threads/august-3rd-skyblock-patch-notes.5450046/) has introduced
-> support for solo dungeons.
+<!-- prettier-ignore -->
+> [!NOTE]
+> Please be aware that this feature is now obsolete, as the Hypixel's [August Patch](https://hypixel.net/threads/august-3rd-skyblock-patch-notes.5450046/) has
+> introduced support for solo dungeons.
 
 The fragBot section contains options for the bot's fragBot feature, which manages a whitelist and blacklist of users.
 
@@ -156,16 +159,31 @@ you have created the application, you can find the `Client ID` and `Client Secre
 
 > Imgur API is used for rendering commands like `!armor`, `!pet`, `!equipment` etc.
 
-### guildRequirements
+### Guild Requirements
 
-The `guildRequirements` section contains options related to the Hypixel Guild's requirements.
+The **guildRequirements** section contains configuration options for requiring users to meet certain stats before being considered part of the guild. This includes
+enabling the system, automatically accepting members, the number of required stats to meet, and the specific requirements themselves.
 
-The `enabled` option determines whether guild requirements are enabled. By default, this is set to false.
+The `enabled` option determines whether the guild requirements system is active. By default, it is set to `false`.
 
-The `autoAccept` option determines whether guild invites should be automatically accepted if the user meets the guild's requirements. By default, this is set to false.
+The `autoAccept` option determines whether users who meet the requirements are automatically accepted into the guild. By default, it is set to `false`.
 
-The requirements option is an object containing various requirements for joining the guild, including `bedwarsStars`, `bedwarsStarsWithFKDR`, `bedwarsFKDR`,
-`skywarsStars`, `skywarsStarsWithKDR`, `skywarsKDR`, `duelsWins`, `duelsWinsWithWLR`, `duelsWLR` and `skyblockLevel`. By default, all of these requirements are set to 0.
+The `requiredToHave` option determines how many of the listed requirements a user must meet in order to qualify. For example, if this is set to `1`, the user must meet
+any **one** of the specified requirements.
+
+#### Requirements
+
+The `requirements` object defines the stats a user must meet. Each key corresponds to a stat from the
+[Stat Variables System](https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/wiki/Player-Stat-Variables), and the value is the minimum required amount for that
+stat.
+
+Below is an example where the requirement to join is 10 BedWars stars:
+
+```json
+{
+  "bedwarsStar": 10
+}
+```
 
 ### skyblockEventsNotifications
 
@@ -418,560 +436,82 @@ new Promise((resolve) => {
 
 ### Verification
 
-The verification section contains configuration options for the verification system. These options include a full global toggle, verfied role, guild member role, auto
-updater, custom usernames and ranks.
+The verification section contains configuration options for the verification system. These options include a global toggle, verified role, guild member role, auto
+updater, custom usernames, and custom roles.
 
 The `enabled` option determines whether the verification system is enabled. By default, this is set to false.
 
-The `verifiedRole` option determines what role user will receive upon successful verification.
+#### Nickname
 
-The `guildMemberRole` option determines what role user will receive upon being member of the guild.
+The `enabled` option determines whether the nickname system is enabled. By default, this is set to true.
 
-The `autoUpdater` option allows you to toggle the auto updating of all verified users. This option is set to `true` by default.
+The `nickname` option lets you set what a verified user's nickname will be in the server. By default, it is set to `{username}` and uses the
+[Stat Variables System](https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/wiki/Player-Stat-Variables) to replace values dynamically. You can see a full list of
+variables [here](https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/wiki/Player-Stat-Variables).
 
-The `autoUpdaterInterval` allows you to change how often the autoUpdater runs. By default this option is set to `24` making the autoUpdater run every 24 hours.
+The `removeCommas` option determines whether commas should be removed from the nickname.
 
-The `levelRoles` option is an array that takes in an object like the following example, this allows roles to be given out if they get some requirement.
+#### Roles
+
+##### Verified and Guild Member
+
+The `enabled` option determines whether the role should be given to users that meet the requirements.
+
+The `roleId` option determines the role that the user will be given.
+
+##### Custom
+
+Custom allows you to set your own requirements for roles that users can achieve. Below is the format for creating these custom roles:
 
 ```json
 {
-  "type": "bedwarsStar",
-  "requirement": 200,
-  "roleId": "987936050649391194"
+  "roleId": "",
+  "requirements": [
+    {
+      "type": "",
+      "value": ""
+    }
+  ]
 }
 ```
 
-The `name` option lets you set what a verfied user has there nickname set to in the server. By default its set to `{username}` Below are all the variables that are
-supported.
-
-<details>
-<summary>Type Option Variables</summary>
-
-<details>
-<summary>General</summary>
-
-`{level}` - Player's Hypixel Level
-
-`{karma}` - Player's Hypixel Karma
-
-`{achievementPoints}` - Player's Hypixel Achievement Points
-
-</details>
-<br>
-
-<details>
-<summary>BedWars</summary>
-
-`{bedwarsStar}` - Player's BedWars Star
-
-`{bedwarsTokens}` - Player's BedWars Tokens
-
-`{bedwarsKills}` - Player's BedWars Kills
-
-`{bedwarsDeaths}` - Player's BedWars Deaths
-
-`{bedwarsKDRatio}` - Player's BedWars KDRatio
-
-`{bedwarsFinalKills}` - Player's BedWars Final Kills
-
-`{bedwarsFinalDeathss}` - Player's BedWars Final Deathss
-
-`{bedwarsFinalKDRatio}` - Player's BedWars Final KDRatio
-
-`{bedwarsWins}` - Player's BedWars Wins
-
-`{bedwarsLosses}` - Player's BedWars Losses
-
-`{bedwarsWLRatio}` - Player's BedWars WLRatio
-
-`{bedwarsBedsBroken}` - Player's BedWars Beds Broken
-
-`{bedwarsBedsLost}` - Player's BedWars Beds Lost
-
-`{bedwarsBedsBLRatio}` - Player's BedWars Beds BLRatio
-
-`{bedwarsPlayedGames}` - Player's BedWars Played Games
-
-</details>
-<br>
-
-<details>
-<summary>SkyWars</summary>
-
-`{skywarsLevel}` - Player's SkyWars Level
-
-`{skywarsCoins}` - Player's SkyWars Coins
-
-`{skywarsTokens}` - Player's SkyWars Tokens
-
-`{skywarsSouls}` - Player's SkyWars Souls
-
-`{skywarsOpals}` - Player's SkyWars Opals
-
-`{skywarsKills}` - Player's SkyWars Kills
-
-`{skywarsDeaths}` - Player's SkyWars Deaths
-
-`{skywarsKDRatio}` - Player's SkyWars KDRatio
-
-`{skywarsWins}` - Player's SkyWars Wins
-
-`{skywarsLosses}` - Player's SkyWars Losses
-
-`{skywarsWLRatio}` - Player's SkyWars WLRatio
-
-`{skywarsPlayedGames}` - Player's SkyWars Played Games
-
-</details>
-<br>
-
-<details>
-<summary>Duels</summary>
-
-`{duelsTitle}` - Player's Duels Title
-
-`{duelsKills}` - Player's Duels Kills
-
-`{duelsDeaths}` - Player's Duels Deaths
-
-`{duelsKDRatio}` - Player's Duels KDRatio
-
-`{duelsWins}` - Player's Duels Wins
-
-`{duelsLosses}` - Player's Duels Losses
-
-`{duelsWLRatio}` - Player's Duels WLRatio
-
-`{duelsPlayedGames}` - Player's Duels Played Games
-
-</details>
-<br>
-
-<details>
-<summary>SkyBlock</summary>
-
-<details>
-<summary>General</summary>
-
-`{skyblockBank}` - Player's SkyBlock Bank
-
-`{skyblockPurse}` - Player's SkyBlock Purse
-
-`{skyblockLevel}` - Player's SkyBlock Level
-
-</details>
-<br>
-
-<details>
-<summary>Skills</summary>
-
-`{skyblockSkillsAverageLevel}` - Player's SkyBlock Average Level
-
-`{skyblockSkillsFarmingLevel}` - Player's SkyBlock Farming Level
-
-`{skyblockSkillsMiningLevel}` - Player's SkyBlock Mining Level
-
-`{skyblockSkillsCombatLevel}` - Player's SkyBlock Combat Level
-
-`{skyblockSkillsForagingLevel}` - Player's SkyBlock Foraging Level
-
-`{skyblockSkillsFishingLevel}` - Player's SkyBlock Fishing Level
-
-`{skyblockSkillsEnchantingLevel}` - Player's SkyBlock Enchanting Level
-
-`{skyblockSkillsAlchemyLevel}` - Player's SkyBlock Alchemy Level
-
-`{skyblockSkillsCarpentryLevel}` - Player's SkyBlock Carpentry Level
-
-`{skyblockSkillsRunecraftingLevel}` - Player's SkyBlock Runecrafting Level
-
-`{skyblockSkillsSocialLevel}` - Player's SkyBlock Social Level
-
-`{skyblockSkillsTamingLevel}` - Player's SkyBlock Taming Level
-
-`{skyblockSkillsFarmingXp}` - Player's SkyBlock Farming Xp
-
-`{skyblockSkillsMiningXp}` - Player's SkyBlock Mining Xp
-
-`{skyblockSkillsCombatXp}` - Player's SkyBlock Combat Xp
-
-`{skyblockSkillsForagingXp}` - Player's SkyBlock Foraging Xp
-
-`{skyblockSkillsFishingXp}` - Player's SkyBlock Fishing Xp
-
-`{skyblockSkillsEnchantingXp}` - Player's SkyBlock Enchanting Xp
-
-`{skyblockSkillsAlchemyXp}` - Player's SkyBlock Alchemy Xp
-
-`{skyblockSkillsCarpentryXp}` - Player's SkyBlock Carpentry Xp
-
-`{skyblockSkillsRunecraftingXp}` - Player's SkyBlock Runecrafting Xp
-
-`{skyblockSkillsSocialXp}` - Player's SkyBlock Social Xp
-
-`{skyblockSkillsTamingXp}` - Player's SkyBlock Taming Xp
-
-</details>
-<br>
-
-<details>
-<summary>Slayer</summary>
-
-`{skyblockSlayerZombieLevel}` - Player's SkyBlock Zombie Slayer Level
-
-`{skyblockSlayerSpiderLevel}` - Player's SkyBlock Spider Slayer Level
-
-`{skyblockSlayerWolfLevel}` - Player's SkyBlock Wolf Slayer Level
-
-`{skyblockSlayerEndermanLevel}` - Player's SkyBlock Enderman Slayer Level
-
-`{skyblockSlayerBlazeLevel}` - Player's SkyBlock Blaze Slayer Level
-
-`{skyblockSlayerVampireLevel}` - Player's SkyBlock Vampire Slayer Level
-
-`{skyblockSlayerZombieXp}` - Player's SkyBlock Zombie Slayer Xp
-
-`{skyblockSlayerSpiderXp}` - Player's SkyBlock Spider Slayer Xp
-
-`{skyblockSlayerWolfXp}` - Player's SkyBlock Wolf Slayer Xp
-
-`{skyblockSlayerEndermanXp}` - Player's SkyBlock Enderman Slayer Xp
-
-`{skyblockSlayerBlazeXp}` - Player's SkyBlock Blaze Slayer Xp
-
-`{skyblockSlayerVampireXp}` - Player's SkyBlock Vampire Slayer Xp
-
-</details>
-<br>
-
-<details>
-<summary>Dungeons</summary>
-
-`{skyblockDungeonsSecrets}` - Player's SkyBlock Dungeons Secrets
-
-`{skyblockDungeonsXp}` - Player's SkyBlock Dungeons Xp
-
-`{skyblockDungeonsLevel}` - Player's SkyBlock Dungeons Level
-
-`{skyblockDungeonsClassAverageLevel}` - Player's SkyBlock Dungeons Class Average Level
-
-`{skyblockDungeonsClassHealerLevel}` - Player's SkyBlock Dungeons Healer Class Level
-
-`{skyblockDungeonsClassMageLevel}` - Player's SkyBlock Dungeons Mage Class Level
-
-`{skyblockDungeonsClassBerserkLevel}` - Player's SkyBlock Dungeons Berserk Class Level
-
-`{skyblockDungeonsClassArcherLevel}` - Player's SkyBlock Dungeons Archer Class Level
-
-`{skyblockDungeonsClassTankLevel}` - Player's SkyBlock Dungeons Tank Class Level
-
-`{skyblockDungeonsClassHealerXp}` - Player's SkyBlock Dungeons Healer Class Xp
-
-`{skyblockDungeonsClassMageXp}` - Player's SkyBlock Dungeons Mage Class Xp
-
-`{skyblockDungeonsClassBerserkXp}` - Player's SkyBlock Dungeons Berserk Class Xp
-
-`{skyblockDungeonsClassArcherXp}` - Player's SkyBlock Dungeons Archer Class Xp
-
-`{skyblockDungeonsClassTankXp}` - Player's SkyBlock Dungeons Tank Class Xp
-
-`{skyblockDungeonsEssenceDiamond}` - Player's SkyBlock Dungeons Essence Diamond
-
-`{skyblockDungeonsEssenceDragon}` - Player's SkyBlock Dungeons Essence Dragon
-
-`{skyblockDungeonsEssenceSpider}` - Player's SkyBlock Dungeons Essence Spider
-
-`{skyblockDungeonsEssenceWither}` - Player's SkyBlock Dungeons Essence Wither
-
-`{skyblockDungeonsEssenceUndead}` - Player's SkyBlock Dungeons Essence Undead
-
-`{skyblockDungeonsEssenceGold}` - Player's SkyBlock Dungeons Essence Gold
-
-`{skyblockDungeonsEssenceIce}` - Player's SkyBlock Dungeons Essence Ice
-
-`{skyblockDungeonsEssenceCrimson}` - Player's SkyBlock Dungeons Essence Crimson
-
-</details>
-<br>
-
-<details>
-<summary>Crimson Isle</summary>
-
-`{skyblockCrimsonIsleReputationBarbarian}` - Player's SkyBlock Crimson Isle Barbarian Reputation
-
-`{skyblockCrimsonIsleReputationMage}` - Player's SkyBlock Crimson Isle Mage Reputation
-
-`{skyblockCrimsonIsleKuudraBasic}` - Player's SkyBlock Crimson Isle Kuudra Basic Complications
-
-`{skyblockCrimsonIsleKuudraHot}` - Player's SkyBlock Crimson Isle Kuudra Hot Complications
-
-`{skyblockCrimsonIsleKuudraBurning}` - Player's SkyBlock Crimson Isle Kuudra Burning Complications
-
-`{skyblockCrimsonIsleKuudraFiery}` - Player's SkyBlock Crimson Isle Kuudra Fiery Complications
-
-`{skyblockCrimsonIsleKuudraInfernal}` - Player's SkyBlock Crimson Isle Kuudra Infernal Complications
-
-</details>
-<br>
-
-<details>
-<summary>NetWorth</summary>
-
-**NOTE:** Every key here has an Unsoulbound one also. Eg `{skyblockNetworthUnsoulbound}` and `{skyblockNetwrothArmorUnsoulbound}`
-
-`{skyblockNetworth}` - Player's SkyBlock Networth
-
-`{skyblockNetwrothArmor}` - Player's SkyBlock Netwroth in Armor
-
-`{skyblockNetwrothEquipment}` - Player's SkyBlock Netwroth in Equipment
-
-`{skyblockNetwrothWardrobe}` - Player's SkyBlock Netwroth in Wardrobe
-
-`{skyblockNetwrothInventory}` - Player's SkyBlock Netwroth in Inventory
-
-`{skyblockNetwrothEnderchest}` - Player's SkyBlock Netwroth in Enderchest
-
-`{skyblockNetwrothAccessories}` - Player's SkyBlock Netwroth in Accessories
-
-`{skyblockNetwrothPersonalVault}` - Player's SkyBlock Netwroth in PersonalVault
-
-`{skyblockNetwrothFishingBag}` - Player's SkyBlock Netwroth in FishingBag
-
-`{skyblockNetwrothStorage}` - Player's SkyBlock Netwroth in Storage
-
-`{skyblockNetwrothMuseum}` - Player's SkyBlock Netwroth in Museum
-
-`{skyblockNetwrothSacks}` - Player's SkyBlock Netwroth in Sacks
-
-`{skyblockNetwrothEssence}` - Player's SkyBlock Netwroth in Essence
-
-`{skyblockNetwrothPets}` - Player's SkyBlock Netwroth in Pets
-
-</details>
-<br>
-
-<details>
-<summary>Chocolate Factory</summary>
-
-`{skyblockChocolateFactoryLevel}` - Player's Skyblock Chocolate Factory Level
-
-`{skyblockChocolateFactoryChocolateCurrent}` - Player's Skyblock Chocolate Factory Chocolate Current
-
-`{skyblockChocolateFactoryChocolateSincePrestige}` - Player's Skyblock Chocolate Factory Chocolate Since Prestige
-
-`{skyblockChocolateFactoryChocolateTotal}` - Player's Skyblock Chocolate Factory Chocolate Total
-
-`{skyblockChocolateFactoryEmployeeBro}` - Player's SkyBlock Chocolate Factory Employee Bro Level
-
-`{skyblockChocolateFactoryEmployeeCousin}` - Player's SkyBlock Chocolate Factory Employee Cousin Level
-
-`{skyblockChocolateFactoryEmployeeSis}` - Player's SkyBlock Chocolate Factory Employee Sis Level
-
-`{skyblockChocolateFactoryEmployeeFather}` - Player's SkyBlock Chocolate Factory Employee Father Level
-
-`{skyblockChocolateFactoryEmployeeGrandma}` - Player's SkyBlock Chocolate Factory Employee Grandma Level
-
-</details>
-<br>
-
-<details>
-<summary>Jacob</summary>
-
-`{skyblockJacobMedalsGold}` - Player's SkyBlock Jacob Gold Medals
-
-`{skyblockJacobMedalsSilver}` - Player's SkyBlock Jacob Silver Medals
-
-`{skyblockJacobMedalsBronze}` - Player's SkyBlock Jacob Bronze Medals
-
-`{skyblockJacobPerksLevelCap}` - Player's SkyBlock Jacob Perks Level Cap Level
-
-`{skyblockJacobPerksDoubleDrops}` - Player's SkyBlock Jacob Perks Double Drops Level
-
-`{skyblockJacobPersonalBestNetherWart}` - Player's SkyBlock Jacob Person Best Nether Wart In Contest
-
-`{skyblockJacobPersonalBestCocoBeans}` - Player's SkyBlock Jacob Person Best Coco Beans In Contest
-
-`{skyblockJacobPersonalBestMushroom}` - Player's SkyBlock Jacob Person Best Mushroom In Contest
-
-`{skyblockJacobPersonalBestWheat}` - Player's SkyBlock Jacob Person Best Wheat In Contest
-
-`{skyblockJacobPersonalBestPotato}` - Player's SkyBlock Jacob Person Best Potato In Contest
-
-`{skyblockJacobPersonalBestPumpkin}` - Player's SkyBlock Jacob Person Best Pumpkin In Contest
-
-`{skyblockJacobPersonalBestCarrot}` - Player's SkyBlock Jacob Person Best Carrot In Contest
-
-`{skyblockJacobPersonalBestCactus}` - Player's SkyBlock Jacob Person Best Cactus In Contest
-
-`{skyblockJacobPersonalBestMelon}` - Player's SkyBlock Jacob Person Best Melon In Contest
-
-`{skyblockJacobPersonalBestSugarCane}` - Player's SkyBlock Jacob Person Best Sugar Cane In Contest
-
-</details>
-<br>
-
-</details>
-<br>
-
-</details>
-<br>
-
-The `name` option lets you set what a verfied user has there nickname set to in the server. By default its set to `{username}` Below are all the variables that are
-supported.
-
-<details>
-
-**NOTE:** Everything in the `levelRoles` Type Options section is supported here. These are only the ones that are exclusive to this set of variables
-
-<summary>Name Option Variables</summary>
-
-<details>
-<summary>General</summary>
-
-`{rank}` - Player's rank
-
-`{username}` - Player's username
-
-`{guildRank}` - Player's Guild Rank (Only works if they are in the guild)
-
-</details>
-<br>
-
-<details>
-<summary>Duels</summary>
-
-`{duelsTitle}` - Player's Global Duel's Title
-
-</details>
-<br>
-
-<details>
-<summary>SkyBlock</summary>
-
-<details>
-<summary>General</summary>
-
-`{skyblockPurseFormatted}` - Player's Skyblock Purse Formatted
-
-`{skyblockBankFormatted}` - Player's Skyblock Bank Formatted
-
-</details>
-<br>
-
-<details>
-<summary>Skills</summary>
-
-`{skyblockSkillsFarmingXpFormated}` - Player's SkyBlock Farming Skill Xp Formated
-
-`{skyblockSkillsMiningXpFormated}` - Player's SkyBlock Mining Skill Xp Formated
-
-`{skyblockSkillsCombatXpFormated}` - Player's SkyBlock Combat Skill Xp Formated
-
-`{skyblockSkillsForagingXpFormated}` - Player's SkyBlock Foraging Skill Xp Formated
-
-`{skyblockSkillsFishingXpFormated}` - Player's SkyBlock Fishing Skill Xp Formated
-
-`{skyblockSkillsEnchantingXpFormated}` - Player's SkyBlock Enchanting Skill Xp Formated
-
-`{skyblockSkillsAlchemyXpFormated}` - Player's SkyBlock Alchemy Skill Xp Formated
-
-`{skyblockSkillsCarpentryXpFormated}` - Player's SkyBlock Carpentry Skill Xp Formated
-
-`{skyblockSkillsRunecraftingXpFormated}` - Player's SkyBlock Runecrafting Skill Xp Formated
-
-`{skyblockSkillsSocialXpFormated}` - Player's SkyBlock Social Skill Xp Formated
-
-`{skyblockSkillsTamingXpFormated}` - Player's SkyBlock Taming Skill Xp Formated
-
-</details>
-<br>
-
-<details>
-<summary>Slayer</summary>
-
-`{skyblockSlayerZombieXpFormatted}` - Player's SkyBlock Zombie Slayer Xp Formatted
-
-`{skyblockSlayerSpiderXpFormatted}` - Player's SkyBlock Spider Slayer Xp Formatted
-
-`{skyblockSlayerWolfXpFormatted}` - Player's SkyBlock Wolf Slayer Xp Formatted
-
-`{skyblockSlayerEndermanXpFormatted}` - Player's SkyBlock Enderman Slayer Xp Formatted
-
-`{skyblockSlayerBlazeXpFormatted}` - Player's SkyBlock Blaze Slayer Xp Formatted
-
-`{skyblockSlayerVampireXpFormatted}` - Player's SkyBlock Vampire Slayer Xp Formatted
-
-</details>
-<br>
-
-<details>
-<summary>Dungeons</summary>
-
-`{skyblockDungeonsXpFormatted}` - Player's SkyBlock Dungeons Xp Formatted
-
-`{skyblockDungeonsClassHealerXpFormatted}` - Player's SkyBlock Dungeons Healer Class Xp Formatted
-
-`{skyblockDungeonsClassMageXpFormatted}` - Player's SkyBlock Dungeons Mage Class Xp Formatted
-
-`{skyblockDungeonsClassBerserkXpFormatted}` - Player's SkyBlock Dungeons Berserk Class Xp Formatted
-
-`{skyblockDungeonsClassArcherXpFormatted}` - Player's SkyBlock Dungeons Archer Class Xp Formatted
-
-`{skyblockDungeonsClassTankXpFormatted}` - Player's SkyBlock Dungeons Tank Class Xp Formatted
-
-</details>
-<br>
-
-<details>
-<summary>NetWorth</summary>
-
-`{skyblockNetworthFormatted}` - Player's SkyBlock NetWorth Formatted
-
-`{skyblockNetworthNetworthUnsoulboundFormatted}` - Player's SkyBlock NetWorth Unsoulbound Formatted
-
-</details>
-<br>
-
-<details>
-<summary>Jacob</summary>
-
-`{skyblockJacobPersonalBestNetherWartFormatted}` - Player's SkyBlock Jacob Person Best Nether Wart In Contest Formatted
-
-`{skyblockJacobPersonalBestCocoBeansFormatted}` - Player's SkyBlock Jacob Person Best Coco Beans In Contest Formatted
-
-`{skyblockJacobPersonalBestMushroomFormatted}` - Player's SkyBlock Jacob Person Best Mushroom In Contest Formatted
-
-`{skyblockJacobPersonalBestWheatFormatted}` - Player's SkyBlock Jacob Person Best Wheat In Contest Formatted
-
-`{skyblockJacobPersonalBestPotatoFormatted}` - Player's SkyBlock Jacob Person Best Potato In Contest Formatted
-
-`{skyblockJacobPersonalBestPumpkinFormatted}` - Player's SkyBlock Jacob Person Best Pumpkin In Contest Formatted
-
-`{skyblockJacobPersonalBestCarrotFormatted}` - Player's SkyBlock Jacob Person Best Carrot In Contest Formatted
-
-`{skyblockJacobPersonalBestCactusFormatted}` - Player's SkyBlock Jacob Person Best Cactus In Contest Formatted
-
-`{skyblockJacobPersonalBestMelonFormatted}` - Player's SkyBlock Jacob Person Best Melon In Contest Formatted
-
-`{skyblockJacobPersonalBestSugarCaneFormatted}` - Player's SkyBlock Jacob Person Best Sugar Cane In Contest Formatted
-
-</details>
-<br>
-
-</details>
-<br>
-
-</details>
-<br>
-
-The `ranks` option is an array that takes in an object like the following example, this allows ingame ranks to have a synced discord role.
+This is what a complete example would look like for giving a user a role if they have more than 100 stars in BedWars:
 
 ```json
 {
-  "name": "Sweat",
-  "role": "987936050649391194"
+  "roleId": "ROLE_ID",
+  "requirements": [
+    {
+      "type": "bedwarsStar",
+      "value": 100
+    }
+  ]
 }
 ```
+
+The `roleId` option determines the role that the user will be given.
+
+The `requirements` array defines what must be achieved for this role to be given.
+
+The `type` option is the stat you want to check. This uses the
+[Stat Variables System](https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/wiki/Player-Stat-Variables). You can see a full list of variables
+[here](https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/wiki/Player-Stat-Variables).
+
+The `value` option determines what is required for this role to be assigned. It can be either a `string` or a `number`, depending on the stat.
+
+#### Auto Role Updater
+
+The `enabled` option determines whether it should automatically update everyone's roles. By default, it is disabled.
+
+The `interval` option determines how often it should run **in hours**. By default, it is set to run every 24 hours.
+
+#### Inactivity
+
+The `enabled` option determines whether the inactivity system is enabled. By default, it is disabled.
+
+The `channel` option determines the channel ID where logs will be posted when someone marks themselves as inactive.
+
+The `maxInactivityTime` option determines the maximum number of days that someone can be inactive. By default, it is set to 30 days.
 
 ### Stats Channels
 
@@ -991,12 +531,13 @@ The `channels` option is an array that takes in an object like the following exa
 }
 ```
 
-<details>
-<summary>Channel Name Variables</summary>
+Below is a list of all the supported variables that can go inside the name option
 
 `{guildName}` The name of the guild.
 
-`{guildLeve}` The current level of the guild.
+`{guildLevel}` The current level of the guild floored
+
+`{guildLevelWithProgress}` The current level of the guild.
 
 `{guildXP}` The **Raw** amount of xp your guild has.
 
@@ -1010,16 +551,12 @@ The `channels` option is an array that takes in an object like the following exa
 
 `{discordRoles}` The amount of roles in your discord.
 
-</details>
-<br>
-
 ### Chat Triggers Module
 
 If you think that message format is boring, you can check out my repository for ChatTriggers module which changes the way messages from Bot look like.
 [Click Here](https://github.com/DuckySoLucky/Hypixel-Guild-Chat-Format)
 
-> [!IMPORTANT]  
-> This CTJS module has been deprecated and is no longer maintained.
+> [!IMPORTANT] This CTJS module has been deprecated and is no longer maintained.
 
 ### To-Do List
 
