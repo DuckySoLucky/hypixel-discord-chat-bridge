@@ -46,7 +46,7 @@ class RunsTillsClassAverageCommand extends minecraftCommand {
 
       const { profile, profileData } = await getLatestProfile(player);
 
-      let selectedFloor = args[1]?.toLocaleLowerCase() || "m7"
+      const selectedFloor = args[1]?.toLocaleLowerCase() || "m7"
       if (!(selectedFloor in FloorsBaseExp)){
         this.send(`Invalid floor selected: ${selectedFloor}. Valid floors are: ${Object.keys(FloorsBaseExp).join(", ")}`)
         return;
