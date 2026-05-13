@@ -2,8 +2,10 @@ const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { formatNumber } = require("../../contracts/helperFunctions.js");
 const { getDungeons } = require("../../../API/stats/dungeons.js");
+// @ts-ignore
 const { get } = require("axios");
 
+/** @type {{ [key: string]: number }} */
 const FloorsBaseExp = {
   m7: 300_000,
   m6: 110_000,
@@ -48,6 +50,7 @@ class RunsTillsClassAverageCommand extends minecraftCommand {
 
       let selectedFloor = args[1]?.toLocaleLowerCase() || "m7"
       if (!(selectedFloor in FloorsBaseExp)) return `Invalid floor selected: ${selectedFloor}`
+
       const xpPerRun = FloorsBaseExp[selectedFloor]
       
       const selectedProfile = profile;
@@ -59,16 +62,19 @@ class RunsTillsClassAverageCommand extends minecraftCommand {
         return;
       }
 
-      // TODO: fix perks changed location into "leveling" section.
-      //  As it is right now, all the values here are 0.
-      //  however, the rtca is accurate as it is right now.
-      //  Further testing should be done later when volatile perks like Aura mayor are gone.
+      // @ts-ignore - perks are now in playr_data.perks but the type definition is not updated yet
+      const heartOfGold = selectedProfile.player_data?.perks?.heart_of_gold ?? 0
+      // @ts-ignore
+      const unbridledRage = selectedProfile.player_data?.perks?.unbridled_rage ?? 0
+      // @ts-ignore
+      const coldEfficiency = selectedProfile.player_data?.perks?.cold_efficiency ?? 0
+      // @ts-ignore
+      const toxophilite = selectedProfile.player_data?.perks?.toxophilite ?? 0
+      // @ts-ignore
+      const diamondInTheRough = selectedProfile.player_data?.perks?.diamond_in_the_rough ?? 0
 
-      const heartOfGold = selectedProfile.essence?.perks?.heart_of_gold ?? 0
-      const unbridledRage = selectedProfile.essence?.perks?.unbridled_rage ?? 0
-      const coldEfficiency = selectedProfile.essence?.perks?.cold_efficiency ?? 0
-      const toxophilite = selectedProfile.essence?.perks?.toxophilite ?? 0
-      const diamondInTheRough = selectedProfile.essence?.perks?.diamond_in_the_rough ?? 0
+      console.log(selectedProfile)
+      console.log({heartOfGold, unbridledRage, coldEfficiency, toxophilite, diamondInTheRough})
 
       /*
       * Bonuses:
@@ -84,6 +90,7 @@ class RunsTillsClassAverageCommand extends minecraftCommand {
       const GlobalBoost = 0.2 + 0.06 + 0.5 + 0.1 + 0.02
       const additionalBoost = await this.getAdditionalBoost()
 
+      /** @type {{ [key: string]: number }} */
       const classExpBoosts = {
         healer: (heartOfGold * 2) / 100 + 1 + GlobalBoost + additionalBoost,
         berserk: (unbridledRage * 2) / 100 + 1 + GlobalBoost + additionalBoost,
@@ -93,6 +100,7 @@ class RunsTillsClassAverageCommand extends minecraftCommand {
       }
 
       let totalRuns = 0
+      /** @type {{ [key: string]: number }} */
       const runsDone = {
         healer: 0,
         berserk: 0,
@@ -100,6 +108,8 @@ class RunsTillsClassAverageCommand extends minecraftCommand {
         archer: 0,
         tank: 0
       }
+      
+      /** @type {{ [key: string]: number }} */
       const classesExperiences = {
         healer: 0,
         berserk: 0,
@@ -124,7 +134,11 @@ class RunsTillsClassAverageCommand extends minecraftCommand {
           }
         }
 
-        //assert.ok(currentClassPlaying)
+        if(currentClassPlaying === undefined) {
+          this.send(`[ERROR] Could not determine class to add experience to.`)
+          return
+        }
+
         classesExperiences[currentClassPlaying] += xpPerRun * 0.75 * classExpBoosts[currentClassPlaying]
         runsDone[currentClassPlaying]++
 
@@ -153,6 +167,10 @@ class RunsTillsClassAverageCommand extends minecraftCommand {
     
   }
 
+  /**
+   * @param {any} classData
+   * @param {number} targetAverage
+   */
   getClassAverage(classData, targetAverage) {
     const classesXp = Object.values(classData)
     return (
@@ -182,6 +200,9 @@ class RunsTillsClassAverageCommand extends minecraftCommand {
     return totalBoost
   }
 
+  /**
+   * @param {number} experience
+   */
   getDungeonLevelWithOverflow(experience) {
     const DungeonXp = [
       50, 75, 110, 160, 230, 330, 470, 670, 950, 1340, 1890, 2665, 3760, 5260, 7380, 10_300, 14_400, 20_000, 27_600,
