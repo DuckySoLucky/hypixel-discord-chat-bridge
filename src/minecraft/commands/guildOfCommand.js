@@ -1,6 +1,6 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
-const { formatNumber, formatError, titleCase } = require("../../contracts/helperFunctions.js");
+const { formatNumber, formatError } = require("../../contracts/helperFunctions.js");
 
 // CREDITS: by @MattyHD0 (https://github.com/MattyHD0)
 
@@ -27,9 +27,12 @@ class GuildInformationCommand extends minecraftCommand {
    * */
   async onCommand(player, message) {
     try {
-      const playerName = this.getArgs(message)
-        .map((arg) => titleCase(arg))
-        .join(" ");
+      const playerName = this.getArgs(message)[0] ? this.getArgs(message)[0] : player;
+
+      if(playerName.match(/^[a-zA-Z0-9_]{3,16}$/) === null) {
+        this.send(`Invalid player name: ${playerName}`);
+        return;
+      }
 
       const guild = await hypixel.getGuild("player", playerName, { noCaching: false });
       if (!guild) {
