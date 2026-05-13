@@ -47,7 +47,10 @@ class RunsTillsClassAverageCommand extends minecraftCommand {
       const { profile, profileData } = await getLatestProfile(player);
 
       let selectedFloor = args[1]?.toLocaleLowerCase() || "m7"
-      if (!(selectedFloor in FloorsBaseExp)) return `Invalid floor selected: ${selectedFloor}`
+      if (!(selectedFloor in FloorsBaseExp)){
+        this.send(`Invalid floor selected: ${selectedFloor}. Valid floors are: ${Object.keys(FloorsBaseExp).join(", ")}`)
+        return;
+      }
 
       const xpPerRun = FloorsBaseExp[selectedFloor]
       
@@ -145,6 +148,7 @@ class RunsTillsClassAverageCommand extends minecraftCommand {
 
         if (totalRuns > 15_000) {
           this.send(`${player} needs more than 15,000 runs to reach the average class level of ${targetAverage}.`)
+          return;
         }
       }
 
