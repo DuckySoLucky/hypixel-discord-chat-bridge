@@ -29,7 +29,7 @@ class GuildInformationCommand extends minecraftCommand {
     try {
       const playerName = this.getArgs(message)[0] ? this.getArgs(message)[0] : player;
 
-      if(playerName.match(/^[a-zA-Z0-9_]{3,16}$/) === null) {
+      if (playerName.match(/^[a-zA-Z0-9_]{3,16}$/) === null) {
         this.send(`Invalid player name: ${playerName}`);
         return;
       }

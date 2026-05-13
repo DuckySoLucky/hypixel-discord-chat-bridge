@@ -3,7 +3,7 @@ const { getSocialSkillExperience, getXpTable } = require("../../../API/constants
 const { skillTables } = require("../../../API/constants/leveling.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 
-// CREDITS: by @MattyHD0 (https://github.com/MattyHD0) for adaptation and 
+// CREDITS: by @MattyHD0 (https://github.com/MattyHD0) for adaptation and
 // CREDITS: https://github.com/aidn3/hypixel-guild-discord-bridge for the original algorithm
 
 class OverflowSkillsCommand extends minecraftCommand {
@@ -12,7 +12,7 @@ class OverflowSkillsCommand extends minecraftCommand {
     super(minecraft);
 
     this.name = "overflowskills";
-    this.aliases = ['oskills', 'oskill', 'osk', 'overflowskills'];
+    this.aliases = ["oskills", "oskill", "osk", "overflowskills"];
     this.description = "Overflow Skills and Skill Average of specified user.";
     this.options = [
       {
@@ -36,24 +36,26 @@ class OverflowSkillsCommand extends minecraftCommand {
 
       const totalSocialExperience = getSocialSkillExperience(profileData);
 
-      const farming = this.getLevel('combat', 'farming', profile.player_data?.experience?.SKILL_FARMING ?? 0);
-      const mining = this.getLevel('combat', 'mining', profile.player_data?.experience?.SKILL_MINING ?? 0);
-      const combat = this.getLevel('combat', 'combat', profile.player_data?.experience?.SKILL_COMBAT ?? 0);
-      const foraging = this.getLevel('combat', 'foraging', profile.player_data?.experience?.SKILL_FORAGING ?? 0);
-      const fishing = this.getLevel('combat', 'fishing', profile.player_data?.experience?.SKILL_FISHING ?? 0);
-      const enchanting = this.getLevel('combat', 'enchanting', profile.player_data?.experience?.SKILL_ENCHANTING ?? 0);
-      const alchemy = this.getLevel('combat', 'alchemy', profile.player_data?.experience?.SKILL_ALCHEMY ?? 0);
-      const carpentry = this.getLevel('combat', 'carpentry', profile.player_data?.experience?.SKILL_CARPENTRY ?? 0);
-      const runecrafting = this.getLevel('combat', 'runecrafting', profile.player_data?.experience?.SKILL_RUNECRAFTING ?? 0);
-      const social = this.getLevel('combat', 'social', totalSocialExperience);
-      const taming = this.getLevel('combat', 'taming', profile.player_data?.experience?.SKILL_TAMING ?? 0);
+      const farming = this.getLevel("combat", "farming", profile.player_data?.experience?.SKILL_FARMING ?? 0);
+      const mining = this.getLevel("combat", "mining", profile.player_data?.experience?.SKILL_MINING ?? 0);
+      const combat = this.getLevel("combat", "combat", profile.player_data?.experience?.SKILL_COMBAT ?? 0);
+      const foraging = this.getLevel("combat", "foraging", profile.player_data?.experience?.SKILL_FORAGING ?? 0);
+      const fishing = this.getLevel("combat", "fishing", profile.player_data?.experience?.SKILL_FISHING ?? 0);
+      const enchanting = this.getLevel("combat", "enchanting", profile.player_data?.experience?.SKILL_ENCHANTING ?? 0);
+      const alchemy = this.getLevel("combat", "alchemy", profile.player_data?.experience?.SKILL_ALCHEMY ?? 0);
+      const carpentry = this.getLevel("combat", "carpentry", profile.player_data?.experience?.SKILL_CARPENTRY ?? 0);
+      const runecrafting = this.getLevel("combat", "runecrafting", profile.player_data?.experience?.SKILL_RUNECRAFTING ?? 0);
+      const social = this.getLevel("combat", "social", totalSocialExperience);
+      const taming = this.getLevel("combat", "taming", profile.player_data?.experience?.SKILL_TAMING ?? 0);
 
       const totalLevels = farming + mining + combat + foraging + fishing + enchanting + alchemy + carpentry + taming;
 
       const officialSkillsCount = skillTables.skills.length - 2;
       const average = totalLevels / officialSkillsCount;
 
-      this.send(`${username}'s Overflow Skill Average: ${average.toFixed(2)} (Farming: ${farming.toFixed(2)}, Mining: ${mining.toFixed(2)}, Combat: ${combat.toFixed(2)}, Foraging: ${foraging.toFixed(2)}, Fishing: ${fishing.toFixed(2)}, Enchanting: ${enchanting.toFixed(2)}, Alchemy: ${alchemy.toFixed(2)}, Carpentry: ${carpentry.toFixed(2)}, Runecrafting: ${runecrafting.toFixed(2)}, Social: ${social.toFixed(2)}, Taming: ${taming.toFixed(2)})`);
+      this.send(
+        `${username}'s Overflow Skill Average: ${average.toFixed(2)} (Farming: ${farming.toFixed(2)}, Mining: ${mining.toFixed(2)}, Combat: ${combat.toFixed(2)}, Foraging: ${foraging.toFixed(2)}, Fishing: ${fishing.toFixed(2)}, Enchanting: ${enchanting.toFixed(2)}, Alchemy: ${alchemy.toFixed(2)}, Carpentry: ${carpentry.toFixed(2)}, Runecrafting: ${runecrafting.toFixed(2)}, Social: ${social.toFixed(2)}, Taming: ${taming.toFixed(2)})`
+      );
     } catch (error) {
       this.send(`[ERROR] ${error}`);
     }
@@ -72,7 +74,7 @@ class OverflowSkillsCommand extends minecraftCommand {
    */
   getTotalExpRequired(level, table) {
     let expRequired = 0;
-    for(let i = 0; i <= level; i++) {
+    for (let i = 0; i <= level; i++) {
       expRequired += table[i] ?? 0;
     }
     return expRequired;
@@ -84,16 +86,14 @@ class OverflowSkillsCommand extends minecraftCommand {
    * @param {number} experience
    */
   getLevel(alternativeName, skillName, experience) {
-    const levelingTable = Object.values(getXpTable(skillName.toLowerCase())).map((xp, index, array) =>{
-        const expRequired = this.getTotalExpRequired(index, array);
-        return index === 0 ? expRequired : expRequired - this.getTotalExpRequired(index - 1, array)
-      }
-    );
+    const levelingTable = Object.values(getXpTable(skillName.toLowerCase())).map((xp, index, array) => {
+      const expRequired = this.getTotalExpRequired(index, array);
+      return index === 0 ? expRequired : expRequired - this.getTotalExpRequired(index - 1, array);
+    });
     const alternativeLevelingTable = Object.values(getXpTable(alternativeName.toLowerCase())).map((xp, index, array) => {
-        const expRequired = this.getTotalExpRequired(index, array);
-        return index === 0 ? expRequired : expRequired - this.getTotalExpRequired(index - 1, array)
-      }
-    );
+      const expRequired = this.getTotalExpRequired(index, array);
+      return index === 0 ? expRequired : expRequired - this.getTotalExpRequired(index - 1, array);
+    });
 
     let level = 0;
     let nextLevelExperience = levelingTable[level];
