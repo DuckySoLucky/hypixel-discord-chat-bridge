@@ -73,9 +73,6 @@ class RunsTillsClassAverageCommand extends minecraftCommand {
       // @ts-ignore
       const diamondInTheRough = selectedProfile.player_data?.perks?.diamond_in_the_rough ?? 0;
 
-      console.log(selectedProfile);
-      console.log({ heartOfGold, unbridledRage, coldEfficiency, toxophilite, diamondInTheRough });
-
       /*
        * Bonuses:
        * - Scarf Shards 20%
