@@ -1,7 +1,5 @@
 const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const { formatNumber } = require("../../contracts/helperFunctions.js");
-const { getDungeons } = require("../../../API/stats/dungeons.js");
 // @ts-ignore
 const { get } = require("axios");
 
@@ -46,7 +44,7 @@ class RunsTillsClassAverageCommand extends minecraftCommand {
       const args = this.getArgs(message);
       player = args[0] || player;
 
-      const { username, profile, profileData } = await getLatestProfile(player);
+      const { profile, profileData } = await getLatestProfile(player);
 
       let selectedFloor = args[1]?.toLocaleLowerCase() || "m7"
       if (!(selectedFloor in FloorsBaseExp)) return `Invalid floor selected: ${selectedFloor}`
