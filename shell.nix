@@ -5,9 +5,9 @@ stdenv.mkDerivation {
   buildInputs = [
     python3
     autoreconfHook
-    xorg.libX11
-    xorg.libXi
-    xorg.libXext
+    libX11
+    libXi
+    libXext
     libGLU
     zlib
     glibc.out
