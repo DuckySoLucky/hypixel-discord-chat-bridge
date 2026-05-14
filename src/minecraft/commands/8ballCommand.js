@@ -10,13 +10,7 @@ class EightBallCommand extends minecraftCommand {
     this.name = "8ball";
     this.aliases = ["8b"];
     this.description = "Ask an 8ball a question.";
-    this.options = [
-      {
-        name: "question",
-        description: "The question you want to ask the 8ball",
-        required: true
-      }
-    ];
+    this.options = [{ name: "question", description: "The question you want to ask the 8ball", required: true }];
   }
 
   /**
@@ -29,7 +23,7 @@ class EightBallCommand extends minecraftCommand {
         throw "You must provide a question.";
       }
 
-      const response = await get(`https://www.eightballapi.com/api`);
+      const response = await get("https://www.eightballapi.com/api");
       if (response?.data === undefined) {
         return this.send("Wouldn't you like to know weather boy.");
       }

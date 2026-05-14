@@ -10,13 +10,7 @@ class ForgeCommand extends minecraftCommand {
     this.name = "forge";
     this.aliases = [];
     this.description = "Skyblock Forge Info Stats of specified user.";
-    this.options = [
-      {
-        name: "username",
-        description: "Minecraft username",
-        required: false
-      }
-    ];
+    this.options = [{ name: "username", description: "Minecraft username", required: false }];
   }
 
   /**

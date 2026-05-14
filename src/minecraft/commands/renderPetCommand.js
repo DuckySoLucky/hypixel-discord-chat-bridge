@@ -10,13 +10,7 @@ class RenderCommand extends minecraftCommand {
     this.name = "pet";
     this.aliases = ["pets"];
     this.description = "Sends an active pet of specified user.";
-    this.options = [
-      {
-        name: "username",
-        description: "Minecraft username",
-        required: false
-      }
-    ];
+    this.options = [{ name: "username", description: "Minecraft username", required: false }];
   }
 
   /**

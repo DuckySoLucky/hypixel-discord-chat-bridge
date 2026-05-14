@@ -14,13 +14,7 @@ class OverflowSkillsCommand extends minecraftCommand {
     this.name = "overflowskills";
     this.aliases = ["oskills", "oskill", "osk", "overflowskills"];
     this.description = "Overflow Skills and Skill Average of specified user.";
-    this.options = [
-      {
-        name: "player",
-        description: "Player username",
-        required: false
-      }
-    ];
+    this.options = [{ name: "player", description: "Player username", required: false }];
   }
 
   /**

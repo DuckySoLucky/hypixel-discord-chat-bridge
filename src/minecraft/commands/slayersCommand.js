@@ -12,16 +12,8 @@ class SlayersCommand extends minecraftCommand {
     this.aliases = ["slayers"];
     this.description = "Slayer of specified user.";
     this.options = [
-      {
-        name: "username",
-        description: "Minecraft username",
-        required: false
-      },
-      {
-        name: "slayer",
-        description: "Slayer type",
-        required: false
-      }
+      { name: "username", description: "Minecraft username", required: false },
+      { name: "slayer", description: "Slayer type", required: false }
     ];
   }
 

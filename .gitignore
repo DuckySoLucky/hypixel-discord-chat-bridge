@@ -1,6 +1,6 @@
 node_modules/
-.prettierrc.json
 config.json
 auth-cache/
 logs/
 data/
+build/

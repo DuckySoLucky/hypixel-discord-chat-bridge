@@ -9,13 +9,7 @@ class BoopCommand extends minecraftCommand {
     this.name = "boop";
     this.aliases = ["bp"];
     this.description = "Boop someone!";
-    this.options = [
-      {
-        name: "username",
-        description: "User you want to boop!",
-        required: true
-      }
-    ];
+    this.options = [{ name: "username", description: "User you want to boop!", required: true }];
     this.isOnCooldown = false;
   }
 

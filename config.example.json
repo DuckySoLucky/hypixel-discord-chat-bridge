@@ -1,32 +1,11 @@
 {
   "configVersion": 1,
   "minecraft": {
-    "bot": {
-      "prefix": "!",
-      "messageFormat": "{username} » {message}",
-      "messageRepeatBypassLength": 24
-    },
-    "commands": {
-      "normal": true,
-      "soopy": true
-    },
-    "fragBot": {
-      "enabled": true,
-      "whitelist": false,
-      "whitelisted": [],
-      "blacklist": false,
-      "blacklisted": []
-    },
-    "API": {
-      "hypixelAPIkey": "HYPIXEL_API_KEY",
-      "imgurAPIkey": "IMGUR_API_KEY"
-    },
-    "guildRequirements": {
-      "enabled": false,
-      "autoAccept": false,
-      "requiredToHave": 1,
-      "requirements": {}
-    },
+    "bot": { "prefix": "!", "messageFormat": "{username} » {message}", "messageRepeatBypassLength": 24 },
+    "commands": { "normal": true, "soopy": true },
+    "fragBot": { "enabled": true, "whitelist": false, "whitelisted": [], "blacklist": false, "blacklisted": [] },
+    "API": { "hypixelAPIkey": "HYPIXEL_API_KEY", "imgurAPIkey": "IMGUR_API_KEY" },
+    "guildRequirements": { "enabled": false, "autoAccept": false, "requiredToHave": 1, "requirements": {} },
     "skyblockEventsNotifications": {
       "enabled": true,
       "notifiers": {
@@ -44,23 +23,12 @@
         "TRAVELING_ZOO": true,
         "HOPPITY_HUNT": true
       },
-      "customTime": {
-        "2": ["BANK_INTEREST", "DARK_AUCTION", "JACOBS_CONTEST"]
-      }
+      "customTime": { "2": ["BANK_INTEREST", "DARK_AUCTION", "JACOBS_CONTEST"] }
     },
-    "hypixelUpdates": {
-      "enabled": true,
-      "hypixelNews": true,
-      "statusUpdates": true,
-      "skyblockVersion": true,
-      "alphaPlayerCountTracker": true
-    }
+    "hypixelUpdates": { "enabled": true, "hypixelNews": true, "statusUpdates": true, "skyblockVersion": true, "alphaPlayerCountTracker": true }
   },
   "discord": {
-    "bot": {
-      "token": "DISCORD_BOT_TOKEN",
-      "serverID": "DISCORD_SERVER_ID"
-    },
+    "bot": { "token": "DISCORD_BOT_TOKEN", "serverID": "DISCORD_SERVER_ID" },
     "channels": {
       "guildChatChannel": "GUILD_CHAT_CHANNEL_ID",
       "officerChannel": "OFFICER_CHANNEL_ID",
@@ -70,12 +38,7 @@
       "debugChannelMessageMode": "text",
       "allowedBots": ["BOT_USER_ID"]
     },
-    "commands": {
-      "checkPerms": true,
-      "commandRole": "COMMAND_ROLE_ID",
-      "blacklistRoles": ["BLACKLIST_ROLE_ID"],
-      "users": ["486155512568741900"]
-    },
+    "commands": { "checkPerms": true, "commandRole": "COMMAND_ROLE_ID", "blacklistRoles": ["BLACKLIST_ROLE_ID"], "users": ["486155512568741900"] },
     "other": {
       "messageMode": "bot",
       "messageFormat": "{chatType} > {skin} {rank} {username} {guildRank}§f: {message}",
@@ -86,48 +49,14 @@
       "autoLimbo": false
     }
   },
-  "web": {
-    "enabled": false,
-    "port": 1439,
-    "token": "WEBSOCKET_TOKEN"
-  },
+  "web": { "enabled": false, "port": 1439, "token": "WEBSOCKET_TOKEN" },
   "verification": {
     "enabled": false,
-    "nickname": {
-      "enabled": true,
-      "nickname": "{username}",
-      "removeCommas": false
-    },
-    "roles": {
-      "verified": {
-        "enabled": false,
-        "roleId": ""
-      },
-      "guildMember": {
-        "enabled": false,
-        "roleId": ""
-      },
-      "custom": []
-    },
-    "autoRoleUpdater": {
-      "enabled": false,
-      "interval": 24
-    },
-    "inactivity": {
-      "enabled": false,
-      "channel": "INACTIVITY_LOG_CHANNEL",
-      "maxInactivityTime": 30
-    }
+    "nickname": { "enabled": true, "nickname": "{username}", "removeCommas": false },
+    "roles": { "verified": { "enabled": false, "roleId": "" }, "guildMember": { "enabled": false, "roleId": "" }, "custom": [] },
+    "autoRoleUpdater": { "enabled": false, "interval": 24 },
+    "inactivity": { "enabled": false, "channel": "INACTIVITY_LOG_CHANNEL", "maxInactivityTime": 30 }
   },
-  "other": {
-    "autoUpdater": true,
-    "autoUpdaterInterval": 12,
-    "logToFiles": true,
-    "timezone": "UTC"
-  },
-  "statsChannels": {
-    "enabled": false,
-    "autoUpdaterInterval": 5,
-    "channels": [{ "id": "CHANNEL_ID", "name": "Guild Level: {guildLevel}" }]
-  }
+  "other": { "autoUpdater": true, "autoUpdaterInterval": 12, "logToFiles": true, "timezone": "UTC" },
+  "statsChannels": { "enabled": false, "autoUpdaterInterval": 5, "channels": [{ "id": "CHANNEL_ID", "name": "Guild Level: {guildLevel}" }] }
 }

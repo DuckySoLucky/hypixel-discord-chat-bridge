@@ -10,13 +10,7 @@ class WoolwarsCommand extends minecraftCommand {
     this.name = "woolwars";
     this.aliases = ["ww"];
     this.description = "WoolWars stats of specified user.";
-    this.options = [
-      {
-        name: "username",
-        description: "Minecraft username",
-        required: false
-      }
-    ];
+    this.options = [{ name: "username", description: "Minecraft username", required: false }];
   }
 
   /**

@@ -9,13 +9,7 @@ class BooCommand extends minecraftCommand {
     this.name = "boo";
     this.aliases = [];
     this.description = "Boo someone!";
-    this.options = [
-      {
-        name: "username",
-        description: "User you want to boo!",
-        required: true
-      }
-    ];
+    this.options = [{ name: "username", description: "User you want to boo!", required: true }];
     this.isOnCooldown = false;
   }
 

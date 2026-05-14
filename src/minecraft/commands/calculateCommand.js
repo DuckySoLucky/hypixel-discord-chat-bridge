@@ -9,13 +9,7 @@ class CalculateCommand extends minecraftCommand {
     this.name = "calculate";
     this.aliases = ["calc", "math"];
     this.description = "Calculate.";
-    this.options = [
-      {
-        name: "calculation",
-        description: "Any kind of math equation",
-        required: true
-      }
-    ];
+    this.options = [{ name: "calculation", description: "Any kind of math equation", required: true }];
   }
 
   /**

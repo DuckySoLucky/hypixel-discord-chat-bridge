@@ -4,15 +4,7 @@ const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { get } = require("axios");
 
 /** @type {{ [key: string]: number }} */
-const FloorsBaseExp = {
-  m7: 300_000,
-  m6: 110_000,
-  m5: 70_000,
-  m4: 55_000,
-  m3: 35_000,
-  m2: 20_000,
-  m1: 15_000
-};
+const FloorsBaseExp = { m7: 300_000, m6: 110_000, m5: 70_000, m4: 55_000, m3: 35_000, m2: 20_000, m1: 15_000 };
 
 // CREDITS: by @MattyHD0 (https://github.com/MattyHD0) for adaptation and
 // CREDITS: https://github.com/aidn3/hypixel-guild-discord-bridge for the original algorithm
@@ -25,13 +17,7 @@ class RunsTillsClassAverageCommand extends minecraftCommand {
     this.name = "runstillclassavg";
     this.aliases = ["rtca", "runstillca", "runtillclassavg", "runtillca"];
     this.description = "Skyblock Dungeons Stats of specified user.";
-    this.options = [
-      {
-        name: "username",
-        description: "Minecraft username",
-        required: false
-      }
-    ];
+    this.options = [{ name: "username", description: "Minecraft username", required: false }];
   }
 
   /**
@@ -98,22 +84,10 @@ class RunsTillsClassAverageCommand extends minecraftCommand {
 
       let totalRuns = 0;
       /** @type {{ [key: string]: number }} */
-      const runsDone = {
-        healer: 0,
-        berserk: 0,
-        mage: 0,
-        archer: 0,
-        tank: 0
-      };
+      const runsDone = { healer: 0, berserk: 0, mage: 0, archer: 0, tank: 0 };
 
       /** @type {{ [key: string]: number }} */
-      const classesExperiences = {
-        healer: 0,
-        berserk: 0,
-        mage: 0,
-        archer: 0,
-        tank: 0
-      };
+      const classesExperiences = { healer: 0, berserk: 0, mage: 0, archer: 0, tank: 0 };
 
       for (const [className, classObject] of Object.entries(selectedProfile.dungeons.player_classes)) {
         classesExperiences[className] = classObject?.experience ?? 0;
@@ -132,7 +106,7 @@ class RunsTillsClassAverageCommand extends minecraftCommand {
         }
 
         if (currentClassPlaying === undefined) {
-          this.send(`[ERROR] Could not determine class to add experience to.`);
+          this.send("[ERROR] Could not determine class to add experience to.");
           return;
         }
 
@@ -182,7 +156,7 @@ class RunsTillsClassAverageCommand extends minecraftCommand {
   async getAdditionalBoost() {
     let totalBoost = 0;
 
-    const response = await get(`https://api.hypixel.net/v2/resources/skyblock/election`);
+    const response = await get("https://api.hypixel.net/v2/resources/skyblock/election");
     if (response === undefined || response.data === undefined || response.data.success === false) {
       throw "Request to Hypixel API failed. Please try again!";
     }

@@ -21,7 +21,7 @@ class MayorCommand extends minecraftCommand {
   async onCommand(player, message) {
     try {
       // CREDITS: by @Kathund (https://github.com/Kathund)
-      const response = await get(`https://api.hypixel.net/v2/resources/skyblock/election`);
+      const response = await get("https://api.hypixel.net/v2/resources/skyblock/election");
       if (response === undefined || response.data === undefined || response.data.success === false) {
         throw "Request to Hypixel API failed. Please try again!";
       }
@@ -41,7 +41,7 @@ class MayorCommand extends minecraftCommand {
       if (data.mayor.election.candidates.length > 0) {
         const currentLeader = data.mayor.election.candidates.sort((a, b) => (b.votes || 0) - (a.votes || 0))[0];
         if (!currentLeader) {
-          return this.send(`[MAYOR] No current leader.`);
+          return this.send("[MAYOR] No current leader.");
         }
 
         const totalVotes = data.mayor.election.candidates.reduce((total, candidate) => total + (candidate.votes || 0), 0);

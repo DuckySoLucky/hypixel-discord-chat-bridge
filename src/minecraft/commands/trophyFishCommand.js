@@ -11,13 +11,7 @@ class TrophyFishCommand extends minecraftCommand {
     this.name = "trophyfish";
     this.aliases = ["tf", "trophyfishing", "trophy"];
     this.description = "Dojo Stats of specified user.";
-    this.options = [
-      {
-        name: "username",
-        description: "Minecraft username",
-        required: false
-      }
-    ];
+    this.options = [{ name: "username", description: "Minecraft username", required: false }];
   }
 
   /**

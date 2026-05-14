@@ -1,5 +1,6 @@
 const { delay } = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
+
 class warpoutCommand extends minecraftCommand {
   /** @param {import("minecraft-protocol").Client} minecraft */
   constructor(minecraft) {
@@ -68,31 +69,31 @@ class warpoutCommand extends minecraftCommand {
         } else if (message.includes("You are not allowed to invite players.")) {
           bot.removeListener("message", warpoutListener);
           this.isOnCooldown = false;
-          this.send(`Somehow I'm not allowed to invite players? Disbanding party..`);
+          this.send("Somehow I'm not allowed to invite players? Disbanding party..");
           bot.chat("/p disband");
           await delay(1500);
           bot.chat("/limbo");
         } else if (message.includes("You are not allowed to disband this party.")) {
           bot.removeListener("message", warpoutListener);
           this.isOnCooldown = false;
-          this.send(`Somehow I'm not allowed to disband this party? Leaving party..`);
+          this.send("Somehow I'm not allowed to disband this party? Leaving party..");
           bot.chat("/p leave");
           await delay(1500);
           bot.chat("/limbo");
         } else if (message.includes("You can't party warp into limbo!")) {
           bot.removeListener("message", warpoutListener);
           this.isOnCooldown = false;
-          this.send(`Somehow I'm inside in limbo? Disbanding party..`);
+          this.send("Somehow I'm inside in limbo? Disbanding party..");
           bot.chat("/p disband");
         } else if (message.includes("Couldn't find a player with that name!")) {
           bot.removeListener("message", warpoutListener);
           this.isOnCooldown = false;
-          this.send(`Couldn't find a player with that name!`);
+          this.send("Couldn't find a player with that name!");
           bot.chat("/p disband");
         } else if (message.includes("You cannot party yourself!")) {
           bot.removeListener("message", warpoutListener);
           this.isOnCooldown = false;
-          this.send(`I cannot party myself!`);
+          this.send("I cannot party myself!");
         } else if (message.includes("didn't warp correctly!")) {
           bot.removeListener("message", warpoutListener);
           this.isOnCooldown = false;

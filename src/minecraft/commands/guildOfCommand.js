@@ -12,13 +12,7 @@ class GuildInformationCommand extends minecraftCommand {
     this.name = "guildof";
     this.aliases = ["gof", "guildofplayer", "gop"];
     this.description = "View the player's guild";
-    this.options = [
-      {
-        name: "player",
-        description: "Player name",
-        required: true
-      }
-    ];
+    this.options = [{ name: "player", description: "Player name", required: true }];
   }
 
   /**

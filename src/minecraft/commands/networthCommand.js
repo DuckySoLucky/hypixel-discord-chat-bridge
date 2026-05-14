@@ -11,13 +11,7 @@ class NetWorthCommand extends minecraftCommand {
     this.name = "networth";
     this.aliases = ["nw"];
     this.description = "Networth of specified user.";
-    this.options = [
-      {
-        name: "username",
-        description: "Minecraft username",
-        required: false
-      }
-    ];
+    this.options = [{ name: "username", description: "Minecraft username", required: false }];
   }
 
   /**
