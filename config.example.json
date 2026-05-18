@@ -1,4 +1,5 @@
 {
+  "configVersion": 1,
   "minecraft": {
     "bot": {
       "prefix": "!",
