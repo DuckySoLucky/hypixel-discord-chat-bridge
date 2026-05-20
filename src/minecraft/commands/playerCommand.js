@@ -10,13 +10,7 @@ class PlayerCommand extends minecraftCommand {
     this.name = "player";
     this.aliases = [];
     this.description = "Get Hypixel Player Stats";
-    this.options = [
-      {
-        name: "username",
-        description: "Minecraft username",
-        required: false
-      }
-    ];
+    this.options = [{ name: "username", description: "Minecraft username", required: false }];
   }
 
   /**
@@ -27,9 +21,7 @@ class PlayerCommand extends minecraftCommand {
     try {
       // CREDITS: by @Kathund (https://github.com/Kathund)
       player = this.getArgs(message)[0] || player;
-      const { achievementPoints, nickname, rank, karma, level, guild } = await hypixel.getPlayer(player, {
-        guild: true
-      });
+      const { achievementPoints, nickname, rank, karma, level, guild } = await hypixel.getPlayer(player, { guild: true });
 
       const guildName = guild ? guild.name : "None";
 

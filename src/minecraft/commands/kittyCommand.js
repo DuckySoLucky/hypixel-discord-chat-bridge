@@ -20,7 +20,7 @@ class KittyCommand extends minecraftCommand {
    * */
   async onCommand(player, message) {
     try {
-      const { data } = await get(`https://api.thecatapi.com/v1/images/search`);
+      const { data } = await get("https://api.thecatapi.com/v1/images/search");
       if (data === undefined) {
         throw "An error occured while fetching the image. Please try again later.";
       }

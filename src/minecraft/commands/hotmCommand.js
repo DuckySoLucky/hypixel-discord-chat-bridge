@@ -11,13 +11,7 @@ class HotmCommand extends minecraftCommand {
     this.name = "hotm";
     this.aliases = ["mining"];
     this.description = "Skyblock Hotm Stats of specified user.";
-    this.options = [
-      {
-        name: "username",
-        description: "Minecraft username",
-        required: false
-      }
-    ];
+    this.options = [{ name: "username", description: "Minecraft username", required: false }];
   }
 
   /**

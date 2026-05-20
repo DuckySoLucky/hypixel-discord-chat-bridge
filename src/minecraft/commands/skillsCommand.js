@@ -12,13 +12,7 @@ class SkillsCommand extends minecraftCommand {
     this.name = "skills";
     this.aliases = ["skill", "sa"];
     this.description = "Skills and Skill Average of specified user.";
-    this.options = [
-      {
-        name: "username",
-        description: "Minecraft username",
-        required: false
-      }
-    ];
+    this.options = [{ name: "username", description: "Minecraft username", required: false }];
   }
 
   /**

@@ -10,13 +10,7 @@ class ChocolateCommand extends minecraftCommand {
     this.name = "chocolatefactory";
     this.aliases = ["cf", "factory", "chocolate"];
     this.description = "Skyblock Chocolate Factory Stats of specified user.";
-    this.options = [
-      {
-        name: "username",
-        description: "Minecraft username",
-        required: false
-      }
-    ];
+    this.options = [{ name: "username", description: "Minecraft username", required: false }];
   }
 
   /**

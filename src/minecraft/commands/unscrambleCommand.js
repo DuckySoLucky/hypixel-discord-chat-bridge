@@ -33,13 +33,7 @@ class unscrambleCommand extends minecraftCommand {
     this.name = "unscramble";
     this.aliases = ["unscramble", "unscrambleme", "unscrambleme", "us"];
     this.description = "Unscramble the word and type it in chat to win!";
-    this.options = [
-      {
-        name: "length",
-        description: "Length of the word to unscramble",
-        required: false
-      }
-    ];
+    this.options = [{ name: "length", description: "Length of the word to unscramble", required: false }];
     this.cooldown = 30 * 1000;
   }
 
@@ -61,7 +55,7 @@ class unscrambleCommand extends minecraftCommand {
         const remainingTime = cooldownDuration - elapsedTime;
 
         if (remainingTime > 0) {
-          return this.send(`Please wait until current game is over.`);
+          return this.send("Please wait until current game is over.");
         }
       }
 

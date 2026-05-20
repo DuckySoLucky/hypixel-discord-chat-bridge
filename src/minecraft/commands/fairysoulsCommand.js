@@ -9,13 +9,7 @@ class FairySoulsCommand extends minecraftCommand {
     this.name = "fairysouls";
     this.aliases = ["fs"];
     this.description = "Fairy Souls of specified user.";
-    this.options = [
-      {
-        name: "username",
-        description: "Minecraft username",
-        required: false
-      }
-    ];
+    this.options = [{ name: "username", description: "Minecraft username", required: false }];
   }
 
   /**

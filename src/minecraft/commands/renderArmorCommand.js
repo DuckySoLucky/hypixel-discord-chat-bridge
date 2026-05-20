@@ -12,13 +12,7 @@ class ArmorCommand extends minecraftCommand {
     this.name = "armor";
     this.aliases = [];
     this.description = "Renders armor of specified user.";
-    this.options = [
-      {
-        name: "username",
-        description: "Minecraft username",
-        required: false
-      }
-    ];
+    this.options = [{ name: "username", description: "Minecraft username", required: false }];
   }
 
   /**

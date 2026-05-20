@@ -180,9 +180,7 @@ stat.
 Below is an example where the requirement to join is 10 BedWars stars:
 
 ```json
-{
-  "bedwarsStar": 10
-}
+{ "bedwarsStar": 10 }
 ```
 
 ### skyblockEventsNotifications
@@ -423,11 +421,7 @@ new Promise((resolve) => {
   }
 }).then(() => {
   // Define the message to be sent
-  const send = {
-    type: "message",
-    data: "/gc Example message",
-    token: "WEBSOCKET_TOKEN"
-  };
+  const send = { type: "message", data: "/gc Example message", token: "WEBSOCKET_TOKEN" };
 
   // Send the message
   ws.send(JSON.stringify(send));
@@ -464,29 +458,13 @@ The `roleId` option determines the role that the user will be given.
 Custom allows you to set your own requirements for roles that users can achieve. Below is the format for creating these custom roles:
 
 ```json
-{
-  "roleId": "",
-  "requirements": [
-    {
-      "type": "",
-      "value": ""
-    }
-  ]
-}
+{ "roleId": "", "requirements": [{ "type": "", "value": "" }] }
 ```
 
 This is what a complete example would look like for giving a user a role if they have more than 100 stars in BedWars:
 
 ```json
-{
-  "roleId": "ROLE_ID",
-  "requirements": [
-    {
-      "type": "bedwarsStar",
-      "value": 100
-    }
-  ]
-}
+{ "roleId": "ROLE_ID", "requirements": [{ "type": "bedwarsStar", "value": 100 }] }
 ```
 
 The `roleId` option determines the role that the user will be given.
@@ -525,10 +503,7 @@ minutes.
 The `channels` option is an array that takes in an object like the following example, this allows the updater to know what channels there are and what to name them.
 
 ```json
-{
-  "id": "CHANNEL_ID",
-  "name": "Guild Level: {guildLevel}"
-}
+{ "id": "CHANNEL_ID", "name": "Guild Level: {guildLevel}" }
 ```
 
 Below is a list of all the supported variables that can go inside the name option

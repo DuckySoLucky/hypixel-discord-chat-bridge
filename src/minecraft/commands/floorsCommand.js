@@ -40,13 +40,7 @@ class FloorsCommand extends minecraftCommand {
     this.name = "floor";
     this.aliases = ["f1", "f2", "f3", "f4", "f5", "f6", "f7", "m1", "m2", "m3", "m4", "m5", "m6", "m7"];
     this.description = "Returns stats about a floor";
-    this.options = [
-      {
-        name: "username",
-        description: "Minecraft Username",
-        required: false
-      }
-    ];
+    this.options = [{ name: "username", description: "Minecraft Username", required: false }];
   }
 
   /**
@@ -98,7 +92,6 @@ class FloorsCommand extends minecraftCommand {
       const floorData = floors.find((floor) => floor.id === floorId);
 
       if (floorData === undefined || floorData.timesPlayed === 0) {
-        // eslint-disable-next-line no-throw-literal
         throw `${username} has never done ${floorId} before.`;
       }
 

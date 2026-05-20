@@ -12,13 +12,7 @@ class EquipmentCommand extends minecraftCommand {
     this.name = "equipment";
     this.aliases = [];
     this.description = "Renders equipment of specified user.";
-    this.options = [
-      {
-        name: "username",
-        description: "Minecraft username",
-        required: false
-      }
-    ];
+    this.options = [{ name: "username", description: "Minecraft username", required: false }];
   }
 
   /**
@@ -33,7 +27,7 @@ class EquipmentCommand extends minecraftCommand {
 
       const { username, profile } = await getLatestProfile(player);
       if (profile.inventory?.equipment_contents?.data === undefined) {
-        return this.send(`This player has an Inventory API off.`);
+        return this.send("This player has an Inventory API off.");
       }
 
       const inventoryData = (await decodeData(Buffer.from(profile.inventory?.equipment_contents?.data, "base64"))).i;

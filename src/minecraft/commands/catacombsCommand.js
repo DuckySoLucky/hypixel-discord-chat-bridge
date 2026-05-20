@@ -11,13 +11,7 @@ class CatacombsCommand extends minecraftCommand {
     this.name = "catacombs";
     this.aliases = ["cata", "dungeons"];
     this.description = "Skyblock Dungeons Stats of specified user.";
-    this.options = [
-      {
-        name: "username",
-        description: "Minecraft username",
-        required: false
-      }
-    ];
+    this.options = [{ name: "username", description: "Minecraft username", required: false }];
   }
 
   /**

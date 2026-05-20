@@ -16,13 +16,7 @@ class SkyblockCommand extends minecraftCommand {
     this.name = "skyblock";
     this.aliases = ["stats", "sb"];
     this.description = "Skyblock Stats of specified user.";
-    this.options = [
-      {
-        name: "username",
-        description: "Minecraft username",
-        required: false
-      }
-    ];
+    this.options = [{ name: "username", description: "Minecraft username", required: false }];
   }
 
   /**

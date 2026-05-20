@@ -9,13 +9,7 @@ class CatacombsCommand extends minecraftCommand {
     this.name = "level";
     this.aliases = ["lvl"];
     this.description = "Skyblock Level of specified user.";
-    this.options = [
-      {
-        name: "username",
-        description: "Minecraft username",
-        required: false
-      }
-    ];
+    this.options = [{ name: "username", description: "Minecraft username", required: false }];
   }
 
   /**

@@ -10,13 +10,7 @@ class BedwarsCommand extends minecraftCommand {
     this.name = "bedwars";
     this.aliases = ["bw", "bws"];
     this.description = "BedWars stats of specified user.";
-    this.options = [
-      {
-        name: "username",
-        description: "Minecraft username",
-        required: false
-      }
-    ];
+    this.options = [{ name: "username", description: "Minecraft username", required: false }];
   }
 
   /**

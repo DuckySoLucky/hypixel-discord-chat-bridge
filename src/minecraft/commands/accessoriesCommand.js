@@ -11,13 +11,7 @@ class AccessoriesCommand extends minecraftCommand {
     this.name = "accessories";
     this.aliases = ["acc", "talismans", "talisman", "mp", "magicpower"];
     this.description = "Accessories of specified user.";
-    this.options = [
-      {
-        name: "username",
-        description: "Minecraft username",
-        required: false
-      }
-    ];
+    this.options = [{ name: "username", description: "Minecraft username", required: false }];
   }
 
   /**

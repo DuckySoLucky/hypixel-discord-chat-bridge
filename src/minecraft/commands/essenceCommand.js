@@ -11,13 +11,7 @@ class EssenceCommand extends minecraftCommand {
     this.name = "essence";
     this.aliases = [];
     this.description = "Skyblock Dungeons Stats of specified user.";
-    this.options = [
-      {
-        name: "username",
-        description: "Minecraft username",
-        required: false
-      }
-    ];
+    this.options = [{ name: "username", description: "Minecraft username", required: false }];
   }
 
   /**

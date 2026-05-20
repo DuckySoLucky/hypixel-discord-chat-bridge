@@ -13,16 +13,8 @@ class RenderCommand extends minecraftCommand {
     this.aliases = ["inv", "i", "inventory", "i"];
     this.description = "Renders item of specified user.";
     this.options = [
-      {
-        name: "username",
-        description: "Minecraft username",
-        required: false
-      },
-      {
-        name: "slot",
-        description: "Slot number of item to render (1-36)",
-        required: false
-      }
+      { name: "username", description: "Minecraft username", required: false },
+      { name: "slot", description: "Slot number of item to render (1-36)", required: false }
     ];
   }
 

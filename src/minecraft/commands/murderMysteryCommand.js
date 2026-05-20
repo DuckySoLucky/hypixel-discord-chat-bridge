@@ -10,13 +10,7 @@ class MurderMysteryCommand extends minecraftCommand {
     this.name = "murdermystery";
     this.aliases = ["mm"];
     this.description = "Get Murder Mystery Player Stats";
-    this.options = [
-      {
-        name: "username",
-        description: "Minecraft username",
-        required: false
-      }
-    ];
+    this.options = [{ name: "username", description: "Minecraft username", required: false }];
   }
 
   /**

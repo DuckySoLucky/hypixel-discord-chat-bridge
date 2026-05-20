@@ -11,13 +11,7 @@ class BestiaryCommand extends minecraftCommand {
     this.name = "bestiary";
     this.aliases = ["be"];
     this.description = "Bestiary of specified user.";
-    this.options = [
-      {
-        name: "username",
-        description: "Mincraft Username",
-        required: false
-      }
-    ];
+    this.options = [{ name: "username", description: "Mincraft Username", required: false }];
   }
 
   /**

@@ -11,16 +11,8 @@ class DuelsStatsCommand extends minecraftCommand {
     this.aliases = ["duel"];
     this.description = "Duel stats of specified user.";
     this.options = [
-      {
-        name: "username",
-        description: "Minecraft username",
-        required: false
-      },
-      {
-        name: "duel",
-        description: "Type of a duel",
-        required: false
-      }
+      { name: "username", description: "Minecraft username", required: false },
+      { name: "duel", description: "Type of a duel", required: false }
     ];
   }
 

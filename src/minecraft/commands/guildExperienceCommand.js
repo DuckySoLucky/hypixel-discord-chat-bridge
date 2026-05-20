@@ -11,13 +11,7 @@ class GuildExperienceCommand extends minecraftCommand {
     this.name = "guildexp";
     this.aliases = ["gexp"];
     this.description = "Guilds experience of specified user.";
-    this.options = [
-      {
-        name: "username",
-        description: "Minecraft username",
-        required: false
-      }
-    ];
+    this.options = [{ name: "username", description: "Minecraft username", required: false }];
   }
 
   /**

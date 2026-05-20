@@ -19,9 +19,9 @@ const yearZero = 1560275700000;
 
 const currentSkyblockYear = timeToSkyblockYear(Date.now());
 
-var yearsUntilSpecial = 0;
-var diffSkyblockYear = currentSkyblockYear;
-var specialMayor = "";
+let yearsUntilSpecial = 0;
+let diffSkyblockYear = currentSkyblockYear;
+let specialMayor = "";
 
 /**
  * Returns the current Skyblock year

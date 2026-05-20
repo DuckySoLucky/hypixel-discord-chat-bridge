@@ -11,13 +11,7 @@ class CrimsonIsleCommand extends minecraftCommand {
     this.name = "crimsonisle";
     this.aliases = ["crimson", "nether", "isle"];
     this.description = "Crimson Isle Stats of specified user.";
-    this.options = [
-      {
-        name: "username",
-        description: "Minecraft username",
-        required: false
-      }
-    ];
+    this.options = [{ name: "username", description: "Minecraft username", required: false }];
   }
 
   /**

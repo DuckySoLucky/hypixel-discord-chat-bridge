@@ -1,0 +1,8 @@
+allow management commands like /kick to return the message that gets added to log
+see bad impl - https://github.com/Kathund/Hypixel-Discord-Guild-Chat-Bridge/blob/main/src/Minecraft/Handlers/MessageHandler.ts#L131-L135
+
+port web
+port tests
+port inactivity
+port stat channels
+port cron scripts

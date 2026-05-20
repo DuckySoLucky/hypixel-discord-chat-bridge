@@ -16,13 +16,7 @@ class AuctionHouseCommand extends minecraftCommand {
     this.name = "auction";
     this.aliases = ["ah", "auctions"];
     this.description = "Listed Auctions of specified user.";
-    this.options = [
-      {
-        name: "username",
-        description: "Minecraft username",
-        required: false
-      }
-    ];
+    this.options = [{ name: "username", description: "Minecraft username", required: false }];
   }
 
   /**
@@ -63,7 +57,7 @@ class AuctionHouseCommand extends minecraftCommand {
         lore.push("§8§m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯", `§7Seller: ${getRank(playerData)} ${playerData.displayname}`);
         if (auction.bin === undefined) {
           if (auction.bids.length === 0) {
-            lore.push(`§7Starting Bid: §6${formatNumber(auction.starting_bid)} coins`, `§7`);
+            lore.push(`§7Starting Bid: §6${formatNumber(auction.starting_bid)} coins`, "§7");
           } else if (auction.bids.length > 0) {
             const bidderUUID = auction.bids[auction.bids.length - 1].bidder;
 
@@ -80,17 +74,17 @@ class AuctionHouseCommand extends minecraftCommand {
 
             lore.push(
               `§7Bids: §a${auction.bids.length} ${bidOrBids}`,
-              `§7`,
+              "§7",
               `§7Top Bid: §6${amount.toLocaleString()} coins`,
               `§7Bidder: ${getRank(bidder)} ${bidder.displayname}`,
-              `§7`
+              "§7"
             );
           }
         } else {
-          lore.push(`§7Buy it now: §6${auction.starting_bid.toLocaleString()} coins`, `§7`);
+          lore.push(`§7Buy it now: §6${auction.starting_bid.toLocaleString()} coins`, "§7");
         }
 
-        lore.push(`§7Ends in: §e${timeSince(auction.end)}`, `§7`, `§eClick to inspect`);
+        lore.push(`§7Ends in: §e${timeSince(auction.end)}`, "§7", "§eClick to inspect");
 
         const renderedItem = await renderLore(` ${auction.item_name}`, lore);
         if (renderedItem === null) {

@@ -11,13 +11,7 @@ class DojoCommand extends minecraftCommand {
     this.name = "dojo";
     this.aliases = [];
     this.description = "Dojo Stats of specified user.";
-    this.options = [
-      {
-        name: "username",
-        description: "Minecraft username",
-        required: false
-      }
-    ];
+    this.options = [{ name: "username", description: "Minecraft username", required: false }];
   }
 
   /**
