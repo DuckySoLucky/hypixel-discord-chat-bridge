@@ -1,5 +1,6 @@
 import HypixelDiscordChatBridgeError from "../private/error.js";
 import { access, readFile, writeFile } from "node:fs/promises";
+import { translate } from "../translations/TranslationsManager.js";
 import type DataManager from "./DataManager.js";
 import type GenericData from "./GenericData.js";
 
@@ -23,9 +24,9 @@ abstract class GenericManager<JSONData, Data, ParsedData extends GenericData<JSO
 
   protected async getFile(): Promise<Data> {
     const data = await readFile(this.filePath);
-    if (!data) throw new HypixelDiscordChatBridgeError(`The ${this.name} data file does not exist. Please contact an administrator.`);
+    if (!data) throw new HypixelDiscordChatBridgeError(translate("generic.manager.errors.file.no.exist", { name: this.name }));
     const parsed = JSON.parse(data.toString());
-    if (!parsed) throw new HypixelDiscordChatBridgeError(`The ${this.name} data file is malformed. Please contact an administrator.`);
+    if (!parsed) throw new HypixelDiscordChatBridgeError(translate("generic.manager.errors.file.malformed", { name: this.name }));
     return parsed;
   }
 

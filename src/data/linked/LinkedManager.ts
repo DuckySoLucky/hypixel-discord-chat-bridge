@@ -4,6 +4,7 @@ import LinkedUser from "./LinkedUser.js";
 import MowojangAPI from "../../private/MowojangAPI.js";
 import { access, readFile, writeFile } from "node:fs/promises";
 import { getNetWorth, getPlayer, getSelectedProfile } from "../../utils/hypixelUtils.js";
+import { translate } from "../../translations/TranslationsManager.js";
 import type DataManager from "../DataManager.js";
 import type { Guild, Player, SkyblockProfileWithMe } from "hypixel-api-reborn";
 import type { LinkedData, LinkedUserData, OldFormat } from "../../types/linked.js";
@@ -72,7 +73,7 @@ class LinkedManager extends GenericManager<LinkedUserData, LinkedData, LinkedUse
 
   async getUserByUsername(username: string): Promise<LinkedUser | undefined> {
     const UUID = await MowojangAPI.getUUID(username);
-    if (UUID === null) throw new HypixelDiscordChatBridgeError("User doesn't exist");
+    if (UUID === null) throw new HypixelDiscordChatBridgeError(translate("api.mowojang.errors.failed.player"));
     return this.getUserByUUID(UUID);
   }
 
@@ -87,7 +88,7 @@ class LinkedManager extends GenericManager<LinkedUserData, LinkedData, LinkedUse
     player: Player | null = null,
     skyblock: SkyblockProfileWithMe | null = null
   ): Promise<PlayerVariableStats> {
-    if (!this.data.application.minecraft.isBotOnline()) throw new HypixelDiscordChatBridgeError(this.data.application.messages.minecraftBotOffline);
+    if (!this.data.application.minecraft.isBotOnline()) throw new HypixelDiscordChatBridgeError(translate("minecraft.errors.offline"));
     const fetches = [];
 
     if (!hypixelGuild) fetches.push(this.data.application.getBotGuild().then((guild) => (hypixelGuild = guild)));
@@ -101,8 +102,8 @@ class LinkedManager extends GenericManager<LinkedUserData, LinkedData, LinkedUse
     }
 
     await Promise.all(fetches);
-    if (!hypixelGuild) throw new HypixelDiscordChatBridgeError("In game Hypixel Guild not found.");
-    if (!player) throw new HypixelDiscordChatBridgeError("Failed to fetch Player data");
+    if (!hypixelGuild) throw new HypixelDiscordChatBridgeError(translate("api.hypixel.errors.failed.guild.fetch"));
+    if (!player) throw new HypixelDiscordChatBridgeError(translate("api.hypixel.errors.failed.player"));
 
     const networth = skyblock ? await getNetWorth(skyblock).catch(() => null) : null;
     const profile = skyblock?.me;

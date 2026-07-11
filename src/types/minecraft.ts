@@ -1,26 +1,26 @@
 import type MinecraftManager from "../minecraft/MinecraftManager.js";
 import type { Client } from "minecraft-protocol";
 import type { DiscordManagerWithBot } from "./discord.js";
-import type { SkyBlockProfile, SkyBlockProfileName, SkyblockProfileWithMe, WithSelectedProfile } from "hypixel-api-reborn";
+import type { MiningForgeItemName, SkyBlockProfile, SkyBlockProfileName, SkyblockProfileWithMe, WithSelectedProfile } from "hypixel-api-reborn";
 
 export type MinecraftManagerWithBot = MinecraftManager & { bot: Client };
 export type MinecraftManagerWithClient = MinecraftManagerWithBot & { application: { discord: DiscordManagerWithBot } };
 
 export interface CommandDataOptionJSON {
   name: string;
-  description: string | null;
+  description: string;
   required: boolean;
 }
 
 export interface CommandDataJSON {
   name: string;
-  description: string | null;
+  description: string;
   aliases: string[];
   options: CommandDataOptionJSON[];
 }
 
 export interface ParsedForgeSlot {
-  item: string;
+  item: MiningForgeItemName | "UNKNOWN";
   slot: number;
   finished: boolean;
   timeLeft: string;

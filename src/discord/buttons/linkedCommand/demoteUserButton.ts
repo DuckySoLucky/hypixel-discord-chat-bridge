@@ -4,7 +4,7 @@ import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import LinkedCommand from "../../commands/verification/linkedCommand.js";
 import { CommandFlags, type DiscordManagerWithBot, GuildManagementAction } from "../../../types/discord.js";
 import { SuccessEmbed } from "../../private/Embed.js";
-import { replaceVariables } from "../../../utils/stringUtils.js";
+import { translate } from "../../../translations/TranslationsManager.js";
 import type { ButtonInteraction } from "discord.js";
 
 class DemoteUserButton extends DiscordButton<DiscordManagerWithBot> {
@@ -17,17 +17,17 @@ class DemoteUserButton extends DiscordButton<DiscordManagerWithBot> {
   override async execute(interaction: ButtonInteraction) {
     const linkedCommand = new LinkedCommand(this.discord);
     const linked = await linkedCommand.getLinkedFromLinkedEmbed(interaction.message);
-    if (!linked) throw new HypixelDiscordChatBridgeError("Unable to find the linked user");
+    if (!linked) throw new HypixelDiscordChatBridgeError(translate("linked.errors.user.find"));
     const username = await linked.getUsername();
     const { action, message } = await this.handleGuildManagementAction("demote", username);
     if (action === GuildManagementAction.NotInGuild) {
-      throw new HypixelDiscordChatBridgeError(replaceVariables(this.discord.application.messages.notInGuildMessage, { username }));
+      throw new HypixelDiscordChatBridgeError(translate("minecraft.responses.notInGuildMessage", { username }));
     } else if (action === GuildManagementAction.NoPerms) {
-      throw new HypixelDiscordChatBridgeError("The bot doesn't have perms to demote");
+      throw new HypixelDiscordChatBridgeError(translate("minecraft.errors.no.permissions.demote"));
     } else if (action === GuildManagementAction.Timeout) {
-      throw new HypixelDiscordChatBridgeError("Command timed out. Please try again");
+      throw new HypixelDiscordChatBridgeError(translate("minecraft.errors.timeout.command"));
     } else if (!message) {
-      throw new HypixelDiscordChatBridgeError("No response message received");
+      throw new HypixelDiscordChatBridgeError(translate("minecraft.errors.no.response"));
     } else if (action === GuildManagementAction.Demote) {
       const rank =
         message
@@ -39,7 +39,7 @@ class DemoteUserButton extends DiscordButton<DiscordManagerWithBot> {
       await interaction.followUp({
         embeds: [
           new SuccessEmbed()
-            .setDescription(replaceVariables(this.discord.application.messages.demotionMessage, { username, rank }))
+            .setDescription(translate("minecraft.responses.demotionMessage", { username, rank }))
             .setAuthor({ name: "Member Demote", iconURL: `https://mc-heads.net/avatar/${username}` })
         ]
       });

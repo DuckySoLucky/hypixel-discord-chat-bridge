@@ -1,7 +1,9 @@
+import Button from "../../discord/private/buttons/Button.js";
 import Embed from "../../discord/private/Embed.js";
 import GenericData from "../GenericData.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
-import { ActionRowBuilder, ButtonBuilder, ComponentType, type GuildMember } from "discord.js";
+import { ActionRowBuilder, ComponentType, type GuildMember } from "discord.js";
+import { translate } from "../../translations/TranslationsManager.js";
 import type InactivityManager from "./InactivityManager.js";
 import type { BasicInactiveUserData, InactiveUserData, InactivityData } from "../../types/inactivity.js";
 
@@ -34,7 +36,7 @@ class InactiveUser extends GenericData<InactiveUserData, InactivityData, Inactiv
 
   private async handleSave(): Promise<this> {
     if (!this.manager.data.application.discord.isClientOnline()) {
-      throw new HypixelDiscordChatBridgeError("The discord bot doesn't seam to be online? Please restart the application");
+      throw new HypixelDiscordChatBridgeError(translate("discord.errors.offline"));
     }
     const channel = await this.manager.data.application.discord.getChannel("Logger-Inactivity");
     if (!channel || !channel.isSendable()) return this;
@@ -53,7 +55,7 @@ class InactiveUser extends GenericData<InactiveUserData, InactivityData, Inactiv
 
   private async handleDelete(): Promise<void> {
     if (!this.manager.data.application.discord.isClientOnline()) {
-      throw new HypixelDiscordChatBridgeError("The discord bot doesn't seam to be online? Please restart the application");
+      throw new HypixelDiscordChatBridgeError(translate("discord.errors.offline"));
     }
     const channel = await this.manager.data.application.discord.getChannel("Logger-Inactivity");
     if (!channel || !channel.isSendable()) return;
@@ -65,24 +67,24 @@ class InactiveUser extends GenericData<InactiveUserData, InactivityData, Inactiv
     const fixedButtons = component.components.flatMap((compontent) => {
       if (compontent.type !== ComponentType.Button) return [];
       return [
-        new ButtonBuilder()
+        new Button()
           .setCustomId(compontent.customId!)
           .setLabel(compontent.label!)
           .setStyle(compontent.style)
           .setDisabled(compontent.customId !== "getLinked")
       ];
     });
-    await message.edit({ content: ":warning: This inactivity has expired", embeds, components: [new ActionRowBuilder<ButtonBuilder>().addComponents(fixedButtons)] });
+    await message.edit({ content: ":warning: This inactivity has expired", embeds, components: [new ActionRowBuilder<Button>().addComponents(fixedButtons)] });
   }
 
   async getDiscordUser(): Promise<GuildMember | null> {
     if (!this.discordId) return null;
     if (!this.manager.data.application.discord.isClientOnline()) {
-      throw new HypixelDiscordChatBridgeError("The discord bot doesn't seam to be online? Please restart the application");
+      throw new HypixelDiscordChatBridgeError(translate("discord.errors.offline"));
     }
     if (!this.manager.data.application.discord.isGuildReady()) {
       this.manager.data.application.discord.stateHandler.loadGuild();
-      throw new HypixelDiscordChatBridgeError("The discord server isn't ready. Please try again later");
+      throw new HypixelDiscordChatBridgeError(translate("discord.errors.server.missing"));
     }
 
     return await this.manager.data.application.discord.guild.members.fetch(this.discordId).catch((e) => {

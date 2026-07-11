@@ -1,0 +1,1210 @@
+{
+  "UNKNOWN": "UNKNOWN",
+  "api": {
+    "hypixel": {
+      "errors": {
+        "failed": {
+          "guild": { "fetch": "Failed to fetch the Hypixel Guild", "not": { "in": "{{username}} is not in a guild" } },
+          "parse": "Something went wrong while parsing the data from the Hypixel API. Please try again later",
+          "player": "Failed to fetch Player data",
+          "skyblock": {
+            "no": {
+              "election": "Failed to fetch the SkyBlock Election data",
+              "floor": "{{username}} has never done {{floor}} before",
+              "forge": "{{username}} has no items in their forge",
+              "garden": "{{username}} does not have a garden",
+              "inventory": "{{username}} has nventory API off",
+              "museum": "{{username}} has museum API off",
+              "profile": { "any": "{{username}} has no SkyBlock profiles", "selected": "{{uuid}} has no selected SkyBlock profile" },
+              "skills": "{{username}} has no skills API off"
+            }
+          }
+        },
+        "no": { "exist": { "guild": "Guild does not exist" } }
+      }
+    },
+    "mowojang": { "errors": { "failed": { "player": "Player doesn't exist" } } }
+  },
+  "blacklist": {
+    "actions": { "user": { "unblacklisted": "User has been unblacklisted" } },
+    "embed": { "author": "Found Blacklist", "fields": { "blacklist": { "id": { "name": "Blacklist Id" } }, "blacklisted": { "by": { "name": "Blacklisted By" } } } },
+    "errors": {
+      "already": { "blacklisted": "User is already blacklisted" },
+      "discord": { "dms": { "off": "User has DMs off. They have not be alerted about the blacklist state change" } },
+      "failed": { "find": "Unable to find the blacklist user" },
+      "not": { "blacklisted": "User is not blacklisted" }
+    },
+    "name": "Blacklist"
+  },
+  "config": {
+    "errors": { "bridge": { "discord": { "invalid": "Invalid message mode: must be bot, webhook or minecraft" } } },
+    "manager": {
+      "errors": {
+        "missing": { "next": { "version": "Missing migration for config version {{nextVersion}}" } },
+        "move": { "missing": { "key": "Transform migration missing target key for \"{{oldPath}}\"" } },
+        "transform": { "missing": { "function": "Transform migration missing transform function for \"{{oldPath}}\"" } }
+      }
+    }
+  },
+  "contributor": "Contributor",
+  "credits": {
+    "dawJaw": { "description": "Jacob contests tracking", "name": "DawJaw" },
+    "discordJS": { "description": "Handles the discord part of this project", "name": "discord.js" },
+    "hypixelAPI": { "description": "It's the Hypixel API? What else would I say", "name": "Hypixel API" },
+    "hypixelAPIReborn": { "description": "Handles all processing of the Hypixel API", "name": "Hypixel-API-Reborn" },
+    "minecraftProtocol": { "description": "Handles the minecraft part of this project", "name": "minecraft-protocol" },
+    "mowojang": { "description": "Handles UUID <--> Username conversions", "name": "Mowojang API" },
+    "skin": { "description": "Handles head rendering with the minecraft bridge format", "name": "NickAc's Minecraft Skin Renderer" },
+    "soopy": { "description": "SoopyV2 commands", "name": "Soopy" }
+  },
+  "disabled": "Disabled",
+  "discord": {
+    "buttons": {
+      "blacklistRefresh": { "execute": { "success": "Updated Data" }, "label": "Refresh Data" },
+      "demoteUser": { "label": "Demote" },
+      "editBlacklistReason": { "label": "Edit Reason" },
+      "getLinked": { "label": "Get Linked Data" },
+      "gexpCheckAll": { "label": "All" },
+      "gexpCheckFilters": { "label": "More Filters" },
+      "gexpCheckGenerateKick": { "label": "Generate Kick Command" },
+      "gexpCheckGenerateKickExecute": {
+        "execute": {
+          "errors": {
+            "failed": { "fetch": "Failed to fetch attachment" },
+            "missing": { "data": "The commands file is empty?", "file": "No commands file found on the message?" }
+          }
+        },
+        "label": "Execute commands as bot"
+      },
+      "gexpCheckInactive": { "label": "Inactive" },
+      "gexpCheckMembersWithRequirements": { "label": "With Requirements" },
+      "gexpCheckMembersWithoutRequirements": { "label": "Without Requirements" },
+      "gexpCheckUnverified": { "label": "Unverified" },
+      "inviteUser": { "label": "Invite" },
+      "joinRequestAccept": { "label": "Accept Request" },
+      "joinRequestViewBlacklist": { "label": "View Blacklist" },
+      "kickUser": { "label": "Kick" },
+      "muteUser": { "label": "Mute" },
+      "promoteUser": { "label": "Promote" },
+      "setRankUser": { "label": "Set Rank" },
+      "status": { "execute": "Button Clicked {{username}} ({{userId}}) button {{customId}}", "loaded": "Successfully loaded {{amount}} buttons(s)." },
+      "unblacklist": { "label": "Delete Blacklist" },
+      "unmuteUser": { "label": "Unmute" },
+      "unverifyUser": { "label": "Force Unverify User" },
+      "updateuser": { "label": "Force Update User" }
+    },
+    "channels": {
+      "Debug": "Debug",
+      "Guild": "Guild",
+      "Logger-Blacklist": "Logger-Blacklist",
+      "Logger-Error": "Logger-Error",
+      "Logger-Event": "Logger-Event",
+      "Logger-Guild": "Logger-Guild",
+      "Logger-Inactivity": "Logger-Inactivity",
+      "Logger-Scripts": "Logger-Scripts",
+      "Officer": "Officer",
+      "debug": "Debug",
+      "guild": "Guild",
+      "logger": {
+        "blacklist": "Logger-Blacklist",
+        "error": "Logger-Error",
+        "event": "Logger-Event",
+        "guild": "Logger-Guild",
+        "inactivity": "Logger-Inactivity",
+        "scripts": "Logger-Scripts"
+      },
+      "officer": "Officer"
+    },
+    "commands": {
+      "blacklist": {
+        "description": "Blacklist a user",
+        "name": "blacklist",
+        "options": {
+          "add": {
+            "description": "Add a user to the blacklist",
+            "name": "add",
+            "options": {
+              "alert-user": { "description": "Alert user that they have been blacklisted. Defauls to true", "name": "alert-user" },
+              "reason": { "description": "Reason for the blacklist", "name": "reason" },
+              "share-user": { "description": "Share the blacklister with the user. Defauls to true", "name": "share-user" },
+              "user": { "description": "Discord Username", "name": "user" },
+              "username": { "description": "Minecraft Username", "name": "username" }
+            }
+          },
+          "get": {
+            "description": "Look up a blacklist",
+            "name": "get",
+            "options": { "user": { "description": "Discord Username", "name": "user" }, "username": { "description": "Minecraft Username", "name": "username" } }
+          },
+          "remove": {
+            "description": "Remove a user to the blacklist",
+            "name": "remove",
+            "options": {
+              "alert-user": { "description": "Alert user that they have been blacklisted. Defauls to true", "name": "alert-user" },
+              "reason": { "description": "Reason for blacklist removal", "name": "reason" },
+              "share-user": { "description": "Share the blacklister with the user. Defauls to true", "name": "share-user" },
+              "user": { "description": "Discord Username", "name": "user" },
+              "username": { "description": "Minecraft Username", "name": "username" }
+            }
+          }
+        }
+      },
+      "credits": {
+        "description": "Shows the credits of the people who make this possible",
+        "execute": {
+          "success": {
+            "embed": {
+              "fields": {
+                "misc": {
+                  "title": "**Misc**",
+                  "value": {
+                    "format": "- **[{{name}}](<{{link}}>):** {{description}}",
+                    "message": "Below are some tools/projects that this bot utilizes to stay a float\n{{message}}"
+                  }
+                },
+                "support": { "title": "**Support**", "value": "If you need any support please reach out to the maintainers: {{maintainers}}" },
+                "type": { "value": "@{{username}} (<@{{id}}>) - [Github](<https://github.com/${github}>) {{flag}}" }
+              },
+              "title": "**Credits**"
+            }
+          }
+        },
+        "name": "credits"
+      },
+      "demote": {
+        "description": "Demotes the given user by one guild rank.",
+        "name": "demote",
+        "options": { "guild-member-username": { "description": "Minecraft Username", "name": "guild-member-username" } }
+      },
+      "execute": {
+        "description": "Executes commands as the minecraft bot.",
+        "execute": { "success": "Successfully executed `/{{command}}`" },
+        "name": "execute",
+        "options": { "command": { "description": "Minecraft Command", "name": "command" } }
+      },
+      "force-execute-script": {
+        "description": "Allows executing scripts",
+        "execute": { "errors": { "unable": { "find": "Could not find that script?" } } },
+        "name": "force-execute-script",
+        "options": { "script-name": { "description": "Script Name", "name": "script-name" } }
+      },
+      "force-unverify": {
+        "description": "Remove a linked Minecraft account",
+        "name": "force-unverify",
+        "options": { "user": { "description": "Discord Username", "name": "user" } }
+      },
+      "force-update": { "description": "Update user's roles", "name": "force-update", "options": { "user": { "description": "Discord Username", "name": "user" } } },
+      "force-verify": {
+        "description": "Connect Discord account to a Minecraft",
+        "name": "force-verify",
+        "options": { "user": { "description": "Discord Username", "name": "user" }, "username": { "description": "Minecraft Username", "name": "username" } }
+      },
+      "gexp-check": {
+        "description": "Shows everyone under an set amount of gexp",
+        "execute": {
+          "errors": { "failed": { "find": { "data": "Unable to find the gexp check data", "users": "No users found" } } },
+          "success": {
+            "embed": {
+              "author": "Showing {{filteredUsers}}/{{users}} ({{percentage}}%) users - {{requirement}}",
+              "fields": { "ranks": "Hidden Ranks" },
+              "title": {
+                "gexpCheckAll": "All Members",
+                "gexpCheckInactive": "Inactive Members",
+                "gexpCheckMembersWithRequirements": "Members with {{requirement}} gexp or more",
+                "gexpCheckMembersWithoutRequirements": "Members with less than {{requirement}} gexp",
+                "gexpCheckUnverified": "Unverified Members"
+              }
+            }
+          }
+        },
+        "name": "gexp-check",
+        "options": { "requirement": { "description": "Members below this GEXP number", "name": "requirement" } }
+      },
+      "guildtop": {
+        "description": "Top 10 members with the most guild experience.",
+        "execute": {
+          "errors": {
+            "failed": {
+              "fetch": "Could not retrieve the top 10 guild members.",
+              "parse": "Failed to parse the top 10 guild members data. Is the bot's hypixel language in English?"
+            }
+          },
+          "success": { "embed": { "title": "Top 10 Guild Members" } }
+        },
+        "name": "guildtop",
+        "options": { "time": { "description": "Days ago", "name": "time" } }
+      },
+      "help": {
+        "description": "Shows the help menu.",
+        "execute": { "errors": { "failed": { "command": { "find": "Command \"{{commandName}}\" not found." } } } },
+        "name": "help",
+        "options": { "command": { "description": "Bot information about a specific command", "name": "command" } }
+      },
+      "inactivity": {
+        "description": "Send an inactivity notice to the guild staff",
+        "execute": {
+          "errors": {
+            "already": { "inactive": "You are already inactive until <t:{{timestamp}:F> (<t:{{timestamp}}:R>)" },
+            "invalid": { "time": "Please input a valid time" }
+          },
+          "success": "Inactivity request has been successfully sent to the guild staff."
+        },
+        "name": "inactivity",
+        "options": {
+          "reason": { "description": "The reason you are going away", "name": "reason" },
+          "time": { "description": "The time you are inactive for (e.g. 1d, 72h, 2w)", "name": "time" }
+        }
+      },
+      "information": {
+        "description": "Shows information about the bot.",
+        "execute": {
+          "success": {
+            "embed": {
+              "description": "`()` = **required** argument, `[]` = **optional** argument\n`u` = Minecraft Username",
+              "fields": { "commands": { "title": "**{{type}} Commands:**" }, "information": { "title": "**{{type}} Information:**", "type": { "general": "General" } } },
+              "title": "{{title}} Commands"
+            },
+            "information": {
+              "accept": "Auto Accept",
+              "channel": "{{type}} Channel",
+              "command": "Command Role",
+              "events": "SkyBlock Events",
+              "filter": "Filter Messages",
+              "message": { "format": "Message Format", "mode": "Message Mode" },
+              "prefix": { "normal": "Normal Prefix", "soopy": "Soopy Prefix" },
+              "uptime": "Uptime",
+              "username": "Bot Username",
+              "version": "Version"
+            }
+          }
+        },
+        "name": "information"
+      },
+      "invite": {
+        "description": "Invites the given user to the guild.",
+        "name": "invite",
+        "options": { "username": { "description": "Minecraft Username", "name": "username" } }
+      },
+      "kick": {
+        "description": "Kicks the given user to the guild.",
+        "name": "kick",
+        "options": {
+          "guild-member-username": { "description": "Minecraft Username", "name": "guild-member-username" },
+          "reason": { "description": "Reason", "name": "reason" }
+        }
+      },
+      "linked": {
+        "description": "View who a user is linked to",
+        "execute": { "success": "`{{nickname}}` (`{{uuid}}`) is linked to <@{{discordId}}>." },
+        "name": "linked",
+        "options": { "user": { "description": "Discord Username", "name": "user" }, "username": { "description": "Minecraft Username", "name": "username" } }
+      },
+      "list": {
+        "description": "List of guild members.",
+        "execute": {
+          "errors": {
+            "failed": {
+              "fetch": "Could not retrieve the guild list.",
+              "parse": {
+                "members": "The online members message is missing. Is the bot's hypixel language in English?",
+                "total": "The total members message is missing. Is the bot's hypixel language in English?"
+              }
+            }
+          },
+          "success": { "embed": { "online": "**Online:** {{amount}}", "title": "List Members", "total": "**Total:** {{amount}}" } }
+        },
+        "name": "list"
+      },
+      "manage-inactivity": {
+        "description": "Manage inactivity",
+        "execute": {
+          "errors": {
+            "already": { "inactive": "User already inactive until <t:{{timestamp}}:F> (<t:{{timestamp}}:R>)" },
+            "not": { "in": { "guild": "User is not in the guild." } }
+          },
+          "success": { "add": "User has been marked as inactive", "delete": "Inactivity has been removed" }
+        },
+        "name": "manage-inactivity",
+        "options": {
+          "add": {
+            "description": "Add a user to the inactivity list",
+            "name": "add",
+            "options": {
+              "reason": { "description": "The reason you are going away", "name": "reason" },
+              "time": { "description": "The time you are inactive for (e.g. 1d, 72h, 2w)", "name": "time" },
+              "user": { "description": "Discord Username", "name": "user" }
+            }
+          },
+          "delete": {
+            "description": "Delete an inactivity list entry",
+            "name": "delete",
+            "options": { "inactivity": { "description": "The inactivity you are wanting to delete", "name": "inactivity" } }
+          },
+          "get": {
+            "description": "Get an inactivity list entry",
+            "name": "get",
+            "options": { "inactivity": { "description": "The inactivity you are wanting to get", "name": "inactivity" } }
+          }
+        }
+      },
+      "mute": {
+        "description": "Mutes the given user for a given amount of time.",
+        "name": "mute",
+        "options": {
+          "guild-member-username": { "description": "Minecraft Username", "name": "guild-member-username" },
+          "time": { "description": "Time", "name": "time" }
+        }
+      },
+      "online": { "description": "List of online members.", "execute": { "success": { "embed": { "title": "Online Members" } } }, "name": "online" },
+      "ping": {
+        "description": "Show the latency of the bot.",
+        "execute": { "success": { "embed": { "description": "Client Latency: `{{clientLatency}}ms`\nAPI Latency: `{{apiLatency}}ms`", "title": "🏓 Pong!" } } },
+        "name": "ping"
+      },
+      "promote": {
+        "description": "Promote the given user by one guild rank.",
+        "name": "promote",
+        "options": { "guild-member-username": { "description": "Minecraft Username", "name": "guild-member-username" } }
+      },
+      "requirements": {
+        "description": "Check a user's requirements to join the guild",
+        "name": "requirements",
+        "options": { "username": { "description": "Minecraft Username", "name": "username" } }
+      },
+      "restart": {
+        "description": "Restarts the bot.",
+        "execute": {
+          "success": {
+            "restarted": { "embed": { "description": "The bot has been restarted successfully." } },
+            "restarting": { "embed": { "author": "Restarting...", "description": "The bot is restarting. This might take few seconds." } }
+          }
+        },
+        "name": "restart"
+      },
+      "set-rank": {
+        "description": "Set rank of the given user.",
+        "name": "set-rank",
+        "options": {
+          "guild-member-username": { "description": "Minecraft Username", "name": "guild-member-username" },
+          "guild-rank": { "description": "In game rank", "name": "guild-rank" }
+        }
+      },
+      "status": {
+        "execute": "Interaction Event trigged by {{username}} ({{userId}}) ran command {{commandName}}",
+        "loaded": "Successfully reloaded {{amount}} application command(s)."
+      },
+      "unmute": {
+        "description": "Unmute the given user.",
+        "name": "unmute",
+        "options": { "guild-member-username": { "description": "Minecraft Username", "name": "guild-member-username" } }
+      },
+      "unverify": {
+        "description": "Remove your linked Minecraft account",
+        "execute": {
+          "success": { "format": { "self": { "false": "<@{{discordId}}>'s", "true": "Your" } }, "message": "{{format}} account has been successfully unlinked" }
+        },
+        "name": "unverify"
+      },
+      "update": {
+        "description": "Update your current roles",
+        "execute": {
+          "errors": { "failed": { "update": "Something wen't wrong with updating" } },
+          "success": {
+            "format": { "self": { "false": "<@{{discordId}}>'s", "true": "your" } },
+            "message": "Successfully synced {{format}} roles with `{{username}}`'s stats!"
+          }
+        },
+        "name": "update"
+      },
+      "uptime": {
+        "description": "Shows the uptime of the bot.",
+        "execute": { "success": { "embed": { "description": "Online since <t:{{timestamp}}:R>", "title": "🕐 Uptime!" } } },
+        "name": "uptime"
+      },
+      "verify": {
+        "description": "Connect your Discord account to Minecraft",
+        "execute": {
+          "errors": {
+            "no": {
+              "discord": {
+                "discord": "Unable to find the discord user",
+                "found": "The player '{{nickname}} has not linked their Discord account. {{instructions}}",
+                "instructions": {
+                  "embed": { "author": "Link with Hypixel Social Media", "fields": "**Instructions:**" },
+                  "message": "Please follow the instructions below.",
+                  "steps": {
+                    "step1": "Use your Minecraft client to connect to Hypixel.",
+                    "step2": "Once connected, and while in the lobby, right click \"My Profile\" in your hotbar. It is option #2.",
+                    "step3": "Click \"Social Media\" - this button is to the left of the Redstone block (the Status button).",
+                    "step4": "Click \"Discord\" - it is the second last option.",
+                    "step5": "Paste your Discord username into chat and hit enter. For reference: `{username}`",
+                    "step6": "You're done! Wait around 30 seconds and then try again."
+                  }
+                },
+                "match": "The player '{{nickname}}' has linked their Discord account to a different account ('{{discordUsername}}'). {{instructions}}"
+              }
+            },
+            "verified": "User is verified. Please use /unverify first"
+          },
+          "success": {
+            "embed": {
+              "author": "Successfully linked!",
+              "description": {
+                "format": { "self": { "false": "<@{{discordId}}>'s", "true": "Your" } },
+                "message": "{{format}} account has been successfully linked to `{{nickname}}`"
+              }
+            }
+          }
+        },
+        "name": "verify",
+        "options": { "username": { "description": "Minecraft Username", "name": "username" } }
+      }
+    },
+    "embed": {
+      "generic": {
+        "author": { "Error": "An Error has occurred", "Success": "Success", "Warning": "An Warning has occurred" },
+        "fields": {
+          "data": { "value": "```{{data}}```" },
+          "discord": { "id": { "name": "Discord Id" } },
+          "inGuild": { "name": "Is In Guild", "value": { "false": ":x: No", "true": ":white_check_mark: Yes" } },
+          "reason": { "name": "Reason" },
+          "timestamp": { "name": "Timestamp" },
+          "username": { "formatted": { "name": "Formatted Username" }, "name": "Username" },
+          "uuid": { "name": "UUID" }
+        },
+        "footer": { "command": "by @{{username}} | () = required, [] = optional", "dev": "by @{{username}} | /help [command] for more information" }
+      }
+    },
+    "errors": {
+      "commands": { "set": { "description": "Directly setting description is not allowed. Use the setName function instead." } },
+      "interaction": {
+        "command": {
+          "disabled": "{{type}} commands are disabled.",
+          "no": { "verify": "This command requires you to be verified. Please use /verify to verify." },
+          "unknown": { "subcommand": "Unknown Subcommand" }
+        },
+        "no": { "permissions": "You don't have permission to use this command." },
+        "not": { "in": { "guild": "Please run this command inside of a guild" } }
+      },
+      "no": { "channel": "Channel \"{{type}}\" not found!" },
+      "offline": "The discord bot doesn't seam to be online? Please restart the application",
+      "perms": { "webhook": "An error occurred while trying to fetch the webhooks. Please make sure the bot has the `MANAGE_WEBHOOKS` permission." },
+      "server": { "missing": "The discord server isn't ready. Please try again later" }
+    },
+    "format": { "channel": "<#{{id}}>", "mention": "<@{{id}}>", "role": "<@&{{id}}>", "timestamp": "<t:{{timestamp}}:F> (<t:{{timestamp}}:R>)" },
+    "modals": {
+      "gexpCheckGenerateKick": { "execute": "Attached is a full list of kick commands for the selected users" },
+      "status": { "execute": "Modal submitted {{username}} ({{userId}}) modal {{customId}}", "loaded": "Successfully loaded {{amount}} modals(s)." }
+    },
+    "name": "Discord",
+    "state": {
+      "offline": "Chat Bridge is Online",
+      "online": "Chat Bridge is Online",
+      "ready": {
+        "client": { "full": "Discord Client is fully ready!", "message": "Discord client ready, logged in as {{username}} ({{id}})!" },
+        "guild": "Guild ready, successfully fetched {{name}} ({{id}})"
+      }
+    }
+  },
+  "enabled": "Enabled",
+  "generic": {
+    "errors": {
+      "arguments": {
+        "two": {
+          "missing": "You must specify a \"{{argumentOne}}\" or \"{{argumentTwo}}\".",
+          "supply": "You cannot specify both \"{{argumentOne}}\" and {{argumentTwo}}\"."
+        }
+      },
+      "no": { "words": { "found": "No words found with {{length}} characters." } }
+    },
+    "manager": {
+      "errors": {
+        "file": {
+          "malformed": "The {{name}} data file is malformed. Please contact an administrator.",
+          "no": { "exist": "The {{name}} data file does not exist. Please contact an administrator." }
+        }
+      }
+    },
+    "no": { "reason": "No reason provided" }
+  },
+  "inactivity": { "errors": { "failed": { "find": "Unable to find that inactivity data" } }, "name": "Inactivity" },
+  "linked": {
+    "errors": {
+      "owns": { "discord": "This user owns the server thus no one can edit their roles" },
+      "user": { "find": "Unable to find the linked user", "missing": "User is not verified", "username": "Unable to find the username" }
+    },
+    "name": "Verification"
+  },
+  "maintainer": "Maintainer",
+  "minecraft": {
+    "commands": {
+      "8ball": {
+        "description": "Ask an 8ball a question.",
+        "execute": {
+          "errors": { "no": { "question": "You must provide a question.", "response": "Wouldn't you like to know weather boy." } },
+          "response": "{{reading}}"
+        },
+        "name": "8ball",
+        "options": { "question": { "description": "The question you want to ask the 8ball", "name": "question" } }
+      },
+      "accessories": {
+        "description": "Accessories of specified user.",
+        "execute": {
+          "success": "{{username}}'s Accessories: {{amount}} ({{magicalPower}} MP), Recombed: {{recombed}}, Enriched: {{enriched}} ({{COMMON}}C, {{RARE}}R, {{EPIC}}E, {{LEGENDARY}}L, {{MYTHIC}}M, {{SPECIAL}}S)"
+        },
+        "name": "accessories"
+      },
+      "bedwars": {
+        "description": "BedWars stats of specified user.",
+        "execute": {
+          "success": {
+            "format": { "4v4": "4v4", "doubles": "Doubles", "fours": "Fours", "overall": "Overall", "solo": "Solo", "threes": "Threes" },
+            "message": "[{{level}}✫] {{username}} {{mode}} FK: {{finalKills}} FKDR: {{FKDR}} W: {{wins}} WLR: {{winLossRatio}} BB: {{brokenBeds}} BLR: {{BLRatio}} WS: {{winstreak}}"
+          }
+        },
+        "name": "bedwars"
+      },
+      "bestiary": {
+        "description": "Bestiary of specified user.",
+        "execute": {
+          "success": "{{username}}'s Bestiary: {{level}} / {{maxLevel}} ({{progress}}%) | Unlocked Tiers: {{familyTiers}} / {{maxFamilyTiers}} | Unlocked Families: {{familiesUnlocked}} / {{totalFamilies}} | Families Maxed: {{familiesCompleted}}"
+        },
+        "name": "bestiary"
+      },
+      "blitzsurvivalgames": {
+        "description": "Blitz Survival Games stats of specified user.",
+        "execute": { "success": "{{username}}'s BlitzSG {{formattedPrefix}} Kills: {{kills}} KDR: {{KDRatio}} | Wins: {{wins}} WLR: {{WLRatio}} | Coins: {{coins}}" },
+        "name": "blitzsurvivalgames"
+      },
+      "boo": {
+        "description": "Boo someone!",
+        "execute": { "errors": { "halloween": "You can only do this during Halloween!" }, "success": "Booed {{username}}!" },
+        "name": "boo"
+      },
+      "boop": { "description": "Boop someone!", "execute": { "success": "Booped {{username}}!" }, "name": "boop" },
+      "buildbattle": {
+        "description": "Build Battle Stats of specified user.",
+        "execute": {
+          "success": "{{title}} {{hypixelPlayer.nickname}}'s Build Battle Wins: {{wins}} Speed Builders Wins: {{winsSpeedBuilders}} GTB Wins: {{winsGuessTheBuild}} | Score: {{score}} | Tokens: {{tokens}}"
+        },
+        "name": "buildbattle"
+      },
+      "calculate": {
+        "description": "Calculate.",
+        "execute": {
+          "error": "Something went wrong.. Somehow you broke it (the answer was infinity)",
+          "success": { "21": "9 + 10 = 21", "fullMessage": "{{calculation}} = {{answer}} ({{fullAnswer}})", "message": "{{calculation}} = {{answer}}" }
+        },
+        "name": "calculate",
+        "options": { "calculation": { "description": "Any kind of math equation", "name": "calculation" } }
+      },
+      "catacombs": {
+        "description": "Skyblock Dungeons Stats of specified user.",
+        "execute": {
+          "success": {
+            "format": { "UNKNOWN": "UNKNOWN", "archer": "Archer", "berserk": "Berserk", "healer": "Healer", "mage": "Mage", "tank": "Tank" },
+            "message": "{{username}}'s Catacombs: {{level)}} | Selected Class: {{selectedClass}} | Class Average: {{classAverage}} | Secrets Found: {{secrets}} | Classes: {{healer}}H, {{mage}}M, {{berserk}}B, {{archer}}A, {{mage}}M {{tank}}T"
+          }
+        },
+        "name": "catacombs"
+      },
+      "chocolatefactory": {
+        "description": "Skyblock Chocolate Factory Stats of specified user.",
+        "execute": {
+          "success": "{{username}}'s Chocolate Prestige: {{prestige}} | Chocolate: {{currentChocolate}} | Total Chocolate: {{totalChocolate}} | Employees: Bro: {{bro}}, Cousin: {{cousin}}, Sis: {{sis}}, Father: {{father}}, Grandma: {{grandma}}, Dog: {{dog}}, Uncle: {{uncle}}"
+        },
+        "name": "chocolatefactory"
+      },
+      "coinflip": { "description": "Flips a coin.", "execute": { "success": { "head": "Heads!", "tail": "Tails!" } }, "name": "coinflip" },
+      "crimsonisle": {
+        "description": "Crimson Isle Stats of specified user.",
+        "execute": {
+          "success": {
+            "format": { "UNKNOWN": "UNKNOWN", "barbarians": "Barbarian", "mages": "Mage" },
+            "message": "{{username}}'s Faction: {{faction}} | Barbarian Reputation: {{barbariansReputation}} | Mage Reputation: {{magesReputation}}"
+          }
+        },
+        "name": "crimsonisle"
+      },
+      "dojo": {
+        "description": "Dojo Stats of specified user.",
+        "execute": {
+          "success": {
+            "format": { "Black": "Black", "Blue": "Blue", "Brown": "Brown", "Green": "Green", "White": "White", "Yellow": "Yellow" },
+            "message": "{{username}}'s Belt: {{belt}} | Best Force: {{force}} | Best Stamina: {{stamina}} | Best Mastery: {{mastery}} | Best Discipline: {{discipline}} | Best Swiftness: {{swiftness}} | Best Control: {{control}} | Best Tenacity: {{tenacity}}"
+          }
+        },
+        "name": "dojo"
+      },
+      "duels": {
+        "description": "Duel stats of specified user.",
+        "execute": {
+          "success": {
+            "format": {
+              "a": "Arena",
+              "arena": "Arena",
+              "b": "Bridge",
+              "bedwars": "BedWars",
+              "bedwarsRush": "bedwarsRush",
+              "blitz": "Blitz",
+              "bow": "Bow",
+              "bowspleef": "Bow Spleef",
+              "boxing": "Boxing",
+              "bridge": "Bridge",
+              "bs": "Bow Spleef",
+              "bw": "BedWars",
+              "bwr": "Bedwars Rush",
+              "c": "Classic",
+              "class": "Classic",
+              "classic": "Classic",
+              "combo": "Combo",
+              "m": "MegaWalls",
+              "megawalls": "MegaWalls",
+              "mw": "MegaWalls",
+              "ndb": "No Debuff",
+              "nodebuff": "No Debuff",
+              "op": "OP",
+              "p": "Parkour",
+              "parkour": "Parkour",
+              "s": "Sumo",
+              "skywars": "SkyWars",
+              "sumo": "Sumo",
+              "sw": "SkyWras",
+              "u": "UHC",
+              "uhc": "UHC"
+            },
+            "message": "{{title}}{{username}}'s {{mode}} Kills: {{kills}} KDR: {{KDR}} | Wins: {{wins}} WLR: {{WLR}} | WS: {{winStreak}} BWS: {{bestWinStreak}}"
+          }
+        },
+        "name": "duels"
+      },
+      "essence": {
+        "description": "Skyblock Dungeons Stats of specified user.",
+        "execute": {
+          "success": {
+            "format": {
+              "crimsonEssence": "Crimson",
+              "diamondEssence": "Diamond",
+              "dragonEssence": "Dragon",
+              "format": "{{type}}: {{value}}",
+              "goldEssence": "Gold",
+              "iceEssence": "Ice",
+              "join": ", ",
+              "spiderEssence": "Spider",
+              "undeadEssence": "Undead",
+              "witherEssence": "Wither"
+            },
+            "message": "{{username}}'s Essence: {{essenceString}}"
+          }
+        },
+        "name": "essence"
+      },
+      "execute": {
+        "error": {
+          "resend": "Command failed to send message after {{maxRetries}} attempts due to rate limiting.",
+          "timeout": "Message sending timed out after 10 seconds"
+        },
+        "format": "{{player}} - [{{command}}] {{message}}",
+        "soopy": {
+          "execute": { "error": { "generic": "An error occured while running the command", "unknown": "Unknown error" }, "success": "{{message}}" },
+          "prefix": "[SOOPY V2]"
+        }
+      },
+      "fairysouls": {
+        "description": "Fairy Souls of specified user.",
+        "execute": { "success": "{{username}}'s Fairy Souls: {{collected}} / {{total}} | Progress: {{progress}}%" },
+        "name": "fairysouls"
+      },
+      "floor": {
+        "description": "Returns stats about a floor",
+        "execute": {
+          "success": {
+            "format": {
+              "f1": "F1",
+              "f2": "F2",
+              "f3": "F3",
+              "f4": "F4",
+              "f5": "F5",
+              "f6": "F6",
+              "f7": "F7",
+              "m1": "M1",
+              "m2": "M2",
+              "m3": "M3",
+              "m4": "M4",
+              "m5": "M5",
+              "m6": "M6",
+              "m7": "M7"
+            },
+            "message": "{{username}}'s {{floorId}} completions {{timesPlayed}} | S+: {{fastestTimeSPlus}} | S: {{fastestTimeS}}"
+          }
+        },
+        "name": "floor"
+      },
+      "forge": {
+        "description": "Skyblock Forge Info Stats of specified user.",
+        "execute": {
+          "success": {
+            "format": {
+              "Amber Material": "Amber Material",
+              "Amber Necklace": "Amber Necklace",
+              "Amber-Polished Drill Engine": "Amber-Polished Drill Engine",
+              "Amethyst Gauntlet": "Amethyst Gauntlet",
+              "Beacon II": "Beacon II",
+              "Beacon III": "Beacon III",
+              "Beacon IV": "Beacon IV",
+              "Beacon V": "Beacon V",
+              "Bejeweled Collar": "Bejeweled Collar",
+              "Bejeweled Handle": "Bejeweled Handle",
+              "Blue Cheese Goblin Omelette": "Blue Cheese Goblin Omelette",
+              "Boots Of Divan": "Boots Of Divan",
+              "Chestplate Of Divan": "Chestplate Of Divan",
+              "Chisel": "Chisel",
+              "Diamonite": "Diamonite",
+              "Divan Powder Coating": "Divan Powder Coating",
+              "Divan's Drill": "Divan's Drill",
+              "Drill Motor": "Drill Motor",
+              "Dwarven Geode": "Dwarven Geode",
+              "Dwarven Handwarmers": "Dwarven Handwarmers",
+              "Dwarven Metal Talisman": "Dwarven Metal Talisman",
+              "Frigid Husk": "Frigid Husk",
+              "Fuel Canister": "Fuel Canister",
+              "Gemstone Chamber": "Gemstone Chamber",
+              "Gemstone Drill LT-522": "Gemstone Drill LT-522",
+              "Gemstone Fuel Tank": "Gemstone Fuel Tank",
+              "Gemstone Mixture": "Gemstone Mixture",
+              "Glacite Amalgamation": "Glacite Amalgamation",
+              "Glacite-Plated Chisel": "Glacite-Plated Chisel",
+              "Gleaming Crystal": "Gleaming Crystal",
+              "Goblin Omelette": "Goblin Omelette",
+              "Golden Plate": "Golden Plate",
+              "Helmet Of Divan": "Helmet Of Divan",
+              "Jade Belt": "Jade Belt",
+              "Jasper Drill X": "Jasper Drill X",
+              "Leggings Of Divan": "Leggings Of Divan",
+              "Mithril Belt": "Mithril Belt",
+              "Mithril Cloak": "Mithril Cloak",
+              "Mithril Drill SX-R226": "Mithril Drill SX-R226",
+              "Mithril Drill SX-R326": "Mithril Drill SX-R326",
+              "Mithril Gauntlet": "Mithril Gauntlet",
+              "Mithril Necklace": "Mithril Necklace",
+              "Mithril Plate": "Mithril Plate",
+              "Mithril-Infused Fuel Tank": "Mithril-Infused Fuel Tank",
+              "Mithril-Plated Drill Engine": "Mithril-Plated Drill Engine",
+              "PET": "PET",
+              "Pendant of Divan": "Pendant of Divan",
+              "Perfect Amber Gemstone": "Perfect Amber Gemstone",
+              "Perfect Amethyst Gemstone": "Perfect Amethyst Gemstone",
+              "Perfect Aquamarine Gem": "Perfect Aquamarine Gem",
+              "Perfect Chisel": "Perfect Chisel",
+              "Perfect Citrine Gem": "Perfect Citrine Gem",
+              "Perfect Jade Gemstone": "Perfect Jade Gemstone",
+              "Perfect Jasper Gemstone": "Perfect Jasper Gemstone",
+              "Perfect Onyx Gem": "Perfect Onyx Gem",
+              "Perfect Opal Gemstone": "Perfect Opal Gemstone",
+              "Perfect Peridot Gem": "Perfect Peridot Gem",
+              "Perfect Plate": "Perfect Plate",
+              "Perfect Ruby Gemstone": "Perfect Ruby Gemstone",
+              "Perfect Sapphire Gemstone": "Perfect Sapphire Gemstone",
+              "Perfect Topaz Gemstone": "Perfect Topaz Gemstone",
+              "Perfectly-Cut Fuel Tank": "Perfectly-Cut Fuel Tank",
+              "Pesto Goblin Omelette": "Pesto Goblin Omelette",
+              "Petrified Starfall": "Petrified Starfall",
+              "Pocket Iceberg": "Pocket Iceberg",
+              "Portable Campfire": "Portable Campfire",
+              "Power Crystal": "Power Crystal",
+              "Pure Mithril": "Pure Mithril",
+              "Refined Diamond": "Refined Diamond",
+              "Refined Mithril": "Refined Mithril",
+              "Refined Titanium": "Refined Titanium",
+              "Refined Tungsten": "Refined Tungsten",
+              "Refined Umber": "Refined Umber",
+              "Reinforced Chisel": "Reinforced Chisel",
+              "Relic of Power": "Relic of Power",
+              "Ruby Drill TX-15": "Ruby Drill TX-15",
+              "Ruby-Polished Drill Engine": "Ruby-Polished Drill Engine",
+              "Sapphire Cloak": "Sapphire Cloak",
+              "Sapphire-Polished Drill Engine": "Sapphire-Polished Drill Engine",
+              "Scorched Topaz": "Scorched Topaz",
+              "Secret Railroad Pass": "Secret Railroad Pass",
+              "Skeleton Key": "Skeleton Key",
+              "Spicy Goblin Omelette": "Spicy Goblin Omelette",
+              "Starfall Seasoning": "Starfall Seasoning",
+              "Sunny Side Goblin Omelette": "Sunny Side Goblin Omelette",
+              "Titanium Artifact": "Titanium Artifact",
+              "Titanium Belt": "Titanium Belt",
+              "Titanium Cloak": "Titanium Cloak",
+              "Titanium Drill DR-X355": "Titanium Drill DR-X355",
+              "Titanium Drill DR-X455": "Titanium Drill DR-X455",
+              "Titanium Drill DR-X555": "Titanium Drill DR-X555",
+              "Titanium Drill DR-X655": "Titanium Drill DR-X655",
+              "Titanium Gauntlet": "Titanium Gauntlet",
+              "Titanium Necklace": "Titanium Necklace",
+              "Titanium Relic": "Titanium Relic",
+              "Titanium Ring": "Titanium Ring",
+              "Titanium Talisman": "Titanium Talisman",
+              "Titanium Tesseract": "Titanium Tesseract",
+              "Titanium-Infused Fuel Tank": "Titanium-Infused Fuel Tank",
+              "Titanium-Plated Drill Engine": "Titanium-Plated Drill Engine",
+              "Topaz Drill KGR-12": "Topaz Drill KGR-12",
+              "Topaz Rod": "Topaz Rod",
+              "Travel Scroll to the Dwarven Base Camp": "Travel Scroll to the Dwarven Base Camp",
+              "Travel Scroll to the Dwarven Forge": "Travel Scroll to the Dwarven Forge",
+              "Tungsten Key": "Tungsten Key",
+              "Tungsten Plate": "Tungsten Plate",
+              "Tungsten Regulator": "Tungsten Regulator",
+              "UNKNOWN": "UNKNOWN",
+              "Umber Key": "Umber Key",
+              "Umber Plate": "Umber Plate",
+              "[Lvl 1] Ammonite": "[Lvl 1] Ammonite",
+              "[Lvl 1] Ankylosaurus": "[Lvl 1] Ankylosaurus",
+              "[Lvl 1] Goblin": "[Lvl 1] Goblin",
+              "[Lvl 1] Mammoth": "[Lvl 1] Mammoth",
+              "[Lvl 1] Mole": "[Lvl 1] Mole",
+              "[Lvl 1] Penguin": "[Lvl 1] Penguin",
+              "[Lvl 1] Spinosaurus": "[Lvl 1] Spinosaurus",
+              "[Lvl 1] T-Rex": "[Lvl 1] T-Rex",
+              "finished": { "false": "({{timeLeft}})", "true": "Finished" },
+              "join": " | ",
+              "slot": "{{slot}}: {{item}} {{finished}}"
+            },
+            "message": "{{username}}'s Forge: {{slots}}"
+          }
+        },
+        "name": "forge"
+      },
+      "garden": {
+        "description": "Skyblock Garden Stats of specified user.",
+        "execute": {
+          "success": {
+            "format": {
+              "average": "Avg",
+              "cactus": "Cactus",
+              "carrot": "Carrot",
+              "cocoaBeans": "Cocoa",
+              "format": "{{name}}: {{level}}",
+              "join": " | ",
+              "melon": "Melon",
+              "moonFlower": "MF",
+              "mushroom": "Mushroom",
+              "netherWart": "Wart",
+              "potato": "Potato",
+              "pumpkin": "Pumpkin",
+              "sugarCane": "Cane",
+              "sunFlower": "SF",
+              "wheat": "Wheat",
+              "wildRose": "WR"
+            },
+            "message": "{{username}}'s Garden {{level}} | Milestones: {{milestones}}"
+          }
+        },
+        "name": "garden"
+      },
+      "generic": { "options": { "username": { "description": "Minecraft Meow Username", "name": "username" } } },
+      "guild": {
+        "description": "View information of a guild",
+        "execute": { "success": "Guild {{name}} | Tag: [{{tag}}] | Members: {{members.length}} | Level: {{level}} | Weekly GEXP: {{weeklyGexp}} | Owner: {{owner}}" },
+        "name": "guild",
+        "options": { "name": { "description": "Guild Name", "name": "name" } }
+      },
+      "guildexp": {
+        "description": "Guilds experience of specified user.",
+        "execute": { "success": "{{player}}'s Weekly Guild Experience: {{weeklyExperience}}." },
+        "name": "guildexp"
+      },
+      "guildof": {
+        "description": "View the player's guild",
+        "execute": { "success": "Guild of {{player}} is {{name}} | Tag: [{{tag}}] | Members: {{members}} | Level: {{level}} | Weekly GEXP: {{weeklyGexp}}" },
+        "name": "guildof"
+      },
+      "hotm": {
+        "description": "Skyblock Hotm Stats of specified user.",
+        "execute": {
+          "success": "{{username}}'s Hotm: {{level}} | Mithril Powder: {{mithrilTotal}} | Gemstone Powder: {{gemstoneTotal}} | Glacite Powder: {{glaciteTotal}} | Selected Ability: {{pickaxeAbility}}"
+        },
+        "name": "hotm"
+      },
+      "jacob": {
+        "description": "Jacob's Contest Stats of specified user.",
+        "execute": {
+          "success": "{{username}}'s Gold Medals: {{gold}} | Silver: {{silver}} | Bronze: {{bronze}} | Double Drops {{doubleDrops}} / 15 | Level Cap: {{farmingLevelCap}} / 10"
+        },
+        "name": "jacob"
+      },
+      "kuudra": {
+        "description": "Kuudra Stats of specified user.",
+        "execute": {
+          "success": "{{username}}'s Basic: {{basicCompletions}} | Hot: {{hotCompletions}} | Burning: {{burningCompletions}} | Fiery: {{fieryCompletions}} | Infernal: {{infernalCompletions}}"
+        },
+        "name": "kuudra"
+      },
+      "level": { "description": "Skyblock Level of specified user.", "execute": { "success": "{{username}}'s SkyBlock Level is {{level}}" }, "name": "level" },
+      "loaded": "Successfully reloaded {{amount}} minecraft command(s).",
+      "mayor": {
+        "description": "Skyblock Mayor.",
+        "execute": {
+          "errors": { "no": { "leader": "[MAYOR] No current leader." } },
+          "success": {
+            "election": "[MAYOR] Current Election: {{mayorName}} has {{percentage}}% of the votes.",
+            "message": "[MAYOR] {{mayorName}} is the current mayor of Skyblock! Perks: {{perks}}"
+          }
+        },
+        "name": "mayor"
+      },
+      "megawalls": {
+        "description": "View the Megawalls stats of a player",
+        "execute": {
+          "success": {
+            "format": {
+              "angel": "Angel",
+              "arcanist": "Arcanist",
+              "assassin": "Assassin",
+              "automaton": "Automaton",
+              "blaze": "Blaze",
+              "cow": "Cow",
+              "creeper": "Creeper",
+              "deadlord": "Deadlord",
+              "enderman": "Enderman",
+              "golem": "Golem",
+              "herobrine": "Herobrine",
+              "hunter": "Hunter",
+              "moleman": "Moleman",
+              "phoenix": "Phoenix",
+              "pigman": "Pigman",
+              "pirate": "Pirate",
+              "renegade": "Renegade",
+              "shaman": "Shaman",
+              "shark": "Shark",
+              "sheep": "Sheep",
+              "skeleton": "Skeleton",
+              "snowman": "Snowman",
+              "spider": "Spider",
+              "squid": "Squid",
+              "werewolf": "Werewolf",
+              "zombie": "Zombie"
+            },
+            "message": "{{username}}'s Megawalls Class: {{selectedClass}} | FK: {{finalKills}} | FKDR: {{FKDR}} | W: {{wins}} | WLR: {{WLR}} | K: {{kills}} | KDR: {{KDR}} | A: {{assists}}"
+          }
+        },
+        "name": "megawalls"
+      },
+      "meow": { "description": "meow", "name": "meow" },
+      "murdermystery": {
+        "description": "Get Murder Mystery Player Stats",
+        "execute": { "success": "{{username}}'s Murder Mystery Wins: {{wins}} | WLR: {{wlr}} | Kills: {{kills}} | KDR: {{kdr}}" },
+        "name": "murdermystery"
+      },
+      "networth": {
+        "description": "Networth of specified user.",
+        "execute": {
+          "success": "{{username}}'s Networth is {{networth}} | Non-Cosmetic Networth: {{nonCosmeticNetworth}} | Unsoulbound Networth: {{unsoulboundNetworth}} | Non-Cosmetic Unsoulbound Networth: {{nonCosmeticUnsoulboundNetworth}} | Purse: {{purse}} | Bank: {{bank} + {{personalBank}} | Museum: {{museumData}}"
+        },
+        "name": "networth"
+      },
+      "player": {
+        "description": "Get Hypixel Player Stats",
+        "execute": { "success": "{{username}}'s level: {{level}} | Karma: {{karma}} | Achievement Points: {{achievementsPoints}} | Guild: {{guildName}}" },
+        "name": "player"
+      },
+      "sheepwars": {
+        "description": "SheepWars stats of specified user.",
+        "execute": { "success": "[{{level}}✫] {{username}}: W: {{wins}} | WLR: {{wlr}} | KDR: {{KDRatio}}" },
+        "name": "sheepwars"
+      },
+      "skills": {
+        "description": "Skills and Skill Average of specified user.",
+        "execute": {
+          "success": {
+            "format": {
+              "alchemy": "Alch",
+              "base": "{{name}}: {{level}} ({{xp}})",
+              "carpentry": "Carp",
+              "combat": "Combat",
+              "enchanting": "Ench",
+              "farming": "Farm",
+              "fishing": "Fish",
+              "foraging": "Foraging",
+              "join": ", ",
+              "mining": "Mining",
+              "runecrafting": "Rune",
+              "social": "Social",
+              "taming": "Taming"
+            },
+            "message": "{{username}}'s Skill avg: {{average}} | {{skills}}"
+          }
+        },
+        "name": "skills"
+      },
+      "skyblock": {
+        "description": "Skyblock Stats of specified user.",
+        "execute": {
+          "success": {
+            "message": "{{username}}'s Level: {{level}} | Skill Avg: {{skillAverage}} | Slayer: {{slayer}} | Cata: {{cata}} | Class Avg: {{classAverage}} | MP: {{magicalPower}} | Hotm: {{hotm}}",
+            "slayers": {
+              "format": { "base": "{{level}}{{name}}", "blaze": "B", "enderman": "E", "join": ", ", "spider": "S", "vampire": "V", "wolf": "W", "zombie": "Z" }
+            }
+          }
+        },
+        "name": "skyblock"
+      },
+      "skywars": {
+        "description": "Skywars stats of specified user.",
+        "execute": { "success": "[{{level}}✫] {{username}} | Kills: {{kills}} KDR: {{kdr}} | Wins: {{wins}} WLR: {{WLRatio}} | Coins: {{coins}}" },
+        "name": "skywars"
+      },
+      "slayer": {
+        "description": "Slayer of specified user.",
+        "execute": {
+          "success": {
+            "format": {
+              "base": "{{slayer}}: {{level}} ({{xp}})",
+              "blaze": "Blaze",
+              "enderman": "Enderman",
+              "join": ", ",
+              "spider": "Spider",
+              "vampire": "Vampire",
+              "wolf": "Wolf",
+              "zombie": "Zombie"
+            },
+            "message": "{{username}}'s slayers: {{slayers}}"
+          }
+        },
+        "name": "slayer"
+      },
+      "specialmayor": {
+        "description": "How many years until next special mayor, along with speculated special mayor.",
+        "execute": {
+          "success": {
+            "current": "Special Mayor this year! It is speculated to be {{mayor}}.",
+            "next": "Not a Special Mayor year. {{yearsUntil}} year(s) until the next one! It is speculated to be {{mayor}}"
+          }
+        },
+        "name": "specialmayor"
+      },
+      "trophyfish": {
+        "description": "Trophy Fish Stats of specified user.",
+        "execute": {
+          "success": {
+            "message": "{{username}}'s Trophy Fishing rank: {{rank}} | Caught: {{total}} | Bronze: {{uniqueBronze}}/18 ({{totalBronze}}) | Silver: {{uniqueSilver}}/18 ({{totalSilver}}) | Gold: {{uniqueGold}}/18 ({{totalGold}}) | Diamond: {{uniqueDiamond}}/18 ({{totalDiamond}})",
+            "rank": { "Bronze": "Bronze", "Diamond": "Diamond", "Gold": "Gold", "Silver": "Silver" }
+          }
+        },
+        "name": "trophyfish"
+      },
+      "warpout": {
+        "description": "Warp player out of the game",
+        "execute": {
+          "errors": {
+            "bad": { "warp": "{{username}} didn't warp correctly! Please try again..." },
+            "expire": "Party expired",
+            "limbo": { "in": "Somehow I'm inside in limbo? Disbanding party...", "warp": "{{username}} cannot be warped from Limbo! Disbanding party..." },
+            "not": {
+              "allowed": {
+                "disband": "Somehow I'm not allowed to disband this party? Leaving party...",
+                "invite": "Somehow I'm not allowed to invite players? Disbanding par.warpty...",
+                "server": "{{username}} is not allowed on my server! Disbanding party..."
+              }
+            },
+            "offline": "{{username}} is offline",
+            "party": { "disabled": "{{username}} has party requests disabled!" },
+            "self": "I cannot party myself!"
+          },
+          "success": { "inviting": "Partying {{username}}...", "warped": "Successfully warped {{username}}..." }
+        },
+        "name": "warpout"
+      },
+      "woolwars": {
+        "description": "WoolWars stats of specified user.",
+        "execute": { "success": "[{{level}}✫] {{username}}: W: {{wins}} | WLR: {{wlr}} | KDR: {{KDRatio}} | BB: {{blocksBroken}} | WP: {{woolPlaced}}" },
+        "name": "woolwars"
+      }
+    },
+    "errors": {
+      "command": { "cooldown": "{{player}} Command is on cooldown" },
+      "no": {
+        "permissions": {
+          "demote": "Demote",
+          "invite": "Invite",
+          "kick": "Kick",
+          "message": "The bot doesn't have perms to {{action}}",
+          "mute": "Mute",
+          "promote": "Promote",
+          "setrank": "Set Rank",
+          "unmute": "Unmute"
+        },
+        "response": "No response message received",
+        "username": "Please provide a username!"
+      },
+      "offline": "Bot doesn't seem to be connected to Hypixel. Please try again.",
+      "timeout": { "command": "Command timed out. Please try again" }
+    },
+    "init": {
+      "unsupported": {
+        "version": {
+          "footer": "[minecraft.bot.version] The currently supported versions are {{supportedVersions}}",
+          "title": "[minecraft.bot.version] You currently have an unsupported version selected ({{version}})",
+          "untested": "[minecraft.bot.version] While it may work we cannot guarantee it to work"
+        }
+      }
+    },
+    "name": "Minecraft",
+    "responses": {
+      "alreadyHasRankMessage": "They already have that rank!",
+      "alreadyMutedMessage": "This user is already muted!",
+      "cannotMuteMoreThanOneMonthMessage": "You cannot mute someone for more than one month",
+      "demotionMessage": "{{username}} was demoted to {{rank}}",
+      "guildJoinMessage": "Welcome to the guild! Make sure to join our discord using /g discord!",
+      "guildLevelUpMessage": "The guild has reached level {{level}}",
+      "guildMuteMessage": "Guild Chat has been muted for {{time}}!",
+      "guildUnmuteMessage": "Guild Chat has been unmuted!",
+      "joinMessage": "{{username}} joined the guild!",
+      "kickMessage": "{{username}} was kicked from the guild!",
+      "leaveMessage": "{{username}} left the guild!",
+      "loginMessage": "{{username}} joined.",
+      "logoutMessage": "{{username}} left.",
+      "lowestRankMessage": "{{username}} is already the lowest guild rank!",
+      "messageBlockedByHypixel": "Message `{{message}}` was blocked by Hypixel",
+      "noPermissionMessage": "I don't have permission to do that!",
+      "notInGuildMessage": "{{username}} is not in the guild.",
+      "offlineInvite": "{{username}} was offline invited to the guild!",
+      "onlineInvite": "{{username}} was invited to the guild!",
+      "playerNotFoundMessage": "Player {{username}} not found.",
+      "promotionMessage": "{{username}} was promoted to {{rank}}",
+      "repeatMessage": "You cannot say the same message twice!",
+      "requestMessage": "{{username}} requested to join the guild.",
+      "setrankFailMessage": "{{username}} not found.",
+      "userMuteMessage": "{{username}} has been muted for {{time}}!",
+      "userUnmuteMessage": "{{username}} has been unmuted!"
+    },
+    "state": {
+      "end": "Minecraft bot has disconnected! Attempting reconnect in {{loginDelay}} seconds",
+      "error": "Connection refused while attempting to login via the Minecraft client",
+      "kick": "Minecraft bot has been kicked from the server for \"{{reason}}\"",
+      "ready": { "client": "Minecraft client ready, logged in as {{username}}!" }
+    }
+  },
+  "name": "Hypixel Discord Chat Bridge",
+  "none": "None",
+  "scripts": {
+    "log": { "event": { "title": "Log from script: `{{id}}`" } },
+    "status": {
+      "execute": {
+        "duration": "Duration: {{durationMs}}ms ({{cleanDurationMs}})",
+        "finish": "Finished executing the `{{id}}` script.",
+        "start": "Executing the `{{id}}` script."
+      },
+      "load": {
+        "cron": "Loaded script `{{id}}` - executing with cron: {{cron}}.",
+        "disabled": "Script `{{id}}` is disabled.",
+        "interval": "Loaded script `{{id}}` - executing every {{interval}}ms ({{cleanInterval}})",
+        "loaded": "Successfully loaded {{amount}} script(s)."
+      }
+    },
+    "updateLinkedUsers": {
+      "execute": {
+        "error": "Unable to update roles for <@{{discordId}}> ({{discordId}} - {{uuid}}). Removing them from linked users",
+        "success": "Updated roles for <@{{discordId}}> ({{discordId}} - {{uuid}})`"
+      }
+    }
+  },
+  "translater": "Translater"
+}

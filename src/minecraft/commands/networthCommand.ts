@@ -3,6 +3,7 @@ import MinecraftCommandData from "../private/commands/MinecraftCommandData.js";
 import MinecraftCommandDataOption from "../private/commands/MinecraftCommandDataOption.js";
 import { formatNumber } from "../../utils/stringUtils.js";
 import { getNetWorthCalculator, getSelectedProfile } from "../../utils/hypixelUtils.js";
+import { translate } from "../../translations/TranslationsManager.js";
 import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 class NetworthCommand extends MinecraftCommand {
@@ -10,9 +11,8 @@ class NetworthCommand extends MinecraftCommand {
     super(minecraft);
     this.data = new MinecraftCommandData()
       .setName("networth")
-      .setDescription("Networth of specified user.")
       .setAliases(["nw"])
-      .setOptions([new MinecraftCommandDataOption().setName("username").setRequired(true)]);
+      .setOptions([new MinecraftCommandDataOption().setName("username")]);
   }
 
   override async execute(player: string, message: string) {
@@ -34,9 +34,17 @@ class NetworthCommand extends MinecraftCommand {
     const museumData = formatNumber(networthData.types.museum?.total ?? 0);
 
     this.send(
-      `${username}'s Networth is ${networth} | Non-Cosmetic Networth: ${nonCosmeticNetworth} | Unsoulbound Networth: ${
-        unsoulboundNetworth
-      } | Non-Cosmetic Unsoulbound Networth: ${nonCosmeticUnsoulboundNetworth} | Purse: ${purse} | Bank: ${bank} + ${personalBank} | Museum: ${museumData}`
+      translate("minecraft.commands.networth.execute.success", {
+        username,
+        networth,
+        unsoulboundNetworth,
+        nonCosmeticNetworth,
+        nonCosmeticUnsoulboundNetworth,
+        purse,
+        bank,
+        personalBank,
+        museumData
+      })
     );
   }
 }

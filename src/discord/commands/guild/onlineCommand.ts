@@ -3,12 +3,13 @@ import DiscordCommandData from "../../private/commands/DiscordCommandData.js";
 import Embed from "../../private/Embed.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import { CommandFlags, type DiscordManagerWithBot, type ListMembers, type ListMembersGroup } from "../../../types/discord.js";
+import { translate } from "../../../translations/TranslationsManager.js";
 import type { ChatInputCommandInteraction } from "discord.js";
 
 class OnlineCommand extends DiscordCommand<DiscordManagerWithBot> {
   constructor(discord: DiscordManagerWithBot) {
     super(discord);
-    this.data = new DiscordCommandData().setName("online").setDescription("List of online members.");
+    this.data = new DiscordCommandData().setName("online");
     this.flags = [CommandFlags.RequiresMinecraftBot];
   }
 
@@ -38,17 +39,15 @@ class OnlineCommand extends DiscordCommand<DiscordManagerWithBot> {
 
   async getOnlineMembers(): Promise<ListMembers> {
     const messages = await this.getMessages();
-    if (messages.length === 0) throw new HypixelDiscordChatBridgeError("Could not retrieve the guild online.");
+    if (messages.length === 0) throw new HypixelDiscordChatBridgeError(translate("discord.commands.list.execute.errors.failed.fetch"));
 
-    let onlineString = messages.find((message) => message.startsWith("Online Members: "));
-    if (onlineString === undefined) throw new HypixelDiscordChatBridgeError("The online members message is missing. Is the bot's hypixel language english?");
+    const onlineString = messages.find((message) => message.startsWith("Online Members: "));
+    if (onlineString === undefined) throw new HypixelDiscordChatBridgeError(translate("discord.commands.list.execute.errors.failed.parse.members"));
     const online = Number(onlineString.split("Online Members: ")?.[1] || "0");
-    onlineString = `**Online:** ${online}`;
 
-    let totalString = messages.find((message) => message.startsWith("Total Members: "));
-    if (totalString === undefined) throw new HypixelDiscordChatBridgeError("The total members message is missing. Is the bot's hypixel language english?");
+    const totalString = messages.find((message) => message.startsWith("Total Members: "));
+    if (totalString === undefined) throw new HypixelDiscordChatBridgeError(translate("discord.commands.list.execute.errors.failed.parse.total"));
     const total = Number(totalString.split("Total Members: ")?.[1] || "0");
-    totalString = `**Total:** ${total}`;
 
     const groups: ListMembersGroup[] = [];
     messages.flatMap((item, index) => {
@@ -65,12 +64,20 @@ class OnlineCommand extends DiscordCommand<DiscordManagerWithBot> {
       groups.push({ name: rank, value: players.map((player) => `\`${player}\``).join(", ") });
     });
 
-    return { online, onlineString, total, totalString, groups };
+    return {
+      online,
+      onlineString: translate("discord.commands.list.execute.success.embed.online", { amount: online }),
+      total,
+      totalString: translate("discord.commands.list.execute.success.embed.total", { amount: total }),
+      groups
+    };
   }
 
   override async execute(interaction: ChatInputCommandInteraction) {
     const { groups, totalString, onlineString } = await this.getOnlineMembers();
-    await interaction.followUp({ embeds: [new Embed().setTitle("Online Members").setDescription(`${totalString}\n${onlineString}`).setFields(groups)] });
+    await interaction.followUp({
+      embeds: [new Embed().setTitle(translate("discord.commands.online.execute.success.embed.title")).setDescription(`${totalString}\n${onlineString}`).setFields(groups)]
+    });
   }
 }
 

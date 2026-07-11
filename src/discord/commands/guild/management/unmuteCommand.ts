@@ -3,16 +3,13 @@ import DiscordCommandData from "../../../private/commands/DiscordCommandData.js"
 import HypixelDiscordChatBridgeError from "../../../../private/error.js";
 import { CommandFlags, type DiscordManagerWithBot, GuildManagementAction } from "../../../../types/discord.js";
 import { SuccessEmbed } from "../../../private/Embed.js";
-import { replaceVariables } from "../../../../utils/stringUtils.js";
+import { translate } from "../../../../translations/TranslationsManager.js";
 import type { ChatInputCommandInteraction } from "discord.js";
 
 class UnmuteCommand extends DiscordCommand<DiscordManagerWithBot> {
   constructor(discord: DiscordManagerWithBot) {
     super(discord);
-    this.data = new DiscordCommandData()
-      .setName("unmute")
-      .setDescription("Unmute the given user.")
-      .addStringOption((option) => option.setName("guild-member-username").setDescription("Minecraft Username").setRequired(true).setAutocomplete(true));
+    this.data = new DiscordCommandData().setName("unmute").addStringOption((option) => option.setName("guild-member-username").setRequired(true).setAutocomplete(true));
     this.flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.StaffOnly];
   }
 
@@ -20,17 +17,15 @@ class UnmuteCommand extends DiscordCommand<DiscordManagerWithBot> {
     const username = interaction.options.getString("guild-member-username", true);
     const { action } = await this.handleGuildManagementAction("unmute", username);
     if (action === GuildManagementAction.NoPerms) {
-      throw new HypixelDiscordChatBridgeError("The bot doesn't have perms to unmute");
+      throw new HypixelDiscordChatBridgeError(translate("minecraft.errors.no.permissions.unmute"));
     } else if (action === GuildManagementAction.Timeout) {
-      throw new HypixelDiscordChatBridgeError("Command timed out. Please try again");
+      throw new HypixelDiscordChatBridgeError(translate("minecraft.errors.timeout.command"));
     } else if (action === GuildManagementAction.NotInGuild) {
-      throw new HypixelDiscordChatBridgeError(replaceVariables(this.discord.application.messages.notInGuildMessage, { username }));
+      throw new HypixelDiscordChatBridgeError(translate("minecraft.responses.notInGuildMessage", { username }));
     } else if (action === GuildManagementAction.UserUnmute) {
-      return await interaction.followUp({
-        embeds: [new SuccessEmbed().setDescription(replaceVariables(this.discord.application.messages.userUnmuteMessage, { username }))]
-      });
+      return await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(translate("minecraft.responses.userUnmuteMessage", { username }))] });
     } else if (action === GuildManagementAction.GuildUnmute) {
-      return await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(this.discord.application.messages.guildUnmuteMessage)] });
+      return await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(translate("minecraft.responses.guildUnmuteMessage"))] });
     }
   }
 }

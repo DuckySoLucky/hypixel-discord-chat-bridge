@@ -3,6 +3,7 @@ import HypixelDiscordChatBridgeError from "../../private/error.js";
 import MowojangAPI from "../../private/MowojangAPI.js";
 import { formatNumber, replaceVariables } from "../../utils/stringUtils.js";
 import { getPlayer } from "../../utils/hypixelUtils.js";
+import { translate } from "../../translations/TranslationsManager.js";
 import type LinkedManager from "./LinkedManager.js";
 import type { Guild, GuildMember as HypixelGuildMember, Player } from "hypixel-api-reborn";
 import type { GuildMember } from "discord.js";
@@ -19,7 +20,7 @@ class LinkedUser extends GenericData<LinkedUserData, LinkedData, LinkedManager> 
 
   async getUsername(): Promise<string> {
     const username = await MowojangAPI.getUsername(this.uuid);
-    if (username === null) throw new HypixelDiscordChatBridgeError("User doesn't exist");
+    if (username === null) throw new HypixelDiscordChatBridgeError(translate("api.mowojang.errors.failed.player"));
     return username;
   }
 
@@ -62,13 +63,13 @@ class LinkedUser extends GenericData<LinkedUserData, LinkedData, LinkedManager> 
 
   async updateRoles(): Promise<this | null> {
     try {
-      if (!this.manager.data.application.minecraft.isBotOnline()) throw new HypixelDiscordChatBridgeError(this.manager.data.application.messages.minecraftBotOffline);
+      if (!this.manager.data.application.minecraft.isBotOnline()) throw new HypixelDiscordChatBridgeError(translate("minecraft.errors.offline"));
       if (!this.manager.data.application.discord.isClientOnline()) {
-        throw new HypixelDiscordChatBridgeError("The discord bot doesn't seam to be online? Please restart the application");
+        throw new HypixelDiscordChatBridgeError(translate("discord.errors.offline"));
       }
       if (!this.manager.data.application.discord.isGuildReady()) {
         this.manager.data.application.discord.stateHandler.loadGuild();
-        throw new HypixelDiscordChatBridgeError("The discord server isn't ready. Please try again later");
+        throw new HypixelDiscordChatBridgeError(translate("discord.errors.server.missing"));
       }
 
       const member = await this.getDiscordUser();
@@ -78,7 +79,7 @@ class LinkedUser extends GenericData<LinkedUserData, LinkedData, LinkedManager> 
       }
 
       if (this.manager.data.application.discord.guild.ownerId === member.user.id) {
-        throw new HypixelDiscordChatBridgeError("This user owns the server thus no one can edit their roles");
+        throw new HypixelDiscordChatBridgeError(translate("linked.errors.owns.discord"));
       }
 
       const verificationRoles = this.manager.data.application.config.verification.roles;
@@ -132,11 +133,11 @@ class LinkedUser extends GenericData<LinkedUserData, LinkedData, LinkedManager> 
 
   async getDiscordUser(): Promise<GuildMember | null> {
     if (!this.manager.data.application.discord.isClientOnline()) {
-      throw new HypixelDiscordChatBridgeError("The discord bot doesn't seam to be online? Please restart the application");
+      throw new HypixelDiscordChatBridgeError(translate("discord.errors.offline"));
     }
     if (!this.manager.data.application.discord.isGuildReady()) {
       this.manager.data.application.discord.stateHandler.loadGuild();
-      throw new HypixelDiscordChatBridgeError("The discord server isn't ready. Please try again later");
+      throw new HypixelDiscordChatBridgeError(translate("discord.errors.server.missing"));
     }
 
     return await this.manager.data.application.discord.guild.members.fetch(this.discordId).catch((e) => {

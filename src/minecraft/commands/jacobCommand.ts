@@ -3,6 +3,7 @@ import MinecraftCommandData from "../private/commands/MinecraftCommandData.js";
 import MinecraftCommandDataOption from "../private/commands/MinecraftCommandDataOption.js";
 import { formatNumber } from "../../utils/stringUtils.js";
 import { getSelectedProfile } from "../../utils/hypixelUtils.js";
+import { translate } from "../../translations/TranslationsManager.js";
 import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 // CREDITS: by @Kathund (https://github.com/Kathund)
@@ -11,9 +12,8 @@ class JacobCommand extends MinecraftCommand {
     super(minecraft);
     this.data = new MinecraftCommandData()
       .setName("jacob")
-      .setDescription("Jacob's Contest Stats of specified user.")
       .setAliases(["jacobs", "jacobcontest", "contest"])
-      .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
+      .setOptions([new MinecraftCommandDataOption().setName("username")]);
   }
 
   override async execute(player: string, message: string) {
@@ -22,9 +22,14 @@ class JacobCommand extends MinecraftCommand {
     const { gold, silver, bronze } = profile.me.jacobContests.medals;
     const { doubleDrops, farmingLevelCap } = profile.me.jacobContests.perks;
     this.send(
-      `${username}'s Gold Medals: ${formatNumber(gold)} | Silver: ${formatNumber(silver)} | Bronze: ${formatNumber(bronze)} | Double Drops ${
-        doubleDrops
-      } / 15 | Level Cap: ${farmingLevelCap} / 10`
+      translate("minecraft.commands.jacob.execute.success", {
+        username,
+        gold: formatNumber(gold),
+        silver: formatNumber(silver),
+        bronze: formatNumber(bronze),
+        doubleDrops,
+        farmingLevelCap
+      })
     );
   }
 }

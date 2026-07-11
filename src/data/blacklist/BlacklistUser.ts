@@ -1,9 +1,11 @@
+import Button from "../../discord/private/buttons/Button.js";
 import Embed, { SuccessEmbed } from "../../discord/private/Embed.js";
 import GenericData from "../GenericData.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import MowojangAPI from "../../private/MowojangAPI.js";
-import { ActionRowBuilder, ButtonBuilder, ComponentType, type GuildMember, type User } from "discord.js";
+import { ActionRowBuilder, ComponentType, type GuildMember, type User } from "discord.js";
 import { getPlayer } from "../../utils/hypixelUtils.js";
+import { translate } from "../../translations/TranslationsManager.js";
 import type BlacklistManager from "./BlacklistManager.js";
 import type { BasicBlacklistedUserData, BlacklistData, BlacklistedUserData } from "../../types/blacklist.js";
 import type { Guild, GuildMember as HypixelGuildMember, Player } from "hypixel-api-reborn";
@@ -39,7 +41,7 @@ class BlacklistUser extends GenericData<BlacklistedUserData, BlacklistData, Blac
 
   private async handleSave({ alertUser, shareUser, user }: { alertUser: boolean; shareUser: boolean; user: User }): Promise<this> {
     if (!this.manager.data.application.discord.isClientOnline()) {
-      throw new HypixelDiscordChatBridgeError("The discord bot doesn't seam to be online? Please restart the application");
+      throw new HypixelDiscordChatBridgeError(translate("discord.errors.offline"));
     }
     const channel = await this.manager.data.application.discord.getChannel("Logger-Blacklist");
     if (!channel || !channel.isSendable()) return this;
@@ -56,7 +58,7 @@ class BlacklistUser extends GenericData<BlacklistedUserData, BlacklistData, Blac
         if (e.name === "DiscordAPIError[50278]") return null;
         throw e;
       });
-      if (send === null) throw new HypixelDiscordChatBridgeError("User has DMs off. They have not be alerted about the blacklist");
+      if (send === null) throw new HypixelDiscordChatBridgeError(translate("blacklist.errors.discord.dms.off"));
     }
     this.messageId = message.id;
     return this;
@@ -71,7 +73,7 @@ class BlacklistUser extends GenericData<BlacklistedUserData, BlacklistData, Blac
 
   private async handleDelete({ alertUser, shareUser, user, reason }: { alertUser: boolean; shareUser: boolean; user: User; reason: string }): Promise<void> {
     if (!this.manager.data.application.discord.isClientOnline()) {
-      throw new HypixelDiscordChatBridgeError("The discord bot doesn't seam to be online? Please restart the application");
+      throw new HypixelDiscordChatBridgeError(translate("discord.errors.offline"));
     }
     const channel = await this.manager.data.application.discord.getChannel("Logger-Blacklist");
     if (!channel || !channel.isSendable()) return;
@@ -82,7 +84,7 @@ class BlacklistUser extends GenericData<BlacklistedUserData, BlacklistData, Blac
     const fixedButtons = component.components.flatMap((compontent) => {
       if (compontent.type !== ComponentType.Button) return [];
       return [
-        new ButtonBuilder()
+        new Button()
           .setCustomId(compontent.customId!)
           .setLabel(compontent.label!)
           .setStyle(compontent.style)
@@ -109,7 +111,7 @@ class BlacklistUser extends GenericData<BlacklistedUserData, BlacklistData, Blac
           )
           .setDevFooter("Kathund")
       ],
-      components: [new ActionRowBuilder<ButtonBuilder>().addComponents(fixedButtons)]
+      components: [new ActionRowBuilder<Button>().addComponents(fixedButtons)]
     });
     if (this.discordId && alertUser) {
       const embed = new SuccessEmbed()
@@ -121,25 +123,25 @@ class BlacklistUser extends GenericData<BlacklistedUserData, BlacklistData, Blac
         if (e.name === "DiscordAPIError[50278]") return null;
         throw e;
       });
-      if (send === null) throw new HypixelDiscordChatBridgeError("User has DMs off. They have not be alerted about being removed from the blacklist");
+      if (send === null) throw new HypixelDiscordChatBridgeError(translate("blacklist.errors.discord.dms.off"));
     }
   }
 
   async getUsername(): Promise<string | null> {
     if (!this.uuid) return null;
     const username = await MowojangAPI.getUsername(this.uuid);
-    if (username === null) throw new HypixelDiscordChatBridgeError("User doesn't exist");
+    if (username === null) throw new HypixelDiscordChatBridgeError(translate("api.mowojang.errors.failed.player"));
     return username;
   }
 
   async getDiscordUser(): Promise<GuildMember | null> {
     if (!this.discordId) return null;
     if (!this.manager.data.application.discord.isClientOnline()) {
-      throw new HypixelDiscordChatBridgeError("The discord bot doesn't seam to be online? Please restart the application");
+      throw new HypixelDiscordChatBridgeError(translate("discord.errors.offline"));
     }
     if (!this.manager.data.application.discord.isGuildReady()) {
       this.manager.data.application.discord.stateHandler.loadGuild();
-      throw new HypixelDiscordChatBridgeError("The discord server isn't ready. Please try again later");
+      throw new HypixelDiscordChatBridgeError(translate("discord.errors.server.missing"));
     }
 
     return await this.manager.data.application.discord.guild.members.fetch(this.discordId).catch((e) => {

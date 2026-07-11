@@ -2,6 +2,7 @@ import HypixelDiscordChatBridgeError from "../../private/error.js";
 import { type AutocompleteInteraction, type ChatInputCommandInteraction, Collection, MessageFlags, REST, Routes } from "discord.js";
 import { BasicInteractionResponse, CommandFlags } from "../../types/discord.js";
 import { readdir } from "node:fs/promises";
+import { translate } from "../../translations/TranslationsManager.js";
 import type DiscordCommand from "../private/commands/DiscordCommand.js";
 import type DiscordManager from "../DiscordManager.js";
 
@@ -17,7 +18,9 @@ class CommandHandler {
       if (command.response !== BasicInteractionResponse.None) {
         await interaction.deferReply({ flags: command.response === BasicInteractionResponse.Ephemeral ? MessageFlags.Ephemeral : undefined });
       }
-      console.discord(`Interaction Event trigged by ${interaction.user.username} (${interaction.user.id}) ran command ${interaction.commandName}`);
+      console.discord(
+        translate("discord.commands.status.execute", { username: interaction.user.username, userId: interaction.user.id, commandName: interaction.commandName })
+      );
 
       await this.discord.interactionHandler.checkPerms(interaction, command);
 
@@ -63,7 +66,7 @@ class CommandHandler {
 
     await rest
       .put(Routes.applicationGuildCommands(clientId, this.discord.application.config.discord.serverId), { body: commands })
-      .then(() => console.discord(`Successfully reloaded ${commands.length} application command(s).`));
+      .then(() => console.discord(translate("discord.commands.status.loaded", { amount: this.commands.size })));
   }
 }
 

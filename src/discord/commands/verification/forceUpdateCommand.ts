@@ -7,10 +7,7 @@ import type { ChatInputCommandInteraction } from "discord.js";
 class ForceUpdateCommand extends DiscordCommand<DiscordManagerWithBot> {
   constructor(discord: DiscordManagerWithBot) {
     super(discord);
-    this.data = new DiscordCommandData()
-      .setName("force-update")
-      .setDescription("Update user's roles")
-      .addUserOption((option) => option.setName("user").setDescription("Discord Username").setRequired(true));
+    this.data = new DiscordCommandData().setName("force-update").addUserOption((option) => option.setName("user").setRequired(true));
     this.flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.StaffOnly, CommandFlags.VerificationCommand];
   }
 

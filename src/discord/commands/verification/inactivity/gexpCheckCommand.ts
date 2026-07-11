@@ -1,28 +1,18 @@
+import Button from "../../../private/buttons/Button.js";
 import DiscordCommand from "../../../private/commands/DiscordCommand.js";
 import DiscordCommandData from "../../../private/commands/DiscordCommandData.js";
 import MowojangAPI from "../../../../private/MowojangAPI.js";
-import {
-  ActionRowBuilder,
-  type BaseMessageOptions,
-  ButtonBuilder,
-  ButtonComponent,
-  ButtonStyle,
-  type ChatInputCommandInteraction,
-  ComponentType,
-  Message
-} from "discord.js";
+import { ActionRowBuilder, type BaseMessageOptions, ButtonComponent, ButtonStyle, type ChatInputCommandInteraction, ComponentType, Message } from "discord.js";
 import { CommandFlags, type DiscordManagerWithClient } from "../../../../types/discord.js";
-import { type GexpCheckOptions, type GexpDisplay, type ParsedGexpCheckUser, gexpCheckData } from "../../../../types/inactivity.js";
+import { type GexpCheckOptions, type GexpDisplay, GexpDisplays, type ParsedGexpCheckUser } from "../../../../types/inactivity.js";
 import { SuccessEmbed } from "../../../private/Embed.js";
-import { replaceVariables, sanitizeString } from "../../../../utils/stringUtils.js";
+import { sanitizeString } from "../../../../utils/stringUtils.js";
+import { translate } from "../../../../translations/TranslationsManager.js";
 
 class GexpCheckCommand extends DiscordCommand {
   constructor(discord: DiscordManagerWithClient) {
     super(discord);
-    this.data = new DiscordCommandData()
-      .setName("gexp-check")
-      .setDescription("Shows everyone under an set amount of gexp")
-      .addNumberOption((option) => option.setName("requirement").setDescription("Members below this GEXP number").setRequired(true).setMinValue(1));
+    this.data = new DiscordCommandData().setName("gexp-check").addNumberOption((option) => option.setName("requirement").setRequired(true).setMinValue(1));
     this.flags = [CommandFlags.StaffOnly, CommandFlags.InactivityCommand, CommandFlags.VerificationCommand];
   }
 
@@ -65,7 +55,7 @@ class GexpCheckCommand extends DiscordCommand {
       .filter((component): component is ButtonComponent => component.type === ComponentType.Button)
       .find((button) => button.style === ButtonStyle.Primary);
     const type: GexpDisplay = (primaryButton?.customId as GexpDisplay) ?? "gexpCheckAll";
-    const field = embed.fields?.find((field) => field.name === "Hidden Ranks");
+    const field = embed.fields?.find((field) => field.name === translate("discord.commands.gexp-check.execute.success.embed.fields.ranks"));
     if (!field) return;
     const hiddenRanks = field.value === "None" ? [] : field.value.split(",").map((s) => s.trim());
     return { requirement, type, hiddenRanks };
@@ -77,31 +67,36 @@ class GexpCheckCommand extends DiscordCommand {
     return {
       embeds: [
         new SuccessEmbed()
-          .setAuthor({ name: `Showing ${filtered.length}/${users.length} (${((filtered.length / users.length) * 100).toFixed(2)}%) users - ${requirement}` })
-          .setTitle(replaceVariables(gexpCheckData[type].title, { requirement }))
+          .setAuthor({
+            name: translate("discord.commands.gexp-check.execute.success.embed.author", {
+              filteredUsers: filtered.length,
+              users: users.length,
+              percentage: ((filtered.length / users.length) * 100).toFixed(2),
+              requirement
+            })
+          })
+          .setTitle(translate(`discord.commands.gexp-check.execute.success.embed.title.${type}`, { requirement }))
           .setDescription(this.parseUsers(filtered).join("\n"))
-          .addFields({ name: "Hidden Ranks", value: hiddenRanks.length > 0 ? hiddenRanks.join(", ") : "None" })
+          .addFields({
+            name: translate("discord.commands.gexp-check.execute.success.embed.fields.ranks"),
+            value: hiddenRanks.length > 0 ? hiddenRanks.join(", ") : translate("none")
+          })
           .setDevFooter("Kathund")
       ],
       components: [
-        new ActionRowBuilder<ButtonBuilder>().addComponents(
-          Object.entries(gexpCheckData).map(([id, { buttonLabel }]) =>
-            new ButtonBuilder()
-              .setLabel(buttonLabel)
-              .setCustomId(id)
-              .setStyle(id === type ? ButtonStyle.Primary : ButtonStyle.Secondary)
-          )
+        new ActionRowBuilder<Button>().addComponents(
+          GexpDisplays.map((id) => new Button().setCustomId(id).setStyle(id === type ? ButtonStyle.Primary : ButtonStyle.Secondary))
         ),
-        new ActionRowBuilder<ButtonBuilder>().addComponents(
-          new ButtonBuilder().setLabel("More Filters").setCustomId("gexpCheckFilters").setStyle(ButtonStyle.Primary),
-          new ButtonBuilder().setLabel("Generate Kick Commands").setCustomId("gexpCheckGenerateKick").setStyle(ButtonStyle.Danger)
+        new ActionRowBuilder<Button>().addComponents(
+          new Button().setCustomId("gexpCheckFilters").setStyle(ButtonStyle.Primary),
+          new Button().setCustomId("gexpCheckGenerateKick").setStyle(ButtonStyle.Danger)
         )
       ]
     };
   }
 
   parseUsers(data: ParsedGexpCheckUser[]): string[] {
-    if (data.length === 0) return ["No user's found"];
+    if (data.length === 0) return [translate("discord.commands.gexp-check.execute.errors.failed.find.users")];
     return data.sort((a, b) => b.member.weeklyExperience - a.member.weeklyExperience).map((user) => this.parseUser(user));
   }
 

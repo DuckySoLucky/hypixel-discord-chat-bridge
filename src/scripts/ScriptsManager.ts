@@ -1,5 +1,6 @@
 import { Collection } from "discord.js";
 import { readdir } from "node:fs/promises";
+import { translate } from "../translations/TranslationsManager.js";
 import type Application from "../Application.js";
 import type BasicScript from "./BasicScript.js";
 
@@ -18,7 +19,7 @@ class ScriptManager {
       const script: BasicScript = new (await import(`./scripts/${file}`)).default(this);
       this.scripts.set(script.id, script);
     }
-    console.scripts(`Successfully loaded ${this.scripts.size} script(s).`);
+    console.scripts(translate("scripts.status.load.loaded", { amount: this.scripts.size }));
   }
 }
 

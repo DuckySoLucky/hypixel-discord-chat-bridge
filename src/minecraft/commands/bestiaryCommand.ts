@@ -3,6 +3,7 @@ import MinecraftCommandData from "../private/commands/MinecraftCommandData.js";
 import MinecraftCommandDataOption from "../private/commands/MinecraftCommandDataOption.js";
 import { formatNumber } from "../../utils/stringUtils.js";
 import { getSelectedProfile } from "../../utils/hypixelUtils.js";
+import { translate } from "../../translations/TranslationsManager.js";
 import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 class BestiaryCommand extends MinecraftCommand {
@@ -10,9 +11,8 @@ class BestiaryCommand extends MinecraftCommand {
     super(minecraft);
     this.data = new MinecraftCommandData()
       .setName("bestiary")
-      .setDescription("Bestiary of specified user.")
       .setAliases(["be"])
-      .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
+      .setOptions([new MinecraftCommandDataOption().setName("username")]);
   }
 
   override async execute(player: string, message: string) {
@@ -21,9 +21,17 @@ class BestiaryCommand extends MinecraftCommand {
     const { level, maxLevel, familyTiers, maxFamilyTiers, familiesUnlocked, totalFamilies, familiesCompleted } = profile.me.bestiary;
     const progress = formatNumber((profile.me.bestiary.level / profile.me.bestiary.maxLevel) * 100, 2);
     this.send(
-      `${username}'s Bestiary: ${level} / ${maxLevel} (${progress}%) | Unlocked Tiers: ${familyTiers} / ${maxFamilyTiers} | Unlocked Families: ${familiesUnlocked} / ${
-        totalFamilies
-      } | Families Maxed: ${familiesCompleted}`
+      translate("minecraft.commands.bestiary.execute.success", {
+        username,
+        level,
+        maxLevel,
+        progress,
+        familyTiers,
+        maxFamilyTiers,
+        familiesUnlocked,
+        totalFamilies,
+        familiesCompleted
+      })
     );
   }
 }

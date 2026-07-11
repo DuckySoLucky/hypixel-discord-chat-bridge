@@ -9,9 +9,8 @@ class ForceVerifyCommand extends DiscordCommand<DiscordManagerWithBot> {
     super(discord);
     this.data = new DiscordCommandData()
       .setName("force-verify")
-      .setDescription("Connect Discord account to a Minecraft")
-      .addUserOption((option) => option.setName("user").setDescription("Discord Username").setRequired(true))
-      .addStringOption((option) => option.setName("username").setDescription("Minecraft Username").setRequired(true));
+      .addUserOption((option) => option.setName("user").setRequired(true))
+      .addStringOption((option) => option.setName("username").setRequired(true));
     this.flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.StaffOnly, CommandFlags.VerificationCommand];
   }
 

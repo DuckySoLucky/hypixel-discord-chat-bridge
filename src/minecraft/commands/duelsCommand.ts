@@ -12,6 +12,8 @@ import {
 } from "../../types/minecraft.js";
 import { formatNumber } from "../../utils/stringUtils.js";
 import { getPlayer } from "../../utils/hypixelUtils.js";
+import { translate } from "../../translations/TranslationsManager.js";
+import type { ParseKeys } from "i18next";
 import type { Player } from "hypixel-api-reborn";
 
 class DuelsCommand extends MinecraftCommand {
@@ -19,9 +21,8 @@ class DuelsCommand extends MinecraftCommand {
     super(minecraft);
     this.data = new MinecraftCommandData()
       .setName("duels")
-      .setDescription("Duel stats of specified user.")
       .setAliases(["d"])
-      .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
+      .setOptions([new MinecraftCommandDataOption().setName("username")]);
   }
 
   convertMode(mode: DuelsModeName): DuelsInternalName {
@@ -61,9 +62,17 @@ class DuelsCommand extends MinecraftCommand {
     const { title, kills, KDR, wins, WLR, winStreak, bestWinStreak } = this.getStats(hypixelPlayer, mode);
     const parsedTitle = title ? `[${title}] ` : "";
     this.send(
-      `${parsedTitle}${hypixelPlayer.nickname}'s ${mode} Kills: ${formatNumber(kills)} KDR: ${KDR} | Wins: ${formatNumber(wins)} WLR: ${WLR} | WS: ${winStreak} BWS: ${
+      translate("minecraft.commands.duels.execute.success.message", {
+        title: parsedTitle,
+        username: hypixelPlayer.nickname,
+        mode: translate(`minecraft.commands.duels.execute.success.format.${mode}` as ParseKeys),
+        kills: formatNumber(kills),
+        KDR,
+        wins: formatNumber(wins),
+        WLR,
+        winStreak,
         bestWinStreak
-      }`
+      })
     );
   }
 }

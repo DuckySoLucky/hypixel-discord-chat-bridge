@@ -14,7 +14,8 @@ import {
   TextInputStyle
 } from "discord.js";
 import { ButtonResponse, CommandFlags, type DiscordManagerWithClient } from "../../../types/discord.js";
-import { gexpCheckData } from "../../../types/inactivity.js";
+import { GexpDisplays } from "../../../types/inactivity.js";
+import { translate } from "../../../translations/TranslationsManager.js";
 
 class GexpCheckFiltersButton extends DiscordButton {
   constructor(discord: DiscordManagerWithClient) {
@@ -26,7 +27,7 @@ class GexpCheckFiltersButton extends DiscordButton {
 
   override async execute(interaction: ButtonInteraction) {
     const options = GexpCheckCommand.getOptionsfromMessage(interaction.message);
-    if (!options) throw new HypixelDiscordChatBridgeError("Unable to find the requirement gexp");
+    if (!options) throw new HypixelDiscordChatBridgeError(translate("discord.commands.gexp-check.execute.errors.failed.find.data"));
     const guild = this.discord.application.botGuild ? this.discord.application.botGuild : await this.discord.application.getBotGuild();
 
     await interaction.showModal(
@@ -64,14 +65,7 @@ class GexpCheckFiltersButton extends DiscordButton {
             new RadioGroupBuilder()
               .setCustomId("gexpCheckFiltersPage")
               .setRequired(false)
-              .setOptions(
-                Object.entries(gexpCheckData).map(([id, { buttonLabel }]) =>
-                  new RadioGroupOptionBuilder()
-                    .setValue(id)
-                    .setLabel(buttonLabel)
-                    .setDefault(id === options.type)
-                )
-              )
+              .setOptions(GexpDisplays.map((id) => new RadioGroupOptionBuilder().setValue(id).setDefault(id === options.type)))
           )
         )
     );

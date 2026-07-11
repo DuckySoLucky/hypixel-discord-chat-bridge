@@ -1,18 +1,17 @@
 import MinecraftCommand from "../private/commands/MinecraftCommand.js";
 import MinecraftCommandData from "../private/commands/MinecraftCommandData.js";
 import MinecraftCommandDataOption from "../private/commands/MinecraftCommandDataOption.js";
-import { formatNumber, titleCase } from "../../utils/stringUtils.js";
+import { formatNumber } from "../../utils/stringUtils.js";
 import { getSelectedProfile } from "../../utils/hypixelUtils.js";
+import { translate } from "../../translations/TranslationsManager.js";
 import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
+import type { ParseKeys } from "i18next";
 
 // CREDITS: by @Kathund (https://github.com/Kathund)
 class EssenceCommand extends MinecraftCommand {
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
-    this.data = new MinecraftCommandData()
-      .setName("essence")
-      .setDescription("Skyblock Dungeons Stats of specified user.")
-      .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
+    this.data = new MinecraftCommandData().setName("essence").setOptions([new MinecraftCommandDataOption().setName("username")]);
   }
 
   override async execute(player: string, message: string) {
@@ -22,12 +21,13 @@ class EssenceCommand extends MinecraftCommand {
       .filter(([key]) => key.endsWith("Essence"))
       .sort(([a], [b]) => a.localeCompare(b))
       .map(([key, value]) => {
-        const name = key.replace("Essence", "");
-        return `${titleCase(name)}: ${formatNumber(value as number)}`;
+        return translate("minecraft.commands.essence.execute.success.format.format", {
+          name: translate(`minecraft.commands.essence.execute.success.format.${key}` as ParseKeys),
+          value: formatNumber(value)
+        });
       })
-      .join(", ");
-
-    this.send(`${username}'s Essence: ${essenceString}`);
+      .join(translate("minecraft.commands.essence.execute.success.format.join"));
+    this.send(translate("minecraft.commands.essence.execute.success.message", { username, essenceString }));
   }
 }
 

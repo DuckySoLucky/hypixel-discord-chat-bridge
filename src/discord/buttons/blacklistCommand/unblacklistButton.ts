@@ -4,6 +4,7 @@ import DiscordButtonData from "../../private/buttons/DiscordButtonData.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import { type ButtonInteraction, LabelBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } from "discord.js";
 import { ButtonResponse, CommandFlags, type DiscordManagerWithClient } from "../../../types/discord.js";
+import { translate } from "../../../translations/TranslationsManager.js";
 
 class UnblacklistButton extends DiscordButton {
   constructor(discord: DiscordManagerWithClient) {
@@ -16,7 +17,7 @@ class UnblacklistButton extends DiscordButton {
   override async execute(interaction: ButtonInteraction) {
     const blacklistCommand = new BlacklistCommand(this.discord);
     const blacklistUser = await blacklistCommand.getBlacklistedFromLinkedEmbed(interaction.message);
-    if (!blacklistUser) throw new HypixelDiscordChatBridgeError("Unable to find the blacklist user");
+    if (!blacklistUser) throw new HypixelDiscordChatBridgeError(translate("blacklist.errors.failed.find"));
 
     await interaction.showModal(
       new ModalBuilder()
@@ -26,7 +27,7 @@ class UnblacklistButton extends DiscordButton {
           new LabelBuilder()
             .setLabel("Reason for removing from the blacklist")
             .setTextInputComponent(
-              new TextInputBuilder().setCustomId("unblacklistReason").setStyle(TextInputStyle.Paragraph).setPlaceholder("No reason provided").setRequired(false)
+              new TextInputBuilder().setCustomId("unblacklistReason").setStyle(TextInputStyle.Paragraph).setPlaceholder(translate("generic.no.reason")).setRequired(false)
             )
         )
     );

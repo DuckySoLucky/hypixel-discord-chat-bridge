@@ -1,6 +1,7 @@
 import BasicScript from "../BasicScript.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import { formatNumber, replaceVariables } from "../../utils/stringUtils.js";
+import { translate } from "../../translations/TranslationsManager.js";
 import type ScriptManager from "../ScriptsManager.js";
 import type { ChannelVariableStats } from "../../private/constants.js";
 
@@ -16,7 +17,7 @@ class UpdateStatChannelsScript extends BasicScript {
   async getStats(): Promise<ChannelVariableStats> {
     if (!this.scripts.application.discord.isGuildReady()) {
       this.scripts.application.discord.stateHandler.loadGuild();
-      throw new HypixelDiscordChatBridgeError("The discord server isn't ready. Please try again later");
+      throw new HypixelDiscordChatBridgeError(translate("discord.errors.server.missing"));
     }
 
     const [hypixelGuild, channels, roles] = await Promise.all([
@@ -44,7 +45,7 @@ class UpdateStatChannelsScript extends BasicScript {
   override async execute() {
     if (!this.scripts.application.discord.isGuildReady()) {
       this.scripts.application.discord.stateHandler.loadGuild();
-      throw new HypixelDiscordChatBridgeError("The discord server isn't ready. Please try again later");
+      throw new HypixelDiscordChatBridgeError(translate("discord.errors.server.missing"));
     }
     const stats = await this.getStats();
     for (const channelInfo of this.scripts.application.discord.application.config.statsChannels.channels) {

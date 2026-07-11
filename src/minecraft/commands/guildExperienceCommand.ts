@@ -3,6 +3,7 @@ import HypixelDiscordChatBridgeError from "../../private/error.js";
 import MinecraftCommand from "../private/commands/MinecraftCommand.js";
 import MinecraftCommandData from "../private/commands/MinecraftCommandData.js";
 import MinecraftCommandDataOption from "../private/commands/MinecraftCommandDataOption.js";
+import { translate } from "../../translations/TranslationsManager.js";
 import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 class GuildExperienceCommand extends MinecraftCommand {
@@ -10,21 +11,20 @@ class GuildExperienceCommand extends MinecraftCommand {
     super(minecraft);
     this.data = new MinecraftCommandData()
       .setName("guildexp")
-      .setDescription("Guilds experience of specified user.")
       .setAliases(["gexp"])
-      .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
+      .setOptions([new MinecraftCommandDataOption().setName("username")]);
   }
 
   override async execute(player: string, message: string) {
     player = this.getArgs(message)[0] || player;
     const guild = await HypixelAPIReborn.getGuild("player", player).then((data) => {
-      if (data === null) throw new HypixelDiscordChatBridgeError("Player is not in a guild");
-      if (data.isRaw()) throw new HypixelDiscordChatBridgeError("Failed to fetch Player's guild data.");
+      if (data === null) throw new HypixelDiscordChatBridgeError(translate("api.hypixel.errors.failed.guild.not.in", { username: player }));
+      if (data.isRaw()) throw new HypixelDiscordChatBridgeError(translate("api.hypixel.errors.failed.parse"));
       return data;
     });
-    if (guild.me === null) throw new HypixelDiscordChatBridgeError("Player is not in a guild");
+    if (guild.me === null) throw new HypixelDiscordChatBridgeError(translate("api.hypixel.errors.failed.guild.not.in", { username: player }));
     const { weeklyExperience } = guild.me;
-    this.send(`${player}'s Weekly Guild Experience: ${weeklyExperience.toLocaleString()}.`);
+    this.send(translate("minecraft.commands.guildexp.execute.success", { player, weeklyExperience: weeklyExperience.toLocaleString() }));
   }
 }
 

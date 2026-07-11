@@ -1,9 +1,10 @@
+import Button from "../../discord/private/buttons/Button.js";
 import GenericManager from "../GenericManager.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import InactiveUser from "./InactiveUser.js";
 import { ActionRowBuilder, type BaseMessageOptions, ButtonStyle } from "discord.js";
-import { ButtonBuilder } from "discord.js";
 import { SuccessEmbed } from "../../discord/private/Embed.js";
+import { translate } from "../../translations/TranslationsManager.js";
 import type DataManager from "../DataManager.js";
 import type { InactiveUserData, InactivityData } from "../../types/inactivity.js";
 
@@ -44,7 +45,7 @@ class InactivityManager extends GenericManager<InactiveUserData, InactivityData,
 
   async getInactivityDataResponse(user: InactiveUser): Promise<BaseMessageOptions> {
     const linked = await this.data.linked.getUserByDiscordId(user.discordId);
-    if (!linked) throw new HypixelDiscordChatBridgeError("User is not verified");
+    if (!linked) throw new HypixelDiscordChatBridgeError(translate("linked.errors.user.missing"));
     const player = await linked.getHypixelPlayer();
     return {
       embeds: [
@@ -62,10 +63,10 @@ class InactivityManager extends GenericManager<InactiveUserData, InactivityData,
           .setDevFooter("Kathund")
       ],
       components: [
-        new ActionRowBuilder<ButtonBuilder>().addComponents(
-          new ButtonBuilder().setCustomId("editInactivityReason").setLabel("Edit Reason").setStyle(ButtonStyle.Secondary),
-          new ButtonBuilder().setCustomId("getLinked").setLabel("Get Linked Data").setStyle(ButtonStyle.Secondary),
-          new ButtonBuilder().setCustomId("deleteInactivity").setLabel("Delete Inactivity").setStyle(ButtonStyle.Danger)
+        new ActionRowBuilder<Button>().addComponents(
+          new Button().setCustomId("editInactivityReason").setStyle(ButtonStyle.Secondary),
+          new Button().setCustomId("getLinked").setStyle(ButtonStyle.Secondary),
+          new Button().setCustomId("deleteInactivity").setStyle(ButtonStyle.Danger)
         )
       ]
     };

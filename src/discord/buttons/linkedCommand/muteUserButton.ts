@@ -4,6 +4,7 @@ import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import LinkedCommand from "../../commands/verification/linkedCommand.js";
 import { type ButtonInteraction, LabelBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } from "discord.js";
 import { ButtonResponse, CommandFlags, type DiscordManagerWithClient } from "../../../types/discord.js";
+import { translate } from "../../../translations/TranslationsManager.js";
 
 class MuteUserButton extends DiscordButton {
   constructor(discord: DiscordManagerWithClient) {
@@ -16,7 +17,7 @@ class MuteUserButton extends DiscordButton {
   override async execute(interaction: ButtonInteraction) {
     const linkedCommand = new LinkedCommand(this.discord);
     const linked = await linkedCommand.getLinkedFromLinkedEmbed(interaction.message);
-    if (!linked) throw new HypixelDiscordChatBridgeError("Unable to find the linked user");
+    if (!linked) throw new HypixelDiscordChatBridgeError(translate("linked.errors.user.find"));
     const username = await linked.getUsername();
 
     await interaction.showModal(

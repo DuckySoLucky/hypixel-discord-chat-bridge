@@ -5,6 +5,7 @@ import { type ButtonInteraction, MessageFlags } from "discord.js";
 import { CommandFlags, type DiscordManagerWithBot } from "../../../types/discord.js";
 import { SuccessEmbed } from "../../private/Embed.js";
 import { delay } from "../../../utils/miscUtils.js";
+import { translate } from "../../../translations/TranslationsManager.js";
 
 class GexpCheckGenerateKickExecuteButton extends DiscordButton<DiscordManagerWithBot> {
   constructor(discord: DiscordManagerWithBot) {
@@ -16,16 +17,16 @@ class GexpCheckGenerateKickExecuteButton extends DiscordButton<DiscordManagerWit
   override async execute(interaction: ButtonInteraction) {
     if (!interaction.message) return;
     const attachment = interaction.message.attachments.first();
-    if (!attachment) throw new HypixelDiscordChatBridgeError("No commands file found on the message?");
+    if (!attachment) throw new HypixelDiscordChatBridgeError(translate("discord.buttons.gexpCheckGenerateKickExecute.execute.errors.missing.file"));
 
     const res = await fetch(attachment.url);
-    if (!res.ok) throw new HypixelDiscordChatBridgeError(`Failed to fetch attachment: ${res.status}`);
+    if (!res.ok) throw new HypixelDiscordChatBridgeError(translate("discord.buttons.gexpCheckGenerateKickExecute.execute.errors.failed.fetch"));
     const text = await res.text();
     const commands = text
       .split("\n")
       .map((line) => line.trim())
       .filter(Boolean);
-    if (!commands.length) throw new HypixelDiscordChatBridgeError("The commands file is empty?");
+    if (!commands.length) throw new HypixelDiscordChatBridgeError(translate("discord.buttons.gexpCheckGenerateKickExecute.execute.errors.missing.data"));
 
     await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(`Found ${commands.length} kick command(s)`).setDevFooter("Kathund")] });
 

@@ -2,8 +2,8 @@
 
 import { createCanvas, loadImage, registerFont } from "canvas";
 
-registerFont("src/private/fonts/MinecraftRegular-Bmg3.ttf", { family: "Minecraft" });
-registerFont("src/private/fonts/unifont.ttf", { family: "MinecraftUnicode" });
+registerFont("resources/fonts/MinecraftRegular-Bmg3.ttf", { family: "Minecraft" });
+registerFont("resources/fonts/unifont.ttf", { family: "MinecraftUnicode" });
 
 const RGBA_COLOR: Record<string | number, string> = {
   0: "rgba(0,0,0,1)",

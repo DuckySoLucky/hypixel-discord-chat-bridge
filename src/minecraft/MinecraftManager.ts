@@ -8,6 +8,7 @@ import StateHandler from "./handlers/StateHandler.js";
 import { type Client, createClient } from "minecraft-protocol";
 import { ResourcePackResult } from "../types/minecraft.js";
 import { replaceVariables } from "../utils/stringUtils.js";
+import { translate } from "../translations/TranslationsManager.js";
 import type Application from "../Application.js";
 import type { BroadcastEvent } from "../types/bridge.js";
 import type { MinecraftManagerWithBot } from "../types/minecraft.js";
@@ -50,16 +51,17 @@ class MinecraftManager extends CommunicationBridge {
   private createBotConnection() {
     const version = this.unsupportedVersions[this.application.config.minecraft.bot.version];
     if (version) {
-      console.warn(`[minecraft.bot.version] You currently have an unsupported version selected (${this.application.config.minecraft.bot.version})`);
+      console.warn(translate("minecraft.init.unsupported.version.title", { version: this.application.config.minecraft.bot.version }));
+      // eslint-disable-next-line hypixelDiscordChatBridge/enforce-translate
       console.warn(`[minecraft.bot.version] ${version.reason}`);
-      console.warn(`[minecraft.bot.version] The currently supported versions are ${this.supportedVersions.join(", ")}`);
+      console.warn(translate("minecraft.init.unsupported.version.footer", { supportedVersions: this.supportedVersions.join(", ") }));
       if (version.disable) process.exit(1);
     }
 
     if (!this.supportedVersions.includes(this.application.config.minecraft.bot.version)) {
-      console.warn(`[minecraft.bot.version] You currently have an unsupported version selected (${this.application.config.minecraft.bot.version})`);
-      console.warn("[minecraft.bot.version] While it may work we cannot guarantee it to work");
-      console.warn(`[minecraft.bot.version] The currently supported versions are ${this.supportedVersions.join(", ")}`);
+      console.warn(translate("minecraft.init.unsupported.version.title", { version: this.application.config.minecraft.bot.version }));
+      console.warn(translate("minecraft.init.unsupported.version.untested"));
+      console.warn(translate("minecraft.init.unsupported.version.footer", { supportedVersions: this.supportedVersions.join(", ") }));
     }
 
     return createClient({
@@ -164,6 +166,7 @@ class MinecraftManager extends CommunicationBridge {
     if (!this.isBotOnline()) return;
     let { channelId, username, message, replyingTo, discordMessage } = event;
     if (channelId === undefined || username === undefined || message === undefined || replyingTo === undefined || discordMessage === undefined) return;
+    // eslint-disable-next-line hypixelDiscordChatBridge/enforce-translate
     console.broadcast(`${username}: ${message}`, "Minecraft");
 
     if (channelId === this.application.config.bridge.channels.debug.channel && this.application.config.bridge.channels.debug.enabled === true) {

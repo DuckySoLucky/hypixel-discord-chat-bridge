@@ -4,6 +4,7 @@ import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import LinkedCommand from "../../commands/verification/linkedCommand.js";
 import UpdateCommand from "../../commands/verification/updateCommand.js";
 import { CommandFlags, type DiscordManagerWithBot } from "../../../types/discord.js";
+import { translate } from "../../../translations/TranslationsManager.js";
 import type { ButtonInteraction } from "discord.js";
 
 class UpdateUserButton extends DiscordButton<DiscordManagerWithBot> {
@@ -16,7 +17,7 @@ class UpdateUserButton extends DiscordButton<DiscordManagerWithBot> {
   override async execute(interaction: ButtonInteraction) {
     const linkedCommand = new LinkedCommand(this.discord);
     const linked = await linkedCommand.getLinkedFromLinkedEmbed(interaction.message);
-    if (!linked) throw new HypixelDiscordChatBridgeError("Unable to find the linked user");
+    if (!linked) throw new HypixelDiscordChatBridgeError(translate("linked.errors.user.find"));
     const updateCommand = new UpdateCommand(this.discord);
     updateCommand.isSelf = false;
     updateCommand.discordId = linked.discordId;

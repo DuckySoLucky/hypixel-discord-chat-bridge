@@ -31,9 +31,11 @@ import {
   type LoggerChannelName,
   LoggerChannelNames
 } from "../types/discord.js";
+import { CommonDevs } from "../private/constants.js";
 import { canSendMessages, getApplicationOwners } from "../utils/discordUtils.js";
 import { messageToImage } from "../utils/messageToImage.js";
 import { removeColorCodes, replaceVariables } from "../utils/stringUtils.js";
+import { translate } from "../translations/TranslationsManager.js";
 import { writeFile } from "node:fs/promises";
 import type Application from "../Application.js";
 import type { BroadcastEvent } from "../types/bridge.js";
@@ -79,25 +81,25 @@ class DiscordManager extends CommunicationBridge {
 
   async getWebhook(type: ChannelName): Promise<Webhook | null> {
     const channel = await this.getChannel(type);
-    if (channel === null || !channel.isSendable() || channel.type !== ChannelType.GuildText) throw new HypixelDiscordChatBridgeError(`Channel "${type}" not found!`);
+    if (channel === null || !channel.isSendable() || channel.type !== ChannelType.GuildText) {
+      throw new HypixelDiscordChatBridgeError(translate("discord.errors.no.channel", { type: translate(`discord.channels.${type}`) }));
+    }
     try {
       const webhooks = await channel.fetchWebhooks();
 
       if (webhooks.size === 0) {
-        await channel.createWebhook({ name: "Hypixel Chat Bridge", avatar: "https://imgur.com/tgwQJTX.png" });
+        await channel.createWebhook({ name: "Hypixel Chat Bridge", avatar: CommonDevs.DuckySoLucky.iconURL });
         return await this.getWebhook(type);
       }
 
       const hook = webhooks.first();
       if (hook === undefined) {
-        throw new HypixelDiscordChatBridgeError("An error occurred while trying to fetch the webhooks. Please make sure the bot has the `MANAGE_WEBHOOKS` permission.");
+        throw new HypixelDiscordChatBridgeError(translate("discord.errors.perms.webhook"));
       }
       return hook;
     } catch (error) {
       console.error(error);
-      await channel.send({
-        embeds: [new ErrorEmbed().setDescription("An error occurred while trying to fetch the webhooks. Please make sure the bot has the `MANAGE_WEBHOOKS` permission.")]
-      });
+      await channel.send({ embeds: [new ErrorEmbed().setDescription(translate("discord.errors.perms.webhook"))] });
       return null;
     }
   }
@@ -159,7 +161,7 @@ class DiscordManager extends CommunicationBridge {
         break;
       }
       default: {
-        throw new HypixelDiscordChatBridgeError("Invalid message mode: must be bot, webhook or minecraft");
+        throw new HypixelDiscordChatBridgeError(translate("config.errors.bridge.discord.invalid"));
       }
     }
   }
@@ -217,7 +219,7 @@ class DiscordManager extends CommunicationBridge {
         await channel.send({ files: [new AttachmentBuilder(await messageToImage(fullMessage), { name: `${username}.png` })] });
         break;
       default:
-        throw new HypixelDiscordChatBridgeError("Invalid message mode: must be bot or webhook");
+        throw new HypixelDiscordChatBridgeError(translate("config.errors.bridge.discord.invalid"));
     }
   }
 
@@ -256,7 +258,7 @@ class DiscordManager extends CommunicationBridge {
     if (config.channel === null) {
       if (!this.isGuildReady()) {
         this.stateHandler.loadGuild();
-        throw new HypixelDiscordChatBridgeError("The discord server isn't ready. Please try again later");
+        throw new HypixelDiscordChatBridgeError(translate("discord.errors.server.missing"));
       }
 
       const channel = await this.guild.channels.create({ name: cleanType });

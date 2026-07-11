@@ -4,6 +4,7 @@ import GexpCheckCommand from "../../commands/verification/inactivity/gexpCheckCo
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import { ButtonResponse, CommandFlags, type DiscordManagerWithClient } from "../../../types/discord.js";
 import { type GexpDisplay, GexpDisplays } from "../../../types/inactivity.js";
+import { translate } from "../../../translations/TranslationsManager.js";
 import type { ButtonInteraction } from "discord.js";
 
 class GexpCheckCommandButtons extends DiscordButton {
@@ -17,7 +18,7 @@ class GexpCheckCommandButtons extends DiscordButton {
   override async execute(interaction: ButtonInteraction) {
     const gexpCheckCommand = new GexpCheckCommand(this.discord);
     const options = GexpCheckCommand.getOptionsfromMessage(interaction.message);
-    if (!options) throw new HypixelDiscordChatBridgeError("Unable to find the requirement gexp");
+    if (!options) throw new HypixelDiscordChatBridgeError(translate("discord.commands.gexp-check.execute.errors.failed.find.data"));
     options.type = interaction.customId as GexpDisplay;
     const response = await gexpCheckCommand.getResponse(options);
     await interaction.editReply(response);

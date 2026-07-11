@@ -38,7 +38,7 @@ Click the Microsoft link that you are given and sign into the account
 
 ## How do I remove an Minecraft Account
 
-Delete the `auth-cache` folder
+Delete the `data/auth-cache` folder
 
 ## How do I manage the profanity filter
 

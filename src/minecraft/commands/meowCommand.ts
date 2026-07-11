@@ -8,10 +8,11 @@ class MeowCommand extends MinecraftCommand {
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.variations = ["mrrp", "mrrow", "miau", "mauww", "meep", ":3", "nja", "nya", "awawa"];
-    this.data = new MinecraftCommandData().setName("meow").setDescription("meow").setAliases(this.variations);
+    this.data = new MinecraftCommandData().setName("meow").setAliases(this.variations);
   }
 
-  override execute(username: string, message: string): void {
+  override execute(player: string, message: string): void {
+    // eslint-disable-next-line hypixelDiscordChatBridge/enforce-translate
     this.send(this.variations[Math.floor(Math.random() * this.variations.length)] || "meow");
   }
 }

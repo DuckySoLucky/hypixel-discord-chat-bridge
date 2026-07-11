@@ -3,6 +3,7 @@ import DiscordModalData from "../../private/modals/DiscordModalData.js";
 import GexpCheckCommand from "../../commands/verification/inactivity/gexpCheckCommand.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import { BasicInteractionResponse, CommandFlags, type DiscordManagerWithClient } from "../../../types/discord.js";
+import { translate } from "../../../translations/TranslationsManager.js";
 import type { GexpDisplay } from "../../../types/inactivity.js";
 import type { ModalSubmitInteraction } from "discord.js";
 
@@ -18,7 +19,7 @@ class GexpCheckFiltersModal extends DiscordModal {
     if (!interaction.message) return;
     const gexpCheckCommand = new GexpCheckCommand(this.discord);
     const options = GexpCheckCommand.getOptionsfromMessage(interaction.message);
-    if (!options) throw new HypixelDiscordChatBridgeError("Unable to find the requirement gexp");
+    if (!options) throw new HypixelDiscordChatBridgeError(translate("discord.commands.gexp-check.execute.errors.failed.find.data"));
     const requirement = interaction.fields.getTextInputValue("gexpCheckFiltersAmount");
     const type = interaction.fields.getRadioGroup("gexpCheckFiltersPage");
     const hiddenRanks = interaction.fields.getCheckboxGroup("gexpCheckFiltersRank");

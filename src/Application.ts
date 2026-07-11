@@ -5,7 +5,7 @@ import HypixelDiscordChatBridgeError from "./private/error.js";
 import MinecraftManager from "./minecraft/MinecraftManager.js";
 import MowojangAPI from "./private/MowojangAPI.js";
 import ScriptManager from "./scripts/ScriptsManager.js";
-import messages from "./messages.json" with { type: "json" };
+import TranslationsManager, { translate } from "./translations/TranslationsManager.js";
 import packageJson from "../package.json" with { type: "json" };
 import { Filter } from "bad-words";
 import type { Config } from "./types/config.js";
@@ -14,11 +14,11 @@ import type { ParsedSession } from "./types/MowojangAPI.js";
 
 class Application {
   readonly package: typeof packageJson;
-  readonly messages: typeof messages;
   readonly data: DataManager;
   readonly discord: DiscordManager;
   readonly minecraft: MinecraftManager;
   readonly scripts: ScriptManager;
+  readonly translations: TranslationsManager;
   readonly filter: Filter;
   botGuild?: Guild;
   botGuildMembers?: ParsedSession[];
@@ -27,11 +27,11 @@ class Application {
     deployScripts: boolean = true
   ) {
     this.package = packageJson;
-    this.messages = messages;
     this.data = new DataManager(this);
     this.discord = new DiscordManager(this);
     this.minecraft = new MinecraftManager(this);
     this.scripts = new ScriptManager(this, deployScripts);
+    this.translations = new TranslationsManager();
 
     this.filter = new Filter();
     this.filter.addWords(...(this.config.bridge.filter.customWords ?? []));
@@ -51,10 +51,10 @@ class Application {
   }
 
   async getBotGuild(): Promise<Guild> {
-    if (!this.minecraft.isBotOnline()) throw new HypixelDiscordChatBridgeError(this.messages.minecraftBotOffline);
+    if (!this.minecraft.isBotOnline()) throw new HypixelDiscordChatBridgeError(translate("minecraft.errors.offline"));
     this.botGuild = await HypixelAPIReborn.getGuild("player", this.minecraft.bot.username).then((guild) => {
-      if (guild === null) throw new HypixelDiscordChatBridgeError("In game Hypixel Guild not found.");
-      if (guild.isRaw()) throw new HypixelDiscordChatBridgeError("In game Hypixel Guild not found.");
+      if (guild === null) throw new HypixelDiscordChatBridgeError(translate("api.hypixel.errors.failed.guild.not.in", { username: this.minecraft.bot?.username }));
+      if (guild.isRaw()) throw new HypixelDiscordChatBridgeError(translate("api.hypixel.errors.failed.parse"));
       return guild;
     });
     this.botGuildMembers = await MowojangAPI.getSessions(this.botGuild.members.map((member) => member.uuid)).then((data) => {

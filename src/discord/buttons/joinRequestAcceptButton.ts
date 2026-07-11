@@ -1,9 +1,11 @@
+import Button from "../private/buttons/Button.js";
 import DiscordButton from "../private/buttons/DiscordButton.js";
 import DiscordButtonData from "../private/buttons/DiscordButtonData.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
-import { ActionRowBuilder, ButtonBuilder, type ButtonInteraction, ComponentType } from "discord.js";
+import { ActionRowBuilder, type ButtonInteraction, ComponentType } from "discord.js";
 import { CommandFlags, type DiscordManagerWithBot } from "../../types/discord.js";
 import { SuccessEmbed } from "../private/Embed.js";
+import { translate } from "../../translations/TranslationsManager.js";
 
 class JoinRequestAcceptButton extends DiscordButton<DiscordManagerWithBot> {
   constructor(discord: DiscordManagerWithBot) {
@@ -14,7 +16,7 @@ class JoinRequestAcceptButton extends DiscordButton<DiscordManagerWithBot> {
 
   override async execute(interaction: ButtonInteraction) {
     const username = this.getUsernameFromJoinRequest(interaction.message);
-    if (!username) throw new HypixelDiscordChatBridgeError("Unable to find username");
+    if (!username) throw new HypixelDiscordChatBridgeError(translate("linked.errors.user.username"));
     this.discord.application.minecraft.bot.chat(`/g accept ${username}`);
     await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(`Successfully accepted \`${username}\` into the guild.`)] });
 
@@ -25,7 +27,7 @@ class JoinRequestAcceptButton extends DiscordButton<DiscordManagerWithBot> {
       if (compontent.type !== ComponentType.Button) return [];
       if (compontent.customId === "joinRequestAccept") found = true;
       return [
-        new ButtonBuilder()
+        new Button()
           .setCustomId(compontent.customId!)
           .setLabel(compontent.label!)
           .setStyle(compontent.style)
@@ -33,7 +35,7 @@ class JoinRequestAcceptButton extends DiscordButton<DiscordManagerWithBot> {
       ];
     });
     if (!found) return;
-    await interaction.message.edit({ components: [new ActionRowBuilder<ButtonBuilder>().addComponents(fixedButtons)] });
+    await interaction.message.edit({ components: [new ActionRowBuilder<Button>().addComponents(fixedButtons)] });
   }
 }
 

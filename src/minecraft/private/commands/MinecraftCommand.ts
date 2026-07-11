@@ -1,5 +1,6 @@
 import { delay, generateId } from "../../../utils/miscUtils.js";
 import { splitMessage } from "../../../utils/stringUtils.js";
+import { translate } from "../../../translations/TranslationsManager.js";
 import type MinecraftCommandData from "./MinecraftCommandData.js";
 import type { MinecraftManagerWithBot } from "../../../types/minecraft.js";
 
@@ -38,7 +39,7 @@ class MinecraftCommand<Manager extends MinecraftManagerWithBot = MinecraftManage
     if (message.length > this.maxMessageLength) {
       const msg = splitMessage(message, this.maxMessageLength);
       for (const part of msg) {
-        if (this.hasCommandTimedOut(startTime)) return console.error("Message sending timed out after 10 seconds");
+        if (this.hasCommandTimedOut(startTime)) return console.error(translate("minecraft.commands.execute.error.timeout"));
         await delay(1000);
         await this.send(part, maxRetries, isErrorMessage);
       }
@@ -49,14 +50,15 @@ class MinecraftCommand<Manager extends MinecraftManagerWithBot = MinecraftManage
       try {
         return await this.sendMessage(message);
       } catch (error) {
-        if (this.hasCommandTimedOut(startTime)) return console.error("Message sending timed out after 10 seconds");
+        if (this.hasCommandTimedOut(startTime)) return console.error(translate("minecraft.commands.execute.error.timeout"));
         if (!(error instanceof SendError)) return console.error(error);
 
         switch (error.type) {
           case SendErrorType.RATE_LIMITED: {
             if (attempt === maxRetries - 1) {
-              this.send(`Command failed to send message after ${maxRetries} attempts. Please try again later.`, 1);
-              if (!isErrorMessage) console.error(`Command failed to send message after ${maxRetries} attempts due to rate limiting.`);
+              // eslint-disable-next-line hypixelDiscordChatBridge/enforce-translate
+              this.send(translate("minecraft.commands.execute.error.resend", { maxRetries }), 1);
+              if (!isErrorMessage) console.error(translate("minecraft.commands.execute.error.resend", { maxRetries }));
               return;
             }
             await delay(2000);
@@ -96,6 +98,7 @@ class MinecraftCommand<Manager extends MinecraftManagerWithBot = MinecraftManage
       };
 
       this.minecraft.bot.once("systemChat", listener);
+      console.log(message.length);
       this.minecraft.bot.chat(`/${this.officer ? "oc" : "gc"} ${message}`);
 
       setTimeout(() => {
@@ -105,7 +108,7 @@ class MinecraftCommand<Manager extends MinecraftManagerWithBot = MinecraftManage
     });
   }
 
-  execute(username: string, message: string): unknown {
+  execute(player: string, message: string): unknown {
     throw new Error("Execute Method not implemented!");
   }
 }
