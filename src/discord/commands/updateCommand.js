@@ -6,8 +6,8 @@ const { SuccessEmbed, ErrorEmbed } = require("../../contracts/embedHandler.js");
 const hypixelRebornAPI = require("../../contracts/API/HypixelRebornAPI.js");
 const { getUsername } = require("../../contracts/API/mowojangAPI.js");
 const { MessageFlags, SlashCommandBuilder } = require("discord.js");
-const config = require("../../../config.json");
 const fs = require("fs");
+const config = JSON.parse(fs.readFileSync("config.json"));
 
 async function updateRoles({ discordId, uuid }) {
   const member = await guild.members.fetch(discordId);

@@ -1,6 +1,7 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { delay } = require("../../contracts/helperFunctions.js");
-const config = require("../../../config.json");
+const fs = require("fs");
+const config = JSON.parse(fs.readFileSync("config.json"));
 
 /**
  * Returns the answer

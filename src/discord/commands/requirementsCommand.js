@@ -4,7 +4,8 @@ const { titleCaseCamel } = require("../../contracts/helperFunctions.js");
 const { getUUID } = require("../../contracts/API/mowojangAPI.js");
 const { Embed } = require("../../contracts/embedHandler.js");
 const { SlashCommandBuilder } = require("discord.js");
-const config = require("../../../config.json");
+const fs = require("fs");
+const config = JSON.parse(fs.readFileSync("config.json"));
 
 /**
  * Check a player's requirements for the guild

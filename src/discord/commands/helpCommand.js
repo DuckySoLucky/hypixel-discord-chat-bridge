@@ -1,8 +1,8 @@
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 const { Embed } = require("../../contracts/embedHandler.js");
 const { getCommands } = require("./infoCommand.js");
-const config = require("../../../config.json");
 const fs = require("fs");
+const config = JSON.parse(fs.readFileSync("config.json"));
 const { SlashCommandBuilder } = require("discord.js");
 
 module.exports = {

@@ -1,7 +1,8 @@
 /* eslint-disable no-console */
 const customLevels = { discord: 0, minecraft: 1, web: 2, warn: 3, error: 4, broadcast: 5, max: 6 };
 const { createLogger, format, transports } = require("winston");
-const config = require("../config.json");
+const fs = require("fs");
+const config = JSON.parse(fs.readFileSync("config.json"));
 const chalk = require("chalk");
 const discordTransport = new transports.File({ level: "discord", filename: "./logs/discord.log" });
 const minecraftTransport = new transports.File({ level: "minecraft", filename: "./logs/minecraft.log" });

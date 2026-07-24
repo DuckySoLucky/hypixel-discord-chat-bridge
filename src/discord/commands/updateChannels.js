@@ -1,7 +1,8 @@
 const hypixelRebornAPI = require("../../contracts/API/HypixelRebornAPI.js");
 const { replaceVariables } = require("../../contracts/helperFunctions.js");
 const { SuccessEmbed } = require("../../contracts/embedHandler.js");
-const config = require("../../../config.json");
+const fs = require("fs");
+const config = JSON.parse(fs.readFileSync("config.json"));
 const { SlashCommandBuilder } = require("discord.js");
 
 module.exports = {

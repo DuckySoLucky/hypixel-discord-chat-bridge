@@ -1,6 +1,6 @@
 const { REST, Routes, Collection } = require("discord.js");
-const config = require("../../config.json");
 const fs = require("fs");
+const config = JSON.parse(fs.readFileSync("config.json"));
 
 class CommandHandler {
   constructor(discord) {

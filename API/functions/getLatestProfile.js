@@ -4,7 +4,8 @@ const { formatUsername } = require("../../src/contracts/helperFunctions.js");
 const { getMuseum } = require("./getMuseum.js");
 const { getGarden } = require("./getGarden.js");
 const { isUuid } = require("../utils/uuid.js");
-const config = require("../../config.json");
+const fs = require("fs");
+const config = JSON.parse(fs.readFileSync("config.json"));
 // @ts-ignore
 const { get } = require("axios");
 

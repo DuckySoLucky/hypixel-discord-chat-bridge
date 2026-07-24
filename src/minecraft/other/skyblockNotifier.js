@@ -1,4 +1,5 @@
-const config = require("../../../config.json");
+const fs = require("fs");
+const config = JSON.parse(fs.readFileSync("config.json"));
 const cheerio = require("cheerio");
 const Rss = require("rss-parser");
 const axios = require("axios");

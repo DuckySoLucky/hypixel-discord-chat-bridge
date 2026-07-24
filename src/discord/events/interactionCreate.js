@@ -3,7 +3,8 @@ const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js")
 const { ErrorEmbed, SuccessEmbed } = require("../../contracts/embedHandler.js");
 // eslint-disable-next-line no-unused-vars
 const { CommandInteraction, MessageFlags, Events } = require("discord.js");
-const config = require("../../../config.json");
+const fs = require("fs");
+const config = JSON.parse(fs.readFileSync("config.json"));
 
 module.exports = {
   name: Events.InteractionCreate,

@@ -5,8 +5,8 @@ const messageToImage = require("../contracts/messageToImage.js");
 const MessageHandler = require("./handlers/MessageHandler.js");
 const StateHandler = require("./handlers/StateHandler.js");
 const CommandHandler = require("./CommandHandler.js");
-const config = require("../../config.json");
 const fs = require("fs");
+const config = JSON.parse(fs.readFileSync("config.json"));
 const { ErrorEmbed } = require("../contracts/embedHandler.js");
 
 class DiscordManager extends CommunicationBridge {

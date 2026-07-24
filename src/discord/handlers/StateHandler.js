@@ -1,4 +1,5 @@
-const config = require("../../../config.json");
+const fs = require("fs");
+const config = JSON.parse(fs.readFileSync("config.json"));
 
 class StateHandler {
   constructor(discord) {

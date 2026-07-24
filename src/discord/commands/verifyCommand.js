@@ -4,7 +4,8 @@ const hypixelRebornAPI = require("../../contracts/API/HypixelRebornAPI.js");
 const { formatError } = require("../../contracts/helperFunctions.js");
 const updateRolesCommand = require("./updateCommand.js");
 const { writeFileSync, readFileSync } = require("fs");
-const config = require("../../../config.json");
+const fs = require("fs");
+const config = JSON.parse(fs.readFileSync("config.json"));
 const { MessageFlags, SlashCommandBuilder } = require("discord.js");
 
 module.exports = {

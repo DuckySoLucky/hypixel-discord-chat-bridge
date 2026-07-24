@@ -1,5 +1,6 @@
 const { splitMessage, delay, generateID } = require("./helperFunctions.js");
-const config = require("../../config.json");
+const fs = require("fs");
+const config = JSON.parse(fs.readFileSync("config.json")): 
 
 class minecraftCommand {
   /** @param {import("minecraft-protocol").Client} minecraft */

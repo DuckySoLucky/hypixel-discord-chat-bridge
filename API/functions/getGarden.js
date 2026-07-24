@@ -1,5 +1,6 @@
 /* eslint-disable no-throw-literal */
-const config = require("../../config.json");
+const fs = require("fs");
+const config = JSON.parse(fs.readFileSync("config.json"));
 // @ts-ignore
 const { get } = require("axios");
 

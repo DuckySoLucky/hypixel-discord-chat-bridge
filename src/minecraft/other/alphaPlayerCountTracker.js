@@ -1,5 +1,6 @@
 const minecraftProtocol = require("minecraft-protocol");
-const config = require("../../../config.json");
+const fs = require("fs");
+const config = JSON.parse(fs.readFileSync("config.json")); 
 
 if (config.minecraft.hypixelUpdates.enabled === true && config.minecraft.hypixelUpdates.alphaPlayerCountTracker === true) {
   setInterval(checkAlphaPlayerCount, 15 * 60000); // 15 minute

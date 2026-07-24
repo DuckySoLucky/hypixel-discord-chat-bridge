@@ -8,7 +8,8 @@ const { getUUID } = require("../../contracts/API/mowojangAPI.js");
 const eventHandler = require("../../contracts/EventHandler.js");
 const { isUuid } = require("../../../API/utils/uuid.js");
 const messages = require("../../../messages.json");
-const config = require("../../../config.json");
+const fs = require("fs");
+const config = JSON.parse(fs.readFileSync("config.json"));
 const { readFileSync } = require("fs");
 
 class StateHandler extends eventHandler {

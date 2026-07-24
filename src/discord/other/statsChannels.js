@@ -1,5 +1,6 @@
 const updateChannels = require("../commands/updateChannels.js");
-const config = require("../../../config.json");
+const fs = require("fs");
+const config = JSON.parse(fs.readFileSync("config.json"));
 const cron = require("node-cron");
 
 if (config.statsChannels.enabled) {

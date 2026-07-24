@@ -1,10 +1,11 @@
+const fs = require("fs");
 const CommunicationBridge = require("../contracts/CommunicationBridge.js");
 const { replaceVariables } = require("../contracts/helperFunctions.js");
 const StateHandler = require("./handlers/StateHandler.js");
 const ErrorHandler = require("./handlers/ErrorHandler.js");
 const ChatHandler = require("./handlers/ChatHandler.js");
 const CommandHandler = require("./CommandHandler.js");
-const config = require("../../config.json");
+const config = JSON.parse(fs.readFileSync("config.json")); 
 const mineflayer = require("mineflayer");
 const Filter = require("bad-words");
 
