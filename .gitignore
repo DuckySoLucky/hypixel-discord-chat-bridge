@@ -4,3 +4,4 @@ config.json
 auth-cache/
 logs/
 data/
+result

@@ -1,0 +1,441 @@
+diff --git a/API/functions/getGarden.js b/API/functions/getGarden.js
+index 32d6b18..d37aa58 100644
+--- a/API/functions/getGarden.js
++++ b/API/functions/getGarden.js
+@@ -1,5 +1,6 @@
+ /* eslint-disable no-throw-literal */
+-const config = require("../../config.json");
++const fs = require("fs");
++const config = JSON.parse(fs.readFileSync("config.json"));
+ // @ts-ignore
+ const { get } = require("axios");
+ 
+diff --git a/API/functions/getLatestProfile.js b/API/functions/getLatestProfile.js
+index c00d80d..2602996 100644
+--- a/API/functions/getLatestProfile.js
++++ b/API/functions/getLatestProfile.js
+@@ -4,7 +4,8 @@ const { formatUsername } = require("../../src/contracts/helperFunctions.js");
+ const { getMuseum } = require("./getMuseum.js");
+ const { getGarden } = require("./getGarden.js");
+ const { isUuid } = require("../utils/uuid.js");
+-const config = require("../../config.json");
++const fs = require("fs");
++const config = JSON.parse(fs.readFileSync("config.json"));
+ // @ts-ignore
+ const { get } = require("axios");
+ 
+diff --git a/API/functions/getMuseum.js b/API/functions/getMuseum.js
+index 43d3a85..4286a57 100644
+--- a/API/functions/getMuseum.js
++++ b/API/functions/getMuseum.js
+@@ -1,5 +1,6 @@
+ /* eslint-disable no-throw-literal */
+-const config = require("../../config.json");
++const fs = require("fs");
++const config = JSON.parse(fs.readFileSync("config.json"));
+ // @ts-ignore
+ const { get } = require("axios");
+ 
+diff --git a/src/Logger.js b/src/Logger.js
+index 37e9a89..3f40b98 100644
+--- a/src/Logger.js
++++ b/src/Logger.js
+@@ -1,7 +1,8 @@
+ /* eslint-disable no-console */
+ const customLevels = { discord: 0, minecraft: 1, web: 2, warn: 3, error: 4, broadcast: 5, max: 6 };
+ const { createLogger, format, transports } = require("winston");
+-const config = require("../config.json");
++const fs = require("fs");
++const config = JSON.parse(fs.readFileSync("config.json"));
+ const chalk = require("chalk");
+ const discordTransport = new transports.File({ level: "discord", filename: "./logs/discord.log" });
+ const minecraftTransport = new transports.File({ level: "minecraft", filename: "./logs/minecraft.log" });
+diff --git a/src/Updater.js b/src/Updater.js
+index 2a472d2..38d1ec7 100644
+--- a/src/Updater.js
++++ b/src/Updater.js
+@@ -1,5 +1,6 @@
+ const { exec } = require("child_process");
+-const config = require("../config.json");
++const fs = require("fs");
++const config = JSON.parse(fs.readFileSync("config.json"));
+ const Logger = require("./Logger.js");
+ const cron = require("node-cron");
+ 
+diff --git a/src/contracts/API/HypixelRebornAPI.js b/src/contracts/API/HypixelRebornAPI.js
+index 829a59c..32f49bc 100644
+--- a/src/contracts/API/HypixelRebornAPI.js
++++ b/src/contracts/API/HypixelRebornAPI.js
+@@ -1,5 +1,6 @@
+ const HypixelAPIReborn = require("hypixel-api-reborn");
+-const config = require("../../../config.json");
++const fs = require("fs");
++const config = JSON.parse(fs.readFileSync("config.json"));
+ 
+ const hypixel = new HypixelAPIReborn.Client(config.minecraft.API.hypixelAPIkey, {
+   cache: true
+diff --git a/src/contracts/API/imgurAPI.js b/src/contracts/API/imgurAPI.js
+index 0fb1ece..f1425af 100644
+--- a/src/contracts/API/imgurAPI.js
++++ b/src/contracts/API/imgurAPI.js
+@@ -1,4 +1,5 @@
+-const config = require("../../../config.json");
++const fs = require("fs");
++const config = JSON.parse(fs.readFileSync("config.json"));
+ // const { ImgurClient } = require("imgur");
+ 
+ // const imgurClient = new ImgurClient({
+diff --git a/src/contracts/minecraftCommand.js b/src/contracts/minecraftCommand.js
+index 92fcb02..829c99e 100644
+--- a/src/contracts/minecraftCommand.js
++++ b/src/contracts/minecraftCommand.js
+@@ -1,5 +1,6 @@
+ const { splitMessage, delay, generateID } = require("./helperFunctions.js");
+-const config = require("../../config.json");
++const fs = require("fs");
++const config = JSON.parse(fs.readFileSync("config.json"));
+ 
+ class minecraftCommand {
+   /** @param {import("minecraft-protocol").Client} minecraft */
+diff --git a/src/contracts/verificaiton.js b/src/contracts/verificaiton.js
+index d76a19c..d943ada 100644
+--- a/src/contracts/verificaiton.js
++++ b/src/contracts/verificaiton.js
+@@ -1,5 +1,6 @@
+ const HypixelDiscordChatBridgeError = require("./errorHandler.js");
+-const config = require("../../config.json");
++const fs = require("fs");
++const config = JSON.parse(fs.readFileSync("config.json"));
+ const { readFileSync } = require("fs");
+ 
+ function isGuildMember(interaction) {
+diff --git a/src/discord/CommandHandler.js b/src/discord/CommandHandler.js
+index 3744245..d6e67f5 100644
+--- a/src/discord/CommandHandler.js
++++ b/src/discord/CommandHandler.js
+@@ -1,6 +1,6 @@
+ const { REST, Routes, Collection } = require("discord.js");
+-const config = require("../../config.json");
+ const fs = require("fs");
++const config = JSON.parse(fs.readFileSync("config.json"));
+ 
+ class CommandHandler {
+   constructor(discord) {
+diff --git a/src/discord/DiscordManager.js b/src/discord/DiscordManager.js
+index 1721532..5a98f2c 100644
+--- a/src/discord/DiscordManager.js
++++ b/src/discord/DiscordManager.js
+@@ -5,8 +5,8 @@ const messageToImage = require("../contracts/messageToImage.js");
+ const MessageHandler = require("./handlers/MessageHandler.js");
+ const StateHandler = require("./handlers/StateHandler.js");
+ const CommandHandler = require("./CommandHandler.js");
+-const config = require("../../config.json");
+ const fs = require("fs");
++const config = JSON.parse(fs.readFileSync("config.json"));
+ const { ErrorEmbed } = require("../contracts/embedHandler.js");
+ 
+ class DiscordManager extends CommunicationBridge {
+diff --git a/src/discord/commands/forceVerifyCommand.js b/src/discord/commands/forceVerifyCommand.js
+index 472a25a..7535aa2 100644
+--- a/src/discord/commands/forceVerifyCommand.js
++++ b/src/discord/commands/forceVerifyCommand.js
+@@ -4,7 +4,8 @@ const hypixelRebornAPI = require("../../contracts/API/HypixelRebornAPI.js");
+ const { formatError } = require("../../contracts/helperFunctions.js");
+ const updateRolesCommand = require("./updateCommand.js");
+ const { writeFileSync, readFileSync } = require("fs");
+-const config = require("../../../config.json");
++const fs = require("fs");
++const config = JSON.parse(fs.readFileSync("config.json"));
+ const { MessageFlags, SlashCommandBuilder } = require("discord.js");
+ 
+ module.exports = {
+diff --git a/src/discord/commands/helpCommand.js b/src/discord/commands/helpCommand.js
+index 4582cf8..91b1506 100644
+--- a/src/discord/commands/helpCommand.js
++++ b/src/discord/commands/helpCommand.js
+@@ -1,8 +1,8 @@
+ const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
+ const { Embed } = require("../../contracts/embedHandler.js");
+ const { getCommands } = require("./infoCommand.js");
+-const config = require("../../../config.json");
+ const fs = require("fs");
++const config = JSON.parse(fs.readFileSync("config.json"));
+ const { SlashCommandBuilder } = require("discord.js");
+ 
+ module.exports = {
+diff --git a/src/discord/commands/inactivityCommand.js b/src/discord/commands/inactivityCommand.js
+index 389127c..8a59171 100644
+--- a/src/discord/commands/inactivityCommand.js
++++ b/src/discord/commands/inactivityCommand.js
+@@ -2,7 +2,8 @@ const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js")
+ const { Embed, SuccessEmbed } = require("../../contracts/embedHandler.js");
+ const { getUsername } = require("../../contracts/API/mowojangAPI.js");
+ const { writeFileSync, readFileSync } = require("fs");
+-const config = require("../../../config.json");
++const fs = require("fs");
++const config = JSON.parse(fs.readFileSync("config.json"));
+ const ms = require("ms");
+ const { SlashCommandBuilder } = require("discord.js");
+ 
+diff --git a/src/discord/commands/infoCommand.js b/src/discord/commands/infoCommand.js
+index a65408a..cf73f99 100644
+--- a/src/discord/commands/infoCommand.js
++++ b/src/discord/commands/infoCommand.js
+@@ -1,8 +1,8 @@
+ const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
+ const { replaceVariables } = require("../../contracts/helperFunctions.js");
+ const { Embed } = require("../../contracts/embedHandler.js");
+-const config = require("../../../config.json");
+ const fs = require("fs");
++const config = JSON.parse(fs.readFileSync("config.json"));
+ const { SlashCommandBuilder } = require("discord.js");
+ 
+ function formatOptions(name, required) {
+diff --git a/src/discord/commands/requirementsCommand.js b/src/discord/commands/requirementsCommand.js
+index f04dc9f..b495271 100644
+--- a/src/discord/commands/requirementsCommand.js
++++ b/src/discord/commands/requirementsCommand.js
+@@ -4,7 +4,8 @@ const { titleCaseCamel } = require("../../contracts/helperFunctions.js");
+ const { getUUID } = require("../../contracts/API/mowojangAPI.js");
+ const { Embed } = require("../../contracts/embedHandler.js");
+ const { SlashCommandBuilder } = require("discord.js");
+-const config = require("../../../config.json");
++const fs = require("fs");
++const config = JSON.parse(fs.readFileSync("config.json"));
+ 
+ /**
+  * Check a player's requirements for the guild
+diff --git a/src/discord/commands/updateChannels.js b/src/discord/commands/updateChannels.js
+index 56ed585..9004a4a 100644
+--- a/src/discord/commands/updateChannels.js
++++ b/src/discord/commands/updateChannels.js
+@@ -1,7 +1,8 @@
+ const hypixelRebornAPI = require("../../contracts/API/HypixelRebornAPI.js");
+ const { replaceVariables } = require("../../contracts/helperFunctions.js");
+ const { SuccessEmbed } = require("../../contracts/embedHandler.js");
+-const config = require("../../../config.json");
++const fs = require("fs");
++const config = JSON.parse(fs.readFileSync("config.json"));
+ const { SlashCommandBuilder } = require("discord.js");
+ 
+ module.exports = {
+diff --git a/src/discord/commands/updateCommand.js b/src/discord/commands/updateCommand.js
+index 73010b8..d044875 100644
+--- a/src/discord/commands/updateCommand.js
++++ b/src/discord/commands/updateCommand.js
+@@ -6,8 +6,8 @@ const { SuccessEmbed, ErrorEmbed } = require("../../contracts/embedHandler.js");
+ const hypixelRebornAPI = require("../../contracts/API/HypixelRebornAPI.js");
+ const { getUsername } = require("../../contracts/API/mowojangAPI.js");
+ const { MessageFlags, SlashCommandBuilder } = require("discord.js");
+-const config = require("../../../config.json");
+ const fs = require("fs");
++const config = JSON.parse(fs.readFileSync("config.json"));
+ 
+ async function updateRoles({ discordId, uuid }) {
+   const member = await guild.members.fetch(discordId);
+diff --git a/src/discord/commands/verifyCommand.js b/src/discord/commands/verifyCommand.js
+index 6b41581..f859aa8 100644
+--- a/src/discord/commands/verifyCommand.js
++++ b/src/discord/commands/verifyCommand.js
+@@ -4,7 +4,8 @@ const hypixelRebornAPI = require("../../contracts/API/HypixelRebornAPI.js");
+ const { formatError } = require("../../contracts/helperFunctions.js");
+ const updateRolesCommand = require("./updateCommand.js");
+ const { writeFileSync, readFileSync } = require("fs");
+-const config = require("../../../config.json");
++const fs = require("fs");
++const config = JSON.parse(fs.readFileSync("config.json"));
+ const { MessageFlags, SlashCommandBuilder } = require("discord.js");
+ 
+ module.exports = {
+diff --git a/src/discord/events/interactionCreate.js b/src/discord/events/interactionCreate.js
+index d500cc3..692107e 100644
+--- a/src/discord/events/interactionCreate.js
++++ b/src/discord/events/interactionCreate.js
+@@ -3,7 +3,8 @@ const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js")
+ const { ErrorEmbed, SuccessEmbed } = require("../../contracts/embedHandler.js");
+ // eslint-disable-next-line no-unused-vars
+ const { CommandInteraction, MessageFlags, Events } = require("discord.js");
+-const config = require("../../../config.json");
++const fs = require("fs");
++const config = JSON.parse(fs.readFileSync("config.json"));
+ 
+ module.exports = {
+   name: Events.InteractionCreate,
+diff --git a/src/discord/handlers/MessageHandler.js b/src/discord/handlers/MessageHandler.js
+index 11dae1c..b8c9a44 100644
+--- a/src/discord/handlers/MessageHandler.js
++++ b/src/discord/handlers/MessageHandler.js
+@@ -1,4 +1,5 @@
+-const config = require("../../../config.json");
++const fs = require("fs");
++const config = JSON.parse(fs.readFileSync("config.json"));
+ const { unemojify } = require("node-emoji");
+ 
+ class MessageHandler {
+diff --git a/src/discord/handlers/StateHandler.js b/src/discord/handlers/StateHandler.js
+index ba888e9..4a7f30c 100644
+--- a/src/discord/handlers/StateHandler.js
++++ b/src/discord/handlers/StateHandler.js
+@@ -1,4 +1,5 @@
+-const config = require("../../../config.json");
++const fs = require("fs");
++const config = JSON.parse(fs.readFileSync("config.json"));
+ 
+ class StateHandler {
+   constructor(discord) {
+diff --git a/src/discord/other/removeExpiredInactivity.js b/src/discord/other/removeExpiredInactivity.js
+index 44bc76a..f8442c7 100644
+--- a/src/discord/other/removeExpiredInactivity.js
++++ b/src/discord/other/removeExpiredInactivity.js
+@@ -1,5 +1,6 @@
+ const { removeExpiredInactivity } = require("../commands/inactivityCommand.js");
+-const config = require("../../../config.json");
++const fs = require("fs");
++const config = JSON.parse(fs.readFileSync("config.json"));
+ const cron = require("node-cron");
+ 
+ if (config.verification.inactivity.enabled) (cron.schedule(`*/2 * * * *`, () => removeExpiredInactivity()), { timezone: config.other.timezone });
+diff --git a/src/discord/other/statsChannels.js b/src/discord/other/statsChannels.js
+index 41ac60c..ce1ebe8 100644
+--- a/src/discord/other/statsChannels.js
++++ b/src/discord/other/statsChannels.js
+@@ -1,5 +1,6 @@
+ const updateChannels = require("../commands/updateChannels.js");
+-const config = require("../../../config.json");
++const fs = require("fs");
++const config = JSON.parse(fs.readFileSync("config.json"));
+ const cron = require("node-cron");
+ 
+ if (config.statsChannels.enabled) {
+diff --git a/src/discord/other/updateUsers.js b/src/discord/other/updateUsers.js
+index 5b5a94c..ebbce7f 100644
+--- a/src/discord/other/updateUsers.js
++++ b/src/discord/other/updateUsers.js
+@@ -1,5 +1,6 @@
+ const updateRolesCommand = require("../commands/forceUpdateCommand.js");
+-const config = require("../../../config.json");
++const fs = require("fs");
++const config = JSON.parse(fs.readFileSync("config.json"));
+ const cron = require("node-cron");
+ 
+ if (config.verification.autoRoleUpdater.enabled) {
+diff --git a/src/minecraft/CommandHandler.js b/src/minecraft/CommandHandler.js
+index 72a7c62..df6715e 100644
+--- a/src/minecraft/CommandHandler.js
++++ b/src/minecraft/CommandHandler.js
+@@ -1,7 +1,7 @@
+ const { Collection } = require("discord.js");
+-const config = require("../../config.json");
+-const axios = require("axios");
+ const fs = require("fs");
++const config = JSON.parse(fs.readFileSync("config.json")); 
++const axios = require("axios");
+ 
+ class CommandHandler {
+   /** @param {import("minecraft-protocol").Client} minecraft */
+diff --git a/src/minecraft/MinecraftManager.js b/src/minecraft/MinecraftManager.js
+index ba0458b..09620fb 100644
+--- a/src/minecraft/MinecraftManager.js
++++ b/src/minecraft/MinecraftManager.js
+@@ -1,10 +1,11 @@
++const fs = require("fs");
+ const CommunicationBridge = require("../contracts/CommunicationBridge.js");
+ const { replaceVariables } = require("../contracts/helperFunctions.js");
+ const StateHandler = require("./handlers/StateHandler.js");
+ const ErrorHandler = require("./handlers/ErrorHandler.js");
+ const ChatHandler = require("./handlers/ChatHandler.js");
+ const CommandHandler = require("./CommandHandler.js");
+-const config = require("../../config.json");
++const config = JSON.parse(fs.readFileSync("config.json")); 
+ const mineflayer = require("mineflayer");
+ const Filter = require("bad-words");
+ 
+diff --git a/src/minecraft/commands/auctionHouseCommand.js b/src/minecraft/commands/auctionHouseCommand.js
+index bf0509b..5faa9cc 100644
+--- a/src/minecraft/commands/auctionHouseCommand.js
++++ b/src/minecraft/commands/auctionHouseCommand.js
+@@ -4,7 +4,8 @@ const { uploadImage } = require("../../contracts/API/imgurAPI.js");
+ const { getUUID } = require("../../contracts/API/mowojangAPI.js");
+ const { renderLore } = require("../../contracts/renderItem.js");
+ const { getRank } = require("../../../API/stats/rank.js");
+-const config = require("../../../config.json");
++const fs = require("fs");
++const config = JSON.parse(fs.readFileSync("config.json"));
+ // @ts-ignore
+ const { get } = require("axios");
+ 
+diff --git a/src/minecraft/commands/quickMathsCommand.js b/src/minecraft/commands/quickMathsCommand.js
+index e7f7b6e..3bbf483 100644
+--- a/src/minecraft/commands/quickMathsCommand.js
++++ b/src/minecraft/commands/quickMathsCommand.js
+@@ -1,6 +1,7 @@
+ const minecraftCommand = require("../../contracts/minecraftCommand.js");
+ const { delay } = require("../../contracts/helperFunctions.js");
+-const config = require("../../../config.json");
++const fs = require("fs");
++const config = JSON.parse(fs.readFileSync("config.json"));
+ 
+ /**
+  * Returns the answer
+diff --git a/src/minecraft/handlers/ChatHandler.js b/src/minecraft/handlers/ChatHandler.js
+index 48d28ec..3435092 100644
+--- a/src/minecraft/handlers/ChatHandler.js
++++ b/src/minecraft/handlers/ChatHandler.js
+@@ -8,7 +8,8 @@ const { getUUID } = require("../../contracts/API/mowojangAPI.js");
+ const eventHandler = require("../../contracts/EventHandler.js");
+ const { isUuid } = require("../../../API/utils/uuid.js");
+ const messages = require("../../../messages.json");
+-const config = require("../../../config.json");
++const fs = require("fs");
++const config = JSON.parse(fs.readFileSync("config.json"));
+ const { readFileSync } = require("fs");
+ 
+ class StateHandler extends eventHandler {
+diff --git a/src/minecraft/other/alphaPlayerCountTracker.js b/src/minecraft/other/alphaPlayerCountTracker.js
+index 9520006..858a3d4 100644
+--- a/src/minecraft/other/alphaPlayerCountTracker.js
++++ b/src/minecraft/other/alphaPlayerCountTracker.js
+@@ -1,5 +1,6 @@
+ const minecraftProtocol = require("minecraft-protocol");
+-const config = require("../../../config.json");
++const fs = require("fs");
++const config = JSON.parse(fs.readFileSync("config.json")); 
+ 
+ if (config.minecraft.hypixelUpdates.enabled === true && config.minecraft.hypixelUpdates.alphaPlayerCountTracker === true) {
+   setInterval(checkAlphaPlayerCount, 15 * 60000); // 15 minute
+diff --git a/src/minecraft/other/eventNotifier.js b/src/minecraft/other/eventNotifier.js
+index c9e4264..2969eb0 100644
+--- a/src/minecraft/other/eventNotifier.js
++++ b/src/minecraft/other/eventNotifier.js
+@@ -1,7 +1,8 @@
+ const { getSkyblockCalendar } = require("../../../API/functions/getCalendar.js");
+ const minecraftCommand = require("../../contracts/minecraftCommand.js");
+ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+-const config = require("../../../config.json");
++const fs = require("fs");
++const config = JSON.parse(fs.readFileSync("config.json"));
+ const axios = require("axios");
+ 
+ if (config.minecraft.skyblockEventsNotifications.enabled) {
+diff --git a/src/minecraft/other/skyblockNotifier.js b/src/minecraft/other/skyblockNotifier.js
+index 5d816f2..0662b3b 100644
+--- a/src/minecraft/other/skyblockNotifier.js
++++ b/src/minecraft/other/skyblockNotifier.js
+@@ -1,4 +1,5 @@
+-const config = require("../../../config.json");
++const fs = require("fs");
++const config = JSON.parse(fs.readFileSync("config.json"));
+ const cheerio = require("cheerio");
+ const Rss = require("rss-parser");
+ const axios = require("axios");
+diff --git a/src/web/WebsiteManager.js b/src/web/WebsiteManager.js
+index 7f595d2..b21a841 100644
+--- a/src/web/WebsiteManager.js
++++ b/src/web/WebsiteManager.js
+@@ -1,4 +1,5 @@
+-const config = require("../../config.json");
++const fs = require("fs");
++const config = JSON.parse(fs.readFileSync("config.json")); 
+ const WebSocket = require("ws");
+ const http = require("http");
+ 
