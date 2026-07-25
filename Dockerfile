@@ -1,22 +1,20 @@
-# define base image
-FROM node:21.6.1-bullseye-slim
+FROM node:22.22.3-bookworm
+ENV NODE_ENV=production
+RUN apt-get update && apt-get install -y \
+    libcairo2-dev \
+    libpango1.0-dev \
+    libjpeg-dev \
+    libgif-dev \
+    librsvg2-dev \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
 
-# download dumb-init
-RUN apt-get update && apt-get install -y --no-install-recommends dumb-init
+WORKDIR /app
 
-# define environment
-ENV NODE_ENV production
+RUN npm install -g pnpm@11
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+RUN pnpm install --frozen-lockfile
 
-# set work directory
-WORKDIR /usr/src/app
+COPY . .
 
-# copy all sources to container
-COPY --chown=node:node . /usr/src/app
-
-# install dependencies
-RUN npm install
-RUN npm ci --only=production
-
-# run your app
-USER node
-CMD [ "dumb-init", "node", "index.js" ]
+ENTRYPOINT ["pnpm", "start"]

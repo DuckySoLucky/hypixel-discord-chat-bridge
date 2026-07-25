@@ -1,6 +1,9 @@
 node_modules/
 config.json
-package-lock.json
-.eslintrc
+config.example.json
 Dockerfile
-.github/
+/auth-cache/
+/logs/
+/data/
+/build/
+pnpm-lock.yaml

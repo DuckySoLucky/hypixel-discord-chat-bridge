@@ -1,0 +1,989 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "$schema": { "type": "string", "skip": true },
+    "configVersion": {
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991,
+      "description": "!IMPORTANT DO NOT TOUCH\nConfig format version number",
+      "skip": true
+    },
+    "API": {
+      "type": "object",
+      "properties": {
+        "hypixel": {
+          "type": "object",
+          "properties": {
+            "key": { "type": "string" },
+            "baseURL": {
+              "anyOf": [{ "type": "string", "format": "uri" }, { "type": "null" }],
+              "description": "The base URL for the Hypixel API. If null, the default Hypixel API URL will be used"
+            }
+          },
+          "required": ["key", "baseURL"],
+          "additionalProperties": false
+        },
+        "mowojang": {
+          "type": "object",
+          "properties": {
+            "baseURL": {
+              "anyOf": [{ "type": "string", "format": "uri" }, { "type": "null" }],
+              "description": "The base URL for the Mowojang API. If null, the default Mowojang API URL will be used"
+            }
+          },
+          "required": ["baseURL"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["hypixel", "mowojang"],
+      "additionalProperties": false
+    },
+    "bridge": {
+      "type": "object",
+      "properties": {
+        "minecraft": {
+          "type": "object",
+          "properties": {
+            "format": {
+              "type": "string",
+              "description": "The format for messages sent from Discord to Minecraft\nUse {username} for the player's username and {message} for the message content"
+            }
+          },
+          "required": ["format"],
+          "additionalProperties": false
+        },
+        "discord": {
+          "type": "object",
+          "properties": {
+            "allowedBots": { "type": "array", "items": { "type": "string" }, "description": "Array of discord User Ids" },
+            "mode": { "type": "string", "enum": ["bot", "webhook", "minecraft"] },
+            "format": {
+              "type": "string",
+              "description": "The format for messages sent from Minecraft to Discord\nOnly used with `minecraft` mode\nSupported arguments: {chatType}, {username}, {rank}, {guildRank}, {username}"
+            }
+          },
+          "required": ["allowedBots", "mode", "format"],
+          "additionalProperties": false
+        },
+        "channels": {
+          "type": "object",
+          "properties": {
+            "debug": {
+              "type": "object",
+              "properties": {
+                "enabled": { "type": "boolean" },
+                "channel": { "anyOf": [{ "type": "string" }, { "type": "null" }], "description": "Discord channel id. If null, an auto-generated channel will be used" }
+              },
+              "required": ["enabled", "channel"],
+              "additionalProperties": false
+            },
+            "guild": {
+              "type": "object",
+              "properties": {
+                "enabled": { "type": "boolean" },
+                "channel": { "anyOf": [{ "type": "string" }, { "type": "null" }], "description": "Discord channel id. If null, an auto-generated channel will be used" }
+              },
+              "required": ["enabled", "channel"],
+              "additionalProperties": false
+            },
+            "officer": {
+              "type": "object",
+              "properties": {
+                "enabled": { "type": "boolean" },
+                "channel": { "anyOf": [{ "type": "string" }, { "type": "null" }], "description": "Discord channel id. If null, an auto-generated channel will be used" }
+              },
+              "required": ["enabled", "channel"],
+              "additionalProperties": false
+            },
+            "logging": {
+              "type": "object",
+              "properties": {
+                "enabled": { "type": "boolean" },
+                "channel": { "anyOf": [{ "type": "string" }, { "type": "null" }], "description": "Discord channel id. If null, an auto-generated channel will be used" },
+                "channels": {
+                  "type": "object",
+                  "properties": {
+                    "guild": { "anyOf": [{ "type": "string" }, { "type": "null" }], "description": "Discord channel id. If null, an auto-generated thread will be used" },
+                    "event": { "anyOf": [{ "type": "string" }, { "type": "null" }], "description": "Discord channel id. If null, an auto-generated thread will be used" },
+                    "error": { "anyOf": [{ "type": "string" }, { "type": "null" }], "description": "Discord channel id. If null, an auto-generated thread will be used" },
+                    "blacklist": {
+                      "anyOf": [{ "type": "string" }, { "type": "null" }],
+                      "description": "Discord channel id. If null, an auto-generated thread will be used"
+                    },
+                    "scripts": {
+                      "anyOf": [{ "type": "string" }, { "type": "null" }],
+                      "description": "Discord channel id. If null, an auto-generated thread will be used"
+                    },
+                    "inactivity": {
+                      "anyOf": [{ "type": "string" }, { "type": "null" }],
+                      "description": "Discord channel id. If null, an auto-generated thread will be used"
+                    }
+                  },
+                  "required": ["guild", "event", "error", "blacklist", "scripts", "inactivity"],
+                  "additionalProperties": false
+                }
+              },
+              "required": ["enabled", "channel", "channels"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["debug", "guild", "officer", "logging"],
+          "additionalProperties": false
+        },
+        "filter": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "customWords": { "type": "array", "items": { "type": "string" }, "description": "Custom words used for filtering bridge messages" }
+          },
+          "required": ["enabled", "customWords"],
+          "additionalProperties": false
+        },
+        "stripEmojisFromUsernames": { "type": "boolean" }
+      },
+      "required": ["minecraft", "discord", "channels", "filter", "stripEmojisFromUsernames"],
+      "additionalProperties": false
+    },
+    "minecraft": {
+      "type": "object",
+      "properties": {
+        "commands": {
+          "type": "object",
+          "properties": {
+            "messageRepeatBypassLength": { "type": "number" },
+            "maxMessageLength": { "type": "number" },
+            "normal": {
+              "type": "object",
+              "properties": { "enabled": { "type": "boolean" }, "prefix": { "type": "string" } },
+              "required": ["enabled", "prefix"],
+              "additionalProperties": false
+            },
+            "soopy": {
+              "type": "object",
+              "properties": { "enabled": { "type": "boolean" }, "prefix": { "type": "string" } },
+              "required": ["enabled", "prefix"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["messageRepeatBypassLength", "maxMessageLength", "normal", "soopy"],
+          "additionalProperties": false
+        },
+        "guild": {
+          "type": "object",
+          "properties": {
+            "requirements": {
+              "type": "object",
+              "properties": {
+                "enabled": { "type": "boolean" },
+                "autoAccept": { "type": "boolean", "description": "Whether new guild members are automatically accepted if they have pass the requirements" },
+                "requirementsNeededToPass": { "type": "number", "description": "The number of requirements a player must meet to pass" },
+                "requirements": {
+                  "type": "object",
+                  "propertyNames": { "type": "string" },
+                  "additionalProperties": { "type": "integer", "exclusiveMinimum": 0, "maximum": 9007199254740991 }
+                }
+              },
+              "required": ["enabled", "autoAccept", "requirementsNeededToPass", "requirements"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["requirements"],
+          "additionalProperties": false
+        },
+        "hypixelAlerts": {
+          "type": "object",
+          "properties": {
+            "hypixelNews": {
+              "type": "object",
+              "properties": { "enabled": { "type": "boolean" }, "interval": { "type": "string", "description": "How often should the alert be ran (/checked)" } },
+              "required": ["enabled", "interval"],
+              "additionalProperties": false
+            },
+            "statusUpdates": {
+              "type": "object",
+              "properties": { "enabled": { "type": "boolean" }, "interval": { "type": "string", "description": "How often should the alert be ran (/checked)" } },
+              "required": ["enabled", "interval"],
+              "additionalProperties": false
+            },
+            "skyblockVersion": {
+              "type": "object",
+              "properties": { "enabled": { "type": "boolean" }, "interval": { "type": "string", "description": "How often should the alert be ran (/checked)" } },
+              "required": ["enabled", "interval"],
+              "additionalProperties": false
+            },
+            "alphaPlayerCountTracker": {
+              "type": "object",
+              "properties": {
+                "enabled": { "type": "boolean" },
+                "interval": { "type": "string", "description": "How often should the alert be ran (/checked)" },
+                "messageCooldown": { "type": "string", "description": "The cooldown between alpha player count messages" },
+                "playerThreshold": { "type": "number", "description": "The player count threshold to trigger an alert" }
+              },
+              "required": ["enabled", "interval", "messageCooldown", "playerThreshold"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["hypixelNews", "statusUpdates", "skyblockVersion", "alphaPlayerCountTracker"],
+          "additionalProperties": false
+        },
+        "bot": {
+          "type": "object",
+          "properties": {
+            "server": { "type": "string" },
+            "port": { "type": "number", "minimum": 1, "maximum": 65535 },
+            "version": { "type": "string", "description": "The Minecraft version" },
+            "accountsLocation": { "type": "string", "description": "The file path to Minecraft account credentials" }
+          },
+          "required": ["server", "port", "version", "accountsLocation"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["commands", "guild", "hypixelAlerts", "bot"],
+      "additionalProperties": false
+    },
+    "discord": {
+      "type": "object",
+      "properties": {
+        "serverId": { "type": "string", "description": "The Discord server (guild) ID" },
+        "token": { "type": "string", "description": "The Discord bot token used to authenticate" },
+        "commands": {
+          "type": "object",
+          "properties": {
+            "checkPermissions": { "type": "boolean" },
+            "staffRole": { "type": "string", "description": "The discord role Id of your staff members" },
+            "adminUsers": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "The discord user Ids of any admins\nThe people who own the bot are automatically included"
+            }
+          },
+          "required": ["checkPermissions", "staffRole", "adminUsers"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["serverId", "token", "commands"],
+      "additionalProperties": false
+    },
+    "verification": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "nickname": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "nickname": {
+              "type": "string",
+              "description": "The nickname format used for verified users.\nSee docs/PlayerStatVaribles.md for list of supported variables"
+            },
+            "removeCommas": { "type": "boolean", "description": "Whether commas should be removed from generated nicknames" }
+          },
+          "required": ["enabled", "nickname", "removeCommas"],
+          "additionalProperties": false
+        },
+        "roles": {
+          "type": "object",
+          "properties": {
+            "verified": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "properties": { "enabled": { "type": "boolean", "const": true }, "roleId": { "type": "string", "description": "Discord role id" } },
+                  "required": ["enabled", "roleId"],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "enabled": { "type": "boolean", "const": false },
+                    "roleId": { "anyOf": [{ "type": "string" }, { "type": "null" }], "description": "Discord role id" }
+                  },
+                  "required": ["enabled", "roleId"],
+                  "additionalProperties": false
+                }
+              ]
+            },
+            "guildMember": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "properties": { "enabled": { "type": "boolean", "const": true }, "roleId": { "type": "string", "description": "Discord role id" } },
+                  "required": ["enabled", "roleId"],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "enabled": { "type": "boolean", "const": false },
+                    "roleId": { "anyOf": [{ "type": "string" }, { "type": "null" }], "description": "Discord role id" }
+                  },
+                  "required": ["enabled", "roleId"],
+                  "additionalProperties": false
+                }
+              ]
+            },
+            "custom": {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "enabled": { "type": "boolean", "const": true },
+                      "roleId": { "type": "string", "description": "Discord role id" },
+                      "requirements": {
+                        "type": "array",
+                        "items": {
+                          "anyOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "enum": ["username", "guildRank", "guildName", "duelsDivision"],
+                                  "description": "The player variable string type required for verification\nSee docs/PlayerStatVariables.md "
+                                },
+                                "value": { "type": "string", "description": "The string value required for this custom verification requirement" }
+                              },
+                              "required": ["type", "value"],
+                              "additionalProperties": false
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "enum": [
+                                    "level",
+                                    "karma",
+                                    "achievementPoints",
+                                    "bedwarsStar",
+                                    "bedwarsTokens",
+                                    "bedwarsKills",
+                                    "bedwarsDeaths",
+                                    "bedwarsKDRatio",
+                                    "bedwarsFinalKills",
+                                    "bedwarsFinalDeathss",
+                                    "bedwarsFinalKDRatio",
+                                    "bedwarsWins",
+                                    "bedwarsLosses",
+                                    "bedwarsWLRatio",
+                                    "bedwarsBedsBroken",
+                                    "bedwarsBedsLost",
+                                    "bedwarsBedsBLRatio",
+                                    "bedwarsPlayedGames",
+                                    "bedwarsSoloKills",
+                                    "bedwarsSoloDeaths",
+                                    "bedwarsSoloKDRatio",
+                                    "bedwarsSoloFinalKills",
+                                    "bedwarsSoloFinalDeathss",
+                                    "bedwarsSoloFinalKDRatio",
+                                    "bedwarsSoloWins",
+                                    "bedwarsSoloLosses",
+                                    "bedwarsSoloWLRatio",
+                                    "bedwarsSoloBedsBroken",
+                                    "bedwarsSoloBedsLost",
+                                    "bedwarsSoloBedsBLRatio",
+                                    "bedwarsSoloPlayedGames",
+                                    "bedwarsDoublesKills",
+                                    "bedwarsDoublesDeaths",
+                                    "bedwarsDoublesKDRatio",
+                                    "bedwarsDoublesFinalKills",
+                                    "bedwarsDoublesFinalDeathss",
+                                    "bedwarsDoublesFinalKDRatio",
+                                    "bedwarsDoublesWins",
+                                    "bedwarsDoublesLosses",
+                                    "bedwarsDoublesWLRatio",
+                                    "bedwarsDoublesBedsBroken",
+                                    "bedwarsDoublesBedsLost",
+                                    "bedwarsDoublesBedsBLRatio",
+                                    "bedwarsDoublesPlayedGames",
+                                    "bedwarsThreesKills",
+                                    "bedwarsThreesDeaths",
+                                    "bedwarsThreesKDRatio",
+                                    "bedwarsThreesFinalKills",
+                                    "bedwarsThreesFinalDeathss",
+                                    "bedwarsThreesFinalKDRatio",
+                                    "bedwarsThreesWins",
+                                    "bedwarsThreesLosses",
+                                    "bedwarsThreesWLRatio",
+                                    "bedwarsThreesBedsBroken",
+                                    "bedwarsThreesBedsLost",
+                                    "bedwarsThreesBedsBLRatio",
+                                    "bedwarsThreesPlayedGames",
+                                    "bedwarsFoursKills",
+                                    "bedwarsFoursDeaths",
+                                    "bedwarsFoursKDRatio",
+                                    "bedwarsFoursFinalKills",
+                                    "bedwarsFoursFinalDeathss",
+                                    "bedwarsFoursFinalKDRatio",
+                                    "bedwarsFoursWins",
+                                    "bedwarsFoursLosses",
+                                    "bedwarsFoursWLRatio",
+                                    "bedwarsFoursBedsBroken",
+                                    "bedwarsFoursBedsLost",
+                                    "bedwarsFoursBedsBLRatio",
+                                    "bedwarsFoursPlayedGames",
+                                    "bedwars4v4Kills",
+                                    "bedwars4v4Deaths",
+                                    "bedwars4v4KDRatio",
+                                    "bedwars4v4FinalKills",
+                                    "bedwars4v4FinalDeathss",
+                                    "bedwars4v4FinalKDRatio",
+                                    "bedwars4v4Wins",
+                                    "bedwars4v4Losses",
+                                    "bedwars4v4WLRatio",
+                                    "bedwars4v4BedsBroken",
+                                    "bedwars4v4BedsLost",
+                                    "bedwars4v4BedsBLRatio",
+                                    "bedwars4v4PlayedGames",
+                                    "skywarsStar",
+                                    "skywarsCoins",
+                                    "skywarsTokens",
+                                    "skywarsSouls",
+                                    "skywarsOpals",
+                                    "skywarsKills",
+                                    "skywarsDeaths",
+                                    "skywarsKDRatio",
+                                    "skywarsWins",
+                                    "skywarsLosses",
+                                    "skywarsWLRatio",
+                                    "skywarsPlayedGames",
+                                    "duelsKills",
+                                    "duelsDeaths",
+                                    "duelsKDRatio",
+                                    "duelsWins",
+                                    "duelsLosses",
+                                    "duelsWLRatio",
+                                    "duelsPlayedGames",
+                                    "skyblockBank",
+                                    "skyblockPurse",
+                                    "skyblockLevel",
+                                    "skyblockSkillsAverageLevel",
+                                    "skyblockSkillsNonCosmeticAverageLevel",
+                                    "skyblockSkillsFarmingLevel",
+                                    "skyblockSkillsMiningLevel",
+                                    "skyblockSkillsCombatLevel",
+                                    "skyblockSkillsForagingLevel",
+                                    "skyblockSkillsFishingLevel",
+                                    "skyblockSkillsEnchantingLevel",
+                                    "skyblockSkillsAlchemyLevel",
+                                    "skyblockSkillsCarpentryLevel",
+                                    "skyblockSkillsRunecraftingLevel",
+                                    "skyblockSkillsSocialLevel",
+                                    "skyblockSkillsTamingLevel",
+                                    "skyblockSkillsFarmingXp",
+                                    "skyblockSkillsMiningXp",
+                                    "skyblockSkillsCombatXp",
+                                    "skyblockSkillsForagingXp",
+                                    "skyblockSkillsFishingXp",
+                                    "skyblockSkillsEnchantingXp",
+                                    "skyblockSkillsAlchemyXp",
+                                    "skyblockSkillsCarpentryXp",
+                                    "skyblockSkillsRunecraftingXp",
+                                    "skyblockSkillsSocialXp",
+                                    "skyblockSkillsTamingXp",
+                                    "skyblockSlayerZombieLevel",
+                                    "skyblockSlayerSpiderLevel",
+                                    "skyblockSlayerWolfLevel",
+                                    "skyblockSlayerEndermanLevel",
+                                    "skyblockSlayerBlazeLevel",
+                                    "skyblockSlayerVampireLevel",
+                                    "skyblockSlayerZombieXp",
+                                    "skyblockSlayerSpiderXp",
+                                    "skyblockSlayerWolfXp",
+                                    "skyblockSlayerEndermanXp",
+                                    "skyblockSlayerBlazeXp",
+                                    "skyblockSlayerVampireXp",
+                                    "skyblockDungeonsSecrets",
+                                    "skyblockDungeonsXp",
+                                    "skyblockDungeonsLevel",
+                                    "skyblockDungeonsClassAverageLevel",
+                                    "skyblockDungeonsClassHealerLevel",
+                                    "skyblockDungeonsClassMageLevel",
+                                    "skyblockDungeonsClassBerserkLevel",
+                                    "skyblockDungeonsClassArcherLevel",
+                                    "skyblockDungeonsClassTankLevel",
+                                    "skyblockDungeonsClassHealerXp",
+                                    "skyblockDungeonsClassMageXp",
+                                    "skyblockDungeonsClassBerserkXp",
+                                    "skyblockDungeonsClassArcherXp",
+                                    "skyblockDungeonsClassTankXp",
+                                    "skyblockDungeonsEssenceDiamond",
+                                    "skyblockDungeonsEssenceDragon",
+                                    "skyblockDungeonsEssenceSpider",
+                                    "skyblockDungeonsEssenceWither",
+                                    "skyblockDungeonsEssenceUndead",
+                                    "skyblockDungeonsEssenceGold",
+                                    "skyblockDungeonsEssenceIce",
+                                    "skyblockDungeonsEssenceCrimson",
+                                    "skyblockCrimsonIsleReputationBarbarian",
+                                    "skyblockCrimsonIsleReputationMage",
+                                    "skyblockCrimsonIsleKuudraBasic",
+                                    "skyblockCrimsonIsleKuudraHot",
+                                    "skyblockCrimsonIsleKuudraBurning",
+                                    "skyblockCrimsonIsleKuudraFiery",
+                                    "skyblockCrimsonIsleKuudraInfernal",
+                                    "skyblockNetworth",
+                                    "skyblockNetwrothArmor",
+                                    "skyblockNetwrothEquipment",
+                                    "skyblockNetwrothWardrobe",
+                                    "skyblockNetwrothInventory",
+                                    "skyblockNetwrothEnderchest",
+                                    "skyblockNetwrothAccessories",
+                                    "skyblockNetwrothPersonalVault",
+                                    "skyblockNetwrothFishingBag",
+                                    "skyblockNetwrothStorage",
+                                    "skyblockNetwrothMuseum",
+                                    "skyblockNetwrothSacks",
+                                    "skyblockNetwrothEssence",
+                                    "skyblockNetwrothPets",
+                                    "skyblockNetworthUnsoulbound",
+                                    "skyblockNetwrothArmorUnsoulbound",
+                                    "skyblockNetwrothEquipmentUnsoulbound",
+                                    "skyblockNetwrothWardrobeUnsoulbound",
+                                    "skyblockNetwrothInventoryUnsoulbound",
+                                    "skyblockNetwrothEnderchestUnsoulbound",
+                                    "skyblockNetwrothAccessoriesUnsoulbound",
+                                    "skyblockNetwrothPersonalVaultUnsoulbound",
+                                    "skyblockNetwrothFishingBagUnsoulbound",
+                                    "skyblockNetwrothStorageUnsoulbound",
+                                    "skyblockNetwrothMuseumUnsoulbound",
+                                    "skyblockNetwrothSacksUnsoulbound",
+                                    "skyblockNetwrothEssenceUnsoulbound",
+                                    "skyblockNetwrothPetsUnsoulbound",
+                                    "skyblockChocolateFactoryLevel",
+                                    "skyblockChocolateFactoryChocolateCurrent",
+                                    "skyblockChocolateFactoryChocolateSincePrestige",
+                                    "skyblockChocolateFactoryChocolateTotal",
+                                    "skyblockChocolateFactoryEmployeeBro",
+                                    "skyblockChocolateFactoryEmployeeCousin",
+                                    "skyblockChocolateFactoryEmployeeSis",
+                                    "skyblockChocolateFactoryEmployeeFather",
+                                    "skyblockChocolateFactoryEmployeeGrandma",
+                                    "skyblockChocolateFactoryEmployeeUncle",
+                                    "skyblockChocolateFactoryEmployeeDog",
+                                    "skyblockJacobMedalsGold",
+                                    "skyblockJacobMedalsSilver",
+                                    "skyblockJacobMedalsBronze",
+                                    "skyblockJacobPerksLevelCap",
+                                    "skyblockJacobPerksDoubleDrops",
+                                    "skyblockJacobPersonalBestNetherWart",
+                                    "skyblockJacobPersonalBestCocoBeans",
+                                    "skyblockJacobPersonalBestMushroom",
+                                    "skyblockJacobPersonalBestWheat",
+                                    "skyblockJacobPersonalBestPotato",
+                                    "skyblockJacobPersonalBestPumpkin",
+                                    "skyblockJacobPersonalBestCarrot",
+                                    "skyblockJacobPersonalBestCactus",
+                                    "skyblockJacobPersonalBestMelon",
+                                    "skyblockJacobPersonalBestSugarCane"
+                                  ],
+                                  "description": "The player variable string type required for verification\nSee docs/PlayerStatVariables.md "
+                                },
+                                "value": {
+                                  "type": "integer",
+                                  "exclusiveMinimum": 0,
+                                  "maximum": 9007199254740991,
+                                  "description": "The numeric value required for this custom verification requirement"
+                                }
+                              },
+                              "required": ["type", "value"],
+                              "additionalProperties": false
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "required": ["enabled", "roleId", "requirements"],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "enabled": { "type": "boolean", "const": false },
+                      "roleId": { "anyOf": [{ "type": "string" }, { "type": "null" }], "description": "Discord role id" },
+                      "requirements": {
+                        "type": "array",
+                        "items": {
+                          "anyOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "enum": ["username", "guildRank", "guildName", "duelsDivision"],
+                                  "description": "The player variable string type required for verification\nSee docs/PlayerStatVariables.md "
+                                },
+                                "value": { "type": "string", "description": "The string value required for this custom verification requirement" }
+                              },
+                              "required": ["type", "value"],
+                              "additionalProperties": false
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "enum": [
+                                    "level",
+                                    "karma",
+                                    "achievementPoints",
+                                    "bedwarsStar",
+                                    "bedwarsTokens",
+                                    "bedwarsKills",
+                                    "bedwarsDeaths",
+                                    "bedwarsKDRatio",
+                                    "bedwarsFinalKills",
+                                    "bedwarsFinalDeathss",
+                                    "bedwarsFinalKDRatio",
+                                    "bedwarsWins",
+                                    "bedwarsLosses",
+                                    "bedwarsWLRatio",
+                                    "bedwarsBedsBroken",
+                                    "bedwarsBedsLost",
+                                    "bedwarsBedsBLRatio",
+                                    "bedwarsPlayedGames",
+                                    "bedwarsSoloKills",
+                                    "bedwarsSoloDeaths",
+                                    "bedwarsSoloKDRatio",
+                                    "bedwarsSoloFinalKills",
+                                    "bedwarsSoloFinalDeathss",
+                                    "bedwarsSoloFinalKDRatio",
+                                    "bedwarsSoloWins",
+                                    "bedwarsSoloLosses",
+                                    "bedwarsSoloWLRatio",
+                                    "bedwarsSoloBedsBroken",
+                                    "bedwarsSoloBedsLost",
+                                    "bedwarsSoloBedsBLRatio",
+                                    "bedwarsSoloPlayedGames",
+                                    "bedwarsDoublesKills",
+                                    "bedwarsDoublesDeaths",
+                                    "bedwarsDoublesKDRatio",
+                                    "bedwarsDoublesFinalKills",
+                                    "bedwarsDoublesFinalDeathss",
+                                    "bedwarsDoublesFinalKDRatio",
+                                    "bedwarsDoublesWins",
+                                    "bedwarsDoublesLosses",
+                                    "bedwarsDoublesWLRatio",
+                                    "bedwarsDoublesBedsBroken",
+                                    "bedwarsDoublesBedsLost",
+                                    "bedwarsDoublesBedsBLRatio",
+                                    "bedwarsDoublesPlayedGames",
+                                    "bedwarsThreesKills",
+                                    "bedwarsThreesDeaths",
+                                    "bedwarsThreesKDRatio",
+                                    "bedwarsThreesFinalKills",
+                                    "bedwarsThreesFinalDeathss",
+                                    "bedwarsThreesFinalKDRatio",
+                                    "bedwarsThreesWins",
+                                    "bedwarsThreesLosses",
+                                    "bedwarsThreesWLRatio",
+                                    "bedwarsThreesBedsBroken",
+                                    "bedwarsThreesBedsLost",
+                                    "bedwarsThreesBedsBLRatio",
+                                    "bedwarsThreesPlayedGames",
+                                    "bedwarsFoursKills",
+                                    "bedwarsFoursDeaths",
+                                    "bedwarsFoursKDRatio",
+                                    "bedwarsFoursFinalKills",
+                                    "bedwarsFoursFinalDeathss",
+                                    "bedwarsFoursFinalKDRatio",
+                                    "bedwarsFoursWins",
+                                    "bedwarsFoursLosses",
+                                    "bedwarsFoursWLRatio",
+                                    "bedwarsFoursBedsBroken",
+                                    "bedwarsFoursBedsLost",
+                                    "bedwarsFoursBedsBLRatio",
+                                    "bedwarsFoursPlayedGames",
+                                    "bedwars4v4Kills",
+                                    "bedwars4v4Deaths",
+                                    "bedwars4v4KDRatio",
+                                    "bedwars4v4FinalKills",
+                                    "bedwars4v4FinalDeathss",
+                                    "bedwars4v4FinalKDRatio",
+                                    "bedwars4v4Wins",
+                                    "bedwars4v4Losses",
+                                    "bedwars4v4WLRatio",
+                                    "bedwars4v4BedsBroken",
+                                    "bedwars4v4BedsLost",
+                                    "bedwars4v4BedsBLRatio",
+                                    "bedwars4v4PlayedGames",
+                                    "skywarsStar",
+                                    "skywarsCoins",
+                                    "skywarsTokens",
+                                    "skywarsSouls",
+                                    "skywarsOpals",
+                                    "skywarsKills",
+                                    "skywarsDeaths",
+                                    "skywarsKDRatio",
+                                    "skywarsWins",
+                                    "skywarsLosses",
+                                    "skywarsWLRatio",
+                                    "skywarsPlayedGames",
+                                    "duelsKills",
+                                    "duelsDeaths",
+                                    "duelsKDRatio",
+                                    "duelsWins",
+                                    "duelsLosses",
+                                    "duelsWLRatio",
+                                    "duelsPlayedGames",
+                                    "skyblockBank",
+                                    "skyblockPurse",
+                                    "skyblockLevel",
+                                    "skyblockSkillsAverageLevel",
+                                    "skyblockSkillsNonCosmeticAverageLevel",
+                                    "skyblockSkillsFarmingLevel",
+                                    "skyblockSkillsMiningLevel",
+                                    "skyblockSkillsCombatLevel",
+                                    "skyblockSkillsForagingLevel",
+                                    "skyblockSkillsFishingLevel",
+                                    "skyblockSkillsEnchantingLevel",
+                                    "skyblockSkillsAlchemyLevel",
+                                    "skyblockSkillsCarpentryLevel",
+                                    "skyblockSkillsRunecraftingLevel",
+                                    "skyblockSkillsSocialLevel",
+                                    "skyblockSkillsTamingLevel",
+                                    "skyblockSkillsFarmingXp",
+                                    "skyblockSkillsMiningXp",
+                                    "skyblockSkillsCombatXp",
+                                    "skyblockSkillsForagingXp",
+                                    "skyblockSkillsFishingXp",
+                                    "skyblockSkillsEnchantingXp",
+                                    "skyblockSkillsAlchemyXp",
+                                    "skyblockSkillsCarpentryXp",
+                                    "skyblockSkillsRunecraftingXp",
+                                    "skyblockSkillsSocialXp",
+                                    "skyblockSkillsTamingXp",
+                                    "skyblockSlayerZombieLevel",
+                                    "skyblockSlayerSpiderLevel",
+                                    "skyblockSlayerWolfLevel",
+                                    "skyblockSlayerEndermanLevel",
+                                    "skyblockSlayerBlazeLevel",
+                                    "skyblockSlayerVampireLevel",
+                                    "skyblockSlayerZombieXp",
+                                    "skyblockSlayerSpiderXp",
+                                    "skyblockSlayerWolfXp",
+                                    "skyblockSlayerEndermanXp",
+                                    "skyblockSlayerBlazeXp",
+                                    "skyblockSlayerVampireXp",
+                                    "skyblockDungeonsSecrets",
+                                    "skyblockDungeonsXp",
+                                    "skyblockDungeonsLevel",
+                                    "skyblockDungeonsClassAverageLevel",
+                                    "skyblockDungeonsClassHealerLevel",
+                                    "skyblockDungeonsClassMageLevel",
+                                    "skyblockDungeonsClassBerserkLevel",
+                                    "skyblockDungeonsClassArcherLevel",
+                                    "skyblockDungeonsClassTankLevel",
+                                    "skyblockDungeonsClassHealerXp",
+                                    "skyblockDungeonsClassMageXp",
+                                    "skyblockDungeonsClassBerserkXp",
+                                    "skyblockDungeonsClassArcherXp",
+                                    "skyblockDungeonsClassTankXp",
+                                    "skyblockDungeonsEssenceDiamond",
+                                    "skyblockDungeonsEssenceDragon",
+                                    "skyblockDungeonsEssenceSpider",
+                                    "skyblockDungeonsEssenceWither",
+                                    "skyblockDungeonsEssenceUndead",
+                                    "skyblockDungeonsEssenceGold",
+                                    "skyblockDungeonsEssenceIce",
+                                    "skyblockDungeonsEssenceCrimson",
+                                    "skyblockCrimsonIsleReputationBarbarian",
+                                    "skyblockCrimsonIsleReputationMage",
+                                    "skyblockCrimsonIsleKuudraBasic",
+                                    "skyblockCrimsonIsleKuudraHot",
+                                    "skyblockCrimsonIsleKuudraBurning",
+                                    "skyblockCrimsonIsleKuudraFiery",
+                                    "skyblockCrimsonIsleKuudraInfernal",
+                                    "skyblockNetworth",
+                                    "skyblockNetwrothArmor",
+                                    "skyblockNetwrothEquipment",
+                                    "skyblockNetwrothWardrobe",
+                                    "skyblockNetwrothInventory",
+                                    "skyblockNetwrothEnderchest",
+                                    "skyblockNetwrothAccessories",
+                                    "skyblockNetwrothPersonalVault",
+                                    "skyblockNetwrothFishingBag",
+                                    "skyblockNetwrothStorage",
+                                    "skyblockNetwrothMuseum",
+                                    "skyblockNetwrothSacks",
+                                    "skyblockNetwrothEssence",
+                                    "skyblockNetwrothPets",
+                                    "skyblockNetworthUnsoulbound",
+                                    "skyblockNetwrothArmorUnsoulbound",
+                                    "skyblockNetwrothEquipmentUnsoulbound",
+                                    "skyblockNetwrothWardrobeUnsoulbound",
+                                    "skyblockNetwrothInventoryUnsoulbound",
+                                    "skyblockNetwrothEnderchestUnsoulbound",
+                                    "skyblockNetwrothAccessoriesUnsoulbound",
+                                    "skyblockNetwrothPersonalVaultUnsoulbound",
+                                    "skyblockNetwrothFishingBagUnsoulbound",
+                                    "skyblockNetwrothStorageUnsoulbound",
+                                    "skyblockNetwrothMuseumUnsoulbound",
+                                    "skyblockNetwrothSacksUnsoulbound",
+                                    "skyblockNetwrothEssenceUnsoulbound",
+                                    "skyblockNetwrothPetsUnsoulbound",
+                                    "skyblockChocolateFactoryLevel",
+                                    "skyblockChocolateFactoryChocolateCurrent",
+                                    "skyblockChocolateFactoryChocolateSincePrestige",
+                                    "skyblockChocolateFactoryChocolateTotal",
+                                    "skyblockChocolateFactoryEmployeeBro",
+                                    "skyblockChocolateFactoryEmployeeCousin",
+                                    "skyblockChocolateFactoryEmployeeSis",
+                                    "skyblockChocolateFactoryEmployeeFather",
+                                    "skyblockChocolateFactoryEmployeeGrandma",
+                                    "skyblockChocolateFactoryEmployeeUncle",
+                                    "skyblockChocolateFactoryEmployeeDog",
+                                    "skyblockJacobMedalsGold",
+                                    "skyblockJacobMedalsSilver",
+                                    "skyblockJacobMedalsBronze",
+                                    "skyblockJacobPerksLevelCap",
+                                    "skyblockJacobPerksDoubleDrops",
+                                    "skyblockJacobPersonalBestNetherWart",
+                                    "skyblockJacobPersonalBestCocoBeans",
+                                    "skyblockJacobPersonalBestMushroom",
+                                    "skyblockJacobPersonalBestWheat",
+                                    "skyblockJacobPersonalBestPotato",
+                                    "skyblockJacobPersonalBestPumpkin",
+                                    "skyblockJacobPersonalBestCarrot",
+                                    "skyblockJacobPersonalBestCactus",
+                                    "skyblockJacobPersonalBestMelon",
+                                    "skyblockJacobPersonalBestSugarCane"
+                                  ],
+                                  "description": "The player variable string type required for verification\nSee docs/PlayerStatVariables.md "
+                                },
+                                "value": {
+                                  "type": "integer",
+                                  "exclusiveMinimum": 0,
+                                  "maximum": 9007199254740991,
+                                  "description": "The numeric value required for this custom verification requirement"
+                                }
+                              },
+                              "required": ["type", "value"],
+                              "additionalProperties": false
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "required": ["enabled", "roleId", "requirements"],
+                    "additionalProperties": false
+                  }
+                ]
+              }
+            },
+            "autoUpdater": {
+              "type": "object",
+              "properties": {
+                "enabled": { "type": "boolean" },
+                "interval": { "type": "string", "description": "How often should all linked users have there roles updated" }
+              },
+              "required": ["enabled", "interval"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["verified", "guildMember", "custom", "autoUpdater"],
+          "additionalProperties": false
+        },
+        "inactivity": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "maxInactivityTime": { "type": "string", "description": "The maximum allowed inactivity time before action is taken" }
+          },
+          "required": ["enabled", "maxInactivityTime"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["enabled", "nickname", "roles", "inactivity"],
+      "additionalProperties": false
+    },
+    "blacklist": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "notifications": {
+          "type": "object",
+          "properties": {
+            "onBlacklistChange": {
+              "type": "object",
+              "properties": {
+                "enabled": { "type": "boolean", "description": "Whether the user being blacklisted with be notified of blacklist changes" },
+                "shareBlacklister": { "type": "boolean", "description": "Whether the user who blacklisted someone should be shared in notifications" }
+              },
+              "required": ["enabled", "shareBlacklister"],
+              "additionalProperties": false
+            },
+            "onJoinRequest": { "type": "boolean", "description": "Whether join request notifications are enabled" },
+            "onUserJoinDiscord": { "type": "boolean", "description": "Whether Discord join notifications are enabled" }
+          },
+          "required": ["onBlacklistChange", "onJoinRequest", "onUserJoinDiscord"],
+          "additionalProperties": false
+        },
+        "actions": {
+          "type": "object",
+          "properties": {
+            "blockBotAccess": { "type": "boolean", "description": "Whether blacklisted users are blocked from bot access" },
+            "kickFromGuild": {
+              "type": "object",
+              "properties": { "enabled": { "type": "boolean" }, "reason": { "type": "string", "description": "The reason used when kicking a player from the guild" } },
+              "required": ["enabled", "reason"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["blockBotAccess", "kickFromGuild"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["enabled", "notifications", "actions"],
+      "additionalProperties": false
+    },
+    "statsChannels": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "autoUpdater": {
+          "type": "object",
+          "properties": { "enabled": { "type": "boolean" }, "interval": { "type": "string", "description": "How often stats channels are updated" } },
+          "required": ["enabled", "interval"],
+          "additionalProperties": false
+        },
+        "channels": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string", "description": "Discord channel id" },
+              "name": { "type": "string", "description": "What the channel should be named to\nSee docs/ChannelStatVariables.md" }
+            },
+            "required": ["id", "name"],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": ["enabled", "autoUpdater", "channels"],
+      "additionalProperties": false
+    },
+    "other": {
+      "type": "object",
+      "properties": {
+        "colors": {
+          "type": "object",
+          "propertyNames": { "type": "string", "enum": ["Blue", "Red", "Green", "Yellow"] },
+          "additionalProperties": { "type": "string" },
+          "required": ["Blue", "Red", "Green", "Yellow"],
+          "skip": true
+        },
+        "backupConfigs": { "type": "boolean", "description": "Whether backup copies of config files should be created" },
+        "logToFiles": { "type": "boolean", "description": "Whether log output should be written to files" }
+      },
+      "required": ["colors", "backupConfigs", "logToFiles"],
+      "additionalProperties": false
+    }
+  },
+  "required": ["$schema", "configVersion", "API", "bridge", "minecraft", "discord", "verification", "blacklist", "statsChannels", "other"],
+  "additionalProperties": false
+}

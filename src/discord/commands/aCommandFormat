@@ -1,8 +1,0 @@
-module.exports = {
-  data: new SlashCommandBuilder()
-    .setName("NAME")
-    .setDescription("DESCRIPTION")
-    .addStringOption((option) => option.setName("OPTION_NAME").setDescription("OPTION_DESCRIPTION")),
-
-  execute: async (interaction) => {},
-};

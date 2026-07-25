@@ -1,0 +1,5 @@
+allowBuilds:
+  canvas: true
+  esbuild: true
+  hypixel-api-reborn: true
+  unrs-resolver: true
