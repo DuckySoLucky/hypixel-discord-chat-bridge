@@ -187,7 +187,6 @@ async function ask({ schema, path, key }: SchemaData): Promise<any> {
   const meta: AskMetadata = { configMetadata, optional, nullable };
   const strategy = strategies.find((strat) => strat.match(unwrapped, meta));
   if (strategy) return await strategy.process(unwrapped, meta, path, key);
-  console.log(schema);
   console.warn(`${configMetadata.formattedDotPath} Unsupported or unhandled schema type`);
   return undefined;
 }

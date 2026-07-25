@@ -1,10 +1,12 @@
 import CommandHandler from "./handlers/CommandHandler.js";
 import CommunicationBridge from "../private/CommunicationBridge.js";
 import MessageHandler from "./handlers/MessageHandler.js";
+import MinecraftData from "minecraft-data";
 import PrismarineChat from "prismarine-chat";
 import PrismarineRegistry, { type RegistryPc } from "prismarine-registry";
 import StateHandler from "./handlers/StateHandler.js";
 import { type Client, createClient } from "minecraft-protocol";
+import { ResourcePackResult } from "../types/minecraft.js";
 import { replaceVariables } from "../utils/stringUtils.js";
 import type Application from "../Application.js";
 import type { BroadcastEvent } from "../types/bridge.js";
@@ -22,6 +24,7 @@ class MinecraftManager extends CommunicationBridge {
   readonly messageHandler: MessageHandler;
   readonly prismarineRegistry: RegistryPc;
   readonly prismarineChat: PrismarineChatFormatter;
+  private readonly indexedData;
   bot?: Client;
   constructor(readonly application: Application) {
     super();
@@ -30,12 +33,14 @@ class MinecraftManager extends CommunicationBridge {
     this.messageHandler = new MessageHandler(this);
     this.prismarineRegistry = PrismarineRegistry(this.application.config.minecraft.bot.version) as RegistryPc;
     this.prismarineChat = PrismarineChat(this.prismarineRegistry);
+    this.indexedData = MinecraftData(this.application.config.minecraft.bot.version);
   }
 
   async connect() {
     this.bot = this.createBotConnection();
     this.listenForRegistry(this.bot);
     this.listenForSettings(this.bot);
+    this.listenForResourcePacks(this.bot);
 
     this.stateHandler.registerEvents();
     await this.commandHandler.deployCommands();
@@ -111,6 +116,44 @@ class MinecraftManager extends CommunicationBridge {
         particleStatus: 2
       });
     });
+  }
+
+  // Credit: https://github.com/aidn3/hypixel-guild-discord-bridge/commit/618822dac5f7b32718cb8a73b38c692805f4612d
+  private listenForResourcePacks(client: Client): void {
+    const activeResourcePacks = new Set<string>();
+
+    client.on("add_resource_pack", (data: { uuid: string }) => {
+      activeResourcePacks.add(data.uuid);
+      this.acceptResourcePackViaUuid(client, data.uuid);
+    });
+    client.on("resource_pack_send", (data: unknown) => {
+      if (this.indexedData.supportFeature("resourcePackUsesUUID")) {
+        const typedData = data as { uuid: string; url: string };
+        activeResourcePacks.add(typedData.uuid);
+        this.acceptResourcePackViaUuid(client, typedData.uuid);
+      } else {
+        const typedData = data as { hash: string; url: string };
+        this.acceptResourcePackViaHash(client, typedData.hash);
+      }
+    });
+
+    client.on("remove_resource_pack", (data: { uuid?: string }) => {
+      if (data.uuid === undefined) {
+        activeResourcePacks.clear();
+      } else {
+        activeResourcePacks.delete(data.uuid);
+      }
+    });
+  }
+
+  private acceptResourcePackViaUuid(client: Client, uuid: string) {
+    client.write("resource_pack_receive", { uuid: uuid, result: ResourcePackResult.Accepted });
+    client.write("resource_pack_receive", { uuid: uuid, result: ResourcePackResult.SuccessfullyLoaded });
+  }
+
+  private acceptResourcePackViaHash(client: Client, hash: string) {
+    client.write("resource_pack_receive", { result: ResourcePackResult.Accepted, hash: hash });
+    client.write("resource_pack_receive", { result: ResourcePackResult.SuccessfullyLoaded, hash: hash });
   }
 
   isBotOnline(): this is MinecraftManagerWithBot {

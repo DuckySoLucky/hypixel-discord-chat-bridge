@@ -113,3 +113,10 @@ export interface ParsedDuelsStats {
   winStreak: number;
   bestWinStreak: number;
 }
+
+export enum ResourcePackResult {
+  SuccessfullyLoaded = 0,
+  Declined = 1,
+  FailedDownload = 2,
+  Accepted = 3
+}

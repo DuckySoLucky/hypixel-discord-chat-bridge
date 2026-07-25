@@ -36,7 +36,9 @@ class SkillsCommand extends MinecraftCommand {
 
     if (skillData.length === 0) throw new HypixelDiscordChatBridgeError(`${username} has no skills.`);
 
-    this.send(`${username}'s Skill Average: ${skills.average ?? 0} (${skillData.map((skill) => `${titleCase(skill.name)}: ${formatNumber(skill.level)}`).join(", ")})`);
+    this.send(
+      `${username}'s Skill Average: ${(skills.average ?? 0).toFixed(2)} (${skillData.map((skill) => `${titleCase(skill.name)}: ${formatNumber(skill.level)}`).join(", ")})`
+    );
   }
 }
 

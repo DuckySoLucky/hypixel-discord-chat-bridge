@@ -5,7 +5,6 @@ import { format } from "prettier";
 import { getNestedValue } from "../src/utils/miscUtils.js";
 import { markdownTable } from "markdown-table";
 import { replaceVariables } from "../src/utils/stringUtils.js";
-import "../src/private/logger.js";
 import type { ConfigMetadata, ConfigMetadataDescription, ConfigMetadataDotPathDescription, SchemaData, UnwrappedSchema } from "./types.js";
 
 export function addLines(content: string, lines: string[]): string[] {
