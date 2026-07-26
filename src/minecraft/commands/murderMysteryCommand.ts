@@ -3,6 +3,7 @@ import MinecraftCommandData from "../private/commands/MinecraftCommandData.js";
 import MinecraftCommandDataOption from "../private/commands/MinecraftCommandDataOption.js";
 import { formatNumber } from "../../utils/stringUtils.js";
 import { getPlayer } from "../../utils/hypixelUtils.js";
+import { translate } from "../../translations/TranslationsManager.js";
 import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 // CREDITS: by @Kathund (https://github.com/Kathund)
@@ -11,9 +12,8 @@ class MurderMysteryCommand extends MinecraftCommand {
     super(minecraft);
     this.data = new MinecraftCommandData()
       .setName("murdermystery")
-      .setDescription("Get Murder Mystery Player Stats")
       .setAliases(["mm"])
-      .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
+      .setOptions([new MinecraftCommandDataOption().setName("username")]);
   }
 
   override async execute(player: string, message: string) {
@@ -22,7 +22,9 @@ class MurderMysteryCommand extends MinecraftCommand {
     const { wins, games, kills, deaths } = hypixelPlayer.stats.MurderMystery;
     const wlr = (wins / games).toFixed(2);
     const kdr = (kills / deaths).toFixed(2);
-    this.send(`${hypixelPlayer.nickname}'s Murder Mystery Wins: ${formatNumber(wins)} | WLR: ${wlr} | Kills: ${formatNumber(kills)} | KDR: ${kdr}`);
+    this.send(
+      translate("minecraft.commands.murdermystery.execute.success", { username: hypixelPlayer.nickname, wins: formatNumber(wins), wlr, kills: formatNumber(kills), kdr })
+    );
   }
 }
 

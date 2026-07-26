@@ -2,7 +2,6 @@ node_modules/
 config.json
 config.example.json
 Dockerfile
-/auth-cache/
 /logs/
 /data/
 /build/

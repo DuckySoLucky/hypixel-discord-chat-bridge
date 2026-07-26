@@ -82,7 +82,7 @@ or manually set everything
 3. Run the container:
 
 ```bash
-  docker container run -it --rm -v ./config.json:/app/config.json ghcr.io/DuckySoLucky/hypixel-discord-chat-bridge:latest
+  docker run -itd --restart=unless-stopped -v ./config.json:/app/config.json --name hypixel-dicord-chat-bridge ghcr.io/duckysolucky/hypixel-discord-chat-bridge:latest
 ```
 
 Note that the path of the configuration source file must either be relative (with the `./`) or absolute.

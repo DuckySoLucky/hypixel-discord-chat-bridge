@@ -4,7 +4,7 @@ import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import LinkedCommand from "../../commands/verification/linkedCommand.js";
 import { CommandFlags, type DiscordManagerWithBot, GuildManagementAction } from "../../../types/discord.js";
 import { SuccessEmbed } from "../../private/Embed.js";
-import { replaceVariables } from "../../../utils/stringUtils.js";
+import { translate } from "../../../translations/TranslationsManager.js";
 import type { ModalSubmitInteraction } from "discord.js";
 
 class SetRankUserModal extends DiscordModal<DiscordManagerWithBot> {
@@ -16,20 +16,20 @@ class SetRankUserModal extends DiscordModal<DiscordManagerWithBot> {
 
   override async execute(interaction: ModalSubmitInteraction) {
     const linkedCommand = new LinkedCommand(this.discord);
-    if (!interaction.isFromMessage()) throw new HypixelDiscordChatBridgeError("Unable to find the linked user");
+    if (!interaction.isFromMessage()) throw new HypixelDiscordChatBridgeError(translate("linked.errors.user.find"));
     const linked = await linkedCommand.getLinkedFromLinkedEmbed(interaction.message);
-    if (!linked) throw new HypixelDiscordChatBridgeError("Unable to find the linked user");
+    if (!linked) throw new HypixelDiscordChatBridgeError(translate("linked.errors.user.find"));
     const username = await linked.getUsername();
     const rank = interaction.fields.getRadioGroup("setRankUserRank", true);
     const { action, message } = await this.handleGuildManagementAction("setrank", username, rank);
     if (action === GuildManagementAction.NotInGuild) {
-      throw new HypixelDiscordChatBridgeError(replaceVariables(this.discord.application.messages.notInGuildMessage, { username }));
+      throw new HypixelDiscordChatBridgeError(translate("minecraft.responses.notInGuildMessage", { username }));
     } else if (action === GuildManagementAction.NoPerms) {
-      throw new HypixelDiscordChatBridgeError("The bot doesn't have perms to promote");
+      throw new HypixelDiscordChatBridgeError(translate("minecraft.errors.no.permissions.message", { action: translate("minecraft.errors.no.permissions.promote") }));
     } else if (action === GuildManagementAction.Timeout) {
-      throw new HypixelDiscordChatBridgeError("Command timed out. Please try again");
+      throw new HypixelDiscordChatBridgeError(translate("minecraft.errors.timeout.command"));
     } else if (!message) {
-      throw new HypixelDiscordChatBridgeError("No response message received");
+      throw new HypixelDiscordChatBridgeError(translate("minecraft.errors.no.response"));
     } else if (action === GuildManagementAction.Promote) {
       const rank =
         message
@@ -41,7 +41,7 @@ class SetRankUserModal extends DiscordModal<DiscordManagerWithBot> {
       await interaction.followUp({
         embeds: [
           new SuccessEmbed()
-            .setDescription(replaceVariables(this.discord.application.messages.promotionMessage, { username, rank }))
+            .setDescription(translate("minecraft.responses.promotionMessage", { username, rank }))
             .setAuthor({ name: "Member Promoted", iconURL: `https://mc-heads.net/avatar/${username}` })
         ]
       });
@@ -56,7 +56,7 @@ class SetRankUserModal extends DiscordModal<DiscordManagerWithBot> {
       await interaction.followUp({
         embeds: [
           new SuccessEmbed()
-            .setDescription(replaceVariables(this.discord.application.messages.demotionMessage, { username, rank }))
+            .setDescription(translate("minecraft.responses.demotionMessage", { username, rank }))
             .setAuthor({ name: "Member Demote", iconURL: `https://mc-heads.net/avatar/${username}` })
         ]
       });

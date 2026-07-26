@@ -3,6 +3,7 @@ import MinecraftCommand from "../private/commands/MinecraftCommand.js";
 import MinecraftCommandData from "../private/commands/MinecraftCommandData.js";
 import MinecraftCommandDataOption from "../private/commands/MinecraftCommandDataOption.js";
 import { delay } from "../../utils/miscUtils.js";
+import { translate } from "../../translations/TranslationsManager.js";
 import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 class WarpoutCommand extends MinecraftCommand {
@@ -11,9 +12,8 @@ class WarpoutCommand extends MinecraftCommand {
     super(minecraft);
     this.data = new MinecraftCommandData()
       .setName("warpout")
-      .setDescription("Warp player out of the game")
       .setAliases(["warp"])
-      .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
+      .setOptions([new MinecraftCommandDataOption().setName("username")]);
 
     this.isOnCooldown = false;
   }
@@ -30,11 +30,11 @@ class WarpoutCommand extends MinecraftCommand {
 
   override async execute(player: string, message: string) {
     try {
-      if (this.isOnCooldown) throw new HypixelDiscordChatBridgeError(`${player} Command is on cooldown`);
+      if (this.isOnCooldown) throw new HypixelDiscordChatBridgeError(translate("minecraft.errors.command.cooldown", { username: player }));
       this.enableCooldown();
 
       const username = this.getArgs(message)[0];
-      if (username === undefined) throw new HypixelDiscordChatBridgeError("Please provide a username!");
+      if (username === undefined) throw new HypixelDiscordChatBridgeError(translate("minecraft.errors.no.username"));
       this.minecraft.bot.chat("/lobby megawalls");
       await delay(500);
       this.minecraft.bot.chat("/play skyblock");
@@ -48,58 +48,58 @@ class WarpoutCommand extends MinecraftCommand {
         if (message.includes("You cannot invite that player since they're not online.")) {
           this.minecraft.bot.removeListener("systemChat", listener);
           this.disableCooldown();
-          this.send(`${username} is offline`);
+          this.send(translate("minecraft.commands.warpout.execute.errors.offline", { username }));
         } else if (message.includes("You cannot invite that player")) {
           this.minecraft.bot.removeListener("systemChat", listener);
           this.disableCooldown();
-          this.send(`${username} has party requests disabled!`);
+          this.send(translate("minecraft.commands.warpout.execute.errors.party.disabled", { username }));
         } else if (message.includes("invited") && message.includes("to the party! They have 60 seconds to accept.")) {
-          this.send(`Partying ${username}...`);
+          this.send(translate("minecraft.commands.warpout.execute.success.inviting", { username }));
         } else if (message.includes(" joined the party.")) {
           this.minecraft.bot.chat("/p warp");
         } else if (message.includes("warped to your server")) {
           this.minecraft.bot.removeListener("systemChat", listener);
           this.disableCooldown();
-          this.send(`Successfully warped ${username}!`);
+          this.send(translate("minecraft.commands.warpout.execute.success.warped", { username }));
           this.minecraft.bot.chat("/p disband");
         } else if (message.includes(" cannot warp from Limbo")) {
           this.minecraft.bot.removeListener("systemChat", listener);
           this.disableCooldown();
-          this.send(`${username} cannot be warped from Limbo! Disbanding party...`);
+          this.send(translate("minecraft.commands.warpout.execute.errors.limbo.warp", { username }));
           this.minecraft.bot.chat("/p disband");
         } else if (message.includes(" is not allowed on your server!")) {
           this.minecraft.bot.removeListener("systemChat", listener);
           this.disableCooldown();
-          this.send(`${username} is not allowed on my server! Disbanding party...`);
+          this.send(translate("minecraft.commands.warpout.execute.errors.not.allowed.server", { username }));
           this.minecraft.bot.chat("/p leave");
         } else if (message.includes("You are not allowed to invite players.")) {
           this.minecraft.bot.removeListener("systemChat", listener);
           this.disableCooldown();
-          this.send("Somehow I'm not allowed to invite players? Disbanding party...");
+          this.send(translate("minecraft.commands.warpout.execute.errors.not.allowed.invite"));
           this.minecraft.bot.chat("/p disband");
         } else if (message.includes("You are not allowed to disband this party.")) {
           this.minecraft.bot.removeListener("systemChat", listener);
           this.disableCooldown();
-          this.send("Somehow I'm not allowed to disband this party? Leaving party...");
+          this.send(translate("minecraft.commands.warpout.execute.errors.not.allowed.disband"));
           this.minecraft.bot.chat("/p leave");
         } else if (message.includes("You can't party warp into limbo!")) {
           this.minecraft.bot.removeListener("systemChat", listener);
           this.disableCooldown();
-          this.send("Somehow I'm inside in limbo? Disbanding party...");
+          this.send(translate("minecraft.commands.warpout.execute.errors.limbo.in"));
           this.minecraft.bot.chat("/p disband");
         } else if (message.includes("Couldn't find a player with that name!")) {
           this.minecraft.bot.removeListener("systemChat", listener);
           this.disableCooldown();
-          this.send("Couldn't find a player with that name!");
+          this.send(translate("api.mowojang.errors.failed.player"));
           this.minecraft.bot.chat("/p disband");
         } else if (message.includes("You cannot party yourself!")) {
           this.minecraft.bot.removeListener("systemChat", listener);
           this.disableCooldown();
-          this.send("I cannot party myself!");
+          this.send(translate("minecraft.commands.warpout.execute.errors.self"));
         } else if (message.includes("didn't warp correctly!")) {
           this.minecraft.bot.removeListener("systemChat", listener);
           this.disableCooldown();
-          this.send(`${username} didn't warp correctly! Please try again...`);
+          this.send(translate("minecraft.commands.warpout.execute.errors.bad.warp", { username }));
           this.minecraft.bot.chat("/p disband");
         }
       };
@@ -110,7 +110,7 @@ class WarpoutCommand extends MinecraftCommand {
       setTimeout(() => {
         this.minecraft.bot.removeListener("systemChat", listener);
         if (this.isOnCooldown === true) {
-          this.send("Party expired.");
+          this.send(translate("minecraft.commands.warpout.execute.errors.expire"));
           this.minecraft.bot.chat("/p disband");
           this.disableCooldown();
         }

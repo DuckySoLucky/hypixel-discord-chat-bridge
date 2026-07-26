@@ -4,6 +4,7 @@ import Embed from "../private/Embed.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import MowojangAPI from "../../private/MowojangAPI.js";
 import { formatNumber, titleCaseCamel } from "../../utils/stringUtils.js";
+import { translate } from "../../translations/TranslationsManager.js";
 import type { ChatInputCommandInteraction } from "discord.js";
 import type { DiscordManagerWithClient, Requirement, Requirements } from "../../types/discord.js";
 import type { PlayerVariableStatsKeysNumber } from "../../private/constants.js";
@@ -11,10 +12,7 @@ import type { PlayerVariableStatsKeysNumber } from "../../private/constants.js";
 class RequirementsCommand extends DiscordCommand {
   constructor(discord: DiscordManagerWithClient) {
     super(discord);
-    this.data = new DiscordCommandData()
-      .setName("requirements")
-      .setDescription("Check a user's requirements to join the guild")
-      .addStringOption((option) => option.setName("username").setDescription("Minecraft Username"));
+    this.data = new DiscordCommandData().setName("requirements").addStringOption((option) => option.setName("username"));
   }
 
   async checkRequirements(uuid: string): Promise<Requirements> {
@@ -54,7 +52,7 @@ class RequirementsCommand extends DiscordCommand {
   override async execute(interaction: ChatInputCommandInteraction) {
     const username = interaction.options.getString("username", true);
     const uuid = await MowojangAPI.getUUID(username);
-    if (uuid === null) throw new HypixelDiscordChatBridgeError("Player does not exist");
+    if (uuid === null) throw new HypixelDiscordChatBridgeError(translate("api.mowojang.errors.failed.player"));
     const data = await this.checkRequirements(uuid);
     const embed = this.generateEmbed(data);
     await interaction.followUp({ embeds: [embed] });

@@ -4,6 +4,8 @@ import importPlugin from "eslint-plugin-import";
 import prettier from "eslint-config-prettier";
 import sortImports from "@j4cobi/eslint-plugin-sort-imports";
 import ts from "typescript-eslint";
+import plugin from "./scripts/eslint/plugin.js";
+import json from "@eslint/json";
 import stylistic from "@stylistic/eslint-plugin";
 import { globalIgnores } from "eslint/config";
 
@@ -12,12 +14,25 @@ export default [
   importPlugin.flatConfigs.recommended,
   importPlugin.flatConfigs.typescript,
   prettier,
-  globalIgnores(["./build/"]),
+  globalIgnores(["./build/", "./data/"]),
+  {
+    ignores: ["**/*.schema.json", "package.json", "config.example.json", "config.json"],
+    files: ["**/*.json"],
+    plugins: { json },
+    language: "json/json",
+    rules: {
+      "json/no-duplicate-keys": "error",
+      "json/no-empty-keys": "error",
+      "json/no-unnormalized-keys": "error",
+      "json/no-unsafe-values": "error",
+      "json/sort-keys": "error"
+    }
+  },
   {
     ignores: ["**/*.test.ts", "build/*"],
     files: ["**/*.ts", "**/*.js"],
     languageOptions: { ecmaVersion: 2022, sourceType: "module", globals: { ...globals.es2022, ...globals.node } },
-    plugins: { "@stylistic": stylistic, "sort-imports": sortImports },
+    plugins: { "@stylistic": stylistic, "sort-imports": sortImports, "hypixelDiscordChatBridge": plugin },
     settings: { "import/resolver": { typescript: true, node: true } },
     rules: {
       "sort-imports/sort-imports": ["error", { ignoreCase: false, ignoreMemberSort: false, memberSyntaxSortOrder: ["all", "single", "multiple", "none"] }],
@@ -33,6 +48,8 @@ export default [
       "no-extend-native": ["warn", { exceptions: ["Object"] }],
       "@stylistic/nonblock-statement-body-position": "error",
       "@stylistic/object-curly-spacing": ["error", "always"],
+      "hypixelDiscordChatBridge/enforce-translate": "warn",
+      "hypixelDiscordChatBridge/enforce-embed": "warn",
       "@stylistic/no-whitespace-before-property": "error",
       "@stylistic/one-var-declaration-per-line": "error",
       "prefer-const": ["warn", { destructuring: "all" }],

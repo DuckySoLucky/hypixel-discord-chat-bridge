@@ -16,13 +16,10 @@ class UpdateLinkedUsersScript extends BasicScript {
     for (const linkedUser of linkedUsers) {
       const response = await linkedUser.updateRoles();
       if (response === null) {
-        this.log(
-          `Unable to update roles for <@${linkedUser.discordId}> (${linkedUser.discordId} - ${linkedUser.uuid}). Removing them from linked users`,
-          ScriptLogState.Bad
-        );
+        this.log("scripts.updateLinkedUsers.execute.error", linkedUser, ScriptLogState.Bad);
         continue;
       }
-      this.log(`Updated roles for <@${linkedUser.discordId}> (${linkedUser.discordId} - ${linkedUser.uuid})`);
+      this.log("scripts.updateLinkedUsers.execute.success", linkedUser);
     }
   }
 }

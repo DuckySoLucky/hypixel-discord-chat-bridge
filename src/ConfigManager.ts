@@ -3,6 +3,7 @@ import { Config, ConfigChangeType, type MigrationMap } from "./types/config.js";
 import { displayBigMessage } from "./private/logger.js";
 import { getNestedValue } from "./utils/miscUtils.js";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { translate } from "./translations/TranslationsManager.js";
 
 class ConfigManager {
   private versions: Record<number, MigrationMap>;
@@ -126,7 +127,7 @@ class ConfigManager {
     while (currentVersion < latestVersion) {
       const nextVersion = currentVersion + 1;
       const migration = this.versions[nextVersion];
-      if (!migration) throw new HypixelDiscordChatBridgeError(`Missing migration for config version ${nextVersion}`);
+      if (!migration) throw new HypixelDiscordChatBridgeError(translate("config.manager.errors.missing.next.version", { nextVersion }));
       console.other(`Attempting to migrate config v${currentVersion} to v${nextVersion}`);
       await this.handleBackupConfig(config);
       this.applyMigration(config, migration);
@@ -146,7 +147,7 @@ class ConfigManager {
       if (value === undefined) continue;
       switch (rule.change) {
         case ConfigChangeType.Move: {
-          if (!rule.key) throw new HypixelDiscordChatBridgeError(`Move migration missing target key for "${oldPath}"`);
+          if (!rule.key) throw new HypixelDiscordChatBridgeError(translate("config.manager.errors.move.missing.key", { oldPath }));
           this.setNestedValue(config, rule.key, value);
           this.deleteNestedValue(config, oldPath);
           break;
@@ -156,8 +157,8 @@ class ConfigManager {
           break;
         }
         case ConfigChangeType.Transform: {
-          if (!rule.transform) throw new HypixelDiscordChatBridgeError(`Transform migration missing transform function for "${oldPath}"`);
-          if (!rule.key) throw new HypixelDiscordChatBridgeError(`Transform migration missing target key for "${oldPath}"`);
+          if (!rule.transform) throw new HypixelDiscordChatBridgeError(translate("config.manager.errors.transform.missing.function", { oldPath }));
+          if (!rule.key) throw new HypixelDiscordChatBridgeError(translate("config.manager.errors.move.missing.key", { oldPath }));
           const transformed = rule.transform(value, config);
           this.setNestedValue(config, rule.key, transformed);
           this.deleteNestedValue(config, oldPath);

@@ -4,6 +4,7 @@ import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import MowojangAPI from "../../../private/MowojangAPI.js";
 import { CommandFlags, type DiscordManagerWithBot } from "../../../types/discord.js";
 import { SuccessEmbed } from "../../private/Embed.js";
+import { translate } from "../../../translations/TranslationsManager.js";
 import type { ButtonInteraction, ChatInputCommandInteraction } from "discord.js";
 
 class UpdateCommand extends DiscordCommand<DiscordManagerWithBot> {
@@ -11,7 +12,7 @@ class UpdateCommand extends DiscordCommand<DiscordManagerWithBot> {
   isSelf: boolean = false;
   constructor(discord: DiscordManagerWithBot) {
     super(discord);
-    this.data = new DiscordCommandData().setName("update").setDescription("Update your current roles");
+    this.data = new DiscordCommandData().setName("update");
     this.flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.VerificationCommand];
   }
 
@@ -22,16 +23,19 @@ class UpdateCommand extends DiscordCommand<DiscordManagerWithBot> {
     }
 
     const linkedUser = await this.discord.application.data.linked.getUserByDiscordId(this.discordId);
-    if (linkedUser === undefined) throw new HypixelDiscordChatBridgeError("User is not verified");
+    if (linkedUser === undefined) throw new HypixelDiscordChatBridgeError(translate("linked.errors.user.missing"));
 
     const response = await linkedUser.updateRoles();
-    if (response === null) throw new HypixelDiscordChatBridgeError("Something wen't wrong with updating");
+    if (response === null) throw new HypixelDiscordChatBridgeError(translate("discord.commands.update.execute.errors.failed.update"));
 
     await interaction.followUp({
       embeds: [
         new SuccessEmbed()
           .setDescription(
-            `Successfully synced ${this.isSelf ? "your" : `<@${this.discordId}>`} roles with \`${await MowojangAPI.getUsername(linkedUser.uuid)}\`'s stats!`
+            translate("discord.commands.update.execute.success.message", {
+              format: translate(`discord.commands.update.execute.success.format.self.${this.isSelf}`, { discordId: this.discordId }),
+              username: await MowojangAPI.getUsername(linkedUser.uuid)
+            })
           )
           .setDevFooter("Kathund")
       ]

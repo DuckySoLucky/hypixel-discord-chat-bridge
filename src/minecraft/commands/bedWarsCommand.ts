@@ -4,6 +4,7 @@ import MinecraftCommandDataOption from "../private/commands/MinecraftCommandData
 import { type BedWarsInternalName, type BedWarsModeName, type MinecraftManagerWithBot, isBedWarsModeName } from "../../types/minecraft.js";
 import { formatNumber } from "../../utils/stringUtils.js";
 import { getPlayer } from "../../utils/hypixelUtils.js";
+import { translate } from "../../translations/TranslationsManager.js";
 import type { BedWarsMode, Player } from "hypixel-api-reborn";
 
 class BedwarsCommand extends MinecraftCommand {
@@ -11,9 +12,8 @@ class BedwarsCommand extends MinecraftCommand {
     super(minecraft);
     this.data = new MinecraftCommandData()
       .setName("bedwars")
-      .setDescription("BedWars stats of specified user.")
       .setAliases(["bw", "bws"])
-      .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft username")]);
+      .setOptions([new MinecraftCommandDataOption().setName("username")]);
   }
 
   convertMode(mode: BedWarsModeName): BedWarsInternalName {
@@ -37,9 +37,9 @@ class BedwarsCommand extends MinecraftCommand {
     let stats: BedWarsMode;
     if (mode === "overall") stats = hypixelPlayer.stats.BedWars;
     else stats = hypixelPlayer.stats.BedWars[this.convertMode(mode)];
-    const { finals, wins, winstreak } = stats;
+    const { finals, wins, winstreak, winLossRatio } = stats;
     const { broken, ratio } = stats.beds;
-    return { finalKills: finals.total.kills, FKDR: finals.total.ratio, wins, winstreak, broken, BLRatio: ratio };
+    return { finalKills: finals.total.kills, FKDR: finals.total.ratio, wins, winLossRatio, winstreak, broken, BLRatio: ratio };
   }
 
   override async execute(player: string, message: string) {
@@ -58,12 +58,21 @@ class BedwarsCommand extends MinecraftCommand {
     }
 
     const hypixelPlayer = await getPlayer(player);
-    const { finalKills, FKDR, wins, winstreak, broken, BLRatio } = this.getStats(hypixelPlayer, mode);
+    const { finalKills, FKDR, wins, winstreak, broken, BLRatio, winLossRatio } = this.getStats(hypixelPlayer, mode);
 
     this.send(
-      `[${Math.floor(hypixelPlayer.stats.BedWars.level)}✫] ${hypixelPlayer.nickname} ${mode} FK: ${formatNumber(
-        finalKills
-      )} FKDR: ${FKDR} W: ${formatNumber(wins)} BB: ${formatNumber(broken)} BLR: ${BLRatio} WS: ${winstreak}`
+      translate("minecraft.commands.bedwars.execute.success.message", {
+        level: Math.floor(hypixelPlayer.stats.BedWars.level),
+        mode: translate(`minecraft.commands.bedwars.execute.success.format.${mode}`),
+        username: hypixelPlayer.nickname,
+        finalKills: formatNumber(finalKills),
+        FKDR,
+        wins: formatNumber(wins),
+        winLossRatio,
+        brokenBeds: formatNumber(broken),
+        BLRatio,
+        winstreak
+      })
     );
   }
 }

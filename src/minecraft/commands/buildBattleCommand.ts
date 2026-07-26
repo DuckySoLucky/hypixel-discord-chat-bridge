@@ -3,6 +3,7 @@ import MinecraftCommandData from "../private/commands/MinecraftCommandData.js";
 import MinecraftCommandDataOption from "../private/commands/MinecraftCommandDataOption.js";
 import { formatNumber } from "../../utils/stringUtils.js";
 import { getPlayer } from "../../utils/hypixelUtils.js";
+import { translate } from "../../translations/TranslationsManager.js";
 import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 // CREDITS: by @Kathund (https://github.com/Kathund)
@@ -11,9 +12,8 @@ class BuildBattleCommand extends MinecraftCommand {
     super(minecraft);
     this.data = new MinecraftCommandData()
       .setName("buildbattle")
-      .setDescription("Build Battle Stats of specified user.")
       .setAliases(["bb"])
-      .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
+      .setOptions([new MinecraftCommandDataOption().setName("username")]);
   }
 
   override async execute(player: string, message: string) {
@@ -21,9 +21,15 @@ class BuildBattleCommand extends MinecraftCommand {
     const hypixelPlayer = await getPlayer(player);
     const { title, tokens, score, wins, winsSpeedBuilders, winsGuessTheBuild } = hypixelPlayer.stats.BuildBattle;
     this.send(
-      `${title} ${hypixelPlayer.nickname}'s Build Battle Wins: ${formatNumber(wins)} Speed Builders Wins: ${formatNumber(
-        winsSpeedBuilders
-      )} GTB Wins: ${formatNumber(winsGuessTheBuild)} | Score: ${formatNumber(score)} | Tokens: ${formatNumber(tokens)}`
+      translate("minecraft.commands.buildbattle.execute.success", {
+        title,
+        username: hypixelPlayer.nickname,
+        wins: formatNumber(wins),
+        winsSpeedBuilders: formatNumber(winsSpeedBuilders),
+        winsGuessTheBuild: formatNumber(winsGuessTheBuild),
+        score: formatNumber(score),
+        tokens: formatNumber(tokens)
+      })
     );
   }
 }

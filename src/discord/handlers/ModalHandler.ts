@@ -2,6 +2,7 @@ import HypixelDiscordChatBridgeError from "../../private/error.js";
 import { BasicInteractionResponse } from "../../types/discord.js";
 import { Collection, MessageFlags, type ModalSubmitInteraction } from "discord.js";
 import { readdir } from "node:fs/promises";
+import { translate } from "../../translations/TranslationsManager.js";
 import type DiscordManager from "../DiscordManager.js";
 import type DiscordModal from "../private/modals/DiscordModal.js";
 
@@ -17,7 +18,7 @@ class ModalHandler {
       if (modal.response !== BasicInteractionResponse.None) {
         await interaction.deferReply({ flags: modal.response === BasicInteractionResponse.Ephemeral ? MessageFlags.Ephemeral : undefined });
       }
-      console.discord(`Modal submitted ${interaction.user.username} (${interaction.user.id}) modal ${interaction.customId}`);
+      console.discord(translate("discord.modals.status.execute", { username: interaction.user.username, userId: interaction.user.id, customId: interaction.customId }));
 
       await this.discord.interactionHandler.checkPerms(interaction, modal);
 
@@ -34,7 +35,7 @@ class ModalHandler {
       const modal: DiscordModal = new (await import(`../modals/${file}`)).default(this.discord);
       this.modals.set(modal.data.id, modal);
     }
-    console.discord(`Successfully loaded ${this.modals.size} modal(s).`);
+    console.discord(translate("discord.modals.status.loaded", { amount: this.modals.size }));
   }
 }
 

@@ -3,15 +3,13 @@ import MinecraftCommandData from "../private/commands/MinecraftCommandData.js";
 import MinecraftCommandDataOption from "../private/commands/MinecraftCommandDataOption.js";
 import { formatNumber } from "../../utils/stringUtils.js";
 import { getPlayer } from "../../utils/hypixelUtils.js";
+import { translate } from "../../translations/TranslationsManager.js";
 import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 class PlayerCommand extends MinecraftCommand {
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
-    this.data = new MinecraftCommandData()
-      .setName("player")
-      .setDescription("Get Hypixel Player Stats")
-      .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
+    this.data = new MinecraftCommandData().setName("player").setOptions([new MinecraftCommandDataOption().setName("username")]);
   }
 
   override async execute(player: string, message: string) {
@@ -20,7 +18,13 @@ class PlayerCommand extends MinecraftCommand {
     const { formattedNickname, karma, level, guild, achievements } = hypixelPlayer;
     const guildName = guild ? guild.name : "None";
     this.send(
-      `${formattedNickname}'s level: ${level.level} | Karma: ${formatNumber(karma, 0)} | Achievement Points: ${formatNumber(achievements.points, 0)} Guild: ${guildName}`
+      translate("minecraft.commands.player.execute.success", {
+        username: formattedNickname,
+        level: level.level,
+        karma: formatNumber(karma, 0),
+        achievementsPoints: formatNumber(achievements.points, 0),
+        guildName
+      })
     );
   }
 }

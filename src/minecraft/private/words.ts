@@ -1,4 +1,5 @@
 import HypixelDiscordChatBridgeError from "../../private/error.js";
+import { translate } from "../../translations/TranslationsManager.js";
 
 export const words = [
   // Minecraft
@@ -263,24 +264,23 @@ export const words = [
 export function getRandomWord(length?: number): string {
   if (length !== undefined) {
     const filteredWords = words.filter((word) => word.length === length);
-    if (filteredWords.length === 0) throw new HypixelDiscordChatBridgeError(`No words found with ${length} characters.`);
+    if (filteredWords.length === 0) throw new HypixelDiscordChatBridgeError(translate("generic.errors.no.words.found", { length }));
     return filteredWords[Math.floor(Math.random() * filteredWords.length)] as string;
   }
 
   return words[Math.floor(Math.random() * words.length)] as string;
 }
 
-export function ScrambleWord(word: string): string {
+export function scrambleWord(word: string): string {
   const chars: string[] = word.split("");
 
   for (let i: number = chars.length - 1; i > 0; i--) {
     const j: number = Math.floor(Math.random() * (i + 1));
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
+    // @ts-expect-error -- Idfk how to fix
     [chars[i], chars[j]] = [chars[j], chars[i]];
   }
 
   const scrambled: string = chars.join("");
 
-  return word === scrambled ? ScrambleWord(word) : scrambled;
+  return word === scrambled ? scrambleWord(word) : scrambled;
 }

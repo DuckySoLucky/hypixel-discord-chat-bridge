@@ -1,17 +1,19 @@
 import MinecraftCommand from "../private/commands/MinecraftCommand.js";
 import MinecraftCommandData from "../private/commands/MinecraftCommandData.js";
 import MinecraftCommandDataOption from "../private/commands/MinecraftCommandDataOption.js";
+import { formatNumber } from "../../utils/stringUtils.js";
 import { getPlayer } from "../../utils/hypixelUtils.js";
+import { translate } from "../../translations/TranslationsManager.js";
 import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
+import type { ParseKeys } from "i18next";
 
 class EightBallCommand extends MinecraftCommand {
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData()
       .setName("megawalls")
-      .setDescription("View the Megawalls stats of a player")
       .setAliases(["mw"])
-      .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
+      .setOptions([new MinecraftCommandDataOption().setName("username")]);
   }
 
   override async execute(player: string, message: string) {
@@ -19,7 +21,17 @@ class EightBallCommand extends MinecraftCommand {
     const hypixelPlayer = await getPlayer(player);
     const { selectedClass, finalKills, FKDR, wins, WLR, kills, KDR, assists } = hypixelPlayer.stats.MegaWalls;
     this.send(
-      `${player}'s Megawalls: Class: ${selectedClass} | FK: ${finalKills} | FKDR: ${FKDR} | W: ${wins} | WLR: ${WLR} | K: ${kills} | KDR: ${KDR} | A: ${assists}`
+      translate("minecraft.commands.megawalls.execute.success.message", {
+        username: player,
+        selectedClass: translate(`minecraft.commands.megawalls.execute.success.format.${selectedClass}` as ParseKeys),
+        finalKills: formatNumber(finalKills),
+        FKDR,
+        wins: formatNumber(wins),
+        WLR,
+        kills: formatNumber(kills),
+        KDR,
+        assists: formatNumber(assists)
+      })
     );
   }
 }

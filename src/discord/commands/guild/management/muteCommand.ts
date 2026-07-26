@@ -3,7 +3,7 @@ import DiscordCommandData from "../../../private/commands/DiscordCommandData.js"
 import HypixelDiscordChatBridgeError from "../../../../private/error.js";
 import { CommandFlags, type DiscordManagerWithBot, GuildManagementAction } from "../../../../types/discord.js";
 import { SuccessEmbed } from "../../../private/Embed.js";
-import { replaceVariables } from "../../../../utils/stringUtils.js";
+import { translate } from "../../../../translations/TranslationsManager.js";
 import type { ChatInputCommandInteraction } from "discord.js";
 
 class MuteCommand extends DiscordCommand<DiscordManagerWithBot> {
@@ -11,9 +11,8 @@ class MuteCommand extends DiscordCommand<DiscordManagerWithBot> {
     super(discord);
     this.data = new DiscordCommandData()
       .setName("mute")
-      .setDescription("Mutes the given user for a given amount of time.")
-      .addStringOption((option) => option.setName("guild-member-username").setDescription("Minecraft Username").setRequired(true).setAutocomplete(true))
-      .addStringOption((option) => option.setName("time").setDescription("Time").setRequired(true));
+      .addStringOption((option) => option.setName("guild-member-username").setRequired(true).setAutocomplete(true))
+      .addStringOption((option) => option.setName("time").setRequired(true));
     this.flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.StaffOnly];
   }
 
@@ -22,21 +21,19 @@ class MuteCommand extends DiscordCommand<DiscordManagerWithBot> {
     const time = interaction.options.getString("time", true);
     const { action } = await this.handleGuildManagementAction("mute", username, time);
     if (action === GuildManagementAction.MuteTooLong) {
-      throw new HypixelDiscordChatBridgeError(this.discord.application.messages.cannotMuteMoreThanOneMonthMessage);
+      throw new HypixelDiscordChatBridgeError(translate("minecraft.responses.cannotMuteMoreThanOneMonthMessage"));
     } else if (action === GuildManagementAction.AlreadyMuted) {
-      throw new HypixelDiscordChatBridgeError(this.discord.application.messages.alreadyMutedMessage);
+      throw new HypixelDiscordChatBridgeError(translate("minecraft.responses.alreadyMutedMessage"));
     } else if (action === GuildManagementAction.NoPerms) {
-      throw new HypixelDiscordChatBridgeError("The bot doesn't have perms to mute");
+      throw new HypixelDiscordChatBridgeError(translate("minecraft.errors.no.permissions.mute"));
     } else if (action === GuildManagementAction.Timeout) {
-      throw new HypixelDiscordChatBridgeError("Command timed out. Please try again");
+      throw new HypixelDiscordChatBridgeError(translate("minecraft.errors.timeout.command"));
     } else if (action === GuildManagementAction.NotInGuild) {
-      throw new HypixelDiscordChatBridgeError(replaceVariables(this.discord.application.messages.notInGuildMessage, { username }));
+      throw new HypixelDiscordChatBridgeError(translate("minecraft.responses.notInGuildMessage", { username }));
     } else if (action === GuildManagementAction.UserMute) {
-      return await interaction.followUp({
-        embeds: [new SuccessEmbed().setDescription(replaceVariables(this.discord.application.messages.userMuteMessage, { username, time }))]
-      });
+      return await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(translate("minecraft.responses.userMuteMessage", { username, time }))] });
     } else if (action === GuildManagementAction.GuildMute) {
-      return await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(replaceVariables(this.discord.application.messages.guildMuteMessage, { time }))] });
+      return await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(translate("minecraft.responses.guildMuteMessage", { time }))] });
     }
   }
 }

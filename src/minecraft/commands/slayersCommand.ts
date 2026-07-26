@@ -1,9 +1,11 @@
 import MinecraftCommand from "../private/commands/MinecraftCommand.js";
 import MinecraftCommandData from "../private/commands/MinecraftCommandData.js";
 import MinecraftCommandDataOption from "../private/commands/MinecraftCommandDataOption.js";
-import { formatNumber, titleCase } from "../../utils/stringUtils.js";
+import { formatNumber } from "../../utils/stringUtils.js";
 import { getSelectedProfile } from "../../utils/hypixelUtils.js";
+import { translate } from "../../translations/TranslationsManager.js";
 import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
+import type { ParseKeys } from "i18next";
 import type { SkyBlockMemberSlayer } from "hypixel-api-reborn";
 
 class SlayersCommand extends MinecraftCommand {
@@ -11,9 +13,8 @@ class SlayersCommand extends MinecraftCommand {
     super(minecraft);
     this.data = new MinecraftCommandData()
       .setName("slayer")
-      .setDescription("Slayer of specified user.")
       .setAliases(["slayers"])
-      .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
+      .setOptions([new MinecraftCommandDataOption().setName("username")]);
   }
 
   override async execute(player: string, message: string) {
@@ -26,9 +27,18 @@ class SlayersCommand extends MinecraftCommand {
       .filter((key) => key !== "activeSlayer")
       .map((slayer) => {
         const data: SkyBlockMemberSlayer = slayers[slayer as keyof typeof slayers] as SkyBlockMemberSlayer;
-        return `${titleCase(slayer)}: ${data.level.level} (${formatNumber(data.level.xp)})`;
+        return translate("minecraft.commands.slayer.execute.success.format.base", {
+          name: translate(`minecraft.commands.slayer.execute.success.format.${slayer}` as ParseKeys),
+          level: data.level.level,
+          xp: formatNumber(data.level.xp)
+        });
       });
-    this.send(`${username}'s Slayer: ${slayer.join(" | ")}`);
+    this.send(
+      translate("minecraft.commands.slayer.execute.success.message", {
+        username,
+        slayers: slayer.join(translate("minecraft.commands.slayer.execute.success.format.join"))
+      })
+    );
   }
 }
 

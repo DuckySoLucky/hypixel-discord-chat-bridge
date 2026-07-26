@@ -1,5 +1,6 @@
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import { type CommandFlags, type DiscordManagerWithClient, GuildManagementAction, type GuildManagementActionResponse } from "../../types/discord.js";
+import { translate } from "../../translations/TranslationsManager.js";
 import type DiscordManager from "../DiscordManager.js";
 
 class BasicInteractionData<Manager extends DiscordManager = DiscordManagerWithClient> {
@@ -11,7 +12,7 @@ class BasicInteractionData<Manager extends DiscordManager = DiscordManagerWithCl
 
   handleGuildManagementAction(action: string, username: string, argument: string = ""): Promise<GuildManagementActionResponse> {
     return new Promise<GuildManagementActionResponse>((resolve) => {
-      if (!this.discord.application.minecraft.isBotOnline()) throw new HypixelDiscordChatBridgeError(this.discord.application.messages.minecraftBotOffline);
+      if (!this.discord.application.minecraft.isBotOnline()) throw new HypixelDiscordChatBridgeError(translate("minecraft.errors.offline"));
       const listener = (data: { positionId: number; formattedMessage: string }) => {
         const rawMessage = this.discord.application.minecraft.prismarineChat.fromNotch(data.formattedMessage);
         const message = rawMessage.toString();
@@ -66,7 +67,7 @@ class BasicInteractionData<Manager extends DiscordManager = DiscordManagerWithCl
       this.discord.application.minecraft.bot.chat(`/g ${action} ${username} ${argument}`);
 
       setTimeout(() => {
-        if (!this.discord.application.minecraft.isBotOnline()) throw new HypixelDiscordChatBridgeError(this.discord.application.messages.minecraftBotOffline);
+        if (!this.discord.application.minecraft.isBotOnline()) throw new HypixelDiscordChatBridgeError(translate("minecraft.errors.offline"));
         this.discord.application.minecraft.bot.removeListener("systemChat", listener);
         resolve({ action: GuildManagementAction.Timeout, message: null });
       }, this.commandTimeout);

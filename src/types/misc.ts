@@ -29,7 +29,7 @@ export type ApplicationWithBot = Application & { minecraft: MinecraftManagerWith
 export type ApplicationWithClientBot = Application & { discord: DiscordManagerWithClient; minecraft: MinecraftManagerWithBot };
 
 export type Devs = "DuckySoLucky" | "Kathund" | "GeorgeFilos" | "Zickles";
-export const DevTypes = ["Maintainer", "Contributor"] as const;
+export const DevTypes = ["maintainer", "contributor", "translater"] as const;
 export type DevType = (typeof DevTypes)[number];
 export interface Dev {
   username: string;
@@ -37,10 +37,8 @@ export interface Dev {
   id: string;
   iconURL: string;
   type: DevType;
+  lang?: string;
 }
 
-export interface MiscCredit {
-  name: string;
-  description: string;
-  link: string;
-}
+export const MiscCreditIds = ["discordJS", "minecraftProtocol", "hypixelAPI", "hypixelAPIReborn", "mowojang", "dawJaw", "soopy", "skin"] as const;
+export type MiscCreditId = (typeof MiscCreditIds)[number];

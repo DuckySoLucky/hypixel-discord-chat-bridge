@@ -4,6 +4,7 @@ import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import LinkedCommand from "../../commands/verification/linkedCommand.js";
 import UnverifyCommand from "../../commands/verification/unverifyCommand.js";
 import { CommandFlags, type DiscordManagerWithBot } from "../../../types/discord.js";
+import { translate } from "../../../translations/TranslationsManager.js";
 import type { ButtonInteraction } from "discord.js";
 
 class UnverifyUserButton extends DiscordButton<DiscordManagerWithBot> {
@@ -16,7 +17,7 @@ class UnverifyUserButton extends DiscordButton<DiscordManagerWithBot> {
   override async execute(interaction: ButtonInteraction) {
     const linkedCommand = new LinkedCommand(this.discord);
     const linked = await linkedCommand.getLinkedFromLinkedEmbed(interaction.message);
-    if (!linked) throw new HypixelDiscordChatBridgeError("Unable to find the linked user");
+    if (!linked) throw new HypixelDiscordChatBridgeError(translate("linked.errors.user.find"));
     const unverifyCommand = new UnverifyCommand(this.discord);
     unverifyCommand.isSelf = false;
     unverifyCommand.discordId = linked.discordId;

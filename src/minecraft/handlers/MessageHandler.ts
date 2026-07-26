@@ -1,12 +1,14 @@
 import BlacklistUser from "../../data/blacklist/BlacklistUser.js";
+import Button from "../../discord/private/buttons/Button.js";
 import Embed from "../../discord/private/Embed.js";
 import GetMinecraftData from "minecraft-data";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import MowojangAPI from "../../private/MowojangAPI.js";
 import RequirementsCommand from "../../discord/commands/requirementsCommand.js";
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType } from "discord.js";
+import { ActionRowBuilder, ButtonStyle, ComponentType } from "discord.js";
 import { delay, isUuid, replaceAllRanks } from "../../utils/miscUtils.js";
-import { replaceVariables, truncateString } from "../../utils/stringUtils.js";
+import { translate } from "../../translations/TranslationsManager.js";
+import { truncateString } from "../../utils/stringUtils.js";
 import type MinecraftManager from "../MinecraftManager.js";
 import type { BroadcastEvent } from "../../types/bridge.js";
 import type { ChannelName } from "../../types/discord.js";
@@ -85,7 +87,7 @@ class MessageHandler {
       const uuid = await MowojangAPI.getUUID(username);
       if (!uuid) return;
       if (!this.minecraft.application.discord.isClientOnline()) {
-        throw new HypixelDiscordChatBridgeError("The discord bot doesn't seam to be online? Please restart the application");
+        throw new HypixelDiscordChatBridgeError(translate("discord.errors.offline"));
       }
 
       let blacklistUser: BlacklistUser | undefined;
@@ -93,13 +95,13 @@ class MessageHandler {
 
       const logChannel = await this.minecraft.application.discord.getChannel("Logger-Guild");
       if (!logChannel || !logChannel.isSendable()) return;
-      const requestEmbed = new Embed().setColor("Green").setDescription(replaceVariables(this.minecraft.application.messages.requestMessage, { username }));
-      const buttons: ButtonBuilder[] = [new ButtonBuilder().setCustomId("joinRequestAccept").setLabel("Accept Request").setStyle(ButtonStyle.Success)];
+      const requestEmbed = new Embed().setColor("Green").setDescription(translate("minecraft.responses.requestMessage", { username }));
+      const buttons: Button[] = [new Button().setCustomId("joinRequestAccept").setStyle(ButtonStyle.Success)];
       if (this.minecraft.application.config.blacklist.notifications.onJoinRequest && blacklistUser) {
         requestEmbed.setTitle(":warning: User is blacklisted");
-        buttons.push(new ButtonBuilder().setCustomId("joinRequestViewBlacklist").setLabel("View Blacklist").setStyle(ButtonStyle.Secondary));
+        buttons.push(new Button().setCustomId("joinRequestViewBlacklist").setStyle(ButtonStyle.Secondary));
       }
-      const logMessage = await logChannel.send({ embeds: [requestEmbed], components: [new ActionRowBuilder<ButtonBuilder>().addComponents(buttons)] });
+      const logMessage = await logChannel.send({ embeds: [requestEmbed], components: [new ActionRowBuilder<Button>().addComponents(buttons)] });
 
       setTimeout(
         async () => {
@@ -110,7 +112,7 @@ class MessageHandler {
             if (compontent.type !== ComponentType.Button) return [];
             if (compontent.customId === "joinRequestAccept") found = true;
             return [
-              new ButtonBuilder()
+              new Button()
                 .setCustomId(compontent.customId!)
                 .setLabel(compontent.label!)
                 .setStyle(compontent.style)
@@ -118,7 +120,7 @@ class MessageHandler {
             ];
           });
           if (!found) return;
-          await logMessage.edit({ components: [new ActionRowBuilder<ButtonBuilder>().addComponents(fixedButtons)] });
+          await logMessage.edit({ components: [new ActionRowBuilder<Button>().addComponents(fixedButtons)] });
         },
         5 * 60 * 1000
       );
@@ -150,7 +152,7 @@ class MessageHandler {
       return this.minecraft.broadcastPlayerToggle({
         fullMessage: colouredMessage,
         username: username,
-        message: replaceVariables(this.minecraft.application.messages.loginMessage, { username }),
+        message: translate("minecraft.responses.loginMessage", { username }),
         color: "Green",
         chatType: "Guild"
       });
@@ -161,7 +163,7 @@ class MessageHandler {
       return this.minecraft.broadcastPlayerToggle({
         fullMessage: colouredMessage,
         username: username,
-        message: replaceVariables(this.minecraft.application.messages.logoutMessage, { username }),
+        message: translate("minecraft.responses.logoutMessage", { username }),
         color: "Red",
         chatType: "Guild"
       });
@@ -173,13 +175,11 @@ class MessageHandler {
 
       await delay(1000);
       this.minecraft.bot.chat(
-        `/gc ${replaceVariables(this.minecraft.application.messages.guildJoinMessage, {
-          prefix: this.minecraft.application.config.minecraft.commands.normal.prefix
-        })} | by @duckysolucky`
+        `/gc ${translate("minecraft.responses.guildJoinMessage", { prefix: this.minecraft.application.config.minecraft.commands.normal.prefix })} | by @duckysolucky`
       );
 
       const broadcastMessage: BroadcastEvent = {
-        message: replaceVariables(this.minecraft.application.messages.joinMessage, { username }),
+        message: translate("minecraft.responses.joinMessage", { username }),
         title: "Member Joined",
         icon: `https://mc-heads.net/avatar/${username}`,
         color: "Green"
@@ -196,7 +196,7 @@ class MessageHandler {
       setTimeout(() => this.tryToUpdateUser(username), 15000);
 
       const broadcastMessage: BroadcastEvent = {
-        message: replaceVariables(this.minecraft.application.messages.leaveMessage, { username }),
+        message: translate("minecraft.responses.leaveMessage", { username }),
         title: "Member Left",
         icon: `https://mc-heads.net/avatar/${username}`,
         color: "Red"
@@ -213,7 +213,7 @@ class MessageHandler {
       setTimeout(() => this.tryToUpdateUser(username), 15000);
 
       const broadcastMessage: BroadcastEvent = {
-        message: replaceVariables(this.minecraft.application.messages.kickMessage, { username }),
+        message: translate("minecraft.responses.kickMessage", { username }),
         title: "Member Kicked",
         icon: `https://mc-heads.net/avatar/${username}`,
         color: "Red"
@@ -238,7 +238,7 @@ class MessageHandler {
       setTimeout(() => this.tryToUpdateUser(username), 15000);
 
       const broadcastMessage: BroadcastEvent = {
-        message: replaceVariables(this.minecraft.application.messages.promotionMessage, { username, rank }),
+        message: translate("minecraft.responses.promotionMessage", { username, rank }),
         title: "Member Promoted",
         icon: `https://mc-heads.net/avatar/${username}`,
         color: "Green"
@@ -261,7 +261,7 @@ class MessageHandler {
           ?.trim() ?? "";
 
       const broadcastMessage: BroadcastEvent = {
-        message: replaceVariables(this.minecraft.application.messages.demotionMessage, { username, rank }),
+        message: translate("minecraft.responses.demotionMessage", { username, rank }),
         title: "Member Demoted",
         icon: `https://mc-heads.net/avatar/${username}`,
         color: "Red"
@@ -274,24 +274,24 @@ class MessageHandler {
     }
 
     if (this.isCannotMuteMoreThanOneMonth(message)) {
-      return this.minecraft.broadcastCleanEmbed({ message: this.minecraft.application.messages.cannotMuteMoreThanOneMonthMessage, color: "Red", chatType: "Guild" });
+      return this.minecraft.broadcastCleanEmbed({ message: translate("minecraft.responses.cannotMuteMoreThanOneMonthMessage"), color: "Red", chatType: "Guild" });
     }
 
     if (this.isBlockedMessage(message)) {
       const blockedMsg = (message.match(/".+"/g)?.[0] ?? "").slice(1, -1);
       return this.minecraft.broadcastCleanEmbed({
-        message: replaceVariables(this.minecraft.application.messages.messageBlockedByHypixel, { message: blockedMsg }),
+        message: translate("minecraft.responses.messageBlockedByHypixel", { message: blockedMsg }),
         color: "Red",
         chatType: "Guild"
       });
     }
 
     if (this.isRepeatMessage(message)) {
-      return this.minecraft.broadcastCleanEmbed({ message: this.minecraft.application.messages.repeatMessage, color: "Red", chatType: "Guild" });
+      return this.minecraft.broadcastCleanEmbed({ message: translate("minecraft.responses.repeatMessage"), color: "Red", chatType: "Guild" });
     }
 
     if (this.isNoPermission(message)) {
-      return this.minecraft.broadcastCleanEmbed({ message: this.minecraft.application.messages.noPermissionMessage, color: "Red", chatType: "Guild" });
+      return this.minecraft.broadcastCleanEmbed({ message: translate("minecraft.responses.noPermissionMessage"), color: "Red", chatType: "Guild" });
     }
 
     if (this.isMuted(message)) {
@@ -314,16 +314,8 @@ class MessageHandler {
         .trim()
         .split(/ +/g)[2];
       return [
-        this.minecraft.broadcastCleanEmbed({
-          message: replaceVariables(this.minecraft.application.messages.onlineInvite, { username }),
-          color: "Green",
-          chatType: "Guild"
-        }),
-        this.minecraft.broadcastCleanEmbed({
-          message: replaceVariables(this.minecraft.application.messages.onlineInvite, { username }),
-          color: "Green",
-          chatType: "Logger-Guild"
-        })
+        this.minecraft.broadcastCleanEmbed({ message: translate("minecraft.responses.onlineInvite", { username }), color: "Green", chatType: "Guild" }),
+        this.minecraft.broadcastCleanEmbed({ message: translate("minecraft.responses.onlineInvite", { username }), color: "Green", chatType: "Logger-Guild" })
       ];
     }
 
@@ -334,16 +326,8 @@ class MessageHandler {
         .split(/ +/g)[6]!
         .match(/\w+/g)![0];
       return [
-        this.minecraft.broadcastCleanEmbed({
-          message: replaceVariables(this.minecraft.application.messages.offlineInvite, { username }),
-          color: "Green",
-          chatType: "Guild"
-        }),
-        this.minecraft.broadcastCleanEmbed({
-          message: replaceVariables(this.minecraft.application.messages.offlineInvite, { username }),
-          color: "Green",
-          chatType: "Logger-Guild"
-        })
+        this.minecraft.broadcastCleanEmbed({ message: translate("minecraft.responses.offlineInvite", { username }), color: "Green", chatType: "Guild" }),
+        this.minecraft.broadcastCleanEmbed({ message: translate("minecraft.responses.offlineInvite", { username }), color: "Green", chatType: "Logger-Guild" })
       ];
     }
 
@@ -360,23 +344,15 @@ class MessageHandler {
         .trim()
         .split(/ +/g)[7];
       return [
-        this.minecraft.broadcastCleanEmbed({
-          message: replaceVariables(this.minecraft.application.messages.guildMuteMessage, { time }),
-          color: "Red",
-          chatType: "Guild"
-        }),
-        this.minecraft.broadcastCleanEmbed({
-          message: replaceVariables(this.minecraft.application.messages.guildMuteMessage, { time }),
-          color: "Red",
-          chatType: "Logger-Guild"
-        })
+        this.minecraft.broadcastCleanEmbed({ message: translate("minecraft.responses.guildMuteMessage", { time }), color: "Red", chatType: "Guild" }),
+        this.minecraft.broadcastCleanEmbed({ message: translate("minecraft.responses.guildMuteMessage", { time }), color: "Red", chatType: "Logger-Guild" })
       ];
     }
 
     if (this.isGuildUnmuteMessage(message)) {
       return [
-        this.minecraft.broadcastCleanEmbed({ message: this.minecraft.application.messages.guildUnmuteMessage, color: "Green", chatType: "Guild" }),
-        this.minecraft.broadcastCleanEmbed({ message: this.minecraft.application.messages.guildUnmuteMessage, color: "Green", chatType: "Logger-Guild" })
+        this.minecraft.broadcastCleanEmbed({ message: translate("minecraft.responses.guildUnmuteMessage"), color: "Green", chatType: "Guild" }),
+        this.minecraft.broadcastCleanEmbed({ message: translate("minecraft.responses.guildUnmuteMessage"), color: "Green", chatType: "Logger-Guild" })
       ];
     }
 
@@ -392,16 +368,8 @@ class MessageHandler {
         .trim()
         .split(/ +/g)[5];
       return [
-        this.minecraft.broadcastCleanEmbed({
-          message: replaceVariables(this.minecraft.application.messages.userMuteMessage, { username, time }),
-          color: "Red",
-          chatType: "Guild"
-        }),
-        this.minecraft.broadcastCleanEmbed({
-          message: replaceVariables(this.minecraft.application.messages.userMuteMessage, { username, time }),
-          color: "Red",
-          chatType: "Logger-Guild"
-        })
+        this.minecraft.broadcastCleanEmbed({ message: translate("minecraft.responses.userMuteMessage", { username, time }), color: "Red", chatType: "Guild" }),
+        this.minecraft.broadcastCleanEmbed({ message: translate("minecraft.responses.userMuteMessage", { username, time }), color: "Red", chatType: "Logger-Guild" })
       ];
     }
 
@@ -411,21 +379,13 @@ class MessageHandler {
         .trim()
         .split(/ +/g)[3];
       return [
-        this.minecraft.broadcastCleanEmbed({
-          message: replaceVariables(this.minecraft.application.messages.userUnmuteMessage, { username }),
-          color: "Green",
-          chatType: "Guild"
-        }),
-        this.minecraft.broadcastCleanEmbed({
-          message: replaceVariables(this.minecraft.application.messages.userUnmuteMessage, { username }),
-          color: "Green",
-          chatType: "Logger-Guild"
-        })
+        this.minecraft.broadcastCleanEmbed({ message: translate("minecraft.responses.userUnmuteMessage", { username }), color: "Green", chatType: "Guild" }),
+        this.minecraft.broadcastCleanEmbed({ message: translate("minecraft.responses.userUnmuteMessage", { username }), color: "Green", chatType: "Logger-Guild" })
       ];
     }
 
     if (this.isSetrankFail(message)) {
-      return this.minecraft.broadcastCleanEmbed({ message: this.minecraft.application.messages.setrankFailMessage, color: "Red", chatType: "Guild" });
+      return this.minecraft.broadcastCleanEmbed({ message: translate("minecraft.responses.setrankFailMessage"), color: "Red", chatType: "Guild" });
     }
 
     if (this.isGuildQuestCompletion(message)) {
@@ -433,7 +393,7 @@ class MessageHandler {
     }
 
     if (this.isAlreadyMuted(message)) {
-      return this.minecraft.broadcastCleanEmbed({ message: this.minecraft.application.messages.alreadyMutedMessage, color: "Red", chatType: "Guild" });
+      return this.minecraft.broadcastCleanEmbed({ message: translate("minecraft.responses.alreadyMutedMessage"), color: "Red", chatType: "Guild" });
     }
 
     if (this.isNotInGuild(message)) {
@@ -441,11 +401,7 @@ class MessageHandler {
         .replace(/\[(.*?)\]/g, "")
         .trim()
         .split(" ")[0];
-      return this.minecraft.broadcastCleanEmbed({
-        message: replaceVariables(this.minecraft.application.messages.notInGuildMessage, { username }),
-        color: "Red",
-        chatType: "Guild"
-      });
+      return this.minecraft.broadcastCleanEmbed({ message: translate("minecraft.responses.notInGuildMessage", { username }), color: "Red", chatType: "Guild" });
     }
 
     if (this.isLowestRank(message)) {
@@ -453,28 +409,21 @@ class MessageHandler {
         .replace(/\[(.*?)\]/g, "")
         .trim()
         .split(" ")[0];
-      return this.minecraft.broadcastCleanEmbed({
-        message: replaceVariables(this.minecraft.application.messages.lowestRankMessage, { username }),
-        color: "Red",
-        chatType: "Guild"
-      });
+      return this.minecraft.broadcastCleanEmbed({ message: translate("minecraft.responses.lowestRankMessage", { username }), color: "Red", chatType: "Guild" });
     }
 
     if (this.isAlreadyHasRank(message)) {
-      return this.minecraft.broadcastCleanEmbed({ message: this.minecraft.application.messages.alreadyHasRankMessage, color: "Red", chatType: "Guild" });
+      return this.minecraft.broadcastCleanEmbed({ message: translate("minecraft.responses.alreadyHasRankMessage"), color: "Red", chatType: "Guild" });
     }
 
     if (this.isTooFast(message)) {
+      // eslint-disable-next-line hypixelDiscordChatBridge/enforce-translate
       return console.warn(message);
     }
 
     if (this.isPlayerNotFound(message)) {
       const username = (message.split(" ")?.[8] ?? "").slice(1, -1);
-      return this.minecraft.broadcastCleanEmbed({
-        message: replaceVariables(this.minecraft.application.messages.playerNotFoundMessage, { username }),
-        color: "Red",
-        chatType: "Guild"
-      });
+      return this.minecraft.broadcastCleanEmbed({ message: translate("minecraft.responses.playerNotFoundMessage", { username }), color: "Red", chatType: "Guild" });
     }
 
     if (this.isGuildLevelUpMessage(message)) {
@@ -482,11 +431,7 @@ class MessageHandler {
         .replace(/\[(.*?)\]/g, "")
         .trim()
         .split(/ +/g)[5];
-      return this.minecraft.broadcastCleanEmbed({
-        message: replaceVariables(this.minecraft.application.messages.guildLevelUpMessage, { level }),
-        color: "Yellow",
-        chatType: "Guild"
-      });
+      return this.minecraft.broadcastCleanEmbed({ message: translate("minecraft.responses.guildLevelUpMessage", { level }), color: "Yellow", chatType: "Guild" });
     }
 
     const regex =

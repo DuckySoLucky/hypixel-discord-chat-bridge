@@ -3,7 +3,7 @@ import DiscordCommandData from "../../../private/commands/DiscordCommandData.js"
 import HypixelDiscordChatBridgeError from "../../../../private/error.js";
 import { CommandFlags, type DiscordManagerWithBot, GuildManagementAction } from "../../../../types/discord.js";
 import { SuccessEmbed } from "../../../private/Embed.js";
-import { replaceVariables } from "../../../../utils/stringUtils.js";
+import { translate } from "../../../../translations/TranslationsManager.js";
 import type { ChatInputCommandInteraction } from "discord.js";
 
 class SetRankCommand extends DiscordCommand<DiscordManagerWithBot> {
@@ -11,9 +11,8 @@ class SetRankCommand extends DiscordCommand<DiscordManagerWithBot> {
     super(discord);
     this.data = new DiscordCommandData()
       .setName("set-rank")
-      .setDescription("Set rank of the given user.")
-      .addStringOption((option) => option.setName("guild-member-username").setDescription("Minecraft Username").setRequired(true).setAutocomplete(true))
-      .addStringOption((option) => option.setName("guild-rank").setDescription("In game rank").setRequired(true).setAutocomplete(true));
+      .addStringOption((option) => option.setName("guild-member-username").setRequired(true).setAutocomplete(true))
+      .addStringOption((option) => option.setName("guild-rank").setRequired(true).setAutocomplete(true));
     this.flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.StaffOnly];
   }
 
@@ -22,13 +21,13 @@ class SetRankCommand extends DiscordCommand<DiscordManagerWithBot> {
     const rank = interaction.options.getString("guild-rank", true);
     const { action, message } = await this.handleGuildManagementAction("setrank", username, rank);
     if (action === GuildManagementAction.NotInGuild) {
-      throw new HypixelDiscordChatBridgeError(replaceVariables(this.discord.application.messages.notInGuildMessage, { username }));
+      throw new HypixelDiscordChatBridgeError(translate("minecraft.responses.notInGuildMessage", { username }));
     } else if (action === GuildManagementAction.NoPerms) {
-      throw new HypixelDiscordChatBridgeError("The bot doesn't have perms to promote");
+      throw new HypixelDiscordChatBridgeError(translate("minecraft.errors.no.permissions.setrank"));
     } else if (action === GuildManagementAction.Timeout) {
-      throw new HypixelDiscordChatBridgeError("Command timed out. Please try again");
+      throw new HypixelDiscordChatBridgeError(translate("minecraft.errors.timeout.command"));
     } else if (!message) {
-      throw new HypixelDiscordChatBridgeError("No response message received");
+      throw new HypixelDiscordChatBridgeError(translate("minecraft.errors.no.response"));
     } else if (action === GuildManagementAction.Promote) {
       const rank =
         message
@@ -40,7 +39,7 @@ class SetRankCommand extends DiscordCommand<DiscordManagerWithBot> {
       await interaction.followUp({
         embeds: [
           new SuccessEmbed()
-            .setDescription(replaceVariables(this.discord.application.messages.promotionMessage, { username, rank }))
+            .setDescription(translate("minecraft.responses.promotionMessage", { username, rank }))
             .setAuthor({ name: "Member Promoted", iconURL: `https://mc-heads.net/avatar/${username}` })
         ]
       });
@@ -55,7 +54,7 @@ class SetRankCommand extends DiscordCommand<DiscordManagerWithBot> {
       await interaction.followUp({
         embeds: [
           new SuccessEmbed()
-            .setDescription(replaceVariables(this.discord.application.messages.demotionMessage, { username, rank }))
+            .setDescription(translate("minecraft.responses.demotionMessage", { username, rank }))
             .setAuthor({ name: "Member Demote", iconURL: `https://mc-heads.net/avatar/${username}` })
         ]
       });

@@ -3,6 +3,7 @@ import DiscordCommandData from "../private/commands/DiscordCommandData.js";
 import Embed, { SuccessEmbed } from "../private/Embed.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import { CommandFlags, type DiscordManagerWithClient } from "../../types/discord.js";
+import { translate } from "../../translations/TranslationsManager.js";
 import type { ChatInputCommandInteraction } from "discord.js";
 
 class ForceExecuteScriptCommand extends DiscordCommand {
@@ -10,18 +11,17 @@ class ForceExecuteScriptCommand extends DiscordCommand {
     super(discord);
     this.data = new DiscordCommandData()
       .setName("force-execute-script")
-      .setDescription("Allows executing scripts")
-      .addStringOption((option) => option.setName("script-name").setDescription("Script Name").setRequired(true).setAutocomplete(true));
+      .addStringOption((option) => option.setName("script-name").setRequired(true).setAutocomplete(true));
     this.flags = [CommandFlags.StaffOnly];
   }
 
   override async execute(interaction: ChatInputCommandInteraction) {
     const scriptName = interaction.options.getString("script-name", true);
     const script = this.discord.application.scripts.scripts.get(scriptName);
-    if (!script) throw new HypixelDiscordChatBridgeError("Could not find that script?");
-    await interaction.followUp({ embeds: [new Embed().setDescription(`Executing \`${script.id}\` script`).setDevFooter("Kathund")] });
+    if (!script) throw new HypixelDiscordChatBridgeError(translate("discord.commands.force-execute-script.execute.errors.unable.find"));
+    await interaction.followUp({ embeds: [new Embed().setDescription(translate("scripts.status.execute.start", script)).setDevFooter("Kathund")] });
     await script.execute();
-    await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(`Finished executing \`${script.id}\` script`).setDevFooter("Kathund")] });
+    await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(translate("scripts.status.execute.finish", script)).setDevFooter("Kathund")] });
   }
 }
 

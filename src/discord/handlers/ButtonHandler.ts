@@ -2,6 +2,7 @@ import HypixelDiscordChatBridgeError from "../../private/error.js";
 import { type ButtonInteraction, Collection, MessageFlags } from "discord.js";
 import { ButtonResponse } from "../../types/discord.js";
 import { readdir } from "node:fs/promises";
+import { translate } from "../../translations/TranslationsManager.js";
 import type DiscordButton from "../private/buttons/DiscordButton.js";
 import type DiscordManager from "../DiscordManager.js";
 
@@ -18,7 +19,7 @@ class ButtonHandler {
         if (button.response === ButtonResponse.Update) await interaction.deferUpdate();
         else await interaction.deferReply({ flags: button.response === ButtonResponse.Ephemeral ? MessageFlags.Ephemeral : undefined });
       }
-      console.discord(`Button Clicked ${interaction.user.username} (${interaction.user.id}) button ${interaction.customId}`);
+      console.discord(translate("discord.buttons.status.execute", { username: interaction.user.username, userId: interaction.user.id, customId: interaction.customId }));
 
       await this.discord.interactionHandler.checkPerms(interaction, button);
 
@@ -35,7 +36,7 @@ class ButtonHandler {
       const button: DiscordButton = new (await import(`../buttons/${file}`)).default(this.discord);
       button.data.ids.forEach((id) => this.buttons.set(id, button));
     }
-    console.discord(`Successfully loaded ${this.buttons.size} button(s).`);
+    console.discord(translate("discord.buttons.status.loaded", { amount: this.buttons.size }));
   }
 }
 

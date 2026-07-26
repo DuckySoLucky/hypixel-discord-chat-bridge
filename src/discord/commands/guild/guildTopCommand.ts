@@ -3,6 +3,7 @@ import DiscordCommandData from "../../private/commands/DiscordCommandData.js";
 import Embed from "../../private/Embed.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import { CommandFlags, type DiscordManagerWithBot } from "../../../types/discord.js";
+import { translate } from "../../../translations/TranslationsManager.js";
 import type { ChatInputCommandInteraction } from "discord.js";
 
 class GuildTopCommand extends DiscordCommand<DiscordManagerWithBot> {
@@ -10,12 +11,8 @@ class GuildTopCommand extends DiscordCommand<DiscordManagerWithBot> {
     super(discord);
     this.data = new DiscordCommandData()
       .setName("guildtop")
-      .setDescription("Top 10 members with the most guild experience.")
       .addStringOption((option) =>
-        option
-          .setName("time")
-          .setDescription("Days ago")
-          .addChoices(...Array.from({ length: 14 }, (_, index) => ({ name: `${index + 1} Day ago`, value: (index + 1).toString() })))
+        option.setName("time").addChoices(...Array.from({ length: 14 }, (_, index) => ({ name: `${index + 1} Day ago`, value: (index + 1).toString() })))
       );
     this.flags = [CommandFlags.RequiresMinecraftBot];
   }
@@ -46,7 +43,7 @@ class GuildTopCommand extends DiscordCommand<DiscordManagerWithBot> {
 
   override async execute(interaction: ChatInputCommandInteraction) {
     const messages = await this.getMessages(interaction.options.getString("time"));
-    if (messages.length === 0) throw new HypixelDiscordChatBridgeError("Could not retrieve the top 10 guild members.");
+    if (messages.length === 0) throw new HypixelDiscordChatBridgeError(translate("discord.commands.guildtop.execute.errors.failed.fetch"));
     const trimmedMessages = messages.map((message) => message.trim()).filter((message) => message.includes("."));
 
     const description = trimmedMessages
@@ -66,8 +63,8 @@ class GuildTopCommand extends DiscordCommand<DiscordManagerWithBot> {
       })
       .join("");
 
-    if (!description) throw new HypixelDiscordChatBridgeError("Failed to parse the top 10 guild members data.");
-    await interaction.followUp({ embeds: [new Embed().setAuthor({ name: "Top 10 Guild Members" }).setDescription(description)] });
+    if (!description) throw new HypixelDiscordChatBridgeError(translate("discord.commands.guildtop.execute.errors.failed.parse"));
+    await interaction.followUp({ embeds: [new Embed().setTitle(translate("discord.commands.guildtop.execute.success.embed.title")).setDescription(description)] });
   }
 }
 

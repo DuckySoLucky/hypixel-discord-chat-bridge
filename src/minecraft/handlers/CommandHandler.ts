@@ -2,6 +2,7 @@ import axios from "axios";
 import { Collection } from "discord.js";
 import { formatError } from "../../utils/miscUtils.js";
 import { readdir } from "node:fs/promises";
+import { translate } from "../../translations/TranslationsManager.js";
 import type MinecraftCommand from "../private/commands/MinecraftCommand.js";
 import type MinecraftManager from "../MinecraftManager.js";
 
@@ -29,7 +30,7 @@ class CommandHandler {
       const commandName = args.shift() ?? "".toLowerCase();
       const command = this.findNormalCommand(commandName);
       if (command === undefined) return;
-      console.minecraft(`${player} - [${command.data.name}] ${message}`);
+      console.minecraft(translate("minecraft.commands.execute.format", { player, command: command.data.name, message }));
       command.officer = officer;
       try {
         await command.execute(player, message);
@@ -52,9 +53,11 @@ class CommandHandler {
 
       const chat = officer ? "oc" : "gc";
 
-      this.minecraft.bot.chat(`/${chat} [SOOPY V2] ${message}`);
+      this.minecraft.bot.chat(
+        `/${chat} ${translate("minecraft.commands.execute.soopy.prefix")} ${translate("minecraft.commands.execute.soopy.execute.success", { message })}`
+      );
 
-      console.minecraft(`${player} - [${command}] ${message}`);
+      console.minecraft(translate("minecraft.commands.execute.format", { player, command, message }));
       (async () => {
         if (!this.minecraft.isBotOnline()) return;
         try {
@@ -65,11 +68,15 @@ class CommandHandler {
             return this.minecraft.bot.chat(`/${chat} [SOOPY V2] An error occured while running the command`);
           }
 
-          this.minecraft.bot.chat(`/${chat} [SOOPY V2] ${response.data.msg}`);
+          this.minecraft.bot.chat(
+            `/${chat} ${translate("minecraft.commands.execute.soopy.prefix")} ${translate("minecraft.commands.execute.soopy.execute.success", { message: response.data.msg })}`
+          );
         } catch (error) {
           console.error(error);
           if (!(error instanceof Error)) return;
-          this.minecraft.bot.chat(`/${chat} [SOOPY V2] ${error.cause ?? error.message ?? "Unknown error"}`);
+          this.minecraft.bot.chat(
+            `/${chat} ${translate("minecraft.commands.execute.soopy.prefix")} ${error.cause ?? error.message ?? translate("minecraft.commands.execute.soopy.execute.error.unknown")}`
+          );
         }
       })();
     }
@@ -83,7 +90,7 @@ class CommandHandler {
       if (!command.data.name) continue;
       this.commands.set(command.data.name, command);
     }
-    if (!silent) console.minecraft(`Successfully reloaded ${this.commands.size} minecraft command(s).`);
+    if (!silent) console.minecraft(translate("minecraft.commands.loaded", { amount: this.commands.size }));
   }
 }
 

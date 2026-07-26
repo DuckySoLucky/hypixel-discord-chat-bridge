@@ -4,6 +4,7 @@ import MinecraftCommandDataOption from "../private/commands/MinecraftCommandData
 import { type BlitzSurvivalGamesData, type BlitzSurvivalGamesKitId, BlitzSurvivalGamesKitIds, type Player } from "hypixel-api-reborn";
 import { formatNumber } from "../../utils/stringUtils.js";
 import { getPlayer } from "../../utils/hypixelUtils.js";
+import { translate } from "../../translations/TranslationsManager.js";
 import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 // CREDITS: by @Kathund (https://github.com/Kathund)
@@ -13,9 +14,8 @@ class BlitzSurvivalGamesCommand extends MinecraftCommand {
     super(minecraft);
     this.data = new MinecraftCommandData()
       .setName("blitzsurvivalgames")
-      .setDescription("Blitz Survival Games stats of specified user.")
       .setAliases(["blitz", "blitzsg", "bsg"])
-      .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
+      .setOptions([new MinecraftCommandDataOption().setName("username")]);
   }
 
   convertKit(mode: BlitzSurvivalGamesKitId): BlitzSurvivalGamesKitKey {
@@ -49,9 +49,15 @@ class BlitzSurvivalGamesCommand extends MinecraftCommand {
     const hypixelPlayer = await getPlayer(player);
     const { kills, KDRatio, wins, WLRatio, coins, defaultKit } = this.getStats(hypixelPlayer, mode);
     this.send(
-      `${hypixelPlayer.nickname}'s BlitzSG ${mode === "overall" ? `kit: ${defaultKit} |` : mode} Kills: ${formatNumber(kills)} KDR: ${KDRatio} | Wins: ${formatNumber(
-        wins
-      )} WLR: ${WLRatio} | Coins: ${formatNumber(coins)}`
+      translate("minecraft.commands.blitzsurvivalgames.execute.success", {
+        usernmame: hypixelPlayer.nickname,
+        formattedPrefix: mode === "overall" ? `Kit: ${defaultKit} |` : mode,
+        kills: formatNumber(kills),
+        KDRatio,
+        wins: formatNumber(wins),
+        WLRatio,
+        coins: formatNumber(coins)
+      })
     );
   }
 }

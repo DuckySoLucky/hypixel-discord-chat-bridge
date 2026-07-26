@@ -3,6 +3,7 @@ import MinecraftCommandData from "../private/commands/MinecraftCommandData.js";
 import MinecraftCommandDataOption from "../private/commands/MinecraftCommandDataOption.js";
 import { formatNumber } from "../../utils/stringUtils.js";
 import { getSelectedProfile } from "../../utils/hypixelUtils.js";
+import { translate } from "../../translations/TranslationsManager.js";
 import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 class CatacombsCommand extends MinecraftCommand {
@@ -10,25 +11,27 @@ class CatacombsCommand extends MinecraftCommand {
     super(minecraft);
     this.data = new MinecraftCommandData()
       .setName("catacombs")
-      .setDescription("Skyblock Dungeons Stats of specified user.")
       .setAliases(["cata", "dungeons"])
-      .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
+      .setOptions([new MinecraftCommandDataOption().setName("username")]);
   }
 
   override async execute(player: string, message: string) {
     player = this.getArgs(message)[0] || player;
     const { username, profile } = await getSelectedProfile(player);
-    const { level } = profile.me.dungeons;
-    const tank = formatNumber(profile.me.dungeons.classes.tank.level);
-    const archer = formatNumber(profile.me.dungeons.classes.archer.level);
-    const healer = formatNumber(profile.me.dungeons.classes.healer.level);
-    const mage = formatNumber(profile.me.dungeons.classes.mage.level);
-    const berserk = formatNumber(profile.me.dungeons.classes.berserk.level);
-
+    const { level, classes, secrets } = profile.me.dungeons;
     this.send(
-      `${username}'s Catacombs: ${formatNumber(level.level)} | Selected Class: ${profile.me.dungeons.classes.selected} | Class Average: ${formatNumber(
-        profile.me.dungeons.classes.average
-      )} | Secrets Found: ${formatNumber(profile.me.dungeons.secrets)} | Classes: ${healer}H, ${mage}M, ${berserk}B, ${archer}A, ${mage}M ${tank}T`
+      translate("minecraft.commands.catacombs.execute.success.message", {
+        username,
+        level: formatNumber(level.level),
+        selectedClass: translate(`minecraft.commands.catacombs.execute.success.format.${classes.selected}`),
+        classAverage: formatNumber(classes.average),
+        secrets: formatNumber(secrets),
+        tank: formatNumber(classes.tank.level),
+        archer: formatNumber(classes.archer.level),
+        healer: formatNumber(classes.healer.level),
+        mage: formatNumber(classes.mage.level),
+        berserk: formatNumber(classes.berserk.level)
+      })
     );
   }
 }

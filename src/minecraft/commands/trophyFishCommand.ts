@@ -3,6 +3,7 @@ import MinecraftCommandData from "../private/commands/MinecraftCommandData.js";
 import MinecraftCommandDataOption from "../private/commands/MinecraftCommandDataOption.js";
 import { formatNumber } from "../../utils/stringUtils.js";
 import { getSelectedProfile } from "../../utils/hypixelUtils.js";
+import { translate } from "../../translations/TranslationsManager.js";
 import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 import type { SkyBlockMemberCrimsonIsleTrophyFish, SkyBlockMemberCrimsonIsleTrophyFishFish } from "hypixel-api-reborn";
 
@@ -12,9 +13,8 @@ class TrophyFishCommand extends MinecraftCommand {
     super(minecraft);
     this.data = new MinecraftCommandData()
       .setName("trophyfish")
-      .setDescription("Trophy Fish Stats of specified user.")
       .setAliases(["tf", "trophyfishing", "trophy"])
-      .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
+      .setOptions([new MinecraftCommandDataOption().setName("username")]);
   }
 
   override async execute(player: string, message: string) {
@@ -22,14 +22,13 @@ class TrophyFishCommand extends MinecraftCommand {
     const { username, profile } = await getSelectedProfile(player);
 
     const trophyFishing = profile.me.crimsonIsle.trophyFishing;
-    const { rank } = trophyFishing;
     const { bronze, silver, gold, diamond, total } = trophyFishing.caught;
 
     let uniqueBronze = 0;
     let uniqueSilver = 0;
     let uniqueGold = 0;
     let uniqueDiamond = 0;
-    const uniqueFish = 18;
+
     (Object.keys(trophyFishing) as (keyof SkyBlockMemberCrimsonIsleTrophyFish)[])
       .filter((fish) => !["toString", "rank", "caught"].includes(fish as string))
       .forEach((fishName) => {
@@ -41,11 +40,19 @@ class TrophyFishCommand extends MinecraftCommand {
       });
 
     this.send(
-      `${username}'s Trophy Fishing rank: ${rank} | Caught: ${formatNumber(total)} | Bronze: ${uniqueBronze}/${uniqueFish} (${formatNumber(bronze)}) | Silver: ${
-        uniqueSilver
-      }/${uniqueFish} (${formatNumber(silver)}) | Gold: ${uniqueGold}/${uniqueFish} (${formatNumber(gold)}) | Diamond: ${uniqueDiamond}/${uniqueFish} (${formatNumber(
-        diamond
-      )})`
+      translate("minecraft.commands.trophyfish.execute.success.message", {
+        username,
+        rank: translate(`minecraft.commands.trophyfish.execute.success.rank.${trophyFishing.rank}`),
+        uniqueBronze,
+        totalBronze: formatNumber(bronze),
+        uniqueSilver,
+        totalSilver: formatNumber(silver),
+        uniqueGold,
+        totalGold: formatNumber(gold),
+        uniqueDiamond,
+        totalDiamond: formatNumber(diamond),
+        total: formatNumber(total)
+      })
     );
   }
 }

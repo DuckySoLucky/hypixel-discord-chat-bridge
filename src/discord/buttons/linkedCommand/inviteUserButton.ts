@@ -4,7 +4,7 @@ import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import LinkedCommand from "../../commands/verification/linkedCommand.js";
 import { CommandFlags, type DiscordManagerWithBot, GuildManagementAction } from "../../../types/discord.js";
 import { SuccessEmbed } from "../../private/Embed.js";
-import { replaceVariables } from "../../../utils/stringUtils.js";
+import { translate } from "../../../translations/TranslationsManager.js";
 import type { ButtonInteraction } from "discord.js";
 
 class InviteUserButton extends DiscordButton<DiscordManagerWithBot> {
@@ -17,21 +17,22 @@ class InviteUserButton extends DiscordButton<DiscordManagerWithBot> {
   override async execute(interaction: ButtonInteraction) {
     const linkedCommand = new LinkedCommand(this.discord);
     const linked = await linkedCommand.getLinkedFromLinkedEmbed(interaction.message);
-    if (!linked) throw new HypixelDiscordChatBridgeError("Unable to find the linked user");
+    if (!linked) throw new HypixelDiscordChatBridgeError(translate("linked.errors.user.find"));
     const username = await linked.getUsername();
     const { action, message } = await this.handleGuildManagementAction("invite", username);
     if (action === GuildManagementAction.NoPerms) {
-      throw new HypixelDiscordChatBridgeError("The bot doesn't have perms to invite");
+      throw new HypixelDiscordChatBridgeError(translate("minecraft.errors.no.permissions.invite"));
     } else if (action === GuildManagementAction.Timeout) {
-      throw new HypixelDiscordChatBridgeError("Command timed out. Please try again");
+      throw new HypixelDiscordChatBridgeError(translate("minecraft.errors.timeout.command"));
     } else if (!message) {
-      throw new HypixelDiscordChatBridgeError("No response message received");
+      throw new HypixelDiscordChatBridgeError(translate("minecraft.errors.no.response"));
     } else if (action === GuildManagementAction.FailedInvite) {
+      // eslint-disable-next-line hypixelDiscordChatBridge/enforce-translate
       throw new HypixelDiscordChatBridgeError(message.replace(/\[(.*?)\]/g, "").trim());
     } else if (action === GuildManagementAction.OnlineInvite) {
-      return await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(replaceVariables(this.discord.application.messages.offlineInvite, { username }))] });
+      return await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(translate("minecraft.responses.offlineInvite", { username }))] });
     } else if (action === GuildManagementAction.OfflineInvite) {
-      return await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(replaceVariables(this.discord.application.messages.offlineInvite, { username }))] });
+      return await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(translate("minecraft.responses.offlineInvite", { username }))] });
     }
   }
 }

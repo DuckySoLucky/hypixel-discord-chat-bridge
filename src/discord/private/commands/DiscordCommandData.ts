@@ -1,6 +1,9 @@
+import DiscordSubCommandData from "./DiscordSubCommandData.js";
+import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import {
   ApplicationIntegrationType,
   InteractionContextType,
+  type RESTPostAPIChatInputApplicationCommandsJSONBody,
   type SlashCommandAttachmentOption,
   type SlashCommandBooleanOption,
   SlashCommandBuilder,
@@ -10,10 +13,11 @@ import {
   type SlashCommandNumberOption,
   type SlashCommandRoleOption,
   type SlashCommandStringOption,
-  type SlashCommandSubcommandBuilder,
-  type SlashCommandSubcommandGroupBuilder,
+  SlashCommandSubcommandBuilder,
   type SlashCommandUserOption
 } from "discord.js";
+import { translate } from "../../../translations/TranslationsManager.js";
+import type { ParseKeys } from "i18next";
 
 class DiscordCommandData extends SlashCommandBuilder {
   constructor() {
@@ -24,69 +28,70 @@ class DiscordCommandData extends SlashCommandBuilder {
 
   override setName(name: string): this {
     super.setName(name);
+    super.setDescription(translate(`discord.commands.${name}.description` as ParseKeys));
     return this;
   }
 
-  override setDescription(description: string): this {
-    super.setDescription(description);
+  override setDescription(_: string): this {
+    throw new HypixelDiscordChatBridgeError(translate("discord.errors.commands.set.description"));
+  }
+
+  override addAttachmentOption(input: (builder: SlashCommandAttachmentOption) => SlashCommandAttachmentOption): this {
+    super.addAttachmentOption((option) => input(option).setDescription(" "));
     return this;
   }
 
-  override addAttachmentOption(input: SlashCommandAttachmentOption | ((builder: SlashCommandAttachmentOption) => SlashCommandAttachmentOption)): this {
-    super.addAttachmentOption(input);
+  override addBooleanOption(input: (builder: SlashCommandBooleanOption) => SlashCommandBooleanOption): this {
+    super.addBooleanOption((option) => input(option).setDescription(" "));
     return this;
   }
 
-  override addBooleanOption(input: SlashCommandBooleanOption | ((builder: SlashCommandBooleanOption) => SlashCommandBooleanOption)): this {
-    super.addBooleanOption(input);
+  override addChannelOption(input: (builder: SlashCommandChannelOption) => SlashCommandChannelOption): this {
+    super.addChannelOption((option) => input(option).setDescription(" "));
     return this;
   }
 
-  override addChannelOption(input: SlashCommandChannelOption | ((builder: SlashCommandChannelOption) => SlashCommandChannelOption)): this {
-    super.addChannelOption(input);
+  override addIntegerOption(input: (builder: SlashCommandIntegerOption) => SlashCommandIntegerOption): this {
+    super.addIntegerOption((option) => input(option).setDescription(" "));
     return this;
   }
 
-  override addIntegerOption(input: SlashCommandIntegerOption | ((builder: SlashCommandIntegerOption) => SlashCommandIntegerOption)): this {
-    super.addIntegerOption(input);
+  override addMentionableOption(input: (builder: SlashCommandMentionableOption) => SlashCommandMentionableOption): this {
+    super.addMentionableOption((option) => input(option).setDescription(" "));
     return this;
   }
 
-  override addMentionableOption(input: SlashCommandMentionableOption | ((builder: SlashCommandMentionableOption) => SlashCommandMentionableOption)): this {
-    super.addMentionableOption(input);
+  override addNumberOption(input: (builder: SlashCommandNumberOption) => SlashCommandNumberOption): this {
+    super.addNumberOption((option) => input(option).setDescription(" "));
     return this;
   }
 
-  override addNumberOption(input: SlashCommandNumberOption | ((builder: SlashCommandNumberOption) => SlashCommandNumberOption)): this {
-    super.addNumberOption(input);
+  override addRoleOption(input: (builder: SlashCommandRoleOption) => SlashCommandRoleOption): this {
+    super.addRoleOption((option) => input(option).setDescription(" "));
     return this;
   }
 
-  override addRoleOption(input: SlashCommandRoleOption | ((builder: SlashCommandRoleOption) => SlashCommandRoleOption)): this {
-    super.addRoleOption(input);
+  override addStringOption(input: (builder: SlashCommandStringOption) => SlashCommandStringOption): this {
+    super.addStringOption((option) => input(option).setDescription(" "));
     return this;
   }
 
-  override addStringOption(input: SlashCommandStringOption | ((builder: SlashCommandStringOption) => SlashCommandStringOption)): this {
-    super.addStringOption(input);
+  override addSubcommand(input: (builder: SlashCommandSubcommandBuilder) => SlashCommandSubcommandBuilder): this {
+    this.options.push(input(new DiscordSubCommandData().setCommandName(this.name)));
     return this;
   }
 
-  override addSubcommand(input: SlashCommandSubcommandBuilder | ((subcommandGroup: SlashCommandSubcommandBuilder) => SlashCommandSubcommandBuilder)): this {
-    super.addSubcommand(input);
+  override addUserOption(input: (builder: SlashCommandUserOption) => SlashCommandUserOption): this {
+    super.addUserOption((option) => input(option).setDescription(" "));
     return this;
   }
 
-  override addSubcommandGroup(
-    input: SlashCommandSubcommandGroupBuilder | ((subcommandGroup: SlashCommandSubcommandGroupBuilder) => SlashCommandSubcommandGroupBuilder)
-  ): this {
-    super.addSubcommandGroup(input);
-    return this;
-  }
-
-  override addUserOption(input: SlashCommandUserOption | ((builder: SlashCommandUserOption) => SlashCommandUserOption)): this {
-    super.addUserOption(input);
-    return this;
+  override toJSON(): RESTPostAPIChatInputApplicationCommandsJSONBody {
+    const result = super.toJSON();
+    for (const option of result.options ?? []) {
+      option.description = translate(`discord.commands.${this.name}.options.${option.name}.description` as ParseKeys);
+    }
+    return result;
   }
 }
 

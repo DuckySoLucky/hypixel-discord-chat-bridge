@@ -3,29 +3,32 @@ import MinecraftCommandData from "../private/commands/MinecraftCommandData.js";
 import MinecraftCommandDataOption from "../private/commands/MinecraftCommandDataOption.js";
 import { formatNumber } from "../../utils/stringUtils.js";
 import { getSelectedProfile } from "../../utils/hypixelUtils.js";
+import { translate } from "../../translations/TranslationsManager.js";
 import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 // CREDITS: by @Kathund (https://github.com/Kathund)
 class DojoCommand extends MinecraftCommand {
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
-    this.data = new MinecraftCommandData()
-      .setName("dojo")
-      .setDescription("Dojo Stats of specified user.")
-      .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
+    this.data = new MinecraftCommandData().setName("dojo").setOptions([new MinecraftCommandDataOption().setName("username")]);
   }
 
   override async execute(player: string, message: string) {
     player = this.getArgs(message)[0] || player;
     const { username, profile } = await getSelectedProfile(player);
     const { belt, control, stamina, discipline, force, mastery, swiftness, tenacity } = profile.me.crimsonIsle.dojo;
-
     this.send(
-      `${username}'s Belt: ${belt} | Best Force: ${formatNumber(force.points)} | Best Stamina: ${formatNumber(stamina.points)} | Best Mastery: ${formatNumber(
-        mastery.points
-      )} | Best Discipline: ${formatNumber(discipline.points)} | Best Swiftness: ${formatNumber(swiftness.points)} | Best Control: ${formatNumber(
-        control.points
-      )} | Best Tenacity: ${formatNumber(tenacity.points)}`
+      translate("minecraft.commands.dojo.execute.success.message", {
+        username,
+        belt: translate(`minecraft.commands.dojo.execute.success.format.${belt}`),
+        force: formatNumber(force.points),
+        stamina: formatNumber(stamina.points),
+        mastery: formatNumber(mastery.points),
+        discipline: formatNumber(discipline.points),
+        swiftness: formatNumber(swiftness.points),
+        control: formatNumber(control.points),
+        tenacity: formatNumber(tenacity.points)
+      })
     );
   }
 }
