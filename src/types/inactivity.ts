@@ -1,6 +1,17 @@
+import { z } from "zod";
 import type InactiveUser from "../data/inactivity/InactiveUser.js";
 import type LinkedUser from "../data/linked/LinkedUser.js";
 import type { GuildMember } from "hypixel-api-reborn";
+
+export const InactiveUserDataSchema = z.object({
+  inactivityId: z.string(),
+  messageId: z.string().optional(),
+  discordId: z.string(),
+  reason: z.string(),
+  start: z.number(),
+  duration: z.number()
+});
+export const InactivityDataSchema = z.array(InactiveUserDataSchema);
 
 export type InactivityData = InactiveUserData[];
 

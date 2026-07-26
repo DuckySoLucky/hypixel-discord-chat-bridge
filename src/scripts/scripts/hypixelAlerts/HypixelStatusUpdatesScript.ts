@@ -1,6 +1,7 @@
 import BasicScript from "../../BasicScript.js";
 import Parser from "rss-parser";
 import { delay } from "../../../utils/miscUtils.js";
+import { intervalSchedule } from "../../../types/scripts.js";
 import type ScriptManager from "../../ScriptsManager.js";
 
 interface IncidentState {
@@ -15,7 +16,7 @@ class HypixelStatusUpdatesScript extends BasicScript {
     super(scripts, {
       id: "hypixelStatusUpdates",
       enabled: scripts.application.config.minecraft.hypixelAlerts.statusUpdates.enabled,
-      interval: scripts.application.config.minecraft.hypixelAlerts.statusUpdates.interval
+      schedule: intervalSchedule(scripts.application.config.minecraft.hypixelAlerts.statusUpdates.interval)
     });
   }
 

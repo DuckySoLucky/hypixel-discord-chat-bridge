@@ -1,4 +1,5 @@
 import BasicScript from "../../BasicScript.js";
+import { intervalSchedule } from "../../../types/scripts.js";
 import type ScriptManager from "../../ScriptsManager.js";
 
 class SkyBlockVersionScript extends BasicScript {
@@ -7,7 +8,7 @@ class SkyBlockVersionScript extends BasicScript {
     super(scripts, {
       id: "skyBlockVersion",
       enabled: scripts.application.config.minecraft.hypixelAlerts.skyblockVersion.enabled,
-      interval: scripts.application.config.minecraft.hypixelAlerts.skyblockVersion.interval
+      schedule: intervalSchedule(scripts.application.config.minecraft.hypixelAlerts.skyblockVersion.interval)
     });
   }
 

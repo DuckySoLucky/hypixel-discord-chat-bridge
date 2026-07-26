@@ -5,6 +5,7 @@ import { SuccessEmbed } from "../private/Embed.js";
 import type { ChatInputCommandInteraction } from "discord.js";
 
 class ExecuteCommand extends DiscordCommand<DiscordManagerWithBot> {
+  override readonly data: DiscordCommandData;
   constructor(discord: DiscordManagerWithBot) {
     super(discord);
     this.data = new DiscordCommandData()

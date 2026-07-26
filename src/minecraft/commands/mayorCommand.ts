@@ -7,6 +7,7 @@ import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 // CREDITS: by @Kathund (https://github.com/Kathund)
 class MayorCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData().setName("mayor").setDescription("Skyblock Mayor.");
@@ -23,7 +24,7 @@ class MayorCommand extends MinecraftCommand {
 
     if (!mayor || !minister) throw new HypixelDiscordChatBridgeError("Failed to fetch the SkyBlock Election data.");
 
-    this.send(
+    await this.send(
       `[MAYOR] ${mayor.name} is the current mayor of Skyblock! Perks: ${mayor.perks
         .map((perk) => perk.name)
         .join(", ")}, Minister Perk: ${minister.perks[0]?.name ?? "Unknown"}`
@@ -37,7 +38,7 @@ class MayorCommand extends MinecraftCommand {
     if (!currentLeader) return this.send("[MAYOR] No current leader.");
     const totalVotes = data.currentElection.candidates.reduce((total, candidate) => total + candidate.votesReceived, 0);
     const percentage = ((currentLeader.votesReceived || 0) / totalVotes) * 100;
-    this.send(`[MAYOR] Current Election: ${currentLeader.name} has ${percentage.toFixed(2)}% of the votes.`);
+    await this.send(`[MAYOR] Current Election: ${currentLeader.name} has ${percentage.toFixed(2)}% of the votes.`);
   }
 }
 

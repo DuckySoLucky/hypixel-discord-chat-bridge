@@ -8,6 +8,7 @@ import { replaceVariables } from "../../../utils/stringUtils.js";
 import type { ModalSubmitInteraction } from "discord.js";
 
 class SetRankUserModal extends DiscordModal<DiscordManagerWithBot> {
+  override readonly data: DiscordModalData;
   constructor(discord: DiscordManagerWithBot) {
     super(discord);
     this.data = new DiscordModalData("setRankUser");

@@ -1,9 +1,10 @@
 import BasicScript from "../BasicScript.js";
+import { intervalSchedule } from "../../types/scripts.js";
 import type ScriptManager from "../ScriptsManager.js";
 
 class RemoveExpiredInactivityScript extends BasicScript {
   constructor(scripts: ScriptManager) {
-    super(scripts, { id: "removeExpiredInactivity", enabled: scripts.application.config.verification.inactivity.enabled, interval: "1m" });
+    super(scripts, { id: "removeExpiredInactivity", enabled: scripts.application.config.verification.inactivity.enabled, schedule: intervalSchedule("1m") });
   }
 
   override async execute() {

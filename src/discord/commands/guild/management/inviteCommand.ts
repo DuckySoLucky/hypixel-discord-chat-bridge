@@ -7,6 +7,7 @@ import { replaceVariables } from "../../../../utils/stringUtils.js";
 import type { ChatInputCommandInteraction } from "discord.js";
 
 class InviteCommand extends DiscordCommand<DiscordManagerWithBot> {
+  override readonly data: DiscordCommandData;
   constructor(discord: DiscordManagerWithBot) {
     super(discord);
     this.data = new DiscordCommandData()
@@ -28,9 +29,9 @@ class InviteCommand extends DiscordCommand<DiscordManagerWithBot> {
     } else if (action === GuildManagementAction.FailedInvite) {
       throw new HypixelDiscordChatBridgeError(message.replace(/\[(.*?)\]/g, "").trim());
     } else if (action === GuildManagementAction.OnlineInvite) {
-      return await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(replaceVariables(this.discord.application.messages.offlineInvite, { username }))] });
+      await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(replaceVariables(this.discord.application.messages.offlineInvite, { username }))] });
     } else if (action === GuildManagementAction.OfflineInvite) {
-      return await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(replaceVariables(this.discord.application.messages.offlineInvite, { username }))] });
+      await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(replaceVariables(this.discord.application.messages.offlineInvite, { username }))] });
     }
   }
 }

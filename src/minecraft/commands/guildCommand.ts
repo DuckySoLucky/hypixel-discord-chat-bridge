@@ -7,6 +7,7 @@ import { formatNumber } from "../../utils/stringUtils.js";
 import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 class GuildCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData()
@@ -23,7 +24,7 @@ class GuildCommand extends MinecraftCommand {
       return data;
     });
     const { name, tag, members, level, totalWeeklyGEXP } = guild;
-    this.send(`Guild of ${player} is ${name} | Tag: [${tag}] | Members: ${members.length} | Level: ${level} | Weekly GEXP: ${formatNumber(totalWeeklyGEXP)}`);
+    await this.send(`Guild of ${player} is ${name} | Tag: [${tag}] | Members: ${members.length} | Level: ${level} | Weekly GEXP: ${formatNumber(totalWeeklyGEXP)}`);
   }
 }
 

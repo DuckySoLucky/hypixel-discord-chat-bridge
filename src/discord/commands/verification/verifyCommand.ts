@@ -10,6 +10,7 @@ import { delay } from "../../../utils/miscUtils.js";
 import { getPlayer } from "../../../utils/hypixelUtils.js";
 
 class VerifyCommand extends DiscordCommand<DiscordManagerWithBot> {
+  override readonly data: DiscordCommandData;
   discordId: string | null = null;
   isSelf: boolean = false;
   constructor(discord: DiscordManagerWithBot) {

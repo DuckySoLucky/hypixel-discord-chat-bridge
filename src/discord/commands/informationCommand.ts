@@ -7,6 +7,7 @@ import type DiscordManager from "../DiscordManager.js";
 import type { ChatInputCommandInteraction } from "discord.js";
 
 class InformationCommand extends DiscordCommand<DiscordManagerWithBot> {
+  override readonly data: DiscordCommandData;
   constructor(discord: DiscordManagerWithBot) {
     super(discord);
     this.data = new DiscordCommandData().setName("information").setDescription("Shows information about the bot.");

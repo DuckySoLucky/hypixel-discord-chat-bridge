@@ -7,6 +7,7 @@ import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 // CREDITS: by @Kathund (https://github.com/Kathund)
 class MurderMysteryCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData()
@@ -22,7 +23,7 @@ class MurderMysteryCommand extends MinecraftCommand {
     const { wins, games, kills, deaths } = hypixelPlayer.stats.MurderMystery;
     const wlr = (wins / games).toFixed(2);
     const kdr = (kills / deaths).toFixed(2);
-    this.send(`${hypixelPlayer.nickname}'s Murder Mystery Wins: ${formatNumber(wins)} | WLR: ${wlr} | Kills: ${formatNumber(kills)} | KDR: ${kdr}`);
+    await this.send(`${hypixelPlayer.nickname}'s Murder Mystery Wins: ${formatNumber(wins)} | WLR: ${wlr} | Kills: ${formatNumber(kills)} | KDR: ${kdr}`);
   }
 }
 

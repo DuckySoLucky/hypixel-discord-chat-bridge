@@ -5,6 +5,7 @@ import type { ChatInputCommandInteraction } from "discord.js";
 import type { DiscordManagerWithClient } from "../../types/discord.js";
 
 class PingCommand extends DiscordCommand {
+  override readonly data: DiscordCommandData;
   constructor(discord: DiscordManagerWithClient) {
     super(discord);
     this.data = new DiscordCommandData().setName("ping").setDescription("Show the latency of the bot.");

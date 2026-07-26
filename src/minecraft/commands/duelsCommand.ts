@@ -15,6 +15,7 @@ import { getPlayer } from "../../utils/hypixelUtils.js";
 import type { Player } from "hypixel-api-reborn";
 
 class DuelsCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData()
@@ -50,7 +51,7 @@ class DuelsCommand extends MinecraftCommand {
 
     let mode: DuelsModSearch = "overall";
 
-    if (arg0 && DuelsModeNames.includes(arg0 as any)) {
+    if (arg0 && DuelsModeNames.includes(arg0)) {
       mode = arg0 as DuelsModeName;
       if (arg1) player = arg1;
     } else if (arg0) {
@@ -60,7 +61,7 @@ class DuelsCommand extends MinecraftCommand {
     const hypixelPlayer = await getPlayer(player);
     const { title, kills, KDR, wins, WLR, winStreak, bestWinStreak } = this.getStats(hypixelPlayer, mode);
     const parsedTitle = title ? `[${title}] ` : "";
-    this.send(
+    await this.send(
       `${parsedTitle}${hypixelPlayer.nickname}'s ${mode} Kills: ${formatNumber(kills)} KDR: ${KDR} | Wins: ${formatNumber(wins)} WLR: ${WLR} | WS: ${winStreak} BWS: ${
         bestWinStreak
       }`

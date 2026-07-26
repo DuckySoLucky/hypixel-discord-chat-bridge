@@ -7,6 +7,7 @@ import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 // CREDITS: by @Kathund (https://github.com/Kathund)
 class KuudraCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData()
@@ -19,7 +20,7 @@ class KuudraCommand extends MinecraftCommand {
     player = this.getArgs(message)[0] || player;
     const { username, profile } = await getSelectedProfile(player);
     const { basicCompletions, hotCompletions, burningCompletions, fieryCompletions, infernalCompletions } = profile.me.crimsonIsle.kuudra;
-    this.send(
+    await this.send(
       `${username}'s Basic: ${formatNumber(basicCompletions)} | Hot: ${formatNumber(hotCompletions)} | Burning: ${formatNumber(
         burningCompletions
       )} | Fiery: ${formatNumber(fieryCompletions)} | Infernal: ${formatNumber(infernalCompletions)}`

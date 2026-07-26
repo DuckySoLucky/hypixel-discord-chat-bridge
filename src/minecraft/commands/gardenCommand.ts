@@ -8,6 +8,7 @@ import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 // CREDITS: by @Kathund (https://github.com/Kathund)
 class GardenCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   private readonly keyRemap: Record<string, string>;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
@@ -37,7 +38,7 @@ class GardenCommand extends MinecraftCommand {
       })
       .join(" | ");
 
-    this.send(`${username}'s Garden ${profile.garden.level.level} | Milestones: ${milestoneString}`);
+    await this.send(`${username}'s Garden ${profile.garden.level.level} | Milestones: ${milestoneString}`);
   }
 }
 

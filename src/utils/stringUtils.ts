@@ -14,8 +14,13 @@ export function titleCaseCamel(string: string): string {
   return titleCase(withUnderscores);
 }
 
-export function replaceVariables(template: string, variables: Record<string, any>): string {
-  return template.replace(/\{(\w+)\}/g, (match, name) => variables[name] ?? match);
+export type TemplatePrimitive = string | number | boolean | null | undefined;
+
+export function replaceVariables(template: string, variables: Readonly<Record<string, TemplatePrimitive>>): string {
+  return template.replace(/\{(\w+)\}/g, (match, name: string) => {
+    const value = variables[name];
+    return value === null || value === undefined ? match : String(value);
+  });
 }
 
 export function splitMessage(message: string, amount: number): string[] {

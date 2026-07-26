@@ -7,6 +7,7 @@ import { CommandFlags, type DiscordManagerWithClient } from "../../types/discord
 import type { ChatInputCommandInteraction } from "discord.js";
 
 class HelpCommand extends DiscordCommand {
+  override readonly data: DiscordCommandData;
   constructor(discord: DiscordManagerWithClient) {
     super(discord);
     this.data = new DiscordCommandData()
@@ -26,12 +27,13 @@ class HelpCommand extends DiscordCommand {
         .setDescription("`()` = **required** argument, `[]` = **optional** argument\n`u` = Minecraft Username")
         .addFields({ name: "**Discord**: ", value: `${discordCommands}`, inline: true }, { name: "**Minecraft**: ", value: `${minecraftCommands}`, inline: true });
 
-      return await interaction.followUp({ embeds: [helpMenu] });
+      await interaction.followUp({ embeds: [helpMenu] });
+      return;
     }
 
     const minecraftCommand = this.discord.application.minecraft.commandHandler.findNormalCommand(commandName);
     const isMinecraftCommand = Boolean(minecraftCommand);
-    const command = this.discord.commandHandler.commands.get(commandName) ?? minecraftCommand ?? undefined;
+    const command = this.discord.commandHandler.getCommand(commandName) ?? minecraftCommand ?? undefined;
     if (command === undefined) throw new HypixelDiscordChatBridgeError(`Command ${commandName} not found.`);
     const prefix = isMinecraftCommand ? this.discord.application.config.minecraft.commands.normal.prefix : "/";
 

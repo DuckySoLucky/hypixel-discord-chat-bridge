@@ -7,6 +7,7 @@ import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 // CREDITS: by @Kathund (https://github.com/Kathund)
 class CrimsonIsleCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData()
@@ -20,7 +21,7 @@ class CrimsonIsleCommand extends MinecraftCommand {
     player = this.getArgs(message)[0] || player;
     const { username, profile } = await getSelectedProfile(player);
     const { faction, barbariansReputation, magesReputation } = profile.me.crimsonIsle;
-    this.send(
+    await this.send(
       `${username}'s Faction: ${titleCase(faction)} | Barbarian Reputation: ${formatNumber(barbariansReputation)} | Mage Reputation: ${formatNumber(magesReputation)}`
     );
   }

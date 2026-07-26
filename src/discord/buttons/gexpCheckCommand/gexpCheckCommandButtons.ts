@@ -7,6 +7,7 @@ import { type GexpDisplay, GexpDisplays } from "../../../types/inactivity.js";
 import type { ButtonInteraction } from "discord.js";
 
 class GexpCheckCommandButtons extends DiscordButton {
+  override readonly data: DiscordButtonData;
   constructor(discord: DiscordManagerWithClient) {
     super(discord);
     this.data = new DiscordButtonData([...GexpDisplays]);

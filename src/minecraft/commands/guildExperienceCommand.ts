@@ -6,6 +6,7 @@ import MinecraftCommandDataOption from "../private/commands/MinecraftCommandData
 import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 class GuildExperienceCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData()
@@ -24,7 +25,7 @@ class GuildExperienceCommand extends MinecraftCommand {
     });
     if (guild.me === null) throw new HypixelDiscordChatBridgeError("Player is not in a guild");
     const { weeklyExperience } = guild.me;
-    this.send(`${player}'s Weekly Guild Experience: ${weeklyExperience.toLocaleString()}.`);
+    await this.send(`${player}'s Weekly Guild Experience: ${weeklyExperience.toLocaleString()}.`);
   }
 }
 

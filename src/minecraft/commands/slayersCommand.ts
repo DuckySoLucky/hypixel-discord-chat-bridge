@@ -7,6 +7,7 @@ import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 import type { SkyBlockMemberSlayer } from "hypixel-api-reborn";
 
 class SlayersCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData()
@@ -28,7 +29,7 @@ class SlayersCommand extends MinecraftCommand {
         const data: SkyBlockMemberSlayer = slayers[slayer as keyof typeof slayers] as SkyBlockMemberSlayer;
         return `${titleCase(slayer)}: ${data.level.level} (${formatNumber(data.level.xp)})`;
       });
-    this.send(`${username}'s Slayer: ${slayer.join(" | ")}`);
+    await this.send(`${username}'s Slayer: ${slayer.join(" | ")}`);
   }
 }
 

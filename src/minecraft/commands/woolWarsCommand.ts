@@ -6,6 +6,7 @@ import { getPlayer } from "../../utils/hypixelUtils.js";
 import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 class WoolWarsCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData()
@@ -20,7 +21,7 @@ class WoolWarsCommand extends MinecraftCommand {
     const hypixelPlayer = await getPlayer(player);
     const { level } = hypixelPlayer.stats.WoolGames;
     const { wins, gamesPlayed, woolsPlaced, blocksBroken, KDRatio } = hypixelPlayer.stats.WoolGames.woolWars;
-    this.send(
+    await this.send(
       `[${Math.floor(level)}✫] ${player}: W: ${formatNumber(wins)} | WLR: ${(wins / gamesPlayed).toFixed(2)} | KDR: ${KDRatio} | BB: ${formatNumber(
         blocksBroken
       )} | WP: ${formatNumber(woolsPlaced)} | WPP: ${formatNumber(woolsPlaced / gamesPlayed)} | WPG: ${(woolsPlaced / blocksBroken).toFixed(2)}`

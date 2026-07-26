@@ -5,6 +5,7 @@ import MinecraftCommandDataOption from "../private/commands/MinecraftCommandData
 import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 class EightBallCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData()
@@ -20,7 +21,7 @@ class EightBallCommand extends MinecraftCommand {
     if (request.status !== 200) throw new HypixelDiscordChatBridgeError("Wouldn't you like to know weather boy.");
     const data = await request.json();
     if (data === undefined) throw new HypixelDiscordChatBridgeError("Wouldn't you like to know weather boy.");
-    this.send(`${data.reading}`);
+    await this.send(`${data.reading}`);
   }
 }
 

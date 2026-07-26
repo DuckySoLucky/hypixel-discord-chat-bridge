@@ -6,8 +6,8 @@ import type DiscordCommandData from "./DiscordCommandData.js";
 import type DiscordManager from "../../DiscordManager.js";
 import type { AutocompleteInteraction, ChatInputCommandInteraction } from "discord.js";
 
-class DiscordCommand<Manager extends DiscordManager = DiscordManagerWithClient> extends BasicInteractionData<Manager> {
-  data!: DiscordCommandData;
+abstract class DiscordCommand<Manager extends DiscordManager = DiscordManagerWithClient> extends BasicInteractionData<Manager> {
+  abstract readonly data: DiscordCommandData;
   response: BasicInteractionResponse;
   constructor(discord: Manager) {
     super(discord);
@@ -65,10 +65,7 @@ class DiscordCommand<Manager extends DiscordManager = DiscordManagerWithClient> 
     await interaction.respond(ParseAutoComplete(interaction, choices));
   }
 
-  // eslint-disable-next-line require-await
-  async execute(interaction: ChatInputCommandInteraction): Promise<unknown> {
-    throw new Error("Execute Method not implemented!");
-  }
+  abstract execute(interaction: ChatInputCommandInteraction): Promise<void>;
 }
 
 export default DiscordCommand;

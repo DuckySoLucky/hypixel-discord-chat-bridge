@@ -7,6 +7,7 @@ import { replaceVariables } from "../../../../utils/stringUtils.js";
 import type { ChatInputCommandInteraction } from "discord.js";
 
 class UnmuteCommand extends DiscordCommand<DiscordManagerWithBot> {
+  override readonly data: DiscordCommandData;
   constructor(discord: DiscordManagerWithBot) {
     super(discord);
     this.data = new DiscordCommandData()
@@ -26,11 +27,9 @@ class UnmuteCommand extends DiscordCommand<DiscordManagerWithBot> {
     } else if (action === GuildManagementAction.NotInGuild) {
       throw new HypixelDiscordChatBridgeError(replaceVariables(this.discord.application.messages.notInGuildMessage, { username }));
     } else if (action === GuildManagementAction.UserUnmute) {
-      return await interaction.followUp({
-        embeds: [new SuccessEmbed().setDescription(replaceVariables(this.discord.application.messages.userUnmuteMessage, { username }))]
-      });
+      await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(replaceVariables(this.discord.application.messages.userUnmuteMessage, { username }))] });
     } else if (action === GuildManagementAction.GuildUnmute) {
-      return await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(this.discord.application.messages.guildUnmuteMessage)] });
+      await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(this.discord.application.messages.guildUnmuteMessage)] });
     }
   }
 }

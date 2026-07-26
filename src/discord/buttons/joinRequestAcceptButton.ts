@@ -6,6 +6,7 @@ import { CommandFlags, type DiscordManagerWithBot } from "../../types/discord.js
 import { SuccessEmbed } from "../private/Embed.js";
 
 class JoinRequestAcceptButton extends DiscordButton<DiscordManagerWithBot> {
+  override readonly data: DiscordButtonData;
   constructor(discord: DiscordManagerWithBot) {
     super(discord);
     this.data = new DiscordButtonData("joinRequestAccept");

@@ -7,6 +7,7 @@ import { replaceVariables } from "../../utils/stringUtils.js";
 import type { ButtonInteraction } from "discord.js";
 
 class InviteUserFromRequestButton extends DiscordButton<DiscordManagerWithBot> {
+  override readonly data: DiscordButtonData;
   constructor(discord: DiscordManagerWithBot) {
     super(discord);
     this.data = new DiscordButtonData("inviteUserFromRequest");
@@ -26,9 +27,9 @@ class InviteUserFromRequestButton extends DiscordButton<DiscordManagerWithBot> {
     } else if (action === GuildManagementAction.FailedInvite) {
       throw new HypixelDiscordChatBridgeError(message.replace(/\[(.*?)\]/g, "").trim());
     } else if (action === GuildManagementAction.OnlineInvite) {
-      return await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(replaceVariables(this.discord.application.messages.offlineInvite, { username }))] });
+      await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(replaceVariables(this.discord.application.messages.offlineInvite, { username }))] });
     } else if (action === GuildManagementAction.OfflineInvite) {
-      return await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(replaceVariables(this.discord.application.messages.offlineInvite, { username }))] });
+      await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(replaceVariables(this.discord.application.messages.offlineInvite, { username }))] });
     }
   }
 }

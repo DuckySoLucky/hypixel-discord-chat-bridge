@@ -9,6 +9,7 @@ import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 // CREDITS: by @Kathund (https://github.com/Kathund)
 type BlitzSurvivalGamesKitKey = Exclude<BlitzSurvivalGamesKitId, "shadow knight" | "hype train"> | "shadowKnight" | "hypeTrain";
 class BlitzSurvivalGamesCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData()
@@ -48,7 +49,7 @@ class BlitzSurvivalGamesCommand extends MinecraftCommand {
 
     const hypixelPlayer = await getPlayer(player);
     const { kills, KDRatio, wins, WLRatio, coins, defaultKit } = this.getStats(hypixelPlayer, mode);
-    this.send(
+    await this.send(
       `${hypixelPlayer.nickname}'s BlitzSG ${mode === "overall" ? `kit: ${defaultKit} |` : mode} Kills: ${formatNumber(kills)} KDR: ${KDRatio} | Wins: ${formatNumber(
         wins
       )} WLR: ${WLRatio} | Coins: ${formatNumber(coins)}`

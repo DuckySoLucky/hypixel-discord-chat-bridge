@@ -5,6 +5,7 @@ import type { ChatInputCommandInteraction } from "discord.js";
 import type { DiscordManagerWithClient } from "../../types/discord.js";
 
 class UptimeCommand extends DiscordCommand {
+  override readonly data: DiscordCommandData;
   constructor(discord: DiscordManagerWithClient) {
     super(discord);
     this.data = new DiscordCommandData().setName("uptime").setDescription("Shows the uptime of the bot.");

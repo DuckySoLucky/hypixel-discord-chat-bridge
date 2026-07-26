@@ -5,6 +5,7 @@ import { getPlayer } from "../../utils/hypixelUtils.js";
 import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 class SkyWarsCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData()
@@ -18,7 +19,7 @@ class SkyWarsCommand extends MinecraftCommand {
     player = this.getArgs(message)[0] || player;
     const hypixelPlayer = await getPlayer(player);
     const { wins, kills, level, WLRatio, coins } = hypixelPlayer.stats.SkyWars;
-    this.send(`[${level}✫] ${hypixelPlayer.nickname} | Kills: ${kills.total.kills} KDR: ${kills.total.ratio} | Wins: ${wins} WLR: ${WLRatio} | Coins: ${coins}`);
+    await this.send(`[${level}✫] ${hypixelPlayer.nickname} | Kills: ${kills.total.kills} KDR: ${kills.total.ratio} | Wins: ${wins} WLR: ${WLRatio} | Coins: ${coins}`);
   }
 }
 

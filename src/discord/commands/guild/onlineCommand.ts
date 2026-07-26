@@ -3,37 +3,35 @@ import DiscordCommandData from "../../private/commands/DiscordCommandData.js";
 import Embed from "../../private/Embed.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import { CommandFlags, type DiscordManagerWithBot, type ListMembers, type ListMembersGroup } from "../../../types/discord.js";
+import { MinecraftRequestTimeoutError } from "../../../minecraft/MinecraftRequestBroker.js";
 import type { ChatInputCommandInteraction } from "discord.js";
 
 class OnlineCommand extends DiscordCommand<DiscordManagerWithBot> {
+  override readonly data: DiscordCommandData;
   constructor(discord: DiscordManagerWithBot) {
     super(discord);
     this.data = new DiscordCommandData().setName("online").setDescription("List of online members.");
     this.flags = [CommandFlags.RequiresMinecraftBot];
   }
 
-  getMessages(): Promise<string[]> {
-    return new Promise<string[]>((resolve) => {
-      const cachedMessages: string[] = [];
-      const listener = (data: { positionId: number; formattedMessage: string }) => {
-        const rawMessage = this.discord.application.minecraft.prismarineChat.fromNotch(data.formattedMessage);
-        const message = rawMessage.toString();
+  async getMessages(): Promise<string[]> {
+    const cachedMessages: string[] = [];
+    const response = this.discord.application.minecraft.requestBroker.request({
+      description: "Hypixel guild online list",
+      timeoutMs: this.commandTimeout,
+      matches: (message) => {
         cachedMessages.push(message);
-
-        if (message.startsWith("Offline Members")) {
-          this.discord.application.minecraft.bot.removeListener("systemChat", listener);
-          resolve(cachedMessages);
-        }
-      };
-
-      this.discord.application.minecraft.bot.on("systemChat", listener);
-      this.discord.application.minecraft.bot.chat("/g online");
-
-      setTimeout(() => {
-        this.discord.application.minecraft.bot.removeListener("systemChat", listener);
-        resolve(cachedMessages);
-      }, this.commandTimeout);
+        return message.startsWith("Offline Members");
+      },
+      map: () => cachedMessages
     });
+    this.discord.application.minecraft.bot.chat("/g online");
+    try {
+      return await response;
+    } catch (error: unknown) {
+      if (error instanceof MinecraftRequestTimeoutError) return cachedMessages;
+      throw error;
+    }
   }
 
   async getOnlineMembers(): Promise<ListMembers> {

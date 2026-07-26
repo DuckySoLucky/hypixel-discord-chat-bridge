@@ -7,6 +7,7 @@ import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 // CREDITS: by @Kathund (https://github.com/Kathund)
 class EssenceCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData()
@@ -27,7 +28,7 @@ class EssenceCommand extends MinecraftCommand {
       })
       .join(", ");
 
-    this.send(`${username}'s Essence: ${essenceString}`);
+    await this.send(`${username}'s Essence: ${essenceString}`);
   }
 }
 

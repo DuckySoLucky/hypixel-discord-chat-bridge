@@ -8,14 +8,14 @@ import type DiscordManager from "../DiscordManager.js";
 class InteractionHandler {
   constructor(private readonly discord: DiscordManager) {}
 
-  onInteraction(interaction: BaseInteraction) {
-    if (interaction.isChatInputCommand()) this.discord.commandHandler.onCommand(interaction);
-    if (interaction.isAutocomplete()) this.discord.commandHandler.onAutoComplete(interaction);
-    if (interaction.isButton()) this.discord.buttonHandler.onButton(interaction);
-    if (interaction.isModalSubmit()) this.discord.modalHandler.onSubmit(interaction);
+  async onInteraction(interaction: BaseInteraction): Promise<void> {
+    if (interaction.isChatInputCommand()) await this.discord.commandHandler.onCommand(interaction);
+    else if (interaction.isAutocomplete()) await this.discord.commandHandler.onAutoComplete(interaction);
+    else if (interaction.isButton()) await this.discord.buttonHandler.onButton(interaction);
+    else if (interaction.isModalSubmit()) await this.discord.modalHandler.onSubmit(interaction);
   }
 
-  async checkPerms(interaction: ChatInputCommandInteraction | ButtonInteraction | ModalSubmitInteraction, data: BasicInteractionData) {
+  async checkPerms(interaction: ChatInputCommandInteraction | ButtonInteraction | ModalSubmitInteraction, data: BasicInteractionData<DiscordManager>) {
     if (!interaction.guild || !interaction.member) throw new HypixelDiscordChatBridgeError("Please run this command inside of a guild");
     const member = interaction.member instanceof GuildMember ? interaction.member : await interaction.guild.members.fetch(interaction.user.id);
 

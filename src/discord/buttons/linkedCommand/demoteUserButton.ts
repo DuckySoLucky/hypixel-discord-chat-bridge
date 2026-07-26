@@ -8,6 +8,7 @@ import { replaceVariables } from "../../../utils/stringUtils.js";
 import type { ButtonInteraction } from "discord.js";
 
 class DemoteUserButton extends DiscordButton<DiscordManagerWithBot> {
+  override readonly data: DiscordButtonData;
   constructor(discord: DiscordManagerWithBot) {
     super(discord);
     this.data = new DiscordButtonData("demoteUser");

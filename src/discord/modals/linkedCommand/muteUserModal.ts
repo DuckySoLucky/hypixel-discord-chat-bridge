@@ -8,6 +8,7 @@ import { replaceVariables } from "../../../utils/stringUtils.js";
 import type { ModalSubmitInteraction } from "discord.js";
 
 class MuteUserModal extends DiscordModal<DiscordManagerWithBot> {
+  override readonly data: DiscordModalData;
   constructor(discord: DiscordManagerWithBot) {
     super(discord);
     this.data = new DiscordModalData("muteUser");
@@ -33,11 +34,11 @@ class MuteUserModal extends DiscordModal<DiscordManagerWithBot> {
     } else if (action === GuildManagementAction.NotInGuild) {
       throw new HypixelDiscordChatBridgeError(replaceVariables(this.discord.application.messages.notInGuildMessage, { username }));
     } else if (action === GuildManagementAction.UserMute) {
-      return await interaction.followUp({
+      await interaction.followUp({
         embeds: [new SuccessEmbed().setDescription(replaceVariables(this.discord.application.messages.userMuteMessage, { username, time }))]
       });
     } else if (action === GuildManagementAction.GuildMute) {
-      return await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(replaceVariables(this.discord.application.messages.guildMuteMessage, { time }))] });
+      await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(replaceVariables(this.discord.application.messages.guildMuteMessage, { time }))] });
     }
   }
 }

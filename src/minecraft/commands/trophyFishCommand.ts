@@ -8,6 +8,7 @@ import type { SkyBlockMemberCrimsonIsleTrophyFish, SkyBlockMemberCrimsonIsleTrop
 
 // CREDITS: by @Kathund (https://github.com/Kathund)
 class TrophyFishCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData()
@@ -40,7 +41,7 @@ class TrophyFishCommand extends MinecraftCommand {
         if (fish.diamond > 1) uniqueDiamond++;
       });
 
-    this.send(
+    await this.send(
       `${username}'s Trophy Fishing rank: ${rank} | Caught: ${formatNumber(total)} | Bronze: ${uniqueBronze}/${uniqueFish} (${formatNumber(bronze)}) | Silver: ${
         uniqueSilver
       }/${uniqueFish} (${formatNumber(silver)}) | Gold: ${uniqueGold}/${uniqueFish} (${formatNumber(gold)}) | Diamond: ${uniqueDiamond}/${uniqueFish} (${formatNumber(

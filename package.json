@@ -2,9 +2,18 @@
   "name": "hypixel-discord-chat-bridge",
   "version": "3.1.16.3",
   "description": "A Hypixel guild chat and Discord chat bridge",
-  "main": "index.ts",
+  "main": "build/index.js",
+  "exports": {
+    ".": "./build/index.js",
+    "./plugin-api": {
+      "types": "./build/src/plugin-api.d.ts",
+      "import": "./build/src/plugin-api.js"
+    }
+  },
   "scripts": {
     "start": "pnpm exec tsx index.ts",
+    "start:prod": "node build/index.js",
+    "test": "pnpm exec tsx --test test/*.test.ts",
     "eslint:check": "pnpm exec eslint . ",
     "eslint": "pnpm eslint:check --fix",
     "prettier": "pnpm exec prettier --write .",

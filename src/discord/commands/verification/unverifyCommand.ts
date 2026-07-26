@@ -6,6 +6,7 @@ import { SuccessEmbed } from "../../private/Embed.js";
 import type { ButtonInteraction, ChatInputCommandInteraction } from "discord.js";
 
 class UnverifyCommand extends DiscordCommand<DiscordManagerWithBot> {
+  override readonly data: DiscordCommandData;
   discordId: string | null = null;
   isSelf: boolean = false;
   constructor(discord: DiscordManagerWithBot) {

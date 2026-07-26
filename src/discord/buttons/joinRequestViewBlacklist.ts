@@ -5,6 +5,7 @@ import { CommandFlags, type DiscordManagerWithBot } from "../../types/discord.js
 import type { ButtonInteraction } from "discord.js";
 
 class JoinRequestViewBlacklist extends DiscordButton<DiscordManagerWithBot> {
+  override readonly data: DiscordButtonData;
   constructor(discord: DiscordManagerWithBot) {
     super(discord);
     this.data = new DiscordButtonData("joinRequestViewBlacklist");

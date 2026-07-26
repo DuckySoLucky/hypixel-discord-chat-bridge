@@ -5,6 +5,7 @@ import { CommandFlags, type DiscordManagerWithBot } from "../../../types/discord
 import type { ChatInputCommandInteraction } from "discord.js";
 
 class ForceVerifyCommand extends DiscordCommand<DiscordManagerWithBot> {
+  override readonly data: DiscordCommandData;
   constructor(discord: DiscordManagerWithBot) {
     super(discord);
     this.data = new DiscordCommandData()

@@ -7,6 +7,7 @@ import { getPlayer } from "../../utils/hypixelUtils.js";
 import type { BedWarsMode, Player } from "hypixel-api-reborn";
 
 class BedwarsCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData()
@@ -60,7 +61,7 @@ class BedwarsCommand extends MinecraftCommand {
     const hypixelPlayer = await getPlayer(player);
     const { finalKills, FKDR, wins, winstreak, broken, BLRatio } = this.getStats(hypixelPlayer, mode);
 
-    this.send(
+    await this.send(
       `[${Math.floor(hypixelPlayer.stats.BedWars.level)}✫] ${hypixelPlayer.nickname} ${mode} FK: ${formatNumber(
         finalKills
       )} FKDR: ${FKDR} W: ${formatNumber(wins)} BB: ${formatNumber(broken)} BLR: ${BLRatio} WS: ${winstreak}`

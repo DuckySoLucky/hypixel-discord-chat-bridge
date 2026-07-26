@@ -6,6 +6,7 @@ import { CommandFlags, type DiscordManagerWithClient } from "../../types/discord
 import type { ButtonInteraction } from "discord.js";
 
 class GetLinkedButton extends DiscordButton {
+  override readonly data: DiscordButtonData;
   constructor(discord: DiscordManagerWithClient) {
     super(discord);
     this.data = new DiscordButtonData("getLinked");

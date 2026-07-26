@@ -7,6 +7,7 @@ import { SuccessEmbed } from "../../private/Embed.js";
 import type { ModalSubmitInteraction } from "discord.js";
 
 class UnblacklistModal extends DiscordModal {
+  override readonly data: DiscordModalData;
   constructor(discord: DiscordManagerWithClient) {
     super(discord);
     this.data = new DiscordModalData("unblacklist");

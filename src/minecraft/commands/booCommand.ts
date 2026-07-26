@@ -7,6 +7,7 @@ import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 // CREDITS: by @Zickles (https://github.com/Zickles)
 class BooCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   isOnCooldown: boolean;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
@@ -30,7 +31,7 @@ class BooCommand extends MinecraftCommand {
       await delay(1000);
       this.minecraft.bot.chat(`/msg ${args[0]} ${player} Booed You!`);
       await delay(1000);
-      this.send(`Booed ${args[0]}!`);
+      await this.send(`Booed ${args[0]}!`);
       setTimeout(() => (this.isOnCooldown = false), 30000);
     } catch (error) {
       this.isOnCooldown = false;

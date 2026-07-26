@@ -1,16 +1,17 @@
+import ExtensionRegistry from "../../extensions/ExtensionRegistry.js";
 import axios from "axios";
-import { Collection } from "discord.js";
+import loadExtensionModules from "../../extensions/moduleLoader.js";
 import { formatError } from "../../utils/miscUtils.js";
-import { readdir } from "node:fs/promises";
+import { runDetached } from "../../utils/asyncUtils.js";
 import type MinecraftCommand from "../private/commands/MinecraftCommand.js";
 import type MinecraftManager from "../MinecraftManager.js";
 
 class CommandHandler {
-  readonly commands: Collection<string, MinecraftCommand> = new Collection<string, MinecraftCommand>();
+  readonly #commands = new ExtensionRegistry<MinecraftCommand<MinecraftManager>>();
   constructor(private readonly minecraft: MinecraftManager) {}
 
-  findNormalCommand(name: string): MinecraftCommand | undefined {
-    return this.commands.get(name) ?? this.commands.find((cmd) => cmd.data.aliases && cmd.data.aliases.includes(name));
+  findNormalCommand(name: string): MinecraftCommand<MinecraftManager> | undefined {
+    return this.#commands.get(name);
   }
 
   async handle(player: string, message: string, officer: boolean) {
@@ -25,18 +26,17 @@ class CommandHandler {
     if (message.startsWith(this.minecraft.application.config.minecraft.commands.normal.prefix)) {
       if (this.minecraft.application.config.minecraft.commands.normal.enabled === false) return;
       const args = message.slice(this.minecraft.application.config.minecraft.commands.normal.prefix.length).trim().split(/ +/);
-      if (!args) return;
-      const commandName = args.shift() ?? "".toLowerCase();
+      const commandName = (args.shift() ?? "").toLowerCase();
       const command = this.findNormalCommand(commandName);
       if (command === undefined) return;
       console.minecraft(`${player} - [${command.data.name}] ${message}`);
-      command.officer = officer;
+      const abortController = new AbortController();
       try {
-        await command.execute(player, message);
+        await command.run({ player, rawMessage: message, args, channel: officer ? "officer" : "guild", signal: abortController.signal });
       } catch (error) {
         console.error(error);
         if (!(error instanceof Error)) return;
-        command.send(formatError(error));
+        await command.send(formatError(error));
       }
     } else if (message.startsWith(this.minecraft.application.config.minecraft.commands.soopy.prefix)) {
       if (
@@ -55,35 +55,48 @@ class CommandHandler {
       this.minecraft.bot.chat(`/${chat} [SOOPY V2] ${message}`);
 
       console.minecraft(`${player} - [${command}] ${message}`);
-      (async () => {
-        if (!this.minecraft.isBotOnline()) return;
-        try {
-          const URI = encodeURI(`https://soopy.dev/api/guildBot/runCommand?user=${player}&cmd=${message.slice(1)}`);
-          const response = await axios.get(URI);
+      runDetached(
+        (async () => {
+          if (!this.minecraft.isBotOnline()) return;
+          try {
+            const URI = encodeURI(`https://soopy.dev/api/guildBot/runCommand?user=${player}&cmd=${message.slice(1)}`);
+            const response = await axios.get(URI);
 
-          if (response?.data?.msg === undefined) {
-            return this.minecraft.bot.chat(`/${chat} [SOOPY V2] An error occured while running the command`);
+            if (response?.data?.msg === undefined) {
+              return this.minecraft.bot.chat(`/${chat} [SOOPY V2] An error occured while running the command`);
+            }
+
+            this.minecraft.bot.chat(`/${chat} [SOOPY V2] ${response.data.msg}`);
+          } catch (error) {
+            console.error(error);
+            if (!(error instanceof Error)) return;
+            this.minecraft.bot.chat(`/${chat} [SOOPY V2] ${error.cause ?? error.message ?? "Unknown error"}`);
           }
-
-          this.minecraft.bot.chat(`/${chat} [SOOPY V2] ${response.data.msg}`);
-        } catch (error) {
-          console.error(error);
-          if (!(error instanceof Error)) return;
-          this.minecraft.bot.chat(`/${chat} [SOOPY V2] ${error.cause ?? error.message ?? "Unknown error"}`);
-        }
-      })();
+        })()
+      );
     }
   }
 
-  async deployCommands(silent: boolean = false) {
-    this.commands.clear();
-    const commandFiles = await readdir("./src/minecraft/commands/", { recursive: true, encoding: "utf-8" }).then((files) => files.filter((file) => file.endsWith(".ts")));
-    for (const file of commandFiles) {
-      const command: MinecraftCommand = new (await import(`../commands/${file}`)).default(this.minecraft);
+  async loadCommands(silent: boolean = false): Promise<void> {
+    this.#commands.clear();
+    const modules = await loadExtensionModules<MinecraftCommand<MinecraftManager>, MinecraftManager>(new URL("../commands/", import.meta.url), this.minecraft);
+    for (const { extension: command, source } of modules) {
       if (!command.data.name) continue;
-      this.commands.set(command.data.name, command);
+      this.#commands.register(command.data.name, command, command.data.aliases, source);
     }
-    if (!silent) console.minecraft(`Successfully reloaded ${this.commands.size} minecraft command(s).`);
+    if (!silent) console.minecraft(`Successfully reloaded ${this.#commands.size} minecraft command(s).`);
+  }
+
+  async deployCommands(silent: boolean = false): Promise<void> {
+    await this.loadCommands(silent);
+  }
+
+  get commands(): readonly MinecraftCommand<MinecraftManager>[] {
+    return this.#commands.values();
+  }
+
+  registerCommand(command: MinecraftCommand<MinecraftManager>, source: string = "programmatic"): void {
+    this.#commands.register(command.data.name, command, command.data.aliases, source);
   }
 }
 

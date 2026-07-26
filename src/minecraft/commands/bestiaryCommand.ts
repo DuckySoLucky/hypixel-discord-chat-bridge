@@ -6,6 +6,7 @@ import { getSelectedProfile } from "../../utils/hypixelUtils.js";
 import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 class BestiaryCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData()
@@ -20,7 +21,7 @@ class BestiaryCommand extends MinecraftCommand {
     const { username, profile } = await getSelectedProfile(player);
     const { level, maxLevel, familyTiers, maxFamilyTiers, familiesUnlocked, totalFamilies, familiesCompleted } = profile.me.bestiary;
     const progress = formatNumber((profile.me.bestiary.level / profile.me.bestiary.maxLevel) * 100, 2);
-    this.send(
+    await this.send(
       `${username}'s Bestiary: ${level} / ${maxLevel} (${progress}%) | Unlocked Tiers: ${familyTiers} / ${maxFamilyTiers} | Unlocked Families: ${familiesUnlocked} / ${
         totalFamilies
       } | Families Maxed: ${familiesCompleted}`

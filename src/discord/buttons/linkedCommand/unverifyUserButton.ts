@@ -7,6 +7,7 @@ import { CommandFlags, type DiscordManagerWithBot } from "../../../types/discord
 import type { ButtonInteraction } from "discord.js";
 
 class UnverifyUserButton extends DiscordButton<DiscordManagerWithBot> {
+  override readonly data: DiscordButtonData;
   constructor(discord: DiscordManagerWithBot) {
     super(discord);
     this.data = new DiscordButtonData("unverifyUser");

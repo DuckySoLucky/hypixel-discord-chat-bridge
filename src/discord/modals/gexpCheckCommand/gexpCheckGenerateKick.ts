@@ -8,6 +8,7 @@ import { SuccessEmbed } from "../../private/Embed.js";
 import { replaceVariables } from "../../../utils/stringUtils.js";
 
 class GexpCheckGenerateKickModal extends DiscordModal {
+  override readonly data: DiscordModalData;
   constructor(discord: DiscordManagerWithClient) {
     super(discord);
     this.data = new DiscordModalData("gexpCheckGenerateKick");

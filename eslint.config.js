@@ -14,7 +14,7 @@ export default [
   prettier,
   globalIgnores(["./build/"]),
   {
-    ignores: ["**/*.test.ts", "build/*"],
+    ignores: ["build/*"],
     files: ["**/*.ts", "**/*.js"],
     languageOptions: { ecmaVersion: 2022, sourceType: "module", globals: { ...globals.es2022, ...globals.node } },
     plugins: { "@stylistic": stylistic, "sort-imports": sortImports },

@@ -7,7 +7,13 @@ export enum ConfigChangeType {
   Transform
 }
 
-export type TransformFunction = (value: any, config: any) => any;
+export type JsonPrimitive = string | number | boolean | null;
+export type JsonValue = JsonPrimitive | JsonObject | JsonValue[];
+export interface JsonObject {
+  [key: string]: JsonValue;
+}
+
+export type TransformFunction = (value: JsonValue, config: JsonObject) => JsonValue;
 
 export interface MigrationRule {
   key?: string;
@@ -37,8 +43,11 @@ export const ConfigBridgeDiscord = zod.object({
   format: zod
     .string()
     .meta({
-      description:
-        "The format for messages sent from Minecraft to Discord\nOnly used with `minecraft` mode\nSupported arguments: {chatType}, {username}, {rank}, {guildRank}, {username}"
+      description: [
+        "The format for messages sent from Minecraft to Discord",
+        "Only used with `minecraft` mode",
+        "Supported arguments: {chatType}, {username}, {rank}, {guildRank}, {username}"
+      ].join("\n")
     })
 });
 export const ConfigBridgeChannelLoggingChannels = zod.object({
@@ -90,7 +99,7 @@ export const ConfigMinecraftGuildRequirements = zod.object({
   requirementsNeededToPass: zod.number().meta({ description: "The number of requirements a player must meet to pass" }),
   requirements: zod
     .record(zod.string(), zod.number().int().positive())
-    .refine((obj) => Object.keys(obj).every((key) => PlayerVariableStatsKeysNumbers.includes(key as any)), { message: "Invalid requirement key" })
+    .refine((obj) => Object.keys(obj).every((key) => (PlayerVariableStatsKeysNumbers as readonly string[]).includes(key)), { message: "Invalid requirement key" })
 });
 export const ConfigMinecraftGuild = zod.object({ requirements: ConfigMinecraftGuildRequirements });
 export const ConfigMinecraftHypixelAlertsAlert = zod.object({

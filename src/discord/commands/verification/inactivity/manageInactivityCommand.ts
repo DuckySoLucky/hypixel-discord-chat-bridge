@@ -8,6 +8,7 @@ import { CommandFlags, type DiscordManagerWithClient } from "../../../../types/d
 import { SuccessEmbed } from "../../../private/Embed.js";
 
 class ManageInactivityCommand extends DiscordCommand {
+  override readonly data: DiscordCommandData;
   constructor(discord: DiscordManagerWithClient) {
     super(discord);
     this.data = new DiscordCommandData()

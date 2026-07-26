@@ -4,8 +4,8 @@ import type DiscordButtonData from "./DiscordButtonData.js";
 import type DiscordManager from "../../DiscordManager.js";
 import type { ButtonInteraction, Message } from "discord.js";
 
-class DiscordButton<Manager extends DiscordManager = DiscordManagerWithClient> extends BasicInteractionData<Manager> {
-  data!: DiscordButtonData;
+abstract class DiscordButton<Manager extends DiscordManager = DiscordManagerWithClient> extends BasicInteractionData<Manager> {
+  abstract readonly data: DiscordButtonData;
   response: ButtonResponse;
   constructor(discord: Manager) {
     super(discord);
@@ -22,10 +22,7 @@ class DiscordButton<Manager extends DiscordManager = DiscordManagerWithClient> e
     return split[0];
   }
 
-  // eslint-disable-next-line require-await
-  async execute(interaction: ButtonInteraction): Promise<unknown> {
-    throw new Error("Execute Method not implemented!");
-  }
+  abstract execute(interaction: ButtonInteraction): Promise<void>;
 }
 
 export default DiscordButton;

@@ -1,6 +1,7 @@
 import BasicScript from "../BasicScript.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import { formatNumber, replaceVariables } from "../../utils/stringUtils.js";
+import { intervalSchedule } from "../../types/scripts.js";
 import type ScriptManager from "../ScriptsManager.js";
 import type { ChannelVariableStats } from "../../private/constants.js";
 
@@ -9,13 +10,13 @@ class UpdateStatChannelsScript extends BasicScript {
     super(scripts, {
       id: "updateStatChannels",
       enabled: scripts.application.config.statsChannels.autoUpdater.enabled,
-      interval: scripts.application.config.statsChannels.autoUpdater.interval
+      schedule: intervalSchedule(scripts.application.config.statsChannels.autoUpdater.interval)
     });
   }
 
   async getStats(): Promise<ChannelVariableStats> {
     if (!this.scripts.application.discord.isGuildReady()) {
-      this.scripts.application.discord.stateHandler.loadGuild();
+      await this.scripts.application.discord.stateHandler.loadGuild();
       throw new HypixelDiscordChatBridgeError("The discord server isn't ready. Please try again later");
     }
 
@@ -43,7 +44,7 @@ class UpdateStatChannelsScript extends BasicScript {
 
   override async execute() {
     if (!this.scripts.application.discord.isGuildReady()) {
-      this.scripts.application.discord.stateHandler.loadGuild();
+      await this.scripts.application.discord.stateHandler.loadGuild();
       throw new HypixelDiscordChatBridgeError("The discord server isn't ready. Please try again later");
     }
     const stats = await this.getStats();

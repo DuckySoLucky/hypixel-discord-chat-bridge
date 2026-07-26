@@ -6,6 +6,17 @@ import type { SkyBlockProfile, SkyBlockProfileName, SkyblockProfileWithMe, WithS
 export type MinecraftManagerWithBot = MinecraftManager & { bot: Client };
 export type MinecraftManagerWithClient = MinecraftManagerWithBot & { application: { discord: DiscordManagerWithBot } };
 
+export type MinecraftChatChannel = "guild" | "officer";
+
+export interface MinecraftCommandContext {
+  readonly player: string;
+  readonly rawMessage: string;
+  readonly args: readonly string[];
+  readonly channel: MinecraftChatChannel;
+  readonly signal: AbortSignal;
+  reply(message: string): Promise<void>;
+}
+
 export interface CommandDataOptionJSON {
   name: string;
   description: string | null;

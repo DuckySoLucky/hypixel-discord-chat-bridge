@@ -5,6 +5,7 @@ import { getSelectedProfile } from "../../utils/hypixelUtils.js";
 import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 class FairySoulsCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData()
@@ -20,7 +21,7 @@ class FairySoulsCommand extends MinecraftCommand {
     const { collected } = profile.me.fairySouls;
     const total = profile.gameMode === "island" ? 5 : 266;
 
-    this.send(`${username}'s Fairy Souls: ${collected} / ${total} | Progress: ${((collected / total) * 100).toFixed(2)}%`);
+    await this.send(`${username}'s Fairy Souls: ${collected} / ${total} | Progress: ${((collected / total) * 100).toFixed(2)}%`);
   }
 }
 

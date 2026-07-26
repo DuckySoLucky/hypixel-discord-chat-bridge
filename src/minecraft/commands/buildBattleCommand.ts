@@ -7,6 +7,7 @@ import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 // CREDITS: by @Kathund (https://github.com/Kathund)
 class BuildBattleCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData()
@@ -20,7 +21,7 @@ class BuildBattleCommand extends MinecraftCommand {
     player = this.getArgs(message)[0] || player;
     const hypixelPlayer = await getPlayer(player);
     const { title, tokens, score, wins, winsSpeedBuilders, winsGuessTheBuild } = hypixelPlayer.stats.BuildBattle;
-    this.send(
+    await this.send(
       `${title} ${hypixelPlayer.nickname}'s Build Battle Wins: ${formatNumber(wins)} Speed Builders Wins: ${formatNumber(
         winsSpeedBuilders
       )} GTB Wins: ${formatNumber(winsGuessTheBuild)} | Score: ${formatNumber(score)} | Tokens: ${formatNumber(tokens)}`

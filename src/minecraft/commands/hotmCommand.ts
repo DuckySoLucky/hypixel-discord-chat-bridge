@@ -7,6 +7,7 @@ import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 // CREDITS: by @Kathund (https://github.com/Kathund)
 class HotmCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData()
@@ -21,7 +22,7 @@ class HotmCommand extends MinecraftCommand {
     const { username, profile } = await getSelectedProfile(player);
     const { level } = profile.me.skillTrees.mining;
     const { powder, pickaxeAbility } = profile.me.mining;
-    this.send(
+    await this.send(
       `${username}'s Hotm: ${level.level} | Gemstone Powder: ${formatNumber(powder.gemstone.total)} | Mithril Powder: ${formatNumber(
         powder.mithril.total
       )} | Glacite Powder: ${formatNumber(powder.glacite.total)} | Selected Ability: ${pickaxeAbility}`

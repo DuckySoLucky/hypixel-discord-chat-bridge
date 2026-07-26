@@ -7,10 +7,17 @@ import RequirementsCommand from "../../discord/commands/requirementsCommand.js";
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType } from "discord.js";
 import { delay, isUuid, replaceAllRanks } from "../../utils/miscUtils.js";
 import { replaceVariables, truncateString } from "../../utils/stringUtils.js";
+import { runDetached, safeListener, toError } from "../../utils/asyncUtils.js";
 import type MinecraftManager from "../MinecraftManager.js";
-import type { BroadcastEvent } from "../../types/bridge.js";
-import type { ChannelName } from "../../types/discord.js";
 import type { ChatMessage } from "prismarine-chat";
+import type { Client } from "minecraft-protocol";
+import type { HeadedEmbedEvent } from "../../types/bridge.js";
+
+function parseChatComponent(value: string): object {
+  const parsed: unknown = JSON.parse(value);
+  if (typeof parsed !== "object" || parsed === null) throw new Error("Minecraft chat component is not an object.");
+  return parsed;
+}
 
 class MessageHandler {
   private allowLimbo: boolean = true;
@@ -24,14 +31,18 @@ class MessageHandler {
     return this;
   }
 
-  registerEvents() {
-    if (!this.minecraft.isBotOnline()) return;
-
-    this.minecraft.bot.on("systemChat", (data) => {
-      const chatMessage = this.minecraft.prismarineChat.fromNotch(data.formattedMessage);
-      this.onMessage(chatMessage.toString(), chatMessage.toMotd());
-    });
-    this.minecraft.bot.on("playerChat", (data: object) => this.onFormattedMessage(data));
+  registerEvents(client: Client): void {
+    client.on(
+      "systemChat",
+      safeListener(async (data: { formattedMessage: string }) => {
+        const chatMessage = this.minecraft.prismarineChat.fromNotch(data.formattedMessage);
+        await this.onMessage(chatMessage.toString(), chatMessage.toMotd());
+      }, this.reportError)
+    );
+    client.on(
+      "playerChat",
+      safeListener((data: object) => this.onFormattedMessage(data), this.reportError)
+    );
   }
 
   private async onFormattedMessage(data: object): Promise<void> {
@@ -39,41 +50,44 @@ class MessageHandler {
     let resultMessage: ChatMessage & Partial<{ unsigned: ChatMessage }>;
 
     if (this.minecraftData.supportFeature("clientsideChatFormatting")) {
-      const verifiedPacket = data as { senderName?: string; targetName?: string; plainMessage: string; unsignedContent?: string; type: number };
+      const verifiedPacket = data as { senderName?: unknown; targetName?: unknown; plainMessage?: unknown; unsignedContent?: unknown; type?: unknown };
+      if (typeof verifiedPacket.plainMessage !== "string" || typeof verifiedPacket.type !== "number") {
+        throw new Error("Received a malformed formatted Minecraft chat packet.");
+      }
       const rawContent = message ?? verifiedPacket.unsignedContent;
       const parameters: { content: object; sender?: object; target?: object } = {
-        content: rawContent ? (JSON.parse(rawContent) as object) : { text: verifiedPacket.plainMessage }
+        content: typeof rawContent === "string" ? parseChatComponent(rawContent) : { text: verifiedPacket.plainMessage }
       };
 
-      if (verifiedPacket.senderName) {
-        Object.assign(parameters, { sender: JSON.parse(verifiedPacket.senderName) as object });
+      if (typeof verifiedPacket.senderName === "string") {
+        parameters.sender = parseChatComponent(verifiedPacket.senderName);
       }
-      if (verifiedPacket.targetName) {
-        Object.assign(parameters, { target: JSON.parse(verifiedPacket.targetName) as object });
+      if (typeof verifiedPacket.targetName === "string") {
+        parameters.target = parseChatComponent(verifiedPacket.targetName);
       }
       resultMessage = this.minecraft.prismarineChat.fromNetwork(verifiedPacket.type, parameters);
 
-      if (verifiedPacket.unsignedContent) {
+      if (typeof verifiedPacket.unsignedContent === "string") {
         resultMessage.unsigned = this.minecraft.prismarineChat.fromNetwork(verifiedPacket.type, {
-          sender: parameters.sender!,
-          target: parameters.target!,
-          content: JSON.parse(verifiedPacket.unsignedContent) as object
+          ...parameters,
+          content: parseChatComponent(verifiedPacket.unsignedContent)
         });
       }
     } else {
-      resultMessage = this.minecraft.prismarineChat.fromNotch(message!);
+      if (typeof message !== "string") throw new Error("Received a Minecraft chat packet without formatted content.");
+      resultMessage = this.minecraft.prismarineChat.fromNotch(message);
     }
     await this.onMessage(resultMessage.toString(), resultMessage.toMotd());
   }
 
-  async onMessage(message: string, colouredMessage: string): Promise<any> {
+  async onMessage(message: string, colouredMessage: string): Promise<void> {
     if (!this.minecraft.isBotOnline()) return;
 
     // NOTE: fixes "100/100❤     100/100✎ Mana" spam in the debug channel
     if (message.includes("✎ Mana") && message.includes("❤") && message.includes("/")) return;
 
     if (this.minecraft.application.config.bridge.channels.debug.enabled) {
-      this.minecraft.broadcastMessage({ fullMessage: colouredMessage, message, chatType: "Debug" });
+      await this.minecraft.broadcastMessage({ fullMessage: colouredMessage, message, chatType: "Debug" });
     }
 
     if (this.isLobbyJoinMessage(message)) {
@@ -102,24 +116,28 @@ class MessageHandler {
       const logMessage = await logChannel.send({ embeds: [requestEmbed], components: [new ActionRowBuilder<ButtonBuilder>().addComponents(buttons)] });
 
       setTimeout(
-        async () => {
-          const component = logMessage.components[0];
-          if (!component || component.type !== ComponentType.ActionRow) return;
-          let found = false;
-          const fixedButtons = component.components.flatMap((compontent) => {
-            if (compontent.type !== ComponentType.Button) return [];
-            if (compontent.customId === "joinRequestAccept") found = true;
-            return [
-              new ButtonBuilder()
-                .setCustomId(compontent.customId!)
-                .setLabel(compontent.label!)
-                .setStyle(compontent.style)
-                .setDisabled(compontent.customId === "joinRequestAccept")
-            ];
-          });
-          if (!found) return;
-          await logMessage.edit({ components: [new ActionRowBuilder<ButtonBuilder>().addComponents(fixedButtons)] });
-        },
+        () =>
+          runDetached(
+            (async () => {
+              const component = logMessage.components[0];
+              if (!component || component.type !== ComponentType.ActionRow) return;
+              let found = false;
+              const fixedButtons = component.components.flatMap((compontent) => {
+                if (compontent.type !== ComponentType.Button) return [];
+                if (!compontent.customId || !compontent.label) return [];
+                if (compontent.customId === "joinRequestAccept") found = true;
+                return [
+                  new ButtonBuilder()
+                    .setCustomId(compontent.customId)
+                    .setLabel(compontent.label)
+                    .setStyle(compontent.style)
+                    .setDisabled(compontent.customId === "joinRequestAccept")
+                ];
+              });
+              if (!found) return;
+              await logMessage.edit({ components: [new ActionRowBuilder<ButtonBuilder>().addComponents(fixedButtons)] });
+            })()
+          ),
         5 * 60 * 1000
       );
 
@@ -131,10 +149,8 @@ class MessageHandler {
         if (data.passed && this.minecraft.application.config.minecraft.guild.requirements.autoAccept) this.minecraft.bot.chat(`/guild accept ${username}`);
         const embed = requirementsCommand.generateEmbed(data);
         await logMessage.edit({ embeds: [...logMessage.embeds, embed] });
-        this.minecraft.application.discord.getChannel("Officer").then((channel) => {
-          if (!channel || !channel.isSendable()) return;
-          channel.send({ embeds: [embed] });
-        });
+        const officerChannel = await this.minecraft.application.discord.getChannel("Officer");
+        if (officerChannel?.isSendable()) await officerChannel.send({ embeds: [embed] });
       }
 
       if (this.minecraft.application.config.blacklist.enabled && this.minecraft.application.config.blacklist.notifications.onJoinRequest) {
@@ -169,7 +185,7 @@ class MessageHandler {
 
     if (this.isJoinMessage(message)) {
       const username = this.getUsernameFromEventMessage(message);
-      setTimeout(() => this.tryToUpdateUser(username), 15000);
+      setTimeout(() => runDetached(this.tryToUpdateUser(username)), 15000);
 
       await delay(1000);
       this.minecraft.bot.chat(
@@ -178,51 +194,54 @@ class MessageHandler {
         })} | by @duckysolucky`
       );
 
-      const broadcastMessage: BroadcastEvent = {
+      const broadcastMessage: Omit<HeadedEmbedEvent, "chatType"> = {
         message: replaceVariables(this.minecraft.application.messages.joinMessage, { username }),
         title: "Member Joined",
         icon: `https://mc-heads.net/avatar/${username}`,
         color: "Green"
       };
 
-      return [
+      await Promise.all([
         this.minecraft.broadcastHeadedEmbed({ ...broadcastMessage, chatType: "Logger-Guild" }),
         this.minecraft.broadcastHeadedEmbed({ ...broadcastMessage, chatType: "Guild" })
-      ];
+      ]);
+      return;
     }
 
     if (this.isLeaveMessage(message)) {
       const username = this.getUsernameFromEventMessage(message);
-      setTimeout(() => this.tryToUpdateUser(username), 15000);
+      setTimeout(() => runDetached(this.tryToUpdateUser(username)), 15000);
 
-      const broadcastMessage: BroadcastEvent = {
+      const broadcastMessage: Omit<HeadedEmbedEvent, "chatType"> = {
         message: replaceVariables(this.minecraft.application.messages.leaveMessage, { username }),
         title: "Member Left",
         icon: `https://mc-heads.net/avatar/${username}`,
         color: "Red"
       };
 
-      return [
+      await Promise.all([
         this.minecraft.broadcastHeadedEmbed({ ...broadcastMessage, chatType: "Logger-Guild" }),
         this.minecraft.broadcastHeadedEmbed({ ...broadcastMessage, chatType: "Guild" })
-      ];
+      ]);
+      return;
     }
 
     if (this.isKickMessage(message)) {
       const username = this.getUsernameFromEventMessage(message);
-      setTimeout(() => this.tryToUpdateUser(username), 15000);
+      setTimeout(() => runDetached(this.tryToUpdateUser(username)), 15000);
 
-      const broadcastMessage: BroadcastEvent = {
+      const broadcastMessage: Omit<HeadedEmbedEvent, "chatType"> = {
         message: replaceVariables(this.minecraft.application.messages.kickMessage, { username }),
         title: "Member Kicked",
         icon: `https://mc-heads.net/avatar/${username}`,
         color: "Red"
       };
 
-      return [
+      await Promise.all([
         this.minecraft.broadcastHeadedEmbed({ ...broadcastMessage, chatType: "Logger-Guild" }),
         this.minecraft.broadcastHeadedEmbed({ ...broadcastMessage, chatType: "Guild" })
-      ];
+      ]);
+      return;
     }
 
     if (this.isPromotionMessage(message)) {
@@ -235,19 +254,20 @@ class MessageHandler {
           .pop()
           ?.trim() ?? "";
 
-      setTimeout(() => this.tryToUpdateUser(username), 15000);
+      setTimeout(() => runDetached(this.tryToUpdateUser(username)), 15000);
 
-      const broadcastMessage: BroadcastEvent = {
+      const broadcastMessage: Omit<HeadedEmbedEvent, "chatType"> = {
         message: replaceVariables(this.minecraft.application.messages.promotionMessage, { username, rank }),
         title: "Member Promoted",
         icon: `https://mc-heads.net/avatar/${username}`,
         color: "Green"
       };
 
-      return [
-        this.minecraft.broadcastCleanEmbed({ ...broadcastMessage, chatType: "Guild" }),
-        this.minecraft.broadcastCleanEmbed({ ...broadcastMessage, chatType: "Logger-Guild" })
-      ];
+      await Promise.all([
+        this.minecraft.broadcastHeadedEmbed({ ...broadcastMessage, chatType: "Guild" }),
+        this.minecraft.broadcastHeadedEmbed({ ...broadcastMessage, chatType: "Logger-Guild" })
+      ]);
+      return;
     }
 
     if (this.isDemotionMessage(message)) {
@@ -260,17 +280,18 @@ class MessageHandler {
           .pop()
           ?.trim() ?? "";
 
-      const broadcastMessage: BroadcastEvent = {
+      const broadcastMessage: Omit<HeadedEmbedEvent, "chatType"> = {
         message: replaceVariables(this.minecraft.application.messages.demotionMessage, { username, rank }),
         title: "Member Demoted",
         icon: `https://mc-heads.net/avatar/${username}`,
         color: "Red"
       };
 
-      return [
-        this.minecraft.broadcastCleanEmbed({ ...broadcastMessage, chatType: "Guild" }),
-        this.minecraft.broadcastCleanEmbed({ ...broadcastMessage, chatType: "Logger-Guild" })
-      ];
+      await Promise.all([
+        this.minecraft.broadcastHeadedEmbed({ ...broadcastMessage, chatType: "Guild" }),
+        this.minecraft.broadcastHeadedEmbed({ ...broadcastMessage, chatType: "Logger-Guild" })
+      ]);
+      return;
     }
 
     if (this.isCannotMuteMoreThanOneMonth(message)) {
@@ -296,7 +317,7 @@ class MessageHandler {
 
     if (this.isMuted(message)) {
       const formattedMessage = message.split(" ").slice(1).join(" ");
-      this.minecraft.broadcastHeadedEmbed({
+      await this.minecraft.broadcastHeadedEmbed({
         message: formattedMessage.charAt(0).toUpperCase() + formattedMessage.slice(1),
         title: "Bot is currently muted for a Major Chat infraction.",
         color: "Red",
@@ -313,7 +334,7 @@ class MessageHandler {
         .replace(/\[(.*?)\]/g, "")
         .trim()
         .split(/ +/g)[2];
-      return [
+      await Promise.all([
         this.minecraft.broadcastCleanEmbed({
           message: replaceVariables(this.minecraft.application.messages.onlineInvite, { username }),
           color: "Green",
@@ -324,16 +345,18 @@ class MessageHandler {
           color: "Green",
           chatType: "Logger-Guild"
         })
-      ];
+      ]);
+      return;
     }
 
     if (this.isOfflineInvite(message)) {
-      const username = message
+      const usernameToken = message
         .replace(/\[(.*?)\]/g, "")
         .trim()
-        .split(/ +/g)[6]!
-        .match(/\w+/g)![0];
-      return [
+        .split(/ +/g)[6];
+      const username = usernameToken?.match(/\w+/u)?.[0];
+      if (!username) throw new Error(`Unable to parse the invited username from: ${message}`);
+      await Promise.all([
         this.minecraft.broadcastCleanEmbed({
           message: replaceVariables(this.minecraft.application.messages.offlineInvite, { username }),
           color: "Green",
@@ -344,14 +367,16 @@ class MessageHandler {
           color: "Green",
           chatType: "Logger-Guild"
         })
-      ];
+      ]);
+      return;
     }
 
     if (this.isFailedInvite(message)) {
-      return [
+      await Promise.all([
         this.minecraft.broadcastCleanEmbed({ message: message.replace(/\[(.*?)\]/g, "").trim(), color: "Red", chatType: "Guild" }),
         this.minecraft.broadcastCleanEmbed({ message: message.replace(/\[(.*?)\]/g, "").trim(), color: "Red", chatType: "Logger-Guild" })
-      ];
+      ]);
+      return;
     }
 
     if (this.isGuildMuteMessage(message)) {
@@ -359,7 +384,7 @@ class MessageHandler {
         .replace(/\[(.*?)\]/g, "")
         .trim()
         .split(/ +/g)[7];
-      return [
+      await Promise.all([
         this.minecraft.broadcastCleanEmbed({
           message: replaceVariables(this.minecraft.application.messages.guildMuteMessage, { time }),
           color: "Red",
@@ -370,14 +395,16 @@ class MessageHandler {
           color: "Red",
           chatType: "Logger-Guild"
         })
-      ];
+      ]);
+      return;
     }
 
     if (this.isGuildUnmuteMessage(message)) {
-      return [
+      await Promise.all([
         this.minecraft.broadcastCleanEmbed({ message: this.minecraft.application.messages.guildUnmuteMessage, color: "Green", chatType: "Guild" }),
         this.minecraft.broadcastCleanEmbed({ message: this.minecraft.application.messages.guildUnmuteMessage, color: "Green", chatType: "Logger-Guild" })
-      ];
+      ]);
+      return;
     }
 
     if (this.isUserMuteMessage(message)) {
@@ -391,7 +418,7 @@ class MessageHandler {
         .replace(/\[(.*?)\]/g, "")
         .trim()
         .split(/ +/g)[5];
-      return [
+      await Promise.all([
         this.minecraft.broadcastCleanEmbed({
           message: replaceVariables(this.minecraft.application.messages.userMuteMessage, { username, time }),
           color: "Red",
@@ -402,7 +429,8 @@ class MessageHandler {
           color: "Red",
           chatType: "Logger-Guild"
         })
-      ];
+      ]);
+      return;
     }
 
     if (this.isUserUnmuteMessage(message)) {
@@ -410,7 +438,7 @@ class MessageHandler {
         .replace(/\[(.*?)\]/g, "")
         .trim()
         .split(/ +/g)[3];
-      return [
+      await Promise.all([
         this.minecraft.broadcastCleanEmbed({
           message: replaceVariables(this.minecraft.application.messages.userUnmuteMessage, { username }),
           color: "Green",
@@ -421,7 +449,8 @@ class MessageHandler {
           color: "Green",
           chatType: "Logger-Guild"
         })
-      ];
+      ]);
+      return;
     }
 
     if (this.isSetrankFail(message)) {
@@ -429,7 +458,7 @@ class MessageHandler {
     }
 
     if (this.isGuildQuestCompletion(message)) {
-      this.minecraft.broadcastCleanEmbed({ title: "Guild Quest Completion", message: message, color: "Yellow", chatType: "Guild" });
+      await this.minecraft.broadcastHeadedEmbed({ title: "Guild Quest Completion", message: message, color: "Yellow", chatType: "Guild" });
     }
 
     if (this.isAlreadyMuted(message)) {
@@ -503,11 +532,11 @@ class MessageHandler {
         return;
       }
 
-      this.minecraft.broadcastMessage({
+      await this.minecraft.broadcastMessage({
         fullMessage: colouredMessage,
-        chatType: chatType as ChannelName,
+        chatType: chatType.includes("Officer") ? "Officer" : "Guild",
         username,
-        rank,
+        rank: rank ?? null,
         guildRank,
         message,
         color: this.minecraftChatColorToHex(this.getRankColor(colouredMessage))
@@ -525,6 +554,8 @@ class MessageHandler {
       return this.minecraft.commandHandler.handle(match.groups.username, match.groups.message, officer);
     }
   }
+
+  private readonly reportError = (error: unknown): void => console.error(toError(error));
 
   isDiscordMessage(message: string): boolean {
     const isDiscordMessage = /^(?<username>(?!https?:\/\/)[^\s»:>]+)\s*[»:>]\s*(?<message>.*)/;

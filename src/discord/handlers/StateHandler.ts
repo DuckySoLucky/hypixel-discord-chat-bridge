@@ -17,8 +17,6 @@ class StateHandler {
     this.discord.client.user.setPresence({ activities: [{ name: "/help | by @duckysolucky" }] });
 
     await this.loadGuild();
-    await this.discord.buttonHandler.loadButtons();
-    await this.discord.modalHandler.loadModals();
 
     const channel = await this.discord.getChannel("Guild");
     if (channel === null || !channel.isSendable()) return console.error('Channel "Guild" not found!');
