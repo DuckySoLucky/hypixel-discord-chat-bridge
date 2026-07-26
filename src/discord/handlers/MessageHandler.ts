@@ -102,11 +102,19 @@ class MessageHandler {
 
     const hasMentions = /<@|<#|<:|<a:/.test(message.content);
     if (hasMentions) {
+      // Replace <@&1530548906348249168> with @Guild Member
+      const roleMentionPattern = /<@&(\d+)>/g;
+      const replaceRoleMention = (_match: string, mentionedRoleId: string): string => {
+        const mentionedRole = message.mentions.roles.get(mentionedRoleId) ?? message.guild?.roles.cache.get(mentionedRoleId);
+        return mentionedRole ? `@${mentionedRole.name}` : "@unknown-role";
+      };
+      output = output.replace(roleMentionPattern, replaceRoleMention);
+
       // Replace <@486155512568741900> with @DuckySoLucky
-      const userMentionPattern = /<@(\d+)>/g;
+      const userMentionPattern = /<@!?(\d+)>/g;
 
       const replaceUserMention = (_match: string, mentionedUserId: string): string => {
-        const mentionedUser = message.guild?.members.cache.get(mentionedUserId);
+        const mentionedUser = message.mentions.members?.get(mentionedUserId) ?? message.guild?.members.cache.get(mentionedUserId);
         return mentionedUser ? `@${this.getDisplayName(mentionedUser)}` : "@unknown-user";
       };
       output = output.replace(userMentionPattern, replaceUserMention);
@@ -114,8 +122,8 @@ class MessageHandler {
       // Replace <#1072863636596465726> with #💬・guild-chat
       const channelMentionPattern = /<#(\d+)>/g;
       const replaceChannelMention = (_match: string, mentionedChannelId: string): string => {
-        const mentionedChannel = message.guild?.channels.cache.get(mentionedChannelId);
-        return mentionedChannel?.name ? `#${mentionedChannel.name}` : "#unknown-channel";
+        const mentionedChannel = message.mentions.channels.get(mentionedChannelId) ?? message.guild?.channels.cache.get(mentionedChannelId);
+        return mentionedChannel && "name" in mentionedChannel && mentionedChannel.name ? `#${mentionedChannel.name}` : "#unknown-channel";
       };
       output = output.replace(channelMentionPattern, replaceChannelMention);
 

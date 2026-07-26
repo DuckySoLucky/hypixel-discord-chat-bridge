@@ -76,7 +76,7 @@ abstract class BasicScript implements Lifecycle {
     } finally {
       const durationMs = performance.now() - start;
       try {
-        await this.log(`Duration: ${durationMs.toFixed(2)}ms (${prettyMilliseconds(durationMs)})`);
+        await this.log(`Duration of the \`${this.id}\` script: ${durationMs.toFixed(2)}ms (${prettyMilliseconds(durationMs)})`, ScriptLogState.Misc);
       } catch (error: unknown) {
         console.error(toError(error));
       }
