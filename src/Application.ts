@@ -10,7 +10,7 @@ import packageJson from "../package.json" with { type: "json" };
 import { Filter } from "bad-words";
 import type { Config } from "./types/config.js";
 import type { Guild } from "hypixel-api-reborn";
-import type { ParsedProfile } from "./types/MowojangAPI.js";
+import type { MowojangProfile } from "mowojang";
 
 class Application {
   readonly package: typeof packageJson;
@@ -21,7 +21,7 @@ class Application {
   readonly scripts: ScriptManager;
   readonly filter: Filter;
   botGuild?: Guild;
-  botGuildMembers?: ParsedProfile[];
+  botGuildMembers?: MowojangProfile[];
   constructor(
     readonly config: Config,
     deployScripts: boolean = true
