@@ -10,7 +10,7 @@ import packageJson from "../package.json" with { type: "json" };
 import { Filter } from "bad-words";
 import type { Config } from "./types/config.js";
 import type { Guild } from "hypixel-api-reborn";
-import type { ParsedSession } from "./types/MowojangAPI.js";
+import type { ParsedProfile } from "./types/MowojangAPI.js";
 
 class Application {
   readonly package: typeof packageJson;
@@ -21,7 +21,7 @@ class Application {
   readonly scripts: ScriptManager;
   readonly filter: Filter;
   botGuild?: Guild;
-  botGuildMembers?: ParsedSession[];
+  botGuildMembers?: ParsedProfile[];
   constructor(
     readonly config: Config,
     deployScripts: boolean = true
@@ -57,9 +57,9 @@ class Application {
       if (guild.isRaw()) throw new HypixelDiscordChatBridgeError("In game Hypixel Guild not found.");
       return guild;
     });
-    this.botGuildMembers = await MowojangAPI.getSessions(this.botGuild.members.map((member) => member.uuid)).then((data) => {
+    this.botGuildMembers = await MowojangAPI.getProfiles(this.botGuild.members.map((member) => member.uuid)).then((data) => {
       if (data.data === null) return undefined;
-      return data.data.map(({ UUID, username }) => ({ UUID, username }));
+      return data.data;
     });
     if (this.config.blacklist.enabled && this.config.blacklist.actions.kickFromGuild.enabled) {
       this.botGuild.members.forEach(async (user) => {

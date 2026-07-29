@@ -1,4 +1,4 @@
-export interface ParsedSession {
+export interface ParsedProfile {
   username: string;
   UUID: string;
 }
