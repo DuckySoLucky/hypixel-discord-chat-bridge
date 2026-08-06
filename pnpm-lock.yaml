@@ -42,8 +42,8 @@ importers:
         specifier: ^1.66.2
         version: 1.66.2
       mowojang:
-        specifier: ^0.4.7
-        version: 0.4.7
+        specifier: ^0.5.0
+        version: 0.5.0
       ms:
         specifier: ^2.1.3
         version: 2.1.3
@@ -1913,6 +1913,10 @@ packages:
 
   mowojang@0.4.7:
     resolution: {integrity: sha512-1xqdFaG5YGfeeTu91T+rV8aw0ti1eWVlT9Zmk+ZN75mEP8T8XRkpv2LXh2ZAdNIkzQaCjoQdc5y91bJUpx01Zg==}
+    engines: {node: '>=22.0.0'}
+
+  mowojang@0.5.0:
+    resolution: {integrity: sha512-UpDpDzxW8R9VjBJ6rtU8PjhYUWJbSDA+Wl1gqwZxKAD6kMnDU+hHaBZyn+PrBesZjpdHgrC3z+JkP3wdoHmBZg==}
     engines: {node: '>=22.0.0'}
 
   ms@2.1.3:
@@ -4537,6 +4541,14 @@ snapshots:
   moo@0.5.3: {}
 
   mowojang@0.4.7:
+    dependencies:
+      axios: 1.18.0
+      axios-cache-interceptor: 1.12.0(axios@1.18.0)
+    transitivePeerDependencies:
+      - debug
+      - supports-color
+
+  mowojang@0.5.0:
     dependencies:
       axios: 1.18.0
       axios-cache-interceptor: 1.12.0(axios@1.18.0)
