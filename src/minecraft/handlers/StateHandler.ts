@@ -68,7 +68,7 @@ class StateHandler {
       return;
     }
 
-    console.warn(error);
+    console.error(error);
   };
 
   private readonly reportError = (error: unknown): void => console.error(toError(error));
