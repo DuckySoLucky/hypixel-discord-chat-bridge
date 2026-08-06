@@ -6,6 +6,7 @@ import { getNetWorthCalculator, getSelectedProfile } from "../../utils/hypixelUt
 import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 class NetworthCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData()
@@ -33,7 +34,7 @@ class NetworthCommand extends MinecraftCommand {
     const personalBank = profile.me.profileStats.bankAccount !== 0 ? formatNumber(profile.me.profileStats.bankAccount) : "N/A";
     const museumData = formatNumber(networthData.types.museum?.total ?? 0);
 
-    this.send(
+    await this.send(
       `${username}'s Networth is ${networth} | Non-Cosmetic Networth: ${nonCosmeticNetworth} | Unsoulbound Networth: ${
         unsoulboundNetworth
       } | Non-Cosmetic Unsoulbound Networth: ${nonCosmeticUnsoulboundNetworth} | Purse: ${purse} | Bank: ${bank} + ${personalBank} | Museum: ${museumData}`

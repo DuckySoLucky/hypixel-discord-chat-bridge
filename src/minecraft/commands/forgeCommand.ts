@@ -9,6 +9,7 @@ import type { SkyBlockMemberMiningHotmForgeItem } from "hypixel-api-reborn";
 
 // CREDITS: by @Kathund (https://github.com/Kathund)
 class ForgeCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData()
@@ -28,7 +29,7 @@ class ForgeCommand extends MinecraftCommand {
       );
 
     if (slots.length === 0) throw new HypixelDiscordChatBridgeError(`${username} has no items in their forge.`);
-    this.send(`${username}'s Forge: ${slots.map((slot) => `${slot.slot}: ${slot.item} ${slot.finished ? "Finished" : `(${slot.timeLeft})`}`).join(" | ")}`);
+    await this.send(`${username}'s Forge: ${slots.map((slot) => `${slot.slot}: ${slot.item} ${slot.finished ? "Finished" : `(${slot.timeLeft})`}`).join(" | ")}`);
   }
 }
 

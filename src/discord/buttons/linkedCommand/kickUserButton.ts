@@ -6,6 +6,7 @@ import { type ButtonInteraction, LabelBuilder, ModalBuilder, TextInputBuilder, T
 import { ButtonResponse, CommandFlags, type DiscordManagerWithClient } from "../../../types/discord.js";
 
 class KickUserButton extends DiscordButton {
+  override readonly data: DiscordButtonData;
   constructor(discord: DiscordManagerWithClient) {
     super(discord);
     this.data = new DiscordButtonData("kickUser");

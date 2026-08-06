@@ -8,6 +8,7 @@ import { RadioGroupOptionBuilder } from "discord.js";
 import type LinkedUser from "../../../data/linked/LinkedUser.js";
 
 class SetRankUserButton extends DiscordButton {
+  override readonly data: DiscordButtonData;
   constructor(discord: DiscordManagerWithClient) {
     super(discord);
     this.data = new DiscordButtonData("setRankUser");

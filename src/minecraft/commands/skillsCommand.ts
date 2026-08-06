@@ -8,6 +8,7 @@ import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 import type { SkillLevelData } from "hypixel-api-reborn";
 
 class SkillsCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData()
@@ -36,9 +37,8 @@ class SkillsCommand extends MinecraftCommand {
 
     if (skillData.length === 0) throw new HypixelDiscordChatBridgeError(`${username} has no skills.`);
 
-    this.send(
-      `${username}'s Skill Average: ${(skills.average ?? 0).toFixed(2)} (${skillData.map((skill) => `${titleCase(skill.name)}: ${formatNumber(skill.level)}`).join(", ")})`
-    );
+    const skillSummary = skillData.map((skill) => `${titleCase(skill.name)}: ${formatNumber(skill.level)}`).join(", ");
+    await this.send(`${username}'s Skill Average: ${(skills.average ?? 0).toFixed(2)} (${skillSummary})`);
   }
 }
 

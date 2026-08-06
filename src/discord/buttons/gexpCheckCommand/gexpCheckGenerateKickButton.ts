@@ -4,6 +4,7 @@ import { type ButtonInteraction, LabelBuilder, ModalBuilder, TextDisplayBuilder,
 import { ButtonResponse, CommandFlags, type DiscordManagerWithClient } from "../../../types/discord.js";
 
 class GexpCheckGenerateKickButton extends DiscordButton {
+  override readonly data: DiscordButtonData;
   constructor(discord: DiscordManagerWithClient) {
     super(discord);
     this.data = new DiscordButtonData("gexpCheckGenerateKick");

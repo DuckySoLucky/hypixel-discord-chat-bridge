@@ -1,46 +1,33 @@
-import type { BroadcastEvent } from "../types/bridge.js";
+import type BridgeEventBus from "./BridgeEventBus.js";
+import type { BridgeEventMap, CleanEmbedEvent, DiscordToMinecraftMessage, HeadedEmbedEvent, MinecraftToDiscordMessage, PlayerToggleEvent } from "../types/bridge.js";
 
-class CommunicationBridge {
-  declare bridge: CommunicationBridge;
+abstract class CommunicationBridge {
+  readonly #bridgeDisposers: (() => void)[] = [];
 
-  getBridge(): CommunicationBridge {
-    return this.bridge;
+  constructor(protected readonly events: BridgeEventBus) {}
+
+  broadcastMessage(event: DiscordToMinecraftMessage | MinecraftToDiscordMessage): Promise<void> {
+    return "channelId" in event ? this.events.publish("discord-message", event) : this.events.publish("minecraft-message", event);
   }
 
-  setBridge(bridge: CommunicationBridge) {
-    this.bridge = bridge;
+  broadcastPlayerToggle(event: PlayerToggleEvent): Promise<void> {
+    return this.events.publish("player-toggle", event);
   }
 
-  broadcastMessage(event: BroadcastEvent) {
-    return this.bridge.onBroadcast(event);
+  broadcastCleanEmbed(event: CleanEmbedEvent): Promise<void> {
+    return this.events.publish("clean-embed", event);
   }
 
-  onBroadcast(event: BroadcastEvent) {
-    throw new Error("Communication bridge broadcast handling is not implemented yet!");
+  broadcastHeadedEmbed(event: HeadedEmbedEvent): Promise<void> {
+    return this.events.publish("headed-embed", event);
   }
 
-  broadcastPlayerToggle(event: BroadcastEvent) {
-    return this.bridge.onPlayerToggle(event);
+  protected listen<Event extends keyof BridgeEventMap>(event: Event, listener: (payload: BridgeEventMap[Event]) => Promise<void> | void): void {
+    this.#bridgeDisposers.push(this.events.on(event, listener));
   }
 
-  onPlayerToggle(event: BroadcastEvent) {
-    throw new Error("Communication bridge broadcast handling is not implemented yet!");
-  }
-
-  broadcastCleanEmbed(event: BroadcastEvent) {
-    return this.bridge.onBroadcastCleanEmbed(event);
-  }
-
-  onBroadcastCleanEmbed(event: BroadcastEvent) {
-    throw new Error("Communication bridge broadcast handling is not implemented yet!");
-  }
-
-  broadcastHeadedEmbed(event: BroadcastEvent) {
-    return this.bridge.onBroadcastHeadedEmbed(event);
-  }
-
-  onBroadcastHeadedEmbed(event: BroadcastEvent) {
-    throw new Error("Communication bridge broadcast handling is not implemented yet!");
+  protected stopBridgeListeners(): void {
+    for (const dispose of this.#bridgeDisposers.splice(0)) dispose();
   }
 }
 

@@ -19,6 +19,7 @@ const yearZero = 1560275700000;
 
 // CREDITS: by @CarsonCodes (https://github.com/CarsonCodess)
 class SpecialMayorCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData()
@@ -48,7 +49,7 @@ class SpecialMayorCommand extends MinecraftCommand {
     }
   }
 
-  override execute(username: string, message: string) {
+  override async execute(username: string, message: string): Promise<void> {
     const currentYear = this.timeToSkyblockYear(Date.now());
     const yearsUntil = this.getYearsUntilSpecial(currentYear);
 
@@ -56,9 +57,9 @@ class SpecialMayorCommand extends MinecraftCommand {
     const mayor = this.getSpecialMayor(targetYear);
 
     if (yearsUntil === 0) {
-      this.send(`Special Mayor this year! It is speculated to be ${mayor}.`);
+      await this.send(`Special Mayor this year! It is speculated to be ${mayor}.`);
     } else {
-      this.send(`Not a Special Mayor year. ${yearsUntil} year(s) until the next one! It is speculated to be ${mayor}.`);
+      await this.send(`Not a Special Mayor year. ${yearsUntil} year(s) until the next one! It is speculated to be ${mayor}.`);
     }
   }
 }

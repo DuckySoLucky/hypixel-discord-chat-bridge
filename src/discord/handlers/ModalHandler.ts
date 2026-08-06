@@ -1,16 +1,17 @@
-import HypixelDiscordChatBridgeError from "../../private/error.js";
+import ExtensionRegistry from "../../extensions/ExtensionRegistry.js";
+import loadExtensionModules from "../../extensions/moduleLoader.js";
 import { BasicInteractionResponse } from "../../types/discord.js";
-import { Collection, MessageFlags, type ModalSubmitInteraction } from "discord.js";
-import { readdir } from "node:fs/promises";
+import { MessageFlags, type ModalSubmitInteraction } from "discord.js";
+import { toError } from "../../utils/asyncUtils.js";
 import type DiscordManager from "../DiscordManager.js";
 import type DiscordModal from "../private/modals/DiscordModal.js";
 
 class ModalHandler {
-  readonly modals: Collection<string, DiscordModal> = new Collection<string, DiscordModal>();
+  readonly #modals = new ExtensionRegistry<DiscordModal<DiscordManager>>();
   constructor(private readonly discord: DiscordManager) {}
 
   async onSubmit(interaction: ModalSubmitInteraction) {
-    const modal = this.modals.get(interaction.customId);
+    const modal = this.#modals.get(interaction.customId);
     if (!modal) return;
 
     try {
@@ -23,18 +24,21 @@ class ModalHandler {
 
       await modal.execute(interaction);
     } catch (error: unknown) {
-      if (error instanceof Error || error instanceof HypixelDiscordChatBridgeError) this.discord.handleError(error, interaction);
+      await this.discord.handleError(toError(error), interaction);
     }
   }
 
   async loadModals() {
-    this.modals.clear();
-    const modalFiles = await readdir("./src/discord/modals/", { recursive: true, encoding: "utf-8" }).then((files) => files.filter((file) => file.endsWith(".ts")));
-    for (const file of modalFiles) {
-      const modal: DiscordModal = new (await import(`../modals/${file}`)).default(this.discord);
-      this.modals.set(modal.data.id, modal);
+    this.#modals.clear();
+    const modules = await loadExtensionModules<DiscordModal<DiscordManager>, DiscordManager>(new URL("../modals/", import.meta.url), this.discord);
+    for (const { extension: modal, source } of modules) {
+      this.#modals.register(modal.data.id, modal, [], source);
     }
-    console.discord(`Successfully loaded ${this.modals.size} modal(s).`);
+    console.discord(`Successfully loaded ${this.#modals.size} modal(s).`);
+  }
+
+  registerModal(modal: DiscordModal<DiscordManager>, source: string = "programmatic"): void {
+    this.#modals.register(modal.data.id, modal, [], source);
   }
 }
 

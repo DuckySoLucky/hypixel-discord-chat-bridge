@@ -7,6 +7,7 @@ import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 // CREDITS: by @Kathund (https://github.com/Kathund)
 class DojoCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData()
@@ -20,7 +21,7 @@ class DojoCommand extends MinecraftCommand {
     const { username, profile } = await getSelectedProfile(player);
     const { belt, control, stamina, discipline, force, mastery, swiftness, tenacity } = profile.me.crimsonIsle.dojo;
 
-    this.send(
+    await this.send(
       `${username}'s Belt: ${belt} | Best Force: ${formatNumber(force.points)} | Best Stamina: ${formatNumber(stamina.points)} | Best Mastery: ${formatNumber(
         mastery.points
       )} | Best Discipline: ${formatNumber(discipline.points)} | Best Swiftness: ${formatNumber(swiftness.points)} | Best Control: ${formatNumber(

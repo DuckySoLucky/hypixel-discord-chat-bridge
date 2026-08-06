@@ -1,60 +1,87 @@
 import Embed from "../discord/private/Embed.js";
-import HypixelDiscordChatBridgeError from "../private/error.js";
-import ms, { type StringValue } from "ms";
 import prettyMilliseconds from "pretty-ms";
 import { ScriptLogState, type ScriptOptions } from "../types/scripts.js";
 import { performance } from "node:perf_hooks";
+import { runDetached, toError } from "../utils/asyncUtils.js";
 import { schedule } from "node-cron";
 import type ScriptManager from "./ScriptsManager.js";
+import type { Lifecycle } from "../core/Lifecycle.js";
+import type { ScheduledTask } from "node-cron";
 
-class BasicScript {
-  id: string;
-  enabled: boolean;
-  cron?: string;
-  interval?: number;
+abstract class BasicScript implements Lifecycle {
+  readonly id: string;
+  readonly enabled: boolean;
+  private interval?: NodeJS.Timeout;
+  private cronTask?: ScheduledTask;
+  private running: boolean = false;
+  private abortController?: AbortController;
   constructor(
     protected readonly scripts: ScriptManager,
-    options: ScriptOptions
+    readonly options: ScriptOptions
   ) {
-    const { id, enabled, cron, interval } = options;
-    this.id = id;
-    this.enabled = enabled;
-    if (!cron && !interval) throw new HypixelDiscordChatBridgeError("You must specify a cron or an interval.");
-    if (cron && interval) throw new HypixelDiscordChatBridgeError("You cannot specify both cron and an interval.");
-    this.cron = cron;
-    this.interval = interval ? ms(interval as StringValue) : undefined;
-    this.init();
+    this.id = options.id;
+    this.enabled = options.enabled;
   }
 
-  execute(): unknown {
-    throw new Error("Execute Method not implemented!");
+  abstract execute(signal: AbortSignal): Promise<void>;
+
+  async runNow(): Promise<void> {
+    await this.runSafely();
   }
 
-  private async run() {
+  start(): Promise<void> {
+    if (!this.enabled) {
+      console.scripts(`Script \`${this.id}\` is disabled.`);
+      return Promise.resolve();
+    }
+    if (this.interval || this.cronTask) return Promise.resolve();
+
+    if (this.options.schedule.type === "interval") {
+      const { milliseconds } = this.options.schedule;
+      console.scripts(`Loaded script \`${this.id}\` - executing every ${milliseconds}ms (${prettyMilliseconds(milliseconds)})`);
+      this.interval = setInterval(() => runDetached(this.runSafely()), milliseconds);
+    } else {
+      const { expression } = this.options.schedule;
+      console.scripts(`Loaded script \`${this.id}\` - executing with cron: ${expression}.`);
+      this.cronTask = schedule(expression, () => runDetached(this.runSafely()));
+    }
+    return Promise.resolve();
+  }
+
+  stop(): Promise<void> {
+    if (this.interval) clearInterval(this.interval);
+    this.interval = undefined;
+    this.cronTask?.stop();
+    this.cronTask = undefined;
+    this.abortController?.abort(new Error(`Script \`${this.id}\` stopped.`));
+    this.abortController = undefined;
+    return Promise.resolve();
+  }
+
+  private async runSafely(): Promise<void> {
+    if (this.running && this.options.overlap !== "allow") {
+      console.scripts(`Skipped script \`${this.id}\` because its previous execution is still running.`);
+      return;
+    }
+
+    this.running = true;
+    this.abortController = new AbortController();
     const start = performance.now();
     try {
-      this.log(`Executing the \`${this.id}\` script.`);
-      await this.execute();
-      this.log(`Finished executing the \`${this.id}\` script.`);
-    } catch (error) {
-      console.error(error);
+      await this.log(`Executing the \`${this.id}\` script.`);
+      await this.execute(this.abortController.signal);
+      await this.log(`Finished executing the \`${this.id}\` script.`, ScriptLogState.Good);
+    } catch (error: unknown) {
+      console.error(toError(error));
     } finally {
       const durationMs = performance.now() - start;
-      this.log(`Duration: ${durationMs.toFixed(2)}ms (${prettyMilliseconds(durationMs)})`);
-    }
-  }
-
-  private init() {
-    if (!this.enabled) return console.scripts(`Script \`${this.id}\` is disabled.`);
-
-    if (this.interval) {
-      console.scripts(`Loaded script \`${this.id}\` - executing every ${this.interval}ms (${prettyMilliseconds(this.interval)})`);
-      setInterval(() => this.run(), this.interval);
-    }
-
-    if (this.cron) {
-      console.scripts(`Loaded script \`${this.id}\` - executing with cron: ${this.cron}.`);
-      schedule(this.cron, () => this.run());
+      try {
+        await this.log(`Duration of the \`${this.id}\` script: ${durationMs.toFixed(2)}ms (${prettyMilliseconds(durationMs)})`, ScriptLogState.Misc);
+      } catch (error: unknown) {
+        console.error(toError(error));
+      }
+      this.running = false;
+      this.abortController = undefined;
     }
   }
 

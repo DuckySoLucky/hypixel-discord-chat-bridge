@@ -2,6 +2,7 @@ import BasicScript from "../../BasicScript.js";
 import Parser from "rss-parser";
 import axios from "axios";
 import { delay } from "../../../utils/miscUtils.js";
+import { intervalSchedule } from "../../../types/scripts.js";
 import { load } from "cheerio";
 import type ScriptManager from "../../ScriptsManager.js";
 
@@ -13,9 +14,13 @@ class HypixelNewsScript extends BasicScript {
     super(scripts, {
       id: "hypixelNews",
       enabled: scripts.application.config.minecraft.hypixelAlerts.hypixelNews.enabled,
-      interval: scripts.application.config.minecraft.hypixelAlerts.hypixelNews.interval
+      schedule: intervalSchedule(scripts.application.config.minecraft.hypixelAlerts.hypixelNews.interval)
     });
-    if (this.enabled) this.execute();
+  }
+
+  override async start(): Promise<void> {
+    await super.start();
+    if (this.enabled) await this.runNow();
   }
 
   override async execute() {

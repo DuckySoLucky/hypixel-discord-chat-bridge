@@ -3,9 +3,11 @@ import DiscordCommandData from "../../private/commands/DiscordCommandData.js";
 import Embed from "../../private/Embed.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import { CommandFlags, type DiscordManagerWithBot } from "../../../types/discord.js";
+import { MinecraftRequestTimeoutError } from "../../../minecraft/MinecraftRequestBroker.js";
 import type { ChatInputCommandInteraction } from "discord.js";
 
 class GuildTopCommand extends DiscordCommand<DiscordManagerWithBot> {
+  override readonly data: DiscordCommandData;
   constructor(discord: DiscordManagerWithBot) {
     super(discord);
     this.data = new DiscordCommandData()
@@ -20,28 +22,24 @@ class GuildTopCommand extends DiscordCommand<DiscordManagerWithBot> {
     this.flags = [CommandFlags.RequiresMinecraftBot];
   }
 
-  getMessages(time: string | null): Promise<string[]> {
-    return new Promise<string[]>((resolve) => {
-      const cachedMessages: string[] = [];
-      const listener = (data: { positionId: number; formattedMessage: string }) => {
-        const rawMessage = this.discord.application.minecraft.prismarineChat.fromNotch(data.formattedMessage);
-        const message = rawMessage.toString();
+  async getMessages(time: string | null): Promise<string[]> {
+    const cachedMessages: string[] = [];
+    const response = this.discord.application.minecraft.requestBroker.request({
+      description: "Hypixel guild experience leaderboard",
+      timeoutMs: 1000,
+      matches: (message) => {
         cachedMessages.push(message);
-
-        if (message.startsWith("10.") && message.endsWith("Guild Experience")) {
-          this.discord.application.minecraft.bot.removeListener("systemChat", listener);
-          resolve(cachedMessages);
-        }
-      };
-
-      this.discord.application.minecraft.bot.on("systemChat", listener);
-      this.discord.application.minecraft.bot.chat(`/g top ${time || ""}`);
-
-      setTimeout(() => {
-        this.discord.application.minecraft.bot.removeListener("systemChat", listener);
-        resolve(cachedMessages);
-      }, 1000);
+        return message.startsWith("10.") && message.endsWith("Guild Experience");
+      },
+      map: () => cachedMessages
     });
+    this.discord.application.minecraft.bot.chat(`/g top ${time || ""}`);
+    try {
+      return await response;
+    } catch (error: unknown) {
+      if (error instanceof MinecraftRequestTimeoutError) return cachedMessages;
+      throw error;
+    }
   }
 
   override async execute(interaction: ChatInputCommandInteraction) {

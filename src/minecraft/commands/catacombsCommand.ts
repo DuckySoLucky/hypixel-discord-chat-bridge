@@ -6,6 +6,7 @@ import { getSelectedProfile } from "../../utils/hypixelUtils.js";
 import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 class CatacombsCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData()
@@ -25,7 +26,7 @@ class CatacombsCommand extends MinecraftCommand {
     const mage = formatNumber(profile.me.dungeons.classes.mage.level);
     const berserk = formatNumber(profile.me.dungeons.classes.berserk.level);
 
-    this.send(
+    await this.send(
       `${username}'s Catacombs: ${formatNumber(level.level)} | Selected Class: ${profile.me.dungeons.classes.selected} | Class Average: ${formatNumber(
         profile.me.dungeons.classes.average
       )} | Secrets Found: ${formatNumber(profile.me.dungeons.secrets)} | Classes: ${healer}H, ${mage}M, ${berserk}B, ${archer}A, ${mage}M ${tank}T`

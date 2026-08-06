@@ -7,6 +7,7 @@ import type { ChatInputCommandInteraction } from "discord.js";
 import type { DiscordManagerWithClient } from "../../types/discord.js";
 
 class CreditsCommand extends DiscordCommand {
+  override readonly data: DiscordCommandData;
   constructor(discord: DiscordManagerWithClient) {
     super(discord);
     this.data = new DiscordCommandData().setName("credits").setDescription("Shows the credits of the people who make this possible");

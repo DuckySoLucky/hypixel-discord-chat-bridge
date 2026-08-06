@@ -10,6 +10,7 @@ import type { SkyBlockMemberDungeonsFloor } from "hypixel-api-reborn";
 
 // CREDITS: by @Kathund (https://github.com/Kathund)
 class FloorCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData()
@@ -57,7 +58,7 @@ class FloorCommand extends MinecraftCommand {
     const floorData = floors.find((floor) => floor.id === floorId);
     if (floorData === undefined || floorData.timesPlayed === 0) throw new HypixelDiscordChatBridgeError(`${username} has never done {floor} before.`);
 
-    this.send(
+    await this.send(
       `${username}'s ${floorId} completions ${formatNumber(floorData.timesPlayed)} | S+: ${prettyMilliseconds(floorData.fastestTimeSPlus, {
         secondsDecimalDigits: 0
       })} | S: ${prettyMilliseconds(floorData.fastestTimeS, { secondsDecimalDigits: 0 })}`

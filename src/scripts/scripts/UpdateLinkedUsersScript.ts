@@ -1,5 +1,5 @@
 import BasicScript from "../BasicScript.js";
-import { ScriptLogState } from "../../types/scripts.js";
+import { ScriptLogState, intervalSchedule } from "../../types/scripts.js";
 import type ScriptManager from "../ScriptsManager.js";
 
 class UpdateLinkedUsersScript extends BasicScript {
@@ -7,7 +7,7 @@ class UpdateLinkedUsersScript extends BasicScript {
     super(scripts, {
       id: "updateLinkedUsers",
       enabled: scripts.application.config.verification.roles.autoUpdater.enabled,
-      interval: scripts.application.config.verification.roles.autoUpdater.interval
+      schedule: intervalSchedule(scripts.application.config.verification.roles.autoUpdater.interval)
     });
   }
 
@@ -16,13 +16,13 @@ class UpdateLinkedUsersScript extends BasicScript {
     for (const linkedUser of linkedUsers) {
       const response = await linkedUser.updateRoles();
       if (response === null) {
-        this.log(
+        await this.log(
           `Unable to update roles for <@${linkedUser.discordId}> (${linkedUser.discordId} - ${linkedUser.uuid}). Removing them from linked users`,
           ScriptLogState.Bad
         );
         continue;
       }
-      this.log(`Updated roles for <@${linkedUser.discordId}> (${linkedUser.discordId} - ${linkedUser.uuid})`);
+      await this.log(`Updated roles for <@${linkedUser.discordId}> (${linkedUser.discordId} - ${linkedUser.uuid})`);
     }
   }
 }

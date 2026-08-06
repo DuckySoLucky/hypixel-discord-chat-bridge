@@ -7,6 +7,7 @@ import type { GexpDisplay } from "../../../types/inactivity.js";
 import type { ModalSubmitInteraction } from "discord.js";
 
 class GexpCheckFiltersModal extends DiscordModal {
+  override readonly data: DiscordModalData;
   constructor(discord: DiscordManagerWithClient) {
     super(discord);
     this.data = new DiscordModalData("gexpCheckFilters");

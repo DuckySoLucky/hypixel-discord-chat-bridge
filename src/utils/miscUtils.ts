@@ -52,6 +52,11 @@ export function replaceAllRanks(input: string): string {
   return input;
 }
 
-export function getNestedValue(obj: any, path: string): any {
-  return path.split(".").reduce((o, key) => o?.[key], obj);
+export function getNestedValue(obj: unknown, path: string): unknown {
+  let current = obj;
+  for (const key of path.split(".")) {
+    if (typeof current !== "object" || current === null || Array.isArray(current)) return undefined;
+    current = Reflect.get(current, key);
+  }
+  return current;
 }

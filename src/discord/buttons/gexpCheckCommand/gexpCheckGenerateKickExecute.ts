@@ -7,6 +7,7 @@ import { SuccessEmbed } from "../../private/Embed.js";
 import { delay } from "../../../utils/miscUtils.js";
 
 class GexpCheckGenerateKickExecuteButton extends DiscordButton<DiscordManagerWithBot> {
+  override readonly data: DiscordButtonData;
   constructor(discord: DiscordManagerWithBot) {
     super(discord);
     this.data = new DiscordButtonData("gexpCheckGenerateKickExecute");

@@ -1,16 +1,17 @@
-import HypixelDiscordChatBridgeError from "../../private/error.js";
-import { type AutocompleteInteraction, type ChatInputCommandInteraction, Collection, MessageFlags, REST, Routes } from "discord.js";
+import ExtensionRegistry from "../../extensions/ExtensionRegistry.js";
+import loadExtensionModules from "../../extensions/moduleLoader.js";
+import { type AutocompleteInteraction, type ChatInputCommandInteraction, MessageFlags, REST, Routes } from "discord.js";
 import { BasicInteractionResponse, CommandFlags } from "../../types/discord.js";
-import { readdir } from "node:fs/promises";
+import { toError } from "../../utils/asyncUtils.js";
 import type DiscordCommand from "../private/commands/DiscordCommand.js";
 import type DiscordManager from "../DiscordManager.js";
 
 class CommandHandler {
-  readonly commands: Collection<string, DiscordCommand> = new Collection<string, DiscordCommand>();
+  readonly #commands = new ExtensionRegistry<DiscordCommand<DiscordManager>>();
   constructor(private readonly discord: DiscordManager) {}
 
   async onCommand(interaction: ChatInputCommandInteraction) {
-    const command = this.commands.get(interaction.commandName);
+    const command = this.#commands.get(interaction.commandName);
     if (!command) return;
 
     try {
@@ -23,27 +24,42 @@ class CommandHandler {
 
       await command.execute(interaction);
     } catch (error: unknown) {
-      if (error instanceof Error || error instanceof HypixelDiscordChatBridgeError) this.discord.handleError(error, interaction);
+      await this.discord.handleError(toError(error), interaction);
     }
   }
 
   async onAutoComplete(interaction: AutocompleteInteraction) {
-    const command = this.commands.get(interaction.commandName);
+    const command = this.#commands.get(interaction.commandName);
     if (!command) return;
     try {
       await command.autocomplete(interaction);
     } catch (error: unknown) {
-      if (error instanceof Error || error instanceof HypixelDiscordChatBridgeError) this.discord.handleError(error, interaction);
+      await this.discord.handleError(toError(error), interaction);
     }
   }
 
   async deployCommands(silent: boolean = false, skipChecks: boolean = false) {
-    this.commands.clear();
-    const commandFiles = await readdir("./src/discord/commands/", { recursive: true, encoding: "utf-8" }).then((files) => files.filter((file) => file.endsWith(".ts")));
+    await this.loadCommands(skipChecks);
+    if (silent) return;
 
-    const commands = [];
-    for (const file of commandFiles) {
-      const command: DiscordCommand = new (await import(`../commands/${file}`)).default(this.discord);
+    await this.deployRegisteredCommands();
+  }
+
+  async deployRegisteredCommands(): Promise<void> {
+    const commands = this.#commands.values().map((command) => command.data.toJSON());
+
+    const rest = new REST({ version: "10" }).setToken(this.discord.application.config.discord.token);
+    const clientId = Buffer.from(this.discord.application.config.discord.token.split(".")?.[0] || "UNKNOWN", "base64").toString("ascii");
+
+    await rest.put(Routes.applicationGuildCommands(clientId, this.discord.application.config.discord.serverId), { body: commands });
+    console.discord(`Successfully reloaded ${commands.length} application command(s).`);
+  }
+
+  async loadCommands(skipChecks: boolean = false): Promise<readonly ReturnType<DiscordCommand["data"]["toJSON"]>[]> {
+    this.#commands.clear();
+    const modules = await loadExtensionModules<DiscordCommand<DiscordManager>, DiscordManager>(new URL("../commands/", import.meta.url), this.discord);
+    const commands: ReturnType<DiscordCommand["data"]["toJSON"]>[] = [];
+    for (const { extension: command, source } of modules) {
       if (command.data.name) {
         if (!skipChecks) {
           if (command.flags.includes(CommandFlags.BlacklistCommand) && !this.discord.application.config.verification.inactivity.enabled) continue;
@@ -52,18 +68,22 @@ class CommandHandler {
         }
 
         commands.push(command.data.toJSON());
-        this.commands.set(command.data.name, command);
+        this.#commands.register(command.data.name, command, [], source);
       }
     }
+    return commands;
+  }
 
-    if (silent) return;
+  get commands(): readonly DiscordCommand<DiscordManager>[] {
+    return this.#commands.values();
+  }
 
-    const rest = new REST({ version: "10" }).setToken(this.discord.application.config.discord.token);
-    const clientId = Buffer.from(this.discord.application.config.discord.token.split(".")?.[0] || "UNKNOWN", "base64").toString("ascii");
+  getCommand(name: string): DiscordCommand<DiscordManager> | undefined {
+    return this.#commands.get(name);
+  }
 
-    await rest
-      .put(Routes.applicationGuildCommands(clientId, this.discord.application.config.discord.serverId), { body: commands })
-      .then(() => console.discord(`Successfully reloaded ${commands.length} application command(s).`));
+  registerCommand(command: DiscordCommand<DiscordManager>, source: string = "programmatic"): void {
+    this.#commands.register(command.data.name, command, [], source);
   }
 }
 

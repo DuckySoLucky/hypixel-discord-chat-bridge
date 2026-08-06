@@ -1,7 +1,10 @@
+import { AsyncLocalStorage } from "node:async_hooks";
+import { MinecraftRequestTimeoutError } from "../../MinecraftRequestBroker.js";
 import { delay, generateId } from "../../../utils/miscUtils.js";
 import { splitMessage } from "../../../utils/stringUtils.js";
 import type MinecraftCommandData from "./MinecraftCommandData.js";
-import type { MinecraftManagerWithBot } from "../../../types/minecraft.js";
+import type MinecraftManager from "../../MinecraftManager.js";
+import type { MinecraftCommandContext, MinecraftManagerWithBot } from "../../../types/minecraft.js";
 
 enum SendErrorType {
   RATE_LIMITED = "rate-limited",
@@ -14,25 +17,36 @@ class SendError extends Error {
   }
 }
 
-class MinecraftCommand<Manager extends MinecraftManagerWithBot = MinecraftManagerWithBot> {
-  data!: MinecraftCommandData;
-  officer: boolean = false;
+abstract class MinecraftCommand<Manager extends MinecraftManager = MinecraftManagerWithBot> {
+  abstract readonly data: MinecraftCommandData;
+  private readonly invocationStorage = new AsyncLocalStorage<MinecraftCommandContext>();
   private readonly maxMessageLength: number;
   constructor(protected readonly minecraft: Manager) {
     this.maxMessageLength = this.minecraft.application.config.minecraft.commands.maxMessageLength;
   }
 
-  getArgs(message: string): string[] {
+  getArgs(message: string = this.context.rawMessage): string[] {
     const args = message.split(" ");
     args.shift();
     return args;
+  }
+
+  async run(context: Omit<MinecraftCommandContext, "reply">): Promise<void> {
+    const invocationContext: MinecraftCommandContext = { ...context, reply: (message) => this.sendForContext(context, message) };
+    await this.invocationStorage.run(invocationContext, async () => {
+      await this.execute(invocationContext.player, invocationContext.rawMessage);
+    });
   }
 
   private hasCommandTimedOut(startTime: number): boolean {
     return Date.now() - startTime > 10_000;
   }
 
-  async send(message: string, maxRetries = 5, isErrorMessage = false) {
+  send(message: string, maxRetries = 5, isErrorMessage = false): Promise<void> {
+    return this.sendForContext(this.context, message, maxRetries, isErrorMessage);
+  }
+
+  private async sendForContext(context: Pick<MinecraftCommandContext, "channel" | "signal">, message: string, maxRetries = 5, isErrorMessage = false): Promise<void> {
     const startTime = Date.now();
 
     if (message.length > this.maxMessageLength) {
@@ -47,7 +61,7 @@ class MinecraftCommand<Manager extends MinecraftManagerWithBot = MinecraftManage
 
     for (let attempt = 0; attempt < maxRetries; attempt++) {
       try {
-        return await this.sendMessage(message);
+        return await this.sendMessage(context, message);
       } catch (error) {
         if (this.hasCommandTimedOut(startTime)) return console.error("Message sending timed out after 10 seconds");
         if (!(error instanceof SendError)) return console.error(error);
@@ -55,7 +69,7 @@ class MinecraftCommand<Manager extends MinecraftManagerWithBot = MinecraftManage
         switch (error.type) {
           case SendErrorType.RATE_LIMITED: {
             if (attempt === maxRetries - 1) {
-              this.send(`Command failed to send message after ${maxRetries} attempts. Please try again later.`, 1);
+              await this.sendForContext(context, `Command failed to send message after ${maxRetries} attempts. Please try again later.`, 1, true);
               if (!isErrorMessage) console.error(`Command failed to send message after ${maxRetries} attempts due to rate limiting.`);
               return;
             }
@@ -78,35 +92,33 @@ class MinecraftCommand<Manager extends MinecraftManagerWithBot = MinecraftManage
     }
   }
 
-  private sendMessage(message: string) {
-    return new Promise<void>((resolve, reject) => {
-      const listener = (data: { positionId: number; formattedMessage: string }) => {
-        const rawMessage = this.minecraft.prismarineChat.fromNotch(data.formattedMessage);
-        const message = rawMessage.toString();
-
-        if (this.minecraft.messageHandler.isTooFast(message)) {
-          this.minecraft.bot.removeListener("systemChat", listener);
-          reject(new SendError(SendErrorType.RATE_LIMITED));
-        }
-
-        if (this.minecraft.messageHandler.isRepeatMessage(message)) {
-          this.minecraft.bot.removeListener("systemChat", listener);
-          reject(new SendError(SendErrorType.DUPLICATE_MESSAGE));
-        }
-      };
-
-      this.minecraft.bot.once("systemChat", listener);
-      this.minecraft.bot.chat(`/${this.officer ? "oc" : "gc"} ${message}`);
-
-      setTimeout(() => {
-        this.minecraft.bot.removeListener("systemChat", listener);
-        resolve();
-      }, 500);
+  private async sendMessage(context: Pick<MinecraftCommandContext, "channel" | "signal">, message: string): Promise<void> {
+    if (!this.minecraft.isBotOnline()) throw new Error("Minecraft client is not ready.");
+    const response = this.minecraft.requestBroker.request({
+      description: `Minecraft command response for ${message}`,
+      timeoutMs: 500,
+      signal: context.signal,
+      matches: (responseMessage) => this.minecraft.messageHandler.isTooFast(responseMessage) || this.minecraft.messageHandler.isRepeatMessage(responseMessage),
+      map: (responseMessage) => {
+        if (this.minecraft.messageHandler.isTooFast(responseMessage)) throw new SendError(SendErrorType.RATE_LIMITED);
+        throw new SendError(SendErrorType.DUPLICATE_MESSAGE);
+      }
     });
+    this.minecraft.bot.chat(`/${context.channel === "officer" ? "oc" : "gc"} ${message}`);
+    try {
+      await response;
+    } catch (error: unknown) {
+      if (error instanceof MinecraftRequestTimeoutError) return;
+      throw error;
+    }
   }
 
-  execute(username: string, message: string): unknown {
-    throw new Error("Execute Method not implemented!");
+  abstract execute(username: string, message: string): Promise<void> | void;
+
+  protected get context(): MinecraftCommandContext {
+    const context = this.invocationStorage.getStore();
+    if (!context) throw new Error(`Minecraft command \`${this.data.name}\` is not running inside an invocation context.`);
+    return context;
   }
 }
 

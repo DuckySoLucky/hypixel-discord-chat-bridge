@@ -5,6 +5,7 @@ import { formatNumber } from "../../utils/stringUtils.js";
 import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 class CalculateCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData()

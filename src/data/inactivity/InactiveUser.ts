@@ -3,9 +3,9 @@ import GenericData from "../GenericData.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import { ActionRowBuilder, ButtonBuilder, ComponentType, type GuildMember } from "discord.js";
 import type InactivityManager from "./InactivityManager.js";
-import type { BasicInactiveUserData, InactiveUserData, InactivityData } from "../../types/inactivity.js";
+import type { BasicInactiveUserData, InactiveUserData } from "../../types/inactivity.js";
 
-class InactiveUser extends GenericData<InactiveUserData, InactivityData, InactivityManager> {
+class InactiveUser extends GenericData<InactiveUserData, InactivityManager> {
   readonly inactivityId: string;
   messageId?: string;
   readonly discordId: string;
@@ -22,14 +22,11 @@ class InactiveUser extends GenericData<InactiveUserData, InactivityData, Inactiv
     this.duration = data.duration;
   }
 
-  override async save(): Promise<typeof this> {
-    const inactivity = await this.manager.getFullData();
+  async save(): Promise<InactiveUser> {
     const user = await this.manager.getData(this);
     if (user) return user;
     await this.handleSave();
-    inactivity.push(this);
-    await this.manager.writeUsersParsed(inactivity);
-    return this;
+    return await this.manager.addUser(this);
   }
 
   private async handleSave(): Promise<this> {
@@ -44,11 +41,9 @@ class InactiveUser extends GenericData<InactiveUserData, InactivityData, Inactiv
     return this;
   }
 
-  override async delete(): Promise<InactiveUser[]> {
-    const inactivity = await this.manager.getFullData();
-    const updated = inactivity.filter((u) => u.inactivityId !== this.inactivityId);
+  async delete(): Promise<InactiveUser[]> {
     await this.handleDelete();
-    return await this.manager.writeUsersParsed(updated);
+    return await this.manager.deleteUser(this);
   }
 
   private async handleDelete(): Promise<void> {
@@ -81,7 +76,7 @@ class InactiveUser extends GenericData<InactiveUserData, InactivityData, Inactiv
       throw new HypixelDiscordChatBridgeError("The discord bot doesn't seam to be online? Please restart the application");
     }
     if (!this.manager.data.application.discord.isGuildReady()) {
-      this.manager.data.application.discord.stateHandler.loadGuild();
+      await this.manager.data.application.discord.stateHandler.loadGuild();
       throw new HypixelDiscordChatBridgeError("The discord server isn't ready. Please try again later");
     }
 

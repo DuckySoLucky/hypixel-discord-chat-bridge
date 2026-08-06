@@ -9,6 +9,7 @@ import type { DiscordManagerWithClient, Requirement, Requirements } from "../../
 import type { PlayerVariableStatsKeysNumber } from "../../private/constants.js";
 
 class RequirementsCommand extends DiscordCommand {
+  override readonly data: DiscordCommandData;
   constructor(discord: DiscordManagerWithClient) {
     super(discord);
     this.data = new DiscordCommandData()

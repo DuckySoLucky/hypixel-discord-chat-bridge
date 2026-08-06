@@ -7,6 +7,7 @@ import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 // CREDITS: by @Kathund (https://github.com/Kathund)
 class JacobCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData()
@@ -21,7 +22,7 @@ class JacobCommand extends MinecraftCommand {
     const { username, profile } = await getSelectedProfile(player);
     const { gold, silver, bronze } = profile.me.jacobContests.medals;
     const { doubleDrops, farmingLevelCap } = profile.me.jacobContests.perks;
-    this.send(
+    await this.send(
       `${username}'s Gold Medals: ${formatNumber(gold)} | Silver: ${formatNumber(silver)} | Bronze: ${formatNumber(bronze)} | Double Drops ${
         doubleDrops
       } / 15 | Level Cap: ${farmingLevelCap} / 10`

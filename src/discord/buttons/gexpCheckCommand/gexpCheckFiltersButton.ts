@@ -17,6 +17,7 @@ import { ButtonResponse, CommandFlags, type DiscordManagerWithClient } from "../
 import { gexpCheckData } from "../../../types/inactivity.js";
 
 class GexpCheckFiltersButton extends DiscordButton {
+  override readonly data: DiscordButtonData;
   constructor(discord: DiscordManagerWithClient) {
     super(discord);
     this.data = new DiscordButtonData("gexpCheckFilters");

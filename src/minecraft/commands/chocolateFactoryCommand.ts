@@ -7,6 +7,7 @@ import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 // CREDITS: by @Kathund (https://github.com/Kathund)
 class ChocolateFactoryCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData()
@@ -22,7 +23,7 @@ class ChocolateFactoryCommand extends MinecraftCommand {
     const { prestige, totalChocolate, currentChocolate, employees } = profile.me.chocolateFactory;
     const { bro, cousin, sis, father, grandma, dog, uncle } = employees;
 
-    this.send(
+    await this.send(
       `${username}'s Chocolate Prestige: ${prestige} | Chocolate: ${formatNumber(currentChocolate)} | Total Chocolate: ${formatNumber(
         totalChocolate
       )} | Employees: Bro: ${bro}, Cousin: ${cousin}, Sis: ${sis}, Father: ${father}, Grandma: ${grandma}, Dog: ${dog}, Uncle: ${uncle}`

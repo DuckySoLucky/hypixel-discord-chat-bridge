@@ -1,5 +1,5 @@
 import HypixelDiscordChatBridgeError from "./private/error.js";
-import { Config, ConfigChangeType, type MigrationMap } from "./types/config.js";
+import { Config, ConfigChangeType, type JsonObject, type JsonValue, type MigrationMap } from "./types/config.js";
 import { displayBigMessage } from "./private/logger.js";
 import { getNestedValue } from "./utils/miscUtils.js";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
@@ -47,22 +47,18 @@ class ConfigManager {
         "minecraft.guildRequirements": { key: "minecraft.guild.requirements", change: ConfigChangeType.Move },
         "web": { change: ConfigChangeType.Delete },
         "other.timezone": { change: ConfigChangeType.Delete },
-        "statsChannels.autoUpdaterInterval": {
-          key: "statsChannels.autoUpdater.interval",
-          change: ConfigChangeType.Transform,
-          transform: (value: any): any => `${value}m`
-        },
+        "statsChannels.autoUpdaterInterval": { key: "statsChannels.autoUpdater.interval", change: ConfigChangeType.Transform, transform: (value) => `${String(value)}m` },
         "verification.inactivity.channel": { change: ConfigChangeType.Delete },
         "verification.inactivity.maxInactivityTime": {
           key: "verification.inactivity.maxInactivityTime",
           change: ConfigChangeType.Transform,
-          transform: (value: any): any => `${value}d`
+          transform: (value) => `${String(value)}d`
         },
         "verification.autoRoleUpdater.enabled": { key: "verification.roles.autoUpdater.enabled", change: ConfigChangeType.Move },
         "verification.autoRoleUpdater.interval": {
           key: "verification.roles.autoUpdater.interval",
           change: ConfigChangeType.Transform,
-          transform: (value: any): any => `${value}h`
+          transform: (value) => `${String(value)}h`
         }
       },
       3: { "minecraft.guild.requirements.requiredToHave": { key: "minecraft.guild.requirements.requirementsNeededToPass", change: ConfigChangeType.Move } },
@@ -79,17 +75,17 @@ class ConfigManager {
     return config;
   }
 
-  static async getExampleConfigFile(): Promise<Record<string, any>> {
+  static async getExampleConfigFile(): Promise<JsonObject> {
     const file = await readFile("config.example.json", "utf-8");
-    return JSON.parse(file);
+    return this.parseJsonObject(file, "config.example.json");
   }
 
-  static async getConfigFile(): Promise<Record<string, any>> {
+  static async getConfigFile(): Promise<JsonObject> {
     const file = await readFile("config.json", "utf-8");
-    return JSON.parse(file);
+    return this.parseJsonObject(file, "config.json");
   }
 
-  private async saveConfigFile(config: Record<string, any>) {
+  private async saveConfigFile(config: JsonObject): Promise<void> {
     if (!this.hasConfigChanged) return;
     await writeFile("config.json", JSON.stringify(config, null, 2), "utf-8");
     displayBigMessage("Config updated! Restarting");
@@ -103,16 +99,17 @@ class ConfigManager {
       console.error("Config Version not found. Please manually update your config");
       process.exitCode = 0;
     }
+    if (typeof version !== "number") throw new HypixelDiscordChatBridgeError("Config Version must be a number.");
     return version;
   }
 
-  private async handleBackupConfig(config: Record<string, any>) {
+  private async handleBackupConfig(config: JsonObject | Config): Promise<void> {
     if (this.shouldBackupConfig === false) return console.warn("Config backup is disabled");
-    return await ConfigManager.backupConfig(config);
+    await ConfigManager.backupConfig(config);
   }
 
-  static async backupConfig(config: Record<string, any>, skipCheck: boolean = false) {
-    if (skipCheck === false && config.other.backupConfigs === false) return console.warn("Config backup is disabled");
+  static async backupConfig(config: JsonObject | Config, skipCheck: boolean = false): Promise<void> {
+    if (skipCheck === false && getNestedValue(config, "other.backupConfigs") === false) return console.warn("Config backup is disabled");
     await mkdir("./data/backup/config", { recursive: true });
     await writeFile(`./data/backup/config/config_${new Date().toISOString()}.json`, JSON.stringify(config, null, 2), "utf-8");
     console.other("Saved config backup");
@@ -120,7 +117,9 @@ class ConfigManager {
 
   private async migrate() {
     const config = await ConfigManager.getConfigFile();
-    let currentVersion = config.configVersion;
+    const configuredVersion = config.configVersion;
+    if (typeof configuredVersion !== "number") throw new HypixelDiscordChatBridgeError("Config Version must be a number.");
+    let currentVersion: number = configuredVersion;
     const latestVersion = Math.max(...Object.keys(this.versions).map(Number));
 
     while (currentVersion < latestVersion) {
@@ -137,13 +136,14 @@ class ConfigManager {
 
     const exampleConfig = await ConfigManager.getExampleConfigFile();
     this.mergeMissingKeys(config, exampleConfig);
-    this.saveConfigFile(config);
+    await this.saveConfigFile(config);
   }
 
-  private applyMigration(config: any, migration: MigrationMap) {
+  private applyMigration(config: JsonObject, migration: MigrationMap): void {
     for (const [oldPath, rule] of Object.entries(migration)) {
       const value = getNestedValue(config, oldPath);
       if (value === undefined) continue;
+      if (!this.isJsonValue(value)) throw new HypixelDiscordChatBridgeError(`Migration value at "${oldPath}" is not valid JSON.`);
       switch (rule.change) {
         case ConfigChangeType.Move: {
           if (!rule.key) throw new HypixelDiscordChatBridgeError(`Move migration missing target key for "${oldPath}"`);
@@ -170,18 +170,20 @@ class ConfigManager {
     }
   }
 
-  private setNestedValue(obj: any, path: string, value: any) {
+  private setNestedValue(obj: JsonObject, path: string, value: JsonValue): void {
     const keys = path.split(".");
-    const lastKey = keys.pop()!;
+    const lastKey = keys.pop();
+    if (!lastKey) throw new HypixelDiscordChatBridgeError("Cannot set an empty configuration path.");
 
-    let current = obj;
+    let current: JsonObject = obj;
     for (const key of keys) {
-      if (!current[key] || typeof current[key] !== "object") {
+      if (!this.isObject(current[key])) {
         current[key] = {};
         this.hasConfigChanged = true;
       }
-
-      current = current[key];
+      const next = current[key];
+      if (!this.isObject(next)) throw new HypixelDiscordChatBridgeError(`Unable to create configuration path "${path}".`);
+      current = next;
     }
 
     if (current[lastKey] !== value) {
@@ -190,22 +192,24 @@ class ConfigManager {
     }
   }
 
-  private deleteNestedValue(obj: any, path: string) {
+  private deleteNestedValue(obj: JsonObject, path: string): void {
     const keys = path.split(".");
-    const lastKey = keys.pop()!;
-    const parent = keys.reduce((o, key) => o?.[key], obj);
-    if (parent && lastKey in parent) {
+    const lastKey = keys.pop();
+    if (!lastKey) return;
+    const parent = getNestedValue(obj, keys.join("."));
+    if (this.isObject(parent) && lastKey in parent) {
       delete parent[lastKey];
       this.hasConfigChanged = true;
     }
     this.cleanupEmptyObjects(obj);
   }
 
-  private cleanupEmptyObjects(obj: any) {
+  private cleanupEmptyObjects(obj: JsonObject): void {
     for (const key of Object.keys(obj)) {
-      if (typeof obj[key] === "object" && obj[key] !== null && !Array.isArray(obj[key])) {
-        this.cleanupEmptyObjects(obj[key]);
-        if (Object.keys(obj[key]).length === 0) {
+      const value = obj[key];
+      if (this.isObject(value)) {
+        this.cleanupEmptyObjects(value);
+        if (Object.keys(value).length === 0) {
           delete obj[key];
           this.hasConfigChanged = true;
         }
@@ -213,10 +217,11 @@ class ConfigManager {
     }
   }
 
-  private mergeMissingKeys(target: any, source: any) {
+  private mergeMissingKeys(target: JsonObject, source: JsonObject): void {
     for (const key of Object.keys(source)) {
       const sourceValue = source[key];
       const targetValue = target[key];
+      if (sourceValue === undefined) continue;
 
       if (targetValue === undefined) {
         target[key] = structuredClone(sourceValue);
@@ -228,8 +233,20 @@ class ConfigManager {
     }
   }
 
-  private isObject(value: any): boolean {
+  private isObject(value: unknown): value is JsonObject {
     return typeof value === "object" && value !== null && !Array.isArray(value);
+  }
+
+  private isJsonValue(value: unknown): value is JsonValue {
+    if (value === null || ["string", "number", "boolean"].includes(typeof value)) return true;
+    if (Array.isArray(value)) return value.every((entry) => this.isJsonValue(entry));
+    return this.isObject(value) && Object.values(value).every((entry) => this.isJsonValue(entry));
+  }
+
+  private static parseJsonObject(input: string, source: string): JsonObject {
+    const parsed: unknown = JSON.parse(input);
+    if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) throw new HypixelDiscordChatBridgeError(`${source} must contain a JSON object.`);
+    return parsed as JsonObject;
   }
 
   static async validate(): Promise<Config> {

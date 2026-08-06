@@ -1,3 +1,16 @@
+import { z } from "zod";
+
+export const BlacklistedUserDataSchema = z.object({
+  blacklistId: z.string(),
+  messageId: z.string().optional(),
+  discordId: z.string().nullable(),
+  uuid: z.string().nullable(),
+  reason: z.string(),
+  timestamp: z.number(),
+  by: z.string()
+});
+export const BlacklistDataSchema = z.array(BlacklistedUserDataSchema);
+
 export type BlacklistData = BlacklistedUserData[];
 
 export interface BasicBlacklistedUserData {

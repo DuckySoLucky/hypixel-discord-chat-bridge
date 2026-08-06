@@ -104,3 +104,11 @@ export enum GuildManagementAction {
 }
 
 export type GuildManagementActionResponse = { action: GuildManagementAction; message: string | null };
+
+export type GuildManagementCommand = "demote" | "invite" | "kick" | "mute" | "promote" | "setrank" | "unmute";
+
+export interface GuildManagementRequest {
+  readonly action: GuildManagementCommand;
+  readonly username: string;
+  readonly argument?: string;
+}

@@ -6,6 +6,7 @@ import { getPlayer } from "../../utils/hypixelUtils.js";
 import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 class PlayerCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData()
@@ -19,7 +20,7 @@ class PlayerCommand extends MinecraftCommand {
     const hypixelPlayer = await getPlayer(player, { guild: true });
     const { formattedNickname, karma, level, guild, achievements } = hypixelPlayer;
     const guildName = guild ? guild.name : "None";
-    this.send(
+    await this.send(
       `${formattedNickname}'s level: ${level.level} | Karma: ${formatNumber(karma, 0)} | Achievement Points: ${formatNumber(achievements.points, 0)} Guild: ${guildName}`
     );
   }

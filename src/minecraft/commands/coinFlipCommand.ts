@@ -4,6 +4,7 @@ import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 // CREDITS: by @CarsonCodes (https://github.com/CarsonCodess)
 class CoinFlipCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData().setName("coinflip").setDescription("Flips a coin.").setAliases(["coin"]);

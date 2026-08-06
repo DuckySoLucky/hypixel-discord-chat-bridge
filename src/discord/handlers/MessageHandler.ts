@@ -1,7 +1,7 @@
 import { unemojify } from "node-emoji";
 import type DiscordManager from "../DiscordManager.js";
-import type { Attachment, GuildBasedChannel, GuildMember, Message } from "discord.js";
-import type { BroadcastEvent } from "../../types/bridge.js";
+import type { Attachment, GuildMember, Message } from "discord.js";
+import type { DiscordToMinecraftMessage } from "../../types/bridge.js";
 
 class MessageHandler {
   constructor(private readonly discord: DiscordManager) {}
@@ -19,29 +19,27 @@ class MessageHandler {
 
       const formattedUsername = unemojify(username);
 
-      const messageData: BroadcastEvent = {
-        discordUser: discordUser.user,
+      const baseMessageData: Omit<DiscordToMinecraftMessage, "message"> = {
         channelId: message.channel.id,
         username: formattedUsername.replaceAll(" ", ""),
-        message: content,
         replyingTo: await this.fetchReply(message),
-        discordMessage: message
+        sourceMessage: message
       };
 
-      if (!messageData.message || messageData.message.length === 0) return;
+      let messageData: DiscordToMinecraftMessage = { ...baseMessageData, message: content };
 
       if (messageData.message.length > 220) {
         const messageParts = messageData.message.match(/.{1,200}/g);
         if (messageParts === null) return;
 
         for (const part of messageParts) {
-          messageData.message = part;
-          this.discord.broadcastMessage(messageData);
+          messageData = { ...baseMessageData, message: part };
+          await this.discord.broadcastMessage(messageData);
           await new Promise((resolve) => setTimeout(resolve, 1000));
 
           if (messageParts.indexOf(part) >= 3) {
-            messageData.message = "Message too long. Truncated.";
-            this.discord.broadcastMessage(messageData);
+            messageData = { ...baseMessageData, message: "Message too long. Truncated." };
+            await this.discord.broadcastMessage(messageData);
             return;
           }
         }
@@ -49,7 +47,7 @@ class MessageHandler {
         return;
       }
 
-      this.discord.broadcastMessage(messageData);
+      await this.discord.broadcastMessage(messageData);
     } catch (error) {
       console.error(error);
     }
@@ -104,11 +102,19 @@ class MessageHandler {
 
     const hasMentions = /<@|<#|<:|<a:/.test(message.content);
     if (hasMentions) {
+      // Replace <@&1530548906348249168> with @Guild Member
+      const roleMentionPattern = /<@&(\d+)>/g;
+      const replaceRoleMention = (_match: string, mentionedRoleId: string): string => {
+        const mentionedRole = message.mentions.roles.get(mentionedRoleId) ?? message.guild?.roles.cache.get(mentionedRoleId);
+        return mentionedRole ? `@${mentionedRole.name}` : "@unknown-role";
+      };
+      output = output.replace(roleMentionPattern, replaceRoleMention);
+
       // Replace <@486155512568741900> with @DuckySoLucky
-      const userMentionPattern = /<@(\d+)>/g;
+      const userMentionPattern = /<@!?(\d+)>/g;
 
       const replaceUserMention = (_match: string, mentionedUserId: string): string => {
-        const mentionedUser = message.guild?.members.cache.get(mentionedUserId);
+        const mentionedUser = message.mentions.members?.get(mentionedUserId) ?? message.guild?.members.cache.get(mentionedUserId);
         return mentionedUser ? `@${this.getDisplayName(mentionedUser)}` : "@unknown-user";
       };
       output = output.replace(userMentionPattern, replaceUserMention);
@@ -116,8 +122,8 @@ class MessageHandler {
       // Replace <#1072863636596465726> with #💬・guild-chat
       const channelMentionPattern = /<#(\d+)>/g;
       const replaceChannelMention = (_match: string, mentionedChannelId: string): string => {
-        const mentionedChannel = message.guild?.channels.fetch(mentionedChannelId) as GuildBasedChannel | undefined;
-        return mentionedChannel?.name ? `#${mentionedChannel.name}` : "#unknown-channel";
+        const mentionedChannel = message.mentions.channels.get(mentionedChannelId) ?? message.guild?.channels.cache.get(mentionedChannelId);
+        return mentionedChannel && "name" in mentionedChannel && mentionedChannel.name ? `#${mentionedChannel.name}` : "#unknown-channel";
       };
       output = output.replace(channelMentionPattern, replaceChannelMention);
 

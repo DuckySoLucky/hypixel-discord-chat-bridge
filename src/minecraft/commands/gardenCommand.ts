@@ -8,6 +8,7 @@ import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 // CREDITS: by @Kathund (https://github.com/Kathund)
 class GardenCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   private readonly keyRemap: Record<string, string>;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
@@ -23,7 +24,7 @@ class GardenCommand extends MinecraftCommand {
     const { username, profile } = await getSelectedProfile(player, { garden: true });
     if (profile.garden === null) throw new HypixelDiscordChatBridgeError(`${username} does not have a garden.`);
 
-    const milestoneString = Object.entries(profile.garden.cropMilestones)
+    const milestoneString = Object.entries(profile.garden.parsed.cropMilestones)
       .filter(([key]) => key !== "toString")
       .sort(([a], [b]) => {
         if (a === "average") return -1;
@@ -37,7 +38,7 @@ class GardenCommand extends MinecraftCommand {
       })
       .join(" | ");
 
-    this.send(`${username}'s Garden ${profile.garden.level.level} | Milestones: ${milestoneString}`);
+    await this.send(`${username}'s Garden ${profile.garden.parsed.level.level} | Milestones: ${milestoneString}`);
   }
 }
 

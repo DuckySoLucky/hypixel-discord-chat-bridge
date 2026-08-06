@@ -2,23 +2,29 @@ import GenericManager from "../GenericManager.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import LinkedUser from "./LinkedUser.js";
 import MowojangAPI from "../../private/MowojangAPI.js";
+import { type LinkedData, LinkedDataSchema, type LinkedUserData, type OldFormat } from "../../types/linked.js";
 import { access, readFile, writeFile } from "node:fs/promises";
 import { getNetWorth, getPlayer, getSelectedProfile } from "../../utils/hypixelUtils.js";
 import type DataManager from "../DataManager.js";
 import type { Guild, Player, SkyblockProfileWithMe } from "hypixel-api-reborn";
-import type { LinkedData, LinkedUserData, OldFormat } from "../../types/linked.js";
 import type { PlayerVariableStats } from "../../private/constants.js";
 
 class LinkedManager extends GenericManager<LinkedUserData, LinkedData, LinkedUser> {
   constructor(data: DataManager) {
-    super(data, "data/linked.json", "linked", []);
-    this.checkData();
+    super(data, "data/linked.json", "linked", [], LinkedDataSchema);
+  }
+
+  override async start(): Promise<void> {
+    await super.start();
+    await this.checkData();
   }
 
   private isNewFormat(data: unknown): data is LinkedUserData[] {
     return (
       Array.isArray(data) &&
-      data.every((item) => typeof item === "object" && item !== null && typeof (item as any).uuid === "string" && typeof (item as any).discordId === "string")
+      data.every(
+        (item) => typeof item === "object" && item !== null && typeof Reflect.get(item, "uuid") === "string" && typeof Reflect.get(item, "discordId") === "string"
+      )
     );
   }
 
@@ -61,8 +67,24 @@ class LinkedManager extends GenericManager<LinkedUserData, LinkedData, LinkedUse
     return data.map((user) => new LinkedUser(user, this));
   }
 
+  protected override getId(data: LinkedUser): string {
+    return `${data.uuid}:${data.discordId}`;
+  }
+
   async writeUsersParsed(users: LinkedUser[]): Promise<LinkedUser[]> {
     return await this.writeData(users.map((user) => user.toJSON()));
+  }
+
+  async addUser(user: LinkedUser): Promise<LinkedUser> {
+    const users = await this.mutateData((data) => {
+      const exists = data.some((item) => item.uuid === user.uuid || item.discordId === user.discordId);
+      return exists ? data : [...data, user.toJSON()];
+    });
+    return users.find((item) => item.uuid === user.uuid || item.discordId === user.discordId) ?? user;
+  }
+
+  async deleteUser(user: LinkedUser): Promise<LinkedUser[]> {
+    return await this.mutateData((data) => data.filter((item) => item.uuid !== user.uuid && item.discordId !== user.discordId));
   }
 
   async getUserByDiscordId(discordId: string): Promise<LinkedUser | undefined> {
@@ -212,17 +234,17 @@ class LinkedManager extends GenericManager<LinkedUserData, LinkedData, LinkedUse
       skywarsKDRatio: Math.floor(player.stats.SkyWars.kills.total.ratio),
       skywarsWins: Math.floor(player.stats.SkyWars.wins),
       skywarsLosses: Math.floor(player.stats.SkyWars.losses),
-      skywarsWLRatio: Math.floor(player.stats.SkyWars.WLRatio),
+      skywarsWLRatio: Math.floor(player.stats.SkyWars.winLossRatio),
       skywarsPlayedGames: Math.floor(player.stats.SkyWars.gamesPlayed),
 
       duelsDivision: player.stats.Duels.title ?? "",
       duelsKills: Math.floor(player.stats.Duels.kills),
       duelsDeaths: Math.floor(player.stats.Duels.deaths),
-      duelsKDRatio: Math.floor(player.stats.Duels.KDR),
+      duelsKDRatio: Math.floor(player.stats.Duels.killDeathRatio),
       duelsWins: Math.floor(player.stats.Duels.wins),
       duelsLosses: Math.floor(player.stats.Duels.losses),
-      duelsWLRatio: Math.floor(player.stats.Duels.WLR),
-      duelsPlayedGames: Math.floor(player.stats.Duels.playedGames),
+      duelsWLRatio: Math.floor(player.stats.Duels.winLossRatio),
+      duelsPlayedGames: Math.floor(player.stats.Duels.roundsPlayed),
 
       skyblockBank: Math.floor(networth?.bank ?? 0),
       skyblockPurse: Math.floor(networth?.purse ?? 0),

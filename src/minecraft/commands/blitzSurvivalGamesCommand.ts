@@ -9,6 +9,7 @@ import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 // CREDITS: by @Kathund (https://github.com/Kathund)
 type BlitzSurvivalGamesKitKey = Exclude<BlitzSurvivalGamesKitId, "shadow knight" | "hype train"> | "shadowKnight" | "hypeTrain";
 class BlitzSurvivalGamesCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData()
@@ -34,8 +35,8 @@ class BlitzSurvivalGamesCommand extends MinecraftCommand {
     if (kit === "overall") stats = hypixelPlayer.stats.BlitzSurvivalGames;
     else stats = hypixelPlayer.stats.BlitzSurvivalGames[this.convertKit(kit)];
     const { coins, defaultKit } = hypixelPlayer.stats.BlitzSurvivalGames;
-    const { wins, kills, KDRatio, WLRatio } = stats;
-    return { wins, kills, KDRatio, WLRatio, coins, defaultKit };
+    const { wins, kills, killDeathRatio, winLossRatio } = stats;
+    return { wins, kills, killDeathRatio, winLossRatio, coins, defaultKit };
   }
 
   override async execute(player: string, message: string) {
@@ -47,11 +48,11 @@ class BlitzSurvivalGamesCommand extends MinecraftCommand {
     player = isKit ? msg[1] || player : msg[0] || player;
 
     const hypixelPlayer = await getPlayer(player);
-    const { kills, KDRatio, wins, WLRatio, coins, defaultKit } = this.getStats(hypixelPlayer, mode);
-    this.send(
-      `${hypixelPlayer.nickname}'s BlitzSG ${mode === "overall" ? `kit: ${defaultKit} |` : mode} Kills: ${formatNumber(kills)} KDR: ${KDRatio} | Wins: ${formatNumber(
-        wins
-      )} WLR: ${WLRatio} | Coins: ${formatNumber(coins)}`
+    const { kills, killDeathRatio, wins, winLossRatio, coins, defaultKit } = this.getStats(hypixelPlayer, mode);
+    await this.send(
+      `${hypixelPlayer.nickname}'s BlitzSG ${mode === "overall" ? `kit: ${defaultKit} |` : mode} Kills: ${formatNumber(kills)} KDR: ${
+        killDeathRatio
+      } | Wins: ${formatNumber(wins)} WLR: ${winLossRatio} | Coins: ${formatNumber(coins)}`
     );
   }
 }

@@ -52,6 +52,7 @@ Minecraft commands can be executed from any chat channel that the bot can see. T
 | `murdermystery`      | Get Murder Mystery Player Stats                                               | mm                                                     | `!murdermystery [u]`       | Anyone     |
 | `networth`           | Networth of specified user.                                                   | nw                                                     | `!networth (u)`            | Anyone     |
 | `player`             | Get Hypixel Player Stats                                                      | None                                                   | `!player [u]`              | Anyone     |
+| `sheepwars`          |                                                                               | sheep, shep                                            | `!sheepwars [u]`           | Anyone     |
 | `skills`             | Skills and Skill Average of specified user.                                   | skill, sa                                              | `!skills [u]`              | Anyone     |
 | `level`              | Skyblock Level of specified user.                                             | lvl                                                    | `!level [u]`               | Anyone     |
 | `skywars`            | Skywars stats of specified user.                                              | sw                                                     | `!skywars [u]`             | Anyone     |

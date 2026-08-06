@@ -9,6 +9,7 @@ import { SuccessEmbed } from "../private/Embed.js";
 import type LinkedUser from "../../data/linked/LinkedUser.js";
 
 class BlacklistCommand extends DiscordCommand {
+  override readonly data: DiscordCommandData;
   constructor(discord: DiscordManagerWithClient) {
     super(discord);
     this.data = new DiscordCommandData()

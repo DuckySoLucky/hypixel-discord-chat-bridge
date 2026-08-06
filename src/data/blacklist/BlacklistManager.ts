@@ -3,22 +3,35 @@ import GenericManager from "../GenericManager.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import MowojangAPI from "../../private/MowojangAPI.js";
 import { ActionRowBuilder, type BaseMessageOptions, ButtonStyle } from "discord.js";
+import { type BlacklistData, BlacklistDataSchema, type BlacklistedUserData } from "../../types/blacklist.js";
 import { ButtonBuilder } from "discord.js";
 import { SuccessEmbed } from "../../discord/private/Embed.js";
 import type DataManager from "../DataManager.js";
-import type { BlacklistData, BlacklistedUserData } from "../../types/blacklist.js";
 
 class BlacklistManager extends GenericManager<BlacklistedUserData, BlacklistData, BlacklistUser> {
   constructor(data: DataManager) {
-    super(data, "data/blacklist.json", "blacklist", []);
+    super(data, "data/blacklist.json", "blacklist", [], BlacklistDataSchema);
   }
 
   override parseData(data: BlacklistData): BlacklistUser[] {
     return data.map((user) => new BlacklistUser(user, this));
   }
 
+  protected override getId(data: BlacklistUser): string {
+    return data.blacklistId;
+  }
+
   async writeUsersParsed(users: BlacklistUser[]): Promise<BlacklistUser[]> {
     return await this.writeData(users.map((user) => user.toJSON()));
+  }
+
+  async addUser(user: BlacklistUser): Promise<BlacklistUser> {
+    const users = await this.mutateData((data) => (data.some((item) => item.blacklistId === user.blacklistId) ? data : [...data, user.toJSON()]));
+    return users.find((item) => item.blacklistId === user.blacklistId) ?? user;
+  }
+
+  async deleteUser(user: BlacklistUser): Promise<BlacklistUser[]> {
+    return await this.mutateData((data) => data.filter((item) => item.blacklistId !== user.blacklistId));
   }
 
   async getUserByDiscordId(discordId: string): Promise<BlacklistUser | undefined> {

@@ -8,6 +8,7 @@ import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 import type { Rarity, SkyBlockInventoryItem } from "hypixel-api-reborn";
 
 class AccessoriesCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData()
@@ -56,7 +57,7 @@ class AccessoriesCommand extends MinecraftCommand {
 
     const { recombed, amount, enriched, rarities } = talismans;
     const { COMMON, RARE, EPIC, LEGENDARY, MYTHIC, SPECIAL } = rarities;
-    this.send(
+    await this.send(
       `${username}'s Accessories: ${amount} (${formatNumber(decoded.magicalPower)} MP), Recombed: ${recombed}, Enriched: ${enriched} (${COMMON}C, ${RARE}R, ${EPIC}E, ${
         LEGENDARY
       }L, ${MYTHIC}M, ${SPECIAL}S)`

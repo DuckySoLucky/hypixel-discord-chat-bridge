@@ -6,6 +6,7 @@ import { CommandFlags, type DiscordManagerWithClient } from "../../types/discord
 import type { ChatInputCommandInteraction } from "discord.js";
 
 class ForceExecuteScriptCommand extends DiscordCommand {
+  override readonly data: DiscordCommandData;
   constructor(discord: DiscordManagerWithClient) {
     super(discord);
     this.data = new DiscordCommandData()
@@ -17,10 +18,10 @@ class ForceExecuteScriptCommand extends DiscordCommand {
 
   override async execute(interaction: ChatInputCommandInteraction) {
     const scriptName = interaction.options.getString("script-name", true);
-    const script = this.discord.application.scripts.scripts.get(scriptName);
+    const script = this.discord.application.scripts.getScript(scriptName);
     if (!script) throw new HypixelDiscordChatBridgeError("Could not find that script?");
     await interaction.followUp({ embeds: [new Embed().setDescription(`Executing \`${script.id}\` script`).setDevFooter("Kathund")] });
-    await script.execute();
+    await script.runNow();
     await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(`Finished executing \`${script.id}\` script`).setDevFooter("Kathund")] });
   }
 }

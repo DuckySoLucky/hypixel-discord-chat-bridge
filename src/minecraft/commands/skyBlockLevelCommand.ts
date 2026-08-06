@@ -5,6 +5,7 @@ import { getSelectedProfile } from "../../utils/hypixelUtils.js";
 import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 class SkyBlockLevelCommand extends MinecraftCommand {
+  override readonly data: MinecraftCommandData;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData()
@@ -17,7 +18,7 @@ class SkyBlockLevelCommand extends MinecraftCommand {
   override async execute(player: string, message: string) {
     player = this.getArgs(message)[0] || player;
     const { username, profile } = await getSelectedProfile(player);
-    this.send(`${username}'s Skyblock Level: ${profile.me.leveling.level}`);
+    await this.send(`${username}'s Skyblock Level: ${profile.me.leveling.level}`);
   }
 }
 
