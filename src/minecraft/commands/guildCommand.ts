@@ -19,12 +19,11 @@ class GuildCommand extends MinecraftCommand {
 
   override async execute(player: string, message: string) {
     const guild = await HypixelAPIReborn.getGuild("name", this.getArgs(message).join(" ")).then((data) => {
-      if (data === null) throw new HypixelDiscordChatBridgeError("Player is not in a guild");
-      if (data.isRaw()) throw new HypixelDiscordChatBridgeError("Failed to fetch Player's guild data.");
-      return data;
+      if (data.parsed === null) throw new HypixelDiscordChatBridgeError("Guild does not exist");
+      return data.parsed;
     });
     const { name, tag, members, level, totalWeeklyGEXP } = guild;
-    await this.send(`Guild of ${player} is ${name} | Tag: [${tag}] | Members: ${members.length} | Level: ${level} | Weekly GEXP: ${formatNumber(totalWeeklyGEXP)}`);
+    await this.send(`Guild ${name} | Tag: [${tag}] | Members: ${members.length} | Level: ${level} | Weekly GEXP: ${formatNumber(totalWeeklyGEXP)}`);
   }
 }
 

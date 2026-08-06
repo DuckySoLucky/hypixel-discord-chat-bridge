@@ -78,3 +78,12 @@ export function getTimestamp(time: number = Date.now()): string {
     timeZone: "UTC"
   });
 }
+
+export function toCamelCase(string: string): string {
+  return string
+    .trim()
+    .toLowerCase()
+    .split(/[\s_-]+/)
+    .map((word, index) => (index === 0 ? word : word.charAt(0).toUpperCase() + word.slice(1)))
+    .join("");
+}

@@ -1,28 +1,31 @@
 import MinecraftCommand from "../private/commands/MinecraftCommand.js";
 import MinecraftCommandData from "../private/commands/MinecraftCommandData.js";
 import MinecraftCommandDataOption from "../private/commands/MinecraftCommandDataOption.js";
+import { formatNumber, toCamelCase } from "../../utils/stringUtils.js";
 import { getPlayer } from "../../utils/hypixelUtils.js";
 import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
-class SkyWarsCommand extends MinecraftCommand {
+class SheepWarsCommand extends MinecraftCommand {
   override readonly data: MinecraftCommandData;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new MinecraftCommandData()
-      .setName("skywars")
-      .setDescription("Skywars stats of specified user.")
-      .setAliases(["sw"])
-      .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
+      .setName("sheepwars")
+      .setAliases(["sheep", "shep"])
+      .setOptions([new MinecraftCommandDataOption().setName("username")]);
   }
 
   override async execute(player: string, message: string) {
     player = this.getArgs(message)[0] || player;
     const hypixelPlayer = await getPlayer(player);
-    const { wins, kills, level, winLossRatio, coins } = hypixelPlayer.stats.SkyWars;
+    const { progression, sheepWars } = hypixelPlayer.stats.WoolGames;
+    const { kit, wins, winLossRatio, kills, killDeathRatio } = sheepWars;
     await this.send(
-      `[${level}✫] ${hypixelPlayer.nickname} | Kills: ${kills.total.kills} KDR: ${kills.total.ratio} | Wins: ${wins} WLR: ${winLossRatio} | Coins: ${coins}`
+      `[${progression.level}✫] ${hypixelPlayer.nickname}'s class: ${toCamelCase(kit)} | Wins: ${formatNumber(wins)} | WLR: ${winLossRatio} | Kills: ${formatNumber(
+        kills
+      )} | KDR: ${killDeathRatio}`
     );
   }
 }
 
-export default SkyWarsCommand;
+export default SheepWarsCommand;

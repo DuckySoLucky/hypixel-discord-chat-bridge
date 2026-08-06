@@ -14,10 +14,7 @@ class MayorCommand extends MinecraftCommand {
   }
 
   override async execute(player: string, message: string) {
-    const data = await HypixelAPIReborn.getSkyBlockElection().then((data) => {
-      if (data.isRaw()) throw new HypixelDiscordChatBridgeError("Failed to fetch the SkyBlock Election data.");
-      return data;
-    });
+    const data = await HypixelAPIReborn.getSkyBlockElection().then((data) => data.parsed);
 
     const mayor = data.lastElectionResults.candidates[0];
     const minister = data.lastElectionResults.candidates[1];

@@ -35,8 +35,8 @@ class BlitzSurvivalGamesCommand extends MinecraftCommand {
     if (kit === "overall") stats = hypixelPlayer.stats.BlitzSurvivalGames;
     else stats = hypixelPlayer.stats.BlitzSurvivalGames[this.convertKit(kit)];
     const { coins, defaultKit } = hypixelPlayer.stats.BlitzSurvivalGames;
-    const { wins, kills, KDRatio, WLRatio } = stats;
-    return { wins, kills, KDRatio, WLRatio, coins, defaultKit };
+    const { wins, kills, killDeathRatio, winLossRatio } = stats;
+    return { wins, kills, killDeathRatio, winLossRatio, coins, defaultKit };
   }
 
   override async execute(player: string, message: string) {
@@ -48,11 +48,11 @@ class BlitzSurvivalGamesCommand extends MinecraftCommand {
     player = isKit ? msg[1] || player : msg[0] || player;
 
     const hypixelPlayer = await getPlayer(player);
-    const { kills, KDRatio, wins, WLRatio, coins, defaultKit } = this.getStats(hypixelPlayer, mode);
+    const { kills, killDeathRatio, wins, winLossRatio, coins, defaultKit } = this.getStats(hypixelPlayer, mode);
     await this.send(
-      `${hypixelPlayer.nickname}'s BlitzSG ${mode === "overall" ? `kit: ${defaultKit} |` : mode} Kills: ${formatNumber(kills)} KDR: ${KDRatio} | Wins: ${formatNumber(
-        wins
-      )} WLR: ${WLRatio} | Coins: ${formatNumber(coins)}`
+      `${hypixelPlayer.nickname}'s BlitzSG ${mode === "overall" ? `kit: ${defaultKit} |` : mode} Kills: ${formatNumber(kills)} KDR: ${
+        killDeathRatio
+      } | Wins: ${formatNumber(wins)} WLR: ${winLossRatio} | Coins: ${formatNumber(coins)}`
     );
   }
 }

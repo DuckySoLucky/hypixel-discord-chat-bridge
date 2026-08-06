@@ -24,7 +24,7 @@ class GardenCommand extends MinecraftCommand {
     const { username, profile } = await getSelectedProfile(player, { garden: true });
     if (profile.garden === null) throw new HypixelDiscordChatBridgeError(`${username} does not have a garden.`);
 
-    const milestoneString = Object.entries(profile.garden.cropMilestones)
+    const milestoneString = Object.entries(profile.garden.parsed.cropMilestones)
       .filter(([key]) => key !== "toString")
       .sort(([a], [b]) => {
         if (a === "average") return -1;
@@ -38,7 +38,7 @@ class GardenCommand extends MinecraftCommand {
       })
       .join(" | ");
 
-    await this.send(`${username}'s Garden ${profile.garden.level.level} | Milestones: ${milestoneString}`);
+    await this.send(`${username}'s Garden ${profile.garden.parsed.level.level} | Milestones: ${milestoneString}`);
   }
 }
 

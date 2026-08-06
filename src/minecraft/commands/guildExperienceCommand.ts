@@ -19,9 +19,8 @@ class GuildExperienceCommand extends MinecraftCommand {
   override async execute(player: string, message: string) {
     player = this.getArgs(message)[0] || player;
     const guild = await HypixelAPIReborn.getGuild("player", player).then((data) => {
-      if (data === null) throw new HypixelDiscordChatBridgeError("Player is not in a guild");
-      if (data.isRaw()) throw new HypixelDiscordChatBridgeError("Failed to fetch Player's guild data.");
-      return data;
+      if (data.parsed === null) throw new HypixelDiscordChatBridgeError("Player is not in a guild");
+      return data.parsed;
     });
     if (guild.me === null) throw new HypixelDiscordChatBridgeError("Player is not in a guild");
     const { weeklyExperience } = guild.me;

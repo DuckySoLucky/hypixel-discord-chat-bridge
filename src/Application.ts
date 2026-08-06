@@ -94,9 +94,8 @@ class Application implements Lifecycle {
   async getBotGuild(): Promise<Guild> {
     if (!this.minecraft.hasBot()) throw new HypixelDiscordChatBridgeError(this.messages.minecraftBotOffline);
     this.botGuild = await HypixelAPIReborn.getGuild("player", this.minecraft.bot.username).then((guild) => {
-      if (guild === null) throw new HypixelDiscordChatBridgeError("In game Hypixel Guild not found.");
-      if (guild.isRaw()) throw new HypixelDiscordChatBridgeError("In game Hypixel Guild not found.");
-      return guild;
+      if (guild.parsed === null) throw new HypixelDiscordChatBridgeError("In game Hypixel Guild not found.");
+      return guild.parsed;
     });
     this.botGuildMembers = await MowojangAPI.getProfiles(this.botGuild.members.map((member) => member.uuid)).then((data) => {
       if (data.data === null) return undefined;

@@ -33,8 +33,8 @@ importers:
         specifier: 5.2.1
         version: 5.2.1
       hypixel-api-reborn:
-        specifier: 12.0.0-27
-        version: 12.0.0-27
+        specifier: 12.0.0-28
+        version: 12.0.0-28
       minecraft-data:
         specifier: 3.111.0
         version: 3.111.0
@@ -42,8 +42,8 @@ importers:
         specifier: 1.66.2
         version: 1.66.2
       mowojang:
-        specifier: 0.5.0
-        version: 0.5.0
+        specifier: 0.5.1
+        version: 0.5.1
       ms:
         specifier: 2.1.3
         version: 2.1.3
@@ -1591,8 +1591,8 @@ packages:
     resolution: {integrity: sha512-dFcAjpTQFgoLMzC2VwU+C/CbS7uRL0lWmxDITmqm7C+7F0Odmj6s9l6alZc6AELXhrnggM2CeWSXHGOdX2YtwA==}
     engines: {node: '>= 6'}
 
-  hypixel-api-reborn@12.0.0-27:
-    resolution: {integrity: sha512-5LWNdU3LYisRiChAytP2+pHOB+ice+3LmVQ+tqtqJXv6G8P+xJviKh4+2UkZdwFaoohnZ0Xg2UVDFCJpBzlMIw==}
+  hypixel-api-reborn@12.0.0-28:
+    resolution: {integrity: sha512-6XEp+69uIAsp2/j8LUsMYZvJPnBdlBiwMlcGUiJFY38n5AFR6bfuvRl4LfsHThD7TQeglRJI6XHiW6H7nFv+hw==}
     engines: {node: '>=20.19.5'}
 
   iconv-lite@0.6.3:
@@ -1911,12 +1911,8 @@ packages:
   moo@0.5.3:
     resolution: {integrity: sha512-m2fmM2dDm7GZQsY7KK2cme8agi+AAljILjQnof7p1ZMDe6dQ4bdnSMx0cPppudoeNv5hEFQirN6u+O4fDE0IWA==}
 
-  mowojang@0.4.7:
-    resolution: {integrity: sha512-1xqdFaG5YGfeeTu91T+rV8aw0ti1eWVlT9Zmk+ZN75mEP8T8XRkpv2LXh2ZAdNIkzQaCjoQdc5y91bJUpx01Zg==}
-    engines: {node: '>=22.0.0'}
-
-  mowojang@0.5.0:
-    resolution: {integrity: sha512-UpDpDzxW8R9VjBJ6rtU8PjhYUWJbSDA+Wl1gqwZxKAD6kMnDU+hHaBZyn+PrBesZjpdHgrC3z+JkP3wdoHmBZg==}
+  mowojang@0.5.1:
+    resolution: {integrity: sha512-GhFmFSeqTDiijBFhuHIKmgh3ECRMkmny/8Cv0hJNdSQvXcfC8MkdF1LimGHlbq8rOwnmqYNoWsxSI0dtKOqrYA==}
     engines: {node: '>=22.0.0'}
 
   ms@2.1.3:
@@ -4209,10 +4205,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  hypixel-api-reborn@12.0.0-27:
+  hypixel-api-reborn@12.0.0-28:
     dependencies:
-      minecraft-data: 3.111.0
-      mowojang: 0.4.7
+      mowojang: 0.5.1
       node-cache: 5.1.2
       prismarine-nbt: 2.8.0
       rss-parser: 3.13.0
@@ -4540,15 +4535,7 @@ snapshots:
 
   moo@0.5.3: {}
 
-  mowojang@0.4.7:
-    dependencies:
-      axios: 1.18.0
-      axios-cache-interceptor: 1.12.0(axios@1.18.0)
-    transitivePeerDependencies:
-      - debug
-      - supports-color
-
-  mowojang@0.5.0:
+  mowojang@0.5.1:
     dependencies:
       axios: 1.18.0
       axios-cache-interceptor: 1.12.0(axios@1.18.0)

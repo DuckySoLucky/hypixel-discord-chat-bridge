@@ -7,12 +7,11 @@ import {
   DuelsModeAliastoInternalMap,
   type DuelsModeName,
   DuelsModeNames,
-  type MinecraftManagerWithBot,
-  type ParsedDuelsStats
+  type MinecraftManagerWithBot
 } from "../../types/minecraft.js";
 import { formatNumber } from "../../utils/stringUtils.js";
 import { getPlayer } from "../../utils/hypixelUtils.js";
-import type { Player } from "hypixel-api-reborn";
+import type { DuelsModeFull, Player } from "hypixel-api-reborn";
 
 class DuelsCommand extends MinecraftCommand {
   override readonly data: MinecraftCommandData;
@@ -29,7 +28,7 @@ class DuelsCommand extends MinecraftCommand {
     return DuelsModeAliastoInternalMap[mode] as DuelsInternalName;
   }
 
-  getStats(hypixelPlayer: Player, mode: DuelsModSearch): ParsedDuelsStats {
+  getStats(hypixelPlayer: Player, mode: DuelsModSearch): DuelsModeFull {
     let stats;
 
     if (mode === "overall") {
@@ -39,8 +38,7 @@ class DuelsCommand extends MinecraftCommand {
       stats = hypixelPlayer.stats.Duels[internal];
     }
 
-    const { title, kills, KDR, wins, WLR, winStreak, bestWinStreak } = stats;
-    return { title, kills, KDR, wins, WLR, winStreak, bestWinStreak };
+    return stats as DuelsModeFull;
   }
 
   override async execute(player: string, message: string) {
@@ -59,12 +57,12 @@ class DuelsCommand extends MinecraftCommand {
     }
 
     const hypixelPlayer = await getPlayer(player);
-    const { title, kills, KDR, wins, WLR, winStreak, bestWinStreak } = this.getStats(hypixelPlayer, mode);
+    const { title, kills, killDeathRatio, wins, winLossRatio, winstreak, winstreakBest } = this.getStats(hypixelPlayer, mode);
     const parsedTitle = title ? `[${title}] ` : "";
     await this.send(
-      `${parsedTitle}${hypixelPlayer.nickname}'s ${mode} Kills: ${formatNumber(kills)} KDR: ${KDR} | Wins: ${formatNumber(wins)} WLR: ${WLR} | WS: ${winStreak} BWS: ${
-        bestWinStreak
-      }`
+      `${parsedTitle}${hypixelPlayer.nickname}'s ${mode} Kills: ${formatNumber(kills)} KDR: ${killDeathRatio} | Wins: ${formatNumber(wins)} WLR: ${
+        winLossRatio
+      } | WS: ${winstreak} BWS: ${winstreakBest}`
     );
   }
 }

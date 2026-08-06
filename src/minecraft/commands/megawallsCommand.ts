@@ -18,9 +18,11 @@ class EightBallCommand extends MinecraftCommand {
   override async execute(player: string, message: string) {
     player = this.getArgs(message)[0] || player;
     const hypixelPlayer = await getPlayer(player);
-    const { selectedClass, finalKills, FKDR, wins, WLR, kills, KDR, assists } = hypixelPlayer.stats.MegaWalls;
+    const { selectedClass, finalKills, finalKillDeathRatio, wins, winLossRatio, kills, killDeathRatio, assists } = hypixelPlayer.stats.MegaWalls;
     await this.send(
-      `${player}'s Megawalls: Class: ${selectedClass} | FK: ${finalKills} | FKDR: ${FKDR} | W: ${wins} | WLR: ${WLR} | K: ${kills} | KDR: ${KDR} | A: ${assists}`
+      `${player}'s Megawalls: Class: ${selectedClass} | FK: ${finalKills} | FKDR: ${finalKillDeathRatio} | W: ${wins} | WLR: ${winLossRatio} | K: ${kills} | KDR: ${
+        killDeathRatio
+      } | A: ${assists}`
     );
   }
 }

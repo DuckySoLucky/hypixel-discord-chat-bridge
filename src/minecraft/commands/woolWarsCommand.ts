@@ -19,12 +19,12 @@ class WoolWarsCommand extends MinecraftCommand {
   override async execute(player: string, message: string) {
     player = this.getArgs(message)[0] || player;
     const hypixelPlayer = await getPlayer(player);
-    const { level } = hypixelPlayer.stats.WoolGames;
-    const { wins, gamesPlayed, woolsPlaced, blocksBroken, KDRatio } = hypixelPlayer.stats.WoolGames.woolWars;
+    const { progression, woolWars } = hypixelPlayer.stats.WoolGames;
+    const { wins, winLossRatio, killDeathRatio, blocksBroken, woolPlaced, gamesPlayed } = woolWars;
     await this.send(
-      `[${Math.floor(level)}✫] ${player}: W: ${formatNumber(wins)} | WLR: ${(wins / gamesPlayed).toFixed(2)} | KDR: ${KDRatio} | BB: ${formatNumber(
+      `[${progression.level}✫] ${hypixelPlayer.nickname}'s Wins: ${formatNumber(wins)} | WLR: ${winLossRatio} | KDR: ${killDeathRatio} | BB: ${formatNumber(
         blocksBroken
-      )} | WP: ${formatNumber(woolsPlaced)} | WPP: ${formatNumber(woolsPlaced / gamesPlayed)} | WPG: ${(woolsPlaced / blocksBroken).toFixed(2)}`
+      )} | WP: ${formatNumber(woolPlaced)} | WPG: ${formatNumber(woolPlaced / gamesPlayed)}`
     );
   }
 }
