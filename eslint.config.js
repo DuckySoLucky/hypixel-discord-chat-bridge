@@ -23,6 +23,7 @@ export default [
       "sort-imports/sort-imports": ["error", { ignoreCase: false, ignoreMemberSort: false, memberSyntaxSortOrder: ["all", "single", "multiple", "none"] }],
       "@stylistic/max-len": ["warn", { code: 170, tabWidth: 2, ignoreComments: true, ignoreUrls: true, ignoreRegExpLiterals: true }],
       "@stylistic/space-before-function-paren": ["error", { anonymous: "never", named: "never", catch: "always" }],
+      "import/no-unresolved": ["error", { ignore: ["hypixel-discord-chat-bridge/plugin-api"] }],
       "@stylistic/function-call-argument-newline": ["error", "consistent"],
       "@typescript-eslint/no-unused-vars": ["error", { args: "none" }],
       "@stylistic/quotes": ["error", "double", { avoidEscape: true }],

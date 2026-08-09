@@ -2,7 +2,7 @@ import config from "../../../config.json" with { type: "json" };
 import { type APIEmbed, type ColorResolvable, EmbedBuilder, type EmbedData } from "discord.js";
 import { CommonDevs } from "../../private/constants.js";
 import { ConfigOtherColors } from "../../types/config.js";
-import type { Devs } from "../../types/misc.js";
+import type { Devs } from "../../types/application.js";
 
 export default class Embed extends EmbedBuilder {
   constructor(data?: EmbedData | APIEmbed) {

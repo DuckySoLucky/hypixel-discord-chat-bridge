@@ -1,4 +1,4 @@
-import type { Dev, Devs, MiscCredit } from "../types/application.js";
+import type { CreditData, Dev, Devs } from "../types/application.js";
 
 export const CommonDevs: Record<Devs, Dev> = {
   DuckySoLucky: { username: "duckysolucky", id: "486155512568741900", iconURL: "https://imgur.com/tgwQJTX.png", type: "Maintainer" },
@@ -7,7 +7,7 @@ export const CommonDevs: Record<Devs, Dev> = {
   Zickles: { username: "zickles", id: "468043261911498767", iconURL: "https://i.imgur.com/vw8SAq4.png", type: "Contributor" }
 };
 
-export const MiscCredits: MiscCredit[] = [
+export const MiscCredits: CreditData[] = [
   { name: "discord.js", description: "Handles the discord part of this project", link: "discord.js.org" },
   { name: "minecraft-protocol", description: "Handles the minecraft part of this project", link: "prismarinejs.github.io/node-minecraft-protocol" },
   { name: "Hypixel API", description: "It's the Hypixel API? What else would I say", link: "api.hypixel.net" },
