@@ -7,20 +7,16 @@ import { MinecraftRequestTimeoutError } from "../../../minecraft/MinecraftReques
 import type { ChatInputCommandInteraction } from "discord.js";
 
 class GuildTopCommand extends DiscordCommand<DiscordManagerWithBot> {
-  override readonly data: DiscordCommandData;
-  constructor(discord: DiscordManagerWithBot) {
-    super(discord);
-    this.data = new DiscordCommandData()
-      .setName("guildtop")
-      .setDescription("Top 10 members with the most guild experience.")
-      .addStringOption((option) =>
-        option
-          .setName("time")
-          .setDescription("Days ago")
-          .addChoices(...Array.from({ length: 14 }, (_, index) => ({ name: `${index + 1} Day ago`, value: (index + 1).toString() })))
-      );
-    this.flags = [CommandFlags.RequiresMinecraftBot];
-  }
+  override readonly data = new DiscordCommandData()
+    .setName("guildtop")
+    .setDescription("Top 10 members with the most guild experience.")
+    .addStringOption((option) =>
+      option
+        .setName("time")
+        .setDescription("Days ago")
+        .addChoices(...Array.from({ length: 14 }, (_, index) => ({ name: `${index + 1} Day ago`, value: (index + 1).toString() })))
+    );
+  override flags = [CommandFlags.RequiresMinecraftBot];
 
   async getMessages(time: string | null): Promise<string[]> {
     const cachedMessages: string[] = [];

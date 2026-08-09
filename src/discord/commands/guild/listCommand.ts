@@ -8,12 +8,8 @@ import { removeColorCodes } from "../../../utils/stringUtils.js";
 import type { ChatInputCommandInteraction } from "discord.js";
 
 class ListCommand extends DiscordCommand<DiscordManagerWithBot> {
-  override readonly data: DiscordCommandData;
-  constructor(discord: DiscordManagerWithBot) {
-    super(discord);
-    this.data = new DiscordCommandData().setName("list").setDescription("List of guild members.");
-    this.flags = [CommandFlags.RequiresMinecraftBot];
-  }
+  override readonly data = new DiscordCommandData().setName("list").setDescription("List of guild members.");
+  override flags = [CommandFlags.RequiresMinecraftBot];
 
   async getMessages(): Promise<string[]> {
     const cachedMessages: string[] = [];

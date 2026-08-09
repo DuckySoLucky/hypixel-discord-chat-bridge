@@ -1,9 +1,7 @@
-import type BridgeEventBus from "../../../src/private/BridgeEventBus.js";
-import type { BridgeEventMap, BridgePluginLogger } from "../../../src/plugin-api.js";
+import { BridgeEventBus, type BridgeEventMap, type BridgePluginLogger } from "hypixel-discord-chat-bridge/plugin-api";
 
 class ShowcaseEventLogger {
   readonly #disposers: Array<() => void> = [];
-
   constructor(
     private readonly events: BridgeEventBus,
     private readonly logger: BridgePluginLogger

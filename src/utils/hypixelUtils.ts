@@ -3,8 +3,7 @@ import HypixelDiscordChatBridgeError from "../private/error.js";
 import MowojangAPI from "../private/MowojangAPI.js";
 import { type NetworthResult, ProfileNetworthCalculator } from "skyhelper-networth";
 import { Player, type PlayerRequestOptions, type SkyBlockProfileType, type SkyblockProfileWithMe } from "hypixel-api-reborn";
-import type { LatestProfileOptions } from "../types/misc.js";
-import type { SelectedProfileData } from "../types/minecraft.js";
+import type { LatestProfileOptions, SelectedProfileData } from "../types/minecraft.js";
 
 export function formatUsername(username: string, gamemode: SkyBlockProfileType | null): string {
   if (gamemode === "ironman") return `♲ ${username}`;

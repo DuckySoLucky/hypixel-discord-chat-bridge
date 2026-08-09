@@ -8,12 +8,8 @@ import { replaceVariables } from "../../../utils/stringUtils.js";
 import type { ModalSubmitInteraction } from "discord.js";
 
 class KickUserModal extends DiscordModal<DiscordManagerWithBot> {
-  override readonly data: DiscordModalData;
-  constructor(discord: DiscordManagerWithBot) {
-    super(discord);
-    this.data = new DiscordModalData("kickUser");
-    this.flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.StaffOnly, CommandFlags.VerificationCommand];
-  }
+  override readonly data = new DiscordModalData("kickUser");
+  override flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.StaffOnly, CommandFlags.VerificationCommand];
 
   override async execute(interaction: ModalSubmitInteraction) {
     const linkedCommand = new LinkedCommand(this.discord);

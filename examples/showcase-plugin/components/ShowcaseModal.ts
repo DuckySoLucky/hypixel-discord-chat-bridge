@@ -1,15 +1,10 @@
-import { BasicInteractionResponse, DiscordModal, DiscordModalData } from "../../../src/plugin-api.js";
+import { BasicInteractionResponse, type DiscordManager, DiscordModal, DiscordModalData } from "hypixel-discord-chat-bridge/plugin-api";
 import { showcaseModalId, showcaseModalInputId } from "./ids.js";
-import type { DiscordManager } from "../../../src/plugin-api.js";
 import type { ModalSubmitInteraction } from "discord.js";
 
 class ShowcaseModal extends DiscordModal<DiscordManager> {
   override readonly data = new DiscordModalData(showcaseModalId);
-
-  constructor(discord: DiscordManager) {
-    super(discord);
-    this.response = BasicInteractionResponse.Ephemeral;
-  }
+  override response = BasicInteractionResponse.Ephemeral;
 
   override async execute(interaction: ModalSubmitInteraction): Promise<void> {
     const submittedText = interaction.fields.getTextInputValue(showcaseModalInputId);

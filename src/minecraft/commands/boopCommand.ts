@@ -3,22 +3,15 @@ import MinecraftCommand from "../private/commands/MinecraftCommand.js";
 import MinecraftCommandData from "../private/commands/MinecraftCommandData.js";
 import MinecraftCommandDataOption from "../private/commands/MinecraftCommandDataOption.js";
 import { delay } from "../../utils/miscUtils.js";
-import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 // CREDITS: by @Zickles (https://github.com/Zickles)
 class BoopCommand extends MinecraftCommand {
-  override readonly data: MinecraftCommandData;
-  isOnCooldown: boolean;
-  constructor(minecraft: MinecraftManagerWithBot) {
-    super(minecraft);
-    this.data = new MinecraftCommandData()
-      .setName("boop")
-      .setDescription("Boop someone!")
-      .setAliases(["bp"])
-      .setOptions([new MinecraftCommandDataOption().setName("username").setRequired(true)]);
-
-    this.isOnCooldown = false;
-  }
+  override readonly data = new MinecraftCommandData()
+    .setName("boop")
+    .setDescription("Boop someone!")
+    .setAliases(["bp"])
+    .setOptions([new MinecraftCommandDataOption().setName("username").setRequired(true)]);
+  private isOnCooldown: boolean = false;
 
   override async execute(player: string, message: string) {
     try {

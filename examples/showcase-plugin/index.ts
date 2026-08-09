@@ -5,8 +5,7 @@ import ShowcaseMinecraftCommand from "./commands/ShowcaseMinecraftCommand.js";
 import ShowcaseModal from "./components/ShowcaseModal.js";
 import ShowcaseScript from "./scripts/ShowcaseScript.js";
 import showcasePluginConfig from "./config.js";
-import { BridgePlugin } from "../../src/plugin-api.js";
-import type { BridgePluginContext } from "../../src/plugin-api.js";
+import { BridgePlugin, type BridgePluginContext } from "hypixel-discord-chat-bridge/plugin-api";
 import type { ShowcasePluginConfig } from "./config.js";
 
 class ShowcasePlugin extends BridgePlugin {

@@ -2,19 +2,15 @@ import DiscordCommand from "../private/commands/DiscordCommand.js";
 import DiscordCommandData from "../private/commands/DiscordCommandData.js";
 import Embed, { SuccessEmbed } from "../private/Embed.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
-import { CommandFlags, type DiscordManagerWithClient } from "../../types/discord.js";
+import { CommandFlags } from "../../types/discord.js";
 import type { ChatInputCommandInteraction } from "discord.js";
 
 class ForceExecuteScriptCommand extends DiscordCommand {
-  override readonly data: DiscordCommandData;
-  constructor(discord: DiscordManagerWithClient) {
-    super(discord);
-    this.data = new DiscordCommandData()
-      .setName("force-execute-script")
-      .setDescription("Allows executing scripts")
-      .addStringOption((option) => option.setName("script-name").setDescription("Script Name").setRequired(true).setAutocomplete(true));
-    this.flags = [CommandFlags.StaffOnly];
-  }
+  override readonly data = new DiscordCommandData()
+    .setName("force-execute-script")
+    .setDescription("Allows executing scripts")
+    .addStringOption((option) => option.setName("script-name").setDescription("Script Name").setRequired(true).setAutocomplete(true));
+  override flags = [CommandFlags.StaffOnly];
 
   override async execute(interaction: ChatInputCommandInteraction) {
     const scriptName = interaction.options.getString("script-name", true);

@@ -5,15 +5,11 @@ import { CommandFlags, type DiscordManagerWithBot } from "../../../types/discord
 import type { ChatInputCommandInteraction } from "discord.js";
 
 class ForceUnverifyCommand extends DiscordCommand<DiscordManagerWithBot> {
-  override readonly data: DiscordCommandData;
-  constructor(discord: DiscordManagerWithBot) {
-    super(discord);
-    this.data = new DiscordCommandData()
-      .setName("force-unverify")
-      .setDescription("Remove a linked Minecraft account")
-      .addUserOption((option) => option.setName("user").setDescription("Discord Username").setRequired(true));
-    this.flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.StaffOnly, CommandFlags.VerificationCommand];
-  }
+  override readonly data = new DiscordCommandData()
+    .setName("force-unverify")
+    .setDescription("Remove a linked Minecraft account")
+    .addUserOption((option) => option.setName("user").setDescription("Discord Username").setRequired(true));
+  override flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.StaffOnly, CommandFlags.VerificationCommand];
 
   override async execute(interaction: ChatInputCommandInteraction) {
     const user = interaction.options.getUser("user", true);

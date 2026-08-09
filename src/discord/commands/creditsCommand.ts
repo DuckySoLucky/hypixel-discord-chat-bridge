@@ -2,16 +2,11 @@ import DiscordCommand from "../private/commands/DiscordCommand.js";
 import DiscordCommandData from "../private/commands/DiscordCommandData.js";
 import Embed from "../private/Embed.js";
 import { CommonDevs, MiscCredits } from "../../private/constants.js";
-import { DevTypes } from "../../types/misc.js";
+import { DevTypes } from "../../types/application.js";
 import type { ChatInputCommandInteraction } from "discord.js";
-import type { DiscordManagerWithClient } from "../../types/discord.js";
 
 class CreditsCommand extends DiscordCommand {
-  override readonly data: DiscordCommandData;
-  constructor(discord: DiscordManagerWithClient) {
-    super(discord);
-    this.data = new DiscordCommandData().setName("credits").setDescription("Shows the credits of the people who make this possible");
-  }
+  override readonly data = new DiscordCommandData().setName("credits").setDescription("Shows the credits of the people who make this possible");
 
   override async execute(interaction: ChatInputCommandInteraction) {
     const miscCredits = MiscCredits.map(({ name, description, link }) => `- **[${name}](<https://${link}>):** ${description}`).join("\n");

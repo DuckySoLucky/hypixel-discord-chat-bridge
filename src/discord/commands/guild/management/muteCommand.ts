@@ -7,16 +7,12 @@ import { replaceVariables } from "../../../../utils/stringUtils.js";
 import type { ChatInputCommandInteraction } from "discord.js";
 
 class MuteCommand extends DiscordCommand<DiscordManagerWithBot> {
-  override readonly data: DiscordCommandData;
-  constructor(discord: DiscordManagerWithBot) {
-    super(discord);
-    this.data = new DiscordCommandData()
-      .setName("mute")
-      .setDescription("Mutes the given user for a given amount of time.")
-      .addStringOption((option) => option.setName("guild-member-username").setDescription("Minecraft Username").setRequired(true).setAutocomplete(true))
-      .addStringOption((option) => option.setName("time").setDescription("Time").setRequired(true));
-    this.flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.StaffOnly];
-  }
+  override readonly data = new DiscordCommandData()
+    .setName("mute")
+    .setDescription("Mutes the given user for a given amount of time.")
+    .addStringOption((option) => option.setName("guild-member-username").setDescription("Minecraft Username").setRequired(true).setAutocomplete(true))
+    .addStringOption((option) => option.setName("time").setDescription("Time").setRequired(true));
+  override flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.StaffOnly];
 
   override async execute(interaction: ChatInputCommandInteraction) {
     const username = interaction.options.getString("guild-member-username", true);

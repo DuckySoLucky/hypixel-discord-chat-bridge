@@ -3,16 +3,12 @@ import DiscordButton from "../../private/buttons/DiscordButton.js";
 import DiscordButtonData from "../../private/buttons/DiscordButtonData.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import { type ButtonInteraction, LabelBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } from "discord.js";
-import { ButtonResponse, CommandFlags, type DiscordManagerWithClient } from "../../../types/discord.js";
+import { ButtonResponse, CommandFlags } from "../../../types/discord.js";
 
 class UnblacklistButton extends DiscordButton {
-  override readonly data: DiscordButtonData;
-  constructor(discord: DiscordManagerWithClient) {
-    super(discord);
-    this.data = new DiscordButtonData("unblacklist");
-    this.response = ButtonResponse.None;
-    this.flags = [CommandFlags.StaffOnly, CommandFlags.BlacklistCommand];
-  }
+  override readonly data = new DiscordButtonData("unblacklist");
+  override response = ButtonResponse.None;
+  override flags = [CommandFlags.StaffOnly, CommandFlags.BlacklistCommand];
 
   override async execute(interaction: ButtonInteraction) {
     const blacklistCommand = new BlacklistCommand(this.discord);

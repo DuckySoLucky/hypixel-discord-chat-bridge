@@ -7,12 +7,8 @@ import { SuccessEmbed } from "../../private/Embed.js";
 import { delay } from "../../../utils/miscUtils.js";
 
 class GexpCheckGenerateKickExecuteButton extends DiscordButton<DiscordManagerWithBot> {
-  override readonly data: DiscordButtonData;
-  constructor(discord: DiscordManagerWithBot) {
-    super(discord);
-    this.data = new DiscordButtonData("gexpCheckGenerateKickExecute");
-    this.flags = [CommandFlags.StaffOnly, CommandFlags.InactivityCommand, CommandFlags.VerificationCommand, CommandFlags.RequiresMinecraftBot];
-  }
+  override readonly data = new DiscordButtonData("gexpCheckGenerateKickExecute");
+  override flags = [CommandFlags.StaffOnly, CommandFlags.InactivityCommand, CommandFlags.VerificationCommand, CommandFlags.RequiresMinecraftBot];
 
   override async execute(interaction: ButtonInteraction) {
     if (!interaction.message) return;

@@ -3,18 +3,13 @@ import MinecraftCommandData from "../private/commands/MinecraftCommandData.js";
 import MinecraftCommandDataOption from "../private/commands/MinecraftCommandDataOption.js";
 import { formatNumber } from "../../utils/stringUtils.js";
 import { getNetWorthCalculator, getSelectedProfile } from "../../utils/hypixelUtils.js";
-import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 class NetworthCommand extends MinecraftCommand {
-  override readonly data: MinecraftCommandData;
-  constructor(minecraft: MinecraftManagerWithBot) {
-    super(minecraft);
-    this.data = new MinecraftCommandData()
-      .setName("networth")
-      .setDescription("Networth of specified user.")
-      .setAliases(["nw"])
-      .setOptions([new MinecraftCommandDataOption().setName("username").setRequired(true)]);
-  }
+  override readonly data = new MinecraftCommandData()
+    .setName("networth")
+    .setDescription("Networth of specified user.")
+    .setAliases(["nw"])
+    .setOptions([new MinecraftCommandDataOption().setName("username").setRequired(true)]);
 
   override async execute(player: string, message: string) {
     player = this.getArgs(message)[0] || player;

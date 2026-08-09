@@ -7,12 +7,8 @@ import type DiscordManager from "../DiscordManager.js";
 import type { ChatInputCommandInteraction } from "discord.js";
 
 class InformationCommand extends DiscordCommand<DiscordManagerWithBot> {
-  override readonly data: DiscordCommandData;
-  constructor(discord: DiscordManagerWithBot) {
-    super(discord);
-    this.data = new DiscordCommandData().setName("information").setDescription("Shows information about the bot.");
-    this.flags = [CommandFlags.RequiresMinecraftBot];
-  }
+  override readonly data = new DiscordCommandData().setName("information").setDescription("Shows information about the bot.");
+  override flags = [CommandFlags.RequiresMinecraftBot];
 
   static FormatCommandOptions(name: string, required?: boolean): string {
     return replaceVariables(required ? ` ({${name}})` : ` [{${name}}]`, { username: "u" })

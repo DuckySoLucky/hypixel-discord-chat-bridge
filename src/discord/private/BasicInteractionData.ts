@@ -12,10 +12,8 @@ import type DiscordManager from "../DiscordManager.js";
 
 abstract class BasicInteractionData<Manager extends DiscordManager = DiscordManagerWithClient> {
   protected readonly commandTimeout: number = 5_000;
-  flags: readonly CommandFlags[];
-  constructor(protected readonly discord: Manager) {
-    this.flags = [];
-  }
+  flags: readonly CommandFlags[] = [];
+  constructor(protected readonly discord: Manager) {}
 
   async handleGuildManagementAction(action: GuildManagementCommand, username: string, argument: string = ""): Promise<GuildManagementActionResponse> {
     const minecraft = this.discord.application.minecraft;

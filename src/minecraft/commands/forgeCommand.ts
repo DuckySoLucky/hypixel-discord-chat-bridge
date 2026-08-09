@@ -4,19 +4,15 @@ import MinecraftCommandData from "../private/commands/MinecraftCommandData.js";
 import MinecraftCommandDataOption from "../private/commands/MinecraftCommandDataOption.js";
 import prettyMilliseconds from "pretty-ms";
 import { getSelectedProfile } from "../../utils/hypixelUtils.js";
-import type { MinecraftManagerWithBot, ParsedForgeSlot } from "../../types/minecraft.js";
+import type { ParsedForgeSlot } from "../../types/minecraft.js";
 import type { SkyBlockMemberMiningHotmForgeItem } from "hypixel-api-reborn";
 
 // CREDITS: by @Kathund (https://github.com/Kathund)
 class ForgeCommand extends MinecraftCommand {
-  override readonly data: MinecraftCommandData;
-  constructor(minecraft: MinecraftManagerWithBot) {
-    super(minecraft);
-    this.data = new MinecraftCommandData()
-      .setName("forge")
-      .setDescription("Skyblock Forge Info Stats of specified user.")
-      .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
-  }
+  override readonly data = new MinecraftCommandData()
+    .setName("forge")
+    .setDescription("Skyblock Forge Info Stats of specified user.")
+    .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
 
   override async execute(player: string, message: string) {
     player = this.getArgs(message)[0] || player;

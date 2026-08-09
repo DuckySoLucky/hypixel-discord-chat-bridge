@@ -3,15 +3,10 @@ import HypixelDiscordChatBridgeError from "../../private/error.js";
 import MinecraftCommand from "../private/commands/MinecraftCommand.js";
 import MinecraftCommandData from "../private/commands/MinecraftCommandData.js";
 import { delay } from "../../utils/miscUtils.js";
-import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 // CREDITS: by @Kathund (https://github.com/Kathund)
 class MayorCommand extends MinecraftCommand {
-  override readonly data: MinecraftCommandData;
-  constructor(minecraft: MinecraftManagerWithBot) {
-    super(minecraft);
-    this.data = new MinecraftCommandData().setName("mayor").setDescription("Skyblock Mayor.");
-  }
+  override readonly data = new MinecraftCommandData().setName("mayor").setDescription("Skyblock Mayor.");
 
   override async execute(player: string, message: string) {
     const data = await HypixelAPIReborn.getSkyBlockElection().then((data) => data.parsed);

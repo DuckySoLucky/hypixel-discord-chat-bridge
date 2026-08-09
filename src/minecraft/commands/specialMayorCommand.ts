@@ -1,6 +1,5 @@
 import MinecraftCommand from "../private/commands/MinecraftCommand.js";
 import MinecraftCommandData from "../private/commands/MinecraftCommandData.js";
-import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 /*
 Derpy = 368 mod 24 = 8
@@ -19,14 +18,10 @@ const yearZero = 1560275700000;
 
 // CREDITS: by @CarsonCodes (https://github.com/CarsonCodess)
 class SpecialMayorCommand extends MinecraftCommand {
-  override readonly data: MinecraftCommandData;
-  constructor(minecraft: MinecraftManagerWithBot) {
-    super(minecraft);
-    this.data = new MinecraftCommandData()
-      .setName("specialmayor")
-      .setDescription("How many years until next special mayor, along with speculated special mayor.")
-      .setAliases(["specmayor"]);
-  }
+  override readonly data = new MinecraftCommandData()
+    .setName("specialmayor")
+    .setDescription("How many years until next special mayor, along with speculated special mayor.")
+    .setAliases(["specmayor"]);
 
   getYearsUntilSpecial(year: number): number {
     return (8 - (year % 8)) % 8;

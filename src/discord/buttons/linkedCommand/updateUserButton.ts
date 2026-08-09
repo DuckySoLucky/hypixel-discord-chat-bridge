@@ -7,12 +7,8 @@ import { CommandFlags, type DiscordManagerWithBot } from "../../../types/discord
 import type { ButtonInteraction } from "discord.js";
 
 class UpdateUserButton extends DiscordButton<DiscordManagerWithBot> {
-  override readonly data: DiscordButtonData;
-  constructor(discord: DiscordManagerWithBot) {
-    super(discord);
-    this.data = new DiscordButtonData("updateUser");
-    this.flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.StaffOnly, CommandFlags.VerificationCommand];
-  }
+  override readonly data = new DiscordButtonData("updateUser");
+  override flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.StaffOnly, CommandFlags.VerificationCommand];
 
   override async execute(interaction: ButtonInteraction) {
     const linkedCommand = new LinkedCommand(this.discord);

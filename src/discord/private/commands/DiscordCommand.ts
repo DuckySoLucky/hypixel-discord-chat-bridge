@@ -8,11 +8,7 @@ import type { AutocompleteInteraction, ChatInputCommandInteraction } from "disco
 
 abstract class DiscordCommand<Manager extends DiscordManager = DiscordManagerWithClient> extends BasicInteractionData<Manager> {
   abstract readonly data: DiscordCommandData;
-  response: BasicInteractionResponse;
-  constructor(discord: Manager) {
-    super(discord);
-    this.response = BasicInteractionResponse.Public;
-  }
+  response: BasicInteractionResponse = BasicInteractionResponse.Public;
 
   async autocomplete(interaction: AutocompleteInteraction) {
     const focusedOption = interaction.options.getFocused(true);

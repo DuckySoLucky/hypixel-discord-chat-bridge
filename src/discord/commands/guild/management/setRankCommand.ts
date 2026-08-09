@@ -7,16 +7,12 @@ import { replaceVariables } from "../../../../utils/stringUtils.js";
 import type { ChatInputCommandInteraction } from "discord.js";
 
 class SetRankCommand extends DiscordCommand<DiscordManagerWithBot> {
-  override readonly data: DiscordCommandData;
-  constructor(discord: DiscordManagerWithBot) {
-    super(discord);
-    this.data = new DiscordCommandData()
-      .setName("set-rank")
-      .setDescription("Set rank of the given user.")
-      .addStringOption((option) => option.setName("guild-member-username").setDescription("Minecraft Username").setRequired(true).setAutocomplete(true))
-      .addStringOption((option) => option.setName("guild-rank").setDescription("In game rank").setRequired(true).setAutocomplete(true));
-    this.flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.StaffOnly];
-  }
+  override readonly data = new DiscordCommandData()
+    .setName("set-rank")
+    .setDescription("Set rank of the given user.")
+    .addStringOption((option) => option.setName("guild-member-username").setDescription("Minecraft Username").setRequired(true).setAutocomplete(true))
+    .addStringOption((option) => option.setName("guild-rank").setDescription("In game rank").setRequired(true).setAutocomplete(true));
+  override flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.StaffOnly];
 
   override async execute(interaction: ChatInputCommandInteraction) {
     const username = interaction.options.getString("guild-member-username", true);

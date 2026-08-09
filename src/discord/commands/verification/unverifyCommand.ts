@@ -6,14 +6,10 @@ import { SuccessEmbed } from "../../private/Embed.js";
 import type { ButtonInteraction, ChatInputCommandInteraction } from "discord.js";
 
 class UnverifyCommand extends DiscordCommand<DiscordManagerWithBot> {
-  override readonly data: DiscordCommandData;
+  override readonly data = new DiscordCommandData().setName("unverify").setDescription("Remove your linked Minecraft account");
+  override flags = [CommandFlags.VerificationCommand];
   discordId: string | null = null;
   isSelf: boolean = false;
-  constructor(discord: DiscordManagerWithBot) {
-    super(discord);
-    this.data = new DiscordCommandData().setName("unverify").setDescription("Remove your linked Minecraft account");
-    this.flags = [CommandFlags.VerificationCommand];
-  }
 
   override async execute(interaction: ChatInputCommandInteraction | ButtonInteraction) {
     if (this.discordId === null) {

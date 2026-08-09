@@ -119,3 +119,8 @@ export enum ResourcePackResult {
   FailedDownload = 2,
   Accepted = 3
 }
+
+export interface LatestProfileOptions {
+  garden?: boolean;
+  museum?: boolean;
+}

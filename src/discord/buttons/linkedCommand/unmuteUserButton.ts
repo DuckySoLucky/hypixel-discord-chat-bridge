@@ -8,12 +8,8 @@ import { replaceVariables } from "../../../utils/stringUtils.js";
 import type { ButtonInteraction } from "discord.js";
 
 class UnmuteUserButton extends DiscordButton<DiscordManagerWithBot> {
-  override readonly data: DiscordButtonData;
-  constructor(discord: DiscordManagerWithBot) {
-    super(discord);
-    this.data = new DiscordButtonData("unmuteUser");
-    this.flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.StaffOnly, CommandFlags.VerificationCommand];
-  }
+  override readonly data = new DiscordButtonData("unmuteUser");
+  override flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.StaffOnly, CommandFlags.VerificationCommand];
 
   override async execute(interaction: ButtonInteraction) {
     const linkedCommand = new LinkedCommand(this.discord);

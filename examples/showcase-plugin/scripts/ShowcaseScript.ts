@@ -1,5 +1,4 @@
-import { BasicScript } from "../../../src/plugin-api.js";
-import type { BridgePluginLogger, ScriptManager } from "../../../src/plugin-api.js";
+import { BasicScript, type BridgePluginLogger, type ScriptManager } from "hypixel-discord-chat-bridge/plugin-api";
 import type { ShowcasePluginConfig } from "../config.js";
 
 class ShowcaseScript extends BasicScript {

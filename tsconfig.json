@@ -18,6 +18,9 @@
     "sourceMap": true,
     "strict": true,
     "target": "esnext",
-    "verbatimModuleSyntax": true
+    "verbatimModuleSyntax": true,
+    "declarationMap": true,
+    "allowArbitraryExtensions": false,
+    "rewriteRelativeImportExtensions": true
   }
 }

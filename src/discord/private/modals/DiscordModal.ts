@@ -6,11 +6,7 @@ import type { ModalSubmitInteraction } from "discord.js";
 
 abstract class DiscordModal<Manager extends DiscordManager = DiscordManagerWithClient> extends BasicInteractionData<Manager> {
   abstract readonly data: DiscordModalData;
-  response: BasicInteractionResponse;
-  constructor(discord: Manager) {
-    super(discord);
-    this.response = BasicInteractionResponse.Ephemeral;
-  }
+  response: BasicInteractionResponse = BasicInteractionResponse.Ephemeral;
 
   abstract execute(interaction: ModalSubmitInteraction): Promise<void>;
 }

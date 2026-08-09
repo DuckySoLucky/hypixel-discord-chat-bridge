@@ -3,18 +3,13 @@ import MinecraftCommandData from "../private/commands/MinecraftCommandData.js";
 import MinecraftCommandDataOption from "../private/commands/MinecraftCommandDataOption.js";
 import { formatNumber } from "../../utils/stringUtils.js";
 import { getSelectedProfile } from "../../utils/hypixelUtils.js";
-import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 class CatacombsCommand extends MinecraftCommand {
-  override readonly data: MinecraftCommandData;
-  constructor(minecraft: MinecraftManagerWithBot) {
-    super(minecraft);
-    this.data = new MinecraftCommandData()
-      .setName("catacombs")
-      .setDescription("Skyblock Dungeons Stats of specified user.")
-      .setAliases(["cata", "dungeons"])
-      .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
-  }
+  override readonly data = new MinecraftCommandData()
+    .setName("catacombs")
+    .setDescription("Skyblock Dungeons Stats of specified user.")
+    .setAliases(["cata", "dungeons"])
+    .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
 
   override async execute(player: string, message: string) {
     player = this.getArgs(message)[0] || player;

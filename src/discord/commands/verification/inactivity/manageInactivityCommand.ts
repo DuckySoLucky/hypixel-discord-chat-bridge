@@ -4,38 +4,34 @@ import HypixelDiscordChatBridgeError from "../../../../private/error.js";
 import InactiveUser from "../../../../data/inactivity/InactiveUser.js";
 import ms, { type StringValue } from "ms";
 import { type ChatInputCommandInteraction } from "discord.js";
-import { CommandFlags, type DiscordManagerWithClient } from "../../../../types/discord.js";
+import { CommandFlags } from "../../../../types/discord.js";
 import { SuccessEmbed } from "../../../private/Embed.js";
 
 class ManageInactivityCommand extends DiscordCommand {
-  override readonly data: DiscordCommandData;
-  constructor(discord: DiscordManagerWithClient) {
-    super(discord);
-    this.data = new DiscordCommandData()
-      .setName("manage-inactivity")
-      .setDescription("Manage inactivity")
-      .addSubcommand((option) =>
-        option
-          .setName("add")
-          .setDescription("Add a user to the inactivity list")
-          .addUserOption((option) => option.setName("user").setDescription("Discord Username").setRequired(true))
-          .addStringOption((option) => option.setName("time").setDescription("The time you are inactive for (e.g. 1d, 72h, 2w)").setRequired(true))
-          .addStringOption((option) => option.setName("reason").setDescription("The reason you are going away"))
-      )
-      .addSubcommand((option) =>
-        option
-          .setName("delete")
-          .setDescription("Delete an inactivity list entry")
-          .addStringOption((option) => option.setName("inactivity").setDescription("The inactivity you are wanting to delete").setRequired(true).setAutocomplete(true))
-      )
-      .addSubcommand((option) =>
-        option
-          .setName("get")
-          .setDescription("Get an inactivity list entry")
-          .addStringOption((option) => option.setName("inactivity").setDescription("The inactivity you are wanting to get").setRequired(true).setAutocomplete(true))
-      );
-    this.flags = [CommandFlags.StaffOnly, CommandFlags.InactivityCommand, CommandFlags.VerificationCommand];
-  }
+  override readonly data = new DiscordCommandData()
+    .setName("manage-inactivity")
+    .setDescription("Manage inactivity")
+    .addSubcommand((option) =>
+      option
+        .setName("add")
+        .setDescription("Add a user to the inactivity list")
+        .addUserOption((option) => option.setName("user").setDescription("Discord Username").setRequired(true))
+        .addStringOption((option) => option.setName("time").setDescription("The time you are inactive for (e.g. 1d, 72h, 2w)").setRequired(true))
+        .addStringOption((option) => option.setName("reason").setDescription("The reason you are going away"))
+    )
+    .addSubcommand((option) =>
+      option
+        .setName("delete")
+        .setDescription("Delete an inactivity list entry")
+        .addStringOption((option) => option.setName("inactivity").setDescription("The inactivity you are wanting to delete").setRequired(true).setAutocomplete(true))
+    )
+    .addSubcommand((option) =>
+      option
+        .setName("get")
+        .setDescription("Get an inactivity list entry")
+        .addStringOption((option) => option.setName("inactivity").setDescription("The inactivity you are wanting to get").setRequired(true).setAutocomplete(true))
+    );
+  override flags = [CommandFlags.StaffOnly, CommandFlags.InactivityCommand, CommandFlags.VerificationCommand];
 
   override async execute(interaction: ChatInputCommandInteraction) {
     const subcommand = interaction.options.getSubcommand(true);

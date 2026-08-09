@@ -1,3 +1,4 @@
+export { default as BridgeEventBus } from "./private/BridgeEventBus.js";
 export { default as BridgePlugin } from "./plugins/BridgePlugin.js";
 export { default as DiscordButton } from "./discord/private/buttons/DiscordButton.js";
 export { default as DiscordButtonData } from "./discord/private/buttons/DiscordButtonData.js";
@@ -25,5 +26,6 @@ export type {
   ScriptFactory
 } from "./plugins/BridgePlugin.js";
 export type { BridgeEventMap } from "./types/bridge.js";
-export type { MinecraftCommandContext } from "./types/minecraft.js";
+export type { MinecraftCommandContext, MinecraftManagerWithBot, MinecraftManagerWithClient } from "./types/minecraft.js";
+export type { DiscordManagerWithBot, DiscordManagerWithGuild, DiscordManagerWithClient } from "./types/discord.js";
 export type { ScriptOptions, ScriptSchedule } from "./types/scripts.js";

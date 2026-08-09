@@ -3,17 +3,12 @@ import MinecraftCommandData from "../private/commands/MinecraftCommandData.js";
 import MinecraftCommandDataOption from "../private/commands/MinecraftCommandDataOption.js";
 import { formatNumber, toCamelCase } from "../../utils/stringUtils.js";
 import { getPlayer } from "../../utils/hypixelUtils.js";
-import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 class SheepWarsCommand extends MinecraftCommand {
-  override readonly data: MinecraftCommandData;
-  constructor(minecraft: MinecraftManagerWithBot) {
-    super(minecraft);
-    this.data = new MinecraftCommandData()
-      .setName("sheepwars")
-      .setAliases(["sheep", "shep"])
-      .setOptions([new MinecraftCommandDataOption().setName("username")]);
-  }
+  override readonly data = new MinecraftCommandData()
+    .setName("sheepwars")
+    .setAliases(["sheep", "shep"])
+    .setOptions([new MinecraftCommandDataOption().setName("username")]);
 
   override async execute(player: string, message: string) {
     player = this.getArgs(message)[0] || player;

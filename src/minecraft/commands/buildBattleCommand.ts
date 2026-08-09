@@ -3,19 +3,14 @@ import MinecraftCommandData from "../private/commands/MinecraftCommandData.js";
 import MinecraftCommandDataOption from "../private/commands/MinecraftCommandDataOption.js";
 import { formatNumber } from "../../utils/stringUtils.js";
 import { getPlayer } from "../../utils/hypixelUtils.js";
-import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 // CREDITS: by @Kathund (https://github.com/Kathund)
 class BuildBattleCommand extends MinecraftCommand {
-  override readonly data: MinecraftCommandData;
-  constructor(minecraft: MinecraftManagerWithBot) {
-    super(minecraft);
-    this.data = new MinecraftCommandData()
-      .setName("buildbattle")
-      .setDescription("Build Battle Stats of specified user.")
-      .setAliases(["bb"])
-      .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
-  }
+  override readonly data = new MinecraftCommandData()
+    .setName("buildbattle")
+    .setDescription("Build Battle Stats of specified user.")
+    .setAliases(["bb"])
+    .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
 
   override async execute(player: string, message: string) {
     player = this.getArgs(message)[0] || player;

@@ -5,18 +5,14 @@ import HypixelDiscordChatBridgeError from "../../private/error.js";
 import MowojangAPI from "../../private/MowojangAPI.js";
 import { formatNumber, titleCaseCamel } from "../../utils/stringUtils.js";
 import type { ChatInputCommandInteraction } from "discord.js";
-import type { DiscordManagerWithClient, Requirement, Requirements } from "../../types/discord.js";
 import type { PlayerVariableStatsKeysNumber } from "../../private/constants.js";
+import type { Requirement, Requirements } from "../../types/discord.js";
 
 class RequirementsCommand extends DiscordCommand {
-  override readonly data: DiscordCommandData;
-  constructor(discord: DiscordManagerWithClient) {
-    super(discord);
-    this.data = new DiscordCommandData()
-      .setName("requirements")
-      .setDescription("Check a user's requirements to join the guild")
-      .addStringOption((option) => option.setName("username").setDescription("Minecraft Username"));
-  }
+  override readonly data = new DiscordCommandData()
+    .setName("requirements")
+    .setDescription("Check a user's requirements to join the guild")
+    .addStringOption((option) => option.setName("username").setDescription("Minecraft Username"));
 
   async checkRequirements(uuid: string): Promise<Requirements> {
     const stats = await this.discord.application.data.linked.getPlayerVariableStats(uuid);

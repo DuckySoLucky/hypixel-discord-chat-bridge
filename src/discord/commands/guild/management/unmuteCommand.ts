@@ -7,15 +7,11 @@ import { replaceVariables } from "../../../../utils/stringUtils.js";
 import type { ChatInputCommandInteraction } from "discord.js";
 
 class UnmuteCommand extends DiscordCommand<DiscordManagerWithBot> {
-  override readonly data: DiscordCommandData;
-  constructor(discord: DiscordManagerWithBot) {
-    super(discord);
-    this.data = new DiscordCommandData()
-      .setName("unmute")
-      .setDescription("Unmute the given user.")
-      .addStringOption((option) => option.setName("guild-member-username").setDescription("Minecraft Username").setRequired(true).setAutocomplete(true));
-    this.flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.StaffOnly];
-  }
+  override readonly data = new DiscordCommandData()
+    .setName("unmute")
+    .setDescription("Unmute the given user.")
+    .addStringOption((option) => option.setName("guild-member-username").setDescription("Minecraft Username").setRequired(true).setAutocomplete(true));
+  override flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.StaffOnly];
 
   override async execute(interaction: ChatInputCommandInteraction) {
     const username = interaction.options.getString("guild-member-username", true);

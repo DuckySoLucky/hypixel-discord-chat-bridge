@@ -2,14 +2,9 @@ import DiscordCommand from "../private/commands/DiscordCommand.js";
 import DiscordCommandData from "../private/commands/DiscordCommandData.js";
 import Embed from "../private/Embed.js";
 import type { ChatInputCommandInteraction } from "discord.js";
-import type { DiscordManagerWithClient } from "../../types/discord.js";
 
 class UptimeCommand extends DiscordCommand {
-  override readonly data: DiscordCommandData;
-  constructor(discord: DiscordManagerWithClient) {
-    super(discord);
-    this.data = new DiscordCommandData().setName("uptime").setDescription("Shows the uptime of the bot.");
-  }
+  override readonly data = new DiscordCommandData().setName("uptime").setDescription("Shows the uptime of the bot.");
 
   override async execute(interaction: ChatInputCommandInteraction) {
     await interaction.followUp({

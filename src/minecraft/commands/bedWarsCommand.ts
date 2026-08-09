@@ -1,21 +1,17 @@
 import MinecraftCommand from "../private/commands/MinecraftCommand.js";
 import MinecraftCommandData from "../private/commands/MinecraftCommandData.js";
 import MinecraftCommandDataOption from "../private/commands/MinecraftCommandDataOption.js";
-import { type BedWarsInternalName, type BedWarsModeName, type MinecraftManagerWithBot, isBedWarsModeName } from "../../types/minecraft.js";
+import { type BedWarsInternalName, type BedWarsModeName, isBedWarsModeName } from "../../types/minecraft.js";
 import { formatNumber } from "../../utils/stringUtils.js";
 import { getPlayer } from "../../utils/hypixelUtils.js";
 import type { BedWarsMode, Player } from "hypixel-api-reborn";
 
 class BedwarsCommand extends MinecraftCommand {
-  override readonly data: MinecraftCommandData;
-  constructor(minecraft: MinecraftManagerWithBot) {
-    super(minecraft);
-    this.data = new MinecraftCommandData()
-      .setName("bedwars")
-      .setDescription("BedWars stats of specified user.")
-      .setAliases(["bw", "bws"])
-      .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft username")]);
-  }
+  override readonly data = new MinecraftCommandData()
+    .setName("bedwars")
+    .setDescription("BedWars stats of specified user.")
+    .setAliases(["bw", "bws"])
+    .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft username")]);
 
   convertMode(mode: BedWarsModeName): BedWarsInternalName {
     switch (mode) {

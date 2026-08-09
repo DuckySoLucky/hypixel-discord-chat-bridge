@@ -5,15 +5,11 @@ import { SuccessEmbed } from "../private/Embed.js";
 import type { ChatInputCommandInteraction } from "discord.js";
 
 class ExecuteCommand extends DiscordCommand<DiscordManagerWithBot> {
-  override readonly data: DiscordCommandData;
-  constructor(discord: DiscordManagerWithBot) {
-    super(discord);
-    this.data = new DiscordCommandData()
-      .setName("execute")
-      .setDescription("Executes commands as the minecraft bot.")
-      .addStringOption((option) => option.setName("command").setDescription("Minecraft Command").setRequired(true));
-    this.flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.AdminOnly];
-  }
+  override readonly data = new DiscordCommandData()
+    .setName("execute")
+    .setDescription("Executes commands as the minecraft bot.")
+    .addStringOption((option) => option.setName("command").setDescription("Minecraft Command").setRequired(true));
+  override flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.AdminOnly];
 
   override async execute(interaction: ChatInputCommandInteraction) {
     const command = interaction.options.getString("command", true);

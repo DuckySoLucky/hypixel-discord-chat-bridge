@@ -7,12 +7,8 @@ import { replaceVariables } from "../../utils/stringUtils.js";
 import type { ButtonInteraction } from "discord.js";
 
 class InviteUserFromRequestButton extends DiscordButton<DiscordManagerWithBot> {
-  override readonly data: DiscordButtonData;
-  constructor(discord: DiscordManagerWithBot) {
-    super(discord);
-    this.data = new DiscordButtonData("inviteUserFromRequest");
-    this.flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.StaffOnly];
-  }
+  override readonly data = new DiscordButtonData("inviteUserFromRequest");
+  override flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.StaffOnly];
 
   override async execute(interaction: ButtonInteraction) {
     const username = this.getUsernameFromJoinRequest(interaction.message);

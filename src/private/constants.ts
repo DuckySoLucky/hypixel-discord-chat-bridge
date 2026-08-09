@@ -1,4 +1,4 @@
-import type { Dev, Devs, MiscCredit } from "../types/misc.js";
+import type { Dev, Devs, MiscCredit } from "../types/application.js";
 
 export const CommonDevs: Record<Devs, Dev> = {
   DuckySoLucky: { username: "duckysolucky", id: "486155512568741900", iconURL: "https://imgur.com/tgwQJTX.png", type: "Maintainer" },

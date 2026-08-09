@@ -7,14 +7,10 @@ import { SuccessEmbed } from "../../private/Embed.js";
 import type { ButtonInteraction, ChatInputCommandInteraction } from "discord.js";
 
 class UpdateCommand extends DiscordCommand<DiscordManagerWithBot> {
-  override readonly data: DiscordCommandData;
+  override readonly data = new DiscordCommandData().setName("update").setDescription("Update your current roles");
+  override flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.VerificationCommand];
   discordId: string | null = null;
   isSelf: boolean = false;
-  constructor(discord: DiscordManagerWithBot) {
-    super(discord);
-    this.data = new DiscordCommandData().setName("update").setDescription("Update your current roles");
-    this.flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.VerificationCommand];
-  }
 
   override async execute(interaction: ChatInputCommandInteraction | ButtonInteraction) {
     if (this.discordId === null) {

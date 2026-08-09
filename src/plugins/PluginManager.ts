@@ -52,6 +52,7 @@ class PluginManager implements Lifecycle {
       await plugin.start();
       this.#started.add(plugin);
     }
+    console.other(`Successfully loaded ${this.#started.size} plugins(s).`);
   }
 
   async stop(): Promise<void> {

@@ -6,11 +6,7 @@ import type { ButtonInteraction, Message } from "discord.js";
 
 abstract class DiscordButton<Manager extends DiscordManager = DiscordManagerWithClient> extends BasicInteractionData<Manager> {
   abstract readonly data: DiscordButtonData;
-  response: ButtonResponse;
-  constructor(discord: Manager) {
-    super(discord);
-    this.response = ButtonResponse.Ephemeral;
-  }
+  response: ButtonResponse = ButtonResponse.Ephemeral;
 
   getUsernameFromJoinRequest(message: Message): string | undefined {
     if (message.author.id !== message.client.user.id) return undefined;

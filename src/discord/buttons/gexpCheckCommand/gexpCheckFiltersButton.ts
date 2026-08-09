@@ -13,17 +13,13 @@ import {
   TextInputBuilder,
   TextInputStyle
 } from "discord.js";
-import { ButtonResponse, CommandFlags, type DiscordManagerWithClient } from "../../../types/discord.js";
+import { ButtonResponse, CommandFlags } from "../../../types/discord.js";
 import { gexpCheckData } from "../../../types/inactivity.js";
 
 class GexpCheckFiltersButton extends DiscordButton {
-  override readonly data: DiscordButtonData;
-  constructor(discord: DiscordManagerWithClient) {
-    super(discord);
-    this.data = new DiscordButtonData("gexpCheckFilters");
-    this.response = ButtonResponse.None;
-    this.flags = [CommandFlags.StaffOnly, CommandFlags.InactivityCommand, CommandFlags.VerificationCommand];
-  }
+  override readonly data = new DiscordButtonData("gexpCheckFilters");
+  override response = ButtonResponse.None;
+  override flags = [CommandFlags.StaffOnly, CommandFlags.InactivityCommand, CommandFlags.VerificationCommand];
 
   override async execute(interaction: ButtonInteraction) {
     const options = GexpCheckCommand.getOptionsfromMessage(interaction.message);

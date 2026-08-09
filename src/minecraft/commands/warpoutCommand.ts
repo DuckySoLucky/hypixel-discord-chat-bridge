@@ -5,21 +5,14 @@ import MinecraftCommandDataOption from "../private/commands/MinecraftCommandData
 import { MinecraftRequestTimeoutError } from "../MinecraftRequestBroker.js";
 import { delay } from "../../utils/miscUtils.js";
 import { runDetached } from "../../utils/asyncUtils.js";
-import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 class WarpoutCommand extends MinecraftCommand {
-  override readonly data: MinecraftCommandData;
-  private isOnCooldown: boolean;
-  constructor(minecraft: MinecraftManagerWithBot) {
-    super(minecraft);
-    this.data = new MinecraftCommandData()
-      .setName("warpout")
-      .setDescription("Warp player out of the game")
-      .setAliases(["warp"])
-      .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
-
-    this.isOnCooldown = false;
-  }
+  override readonly data = new MinecraftCommandData()
+    .setName("warpout")
+    .setDescription("Warp player out of the game")
+    .setAliases(["warp"])
+    .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
+  private isOnCooldown: boolean = false;
 
   enableCooldown() {
     this.isOnCooldown = true;

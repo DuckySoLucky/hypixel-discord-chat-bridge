@@ -7,12 +7,8 @@ import { MinecraftRequestTimeoutError } from "../../../minecraft/MinecraftReques
 import type { ChatInputCommandInteraction } from "discord.js";
 
 class OnlineCommand extends DiscordCommand<DiscordManagerWithBot> {
-  override readonly data: DiscordCommandData;
-  constructor(discord: DiscordManagerWithBot) {
-    super(discord);
-    this.data = new DiscordCommandData().setName("online").setDescription("List of online members.");
-    this.flags = [CommandFlags.RequiresMinecraftBot];
-  }
+  override readonly data = new DiscordCommandData().setName("online").setDescription("List of online members.");
+  override flags = [CommandFlags.RequiresMinecraftBot];
 
   async getMessages(): Promise<string[]> {
     const cachedMessages: string[] = [];

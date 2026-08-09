@@ -1,28 +1,17 @@
 import MinecraftCommand from "../private/commands/MinecraftCommand.js";
 import MinecraftCommandData from "../private/commands/MinecraftCommandData.js";
 import MinecraftCommandDataOption from "../private/commands/MinecraftCommandDataOption.js";
-import {
-  type DuelsInternalName,
-  type DuelsModSearch,
-  DuelsModeAliastoInternalMap,
-  type DuelsModeName,
-  DuelsModeNames,
-  type MinecraftManagerWithBot
-} from "../../types/minecraft.js";
+import { type DuelsInternalName, type DuelsModSearch, DuelsModeAliastoInternalMap, type DuelsModeName, DuelsModeNames } from "../../types/minecraft.js";
 import { formatNumber } from "../../utils/stringUtils.js";
 import { getPlayer } from "../../utils/hypixelUtils.js";
 import type { DuelsModeFull, Player } from "hypixel-api-reborn";
 
 class DuelsCommand extends MinecraftCommand {
-  override readonly data: MinecraftCommandData;
-  constructor(minecraft: MinecraftManagerWithBot) {
-    super(minecraft);
-    this.data = new MinecraftCommandData()
-      .setName("duels")
-      .setDescription("Duel stats of specified user.")
-      .setAliases(["d"])
-      .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
-  }
+  override readonly data = new MinecraftCommandData()
+    .setName("duels")
+    .setDescription("Duel stats of specified user.")
+    .setAliases(["d"])
+    .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
 
   convertMode(mode: DuelsModeName): DuelsInternalName {
     return DuelsModeAliastoInternalMap[mode] as DuelsInternalName;

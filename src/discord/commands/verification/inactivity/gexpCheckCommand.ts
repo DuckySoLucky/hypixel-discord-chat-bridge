@@ -11,21 +11,17 @@ import {
   ComponentType,
   Message
 } from "discord.js";
-import { CommandFlags, type DiscordManagerWithClient } from "../../../../types/discord.js";
+import { CommandFlags } from "../../../../types/discord.js";
 import { type GexpCheckOptions, type GexpDisplay, type ParsedGexpCheckUser, gexpCheckData } from "../../../../types/inactivity.js";
 import { SuccessEmbed } from "../../../private/Embed.js";
 import { replaceVariables, sanitizeString } from "../../../../utils/stringUtils.js";
 
 class GexpCheckCommand extends DiscordCommand {
-  override readonly data: DiscordCommandData;
-  constructor(discord: DiscordManagerWithClient) {
-    super(discord);
-    this.data = new DiscordCommandData()
-      .setName("gexp-check")
-      .setDescription("Shows everyone under an set amount of gexp")
-      .addNumberOption((option) => option.setName("requirement").setDescription("Members below this GEXP number").setRequired(true).setMinValue(1));
-    this.flags = [CommandFlags.StaffOnly, CommandFlags.InactivityCommand, CommandFlags.VerificationCommand];
-  }
+  override readonly data = new DiscordCommandData()
+    .setName("gexp-check")
+    .setDescription("Shows everyone under an set amount of gexp")
+    .addNumberOption((option) => option.setName("requirement").setDescription("Members below this GEXP number").setRequired(true).setMinValue(1));
+  override flags = [CommandFlags.StaffOnly, CommandFlags.InactivityCommand, CommandFlags.VerificationCommand];
 
   async getUsers({ requirement, type, hiddenRanks }: GexpCheckOptions): Promise<{ users: ParsedGexpCheckUser[]; filtered: ParsedGexpCheckUser[] }> {
     const users: ParsedGexpCheckUser[] = [];

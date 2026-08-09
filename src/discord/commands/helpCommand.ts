@@ -3,19 +3,15 @@ import DiscordCommandData from "../private/commands/DiscordCommandData.js";
 import Embed from "../private/Embed.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import InformationCommand from "./informationCommand.js";
-import { CommandFlags, type DiscordManagerWithClient } from "../../types/discord.js";
+import { CommandFlags } from "../../types/discord.js";
 import type { ChatInputCommandInteraction } from "discord.js";
 
 class HelpCommand extends DiscordCommand {
-  override readonly data: DiscordCommandData;
-  constructor(discord: DiscordManagerWithClient) {
-    super(discord);
-    this.data = new DiscordCommandData()
-      .setName("help")
-      .setDescription("Shows the help menu.")
-      .addStringOption((option) => option.setName("command").setDescription("Bot information about a specific command"));
-    this.flags = [CommandFlags.RequiresMinecraftBot];
-  }
+  override readonly data = new DiscordCommandData()
+    .setName("help")
+    .setDescription("Shows the help menu.")
+    .addStringOption((option) => option.setName("command").setDescription("Bot information about a specific command"));
+  override flags = [CommandFlags.RequiresMinecraftBot];
 
   override async execute(interaction: ChatInputCommandInteraction) {
     const commandName = interaction.options.getString("command") || undefined;

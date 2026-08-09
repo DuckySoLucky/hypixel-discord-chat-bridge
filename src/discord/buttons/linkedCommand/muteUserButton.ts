@@ -3,16 +3,12 @@ import DiscordButtonData from "../../private/buttons/DiscordButtonData.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import LinkedCommand from "../../commands/verification/linkedCommand.js";
 import { type ButtonInteraction, LabelBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } from "discord.js";
-import { ButtonResponse, CommandFlags, type DiscordManagerWithClient } from "../../../types/discord.js";
+import { ButtonResponse, CommandFlags } from "../../../types/discord.js";
 
 class MuteUserButton extends DiscordButton {
-  override readonly data: DiscordButtonData;
-  constructor(discord: DiscordManagerWithClient) {
-    super(discord);
-    this.data = new DiscordButtonData("muteUser");
-    this.response = ButtonResponse.None;
-    this.flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.StaffOnly, CommandFlags.VerificationCommand];
-  }
+  override readonly data = new DiscordButtonData("muteUser");
+  override response = ButtonResponse.None;
+  override flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.StaffOnly, CommandFlags.VerificationCommand];
 
   override async execute(interaction: ButtonInteraction) {
     const linkedCommand = new LinkedCommand(this.discord);

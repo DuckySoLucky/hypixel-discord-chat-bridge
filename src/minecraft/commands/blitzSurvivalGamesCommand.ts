@@ -4,20 +4,15 @@ import MinecraftCommandDataOption from "../private/commands/MinecraftCommandData
 import { type BlitzSurvivalGamesData, type BlitzSurvivalGamesKitId, BlitzSurvivalGamesKitIds, type Player } from "hypixel-api-reborn";
 import { formatNumber } from "../../utils/stringUtils.js";
 import { getPlayer } from "../../utils/hypixelUtils.js";
-import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 // CREDITS: by @Kathund (https://github.com/Kathund)
 type BlitzSurvivalGamesKitKey = Exclude<BlitzSurvivalGamesKitId, "shadow knight" | "hype train"> | "shadowKnight" | "hypeTrain";
 class BlitzSurvivalGamesCommand extends MinecraftCommand {
-  override readonly data: MinecraftCommandData;
-  constructor(minecraft: MinecraftManagerWithBot) {
-    super(minecraft);
-    this.data = new MinecraftCommandData()
-      .setName("blitzsurvivalgames")
-      .setDescription("Blitz Survival Games stats of specified user.")
-      .setAliases(["blitz", "blitzsg", "bsg"])
-      .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
-  }
+  override readonly data = new MinecraftCommandData()
+    .setName("blitzsurvivalgames")
+    .setDescription("Blitz Survival Games stats of specified user.")
+    .setAliases(["blitz", "blitzsg", "bsg"])
+    .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
 
   convertKit(mode: BlitzSurvivalGamesKitId): BlitzSurvivalGamesKitKey {
     switch (mode) {

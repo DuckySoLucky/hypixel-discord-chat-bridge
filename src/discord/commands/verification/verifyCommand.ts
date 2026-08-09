@@ -10,17 +10,13 @@ import { delay } from "../../../utils/miscUtils.js";
 import { getPlayer } from "../../../utils/hypixelUtils.js";
 
 class VerifyCommand extends DiscordCommand<DiscordManagerWithBot> {
-  override readonly data: DiscordCommandData;
+  override readonly data = new DiscordCommandData()
+    .setName("verify")
+    .setDescription("Connect your Discord account to Minecraft")
+    .addStringOption((option) => option.setName("username").setDescription("Minecraft Username").setRequired(true));
+  override flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.VerificationCommand];
   discordId: string | null = null;
   isSelf: boolean = false;
-  constructor(discord: DiscordManagerWithBot) {
-    super(discord);
-    this.data = new DiscordCommandData()
-      .setName("verify")
-      .setDescription("Connect your Discord account to Minecraft")
-      .addStringOption((option) => option.setName("username").setDescription("Minecraft Username").setRequired(true));
-    this.flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.VerificationCommand];
-  }
 
   override async execute(interaction: ChatInputCommandInteraction) {
     try {

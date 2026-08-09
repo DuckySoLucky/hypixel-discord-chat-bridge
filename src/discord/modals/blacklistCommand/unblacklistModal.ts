@@ -2,17 +2,13 @@ import BlacklistCommand from "../../commands/blacklistCommand.js";
 import DiscordModal from "../../private/modals/DiscordModal.js";
 import DiscordModalData from "../../private/modals/DiscordModalData.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
-import { CommandFlags, type DiscordManagerWithClient } from "../../../types/discord.js";
+import { CommandFlags } from "../../../types/discord.js";
 import { SuccessEmbed } from "../../private/Embed.js";
 import type { ModalSubmitInteraction } from "discord.js";
 
 class UnblacklistModal extends DiscordModal {
-  override readonly data: DiscordModalData;
-  constructor(discord: DiscordManagerWithClient) {
-    super(discord);
-    this.data = new DiscordModalData("unblacklist");
-    this.flags = [CommandFlags.StaffOnly, CommandFlags.BlacklistCommand];
-  }
+  override readonly data = new DiscordModalData("unblacklist");
+  override flags = [CommandFlags.StaffOnly, CommandFlags.BlacklistCommand];
 
   override async execute(interaction: ModalSubmitInteraction) {
     const blacklistCommand = new BlacklistCommand(this.discord);

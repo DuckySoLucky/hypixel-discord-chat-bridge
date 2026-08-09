@@ -2,16 +2,12 @@ import DiscordButton from "../private/buttons/DiscordButton.js";
 import DiscordButtonData from "../private/buttons/DiscordButtonData.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import LinkedCommand from "../commands/verification/linkedCommand.js";
-import { CommandFlags, type DiscordManagerWithClient } from "../../types/discord.js";
+import { CommandFlags } from "../../types/discord.js";
 import type { ButtonInteraction } from "discord.js";
 
 class GetLinkedButton extends DiscordButton {
-  override readonly data: DiscordButtonData;
-  constructor(discord: DiscordManagerWithClient) {
-    super(discord);
-    this.data = new DiscordButtonData("getLinked");
-    this.flags = [CommandFlags.StaffOnly];
-  }
+  override readonly data = new DiscordButtonData("getLinked");
+  override flags = [CommandFlags.StaffOnly];
 
   override async execute(interaction: ButtonInteraction) {
     const linkedCommand = new LinkedCommand(this.discord);
