@@ -330,15 +330,13 @@ This document is generated from the Zod config schema in `src/types/config.ts`
 
 ---
 
-This document is [auto generated](scripts/docs/Configuration.ts).
-
-This document was last updated Wed, 12 Aug 2026 04:20:00 GMT (1786508400125)
+This document is [auto generated](/scripts/docs/Configuration.ts) and was last updated on `Wed, 12 Aug 2026 04:39:40 GMT` (`1786509580033`)
 
 To update this document please run `pnpm docgen` or contact a maintainer and ask them to update it.
 
 ---
 
-If you need any help help consider checking out the [FAQ](FAQ.md)
+If you need any help help consider checking out the [FAQ](FrequentlyAskedQuestions.md)
 
 Feel free to reach out to the maintainers directly on Discord. [@duckysolucky](https://discord.com/users/486155512568741900) and
 [@.kathund](https://discord.com/users/1276524855445164098)

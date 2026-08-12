@@ -12,7 +12,7 @@ You can contact the maintainers dirrectly on discord. [@duckysolucky](https://di
 
 ## Development
 
-Check [development documentation and design information](./docs/DEVELOPMENT.md) before delving deep into coding.
+Consider checking out the [development docs](./docs/development/README.md) area before delving into coding
 
 ### Setting up environment
 

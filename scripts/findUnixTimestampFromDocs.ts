@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
 
-const regex = /This document was last updated (?<parsedTimestamp>.+) \((?<unixTimestamp>[0-9]+)\)/;
+const regex = /This document is \[auto generated\]\((?<scriptPath>.+)\) and was last updated on \`(?<parsedTimestamp>.+)\` \(\`(?<unixTimestamp>[0-9]+)\`\)/;
 const readme = await readFile("docs/README.md", "utf-8");
 const timestampLine = readme.split("\n").filter((line) => regex.test(line))[0];
 if (!timestampLine) throw new Error("Could not find timestamp line");

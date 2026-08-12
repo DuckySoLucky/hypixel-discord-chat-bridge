@@ -11,6 +11,6 @@ const docs = await readdir("./docs/", { recursive: true, encoding: "utf-8" }).th
     .filter((file) => !["README"].includes(file))
 );
 
-docs.forEach((doc) => lines.push(`- [${titleCaseCamel(doc)}](docs/${doc}.md)`));
+docs.forEach((doc) => lines.push(`- [${titleCaseCamel(doc)}](/docs/${doc}.md)`));
 
 await saveMarkdownFile("docs/README.md", lines);
