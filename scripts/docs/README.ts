@@ -10,7 +10,7 @@ async function generateReadme(dir: string): Promise<void> {
     .filter((entry) => entry.isFile() && entry.name.endsWith(".md") && entry.name !== "README.md")
     .map((entry) => entry.name.replace(/\.md$/, ""))
     .sort((a, b) => a.localeCompare(b))
-    .forEach((file) => lines.push(`- [${titleCaseCamel(file)}](/docs/${file}.md)`));
+    .forEach((file) => lines.push(`- [${titleCaseCamel(file)}](/${dir}/${file}.md)`));
 
   const folders = entries.filter((entry) => entry.isDirectory()).sort((a, b) => a.name.localeCompare(b.name));
   for (const folder of folders) {

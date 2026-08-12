@@ -4,12 +4,12 @@ This is the place where information about hypixel-discord-chat-bridge is stored
 
 ## Table of Contents
 
-- [Channel](/docs/Channel.md)
-- [Player](/docs/Player.md)
+- [Channel](/docs/Variables/Channel.md)
+- [Player](/docs/Variables/Player.md)
 
 ---
 
-This document is [auto generated](/scripts/docs/README.ts) and was last updated on `Wed, 12 Aug 2026 05:45:31 GMT` (`1786513531631`)
+This document is [auto generated](/scripts/docs/README.ts) and was last updated on `Wed, 12 Aug 2026 05:47:49 GMT` (`1786513669216`)
 
 To update this document please run `pnpm docgen` or contact a maintainer and ask them to update it.
 
