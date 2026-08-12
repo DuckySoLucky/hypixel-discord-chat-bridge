@@ -152,11 +152,11 @@ export const ConfigVerificationRole = zod.discriminatedUnion("enabled", [
   zod.object({ enabled: zod.literal(false), roleId: zod.string().nullable().meta({ description: "Discord role id" }) })
 ]);
 export const ConfigVerificationRolesCustomRequirementString = zod.object({
-  type: zod.enum(PlayerVariableStatsKeysStrings).meta({ description: "The player variable string type required for verification\nSee docs/PlayerStatVariables.md " }),
+  type: zod.enum(PlayerVariableStatsKeysStrings).meta({ description: "The player variable string type required for verification\nSee docs/Variables/Player.md" }),
   value: zod.string().meta({ description: "The string value required for this custom verification requirement" })
 });
 export const ConfigVerificationRolesCustomRequirementNumber = zod.object({
-  type: zod.enum(PlayerVariableStatsKeysNumbers).meta({ description: "The player variable string type required for verification\nSee docs/PlayerStatVariables.md " }),
+  type: zod.enum(PlayerVariableStatsKeysNumbers).meta({ description: "The player variable string type required for verification\nSee docs/Variables/Player.md " }),
   value: zod.number().int().positive().meta({ description: "The numeric value required for this custom verification requirement" })
 });
 export const ConfigVerificationRolesCustomRequirement = zod.union([ConfigVerificationRolesCustomRequirementString, ConfigVerificationRolesCustomRequirementNumber]);
@@ -220,7 +220,7 @@ export const ConfigStatsChannelsAutoUpdater = zod.object({
 });
 export const ConfigStatsChannelsChannel = zod.object({
   id: zod.string().meta({ description: "Discord channel id" }),
-  name: zod.string().meta({ description: "What the channel should be named to\nSee docs/ChannelStatVariables.md" })
+  name: zod.string().meta({ description: "What the channel should be named to\nSee docs/Variables/Channel.md" })
 });
 export const ConfigStatsChannels = zod.object({ enabled: zod.boolean(), autoUpdater: ConfigStatsChannelsAutoUpdater, channels: zod.array(ConfigStatsChannelsChannel) });
 

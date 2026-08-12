@@ -343,7 +343,7 @@
                                 "type": {
                                   "type": "string",
                                   "enum": ["username", "guildRank", "guildName", "duelsDivision"],
-                                  "description": "The player variable string type required for verification\nSee docs/PlayerStatVariables.md "
+                                  "description": "The player variable string type required for verification\nSee docs/Variables/Player.md"
                                 },
                                 "value": { "type": "string", "description": "The string value required for this custom verification requirement" }
                               },
@@ -359,6 +359,8 @@
                                     "level",
                                     "karma",
                                     "achievementPoints",
+                                    "guildWeeklyXp",
+                                    "guildCurrentDayXp",
                                     "bedwarsStar",
                                     "bedwarsTokens",
                                     "bedwarsKills",
@@ -581,7 +583,7 @@
                                     "skyblockJacobPersonalBestMelon",
                                     "skyblockJacobPersonalBestSugarCane"
                                   ],
-                                  "description": "The player variable string type required for verification\nSee docs/PlayerStatVariables.md "
+                                  "description": "The player variable string type required for verification\nSee docs/Variables/Player.md "
                                 },
                                 "value": {
                                   "type": "integer",
@@ -615,7 +617,7 @@
                                 "type": {
                                   "type": "string",
                                   "enum": ["username", "guildRank", "guildName", "duelsDivision"],
-                                  "description": "The player variable string type required for verification\nSee docs/PlayerStatVariables.md "
+                                  "description": "The player variable string type required for verification\nSee docs/Variables/Player.md"
                                 },
                                 "value": { "type": "string", "description": "The string value required for this custom verification requirement" }
                               },
@@ -631,6 +633,8 @@
                                     "level",
                                     "karma",
                                     "achievementPoints",
+                                    "guildWeeklyXp",
+                                    "guildCurrentDayXp",
                                     "bedwarsStar",
                                     "bedwarsTokens",
                                     "bedwarsKills",
@@ -853,7 +857,7 @@
                                     "skyblockJacobPersonalBestMelon",
                                     "skyblockJacobPersonalBestSugarCane"
                                   ],
-                                  "description": "The player variable string type required for verification\nSee docs/PlayerStatVariables.md "
+                                  "description": "The player variable string type required for verification\nSee docs/Variables/Player.md "
                                 },
                                 "value": {
                                   "type": "integer",
@@ -957,7 +961,7 @@
             "type": "object",
             "properties": {
               "id": { "type": "string", "description": "Discord channel id" },
-              "name": { "type": "string", "description": "What the channel should be named to\nSee docs/ChannelStatVariables.md" }
+              "name": { "type": "string", "description": "What the channel should be named to\nSee docs/Variables/Channel.md" }
             },
             "required": ["id", "name"],
             "additionalProperties": false

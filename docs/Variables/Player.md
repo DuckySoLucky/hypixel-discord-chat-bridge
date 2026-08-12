@@ -7,15 +7,22 @@ variables that are designed for players:
 
 `{username}` - Player's Username
 
-`{guildRank}` - Guild Rank
+`{guildRank}` - Guild Rank. **Note!** Due to api key limits this will only work if the user is inside of the minecraft bot's guild. Anyone outside will have an empty
+string
 
-`{guildName}` - Guild Name
+`{guildName}` - The guild name. Note this is the name of the guild that the minecraft bot is inside of
 
 `{level}` - Player's Hypixel Level
 
 `{karma}` - Player's Hypixel Karma
 
 `{achievementPoints}` - Player's Hypixel Achievement Points
+
+`{guildWeeklyXp}` - Player's total amount of gexp gained this week. **Note!** Due to api key limits this will only work if the user is inside of the minecraft bot's
+guild. Anyone outside will have 0
+
+`{guildCurrentDayXp}` - Player's total amount of gexp gained this week. **Note!** Due to api key limits this will only work if the user is inside of the minecraft bot's
+guild. Anyone outside will have 0
 
 ## BedWars
 
@@ -471,13 +478,13 @@ variables that are designed for players:
 
 ---
 
-This document is [auto generated](/scripts/docs/PlayerStatVariables.ts) and was last updated on `Wed, 12 Aug 2026 04:39:40 GMT` (`1786509580033`)
+This document is [auto generated](/scripts/docs/Variables/Player.ts) and was last updated on `Wed, 12 Aug 2026 05:45:31 GMT` (`1786513531631`)
 
 To update this document please run `pnpm docgen` or contact a maintainer and ask them to update it.
 
 ---
 
-If you need any help help consider checking out the [FAQ](FrequentlyAskedQuestions.md)
+If you need any help help consider checking out the [FAQ](/docs/FrequentlyAskedQuestions.md)
 
 Feel free to reach out to the maintainers directly on Discord. [@duckysolucky](https://discord.com/users/486155512568741900) and
 [@.kathund](https://discord.com/users/1276524855445164098)

@@ -4,13 +4,8 @@ This is the place where information about hypixel-discord-chat-bridge is stored
 
 ## Table of Contents
 
-- [Commands](/docs/Commands.md)
-- [Configuration](/docs/Configuration.md)
-- [Contributing](/docs/CONTRIBUTING.md)
-- [Extending The Bridge](/docs/ExtendingTheBridge.md)
-- [Frequently Asked Questions](/docs/FrequentlyAskedQuestions.md)
-- [Installation](/docs/Installation.md)
-- [Variables](/docs/Variables/README.md)
+- [Channel](/docs/Channel.md)
+- [Player](/docs/Player.md)
 
 ---
 

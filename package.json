@@ -25,12 +25,12 @@
     "docgen": "pnpm docgen:docs && pnpm docgen:packageScripts",
     "docgen:docs": "pnpm exec tsx scripts/generateDocs.ts",
     "docgen:packageScripts": "pnpm exec tsx scripts/generatePackageScripts.ts",
-    "docgen:docs:channelStatVariables": "pnpm exec tsx scripts/docs/ChannelStatVariables.ts",
     "docgen:docs:commands": "pnpm exec tsx scripts/docs/Commands.ts",
     "docgen:docs:configuration": "pnpm exec tsx scripts/docs/Configuration.ts",
-    "docgen:docs:playerStatVariables": "pnpm exec tsx scripts/docs/PlayerStatVariables.ts",
     "docgen:docs:rEADME": "pnpm exec tsx scripts/docs/README.ts",
-    "docgen:docs:config:schema": "pnpm exec tsx scripts/docs/config.schema.ts"
+    "docgen:docs:config:schema": "pnpm exec tsx scripts/docs/config.schema.ts",
+    "docgen:docs:variables:channel": "pnpm exec tsx scripts/docs/Variables/Channel.ts",
+    "docgen:docs:variables:player": "pnpm exec tsx scripts/docs/Variables/Player.ts"
   },
   "repository": {
     "type": "git",

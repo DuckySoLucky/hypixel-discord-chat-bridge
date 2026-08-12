@@ -19,7 +19,7 @@ export const MiscCredits: CreditData[] = [
 ];
 
 export const PlayerVariableStatsKeysGeneralString = ["username", "guildRank", "guildName"] as const;
-export const PlayerVariableStatsKeysGeneralNumber = ["level", "karma", "achievementPoints"] as const;
+export const PlayerVariableStatsKeysGeneralNumber = ["level", "karma", "achievementPoints", "guildWeeklyXp", "guildCurrentDayXp"] as const;
 export const PlayerVariableStatsKeysGeneral = [...PlayerVariableStatsKeysGeneralString, ...PlayerVariableStatsKeysGeneralNumber] as const;
 export const PlayerVariableStatsKeysBedWars = [
   "bedwarsStar",
@@ -287,8 +287,13 @@ export const PlayerVariableStatsKeyDescriptionMap: Record<PlayerVariableStatsKey
   level: "Player's Hypixel Level",
   karma: "Player's Hypixel Karma",
   achievementPoints: "Player's Hypixel Achievement Points",
-  guildRank: "Guild Rank",
-  guildName: "Guild Name",
+  guildWeeklyXp:
+    "Player's total amount of gexp gained this week. **Note!** Due to api key limits this will only work if the user is inside of the minecraft bot's guild. Anyone outside will have 0",
+  guildCurrentDayXp:
+    "Player's total amount of gexp gained this week. **Note!** Due to api key limits this will only work if the user is inside of the minecraft bot's guild. Anyone outside will have 0",
+  guildRank:
+    "Guild Rank. **Note!** Due to api key limits this will only work if the user is inside of the minecraft bot's guild. Anyone outside will have an empty string",
+  guildName: "The guild name. Note this is the name of the guild that the minecraft bot is inside of",
   bedwarsStar: "Player's BedWars Star",
   bedwarsTokens: "Player's BedWars Tokens",
   bedwarsKills: "Player's BedWars Kills",
@@ -537,9 +542,9 @@ export const ChannelVariableStatsKeyDescriptionMap: Record<ChannelVariableStatsK
   guildLevel: "The guild level floored",
   guildLevelWithProgress: "The guild level with 2dp",
   guildXP: "The **RAW** amount of guild xp",
-  formattedGuildXP: "The **formattedf** amount of guild xp",
+  formattedGuildXP: "The **formatted** amount of guild xp",
   guildWeeklyXP: "The **RAW** amount of guild weekly xp",
-  formattedGuildWeeklyXP: "The **formattedf** amount of weekly guild xp",
+  formattedGuildWeeklyXP: "The **formatted** amount of weekly guild xp",
   guildMembers: "The amount of guild members",
   discordMembers: "The **RAW** amount of discord members",
   formattedDiscordMembers: "The **formatted** amount of discord members",

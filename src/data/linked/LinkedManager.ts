@@ -135,6 +135,8 @@ class LinkedManager extends GenericManager<LinkedUserData, LinkedData, LinkedUse
       level: Math.floor(player.level.level),
       karma: Math.floor(player.karma),
       achievementPoints: Math.floor(player.achievements.points),
+      guildWeeklyXp: guildMember?.weeklyExperience ?? 0,
+      guildCurrentDayXp: guildMember?.expHistory?.[0]?.exp ?? 0,
       guildRank: guildMember?.rank ?? "",
       guildName: hypixelGuild.name,
 

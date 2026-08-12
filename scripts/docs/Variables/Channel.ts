@@ -1,9 +1,9 @@
-import { ChannelVariableStatsKeyDescriptionMap, ChannelVariableStatsKeys } from "../../src/private/constants.js";
-import { initMarkdownFile, saveMarkdownFile } from "../utils.js";
+import { ChannelVariableStatsKeyDescriptionMap, ChannelVariableStatsKeys } from "../../../src/private/constants.js";
+import { initMarkdownFile, saveMarkdownFile } from "../../utils.js";
 
 const variableGroups = { General: ChannelVariableStatsKeys };
 
-const lines: string[] = await initMarkdownFile("docs/ChannelStatVariables.md");
+const lines: string[] = await initMarkdownFile("docs/Variables/Channel.md");
 
 Object.entries(variableGroups).forEach(([title, items]) => {
   lines.push(`## ${title}`);
@@ -14,4 +14,4 @@ Object.entries(variableGroups).forEach(([title, items]) => {
   });
 });
 
-await saveMarkdownFile("docs/ChannelStatVariables.md", lines);
+await saveMarkdownFile("docs/Variables/Channel.md", lines);
