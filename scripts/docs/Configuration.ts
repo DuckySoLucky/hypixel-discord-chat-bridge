@@ -1,6 +1,6 @@
 import zod from "zod";
-import { Config } from "../src/types/config.js";
-import { addTable, getMetadataDescription, getObjectShape, initMarkdownFile, saveMarkdownFile, unwrapSchema } from "./utils.js";
+import { Config } from "../../src/types/config.js";
+import { addTable, getMetadataDescription, getObjectShape, initMarkdownFile, saveMarkdownFile, unwrapSchema } from "../utils.js";
 
 // TODO: One day I want to remove the use of `any` but i'm not smart enough to do this at the moment
 

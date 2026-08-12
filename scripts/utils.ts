@@ -7,6 +7,8 @@ import { markdownTable } from "markdown-table";
 import { replaceVariables } from "../src/utils/stringUtils.js";
 import type { ConfigMetadata, ConfigMetadataDescription, ConfigMetadataDotPathDescription, SchemaData, UnwrappedSchema } from "./types.js";
 
+import "../src/private/logger.js";
+
 export function addLines(content: string, lines: string[]): string[] {
   lines.push(...content.split("\n").map((line) => line.trim()));
   return lines;
@@ -57,11 +59,16 @@ export async function saveMarkdownFile(path: string, lines: string[]) {
     // Do nothing
   }
 
-  const utilsFooter = await readFile("./scripts/templates/Utils/Footer.md", "utf-8");
-  lines = addLines(replaceVariables(utilsFooter, { id }), lines);
+  const generatedFooter = await readFile("./scripts/templates/Utils/GeneratedFooter.md", "utf-8");
 
-  const globalUtilsFooter = await readFile("./scripts/templates/Utils/GlobalFooter.md", "utf-8");
-  lines = addLines(replaceVariables(globalUtilsFooter, { id }), lines);
+  process.env.UNIX_TIMESTAMP ||= Date.now().toString();
+  lines = addLines(
+    replaceVariables(generatedFooter, { id, timestamp: new Date(Number(process.env.UNIX_TIMESTAMP)).toUTCString(), unix: process.env.UNIX_TIMESTAMP }),
+    lines
+  );
+
+  const globalFooter = await readFile("./scripts/templates/Utils/GlobalFooter.md", "utf-8");
+  lines = addLines(replaceVariables(globalFooter, { id }), lines);
 
   await saveFile(path, lines.join("\n"));
 }

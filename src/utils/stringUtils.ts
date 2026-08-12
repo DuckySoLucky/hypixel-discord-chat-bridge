@@ -87,3 +87,13 @@ export function toCamelCase(string: string): string {
     .map((word, index) => (index === 0 ? word : word.charAt(0).toUpperCase() + word.slice(1)))
     .join("");
 }
+
+export function lowerFirst(string: string): string {
+  if (!string) return string;
+  return string.charAt(0).toLowerCase() + string.slice(1);
+}
+
+export function upperFirst(string: string): string {
+  if (!string) return string;
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}

@@ -80,6 +80,11 @@ jobs:
       - name: Generate Default Config
         run: cp config.example.json config.json
 
+      - name: Find unix timestamp
+        run: |
+          UNIX_TIMESTAMP=$(pnpm exec tsx scripts/findUnixTimestampFromDocs.ts)
+          echo "UNIX_TIMESTAMP=$UNIX_TIMESTAMP" >> "$GITHUB_ENV"
+
       - name: Run docgen
         run: pnpm docgen
 

@@ -1,5 +1,5 @@
-import { ChannelVariableStatsKeyDescriptionMap, ChannelVariableStatsKeys } from "../src/private/constants.js";
-import { initMarkdownFile, saveMarkdownFile } from "./utils.js";
+import { ChannelVariableStatsKeyDescriptionMap, ChannelVariableStatsKeys } from "../../src/private/constants.js";
+import { initMarkdownFile, saveMarkdownFile } from "../utils.js";
 
 const variableGroups = { General: ChannelVariableStatsKeys };
 
