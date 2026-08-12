@@ -1,7 +1,7 @@
 import DiscordCommand from "../../../private/commands/DiscordCommand.js";
 import DiscordCommandData from "../../../private/commands/DiscordCommandData.js";
 import HypixelDiscordChatBridgeError from "../../../../private/error.js";
-import { CommandFlags, type DiscordManagerWithBot, GuildManagementAction } from "../../../../types/discord.js";
+import { CommandFlags, CommandPermission, type DiscordManagerWithBot, GuildManagementAction } from "../../../../types/discord.js";
 import { SuccessEmbed } from "../../../private/Embed.js";
 import { replaceVariables } from "../../../../utils/stringUtils.js";
 import type { ChatInputCommandInteraction } from "discord.js";
@@ -12,7 +12,8 @@ class KickCommand extends DiscordCommand<DiscordManagerWithBot> {
     .setDescription("Kicks the given user to the guild.")
     .addStringOption((option) => option.setName("guild-member-username").setDescription("Minecraft Username").setRequired(true).setAutocomplete(true))
     .addStringOption((option) => option.setName("reason").setDescription("Reason").setRequired(true));
-  override flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.StaffOnly];
+  override readonly flags = [CommandFlags.RequiresMinecraftBot];
+  override readonly permission = CommandPermission.StaffOnly;
 
   override async execute(interaction: ChatInputCommandInteraction) {
     const username = interaction.options.getString("guild-member-username", true);

@@ -9,7 +9,7 @@ import type { ChatInputCommandInteraction } from "discord.js";
 
 class ListCommand extends DiscordCommand<DiscordManagerWithBot> {
   override readonly data = new DiscordCommandData().setName("list").setDescription("List of guild members.");
-  override flags = [CommandFlags.RequiresMinecraftBot];
+  override readonly flags = [CommandFlags.RequiresMinecraftBot];
 
   async getMessages(): Promise<string[]> {
     const cachedMessages: string[] = [];

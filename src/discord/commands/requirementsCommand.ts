@@ -49,7 +49,8 @@ class RequirementsCommand extends DiscordCommand {
   }
 
   override async execute(interaction: ChatInputCommandInteraction) {
-    const username = interaction.options.getString("username", true);
+    const username = interaction.options.getString("username");
+    if (!username) throw new HypixelDiscordChatBridgeError("Please input a user");
     const uuid = await MowojangAPI.getUUID(username);
     if (uuid === null) throw new HypixelDiscordChatBridgeError("Player does not exist");
     const data = await this.checkRequirements(uuid);

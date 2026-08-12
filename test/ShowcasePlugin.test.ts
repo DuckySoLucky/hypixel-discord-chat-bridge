@@ -3,8 +3,7 @@ import ShowcasePlugin from "../examples/showcase-plugin/index.js";
 import assert from "node:assert/strict";
 import showcasePluginConfig from "../examples/showcase-plugin/config.js";
 import test from "node:test";
-import type DiscordManager from "../src/discord/DiscordManager.js";
-import type MinecraftManager from "../src/minecraft/MinecraftManager.js";
+import type Application from "../src/Application.ts";
 import type ScriptManager from "../src/scripts/ScriptsManager.js";
 import type {
   BridgePluginContext,
@@ -14,23 +13,25 @@ import type {
   MinecraftCommandFactory,
   ScriptFactory
 } from "../src/plugins/BridgePlugin.js";
+import type { DiscordManagerWithPlugin } from "../src/types/discord.js";
+import type { MinecraftManagerWithPlugin } from "../src/types/minecraft.js";
 
 function createPluginContext(): {
-  readonly context: BridgePluginContext;
+  readonly context: BridgePluginContext<ShowcasePlugin>;
   readonly events: BridgeEventBus;
   readonly logs: string[];
-  readonly discordCommands: DiscordCommandFactory[];
-  readonly minecraftCommands: MinecraftCommandFactory[];
-  readonly buttons: DiscordButtonFactory[];
-  readonly modals: DiscordModalFactory[];
+  readonly discordCommands: DiscordCommandFactory<ShowcasePlugin>[];
+  readonly minecraftCommands: MinecraftCommandFactory<ShowcasePlugin>[];
+  readonly buttons: DiscordButtonFactory<ShowcasePlugin>[];
+  readonly modals: DiscordModalFactory<ShowcasePlugin>[];
   readonly scripts: ScriptFactory[];
 } {
   const events = new BridgeEventBus();
   const logs: string[] = [];
-  const discordCommands: DiscordCommandFactory[] = [];
-  const minecraftCommands: MinecraftCommandFactory[] = [];
-  const buttons: DiscordButtonFactory[] = [];
-  const modals: DiscordModalFactory[] = [];
+  const discordCommands: DiscordCommandFactory<ShowcasePlugin>[] = [];
+  const minecraftCommands: MinecraftCommandFactory<ShowcasePlugin>[] = [];
+  const buttons: DiscordButtonFactory<ShowcasePlugin>[] = [];
+  const modals: DiscordModalFactory<ShowcasePlugin>[] = [];
   const scripts: ScriptFactory[] = [];
   return {
     events,
@@ -54,7 +55,8 @@ function createPluginContext(): {
 
 test("showcase plugin demonstrates every extension registration family", async () => {
   const registration = createPluginContext();
-  const plugin = new ShowcasePlugin(registration.context, { ...showcasePluginConfig, enabled: true });
+  const application = { config: { minecraft: { commands: { maxMessageLength: 256 } } } } as unknown as Application;
+  const plugin = new ShowcasePlugin(registration.context, application, { ...showcasePluginConfig, enabled: true });
   await plugin.registerExtensions();
 
   assert.equal(registration.discordCommands.length, 1);
@@ -63,8 +65,8 @@ test("showcase plugin demonstrates every extension registration family", async (
   assert.equal(registration.modals.length, 1);
   assert.equal(registration.scripts.length, 1);
 
-  const discord = {} as DiscordManager;
-  const minecraft = { application: { config: { minecraft: { commands: { maxMessageLength: 256 } } } } } as unknown as MinecraftManager;
+  const discord = { plugin } as DiscordManagerWithPlugin<ShowcasePlugin>;
+  const minecraft = { plugin, application } as unknown as MinecraftManagerWithPlugin<ShowcasePlugin>;
   const scripts = {} as ScriptManager;
 
   assert.equal(registration.discordCommands[0]?.(discord).data.name, "showcase");
@@ -78,7 +80,8 @@ test("showcase plugin demonstrates every extension registration family", async (
 
 test("showcase plugin subscribes once and disposes every event listener", async () => {
   const registration = createPluginContext();
-  const plugin = new ShowcasePlugin(registration.context, { ...showcasePluginConfig, enabled: true });
+  const application = { config: { minecraft: { commands: { maxMessageLength: 256 } } } } as unknown as Application;
+  const plugin = new ShowcasePlugin(registration.context, application, { ...showcasePluginConfig, enabled: true });
 
   await plugin.start();
   await plugin.start();
@@ -97,7 +100,8 @@ test("showcase plugin subscribes once and disposes every event listener", async 
 
 test("showcase plugin and all example extensions are disabled by default", async () => {
   const registration = createPluginContext();
-  const plugin = new ShowcasePlugin(registration.context);
+  const application = { config: { minecraft: { commands: { maxMessageLength: 256 } } } } as unknown as Application;
+  const plugin = new ShowcasePlugin(registration.context, application);
 
   await plugin.registerExtensions();
   await plugin.start();

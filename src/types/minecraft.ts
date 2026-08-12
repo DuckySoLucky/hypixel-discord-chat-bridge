@@ -5,6 +5,7 @@ import type { SkyBlockProfile, SkyBlockProfileName, SkyblockProfileWithMe, WithS
 
 export type MinecraftManagerWithBot = MinecraftManager & { bot: Client };
 export type MinecraftManagerWithClient = MinecraftManagerWithBot & { application: { discord: DiscordManagerWithBot } };
+export type MinecraftManagerWithPlugin<Plugin> = MinecraftManager & { plugin: Plugin };
 
 export type MinecraftChatChannel = "guild" | "officer";
 

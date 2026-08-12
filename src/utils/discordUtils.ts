@@ -9,7 +9,7 @@ import {
   type SendableChannels,
   Team
 } from "discord.js";
-import { type AutoComplateOption, CommandFlags } from "../types/discord.js";
+import { type AutoComplateOption, CommandPermission } from "../types/discord.js";
 
 export async function getApplicationOwners(client: Client): Promise<string[]> {
   if (!client.application) return [];
@@ -92,8 +92,18 @@ export async function canSendMessages(channel: SendableChannels): Promise<boolea
   return perms.has(PermissionFlagsBits.ViewChannel) && perms.has(PermissionFlagsBits.SendMessages);
 }
 
-export function getDiscordCommandPermission(flags: CommandFlags[]) {
-  if (flags.includes(CommandFlags.AdminOnly)) return "Admin";
-  if (flags.includes(CommandFlags.StaffOnly)) return "Staff";
-  return "Anyone";
+export function getDiscordCommandPermission(permission: CommandPermission) {
+  switch (permission) {
+    case CommandPermission.AdminOnly:
+      return "Admin";
+    case CommandPermission.StaffOnly:
+      return "Staff";
+    case CommandPermission.GuildMemberOnly:
+      return "GuildMember";
+    case CommandPermission.VerifiedOnly:
+      return "Verified";
+    case CommandPermission.Anyone:
+    default:
+      return "Anyone";
+  }
 }

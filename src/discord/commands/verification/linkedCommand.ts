@@ -2,7 +2,7 @@ import DiscordCommand from "../../private/commands/DiscordCommand.js";
 import DiscordCommandData from "../../private/commands/DiscordCommandData.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, type ChatInputCommandInteraction, Message } from "discord.js";
-import { BasicInteractionResponse, CommandFlags } from "../../../types/discord.js";
+import { BasicInteractionResponse, CommandFlags, CommandPermission } from "../../../types/discord.js";
 import { SuccessEmbed } from "../../private/Embed.js";
 import type LinkedUser from "../../../data/linked/LinkedUser.js";
 
@@ -12,8 +12,9 @@ class LinkedCommand extends DiscordCommand {
     .setDescription("View who a user is linked to")
     .addUserOption((option) => option.setName("user").setDescription("Discord Username"))
     .addStringOption((option) => option.setName("username").setDescription("Minecraft Username"));
-  override flags = [CommandFlags.StaffOnly, CommandFlags.VerificationCommand];
-  override response = BasicInteractionResponse.Ephemeral;
+  override readonly flags = [CommandFlags.VerificationCommand];
+  override readonly response = BasicInteractionResponse.Ephemeral;
+  override readonly permission = CommandPermission.StaffOnly;
 
   async getLinkedFromLinkedEmbed(message: Message): Promise<LinkedUser | undefined> {
     if (message.author.id !== message.client.user.id) return undefined;

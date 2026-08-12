@@ -4,7 +4,7 @@ import HypixelDiscordChatBridgeError from "../../../../private/error.js";
 import InactiveUser from "../../../../data/inactivity/InactiveUser.js";
 import ms, { type StringValue } from "ms";
 import { type ChatInputCommandInteraction } from "discord.js";
-import { CommandFlags } from "../../../../types/discord.js";
+import { CommandFlags, CommandPermission } from "../../../../types/discord.js";
 import { SuccessEmbed } from "../../../private/Embed.js";
 
 class InactivityCommand extends DiscordCommand {
@@ -13,7 +13,8 @@ class InactivityCommand extends DiscordCommand {
     .setDescription("Send an inactivity notice to the guild staff")
     .addStringOption((option) => option.setName("time").setDescription("The time you are inactive for (e.g. 1d, 72h, 2w)").setRequired(true))
     .addStringOption((option) => option.setName("reason").setDescription("The reason you are going away"));
-  override flags = [CommandFlags.InactivityCommand, CommandFlags.VerificationCommand, CommandFlags.VerifiedOnly, CommandFlags.GuildMemberOnly];
+  override readonly flags = [CommandFlags.InactivityCommand, CommandFlags.VerificationCommand];
+  override readonly permission = CommandPermission.GuildMemberOnly;
 
   override async execute(interaction: ChatInputCommandInteraction) {
     const linkedUser = await this.discord.application.data.linked.getUserByDiscordId(interaction.user.id);

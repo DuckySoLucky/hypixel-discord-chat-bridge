@@ -2,12 +2,13 @@ import DiscordButton from "../private/buttons/DiscordButton.js";
 import DiscordButtonData from "../private/buttons/DiscordButtonData.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import { ActionRowBuilder, ButtonBuilder, type ButtonInteraction, ComponentType } from "discord.js";
-import { CommandFlags, type DiscordManagerWithBot } from "../../types/discord.js";
+import { CommandFlags, CommandPermission, type DiscordManagerWithBot } from "../../types/discord.js";
 import { SuccessEmbed } from "../private/Embed.js";
 
 class JoinRequestAcceptButton extends DiscordButton<DiscordManagerWithBot> {
   override readonly data = new DiscordButtonData("joinRequestAccept");
-  override flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.StaffOnly];
+  override readonly flags = [CommandFlags.RequiresMinecraftBot];
+  override readonly permission = CommandPermission.StaffOnly;
 
   override async execute(interaction: ButtonInteraction) {
     const username = this.getUsernameFromJoinRequest(interaction.message);

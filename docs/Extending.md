@@ -23,20 +23,19 @@ Place plugin modules in the project-level `plugins/` directory. A plugin registe
 ready, and stops during application shutdown.
 
 ```ts
-import { BridgePlugin, DiscordCommand, DiscordCommandData } from "hypixel-discord-chat-bridge/plugin-api";
-import type { ChatInputCommandInteraction } from "discord.js";
-import type { BridgePluginContext, DiscordManager } from "hypixel-discord-chat-bridge/plugin-api";
+import { BridgePlugin, DiscordCommand, DiscordCommandData, DiscordManagerWithPlugin } from "hypixel-discord-chat-bridge/plugin-api";
+import { ChatInputCommandInteraction } from "discord.js";
 
-class ExampleCommand extends DiscordCommand<DiscordManager> {
+class ExampleCommand extends DiscordCommand<DiscordManagerWithPlugin<ExamplePlugin>> {
   override readonly data = new DiscordCommandData().setName("example").setDescription("Example plugin command");
 
   override async execute(interaction: ChatInputCommandInteraction): Promise<void> {
-    await interaction.editReply("Hello from a plugin.");
+    await interaction.followUp("Hello from a plugin.");
   }
 }
 
-export default class ExamplePlugin extends BridgePlugin {
-  override readonly metadata = { id: "example", name: "Example Plugin", version: "1.0.0" } as const;
+class ExamplePlugin extends BridgePlugin<ExamplePlugin> {
+  override readonly metadata = { name: "Example Plugin", description: "Example Plugins", version: "1.0.0", author: "DuckySoLucky" } as const;
 
   constructor(context: BridgePluginContext) {
     super(context);
@@ -128,3 +127,9 @@ pnpm start:prod
 ```
 
 Production extension discovery operates from `build/` and does not depend on source `.ts` files.
+
+## Plugin Showcases
+
+Got a cool plugin that could be shown off? Feel free to pull request a link to it here
+
+Looking for plugins? One of the maintainers has an entire list of them. Check it out https://github.com/Kathund/hypixel-discord-chat-bridge-plugins/

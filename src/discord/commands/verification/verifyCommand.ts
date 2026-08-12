@@ -14,7 +14,7 @@ class VerifyCommand extends DiscordCommand<DiscordManagerWithBot> {
     .setName("verify")
     .setDescription("Connect your Discord account to Minecraft")
     .addStringOption((option) => option.setName("username").setDescription("Minecraft Username").setRequired(true));
-  override flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.VerificationCommand];
+  override readonly flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.VerificationCommand];
   discordId: string | null = null;
   isSelf: boolean = false;
 

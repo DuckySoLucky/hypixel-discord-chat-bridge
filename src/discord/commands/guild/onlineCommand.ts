@@ -8,7 +8,7 @@ import type { ChatInputCommandInteraction } from "discord.js";
 
 class OnlineCommand extends DiscordCommand<DiscordManagerWithBot> {
   override readonly data = new DiscordCommandData().setName("online").setDescription("List of online members.");
-  override flags = [CommandFlags.RequiresMinecraftBot];
+  override readonly flags = [CommandFlags.RequiresMinecraftBot];
 
   async getMessages(): Promise<string[]> {
     const cachedMessages: string[] = [];

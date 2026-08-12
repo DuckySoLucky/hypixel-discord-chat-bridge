@@ -2,13 +2,14 @@ import DiscordCommand from "../../private/commands/DiscordCommand.js";
 import DiscordCommandData from "../../private/commands/DiscordCommandData.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import MowojangAPI from "../../../private/MowojangAPI.js";
-import { CommandFlags, type DiscordManagerWithBot } from "../../../types/discord.js";
+import { CommandFlags, CommandPermission, type DiscordManagerWithBot } from "../../../types/discord.js";
 import { SuccessEmbed } from "../../private/Embed.js";
 import type { ButtonInteraction, ChatInputCommandInteraction } from "discord.js";
 
 class UpdateCommand extends DiscordCommand<DiscordManagerWithBot> {
   override readonly data = new DiscordCommandData().setName("update").setDescription("Update your current roles");
-  override flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.VerificationCommand];
+  override readonly flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.VerificationCommand];
+  override readonly permission = CommandPermission.VerifiedOnly;
   discordId: string | null = null;
   isSelf: boolean = false;
 

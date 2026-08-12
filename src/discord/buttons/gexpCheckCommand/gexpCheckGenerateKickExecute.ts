@@ -2,13 +2,14 @@ import DiscordButton from "../../private/buttons/DiscordButton.js";
 import DiscordButtonData from "../../private/buttons/DiscordButtonData.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import { type ButtonInteraction, MessageFlags } from "discord.js";
-import { CommandFlags, type DiscordManagerWithBot } from "../../../types/discord.js";
+import { CommandFlags, CommandPermission, type DiscordManagerWithBot } from "../../../types/discord.js";
 import { SuccessEmbed } from "../../private/Embed.js";
 import { delay } from "../../../utils/miscUtils.js";
 
 class GexpCheckGenerateKickExecuteButton extends DiscordButton<DiscordManagerWithBot> {
   override readonly data = new DiscordButtonData("gexpCheckGenerateKickExecute");
-  override flags = [CommandFlags.StaffOnly, CommandFlags.InactivityCommand, CommandFlags.VerificationCommand, CommandFlags.RequiresMinecraftBot];
+  override readonly flags = [CommandFlags.InactivityCommand, CommandFlags.VerificationCommand, CommandFlags.RequiresMinecraftBot];
+  override readonly permission = CommandPermission.StaffOnly;
 
   override async execute(interaction: ButtonInteraction) {
     if (!interaction.message) return;

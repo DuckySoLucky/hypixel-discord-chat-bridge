@@ -16,7 +16,8 @@ abstract class GenericManager<JSONData, Data, ParsedData extends GenericData<JSO
     private readonly schema: ZodType<Data>
   ) {}
 
-  start(): Promise<void> {
+  // eslint-disable-next-line require-await
+  async start(): Promise<void> {
     this.initialized ??= this.initialize();
     return this.initialized;
   }

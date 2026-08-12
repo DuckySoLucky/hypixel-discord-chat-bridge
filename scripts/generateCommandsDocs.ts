@@ -52,7 +52,7 @@ lines = addTable(
 
       const optionsString = options?.map(({ name, required }) => InformationCommand.FormatCommandOptions(name, required)).join("") ?? "";
 
-      return [`\`${command.data.name}\``, command.data.description, `\`/${command.data.name}${optionsString}\``, getDiscordCommandPermission([...command.flags])];
+      return [`\`${command.data.name}\``, command.data.description, `\`/${command.data.name}${optionsString}\``, getDiscordCommandPermission(command.permission)];
     })
   ],
   lines

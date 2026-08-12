@@ -10,15 +10,19 @@ declare module "discord.js" {
   }
 }
 
-export enum CommandFlags {
-  GuildMemberOnly,
-  RequiresMinecraftBot,
-  StaffOnly,
+export enum CommandPermission {
   AdminOnly,
+  StaffOnly,
+  GuildMemberOnly,
+  VerifiedOnly,
+  Anyone
+}
+
+export enum CommandFlags {
+  RequiresMinecraftBot,
   VerificationCommand,
   InactivityCommand,
-  BlacklistCommand,
-  VerifiedOnly
+  BlacklistCommand
 }
 
 export enum BasicInteractionResponse {
@@ -44,6 +48,7 @@ export type ChannelName = (typeof ChannelNames)[number];
 export type DiscordManagerWithClient = DiscordManager & { client: Client<true> };
 export type DiscordManagerWithGuild = DiscordManagerWithClient & { guild: Guild };
 export type DiscordManagerWithBot = DiscordManagerWithClient & { application: { minecraft: MinecraftManagerWithBot } };
+export type DiscordManagerWithPlugin<Plugin> = DiscordManager & { plugin: Plugin };
 
 export interface ListMembersGroup {
   name: string;

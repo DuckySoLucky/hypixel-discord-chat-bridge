@@ -3,14 +3,15 @@ import DiscordButtonData from "../../private/buttons/DiscordButtonData.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import LinkedCommand from "../../commands/verification/linkedCommand.js";
 import { type ButtonInteraction, LabelBuilder, ModalBuilder, RadioGroupBuilder } from "discord.js";
-import { ButtonResponse, CommandFlags } from "../../../types/discord.js";
+import { ButtonResponse, CommandFlags, CommandPermission } from "../../../types/discord.js";
 import { RadioGroupOptionBuilder } from "discord.js";
 import type LinkedUser from "../../../data/linked/LinkedUser.js";
 
 class SetRankUserButton extends DiscordButton {
   override readonly data = new DiscordButtonData("setRankUser");
-  override response = ButtonResponse.None;
-  override flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.StaffOnly, CommandFlags.VerificationCommand];
+  override readonly response = ButtonResponse.None;
+  override readonly flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.VerificationCommand];
+  override readonly permission = CommandPermission.StaffOnly;
 
   override async execute(interaction: ButtonInteraction) {
     const linkedCommand = new LinkedCommand(this.discord);

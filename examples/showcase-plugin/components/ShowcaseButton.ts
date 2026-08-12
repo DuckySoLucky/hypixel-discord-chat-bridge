@@ -1,10 +1,11 @@
 import { type ButtonInteraction, LabelBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } from "discord.js";
-import { ButtonResponse, DiscordButton, DiscordButtonData, type DiscordManager } from "hypixel-discord-chat-bridge/plugin-api";
+import { ButtonResponse, DiscordButton, DiscordButtonData, type DiscordManagerWithPlugin } from "hypixel-discord-chat-bridge/plugin-api";
 import { showcaseButtonId, showcaseModalId, showcaseModalInputId } from "./ids.js";
+import type ShowcasePlugin from "../index.ts";
 
-class ShowcaseButton extends DiscordButton<DiscordManager> {
+class ShowcaseButton extends DiscordButton<DiscordManagerWithPlugin<ShowcasePlugin>> {
   override readonly data = new DiscordButtonData(showcaseButtonId);
-  override response = ButtonResponse.None;
+  override readonly response = ButtonResponse.None;
 
   override async execute(interaction: ButtonInteraction): Promise<void> {
     // Discord.js has an amazing guide on building modals

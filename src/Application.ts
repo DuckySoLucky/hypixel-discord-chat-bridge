@@ -1,7 +1,6 @@
 import BridgeEventBus from "./private/BridgeEventBus.js";
 import DataManager from "./data/DataManager.js";
 import DiscordManager from "./discord/DiscordManager.js";
-import HypixelAPIReborn from "./private/HypixelAPIReborn.js";
 import HypixelDiscordChatBridgeError from "./private/error.js";
 import MinecraftManager from "./minecraft/MinecraftManager.js";
 import MowojangAPI from "./private/MowojangAPI.js";
@@ -10,6 +9,7 @@ import ScriptManager from "./scripts/ScriptsManager.js";
 import messages from "./messages.json" with { type: "json" };
 import packageJson from "../package.json" with { type: "json" };
 import { Filter } from "bad-words";
+import { getGuild } from "./utils/hypixelUtils.js";
 import type { Config } from "./types/config.js";
 import type { Guild } from "hypixel-api-reborn";
 import type { Lifecycle, LifecycleState } from "./core/Lifecycle.js";
@@ -93,9 +93,9 @@ class Application implements Lifecycle {
 
   async getBotGuild(): Promise<Guild> {
     if (!this.minecraft.hasBot()) throw new HypixelDiscordChatBridgeError(this.messages.minecraftBotOffline);
-    this.botGuild = await HypixelAPIReborn.getGuild("player", this.minecraft.bot.username).then((guild) => {
-      if (guild.parsed === null) throw new HypixelDiscordChatBridgeError("In game Hypixel Guild not found.");
-      return guild.parsed;
+    this.botGuild = await getGuild("player", this.minecraft.bot.username).then((guild) => {
+      if (guild === null) throw new HypixelDiscordChatBridgeError("In game Hypixel Guild not found.");
+      return guild;
     });
     this.botGuildMembers = await MowojangAPI.getProfiles(this.botGuild.members.map((member) => member.uuid)).then((data) => {
       if (data.data === null) return undefined;

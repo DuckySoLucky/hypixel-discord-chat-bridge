@@ -5,19 +5,20 @@ import ShowcaseMinecraftCommand from "./commands/ShowcaseMinecraftCommand.js";
 import ShowcaseModal from "./components/ShowcaseModal.js";
 import ShowcaseScript from "./scripts/ShowcaseScript.js";
 import showcasePluginConfig from "./config.js";
-import { BridgePlugin, type BridgePluginContext } from "hypixel-discord-chat-bridge/plugin-api";
+import { type Application, BridgePlugin, type BridgePluginContext } from "hypixel-discord-chat-bridge/plugin-api";
 import type { ShowcasePluginConfig } from "./config.js";
 
-class ShowcasePlugin extends BridgePlugin {
-  override readonly metadata = { id: "showcase", name: "Plugin API Showcase", version: "1.0.0" } as const;
+class ShowcasePlugin extends BridgePlugin<ShowcasePlugin> {
+  override readonly metadata = { name: "Plugin API Showcase", description: "Example plugin for the Plugin API", version: "1.0.0", author: "DuckySoLucky" } as const;
   readonly #eventLogger: ShowcaseEventLogger;
   #started: boolean = false;
 
   constructor(
-    context: BridgePluginContext,
+    context: BridgePluginContext<ShowcasePlugin>,
+    application: Application,
     private readonly config: ShowcasePluginConfig = showcasePluginConfig
   ) {
-    super(context);
+    super(context, application);
     this.#eventLogger = new ShowcaseEventLogger(context.events, context.logger);
   }
 

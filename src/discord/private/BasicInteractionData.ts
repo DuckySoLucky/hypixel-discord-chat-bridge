@@ -1,6 +1,7 @@
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import {
   type CommandFlags,
+  CommandPermission,
   type DiscordManagerWithClient,
   GuildManagementAction,
   type GuildManagementActionResponse,
@@ -12,7 +13,8 @@ import type DiscordManager from "../DiscordManager.js";
 
 abstract class BasicInteractionData<Manager extends DiscordManager = DiscordManagerWithClient> {
   protected readonly commandTimeout: number = 5_000;
-  flags: readonly CommandFlags[] = [];
+  readonly flags: readonly CommandFlags[] = [];
+  readonly permission: CommandPermission = CommandPermission.Anyone;
   constructor(protected readonly discord: Manager) {}
 
   async handleGuildManagementAction(action: GuildManagementCommand, username: string, argument: string = ""): Promise<GuildManagementActionResponse> {

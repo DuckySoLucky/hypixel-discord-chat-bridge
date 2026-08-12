@@ -1,7 +1,7 @@
 import DiscordCommand from "../../private/commands/DiscordCommand.js";
 import DiscordCommandData from "../../private/commands/DiscordCommandData.js";
 import VerifyCommand from "./verifyCommand.js";
-import { CommandFlags, type DiscordManagerWithBot } from "../../../types/discord.js";
+import { CommandFlags, CommandPermission, type DiscordManagerWithBot } from "../../../types/discord.js";
 import type { ChatInputCommandInteraction } from "discord.js";
 
 class ForceVerifyCommand extends DiscordCommand<DiscordManagerWithBot> {
@@ -10,7 +10,8 @@ class ForceVerifyCommand extends DiscordCommand<DiscordManagerWithBot> {
     .setDescription("Connect Discord account to a Minecraft")
     .addUserOption((option) => option.setName("user").setDescription("Discord Username").setRequired(true))
     .addStringOption((option) => option.setName("username").setDescription("Minecraft Username").setRequired(true));
-  override flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.StaffOnly, CommandFlags.VerificationCommand];
+  override readonly flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.VerificationCommand];
+  override readonly permission = CommandPermission.StaffOnly;
 
   override async execute(interaction: ChatInputCommandInteraction) {
     const user = interaction.options.getUser("user", true);

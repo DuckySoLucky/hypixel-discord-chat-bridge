@@ -11,7 +11,7 @@ class HelpCommand extends DiscordCommand {
     .setName("help")
     .setDescription("Shows the help menu.")
     .addStringOption((option) => option.setName("command").setDescription("Bot information about a specific command"));
-  override flags = [CommandFlags.RequiresMinecraftBot];
+  override readonly flags = [CommandFlags.RequiresMinecraftBot];
 
   override async execute(interaction: ChatInputCommandInteraction) {
     const commandName = interaction.options.getString("command") || undefined;

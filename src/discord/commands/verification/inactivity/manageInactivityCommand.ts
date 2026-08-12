@@ -4,7 +4,7 @@ import HypixelDiscordChatBridgeError from "../../../../private/error.js";
 import InactiveUser from "../../../../data/inactivity/InactiveUser.js";
 import ms, { type StringValue } from "ms";
 import { type ChatInputCommandInteraction } from "discord.js";
-import { CommandFlags } from "../../../../types/discord.js";
+import { CommandFlags, CommandPermission } from "../../../../types/discord.js";
 import { SuccessEmbed } from "../../../private/Embed.js";
 
 class ManageInactivityCommand extends DiscordCommand {
@@ -31,7 +31,8 @@ class ManageInactivityCommand extends DiscordCommand {
         .setDescription("Get an inactivity list entry")
         .addStringOption((option) => option.setName("inactivity").setDescription("The inactivity you are wanting to get").setRequired(true).setAutocomplete(true))
     );
-  override flags = [CommandFlags.StaffOnly, CommandFlags.InactivityCommand, CommandFlags.VerificationCommand];
+  override readonly flags = [CommandFlags.InactivityCommand, CommandFlags.VerificationCommand];
+  override readonly permission = CommandPermission.StaffOnly;
 
   override async execute(interaction: ChatInputCommandInteraction) {
     const subcommand = interaction.options.getSubcommand(true);

@@ -1,8 +1,9 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, type ChatInputCommandInteraction } from "discord.js";
-import { DiscordCommand, DiscordCommandData, type DiscordManager } from "hypixel-discord-chat-bridge/plugin-api";
+import { DiscordCommand, DiscordCommandData, type DiscordManagerWithPlugin } from "hypixel-discord-chat-bridge/plugin-api";
 import { showcaseButtonId } from "../components/ids.js";
+import type ShowcasePlugin from "../index.ts";
 
-class ShowcaseDiscordCommand extends DiscordCommand<DiscordManager> {
+class ShowcaseDiscordCommand extends DiscordCommand<DiscordManagerWithPlugin<ShowcasePlugin>> {
   override readonly data = new DiscordCommandData().setName("showcase").setDescription("Demonstrate a plugin-provided command, button, and modal.");
 
   override async execute(interaction: ChatInputCommandInteraction): Promise<void> {
@@ -10,7 +11,7 @@ class ShowcaseDiscordCommand extends DiscordCommand<DiscordManager> {
     // Consider checking it out
     // https://discordjs.guide/legacy/interactive-components/buttons#building-buttons
     const button = new ButtonBuilder().setCustomId(showcaseButtonId).setLabel("Open showcase modal").setStyle(ButtonStyle.Primary);
-    await interaction.editReply({
+    await interaction.followUp({
       content: "This command was registered by the showcase plugin.",
       components: [new ActionRowBuilder<ButtonBuilder>().addComponents(button)]
     });

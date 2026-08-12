@@ -3,7 +3,7 @@ import DiscordCommand from "../private/commands/DiscordCommand.js";
 import DiscordCommandData from "../private/commands/DiscordCommandData.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import MowojangAPI from "../../private/MowojangAPI.js";
-import { BasicInteractionResponse, CommandFlags } from "../../types/discord.js";
+import { BasicInteractionResponse, CommandFlags, CommandPermission } from "../../types/discord.js";
 import { type ChatInputCommandInteraction, Message } from "discord.js";
 import { SuccessEmbed } from "../private/Embed.js";
 import type LinkedUser from "../../data/linked/LinkedUser.js";
@@ -59,8 +59,9 @@ class BlacklistCommand extends DiscordCommand {
         .addUserOption((option) => option.setName("user").setDescription("Discord Username"))
         .addStringOption((option) => option.setName("username").setDescription("Minecraft Username"))
     );
-  override flags = [CommandFlags.StaffOnly, CommandFlags.BlacklistCommand];
-  override response = BasicInteractionResponse.Ephemeral;
+  override readonly flags = [CommandFlags.BlacklistCommand];
+  override readonly permission = CommandPermission.StaffOnly;
+  override readonly response = BasicInteractionResponse.Ephemeral;
 
   async getBlacklistedFromLinkedEmbed(message: Message): Promise<BlacklistUser | undefined> {
     if (message.author.id !== message.client.user.id) return undefined;

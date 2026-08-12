@@ -11,7 +11,7 @@ import {
   ComponentType,
   Message
 } from "discord.js";
-import { CommandFlags } from "../../../../types/discord.js";
+import { CommandFlags, CommandPermission } from "../../../../types/discord.js";
 import { type GexpCheckOptions, type GexpDisplay, type ParsedGexpCheckUser, gexpCheckData } from "../../../../types/inactivity.js";
 import { SuccessEmbed } from "../../../private/Embed.js";
 import { replaceVariables, sanitizeString } from "../../../../utils/stringUtils.js";
@@ -21,7 +21,8 @@ class GexpCheckCommand extends DiscordCommand {
     .setName("gexp-check")
     .setDescription("Shows everyone under an set amount of gexp")
     .addNumberOption((option) => option.setName("requirement").setDescription("Members below this GEXP number").setRequired(true).setMinValue(1));
-  override flags = [CommandFlags.StaffOnly, CommandFlags.InactivityCommand, CommandFlags.VerificationCommand];
+  override readonly flags = [CommandFlags.InactivityCommand, CommandFlags.VerificationCommand];
+  override readonly permission = CommandPermission.StaffOnly;
 
   async getUsers({ requirement, type, hiddenRanks }: GexpCheckOptions): Promise<{ users: ParsedGexpCheckUser[]; filtered: ParsedGexpCheckUser[] }> {
     const users: ParsedGexpCheckUser[] = [];

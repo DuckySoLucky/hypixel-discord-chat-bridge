@@ -1,7 +1,7 @@
 import DiscordCommand from "../../private/commands/DiscordCommand.js";
 import DiscordCommandData from "../../private/commands/DiscordCommandData.js";
 import UpdateCommand from "./updateCommand.js";
-import { CommandFlags, type DiscordManagerWithBot } from "../../../types/discord.js";
+import { CommandFlags, CommandPermission, type DiscordManagerWithBot } from "../../../types/discord.js";
 import type { ChatInputCommandInteraction } from "discord.js";
 
 class ForceUpdateCommand extends DiscordCommand<DiscordManagerWithBot> {
@@ -9,7 +9,8 @@ class ForceUpdateCommand extends DiscordCommand<DiscordManagerWithBot> {
     .setName("force-update")
     .setDescription("Update user's roles")
     .addUserOption((option) => option.setName("user").setDescription("Discord Username").setRequired(true));
-  override flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.StaffOnly, CommandFlags.VerificationCommand];
+  override readonly flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.VerificationCommand];
+  override readonly permission = CommandPermission.StaffOnly;
 
   override async execute(interaction: ChatInputCommandInteraction) {
     const user = interaction.options.getUser("user", true);

@@ -16,7 +16,7 @@ class GuildTopCommand extends DiscordCommand<DiscordManagerWithBot> {
         .setDescription("Days ago")
         .addChoices(...Array.from({ length: 14 }, (_, index) => ({ name: `${index + 1} Day ago`, value: (index + 1).toString() })))
     );
-  override flags = [CommandFlags.RequiresMinecraftBot];
+  override readonly flags = [CommandFlags.RequiresMinecraftBot];
 
   async getMessages(time: string | null): Promise<string[]> {
     const cachedMessages: string[] = [];

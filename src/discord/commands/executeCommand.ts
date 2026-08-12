@@ -1,6 +1,6 @@
 import DiscordCommand from "../private/commands/DiscordCommand.js";
 import DiscordCommandData from "../private/commands/DiscordCommandData.js";
-import { CommandFlags, type DiscordManagerWithBot } from "../../types/discord.js";
+import { CommandFlags, CommandPermission, type DiscordManagerWithBot } from "../../types/discord.js";
 import { SuccessEmbed } from "../private/Embed.js";
 import type { ChatInputCommandInteraction } from "discord.js";
 
@@ -9,7 +9,8 @@ class ExecuteCommand extends DiscordCommand<DiscordManagerWithBot> {
     .setName("execute")
     .setDescription("Executes commands as the minecraft bot.")
     .addStringOption((option) => option.setName("command").setDescription("Minecraft Command").setRequired(true));
-  override flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.AdminOnly];
+  override readonly flags = [CommandFlags.RequiresMinecraftBot];
+  override readonly permission = CommandPermission.AdminOnly;
 
   override async execute(interaction: ChatInputCommandInteraction) {
     const command = interaction.options.getString("command", true);
