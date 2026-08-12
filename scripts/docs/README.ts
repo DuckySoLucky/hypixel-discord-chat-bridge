@@ -1,5 +1,6 @@
 import { initMarkdownFile, saveMarkdownFile } from "../utils.js";
 import { readdir } from "node:fs/promises";
+import { titleCaseCamel } from "../../src/utils/stringUtils.ts";
 
 const lines: string[] = await initMarkdownFile("docs/README.md");
 
@@ -10,6 +11,6 @@ const docs = await readdir("./docs/", { recursive: true, encoding: "utf-8" }).th
     .filter((file) => !["README"].includes(file))
 );
 
-docs.forEach((doc) => lines.push(`- [${doc}](docs/${doc}.md)`));
+docs.forEach((doc) => lines.push(`- [${titleCaseCamel(doc)}](docs/${doc}.md)`));
 
 await saveMarkdownFile("docs/README.md", lines);

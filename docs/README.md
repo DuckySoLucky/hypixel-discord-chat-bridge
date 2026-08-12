@@ -4,13 +4,13 @@ This is the place where information about hypixel-discord-chat-bridge is stored
 
 ## Table of Contents
 
-- [ChannelStatVariables](docs/ChannelStatVariables.md)
+- [Channel Stat Variables](docs/ChannelStatVariables.md)
 - [Commands](docs/Commands.md)
 - [Configuration](docs/Configuration.md)
 - [Extending](docs/Extending.md)
-- [FAQ](docs/FAQ.md)
+- [Faq](docs/FAQ.md)
 - [Installation](docs/Installation.md)
-- [PlayerStatVariables](docs/PlayerStatVariables.md)
+- [Player Stat Variables](docs/PlayerStatVariables.md)
 
 ---
 
