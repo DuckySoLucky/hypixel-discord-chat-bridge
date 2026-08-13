@@ -3,9 +3,9 @@ import DiscordCommandData from "../../../private/commands/DiscordCommandData.js"
 import HypixelDiscordChatBridgeError from "../../../../private/error.js";
 import InactiveUser from "../../../../data/inactivity/InactiveUser.js";
 import ms, { type StringValue } from "ms";
-import { type ChatInputCommandInteraction } from "discord.js";
 import { CommandFlags, CommandPermission } from "../../../../types/discord.js";
 import { SuccessEmbed } from "../../../private/Embed.js";
+import type { ChatInputCommandInteractionWithGuild } from "../../../../types/discord.js";
 
 class InactivityCommand extends DiscordCommand {
   override readonly data = new DiscordCommandData()
@@ -16,7 +16,7 @@ class InactivityCommand extends DiscordCommand {
   override readonly flags = [CommandFlags.InactivityCommand, CommandFlags.VerificationCommand];
   override readonly permission = CommandPermission.GuildMemberOnly;
 
-  override async execute(interaction: ChatInputCommandInteraction) {
+  override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const linkedUser = await this.discord.application.data.linked.getUserByDiscordId(interaction.user.id);
     if (!linkedUser) throw new HypixelDiscordChatBridgeError("This command requires you to be verified. Please use /verify to verify.");
     const inactivityData = await this.discord.application.data.inactivity.getUserByDiscordId(interaction.user.id);

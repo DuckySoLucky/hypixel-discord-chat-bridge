@@ -1,8 +1,8 @@
 import DiscordCommand from "../../private/commands/DiscordCommand.js";
 import DiscordCommandData from "../../private/commands/DiscordCommandData.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
-import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, type ChatInputCommandInteraction, Message } from "discord.js";
-import { BasicInteractionResponse, CommandFlags, CommandPermission } from "../../../types/discord.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, Message } from "discord.js";
+import { BasicInteractionResponse, type ChatInputCommandInteractionWithGuild, CommandFlags, CommandPermission } from "../../../types/discord.js";
 import { SuccessEmbed } from "../../private/Embed.js";
 import type LinkedUser from "../../../data/linked/LinkedUser.js";
 
@@ -25,7 +25,7 @@ class LinkedCommand extends DiscordCommand {
     return await this.discord.application.data.linked.getUserByDiscordId(field.value.replaceAll("`", ""));
   }
 
-  async followUp(interaction: ChatInputCommandInteraction | ButtonInteraction, linked: LinkedUser) {
+  async followUp(interaction: ChatInputCommandInteractionWithGuild | ButtonInteraction, linked: LinkedUser) {
     const [{ uuid, nickname, formattedNickname }, guildMember] = await Promise.all([linked.getHypixelPlayer(), linked.isUserInHypixelGuild()]);
 
     let buttons: ButtonBuilder[];
@@ -67,7 +67,7 @@ class LinkedCommand extends DiscordCommand {
     });
   }
 
-  override async execute(interaction: ChatInputCommandInteraction) {
+  override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const user = interaction.options.getUser("user");
     const username = interaction.options.getString("username");
     if (!user && !username) throw new HypixelDiscordChatBridgeError("You must specify a user or username.");

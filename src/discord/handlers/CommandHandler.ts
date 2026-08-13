@@ -1,7 +1,7 @@
 import ExtensionRegistry from "../../extensions/ExtensionRegistry.js";
 import loadExtensionModules from "../../extensions/moduleLoader.js";
-import { type AutocompleteInteraction, type ChatInputCommandInteraction, MessageFlags, REST, Routes } from "discord.js";
-import { BasicInteractionResponse, CommandFlags } from "../../types/discord.js";
+import { type AutocompleteInteractionWithGuild, BasicInteractionResponse, type ChatInputCommandInteractionWithGuild, CommandFlags } from "../../types/discord.js";
+import { MessageFlags, REST, Routes } from "discord.js";
 import { toError } from "../../utils/asyncUtils.js";
 import type DiscordCommand from "../private/commands/DiscordCommand.js";
 import type DiscordManager from "../DiscordManager.js";
@@ -10,7 +10,7 @@ class CommandHandler {
   readonly #commands = new ExtensionRegistry<DiscordCommand<DiscordManager>>();
   constructor(private readonly discord: DiscordManager) {}
 
-  async onCommand(interaction: ChatInputCommandInteraction) {
+  async onCommand(interaction: ChatInputCommandInteractionWithGuild) {
     const command = this.#commands.get(interaction.commandName);
     if (!command) return;
 
@@ -20,7 +20,7 @@ class CommandHandler {
       }
       console.discord(`Interaction Event trigged by ${interaction.user.username} (${interaction.user.id}) ran command ${interaction.commandName}`);
 
-      await this.discord.interactionHandler.checkPerms(interaction, command);
+      await this.discord.interactionHandler.checkPerms(interaction.member, command);
 
       await command.execute(interaction);
     } catch (error: unknown) {
@@ -28,7 +28,7 @@ class CommandHandler {
     }
   }
 
-  async onAutoComplete(interaction: AutocompleteInteraction) {
+  async onAutoComplete(interaction: AutocompleteInteractionWithGuild) {
     const command = this.#commands.get(interaction.commandName);
     if (!command) return;
     try {

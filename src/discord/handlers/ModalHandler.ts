@@ -1,7 +1,7 @@
 import ExtensionRegistry from "../../extensions/ExtensionRegistry.js";
 import loadExtensionModules from "../../extensions/moduleLoader.js";
-import { BasicInteractionResponse } from "../../types/discord.js";
-import { MessageFlags, type ModalSubmitInteraction } from "discord.js";
+import { BasicInteractionResponse, type ModalSubmitInteractionWithGuild } from "../../types/discord.js";
+import { MessageFlags } from "discord.js";
 import { toError } from "../../utils/asyncUtils.js";
 import type DiscordManager from "../DiscordManager.js";
 import type DiscordModal from "../private/modals/DiscordModal.js";
@@ -10,7 +10,7 @@ class ModalHandler {
   readonly #modals = new ExtensionRegistry<DiscordModal<DiscordManager>>();
   constructor(private readonly discord: DiscordManager) {}
 
-  async onSubmit(interaction: ModalSubmitInteraction) {
+  async onSubmit(interaction: ModalSubmitInteractionWithGuild) {
     const modal = this.#modals.get(interaction.customId);
     if (!modal) return;
 
@@ -20,7 +20,7 @@ class ModalHandler {
       }
       console.discord(`Modal submitted ${interaction.user.username} (${interaction.user.id}) modal ${interaction.customId}`);
 
-      await this.discord.interactionHandler.checkPerms(interaction, modal);
+      await this.discord.interactionHandler.checkPerms(interaction.member, modal);
 
       await modal.execute(interaction);
     } catch (error: unknown) {

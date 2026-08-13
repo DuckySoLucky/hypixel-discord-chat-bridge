@@ -3,8 +3,7 @@ import DiscordCommandData from "../private/commands/DiscordCommandData.js";
 import Embed from "../private/Embed.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import InformationCommand from "./informationCommand.js";
-import { CommandFlags } from "../../types/discord.js";
-import type { ChatInputCommandInteraction } from "discord.js";
+import { type ChatInputCommandInteractionWithGuild, CommandFlags } from "../../types/discord.js";
 
 class HelpCommand extends DiscordCommand {
   override readonly data = new DiscordCommandData()
@@ -13,7 +12,7 @@ class HelpCommand extends DiscordCommand {
     .addStringOption((option) => option.setName("command").setDescription("Bot information about a specific command"));
   override readonly flags = [CommandFlags.RequiresMinecraftBot];
 
-  override async execute(interaction: ChatInputCommandInteraction) {
+  override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const commandName = interaction.options.getString("command") || undefined;
     const { discordCommands, minecraftCommands } = InformationCommand.getCommands(this.discord);
 

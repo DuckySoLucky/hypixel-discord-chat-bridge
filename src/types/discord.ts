@@ -1,4 +1,4 @@
-import { Client, Guild } from "discord.js";
+import { AutocompleteInteraction, BaseInteraction, ButtonInteraction, ChatInputCommandInteraction, Client, Guild, GuildMember, ModalSubmitInteraction } from "discord.js";
 import type DiscordManager from "../discord/DiscordManager.js";
 import type { Config } from "./config.js";
 import type { MinecraftManagerWithBot } from "./minecraft.js";
@@ -79,7 +79,7 @@ export interface Requirements {
   requirements: Requirement[];
 }
 
-export interface AutoComplateOption {
+export interface AutocompleteOption {
   name: string;
   value?: string;
 }
@@ -117,3 +117,16 @@ export interface GuildManagementRequest {
   readonly username: string;
   readonly argument?: string;
 }
+
+export type BaseInteractionWithGuild = BaseInteraction & {
+  guild: Guild;
+  member: GuildMember;
+  isChatInputCommand(): this is ChatInputCommandInteractionWithGuild;
+  isButton(): this is ButtonInteractionWithGuild;
+  isAutocomplete(): this is AutocompleteInteractionWithGuild;
+  isAutocomplete(): this is AutocompleteInteractionWithGuild;
+};
+export type ChatInputCommandInteractionWithGuild = ChatInputCommandInteraction & { guild: Guild; member: GuildMember };
+export type ButtonInteractionWithGuild = ButtonInteraction & { guild: Guild; member: GuildMember };
+export type AutocompleteInteractionWithGuild = AutocompleteInteraction & { guild: Guild; member: GuildMember };
+export type ModalSubmitInteractionWithGuild = ModalSubmitInteraction & { guild: Guild; member: GuildMember };

@@ -2,9 +2,8 @@ import DiscordModal from "../../private/modals/DiscordModal.js";
 import DiscordModalData from "../../private/modals/DiscordModalData.js";
 import GexpCheckCommand from "../../commands/verification/inactivity/gexpCheckCommand.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
-import { BasicInteractionResponse, CommandFlags, CommandPermission } from "../../../types/discord.js";
+import { BasicInteractionResponse, CommandFlags, CommandPermission, type ModalSubmitInteractionWithGuild } from "../../../types/discord.js";
 import type { GexpDisplay } from "../../../types/inactivity.js";
-import type { ModalSubmitInteraction } from "discord.js";
 
 class GexpCheckFiltersModal extends DiscordModal {
   override readonly data = new DiscordModalData("gexpCheckFilters");
@@ -12,7 +11,7 @@ class GexpCheckFiltersModal extends DiscordModal {
   override readonly flags = [CommandFlags.InactivityCommand, CommandFlags.VerificationCommand];
   override readonly permission = CommandPermission.StaffOnly;
 
-  override async execute(interaction: ModalSubmitInteraction) {
+  override async execute(interaction: ModalSubmitInteractionWithGuild) {
     if (!interaction.message) return;
     const gexpCheckCommand = new GexpCheckCommand(this.discord);
     const options = GexpCheckCommand.getOptionsfromMessage(interaction.message);

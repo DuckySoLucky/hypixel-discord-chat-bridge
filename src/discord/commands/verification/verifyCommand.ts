@@ -4,8 +4,8 @@ import Embed, { SuccessEmbed } from "../../private/Embed.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import LinkedUser from "../../../data/linked/LinkedUser.js";
 import UpdateCommand from "./updateCommand.js";
-import { type ChatInputCommandInteraction, MessageFlags } from "discord.js";
-import { CommandFlags, type DiscordManagerWithBot } from "../../../types/discord.js";
+import { type ChatInputCommandInteractionWithGuild, CommandFlags, type DiscordManagerWithBot } from "../../../types/discord.js";
+import { MessageFlags } from "discord.js";
 import { delay } from "../../../utils/miscUtils.js";
 import { getPlayer } from "../../../utils/hypixelUtils.js";
 
@@ -18,7 +18,7 @@ class VerifyCommand extends DiscordCommand<DiscordManagerWithBot> {
   discordId: string | null = null;
   isSelf: boolean = false;
 
-  override async execute(interaction: ChatInputCommandInteraction) {
+  override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     try {
       if (this.discordId === null) {
         this.isSelf = true;

@@ -3,9 +3,10 @@ import DiscordCommandData from "../../../private/commands/DiscordCommandData.js"
 import HypixelDiscordChatBridgeError from "../../../../private/error.js";
 import InactiveUser from "../../../../data/inactivity/InactiveUser.js";
 import ms, { type StringValue } from "ms";
-import { type ChatInputCommandInteraction } from "discord.js";
 import { CommandFlags, CommandPermission } from "../../../../types/discord.js";
 import { SuccessEmbed } from "../../../private/Embed.js";
+import { truncateString } from "../../../../utils/stringUtils.ts";
+import type { AutocompleteInteractionWithGuild, AutocompleteOption, ChatInputCommandInteractionWithGuild } from "../../../../types/discord.js";
 
 class ManageInactivityCommand extends DiscordCommand {
   override readonly data = new DiscordCommandData()
@@ -34,7 +35,24 @@ class ManageInactivityCommand extends DiscordCommand {
   override readonly flags = [CommandFlags.InactivityCommand, CommandFlags.VerificationCommand];
   override readonly permission = CommandPermission.StaffOnly;
 
-  override async execute(interaction: ChatInputCommandInteraction) {
+  override async autocomplete(interaction: AutocompleteInteractionWithGuild): Promise<void> {
+    const users = await this.discord.application.data.inactivity.getFullData().then((users) => users.filter((user) => !user.isExpired));
+    const parsed = (
+      await Promise.all(
+        users.map(async (user) => {
+          const discUser = await user.getDiscordUser();
+          if (!discUser) return null;
+          return { username: this.discord.messageHandler.getDisplayName(discUser), reason: user.reason, id: user.inactivityId };
+        })
+      )
+    ).filter((x): x is { username: string; reason: string; id: string } => x !== null);
+    const options: AutocompleteOption[] = parsed
+      .sort((a, b) => a.username.localeCompare(b.username))
+      .map(({ username, reason, id }) => ({ value: id, name: `${username} - ${truncateString(reason, 20)}` }));
+    await this.respondToAutocomplete(interaction, options);
+  }
+
+  override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const subcommand = interaction.options.getSubcommand(true);
 
     switch (subcommand) {

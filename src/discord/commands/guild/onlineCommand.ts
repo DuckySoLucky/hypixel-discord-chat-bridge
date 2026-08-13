@@ -2,9 +2,8 @@ import DiscordCommand from "../../private/commands/DiscordCommand.js";
 import DiscordCommandData from "../../private/commands/DiscordCommandData.js";
 import Embed from "../../private/Embed.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
-import { CommandFlags, type DiscordManagerWithBot, type ListMembers, type ListMembersGroup } from "../../../types/discord.js";
+import { type ChatInputCommandInteractionWithGuild, CommandFlags, type DiscordManagerWithBot, type ListMembers, type ListMembersGroup } from "../../../types/discord.js";
 import { MinecraftRequestTimeoutError } from "../../../minecraft/MinecraftRequestBroker.js";
-import type { ChatInputCommandInteraction } from "discord.js";
 
 class OnlineCommand extends DiscordCommand<DiscordManagerWithBot> {
   override readonly data = new DiscordCommandData().setName("online").setDescription("List of online members.");
@@ -62,7 +61,7 @@ class OnlineCommand extends DiscordCommand<DiscordManagerWithBot> {
     return { online, onlineString, total, totalString, groups };
   }
 
-  override async execute(interaction: ChatInputCommandInteraction) {
+  override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const { groups, totalString, onlineString } = await this.getOnlineMembers();
     await interaction.followUp({ embeds: [new Embed().setTitle("Online Members").setDescription(`${totalString}\n${onlineString}`).setFields(groups)] });
   }

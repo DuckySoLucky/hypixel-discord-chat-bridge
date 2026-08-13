@@ -3,8 +3,8 @@ import DiscordCommand from "../private/commands/DiscordCommand.js";
 import DiscordCommandData from "../private/commands/DiscordCommandData.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import MowojangAPI from "../../private/MowojangAPI.js";
-import { BasicInteractionResponse, CommandFlags, CommandPermission } from "../../types/discord.js";
-import { type ChatInputCommandInteraction, Message } from "discord.js";
+import { BasicInteractionResponse, type ChatInputCommandInteractionWithGuild, CommandFlags, CommandPermission } from "../../types/discord.js";
+import { Message } from "discord.js";
 import { SuccessEmbed } from "../private/Embed.js";
 import type LinkedUser from "../../data/linked/LinkedUser.js";
 
@@ -72,7 +72,7 @@ class BlacklistCommand extends DiscordCommand {
     return await this.discord.application.data.blacklist.getUserByDiscordId(field.value.replaceAll("`", ""));
   }
 
-  override async execute(interaction: ChatInputCommandInteraction) {
+  override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const subcommand = interaction.options.getSubcommand(true);
     const user = interaction.options.getUser("user");
     const username = interaction.options.getString("username");

@@ -2,8 +2,8 @@ import DiscordCommand from "../private/commands/DiscordCommand.js";
 import DiscordCommandData from "../private/commands/DiscordCommandData.js";
 import Embed, { SuccessEmbed } from "../private/Embed.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
-import { CommandPermission } from "../../types/discord.js";
-import type { ChatInputCommandInteraction } from "discord.js";
+import { type AutocompleteInteractionWithGuild, type AutocompleteOption, type ChatInputCommandInteractionWithGuild, CommandPermission } from "../../types/discord.js";
+import { titleCaseCamel } from "../../utils/stringUtils.ts";
 
 class ForceExecuteScriptCommand extends DiscordCommand {
   override readonly data = new DiscordCommandData()
@@ -12,7 +12,14 @@ class ForceExecuteScriptCommand extends DiscordCommand {
     .addStringOption((option) => option.setName("script-name").setDescription("Script Name").setRequired(true).setAutocomplete(true));
   override readonly permission = CommandPermission.StaffOnly;
 
-  override async execute(interaction: ChatInputCommandInteraction) {
+  override async autocomplete(interaction: AutocompleteInteractionWithGuild): Promise<void> {
+    const options: AutocompleteOption[] = this.discord.application.scripts.scripts
+      .map(({ id }) => ({ value: id, name: titleCaseCamel(id) }))
+      .sort((a, b) => a.name.localeCompare(b.name));
+    await this.respondToAutocomplete(interaction, options);
+  }
+
+  override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const scriptName = interaction.options.getString("script-name", true);
     const script = this.discord.application.scripts.getScript(scriptName);
     if (!script) throw new HypixelDiscordChatBridgeError("Could not find that script?");

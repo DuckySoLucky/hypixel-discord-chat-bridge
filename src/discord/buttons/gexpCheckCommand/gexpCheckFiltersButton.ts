@@ -2,8 +2,8 @@ import DiscordButton from "../../private/buttons/DiscordButton.js";
 import DiscordButtonData from "../../private/buttons/DiscordButtonData.js";
 import GexpCheckCommand from "../../commands/verification/inactivity/gexpCheckCommand.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
+import { type ButtonInteractionWithGuild, ButtonResponse, CommandFlags, CommandPermission } from "../../../types/discord.js";
 import {
-  type ButtonInteraction,
   CheckboxGroupBuilder,
   CheckboxGroupOptionBuilder,
   LabelBuilder,
@@ -13,7 +13,6 @@ import {
   TextInputBuilder,
   TextInputStyle
 } from "discord.js";
-import { ButtonResponse, CommandFlags, CommandPermission } from "../../../types/discord.js";
 import { gexpCheckData } from "../../../types/inactivity.js";
 
 class GexpCheckFiltersButton extends DiscordButton {
@@ -22,7 +21,7 @@ class GexpCheckFiltersButton extends DiscordButton {
   override readonly flags = [CommandFlags.InactivityCommand, CommandFlags.VerificationCommand];
   override readonly permission = CommandPermission.StaffOnly;
 
-  override async execute(interaction: ButtonInteraction) {
+  override async execute(interaction: ButtonInteractionWithGuild) {
     const options = GexpCheckCommand.getOptionsfromMessage(interaction.message);
     if (!options) throw new HypixelDiscordChatBridgeError("Unable to find the requirement gexp");
     const guild = this.discord.application.botGuild ? this.discord.application.botGuild : await this.discord.application.getBotGuild();

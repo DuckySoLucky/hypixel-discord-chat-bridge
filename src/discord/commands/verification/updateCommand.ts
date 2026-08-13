@@ -2,9 +2,14 @@ import DiscordCommand from "../../private/commands/DiscordCommand.js";
 import DiscordCommandData from "../../private/commands/DiscordCommandData.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import MowojangAPI from "../../../private/MowojangAPI.js";
-import { CommandFlags, CommandPermission, type DiscordManagerWithBot } from "../../../types/discord.js";
+import {
+  type ButtonInteractionWithGuild,
+  type ChatInputCommandInteractionWithGuild,
+  CommandFlags,
+  CommandPermission,
+  type DiscordManagerWithBot
+} from "../../../types/discord.js";
 import { SuccessEmbed } from "../../private/Embed.js";
-import type { ButtonInteraction, ChatInputCommandInteraction } from "discord.js";
 
 class UpdateCommand extends DiscordCommand<DiscordManagerWithBot> {
   override readonly data = new DiscordCommandData().setName("update").setDescription("Update your current roles");
@@ -13,7 +18,7 @@ class UpdateCommand extends DiscordCommand<DiscordManagerWithBot> {
   discordId: string | null = null;
   isSelf: boolean = false;
 
-  override async execute(interaction: ChatInputCommandInteraction | ButtonInteraction) {
+  override async execute(interaction: ChatInputCommandInteractionWithGuild | ButtonInteractionWithGuild) {
     if (this.discordId === null) {
       this.isSelf = true;
       this.discordId = interaction.user.id;

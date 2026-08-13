@@ -1,8 +1,8 @@
 import ExtensionRegistry from "../../extensions/ExtensionRegistry.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import loadExtensionModules from "../../extensions/moduleLoader.js";
-import { type ButtonInteraction, MessageFlags } from "discord.js";
-import { ButtonResponse } from "../../types/discord.js";
+import { type ButtonInteractionWithGuild, ButtonResponse } from "../../types/discord.js";
+import { MessageFlags } from "discord.js";
 import { toError } from "../../utils/asyncUtils.js";
 import type DiscordButton from "../private/buttons/DiscordButton.js";
 import type DiscordManager from "../DiscordManager.js";
@@ -11,7 +11,7 @@ class ButtonHandler {
   readonly #buttons = new ExtensionRegistry<DiscordButton<DiscordManager>>();
   constructor(private readonly discord: DiscordManager) {}
 
-  async onButton(interaction: ButtonInteraction) {
+  async onButton(interaction: ButtonInteractionWithGuild) {
     const button = this.#buttons.get(interaction.customId);
     if (!button) return;
 
@@ -22,7 +22,7 @@ class ButtonHandler {
       }
       console.discord(`Button Clicked ${interaction.user.username} (${interaction.user.id}) button ${interaction.customId}`);
 
-      await this.discord.interactionHandler.checkPerms(interaction, button);
+      await this.discord.interactionHandler.checkPerms(interaction.member, button);
 
       await button.execute(interaction);
     } catch (error: unknown) {

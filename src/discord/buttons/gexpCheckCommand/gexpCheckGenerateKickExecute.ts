@@ -1,8 +1,8 @@
 import DiscordButton from "../../private/buttons/DiscordButton.js";
 import DiscordButtonData from "../../private/buttons/DiscordButtonData.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
-import { type ButtonInteraction, MessageFlags } from "discord.js";
-import { CommandFlags, CommandPermission, type DiscordManagerWithBot } from "../../../types/discord.js";
+import { type ButtonInteractionWithGuild, CommandFlags, CommandPermission, type DiscordManagerWithBot } from "../../../types/discord.js";
+import { MessageFlags } from "discord.js";
 import { SuccessEmbed } from "../../private/Embed.js";
 import { delay } from "../../../utils/miscUtils.js";
 
@@ -11,7 +11,7 @@ class GexpCheckGenerateKickExecuteButton extends DiscordButton<DiscordManagerWit
   override readonly flags = [CommandFlags.InactivityCommand, CommandFlags.VerificationCommand, CommandFlags.RequiresMinecraftBot];
   override readonly permission = CommandPermission.StaffOnly;
 
-  override async execute(interaction: ButtonInteraction) {
+  override async execute(interaction: ButtonInteractionWithGuild) {
     if (!interaction.message) return;
     const attachment = interaction.message.attachments.first();
     if (!attachment) throw new HypixelDiscordChatBridgeError("No commands file found on the message?");

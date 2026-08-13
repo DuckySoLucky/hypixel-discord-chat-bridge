@@ -8,28 +8,18 @@ import InteractionHandler from "./handlers/InteractionHandler.js";
 import MessageHandler from "./handlers/MessageHandler.js";
 import ModalHandler from "./handlers/ModalHandler.js";
 import StateHandler from "./handlers/StateHandler.js";
+import { AttachmentBuilder, type Channel, ChannelType, Client, Events, GatewayIntentBits, Guild, MessageFlags, Webhook } from "discord.js";
 import {
-  AttachmentBuilder,
-  AutocompleteInteraction,
-  ButtonInteraction,
-  type Channel,
-  ChannelType,
-  ChatInputCommandInteraction,
-  Client,
-  Events,
-  GatewayIntentBits,
-  Guild,
-  MessageFlags,
-  ModalSubmitInteraction,
-  Webhook
-} from "discord.js";
-import {
+  type AutocompleteInteractionWithGuild,
+  type ButtonInteractionWithGuild,
   type ChannelName,
+  type ChatInputCommandInteractionWithGuild,
   type DiscordManagerWithClient,
   type DiscordManagerWithGuild,
   type GenericChannelName,
   type LoggerChannelName,
-  LoggerChannelNames
+  LoggerChannelNames,
+  type ModalSubmitInteractionWithGuild
 } from "../types/discord.js";
 import { canSendMessages, getApplicationOwners } from "../utils/discordUtils.js";
 import { messageToImage } from "../utils/messageToImage.js";
@@ -401,7 +391,7 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
 
   async handleError(
     error: Error | HypixelDiscordChatBridgeError,
-    interaction: ChatInputCommandInteraction | ButtonInteraction | AutocompleteInteraction | ModalSubmitInteraction | null = null
+    interaction: ChatInputCommandInteractionWithGuild | ButtonInteractionWithGuild | AutocompleteInteractionWithGuild | ModalSubmitInteractionWithGuild | null = null
   ) {
     console.error(error);
     await this.logError(error);

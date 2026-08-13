@@ -1,8 +1,8 @@
 import BasicInteractionData from "../BasicInteractionData.js";
-import { ButtonResponse, type DiscordManagerWithClient } from "../../../types/discord.js";
+import { type ButtonInteractionWithGuild, ButtonResponse, type DiscordManagerWithClient } from "../../../types/discord.js";
 import type DiscordButtonData from "./DiscordButtonData.js";
 import type DiscordManager from "../../DiscordManager.js";
-import type { ButtonInteraction, Message } from "discord.js";
+import type { Message } from "discord.js";
 
 abstract class DiscordButton<Manager extends DiscordManager = DiscordManagerWithClient> extends BasicInteractionData<Manager> {
   abstract readonly data: DiscordButtonData;
@@ -18,7 +18,7 @@ abstract class DiscordButton<Manager extends DiscordManager = DiscordManagerWith
     return split[0];
   }
 
-  abstract execute(interaction: ButtonInteraction): Promise<void>;
+  abstract execute(interaction: ButtonInteractionWithGuild): Promise<void>;
 }
 
 export default DiscordButton;

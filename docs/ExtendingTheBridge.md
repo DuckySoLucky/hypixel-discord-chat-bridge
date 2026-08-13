@@ -23,13 +23,18 @@ Place plugin modules in the project-level `plugins/` directory. A plugin registe
 ready, and stops during application shutdown.
 
 ```ts
-import { BridgePlugin, DiscordCommand, DiscordCommandData, DiscordManagerWithPlugin } from "hypixel-discord-chat-bridge/plugin-api";
-import { ChatInputCommandInteraction } from "discord.js";
+import {
+  BridgePlugin,
+  type ChatInputCommandInteractionWithGuild,
+  DiscordCommand,
+  DiscordCommandData,
+  type DiscordManagerWithPlugin
+} from "hypixel-discord-chat-bridge/plugin-api";
 
 class ExampleCommand extends DiscordCommand<DiscordManagerWithPlugin<ExamplePlugin>> {
   override readonly data = new DiscordCommandData().setName("example").setDescription("Example plugin command");
 
-  override async execute(interaction: ChatInputCommandInteraction): Promise<void> {
+  override async execute(interaction: ChatInputCommandInteractionWithGuild): Promise<void> {
     await interaction.followUp("Hello from a plugin.");
   }
 }

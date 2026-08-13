@@ -2,14 +2,13 @@ import DiscordButton from "../private/buttons/DiscordButton.js";
 import DiscordButtonData from "../private/buttons/DiscordButtonData.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import LinkedCommand from "../commands/verification/linkedCommand.js";
-import { CommandPermission } from "../../types/discord.js";
-import type { ButtonInteraction } from "discord.js";
+import { type ButtonInteractionWithGuild, CommandPermission } from "../../types/discord.js";
 
 class GetLinkedButton extends DiscordButton {
   override readonly data = new DiscordButtonData("getLinked");
   override readonly permission = CommandPermission.StaffOnly;
 
-  override async execute(interaction: ButtonInteraction) {
+  override async execute(interaction: ButtonInteractionWithGuild) {
     const linkedCommand = new LinkedCommand(this.discord);
     const linked = await linkedCommand.getLinkedFromLinkedEmbed(interaction.message);
     if (!linked) throw new HypixelDiscordChatBridgeError("Unable to find the linked user");

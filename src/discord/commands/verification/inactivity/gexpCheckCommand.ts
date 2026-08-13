@@ -1,17 +1,8 @@
 import DiscordCommand from "../../../private/commands/DiscordCommand.js";
 import DiscordCommandData from "../../../private/commands/DiscordCommandData.js";
 import MowojangAPI from "../../../../private/MowojangAPI.js";
-import {
-  ActionRowBuilder,
-  type BaseMessageOptions,
-  ButtonBuilder,
-  ButtonComponent,
-  ButtonStyle,
-  type ChatInputCommandInteraction,
-  ComponentType,
-  Message
-} from "discord.js";
-import { CommandFlags, CommandPermission } from "../../../../types/discord.js";
+import { ActionRowBuilder, type BaseMessageOptions, ButtonBuilder, ButtonComponent, ButtonStyle, ComponentType, Message } from "discord.js";
+import { type ChatInputCommandInteractionWithGuild, CommandFlags, CommandPermission } from "../../../../types/discord.js";
 import { type GexpCheckOptions, type GexpDisplay, type ParsedGexpCheckUser, gexpCheckData } from "../../../../types/inactivity.js";
 import { SuccessEmbed } from "../../../private/Embed.js";
 import { replaceVariables, sanitizeString } from "../../../../utils/stringUtils.js";
@@ -107,7 +98,7 @@ class GexpCheckCommand extends DiscordCommand {
     return `${sanitizeString(username)} - ${member.weeklyExperience.toLocaleString()}`;
   }
 
-  override async execute(interaction: ChatInputCommandInteraction) {
+  override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const requirement = interaction.options.getNumber("requirement", true);
     const response = await this.getResponse({ requirement, type: "gexpCheckAll", hiddenRanks: [] });
     await interaction.followUp(response);

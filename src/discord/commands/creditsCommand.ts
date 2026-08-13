@@ -3,12 +3,12 @@ import DiscordCommandData from "../private/commands/DiscordCommandData.js";
 import Embed from "../private/Embed.js";
 import { CommonDevs, MiscCredits } from "../../private/constants.js";
 import { DevTypes } from "../../types/application.js";
-import type { ChatInputCommandInteraction } from "discord.js";
+import type { ChatInputCommandInteractionWithGuild } from "../../types/discord.js";
 
 class CreditsCommand extends DiscordCommand {
   override readonly data = new DiscordCommandData().setName("credits").setDescription("Shows the credits of the people who make this possible");
 
-  override async execute(interaction: ChatInputCommandInteraction) {
+  override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const miscCredits = MiscCredits.map(({ name, description, link }) => `- **[${name}](<https://${link}>):** ${description}`).join("\n");
     const embed = new Embed()
       .setTitle("**Credits**")

@@ -2,8 +2,8 @@ import DiscordModal from "../../private/modals/DiscordModal.js";
 import DiscordModalData from "../../private/modals/DiscordModalData.js";
 import GexpCheckCommand from "../../commands/verification/inactivity/gexpCheckCommand.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
-import { ActionRowBuilder, AttachmentBuilder, ButtonBuilder, ButtonStyle, type ModalSubmitInteraction } from "discord.js";
-import { BasicInteractionResponse, CommandFlags, CommandPermission } from "../../../types/discord.js";
+import { ActionRowBuilder, AttachmentBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
+import { BasicInteractionResponse, CommandFlags, CommandPermission, type ModalSubmitInteractionWithGuild } from "../../../types/discord.js";
 import { SuccessEmbed } from "../../private/Embed.js";
 import { replaceVariables } from "../../../utils/stringUtils.js";
 
@@ -13,7 +13,7 @@ class GexpCheckGenerateKickModal extends DiscordModal {
   override readonly flags = [CommandFlags.InactivityCommand, CommandFlags.VerificationCommand];
   override readonly permission = CommandPermission.StaffOnly;
 
-  override async execute(interaction: ModalSubmitInteraction) {
+  override async execute(interaction: ModalSubmitInteractionWithGuild) {
     if (!interaction.message) return;
     const gexpCheckCommand = new GexpCheckCommand(this.discord);
     const options = GexpCheckCommand.getOptionsfromMessage(interaction.message);

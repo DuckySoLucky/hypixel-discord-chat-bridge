@@ -1,15 +1,15 @@
 import {
   type ApplicationCommandOptionChoiceData,
-  AutocompleteInteraction,
+  type BaseInteraction,
   ChannelType,
-  Client,
-  GuildMember,
+  type Client,
+  type GuildMember,
   PermissionFlagsBits,
-  Role,
+  type Role,
   type SendableChannels,
   Team
 } from "discord.js";
-import { type AutoComplateOption, CommandPermission } from "../types/discord.js";
+import { type AutocompleteInteractionWithGuild, type AutocompleteOption, type BaseInteractionWithGuild, CommandPermission } from "../types/discord.js";
 
 export async function getApplicationOwners(client: Client): Promise<string[]> {
   if (!client.application) return [];
@@ -76,7 +76,8 @@ export async function isVerifiedMember(member: GuildMember): Promise<boolean> {
   return true;
 }
 
-export function ParseAutoComplete(interaction: AutocompleteInteraction, options: AutoComplateOption[]): ApplicationCommandOptionChoiceData[] {
+export function ParseAutoComplete(interaction: AutocompleteInteractionWithGuild, options: AutocompleteOption[]): ApplicationCommandOptionChoiceData[] {
+  if (options.length === 0) options.push({ name: "No choices found", value: "UNKNOWN" });
   const focusedOption = interaction.options.getFocused(true);
   return options
     .filter((choice) => choice.name.toLowerCase().startsWith(focusedOption.value.toLowerCase()))
@@ -106,4 +107,8 @@ export function getDiscordCommandPermission(permission: CommandPermission) {
     default:
       return "Anyone";
   }
+}
+
+export function isInteractionInsideOfGuild(interaction: BaseInteraction): interaction is BaseInteractionWithGuild {
+  return interaction.guild !== null && interaction.member !== null;
 }

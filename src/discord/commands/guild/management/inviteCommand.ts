@@ -1,10 +1,15 @@
 import DiscordCommand from "../../../private/commands/DiscordCommand.js";
 import DiscordCommandData from "../../../private/commands/DiscordCommandData.js";
 import HypixelDiscordChatBridgeError from "../../../../private/error.js";
-import { CommandFlags, CommandPermission, type DiscordManagerWithBot, GuildManagementAction } from "../../../../types/discord.js";
+import {
+  type ChatInputCommandInteractionWithGuild,
+  CommandFlags,
+  CommandPermission,
+  type DiscordManagerWithBot,
+  GuildManagementAction
+} from "../../../../types/discord.js";
 import { SuccessEmbed } from "../../../private/Embed.js";
 import { replaceVariables } from "../../../../utils/stringUtils.js";
-import type { ChatInputCommandInteraction } from "discord.js";
 
 class InviteCommand extends DiscordCommand<DiscordManagerWithBot> {
   override readonly data = new DiscordCommandData()
@@ -14,7 +19,7 @@ class InviteCommand extends DiscordCommand<DiscordManagerWithBot> {
   override readonly flags = [CommandFlags.RequiresMinecraftBot];
   override readonly permission = CommandPermission.StaffOnly;
 
-  override async execute(interaction: ChatInputCommandInteraction) {
+  override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const username = interaction.options.getString("username", true);
     const { action, message } = await this.handleGuildManagementAction("invite", username);
     if (action === GuildManagementAction.NoPerms) {

@@ -1,8 +1,7 @@
 import DiscordCommand from "../private/commands/DiscordCommand.js";
 import DiscordCommandData from "../private/commands/DiscordCommandData.js";
-import { CommandFlags, CommandPermission, type DiscordManagerWithBot } from "../../types/discord.js";
+import { type ChatInputCommandInteractionWithGuild, CommandFlags, CommandPermission, type DiscordManagerWithBot } from "../../types/discord.js";
 import { SuccessEmbed } from "../private/Embed.js";
-import type { ChatInputCommandInteraction } from "discord.js";
 
 class ExecuteCommand extends DiscordCommand<DiscordManagerWithBot> {
   override readonly data = new DiscordCommandData()
@@ -12,7 +11,7 @@ class ExecuteCommand extends DiscordCommand<DiscordManagerWithBot> {
   override readonly flags = [CommandFlags.RequiresMinecraftBot];
   override readonly permission = CommandPermission.AdminOnly;
 
-  override async execute(interaction: ChatInputCommandInteraction) {
+  override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const command = interaction.options.getString("command", true);
     this.discord.application.minecraft.bot.chat(`/${command}`);
     await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(`Successfully executed \`/${command}\``)] });

@@ -2,9 +2,8 @@ import DiscordCommand from "../../private/commands/DiscordCommand.js";
 import DiscordCommandData from "../../private/commands/DiscordCommandData.js";
 import Embed from "../../private/Embed.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
-import { CommandFlags, type DiscordManagerWithBot } from "../../../types/discord.js";
+import { type ChatInputCommandInteractionWithGuild, CommandFlags, type DiscordManagerWithBot } from "../../../types/discord.js";
 import { MinecraftRequestTimeoutError } from "../../../minecraft/MinecraftRequestBroker.js";
-import type { ChatInputCommandInteraction } from "discord.js";
 
 class GuildTopCommand extends DiscordCommand<DiscordManagerWithBot> {
   override readonly data = new DiscordCommandData()
@@ -38,7 +37,7 @@ class GuildTopCommand extends DiscordCommand<DiscordManagerWithBot> {
     }
   }
 
-  override async execute(interaction: ChatInputCommandInteraction) {
+  override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const messages = await this.getMessages(interaction.options.getString("time"));
     if (messages.length === 0) throw new HypixelDiscordChatBridgeError("Could not retrieve the top 10 guild members.");
     const trimmedMessages = messages.map((message) => message.trim()).filter((message) => message.includes("."));

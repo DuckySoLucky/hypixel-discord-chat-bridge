@@ -1,10 +1,9 @@
 import DiscordCommand from "../private/commands/DiscordCommand.js";
 import DiscordCommandData from "../private/commands/DiscordCommandData.js";
 import Embed from "../private/Embed.js";
-import { CommandFlags, type DiscordManagerWithBot, type Information } from "../../types/discord.js";
+import { type ChatInputCommandInteractionWithGuild, CommandFlags, type DiscordManagerWithBot, type Information } from "../../types/discord.js";
 import { replaceVariables, titleCase } from "../../utils/stringUtils.js";
 import type DiscordManager from "../DiscordManager.js";
-import type { ChatInputCommandInteraction } from "discord.js";
 
 class InformationCommand extends DiscordCommand<DiscordManagerWithBot> {
   override readonly data = new DiscordCommandData().setName("information").setDescription("Shows information about the bot.");
@@ -81,7 +80,7 @@ class InformationCommand extends DiscordCommand<DiscordManagerWithBot> {
     return { discordInformation, minecraftInformation, generalInformation };
   }
 
-  override async execute(interaction: ChatInputCommandInteraction) {
+  override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const { discordCommands, minecraftCommands } = InformationCommand.getCommands(this.discord);
     const { discordInformation, minecraftInformation, generalInformation } = InformationCommand.getInformation(this.discord);
 

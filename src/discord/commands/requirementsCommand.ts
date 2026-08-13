@@ -4,9 +4,8 @@ import Embed from "../private/Embed.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import MowojangAPI from "../../private/MowojangAPI.js";
 import { formatNumber, titleCaseCamel } from "../../utils/stringUtils.js";
-import type { ChatInputCommandInteraction } from "discord.js";
+import type { ChatInputCommandInteractionWithGuild, Requirement, Requirements } from "../../types/discord.js";
 import type { PlayerVariableStatsKeysNumber } from "../../private/constants.js";
-import type { Requirement, Requirements } from "../../types/discord.js";
 
 class RequirementsCommand extends DiscordCommand {
   override readonly data = new DiscordCommandData()
@@ -48,7 +47,7 @@ class RequirementsCommand extends DiscordCommand {
       .setThumbnail(`https://www.mc-heads.net/avatar/${username}`);
   }
 
-  override async execute(interaction: ChatInputCommandInteraction) {
+  override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const username = interaction.options.getString("username");
     if (!username) throw new HypixelDiscordChatBridgeError("Please input a user");
     const uuid = await MowojangAPI.getUUID(username);

@@ -1,24 +1,22 @@
 import HypixelDiscordChatBridgeError from "../../private/error.js";
-import { type BaseInteraction, type ButtonInteraction, type ChatInputCommandInteraction, type ModalSubmitInteraction } from "discord.js";
 import { CommandFlags, CommandPermission } from "../../types/discord.js";
-import { isAdminMember, isGuildMember, isStaffMember, isVerifiedMember } from "../../utils/discordUtils.js";
+import { isAdminMember, isGuildMember, isInteractionInsideOfGuild, isStaffMember, isVerifiedMember } from "../../utils/discordUtils.js";
 import type BasicInteractionData from "../private/BasicInteractionData.js";
 import type DiscordManager from "../DiscordManager.js";
+import type { BaseInteraction, GuildMember } from "discord.js";
 
 class InteractionHandler {
   constructor(private readonly discord: DiscordManager) {}
 
   async onInteraction(interaction: BaseInteraction): Promise<void> {
+    if (!isInteractionInsideOfGuild(interaction)) return;
     if (interaction.isChatInputCommand()) await this.discord.commandHandler.onCommand(interaction);
     else if (interaction.isAutocomplete()) await this.discord.commandHandler.onAutoComplete(interaction);
     else if (interaction.isButton()) await this.discord.buttonHandler.onButton(interaction);
     else if (interaction.isModalSubmit()) await this.discord.modalHandler.onSubmit(interaction);
   }
 
-  async checkPerms(interaction: ChatInputCommandInteraction | ButtonInteraction | ModalSubmitInteraction, data: BasicInteractionData<DiscordManager>) {
-    if (!interaction.guild || !interaction.member) throw new HypixelDiscordChatBridgeError("Please run this command inside of a guild");
-    const member = await interaction.guild.members.fetch(interaction.user.id);
-
+  async checkPerms(member: GuildMember, data: BasicInteractionData<DiscordManager>) {
     const [isGuildMemberCheck, isStaffMemberCheck, isAdminMemberCheck, isVerifiedMemberCheck] = await Promise.all([
       isGuildMember(member),
       isStaffMember(member),
