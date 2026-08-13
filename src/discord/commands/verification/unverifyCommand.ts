@@ -1,5 +1,5 @@
 import DiscordCommand from "../../private/commands/DiscordCommand.js";
-import DiscordCommandData from "../../private/commands/DiscordCommandData.js";
+import DiscordCommandDataBuilder from "../../private/commands/DiscordCommandDataBuilder.ts";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import {
   type ButtonInteractionWithGuild,
@@ -11,7 +11,7 @@ import {
 import { SuccessEmbed } from "../../private/Embed.js";
 
 class UnverifyCommand extends DiscordCommand<DiscordManagerWithBot> {
-  override readonly data = new DiscordCommandData().setName("unverify").setDescription("Remove your linked Minecraft account");
+  override readonly data = new DiscordCommandDataBuilder().setName("unverify").setDescription("Remove your linked Minecraft account");
   override readonly flags = [CommandFlags.VerificationCommand];
   override readonly permission = CommandPermission.VerifiedOnly;
   discordId: string | null = null;

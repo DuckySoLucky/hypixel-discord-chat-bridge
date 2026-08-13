@@ -15,7 +15,7 @@ import {
   type SlashCommandUserOption
 } from "discord.js";
 
-class DiscordCommandData extends SlashCommandBuilder {
+class DiscordCommandDataBuilder extends SlashCommandBuilder {
   constructor() {
     super();
     this.setContexts(InteractionContextType.Guild);
@@ -90,4 +90,4 @@ class DiscordCommandData extends SlashCommandBuilder {
   }
 }
 
-export default DiscordCommandData;
+export default DiscordCommandDataBuilder;

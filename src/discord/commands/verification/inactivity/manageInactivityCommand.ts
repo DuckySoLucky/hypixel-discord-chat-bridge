@@ -1,5 +1,5 @@
 import DiscordCommand from "../../../private/commands/DiscordCommand.js";
-import DiscordCommandData from "../../../private/commands/DiscordCommandData.js";
+import DiscordCommandDataBuilder from "../../../private/commands/DiscordCommandDataBuilder.ts";
 import HypixelDiscordChatBridgeError from "../../../../private/error.js";
 import InactiveUser from "../../../../data/inactivity/InactiveUser.js";
 import ms, { type StringValue } from "ms";
@@ -9,7 +9,7 @@ import { truncateString } from "../../../../utils/stringUtils.ts";
 import type { AutocompleteInteractionWithGuild, AutocompleteOption, ChatInputCommandInteractionWithGuild } from "../../../../types/discord.js";
 
 class ManageInactivityCommand extends DiscordCommand {
-  override readonly data = new DiscordCommandData()
+  override readonly data = new DiscordCommandDataBuilder()
     .setName("manage-inactivity")
     .setDescription("Manage inactivity")
     .addSubcommand((option) =>

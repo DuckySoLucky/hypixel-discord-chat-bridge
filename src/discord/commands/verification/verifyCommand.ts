@@ -1,5 +1,5 @@
 import DiscordCommand from "../../private/commands/DiscordCommand.js";
-import DiscordCommandData from "../../private/commands/DiscordCommandData.js";
+import DiscordCommandDataBuilder from "../../private/commands/DiscordCommandDataBuilder.ts";
 import Embed, { SuccessEmbed } from "../../private/Embed.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import LinkedUser from "../../../data/linked/LinkedUser.js";
@@ -10,7 +10,7 @@ import { delay } from "../../../utils/miscUtils.js";
 import { getPlayer } from "../../../utils/hypixelUtils.js";
 
 class VerifyCommand extends DiscordCommand<DiscordManagerWithBot> {
-  override readonly data = new DiscordCommandData()
+  override readonly data = new DiscordCommandDataBuilder()
     .setName("verify")
     .setDescription("Connect your Discord account to Minecraft")
     .addStringOption((option) => option.setName("username").setDescription("Minecraft Username").setRequired(true));

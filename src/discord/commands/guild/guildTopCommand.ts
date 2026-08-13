@@ -1,12 +1,12 @@
 import DiscordCommand from "../../private/commands/DiscordCommand.js";
-import DiscordCommandData from "../../private/commands/DiscordCommandData.js";
+import DiscordCommandDataBuilder from "../../private/commands/DiscordCommandDataBuilder.ts";
 import Embed from "../../private/Embed.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import { type ChatInputCommandInteractionWithGuild, CommandFlags, type DiscordManagerWithBot } from "../../../types/discord.js";
 import { MinecraftRequestTimeoutError } from "../../../minecraft/MinecraftRequestBroker.js";
 
 class GuildTopCommand extends DiscordCommand<DiscordManagerWithBot> {
-  override readonly data = new DiscordCommandData()
+  override readonly data = new DiscordCommandDataBuilder()
     .setName("guildtop")
     .setDescription("Top 10 members with the most guild experience.")
     .addStringOption((option) =>

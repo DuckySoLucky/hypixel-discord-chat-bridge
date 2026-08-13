@@ -1,5 +1,5 @@
 import DiscordCommand from "../private/commands/DiscordCommand.js";
-import DiscordCommandData from "../private/commands/DiscordCommandData.js";
+import DiscordCommandDataBuilder from "../private/commands/DiscordCommandDataBuilder.ts";
 import Embed from "../private/Embed.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import MowojangAPI from "../../private/MowojangAPI.js";
@@ -8,7 +8,7 @@ import type { ChatInputCommandInteractionWithGuild, Requirement, Requirements } 
 import type { PlayerVariableStatsKeysNumber } from "../../private/constants.js";
 
 class RequirementsCommand extends DiscordCommand {
-  override readonly data = new DiscordCommandData()
+  override readonly data = new DiscordCommandDataBuilder()
     .setName("requirements")
     .setDescription("Check a user's requirements to join the guild")
     .addStringOption((option) => option.setName("username").setDescription("Minecraft Username"));

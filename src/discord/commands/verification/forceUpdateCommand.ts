@@ -1,10 +1,10 @@
 import DiscordCommand from "../../private/commands/DiscordCommand.js";
-import DiscordCommandData from "../../private/commands/DiscordCommandData.js";
+import DiscordCommandDataBuilder from "../../private/commands/DiscordCommandDataBuilder.ts";
 import UpdateCommand from "./updateCommand.js";
 import { type ChatInputCommandInteractionWithGuild, CommandFlags, CommandPermission, type DiscordManagerWithBot } from "../../../types/discord.js";
 
 class ForceUpdateCommand extends DiscordCommand<DiscordManagerWithBot> {
-  override readonly data = new DiscordCommandData()
+  override readonly data = new DiscordCommandDataBuilder()
     .setName("force-update")
     .setDescription("Update user's roles")
     .addUserOption((option) => option.setName("user").setDescription("Discord Username").setRequired(true));

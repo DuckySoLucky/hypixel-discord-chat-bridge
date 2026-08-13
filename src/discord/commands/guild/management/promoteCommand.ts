@@ -1,5 +1,5 @@
 import DiscordCommand from "../../../private/commands/DiscordCommand.js";
-import DiscordCommandData from "../../../private/commands/DiscordCommandData.js";
+import DiscordCommandDataBuilder from "../../../private/commands/DiscordCommandDataBuilder.ts";
 import HypixelDiscordChatBridgeError from "../../../../private/error.js";
 import {
   type ChatInputCommandInteractionWithGuild,
@@ -12,7 +12,7 @@ import { SuccessEmbed } from "../../../private/Embed.js";
 import { replaceVariables } from "../../../../utils/stringUtils.js";
 
 class PromoteCommand extends DiscordCommand<DiscordManagerWithBot> {
-  override readonly data = new DiscordCommandData()
+  override readonly data = new DiscordCommandDataBuilder()
     .setName("promote")
     .setDescription("Promote the given user by one guild rank.")
     .addStringOption((option) => option.setName("guild-member-username").setDescription("Minecraft Username").setRequired(true).setAutocomplete(true));

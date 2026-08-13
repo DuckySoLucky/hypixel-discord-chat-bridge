@@ -1,12 +1,12 @@
 import DiscordCommand from "../private/commands/DiscordCommand.js";
-import DiscordCommandData from "../private/commands/DiscordCommandData.js";
+import DiscordCommandDataBuilder from "../private/commands/DiscordCommandDataBuilder.ts";
 import Embed from "../private/Embed.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import InformationCommand from "./informationCommand.js";
 import { type ChatInputCommandInteractionWithGuild, CommandFlags } from "../../types/discord.js";
 
 class HelpCommand extends DiscordCommand {
-  override readonly data = new DiscordCommandData()
+  override readonly data = new DiscordCommandDataBuilder()
     .setName("help")
     .setDescription("Shows the help menu.")
     .addStringOption((option) => option.setName("command").setDescription("Bot information about a specific command"));

@@ -1,5 +1,5 @@
 import DiscordCommand from "../../../private/commands/DiscordCommand.js";
-import DiscordCommandData from "../../../private/commands/DiscordCommandData.js";
+import DiscordCommandDataBuilder from "../../../private/commands/DiscordCommandDataBuilder.ts";
 import HypixelDiscordChatBridgeError from "../../../../private/error.js";
 import InactiveUser from "../../../../data/inactivity/InactiveUser.js";
 import ms, { type StringValue } from "ms";
@@ -8,7 +8,7 @@ import { SuccessEmbed } from "../../../private/Embed.js";
 import type { ChatInputCommandInteractionWithGuild } from "../../../../types/discord.js";
 
 class InactivityCommand extends DiscordCommand {
-  override readonly data = new DiscordCommandData()
+  override readonly data = new DiscordCommandDataBuilder()
     .setName("inactivity")
     .setDescription("Send an inactivity notice to the guild staff")
     .addStringOption((option) => option.setName("time").setDescription("The time you are inactive for (e.g. 1d, 72h, 2w)").setRequired(true))

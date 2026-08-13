@@ -1,5 +1,5 @@
 import DiscordCommand from "../../private/commands/DiscordCommand.js";
-import DiscordCommandData from "../../private/commands/DiscordCommandData.js";
+import DiscordCommandDataBuilder from "../../private/commands/DiscordCommandDataBuilder.ts";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, Message } from "discord.js";
 import { BasicInteractionResponse, type ChatInputCommandInteractionWithGuild, CommandFlags, CommandPermission } from "../../../types/discord.js";
@@ -7,7 +7,7 @@ import { SuccessEmbed } from "../../private/Embed.js";
 import type LinkedUser from "../../../data/linked/LinkedUser.js";
 
 class LinkedCommand extends DiscordCommand {
-  override readonly data = new DiscordCommandData()
+  override readonly data = new DiscordCommandDataBuilder()
     .setName("linked")
     .setDescription("View who a user is linked to")
     .addUserOption((option) => option.setName("user").setDescription("Discord Username"))

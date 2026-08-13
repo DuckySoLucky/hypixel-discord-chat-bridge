@@ -1,10 +1,10 @@
 import DiscordCommand from "../private/commands/DiscordCommand.js";
-import DiscordCommandData from "../private/commands/DiscordCommandData.js";
+import DiscordCommandDataBuilder from "../private/commands/DiscordCommandDataBuilder.ts";
 import { type ChatInputCommandInteractionWithGuild, CommandFlags, CommandPermission, type DiscordManagerWithBot } from "../../types/discord.js";
 import { SuccessEmbed } from "../private/Embed.js";
 
 class ExecuteCommand extends DiscordCommand<DiscordManagerWithBot> {
-  override readonly data = new DiscordCommandData()
+  override readonly data = new DiscordCommandDataBuilder()
     .setName("execute")
     .setDescription("Executes commands as the minecraft bot.")
     .addStringOption((option) => option.setName("command").setDescription("Minecraft Command").setRequired(true));

@@ -1,5 +1,5 @@
 import DiscordCommand from "../../../private/commands/DiscordCommand.js";
-import DiscordCommandData from "../../../private/commands/DiscordCommandData.js";
+import DiscordCommandDataBuilder from "../../../private/commands/DiscordCommandDataBuilder.ts";
 import MowojangAPI from "../../../../private/MowojangAPI.js";
 import { ActionRowBuilder, type BaseMessageOptions, ButtonBuilder, ButtonComponent, ButtonStyle, ComponentType, Message } from "discord.js";
 import { type ChatInputCommandInteractionWithGuild, CommandFlags, CommandPermission } from "../../../../types/discord.js";
@@ -8,7 +8,7 @@ import { SuccessEmbed } from "../../../private/Embed.js";
 import { replaceVariables, sanitizeString } from "../../../../utils/stringUtils.js";
 
 class GexpCheckCommand extends DiscordCommand {
-  override readonly data = new DiscordCommandData()
+  override readonly data = new DiscordCommandDataBuilder()
     .setName("gexp-check")
     .setDescription("Shows everyone under an set amount of gexp")
     .addNumberOption((option) => option.setName("requirement").setDescription("Members below this GEXP number").setRequired(true).setMinValue(1));

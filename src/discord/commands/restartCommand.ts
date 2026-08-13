@@ -1,10 +1,10 @@
 import DiscordCommand from "../private/commands/DiscordCommand.js";
-import DiscordCommandData from "../private/commands/DiscordCommandData.js";
+import DiscordCommandDataBuilder from "../private/commands/DiscordCommandDataBuilder.ts";
 import Embed from "../private/Embed.js";
 import { type ChatInputCommandInteractionWithGuild, CommandPermission } from "../../types/discord.js";
 
 class RestartCommand extends DiscordCommand {
-  override readonly data = new DiscordCommandData().setName("restart").setDescription("Restarts the bot.");
+  override readonly data = new DiscordCommandDataBuilder().setName("restart").setDescription("Restarts the bot.");
   override readonly permission = CommandPermission.StaffOnly;
 
   override async execute(interaction: ChatInputCommandInteractionWithGuild) {

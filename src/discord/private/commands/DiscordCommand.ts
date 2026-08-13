@@ -7,11 +7,11 @@ import {
   type DiscordManagerWithClient
 } from "../../../types/discord.js";
 import { ParseAutoComplete } from "../../../utils/discordUtils.js";
-import type DiscordCommandData from "./DiscordCommandData.js";
+import type DiscordCommandDataBuilder from "./DiscordCommandDataBuilder.ts";
 import type DiscordManager from "../../DiscordManager.js";
 
 abstract class DiscordCommand<Manager extends DiscordManager = DiscordManagerWithClient> extends BasicInteractionData<Manager> {
-  abstract readonly data: DiscordCommandData;
+  abstract readonly data: DiscordCommandDataBuilder;
   readonly response: BasicInteractionResponse = BasicInteractionResponse.Public;
 
   async autocomplete(interaction: AutocompleteInteractionWithGuild) {

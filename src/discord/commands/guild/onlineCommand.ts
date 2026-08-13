@@ -1,12 +1,12 @@
 import DiscordCommand from "../../private/commands/DiscordCommand.js";
-import DiscordCommandData from "../../private/commands/DiscordCommandData.js";
+import DiscordCommandDataBuilder from "../../private/commands/DiscordCommandDataBuilder.ts";
 import Embed from "../../private/Embed.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import { type ChatInputCommandInteractionWithGuild, CommandFlags, type DiscordManagerWithBot, type ListMembers, type ListMembersGroup } from "../../../types/discord.js";
 import { MinecraftRequestTimeoutError } from "../../../minecraft/MinecraftRequestBroker.js";
 
 class OnlineCommand extends DiscordCommand<DiscordManagerWithBot> {
-  override readonly data = new DiscordCommandData().setName("online").setDescription("List of online members.");
+  override readonly data = new DiscordCommandDataBuilder().setName("online").setDescription("List of online members.");
   override readonly flags = [CommandFlags.RequiresMinecraftBot];
 
   async getMessages(): Promise<string[]> {

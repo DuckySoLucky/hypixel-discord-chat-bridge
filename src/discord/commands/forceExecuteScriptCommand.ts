@@ -1,12 +1,12 @@
 import DiscordCommand from "../private/commands/DiscordCommand.js";
-import DiscordCommandData from "../private/commands/DiscordCommandData.js";
+import DiscordCommandDataBuilder from "../private/commands/DiscordCommandDataBuilder.ts";
 import Embed, { SuccessEmbed } from "../private/Embed.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import { type AutocompleteInteractionWithGuild, type AutocompleteOption, type ChatInputCommandInteractionWithGuild, CommandPermission } from "../../types/discord.js";
 import { titleCaseCamel } from "../../utils/stringUtils.ts";
 
 class ForceExecuteScriptCommand extends DiscordCommand {
-  override readonly data = new DiscordCommandData()
+  override readonly data = new DiscordCommandDataBuilder()
     .setName("force-execute-script")
     .setDescription("Allows executing scripts")
     .addStringOption((option) => option.setName("script-name").setDescription("Script Name").setRequired(true).setAutocomplete(true));

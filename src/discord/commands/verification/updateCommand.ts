@@ -1,5 +1,5 @@
 import DiscordCommand from "../../private/commands/DiscordCommand.js";
-import DiscordCommandData from "../../private/commands/DiscordCommandData.js";
+import DiscordCommandDataBuilder from "../../private/commands/DiscordCommandDataBuilder.ts";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import MowojangAPI from "../../../private/MowojangAPI.js";
 import {
@@ -12,7 +12,7 @@ import {
 import { SuccessEmbed } from "../../private/Embed.js";
 
 class UpdateCommand extends DiscordCommand<DiscordManagerWithBot> {
-  override readonly data = new DiscordCommandData().setName("update").setDescription("Update your current roles");
+  override readonly data = new DiscordCommandDataBuilder().setName("update").setDescription("Update your current roles");
   override readonly flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.VerificationCommand];
   override readonly permission = CommandPermission.VerifiedOnly;
   discordId: string | null = null;

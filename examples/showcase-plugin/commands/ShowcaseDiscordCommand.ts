@@ -1,10 +1,15 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
-import { type ChatInputCommandInteractionWithGuild, DiscordCommand, DiscordCommandData, type DiscordManagerWithPlugin } from "hypixel-discord-chat-bridge/plugin-api";
+import {
+  type ChatInputCommandInteractionWithGuild,
+  DiscordCommand,
+  DiscordCommandDataBuilder,
+  type DiscordManagerWithPlugin
+} from "hypixel-discord-chat-bridge/plugin-api";
 import { showcaseButtonId } from "../components/ids.js";
 import type ShowcasePlugin from "../index.ts";
 
 class ShowcaseDiscordCommand extends DiscordCommand<DiscordManagerWithPlugin<ShowcasePlugin>> {
-  override readonly data = new DiscordCommandData().setName("showcase").setDescription("Demonstrate a plugin-provided command, button, and modal.");
+  override readonly data = new DiscordCommandDataBuilder().setName("showcase").setDescription("Demonstrate a plugin-provided command, button, and modal.");
 
   override async execute(interaction: ChatInputCommandInteractionWithGuild): Promise<void> {
     // Discord.js has an amazing guide on building buttons

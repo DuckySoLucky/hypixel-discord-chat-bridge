@@ -1,10 +1,10 @@
 import DiscordCommand from "../private/commands/DiscordCommand.js";
-import DiscordCommandData from "../private/commands/DiscordCommandData.js";
+import DiscordCommandDataBuilder from "../private/commands/DiscordCommandDataBuilder.ts";
 import Embed from "../private/Embed.js";
 import type { ChatInputCommandInteractionWithGuild } from "../../types/discord.js";
 
 class PingCommand extends DiscordCommand {
-  override readonly data = new DiscordCommandData().setName("ping").setDescription("Show the latency of the bot.");
+  override readonly data = new DiscordCommandDataBuilder().setName("ping").setDescription("Show the latency of the bot.");
 
   override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const clientLatency = Date.now() - interaction.createdTimestamp;

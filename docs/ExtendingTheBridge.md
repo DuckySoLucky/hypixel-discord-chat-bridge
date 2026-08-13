@@ -27,12 +27,12 @@ import {
   BridgePlugin,
   type ChatInputCommandInteractionWithGuild,
   DiscordCommand,
-  DiscordCommandData,
+  DiscordCommandDataBuilder,
   type DiscordManagerWithPlugin
 } from "hypixel-discord-chat-bridge/plugin-api";
 
 class ExampleCommand extends DiscordCommand<DiscordManagerWithPlugin<ExamplePlugin>> {
-  override readonly data = new DiscordCommandData().setName("example").setDescription("Example plugin command");
+  override readonly data = new DiscordCommandDataBuilder().setName("example").setDescription("Example plugin command");
 
   override async execute(interaction: ChatInputCommandInteractionWithGuild): Promise<void> {
     await interaction.followUp("Hello from a plugin.");

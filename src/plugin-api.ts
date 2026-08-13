@@ -21,7 +21,7 @@ export { default as BridgePlugin } from "./plugins/BridgePlugin.js";
 export { default as DiscordButton } from "./discord/private/buttons/DiscordButton.js";
 export { default as DiscordButtonData } from "./discord/private/buttons/DiscordButtonData.js";
 export { default as DiscordCommand } from "./discord/private/commands/DiscordCommand.js";
-export { default as DiscordCommandData } from "./discord/private/commands/DiscordCommandData.js";
+export { default as DiscordCommandDataBuilder } from "./discord/private/commands/DiscordCommandDataBuilder.ts";
 export { default as DiscordModal } from "./discord/private/modals/DiscordModal.js";
 export { default as DiscordModalData } from "./discord/private/modals/DiscordModalData.js";
 export { default as MinecraftCommand } from "./minecraft/private/commands/MinecraftCommand.js";

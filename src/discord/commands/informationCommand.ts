@@ -1,12 +1,12 @@
 import DiscordCommand from "../private/commands/DiscordCommand.js";
-import DiscordCommandData from "../private/commands/DiscordCommandData.js";
+import DiscordCommandDataBuilder from "../private/commands/DiscordCommandDataBuilder.ts";
 import Embed from "../private/Embed.js";
 import { type ChatInputCommandInteractionWithGuild, CommandFlags, type DiscordManagerWithBot, type Information } from "../../types/discord.js";
 import { replaceVariables, titleCase } from "../../utils/stringUtils.js";
 import type DiscordManager from "../DiscordManager.js";
 
 class InformationCommand extends DiscordCommand<DiscordManagerWithBot> {
-  override readonly data = new DiscordCommandData().setName("information").setDescription("Shows information about the bot.");
+  override readonly data = new DiscordCommandDataBuilder().setName("information").setDescription("Shows information about the bot.");
   override readonly flags = [CommandFlags.RequiresMinecraftBot];
 
   static FormatCommandOptions(name: string, required?: boolean): string {
