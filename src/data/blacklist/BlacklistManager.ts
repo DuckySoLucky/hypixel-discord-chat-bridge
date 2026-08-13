@@ -85,6 +85,14 @@ class BlacklistManager extends GenericManager<BlacklistedUserData, BlacklistData
           new ButtonBuilder().setCustomId("editBlacklistReason").setLabel("Edit Reason").setStyle(ButtonStyle.Secondary),
           new ButtonBuilder().setCustomId("getLinked").setLabel("Get Linked Data").setStyle(ButtonStyle.Secondary),
           new ButtonBuilder().setCustomId("unblacklist").setLabel("Delete Blacklist").setStyle(ButtonStyle.Danger)
+        ),
+        new ActionRowBuilder<ButtonBuilder>().addComponents(
+          new ButtonBuilder()
+            .setCustomId("blacklistKick")
+            .setLabel("Kick user from guild")
+            .setStyle(ButtonStyle.Danger)
+            .setDisabled(guildMember === undefined),
+          new ButtonBuilder().setCustomId("refreshBlacklist").setLabel("Refresh").setStyle(ButtonStyle.Secondary)
         )
       ]
     };

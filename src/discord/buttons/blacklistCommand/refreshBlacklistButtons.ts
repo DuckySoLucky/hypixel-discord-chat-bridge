@@ -3,11 +3,10 @@ import DiscordButton from "../../private/buttons/DiscordButton.js";
 import DiscordButtonData from "../../private/buttons/DiscordButtonData.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import { type ButtonInteractionWithGuild, ButtonResponse, CommandFlags, CommandPermission } from "../../../types/discord.js";
-import { LabelBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } from "discord.js";
 
-class UnblacklistButton extends DiscordButton {
-  override readonly data = new DiscordButtonData("unblacklist");
-  override readonly response = ButtonResponse.None;
+class RefreshBlacklistButton extends DiscordButton {
+  override readonly data = new DiscordButtonData("refreshBlacklist");
+  override readonly response = ButtonResponse.Update;
   override readonly flags = [CommandFlags.BlacklistCommand];
   override readonly permission = CommandPermission.StaffOnly;
 
@@ -15,20 +14,8 @@ class UnblacklistButton extends DiscordButton {
     const blacklistCommand = new BlacklistCommand(this.discord);
     const blacklistUser = await blacklistCommand.getBlacklistedFromBlacklistEmbed(interaction.message);
     if (!blacklistUser) throw new HypixelDiscordChatBridgeError("Unable to find the blacklist user");
-
-    await interaction.showModal(
-      new ModalBuilder()
-        .setCustomId("unblacklist")
-        .setTitle("Reason")
-        .addLabelComponents(
-          new LabelBuilder()
-            .setLabel("Reason for removing from the blacklist")
-            .setTextInputComponent(
-              new TextInputBuilder().setCustomId("unblacklistReason").setStyle(TextInputStyle.Paragraph).setPlaceholder("No reason provided").setRequired(false)
-            )
-        )
-    );
+    await interaction.editReply(await this.discord.application.data.blacklist.getBlacklistDataResponse(blacklistUser));
   }
 }
 
-export default UnblacklistButton;
+export default RefreshBlacklistButton;

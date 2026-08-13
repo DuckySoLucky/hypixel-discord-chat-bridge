@@ -63,7 +63,7 @@ class BlacklistCommand extends DiscordCommand {
   override readonly permission = CommandPermission.StaffOnly;
   override readonly response = BasicInteractionResponse.Ephemeral;
 
-  async getBlacklistedFromLinkedEmbed(message: Message, retry: boolean = true): Promise<BlacklistUser | undefined> {
+  async getBlacklistedFromBlacklistEmbed(message: Message, retry: boolean = true): Promise<BlacklistUser | undefined> {
     if (message.author.id !== message.client.user.id) return undefined;
     const embed = message.embeds[0];
     if (embed === undefined) return undefined;
@@ -75,7 +75,7 @@ class BlacklistCommand extends DiscordCommand {
       const blacklist = await this.discord.application.data.blacklist.getUserByDiscordId(discordIdField.value.replaceAll("`", ""));
       if (!blacklist) return undefined;
       await message.edit(await this.discord.application.data.blacklist.getBlacklistDataResponse(blacklist));
-      return await this.getBlacklistedFromLinkedEmbed(message, false);
+      return await this.getBlacklistedFromBlacklistEmbed(message, false);
     }
     return await this.discord.application.data.blacklist.getUserByBlacklistID(field.value.replaceAll("`", ""));
   }

@@ -13,7 +13,7 @@ class UnblacklistModal extends DiscordModal {
   override async execute(interaction: ModalSubmitInteractionWithGuild) {
     const blacklistCommand = new BlacklistCommand(this.discord);
     if (!interaction.isFromMessage()) throw new HypixelDiscordChatBridgeError("Unable to find the blacklist user");
-    const blacklistUser = await blacklistCommand.getBlacklistedFromLinkedEmbed(interaction.message);
+    const blacklistUser = await blacklistCommand.getBlacklistedFromBlacklistEmbed(interaction.message);
     if (!blacklistUser) throw new HypixelDiscordChatBridgeError("Unable to find the blacklist user");
     const reason = interaction.fields.getTextInputValue("unblacklistReason") ?? "No reason provided";
     const alertUser = this.discord.application.config.blacklist.notifications.onBlacklistChange.enabled;
