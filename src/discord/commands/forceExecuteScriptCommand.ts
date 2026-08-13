@@ -1,6 +1,6 @@
 import DiscordCommand from "../private/commands/DiscordCommand.js";
 import DiscordCommandDataBuilder from "../private/commands/DiscordCommandDataBuilder.ts";
-import Embed, { SuccessEmbed } from "../private/Embed.js";
+import EmbedHelper, { SuccessEmbed } from "../private/EmbedHelper.ts";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import { type AutocompleteInteractionWithGuild, type AutocompleteOption, type ChatInputCommandInteractionWithGuild, CommandPermission } from "../../types/discord.js";
 import { titleCaseCamel } from "../../utils/stringUtils.ts";
@@ -23,7 +23,7 @@ class ForceExecuteScriptCommand extends DiscordCommand {
     const scriptName = interaction.options.getString("script-name", true);
     const script = this.discord.application.scripts.getScript(scriptName);
     if (!script) throw new HypixelDiscordChatBridgeError("Could not find that script?");
-    await interaction.followUp({ embeds: [new Embed().setDescription(`Executing \`${script.id}\` script`).setDevFooter("Kathund")] });
+    await interaction.followUp({ embeds: [new EmbedHelper().setDescription(`Executing \`${script.id}\` script`).setDevFooter("Kathund")] });
     await script.runNow();
     await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(`Finished executing \`${script.id}\` script`).setDevFooter("Kathund")] });
   }

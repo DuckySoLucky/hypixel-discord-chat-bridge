@@ -4,7 +4,7 @@ import HypixelDiscordChatBridgeError from "../../../../private/error.js";
 import InactiveUser from "../../../../data/inactivity/InactiveUser.js";
 import ms, { type StringValue } from "ms";
 import { CommandFlags, CommandPermission } from "../../../../types/discord.js";
-import { SuccessEmbed } from "../../../private/Embed.js";
+import { SuccessEmbed } from "../../../private/EmbedHelper.ts";
 import { truncateString } from "../../../../utils/stringUtils.ts";
 import type { AutocompleteInteractionWithGuild, AutocompleteOption, ChatInputCommandInteractionWithGuild } from "../../../../types/discord.js";
 

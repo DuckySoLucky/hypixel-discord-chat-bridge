@@ -1,4 +1,4 @@
-import Embed from "../discord/private/Embed.js";
+import EmbedHelper from "../discord/private/EmbedHelper.ts";
 import prettyMilliseconds from "pretty-ms";
 import { ScriptLogState, type ScriptOptions } from "../types/scripts.js";
 import { performance } from "node:perf_hooks";
@@ -89,7 +89,7 @@ abstract class BasicScript implements Lifecycle {
     console.scripts(message);
     const channel = await this.scripts.application.discord.getChannel("Logger-Scripts");
     if (!channel || !channel.isSendable()) return;
-    const embed = new Embed().setDescription(message).setDevFooter("Kathund");
+    const embed = new EmbedHelper().setDescription(message).setDevFooter("Kathund");
     if (state === ScriptLogState.Good) embed.setColor("Green");
     else if (state === ScriptLogState.Bad) embed.setColor("Red");
     else if (state === ScriptLogState.Misc) embed.setColor("Blue");

@@ -1,6 +1,6 @@
 import DiscordCommand from "../../private/commands/DiscordCommand.js";
 import DiscordCommandDataBuilder from "../../private/commands/DiscordCommandDataBuilder.ts";
-import Embed from "../../private/Embed.js";
+import EmbedHelper from "../../private/EmbedHelper.ts";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import { type ChatInputCommandInteractionWithGuild, CommandFlags, type DiscordManagerWithBot, type ListMembers, type ListMembersGroup } from "../../../types/discord.js";
 import { MinecraftRequestTimeoutError } from "../../../minecraft/MinecraftRequestBroker.js";
@@ -70,7 +70,7 @@ class ListCommand extends DiscordCommand<DiscordManagerWithBot> {
 
   override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const { groups, totalString, onlineString } = await this.getListMembers();
-    await interaction.followUp({ embeds: [new Embed().setTitle("List Members").setDescription(`${totalString}\n${onlineString}`).setFields(groups)] });
+    await interaction.followUp({ embeds: [new EmbedHelper().setTitle("List Members").setDescription(`${totalString}\n${onlineString}`).setFields(groups)] });
   }
 }
 

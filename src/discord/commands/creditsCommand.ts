@@ -1,6 +1,6 @@
 import DiscordCommand from "../private/commands/DiscordCommand.js";
 import DiscordCommandDataBuilder from "../private/commands/DiscordCommandDataBuilder.ts";
-import Embed from "../private/Embed.js";
+import EmbedHelper from "../private/EmbedHelper.ts";
 import { CommonDevs, MiscCredits } from "../../private/constants.js";
 import { DevTypes } from "../../types/application.js";
 import type { ChatInputCommandInteractionWithGuild } from "../../types/discord.js";
@@ -10,7 +10,7 @@ class CreditsCommand extends DiscordCommand {
 
   override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const miscCredits = MiscCredits.map(({ name, description, link }) => `- **[${name}](<https://${link}>):** ${description}`).join("\n");
-    const embed = new Embed()
+    const embed = new EmbedHelper()
       .setTitle("**Credits**")
       .addFields(
         DevTypes.map((type) => {

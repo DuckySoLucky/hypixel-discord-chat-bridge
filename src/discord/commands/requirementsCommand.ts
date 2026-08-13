@@ -1,6 +1,6 @@
 import DiscordCommand from "../private/commands/DiscordCommand.js";
 import DiscordCommandDataBuilder from "../private/commands/DiscordCommandDataBuilder.ts";
-import Embed from "../private/Embed.js";
+import EmbedHelper from "../private/EmbedHelper.ts";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import MowojangAPI from "../../private/MowojangAPI.js";
 import { formatNumber, titleCaseCamel } from "../../utils/stringUtils.js";
@@ -28,8 +28,8 @@ class RequirementsCommand extends DiscordCommand {
     return { username: stats.username, uuid, guildName: stats.guildName, passed, requirementsPassed, requirements };
   }
 
-  generateEmbed({ passed, username, guildName, requirements, requirementsPassed }: Requirements): Embed {
-    return new Embed()
+  generateEmbed({ passed, username, guildName, requirements, requirementsPassed }: Requirements): EmbedHelper {
+    return new EmbedHelper()
       .setColor(passed ? "Green" : "Red")
       .setTitle(`${username} **${passed ? "has" : "hasn't"}** got the requirements to join ${guildName}!`)
       .setDescription(

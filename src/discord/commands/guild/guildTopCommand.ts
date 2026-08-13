@@ -1,6 +1,6 @@
 import DiscordCommand from "../../private/commands/DiscordCommand.js";
 import DiscordCommandDataBuilder from "../../private/commands/DiscordCommandDataBuilder.ts";
-import Embed from "../../private/Embed.js";
+import EmbedHelper from "../../private/EmbedHelper.ts";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import { type ChatInputCommandInteractionWithGuild, CommandFlags, type DiscordManagerWithBot } from "../../../types/discord.js";
 import { MinecraftRequestTimeoutError } from "../../../minecraft/MinecraftRequestBroker.js";
@@ -60,7 +60,7 @@ class GuildTopCommand extends DiscordCommand<DiscordManagerWithBot> {
       .join("");
 
     if (!description) throw new HypixelDiscordChatBridgeError("Failed to parse the top 10 guild members data.");
-    await interaction.followUp({ embeds: [new Embed().setAuthor({ name: "Top 10 Guild Members" }).setDescription(description)] });
+    await interaction.followUp({ embeds: [new EmbedHelper().setAuthor({ name: "Top 10 Guild Members" }).setDescription(description)] });
   }
 }
 

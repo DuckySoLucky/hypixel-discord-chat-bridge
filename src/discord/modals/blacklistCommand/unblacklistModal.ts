@@ -3,7 +3,7 @@ import DiscordModal from "../../private/modals/DiscordModal.js";
 import DiscordModalData from "../../private/modals/DiscordModalData.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import { CommandFlags, CommandPermission, type ModalSubmitInteractionWithGuild } from "../../../types/discord.js";
-import { SuccessEmbed } from "../../private/Embed.js";
+import { SuccessEmbed } from "../../private/EmbedHelper.ts";
 
 class UnblacklistModal extends DiscordModal {
   override readonly data = new DiscordModalData("unblacklist");

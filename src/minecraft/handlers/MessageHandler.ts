@@ -1,5 +1,5 @@
 import BlacklistUser from "../../data/blacklist/BlacklistUser.js";
-import Embed from "../../discord/private/Embed.js";
+import EmbedHelper from "../../discord/private/EmbedHelper.ts";
 import GetMinecraftData from "minecraft-data";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import MowojangAPI from "../../private/MowojangAPI.js";
@@ -107,7 +107,7 @@ class MessageHandler {
 
       const logChannel = await this.minecraft.application.discord.getChannel("Logger-Guild");
       if (!logChannel || !logChannel.isSendable()) return;
-      const requestEmbed = new Embed().setColor("Green").setDescription(replaceVariables(this.minecraft.application.messages.requestMessage, { username }));
+      const requestEmbed = new EmbedHelper().setColor("Green").setDescription(replaceVariables(this.minecraft.application.messages.requestMessage, { username }));
       const buttons: ButtonBuilder[] = [new ButtonBuilder().setCustomId("joinRequestAccept").setLabel("Accept Request").setStyle(ButtonStyle.Success)];
       if (this.minecraft.application.config.blacklist.notifications.onJoinRequest && blacklistUser) {
         requestEmbed.setTitle(":warning: User is blacklisted");

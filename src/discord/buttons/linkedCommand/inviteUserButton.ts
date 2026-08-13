@@ -3,7 +3,7 @@ import DiscordButtonData from "../../private/buttons/DiscordButtonData.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import LinkedCommand from "../../commands/verification/linkedCommand.js";
 import { type ButtonInteractionWithGuild, CommandFlags, CommandPermission, type DiscordManagerWithBot, GuildManagementAction } from "../../../types/discord.js";
-import { SuccessEmbed } from "../../private/Embed.js";
+import { SuccessEmbed } from "../../private/EmbedHelper.ts";
 import { replaceVariables } from "../../../utils/stringUtils.js";
 
 class InviteUserButton extends DiscordButton<DiscordManagerWithBot> {

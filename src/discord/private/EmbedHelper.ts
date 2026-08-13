@@ -4,7 +4,7 @@ import { CommonDevs } from "../../private/constants.js";
 import { ConfigOtherColors } from "../../types/config.js";
 import type { Devs } from "../../types/application.js";
 
-export default class Embed extends EmbedBuilder {
+export default class EmbedHelper extends EmbedBuilder {
   constructor(data?: EmbedData | APIEmbed) {
     super(data);
     if (data) return;
@@ -25,7 +25,7 @@ export default class Embed extends EmbedBuilder {
   }
 }
 
-export class WarningEmbed extends Embed {
+export class WarningEmbed extends EmbedHelper {
   constructor() {
     super();
     this.setColor("Yellow");
@@ -33,7 +33,7 @@ export class WarningEmbed extends Embed {
   }
 }
 
-export class ErrorEmbed extends Embed {
+export class ErrorEmbed extends EmbedHelper {
   constructor() {
     super();
     this.setColor("Red");
@@ -41,7 +41,7 @@ export class ErrorEmbed extends Embed {
   }
 }
 
-export class SuccessEmbed extends Embed {
+export class SuccessEmbed extends EmbedHelper {
   constructor() {
     super();
     this.setColor("Green");

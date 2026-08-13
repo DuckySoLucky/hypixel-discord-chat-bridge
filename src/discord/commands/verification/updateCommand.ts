@@ -9,7 +9,7 @@ import {
   CommandPermission,
   type DiscordManagerWithBot
 } from "../../../types/discord.js";
-import { SuccessEmbed } from "../../private/Embed.js";
+import { SuccessEmbed } from "../../private/EmbedHelper.ts";
 
 class UpdateCommand extends DiscordCommand<DiscordManagerWithBot> {
   override readonly data = new DiscordCommandDataBuilder().setName("update").setDescription("Update your current roles");

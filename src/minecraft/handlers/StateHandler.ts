@@ -1,4 +1,4 @@
-import Embed, { WarningEmbed } from "../../discord/private/Embed.js";
+import EmbedHelper, { WarningEmbed } from "../../discord/private/EmbedHelper.ts";
 import { hasErrorCode, safeListener, toError } from "../../utils/asyncUtils.js";
 import type MinecraftManager from "../MinecraftManager.js";
 import type { Client } from "minecraft-protocol";
@@ -32,7 +32,7 @@ class StateHandler {
 
       const loggerChannel = await this.minecraft.application.discord.getChannel("Logger-Event");
       if (loggerChannel === null || !loggerChannel.isSendable()) console.error('Channel "Logger-Event" not found!');
-      else await loggerChannel.send({ embeds: [new Embed().setDescription(`Minecraft client ready, logged in as ${client.username}`).setColor("Green")] });
+      else await loggerChannel.send({ embeds: [new EmbedHelper().setDescription(`Minecraft client ready, logged in as ${client.username}`).setColor("Green")] });
     } catch (error: unknown) {
       this.reportError(error);
     } finally {

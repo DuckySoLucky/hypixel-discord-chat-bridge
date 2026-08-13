@@ -1,6 +1,6 @@
 import DiscordCommand from "../private/commands/DiscordCommand.js";
 import DiscordCommandDataBuilder from "../private/commands/DiscordCommandDataBuilder.ts";
-import Embed from "../private/Embed.js";
+import EmbedHelper from "../private/EmbedHelper.ts";
 import { type ChatInputCommandInteractionWithGuild, CommandFlags, type DiscordManagerWithBot, type Information } from "../../types/discord.js";
 import { replaceVariables, titleCase } from "../../utils/stringUtils.js";
 import type DiscordManager from "../DiscordManager.js";
@@ -86,7 +86,7 @@ class InformationCommand extends DiscordCommand<DiscordManagerWithBot> {
 
     await interaction.followUp({
       embeds: [
-        new Embed()
+        new EmbedHelper()
           .setTitle("Hypixel Bridge Bot Commands")
           .addFields(
             { name: "**Discord Commands**: ", value: `${discordCommands}`, inline: true },

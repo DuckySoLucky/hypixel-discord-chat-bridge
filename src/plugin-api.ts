@@ -30,7 +30,7 @@ export { default as MinecraftCommandDataOption } from "./minecraft/private/comma
 export { default as BasicScript } from "./scripts/BasicScript.js";
 export { default as HypixelDiscordChatBridgeError } from "./private/error.js";
 export { default as MowojangAPI } from "./private/MowojangAPI.js";
-export { default as Embed, WarningEmbed, ErrorEmbed, SuccessEmbed } from "./discord/private/Embed.js";
+export { default as EmbedHelper, WarningEmbed, ErrorEmbed, SuccessEmbed } from "./discord/private/EmbedHelper.ts";
 export type { default as DiscordManager } from "./discord/DiscordManager.js";
 export type { default as MinecraftManager } from "./minecraft/MinecraftManager.js";
 export type { default as ScriptManager } from "./scripts/ScriptsManager.js";

@@ -1,4 +1,4 @@
-import Embed, { SuccessEmbed } from "../../discord/private/Embed.js";
+import EmbedHelper, { SuccessEmbed } from "../../discord/private/EmbedHelper.ts";
 import GenericData from "../GenericData.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import MowojangAPI from "../../private/MowojangAPI.js";
@@ -43,7 +43,7 @@ class BlacklistUser extends GenericData<BlacklistedUserData, BlacklistManager> {
     const blacklistData = await this.manager.getBlacklistDataResponse(this);
     const message = await channel.send({ ...blacklistData, content: "User has been blacklisted" });
     if (this.discordId && alertUser) {
-      const embed = new Embed()
+      const embed = new EmbedHelper()
         .setColor("Red")
         .setAuthor({ name: "You have been blacklisted" })
         .setDescription(this.reason)
@@ -87,7 +87,7 @@ class BlacklistUser extends GenericData<BlacklistedUserData, BlacklistManager> {
     await message.edit({
       content: "",
       embeds: [
-        new Embed()
+        new EmbedHelper()
           .setAuthor({ name: "Found Blacklist" })
           .setFields(
             { name: "Discord", value: `<@${this.discordId ?? "UNKNOWN"}>` },

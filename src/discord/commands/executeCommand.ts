@@ -1,7 +1,7 @@
 import DiscordCommand from "../private/commands/DiscordCommand.js";
 import DiscordCommandDataBuilder from "../private/commands/DiscordCommandDataBuilder.ts";
 import { type ChatInputCommandInteractionWithGuild, CommandFlags, CommandPermission, type DiscordManagerWithBot } from "../../types/discord.js";
-import { SuccessEmbed } from "../private/Embed.js";
+import { SuccessEmbed } from "../private/EmbedHelper.ts";
 
 class ExecuteCommand extends DiscordCommand<DiscordManagerWithBot> {
   override readonly data = new DiscordCommandDataBuilder()

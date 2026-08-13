@@ -1,6 +1,6 @@
 import DiscordCommand from "../private/commands/DiscordCommand.js";
 import DiscordCommandDataBuilder from "../private/commands/DiscordCommandDataBuilder.ts";
-import Embed from "../private/Embed.js";
+import EmbedHelper from "../private/EmbedHelper.ts";
 import { type ChatInputCommandInteractionWithGuild, CommandPermission } from "../../types/discord.js";
 
 class RestartCommand extends DiscordCommand {
@@ -9,7 +9,7 @@ class RestartCommand extends DiscordCommand {
 
   override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     await interaction.followUp({
-      embeds: [new Embed().setAuthor({ name: "Restarting..." }).setDescription("The bot is restarting. This might take few seconds.").setDevFooter("GeorgeFilos")]
+      embeds: [new EmbedHelper().setAuthor({ name: "Restarting..." }).setDescription("The bot is restarting. This might take few seconds.").setDevFooter("GeorgeFilos")]
     });
     await this.discord.application.stop();
     await this.discord.application.start();

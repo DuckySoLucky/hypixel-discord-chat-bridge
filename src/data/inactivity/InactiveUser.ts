@@ -1,4 +1,4 @@
-import Embed from "../../discord/private/Embed.js";
+import EmbedHelper from "../../discord/private/EmbedHelper.ts";
 import GenericData from "../GenericData.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import { ActionRowBuilder, ButtonBuilder, ComponentType, type GuildMember } from "discord.js";
@@ -54,7 +54,7 @@ class InactiveUser extends GenericData<InactiveUserData, InactivityManager> {
     if (!channel || !channel.isSendable()) return;
     if (!this.messageId) return;
     const message = await channel.messages.fetch(this.messageId);
-    const embeds = message.embeds.map((embed) => new Embed(embed.toJSON()).setColor("Red"));
+    const embeds = message.embeds.map((embed) => new EmbedHelper(embed.toJSON()).setColor("Red"));
     const component = message.components[0];
     if (!component || component.type !== ComponentType.ActionRow) return;
     const fixedButtons = component.components.flatMap((compontent) => {

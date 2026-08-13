@@ -5,7 +5,7 @@ import HypixelDiscordChatBridgeError from "../../private/error.js";
 import MowojangAPI from "../../private/MowojangAPI.js";
 import { BasicInteractionResponse, type ChatInputCommandInteractionWithGuild, CommandFlags, CommandPermission } from "../../types/discord.js";
 import { Message } from "discord.js";
-import { SuccessEmbed } from "../private/Embed.js";
+import { SuccessEmbed } from "../private/EmbedHelper.ts";
 import type LinkedUser from "../../data/linked/LinkedUser.js";
 
 class BlacklistCommand extends DiscordCommand {

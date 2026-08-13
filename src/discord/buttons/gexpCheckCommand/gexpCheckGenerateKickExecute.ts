@@ -3,7 +3,7 @@ import DiscordButtonData from "../../private/buttons/DiscordButtonData.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import { type ButtonInteractionWithGuild, CommandFlags, CommandPermission, type DiscordManagerWithBot } from "../../../types/discord.js";
 import { MessageFlags } from "discord.js";
-import { SuccessEmbed } from "../../private/Embed.js";
+import { SuccessEmbed } from "../../private/EmbedHelper.ts";
 import { delay } from "../../../utils/miscUtils.js";
 
 class GexpCheckGenerateKickExecuteButton extends DiscordButton<DiscordManagerWithBot> {

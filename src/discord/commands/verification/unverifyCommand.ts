@@ -8,7 +8,7 @@ import {
   CommandPermission,
   type DiscordManagerWithBot
 } from "../../../types/discord.js";
-import { SuccessEmbed } from "../../private/Embed.js";
+import { SuccessEmbed } from "../../private/EmbedHelper.ts";
 
 class UnverifyCommand extends DiscordCommand<DiscordManagerWithBot> {
   override readonly data = new DiscordCommandDataBuilder().setName("unverify").setDescription("Remove your linked Minecraft account");

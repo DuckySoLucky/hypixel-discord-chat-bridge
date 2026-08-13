@@ -1,6 +1,6 @@
 import DiscordCommand from "../private/commands/DiscordCommand.js";
 import DiscordCommandDataBuilder from "../private/commands/DiscordCommandDataBuilder.ts";
-import Embed from "../private/Embed.js";
+import EmbedHelper from "../private/EmbedHelper.ts";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import InformationCommand from "./informationCommand.js";
 import { type ChatInputCommandInteractionWithGuild, CommandFlags } from "../../types/discord.js";
@@ -17,7 +17,7 @@ class HelpCommand extends DiscordCommand {
     const { discordCommands, minecraftCommands } = InformationCommand.getCommands(this.discord);
 
     if (commandName === undefined) {
-      const helpMenu = new Embed()
+      const helpMenu = new EmbedHelper()
         .setTitle("Hypixel Discord Chat Bridge Commands")
         .setDescription("`()` = **required** argument, `[]` = **optional** argument\n`u` = Minecraft Username")
         .addFields({ name: "**Discord**: ", value: `${discordCommands}`, inline: true }, { name: "**Minecraft**: ", value: `${minecraftCommands}`, inline: true });
@@ -45,7 +45,7 @@ class HelpCommand extends DiscordCommand {
       })
       .join("")}`;
 
-    const embed = new Embed()
+    const embed = new EmbedHelper()
       .setTitle(`**${prefix}${command.data.name}**`)
       .setDescription(description)
       .setFooter({ text: "by @duckysolucky | () = required, [] = optional", iconURL: "https://imgur.com/tgwQJTX.png" });

@@ -5,7 +5,7 @@ import MowojangAPI from "../../private/MowojangAPI.js";
 import { ActionRowBuilder, type BaseMessageOptions, ButtonStyle } from "discord.js";
 import { type BlacklistData, BlacklistDataSchema, type BlacklistedUserData } from "../../types/blacklist.js";
 import { ButtonBuilder } from "discord.js";
-import { SuccessEmbed } from "../../discord/private/Embed.js";
+import { SuccessEmbed } from "../../discord/private/EmbedHelper.ts";
 import type DataManager from "../DataManager.js";
 
 class BlacklistManager extends GenericManager<BlacklistedUserData, BlacklistData, BlacklistUser> {

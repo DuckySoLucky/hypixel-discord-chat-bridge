@@ -8,7 +8,7 @@ import {
   type DiscordManagerWithBot,
   GuildManagementAction
 } from "../../../../types/discord.js";
-import { SuccessEmbed } from "../../../private/Embed.js";
+import { SuccessEmbed } from "../../../private/EmbedHelper.ts";
 import { replaceVariables } from "../../../../utils/stringUtils.js";
 
 class KickCommand extends DiscordCommand<DiscordManagerWithBot> {

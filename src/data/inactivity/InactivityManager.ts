@@ -4,7 +4,7 @@ import InactiveUser from "./InactiveUser.js";
 import { ActionRowBuilder, type BaseMessageOptions, ButtonStyle } from "discord.js";
 import { ButtonBuilder } from "discord.js";
 import { type InactiveUserData, type InactivityData, InactivityDataSchema } from "../../types/inactivity.js";
-import { SuccessEmbed } from "../../discord/private/Embed.js";
+import { SuccessEmbed } from "../../discord/private/EmbedHelper.ts";
 import type DataManager from "../DataManager.js";
 
 class InactivityManager extends GenericManager<InactiveUserData, InactivityData, InactiveUser> {

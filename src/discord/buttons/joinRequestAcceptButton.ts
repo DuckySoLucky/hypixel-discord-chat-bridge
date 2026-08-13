@@ -3,7 +3,7 @@ import DiscordButtonData from "../private/buttons/DiscordButtonData.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import { ActionRowBuilder, ButtonBuilder, ComponentType } from "discord.js";
 import { type ButtonInteractionWithGuild, CommandFlags, CommandPermission, type DiscordManagerWithBot } from "../../types/discord.js";
-import { SuccessEmbed } from "../private/Embed.js";
+import { SuccessEmbed } from "../private/EmbedHelper.ts";
 
 class JoinRequestAcceptButton extends DiscordButton<DiscordManagerWithBot> {
   override readonly data = new DiscordButtonData("joinRequestAccept");

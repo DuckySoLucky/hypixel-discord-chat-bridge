@@ -1,6 +1,6 @@
 import DiscordCommand from "../../private/commands/DiscordCommand.js";
 import DiscordCommandDataBuilder from "../../private/commands/DiscordCommandDataBuilder.ts";
-import Embed, { SuccessEmbed } from "../../private/Embed.js";
+import EmbedHelper, { SuccessEmbed } from "../../private/EmbedHelper.ts";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import LinkedUser from "../../../data/linked/LinkedUser.js";
 import UpdateCommand from "./updateCommand.js";
@@ -79,7 +79,7 @@ class VerifyCommand extends DiscordCommand<DiscordManagerWithBot> {
       const instructions = steps.map((step, index) => `${index + 1}. ${step}`).join("\n\n");
       await interaction.followUp({
         embeds: [
-          new Embed()
+          new EmbedHelper()
             .setAuthor({ name: "Link with Hypixel Social Media" })
             .setFields([{ name: "Instructions:", value: instructions }])
             .setImage("https://media.discordapp.net/attachments/922202066653417512/1066476136953036800/tutorial.gif")

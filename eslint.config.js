@@ -4,6 +4,7 @@ import importPlugin from "eslint-plugin-import";
 import prettier from "eslint-config-prettier";
 import sortImports from "@j4cobi/eslint-plugin-sort-imports";
 import ts from "typescript-eslint";
+import plugin from "./scripts/eslint/plugin.js";
 import stylistic from "@stylistic/eslint-plugin";
 import { globalIgnores } from "eslint/config";
 
@@ -17,7 +18,7 @@ export default [
     ignores: ["build/*"],
     files: ["**/*.ts", "**/*.js"],
     languageOptions: { ecmaVersion: 2022, sourceType: "module", globals: { ...globals.es2022, ...globals.node } },
-    plugins: { "@stylistic": stylistic, "sort-imports": sortImports },
+    plugins: { "@stylistic": stylistic, "sort-imports": sortImports, "hypixelDiscordChatBridge": plugin },
     settings: { "import/resolver": { typescript: true, node: true } },
     rules: {
       "sort-imports/sort-imports": ["error", { ignoreCase: false, ignoreMemberSort: false, memberSyntaxSortOrder: ["all", "single", "multiple", "none"] }],
@@ -32,6 +33,7 @@ export default [
       "no-constant-condition": ["error", { checkLoops: false }],
       "import/enforce-node-protocol-usage": ["error", "always"],
       "no-extend-native": ["warn", { exceptions: ["Object"] }],
+      "hypixelDiscordChatBridge/enforce-embed-helper": "warn",
       "@stylistic/nonblock-statement-body-position": "error",
       "@stylistic/object-curly-spacing": ["error", "always"],
       "@stylistic/no-whitespace-before-property": "error",

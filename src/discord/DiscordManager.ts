@@ -1,7 +1,7 @@
 import ButtonHandler from "./handlers/ButtonHandler.js";
 import CommandHandler from "./handlers/CommandHandler.js";
 import CommunicationBridge from "../private/CommunicationBridge.js";
-import Embed, { ErrorEmbed } from "./private/Embed.js";
+import EmbedHelper, { ErrorEmbed } from "./private/EmbedHelper.ts";
 import EventHandler from "./handlers/EventHandler.js";
 import HypixelDiscordChatBridgeError from "../private/error.js";
 import InteractionHandler from "./handlers/InteractionHandler.js";
@@ -181,7 +181,7 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
       case "bot": {
         await channel.send({
           embeds: [
-            new Embed()
+            new EmbedHelper()
               .setColor(color)
               .setDescription(message)
               .setFooter({ text: guildRank })
@@ -229,7 +229,7 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
 
     const channel = await this.getChannel(chatType);
     if (channel === null || !channel.isSendable()) return console.error(`Channel "${chatType.replace(/§[0-9a-fk-or]/g, "").trim()}" not found!`);
-    await channel.send({ embeds: [new Embed().setColor(color).setDescription(message).setFooter(null)] });
+    await channel.send({ embeds: [new EmbedHelper().setColor(color).setDescription(message).setFooter(null)] });
   }
 
   async onBroadcastHeadedEmbed(event: HeadedEmbedEvent): Promise<void> {
@@ -239,7 +239,7 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
 
     const channel = await this.getChannel(chatType);
     if (channel === null || !channel.isSendable()) return console.error(`Channel "${chatType.replace(/§[0-9a-fk-or]/g, "").trim()}" not found!`);
-    await channel.send({ embeds: [new Embed().setColor(color).setDescription(message).setAuthor({ name: title, iconURL: icon }).setFooter(null)] });
+    await channel.send({ embeds: [new EmbedHelper().setColor(color).setDescription(message).setAuthor({ name: title, iconURL: icon }).setFooter(null)] });
   }
 
   async onPlayerToggle(event: PlayerToggleEvent): Promise<void> {
@@ -253,7 +253,7 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
       case "bot":
         await channel.send({
           embeds: [
-            new Embed()
+            new EmbedHelper()
               .setColor(color)
               .setAuthor({ name: message, iconURL: `https://www.mc-heads.net/avatar/${username}` })
               .setFooter(null)
@@ -268,7 +268,7 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
         await webhook.send({
           username: username,
           avatarURL: `https://www.mc-heads.net/avatar/${username}`,
-          embeds: [new Embed().setColor(color).setDescription(message).setFooter(null)]
+          embeds: [new EmbedHelper().setColor(color).setDescription(message).setFooter(null)]
         });
         break;
       case "minecraft":

@@ -4,7 +4,7 @@ import MowojangAPI from "../../../../private/MowojangAPI.js";
 import { ActionRowBuilder, type BaseMessageOptions, ButtonBuilder, ButtonComponent, ButtonStyle, ComponentType, Message } from "discord.js";
 import { type ChatInputCommandInteractionWithGuild, CommandFlags, CommandPermission } from "../../../../types/discord.js";
 import { type GexpCheckOptions, type GexpDisplay, type ParsedGexpCheckUser, gexpCheckData } from "../../../../types/inactivity.js";
-import { SuccessEmbed } from "../../../private/Embed.js";
+import { SuccessEmbed } from "../../../private/EmbedHelper.ts";
 import { replaceVariables, sanitizeString } from "../../../../utils/stringUtils.js";
 
 class GexpCheckCommand extends DiscordCommand {
