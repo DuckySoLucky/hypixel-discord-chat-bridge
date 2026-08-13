@@ -1,4 +1,5 @@
 import { z } from "zod";
+import type { User } from "discord.js";
 
 export const BlacklistedUserDataSchema = z.object({
   blacklistId: z.string(),
@@ -26,4 +27,14 @@ export interface BasicBlacklistedUserData {
 export interface BlacklistedUserData extends BasicBlacklistedUserData {
   blacklistId: string;
   timestamp: number;
+}
+
+export interface BlacklistSaveOptions {
+  alertUser: boolean;
+  shareUser: boolean;
+  user: User;
+}
+
+export interface BlacklistDeleteOptions extends BlacklistSaveOptions {
+  reason: string;
 }

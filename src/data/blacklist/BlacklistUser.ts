@@ -2,10 +2,10 @@ import EmbedHelper, { SuccessEmbed } from "../../discord/private/EmbedHelper.js"
 import GenericData from "../GenericData.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import MowojangAPI from "../../private/MowojangAPI.js";
-import { ActionRowBuilder, ButtonBuilder, ComponentType, type GuildMember, type User } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ComponentType, type GuildMember } from "discord.js";
 import { getPlayer } from "../../utils/hypixelUtils.js";
 import type BlacklistManager from "./BlacklistManager.js";
-import type { BasicBlacklistedUserData, BlacklistedUserData } from "../../types/blacklist.js";
+import type { BasicBlacklistedUserData, BlacklistDeleteOptions, BlacklistSaveOptions, BlacklistedUserData } from "../../types/blacklist.js";
 import type { Guild, GuildMember as HypixelGuildMember, Player } from "hypixel-api-reborn";
 
 class BlacklistUser extends GenericData<BlacklistedUserData, BlacklistManager> {
@@ -27,20 +27,34 @@ class BlacklistUser extends GenericData<BlacklistedUserData, BlacklistManager> {
     this.by = data.by;
   }
 
-  async save(data: { alertUser: boolean; shareUser: boolean; user: User }): Promise<BlacklistUser> {
-    const user = await this.manager.getData(this);
-    if (user) return user;
+  async updateReason(reason: string, saveData: BlacklistSaveOptions): Promise<BlacklistUser> {
+    const user = new BlacklistUser({ ...this.toJSON(), reason }, this.manager);
+    return await user.save(saveData);
+  }
+
+  async save(data: BlacklistSaveOptions): Promise<BlacklistUser> {
     await this.handleSave(data);
     return await this.manager.addUser(this);
   }
 
-  private async handleSave({ alertUser, shareUser, user }: { alertUser: boolean; shareUser: boolean; user: User }): Promise<this> {
+  private async handleSave({ alertUser, shareUser, user }: BlacklistSaveOptions): Promise<this> {
     if (!this.manager.data.application.discord.isClientOnline()) {
       throw new HypixelDiscordChatBridgeError("The discord bot doesn't seam to be online? Please restart the application");
     }
     const channel = await this.manager.data.application.discord.getChannel("Logger-Blacklist");
     if (!channel || !channel.isSendable()) return this;
     const blacklistData = await this.manager.getBlacklistDataResponse(this);
+
+    if (this.messageId) {
+      const message = await channel.messages.fetch(this.messageId).catch(() => null);
+      if (!message) {
+        this.messageId = undefined;
+        return await this.handleSave({ alertUser, shareUser, user });
+      }
+      await message.edit(blacklistData);
+      return this;
+    }
+
     const message = await channel.send({ ...blacklistData, content: "User has been blacklisted" });
     if (this.discordId && alertUser) {
       const embed = new EmbedHelper()
@@ -59,12 +73,12 @@ class BlacklistUser extends GenericData<BlacklistedUserData, BlacklistManager> {
     return this;
   }
 
-  async delete(data: { alertUser: boolean; shareUser: boolean; user: User; reason: string }): Promise<BlacklistUser[]> {
+  async delete(data: BlacklistDeleteOptions): Promise<BlacklistUser[]> {
     await this.handleDelete(data);
     return await this.manager.deleteUser(this);
   }
 
-  private async handleDelete({ alertUser, shareUser, user, reason }: { alertUser: boolean; shareUser: boolean; user: User; reason: string }): Promise<void> {
+  private async handleDelete({ alertUser, shareUser, user, reason }: BlacklistDeleteOptions): Promise<void> {
     if (!this.manager.data.application.discord.isClientOnline()) {
       throw new HypixelDiscordChatBridgeError("The discord bot doesn't seam to be online? Please restart the application");
     }

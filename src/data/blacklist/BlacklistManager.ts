@@ -26,7 +26,12 @@ class BlacklistManager extends GenericManager<BlacklistedUserData, BlacklistData
   }
 
   async addUser(user: BlacklistUser): Promise<BlacklistUser> {
-    const users = await this.mutateData((data) => (data.some((item) => item.blacklistId === user.blacklistId) ? data : [...data, user.toJSON()]));
+    const users = await this.mutateData((data) => {
+      return data.some((item) => item.blacklistId === user.blacklistId)
+        ? data.map((item) => (item.blacklistId === user.blacklistId ? user.toJSON() : item))
+        : [...data, user.toJSON()];
+    });
+
     return users.find((item) => item.blacklistId === user.blacklistId) ?? user;
   }
 
@@ -50,6 +55,11 @@ class BlacklistManager extends GenericManager<BlacklistedUserData, BlacklistData
     return users.find((user) => user.uuid === UUID);
   }
 
+  async getUserByBlacklistID(ID: string): Promise<BlacklistUser | undefined> {
+    const users = await this.getFullData();
+    return users.find((user) => user.blacklistId === ID);
+  }
+
   async getBlacklistDataResponse(user: BlacklistUser): Promise<BaseMessageOptions> {
     const [player, guildMember] = await Promise.all([user.getHypixelPlayer(), user.isUserInHypixelGuild()]);
     return {
@@ -65,7 +75,8 @@ class BlacklistManager extends GenericManager<BlacklistedUserData, BlacklistData
             { name: "Username", value: `\`\`\`${player?.nickname ?? "UNKNOWN"}\`\`\`` },
             { name: "UUID", value: `\`\`\`${player?.uuid ?? "UNKNOWN"}\`\`\`` },
             { name: "Formatted Username", value: `\`\`\`${player?.formattedNickname ?? "UNKNOWN"}\`\`\`` },
-            { name: "Is in Guild", value: guildMember ? ":white_check_mark: Yes" : ":x: No" }
+            { name: "Is in Guild", value: guildMember ? ":white_check_mark: Yes" : ":x: No" },
+            { name: "Blacklist ID", value: `\`\`\`${user.blacklistId}\`\`\`` }
           )
           .setDevFooter("Kathund")
       ],

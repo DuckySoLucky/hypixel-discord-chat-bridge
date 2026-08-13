@@ -63,13 +63,21 @@ class BlacklistCommand extends DiscordCommand {
   override readonly permission = CommandPermission.StaffOnly;
   override readonly response = BasicInteractionResponse.Ephemeral;
 
-  async getBlacklistedFromLinkedEmbed(message: Message): Promise<BlacklistUser | undefined> {
+  async getBlacklistedFromLinkedEmbed(message: Message, retry: boolean = true): Promise<BlacklistUser | undefined> {
     if (message.author.id !== message.client.user.id) return undefined;
     const embed = message.embeds[0];
     if (embed === undefined) return undefined;
-    const field = embed.fields.find((field) => field.name === "Discord ID");
-    if (field === undefined) return undefined;
-    return await this.discord.application.data.blacklist.getUserByDiscordId(field.value.replaceAll("`", ""));
+    const field = embed.fields.find((field) => field.name === "Blacklist ID");
+    if (field === undefined) {
+      if (!retry) return undefined;
+      const discordIdField = embed.fields.find((field) => field.name === "Discord ID");
+      if (!discordIdField) return undefined;
+      const blacklist = await this.discord.application.data.blacklist.getUserByDiscordId(discordIdField.value.replaceAll("`", ""));
+      if (!blacklist) return undefined;
+      await message.edit(await this.discord.application.data.blacklist.getBlacklistDataResponse(blacklist));
+      return await this.getBlacklistedFromLinkedEmbed(message, false);
+    }
+    return await this.discord.application.data.blacklist.getUserByBlacklistID(field.value.replaceAll("`", ""));
   }
 
   override async execute(interaction: ChatInputCommandInteractionWithGuild) {
