@@ -6,7 +6,7 @@ import {
   type DiscordManagerWithPlugin
 } from "hypixel-discord-chat-bridge/plugin-api";
 import { showcaseButtonId } from "../components/ids.js";
-import type ShowcasePlugin from "../index.ts";
+import type ShowcasePlugin from "../index.js";
 
 class ShowcaseDiscordCommand extends DiscordCommand<DiscordManagerWithPlugin<ShowcasePlugin>> {
   override readonly data = new DiscordCommandDataBuilder().setName("showcase").setDescription("Demonstrate a plugin-provided command, button, and modal.");

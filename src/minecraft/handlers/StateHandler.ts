@@ -1,4 +1,4 @@
-import EmbedHelper, { WarningEmbed } from "../../discord/private/EmbedHelper.ts";
+import EmbedHelper, { WarningEmbed } from "../../discord/private/EmbedHelper.js";
 import { hasErrorCode, safeListener, toError } from "../../utils/asyncUtils.js";
 import type MinecraftManager from "../MinecraftManager.js";
 import type { Client } from "minecraft-protocol";

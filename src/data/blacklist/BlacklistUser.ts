@@ -1,4 +1,4 @@
-import EmbedHelper, { SuccessEmbed } from "../../discord/private/EmbedHelper.ts";
+import EmbedHelper, { SuccessEmbed } from "../../discord/private/EmbedHelper.js";
 import GenericData from "../GenericData.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import MowojangAPI from "../../private/MowojangAPI.js";

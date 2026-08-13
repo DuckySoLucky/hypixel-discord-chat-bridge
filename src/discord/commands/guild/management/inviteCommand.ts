@@ -1,5 +1,5 @@
 import DiscordCommand from "../../../private/commands/DiscordCommand.js";
-import DiscordCommandDataBuilder from "../../../private/commands/DiscordCommandDataBuilder.ts";
+import DiscordCommandDataBuilder from "../../../private/commands/DiscordCommandDataBuilder.js";
 import HypixelDiscordChatBridgeError from "../../../../private/error.js";
 import {
   type ChatInputCommandInteractionWithGuild,
@@ -8,7 +8,7 @@ import {
   type DiscordManagerWithBot,
   GuildManagementAction
 } from "../../../../types/discord.js";
-import { SuccessEmbed } from "../../../private/EmbedHelper.ts";
+import { SuccessEmbed } from "../../../private/EmbedHelper.js";
 import { replaceVariables } from "../../../../utils/stringUtils.js";
 
 class InviteCommand extends DiscordCommand<DiscordManagerWithBot> {

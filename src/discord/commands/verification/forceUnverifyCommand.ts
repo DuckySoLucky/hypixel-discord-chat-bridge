@@ -1,5 +1,5 @@
 import DiscordCommand from "../../private/commands/DiscordCommand.js";
-import DiscordCommandDataBuilder from "../../private/commands/DiscordCommandDataBuilder.ts";
+import DiscordCommandDataBuilder from "../../private/commands/DiscordCommandDataBuilder.js";
 import UnverifyCommand from "./unverifyCommand.js";
 import { type ChatInputCommandInteractionWithGuild, CommandFlags, CommandPermission, type DiscordManagerWithBot } from "../../../types/discord.js";
 

@@ -1,7 +1,7 @@
 import ButtonHandler from "./handlers/ButtonHandler.js";
 import CommandHandler from "./handlers/CommandHandler.js";
 import CommunicationBridge from "../private/CommunicationBridge.js";
-import EmbedHelper, { ErrorEmbed } from "./private/EmbedHelper.ts";
+import EmbedHelper, { ErrorEmbed } from "./private/EmbedHelper.js";
 import EventHandler from "./handlers/EventHandler.js";
 import HypixelDiscordChatBridgeError from "../private/error.js";
 import InteractionHandler from "./handlers/InteractionHandler.js";

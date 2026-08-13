@@ -1,5 +1,5 @@
-import { toCamelCase } from "../utils/stringUtils.ts";
-import type Application from "../Application.ts";
+import { toCamelCase } from "../utils/stringUtils.js";
+import type Application from "../Application.js";
 import type BasicScript from "../scripts/BasicScript.js";
 import type BridgeEventBus from "../private/BridgeEventBus.js";
 import type DiscordButton from "../discord/private/buttons/DiscordButton.js";

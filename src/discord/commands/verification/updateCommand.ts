@@ -1,5 +1,5 @@
 import DiscordCommand from "../../private/commands/DiscordCommand.js";
-import DiscordCommandDataBuilder from "../../private/commands/DiscordCommandDataBuilder.ts";
+import DiscordCommandDataBuilder from "../../private/commands/DiscordCommandDataBuilder.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import MowojangAPI from "../../../private/MowojangAPI.js";
 import {
@@ -9,7 +9,7 @@ import {
   CommandPermission,
   type DiscordManagerWithBot
 } from "../../../types/discord.js";
-import { SuccessEmbed } from "../../private/EmbedHelper.ts";
+import { SuccessEmbed } from "../../private/EmbedHelper.js";
 
 class UpdateCommand extends DiscordCommand<DiscordManagerWithBot> {
   override readonly data = new DiscordCommandDataBuilder().setName("update").setDescription("Update your current roles");

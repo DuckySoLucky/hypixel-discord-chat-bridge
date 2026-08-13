@@ -1,5 +1,5 @@
 import { MinecraftCommand, MinecraftCommandData, type MinecraftManagerWithPlugin } from "hypixel-discord-chat-bridge/plugin-api";
-import type ShowcasePlugin from "../index.ts";
+import type ShowcasePlugin from "../index.js";
 
 class ShowcaseMinecraftCommand extends MinecraftCommand<MinecraftManagerWithPlugin<ShowcasePlugin>> {
   override readonly data = new MinecraftCommandData().setName("pluginshowcase").setDescription("Demonstrate a plugin-provided Minecraft command.").setAliases(["pshow"]);

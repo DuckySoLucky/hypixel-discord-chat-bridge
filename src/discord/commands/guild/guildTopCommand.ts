@@ -1,6 +1,6 @@
 import DiscordCommand from "../../private/commands/DiscordCommand.js";
-import DiscordCommandDataBuilder from "../../private/commands/DiscordCommandDataBuilder.ts";
-import EmbedHelper from "../../private/EmbedHelper.ts";
+import DiscordCommandDataBuilder from "../../private/commands/DiscordCommandDataBuilder.js";
+import EmbedHelper from "../../private/EmbedHelper.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import { type ChatInputCommandInteractionWithGuild, CommandFlags, type DiscordManagerWithBot } from "../../../types/discord.js";
 import { MinecraftRequestTimeoutError } from "../../../minecraft/MinecraftRequestBroker.js";

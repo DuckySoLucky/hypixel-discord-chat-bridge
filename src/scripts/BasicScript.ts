@@ -1,4 +1,4 @@
-import EmbedHelper from "../discord/private/EmbedHelper.ts";
+import EmbedHelper from "../discord/private/EmbedHelper.js";
 import prettyMilliseconds from "pretty-ms";
 import { ScriptLogState, type ScriptOptions } from "../types/scripts.js";
 import { performance } from "node:perf_hooks";

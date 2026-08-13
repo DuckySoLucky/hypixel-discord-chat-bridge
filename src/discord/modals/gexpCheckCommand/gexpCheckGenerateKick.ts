@@ -4,7 +4,7 @@ import GexpCheckCommand from "../../commands/verification/inactivity/gexpCheckCo
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import { ActionRowBuilder, AttachmentBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
 import { BasicInteractionResponse, CommandFlags, CommandPermission, type ModalSubmitInteractionWithGuild } from "../../../types/discord.js";
-import { SuccessEmbed } from "../../private/EmbedHelper.ts";
+import { SuccessEmbed } from "../../private/EmbedHelper.js";
 import { replaceVariables } from "../../../utils/stringUtils.js";
 
 class GexpCheckGenerateKickModal extends DiscordModal {

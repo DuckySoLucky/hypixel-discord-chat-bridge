@@ -1,7 +1,7 @@
 import { type ButtonInteractionWithGuild, ButtonResponse, DiscordButton, DiscordButtonData, type DiscordManagerWithPlugin } from "hypixel-discord-chat-bridge/plugin-api";
 import { LabelBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } from "discord.js";
 import { showcaseButtonId, showcaseModalId, showcaseModalInputId } from "./ids.js";
-import type ShowcasePlugin from "../index.ts";
+import type ShowcasePlugin from "../index.js";
 
 class ShowcaseButton extends DiscordButton<DiscordManagerWithPlugin<ShowcasePlugin>> {
   override readonly data = new DiscordButtonData(showcaseButtonId);

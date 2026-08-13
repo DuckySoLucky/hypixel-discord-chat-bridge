@@ -1,4 +1,4 @@
-import EmbedHelper from "../../discord/private/EmbedHelper.ts";
+import EmbedHelper from "../../discord/private/EmbedHelper.js";
 import GenericData from "../GenericData.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import { ActionRowBuilder, ButtonBuilder, ComponentType, type GuildMember } from "discord.js";

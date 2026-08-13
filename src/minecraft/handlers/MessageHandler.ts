@@ -1,5 +1,5 @@
 import BlacklistUser from "../../data/blacklist/BlacklistUser.js";
-import EmbedHelper from "../../discord/private/EmbedHelper.ts";
+import EmbedHelper from "../../discord/private/EmbedHelper.js";
 import GetMinecraftData from "minecraft-data";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import MowojangAPI from "../../private/MowojangAPI.js";

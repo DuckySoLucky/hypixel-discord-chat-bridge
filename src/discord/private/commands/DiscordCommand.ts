@@ -7,7 +7,7 @@ import {
   type DiscordManagerWithClient
 } from "../../../types/discord.js";
 import { ParseAutoComplete } from "../../../utils/discordUtils.js";
-import type DiscordCommandDataBuilder from "./DiscordCommandDataBuilder.ts";
+import type DiscordCommandDataBuilder from "./DiscordCommandDataBuilder.js";
 import type DiscordManager from "../../DiscordManager.js";
 
 abstract class DiscordCommand<Manager extends DiscordManager = DiscordManagerWithClient> extends BasicInteractionData<Manager> {

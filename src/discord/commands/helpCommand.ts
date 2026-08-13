@@ -1,6 +1,6 @@
 import DiscordCommand from "../private/commands/DiscordCommand.js";
-import DiscordCommandDataBuilder from "../private/commands/DiscordCommandDataBuilder.ts";
-import EmbedHelper from "../private/EmbedHelper.ts";
+import DiscordCommandDataBuilder from "../private/commands/DiscordCommandDataBuilder.js";
+import EmbedHelper from "../private/EmbedHelper.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import InformationCommand from "./informationCommand.js";
 import { type ChatInputCommandInteractionWithGuild, CommandFlags } from "../../types/discord.js";

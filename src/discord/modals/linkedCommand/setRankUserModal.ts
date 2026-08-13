@@ -3,7 +3,7 @@ import DiscordModalData from "../../private/modals/DiscordModalData.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import LinkedCommand from "../../commands/verification/linkedCommand.js";
 import { CommandFlags, CommandPermission, type DiscordManagerWithBot, GuildManagementAction, type ModalSubmitInteractionWithGuild } from "../../../types/discord.js";
-import { SuccessEmbed } from "../../private/EmbedHelper.ts";
+import { SuccessEmbed } from "../../private/EmbedHelper.js";
 import { replaceVariables } from "../../../utils/stringUtils.js";
 
 class SetRankUserModal extends DiscordModal<DiscordManagerWithBot> {

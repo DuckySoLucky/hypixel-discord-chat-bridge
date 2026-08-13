@@ -1,6 +1,6 @@
 import { initMarkdownFile, saveMarkdownFile } from "../utils.js";
 import { readdir } from "node:fs/promises";
-import { titleCaseCamel } from "../../src/utils/stringUtils.ts";
+import { titleCaseCamel } from "../../src/utils/stringUtils.js";
 
 async function generateReadme(dir: string): Promise<void> {
   const entries = await readdir(dir, { encoding: "utf-8", withFileTypes: true });

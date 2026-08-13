@@ -1,4 +1,4 @@
-import EmbedHelper from "../private/EmbedHelper.ts";
+import EmbedHelper from "../private/EmbedHelper.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import type DiscordManager from "../DiscordManager.js";
 

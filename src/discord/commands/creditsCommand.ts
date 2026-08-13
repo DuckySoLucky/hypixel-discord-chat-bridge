@@ -1,6 +1,6 @@
 import DiscordCommand from "../private/commands/DiscordCommand.js";
-import DiscordCommandDataBuilder from "../private/commands/DiscordCommandDataBuilder.ts";
-import EmbedHelper from "../private/EmbedHelper.ts";
+import DiscordCommandDataBuilder from "../private/commands/DiscordCommandDataBuilder.js";
+import EmbedHelper from "../private/EmbedHelper.js";
 import { CommonDevs, MiscCredits } from "../../private/constants.js";
 import { DevTypes } from "../../types/application.js";
 import type { ChatInputCommandInteractionWithGuild } from "../../types/discord.js";

@@ -1,9 +1,9 @@
 import DiscordCommand from "../private/commands/DiscordCommand.js";
-import DiscordCommandDataBuilder from "../private/commands/DiscordCommandDataBuilder.ts";
-import EmbedHelper, { SuccessEmbed } from "../private/EmbedHelper.ts";
+import DiscordCommandDataBuilder from "../private/commands/DiscordCommandDataBuilder.js";
+import EmbedHelper, { SuccessEmbed } from "../private/EmbedHelper.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import { type AutocompleteInteractionWithGuild, type AutocompleteOption, type ChatInputCommandInteractionWithGuild, CommandPermission } from "../../types/discord.js";
-import { titleCaseCamel } from "../../utils/stringUtils.ts";
+import { titleCaseCamel } from "../../utils/stringUtils.js";
 
 class ForceExecuteScriptCommand extends DiscordCommand {
   override readonly data = new DiscordCommandDataBuilder()
