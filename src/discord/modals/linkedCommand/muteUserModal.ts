@@ -9,7 +9,7 @@ import { replaceVariables } from "../../../utils/stringUtils.js";
 class MuteUserModal extends DiscordModal<DiscordManagerWithBot> {
   override readonly data = new DiscordModalData("muteUser");
   override readonly flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.VerificationCommand];
-  override readonly permission = CommandPermission.StaffOnly;
+  override readonly permission = CommandPermission.Staff;
 
   override async execute(interaction: ModalSubmitInteractionWithGuild) {
     const linkedCommand = new LinkedCommand(this.discord);

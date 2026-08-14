@@ -18,7 +18,7 @@ class KickCommand extends DiscordCommand<DiscordManagerWithBot> {
     .addStringOption((option) => option.setName("guild-member-username").setDescription("Minecraft Username").setRequired(true).setAutocomplete(true))
     .addStringOption((option) => option.setName("reason").setDescription("Reason").setRequired(true));
   override readonly flags = [CommandFlags.RequiresMinecraftBot];
-  override readonly permission = CommandPermission.StaffOnly;
+  override readonly permission = CommandPermission.Staff;
 
   override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const username = interaction.options.getString("guild-member-username", true);

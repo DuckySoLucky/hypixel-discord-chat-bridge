@@ -13,7 +13,7 @@ class CreditsCommand extends DiscordCommand {
     const embed = new EmbedHelper()
       .setTitle("**Credits**")
       .addFields(
-        DevTypes.map((type) => {
+        ...DevTypes.map((type) => {
           return {
             name: `**${type}**`,
             value: Object.values(CommonDevs)

@@ -12,6 +12,25 @@ One of the big changes is that we make it so every embed has a dev credits foote
 Since discord.js itself already has a pretty good guide on embeds and we aren't changing much about them please consider checking out their guide.
 [Linked here](https://discordjs.guide/legacy/popular-topics/embeds#embed-preview)
 
+## Embed Styles
+
+Embed styles are basically templates that embeds can use to preset stuff. There are currently 4 embed styles and they can be seen all through the bot
+
+1. Generic Embed Template
+
+- This is the default/generic embed style. All embeds should be based start from this style. It sets the color to blue, sets the timestamp to the current time sets the
+  footer to the DuckySoLucky dev footer
+
+2. Warning Embed Style
+
+- When ever warnings are meant to be sent back this is the template that gets used. It sets the color to yellow and it sets the author name to `An Warning has occurred`.
+  It also extends the Generic Template
+
+3. Error Embed Template
+
+- When ever an error is meant to be sent back this is the template that gets used. It sets the color to red and it sets the author name to `An Error has occurred`. It
+  also extends the Generic Template
+
 ---
 
 If you need any help help consider checking out the [FAQ](/docs/FrequentlyAskedQuestions.md)

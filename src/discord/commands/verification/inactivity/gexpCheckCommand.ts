@@ -13,7 +13,7 @@ class GexpCheckCommand extends DiscordCommand {
     .setDescription("Shows everyone under an set amount of gexp")
     .addNumberOption((option) => option.setName("requirement").setDescription("Members below this GEXP number").setRequired(true).setMinValue(1));
   override readonly flags = [CommandFlags.InactivityCommand, CommandFlags.VerificationCommand];
-  override readonly permission = CommandPermission.StaffOnly;
+  override readonly permission = CommandPermission.Staff;
 
   async getUsers({ requirement, type, hiddenRanks }: GexpCheckOptions): Promise<{ users: ParsedGexpCheckUser[]; filtered: ParsedGexpCheckUser[] }> {
     const users: ParsedGexpCheckUser[] = [];

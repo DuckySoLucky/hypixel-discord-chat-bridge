@@ -4,8 +4,8 @@ import HypixelDiscordChatBridgeError from "../../private/error.js";
 import MowojangAPI from "../../private/MowojangAPI.js";
 import { ActionRowBuilder, type BaseMessageOptions, ButtonStyle } from "discord.js";
 import { type BlacklistData, BlacklistDataSchema, type BlacklistedUserData } from "../../types/blacklist.js";
+import { BlacklistEmbed } from "../../discord/private/EmbedHelper.js";
 import { ButtonBuilder } from "discord.js";
-import { SuccessEmbed } from "../../discord/private/EmbedHelper.js";
 import type DataManager from "../DataManager.js";
 
 class BlacklistManager extends GenericManager<BlacklistedUserData, BlacklistData, BlacklistUser> {
@@ -63,23 +63,7 @@ class BlacklistManager extends GenericManager<BlacklistedUserData, BlacklistData
   async getBlacklistDataResponse(user: BlacklistUser): Promise<BaseMessageOptions> {
     const [player, guildMember] = await Promise.all([user.getHypixelPlayer(), user.isUserInHypixelGuild()]);
     return {
-      embeds: [
-        new SuccessEmbed()
-          .setAuthor({ name: "Found Blacklist" })
-          .setFields(
-            { name: "Reason", value: `\`\`\`${user.reason}\`\`\`` },
-            { name: "Blacklisted By", value: `<@${user.by}>` },
-            { name: "Timestamp", value: `<t:${user.timestamp}:F> (<t:${user.timestamp}:R>)` },
-            { name: "Discord", value: `<@${user.discordId ?? "UNKNOWN"}>` },
-            { name: "Discord ID", value: `\`\`\`${user.discordId ?? "UNKNOWN"}\`\`\`` },
-            { name: "Username", value: `\`\`\`${player?.nickname ?? "UNKNOWN"}\`\`\`` },
-            { name: "UUID", value: `\`\`\`${player?.uuid ?? "UNKNOWN"}\`\`\`` },
-            { name: "Formatted Username", value: `\`\`\`${player?.formattedNickname ?? "UNKNOWN"}\`\`\`` },
-            { name: "Is in Guild", value: guildMember ? ":white_check_mark: Yes" : ":x: No" },
-            { name: "Blacklist ID", value: `\`\`\`${user.blacklistId}\`\`\`` }
-          )
-          .setDevFooter("Kathund")
-      ],
+      embeds: [new BlacklistEmbed(user, player, guildMember)],
       components: [
         new ActionRowBuilder<ButtonBuilder>().addComponents(
           new ButtonBuilder().setCustomId("editBlacklistReason").setLabel("Edit Reason").setStyle(ButtonStyle.Secondary),

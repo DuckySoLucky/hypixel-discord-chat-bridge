@@ -70,7 +70,14 @@ class ListCommand extends DiscordCommand<DiscordManagerWithBot> {
 
   override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const { groups, totalString, onlineString } = await this.getListMembers();
-    await interaction.followUp({ embeds: [new EmbedHelper().setTitle("List Members").setDescription(`${totalString}\n${onlineString}`).setFields(groups)] });
+    await interaction.followUp({
+      embeds: [
+        new EmbedHelper()
+          .setTitle("List Members")
+          .setDescription(`${totalString}\n${onlineString}`)
+          .setFields(...groups)
+      ]
+    });
   }
 }
 

@@ -5,7 +5,7 @@ import { type ChatInputCommandInteractionWithGuild, CommandPermission } from "..
 
 class RestartCommand extends DiscordCommand {
   override readonly data = new DiscordCommandDataBuilder().setName("restart").setDescription("Restarts the bot.");
-  override readonly permission = CommandPermission.StaffOnly;
+  override readonly permission = CommandPermission.Staff;
 
   override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     await interaction.followUp({

@@ -9,7 +9,7 @@ class ExecuteCommand extends DiscordCommand<DiscordManagerWithBot> {
     .setDescription("Executes commands as the minecraft bot.")
     .addStringOption((option) => option.setName("command").setDescription("Minecraft Command").setRequired(true));
   override readonly flags = [CommandFlags.RequiresMinecraftBot];
-  override readonly permission = CommandPermission.AdminOnly;
+  override readonly permission = CommandPermission.Admin;
 
   override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const command = interaction.options.getString("command", true);

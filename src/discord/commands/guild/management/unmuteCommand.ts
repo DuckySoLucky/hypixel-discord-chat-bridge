@@ -17,7 +17,7 @@ class UnmuteCommand extends DiscordCommand<DiscordManagerWithBot> {
     .setDescription("Unmute the given user.")
     .addStringOption((option) => option.setName("guild-member-username").setDescription("Minecraft Username").setRequired(true).setAutocomplete(true));
   override readonly flags = [CommandFlags.RequiresMinecraftBot];
-  override readonly permission = CommandPermission.StaffOnly;
+  override readonly permission = CommandPermission.Staff;
 
   override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const username = interaction.options.getString("guild-member-username", true);

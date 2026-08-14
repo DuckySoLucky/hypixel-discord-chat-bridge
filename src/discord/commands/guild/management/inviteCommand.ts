@@ -17,7 +17,7 @@ class InviteCommand extends DiscordCommand<DiscordManagerWithBot> {
     .setDescription("Invites the given user to the guild.")
     .addStringOption((option) => option.setName("username").setDescription("Minecraft Username").setRequired(true));
   override readonly flags = [CommandFlags.RequiresMinecraftBot];
-  override readonly permission = CommandPermission.StaffOnly;
+  override readonly permission = CommandPermission.Staff;
 
   override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const username = interaction.options.getString("username", true);

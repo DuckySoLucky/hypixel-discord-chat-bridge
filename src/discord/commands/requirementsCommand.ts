@@ -38,7 +38,7 @@ class RequirementsCommand extends DiscordCommand {
         } requirement(s)** needed to join ${guildName}`
       )
       .addFields(
-        requirements.map(({ key, has, required, passed }) => ({
+        ...requirements.map(({ key, has, required, passed }) => ({
           name: titleCaseCamel(key),
           value: `${passed ? ":white_check_mark:" : ":x:"} ${formatNumber(has, 2)}/${required}`,
           inline: true

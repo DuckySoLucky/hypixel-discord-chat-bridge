@@ -1,6 +1,19 @@
-import { AutocompleteInteraction, BaseInteraction, ButtonInteraction, ChatInputCommandInteraction, Client, Guild, GuildMember, ModalSubmitInteraction } from "discord.js";
 import type DiscordManager from "../discord/DiscordManager.js";
-import type { Config } from "./config.js";
+import type {
+  APIEmbedField,
+  AutocompleteInteraction,
+  BaseInteraction,
+  ButtonInteraction,
+  ChatInputCommandInteraction,
+  Client,
+  ColorResolvable,
+  EmbedAuthorOptions,
+  Guild,
+  GuildMember,
+  ModalSubmitInteraction
+} from "discord.js";
+import type { Config, ConfigOtherColors } from "./config.js";
+import type { DevData, DevName } from "./application.ts";
 import type { MinecraftManagerWithBot } from "./minecraft.js";
 
 declare module "discord.js" {
@@ -11,10 +24,10 @@ declare module "discord.js" {
 }
 
 export enum CommandPermission {
-  AdminOnly,
-  StaffOnly,
-  GuildMemberOnly,
-  VerifiedOnly,
+  Admin,
+  Staff,
+  GuildMember,
+  Linked,
   Anyone
 }
 
@@ -130,3 +143,24 @@ export type ChatInputCommandInteractionWithGuild = ChatInputCommandInteraction &
 export type ButtonInteractionWithGuild = ButtonInteraction & { guild: Guild; member: GuildMember };
 export type AutocompleteInteractionWithGuild = AutocompleteInteraction & { guild: Guild; member: GuildMember };
 export type ModalSubmitInteractionWithGuild = ModalSubmitInteraction & { guild: Guild; member: GuildMember };
+
+export const EmbedStyleNames = ["Generic", "Warning", "Error", "Success"] as const;
+export type EmbedStyleName = (typeof EmbedStyleNames)[number];
+export interface EmbedStyleData {
+  title?: string;
+  author?: EmbedAuthorOptions;
+  description?: string;
+  color?: ConfigOtherColors | ColorResolvable;
+  footer?: DevName | DevData;
+}
+
+export interface MinecraftFieldData {
+  formattedNickname?: string;
+  nickname?: string;
+  uuid?: string;
+}
+
+export interface EmbedHelperField extends APIEmbedField {
+  blockValue?: boolean;
+  formatTimestamp?: boolean;
+}

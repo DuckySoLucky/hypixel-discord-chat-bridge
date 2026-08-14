@@ -1,10 +1,11 @@
 import DiscordCommand from "../private/commands/DiscordCommand.js";
 import DiscordCommandDataBuilder from "../private/commands/DiscordCommandDataBuilder.js";
 import EmbedHelper from "../private/EmbedHelper.js";
-import type { ChatInputCommandInteractionWithGuild } from "../../types/discord.js";
+import { type ChatInputCommandInteractionWithGuild, CommandPermission } from "../../types/discord.js";
 
 class UptimeCommand extends DiscordCommand {
   override readonly data = new DiscordCommandDataBuilder().setName("uptime").setDescription("Shows the uptime of the bot.");
+  override readonly permission: CommandPermission = CommandPermission.Admin;
 
   override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     await interaction.followUp({

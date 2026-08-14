@@ -6,7 +6,7 @@ import { type ButtonInteractionWithGuild, CommandFlags, CommandPermission, type 
 class JoinRequestViewBlacklist extends DiscordButton<DiscordManagerWithBot> {
   override readonly data = new DiscordButtonData("joinRequestViewBlacklist");
   override readonly flags = [CommandFlags.RequiresMinecraftBot];
-  override readonly permission = CommandPermission.StaffOnly;
+  override readonly permission = CommandPermission.Staff;
 
   override async execute(interaction: ButtonInteractionWithGuild) {
     const username = this.getUsernameFromJoinRequest(interaction.message);

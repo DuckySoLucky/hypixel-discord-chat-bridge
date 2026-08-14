@@ -9,7 +9,7 @@ import { delay } from "../../../utils/miscUtils.js";
 class GexpCheckGenerateKickExecuteButton extends DiscordButton<DiscordManagerWithBot> {
   override readonly data = new DiscordButtonData("gexpCheckGenerateKickExecute");
   override readonly flags = [CommandFlags.InactivityCommand, CommandFlags.VerificationCommand, CommandFlags.RequiresMinecraftBot];
-  override readonly permission = CommandPermission.StaffOnly;
+  override readonly permission = CommandPermission.Staff;
 
   override async execute(interaction: ButtonInteractionWithGuild) {
     if (!interaction.message) return;

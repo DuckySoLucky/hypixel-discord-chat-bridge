@@ -4,7 +4,7 @@ import InactiveUser from "./InactiveUser.js";
 import { ActionRowBuilder, type BaseMessageOptions, ButtonStyle } from "discord.js";
 import { ButtonBuilder } from "discord.js";
 import { type InactiveUserData, type InactivityData, InactivityDataSchema } from "../../types/inactivity.js";
-import { SuccessEmbed } from "../../discord/private/EmbedHelper.js";
+import { InactivityEmbed } from "../../discord/private/EmbedHelper.js";
 import type DataManager from "../DataManager.js";
 
 class InactivityManager extends GenericManager<InactiveUserData, InactivityData, InactiveUser> {
@@ -60,20 +60,7 @@ class InactivityManager extends GenericManager<InactiveUserData, InactivityData,
     if (!linked) throw new HypixelDiscordChatBridgeError("User is not verified");
     const player = await linked.getHypixelPlayer();
     return {
-      embeds: [
-        new SuccessEmbed()
-          .setAuthor({ name: "Found Inactivity" })
-          .setFields(
-            { name: "Reason", value: `\`\`\`${user.reason}\`\`\`` },
-            { name: "Start Time", value: `<t:${user.start}:F> (<t:${user.start}:R>)` },
-            { name: "Expire Time", value: `<t:${user.expires}:F> (<t:${user.expires}:R>)` },
-            { name: "Discord", value: `<@${user.discordId}>` },
-            { name: "Discord ID", value: `\`\`\`${user.discordId}\`\`\`` },
-            { name: "Username", value: `\`\`\`${player?.nickname ?? "UNKNOWN"}\`\`\`` },
-            { name: "UUID", value: `\`\`\`${player?.uuid ?? "UNKNOWN"}\`\`\`` }
-          )
-          .setDevFooter("Kathund")
-      ],
+      embeds: [new InactivityEmbed(user, player)],
       components: [
         new ActionRowBuilder<ButtonBuilder>().addComponents(
           new ButtonBuilder().setCustomId("editInactivityReason").setLabel("Edit Reason").setStyle(ButtonStyle.Secondary),

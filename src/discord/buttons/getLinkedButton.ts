@@ -6,7 +6,7 @@ import { type ButtonInteractionWithGuild, CommandPermission } from "../../types/
 
 class GetLinkedButton extends DiscordButton {
   override readonly data = new DiscordButtonData("getLinked");
-  override readonly permission = CommandPermission.StaffOnly;
+  override readonly permission = CommandPermission.Staff;
 
   override async execute(interaction: ButtonInteractionWithGuild) {
     const linkedCommand = new LinkedCommand(this.discord);

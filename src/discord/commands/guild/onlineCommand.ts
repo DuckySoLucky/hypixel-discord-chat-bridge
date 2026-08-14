@@ -63,7 +63,14 @@ class OnlineCommand extends DiscordCommand<DiscordManagerWithBot> {
 
   override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const { groups, totalString, onlineString } = await this.getOnlineMembers();
-    await interaction.followUp({ embeds: [new EmbedHelper().setTitle("Online Members").setDescription(`${totalString}\n${onlineString}`).setFields(groups)] });
+    await interaction.followUp({
+      embeds: [
+        new EmbedHelper()
+          .setTitle("Online Members")
+          .setDescription(`${totalString}\n${onlineString}`)
+          .setFields(...groups)
+      ]
+    });
   }
 }
 

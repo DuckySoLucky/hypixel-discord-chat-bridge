@@ -95,13 +95,13 @@ export async function canSendMessages(channel: SendableChannels): Promise<boolea
 
 export function getDiscordCommandPermission(permission: CommandPermission) {
   switch (permission) {
-    case CommandPermission.AdminOnly:
+    case CommandPermission.Admin:
       return "Admin";
-    case CommandPermission.StaffOnly:
+    case CommandPermission.Staff:
       return "Staff";
-    case CommandPermission.GuildMemberOnly:
-      return "GuildMember";
-    case CommandPermission.VerifiedOnly:
+    case CommandPermission.GuildMember:
+      return "Guild Member";
+    case CommandPermission.Linked:
       return "Verified";
     case CommandPermission.Anyone:
     default:

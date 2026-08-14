@@ -8,7 +8,7 @@ class RefreshBlacklistButton extends DiscordButton {
   override readonly data = new DiscordButtonData("refreshBlacklist");
   override readonly response = ButtonResponse.Update;
   override readonly flags = [CommandFlags.BlacklistCommand];
-  override readonly permission = CommandPermission.StaffOnly;
+  override readonly permission = CommandPermission.Staff;
 
   override async execute(interaction: ButtonInteractionWithGuild) {
     const blacklistCommand = new BlacklistCommand(this.discord);

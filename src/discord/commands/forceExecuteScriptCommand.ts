@@ -10,7 +10,7 @@ class ForceExecuteScriptCommand extends DiscordCommand {
     .setName("force-execute-script")
     .setDescription("Allows executing scripts")
     .addStringOption((option) => option.setName("script-name").setDescription("Script Name").setRequired(true).setAutocomplete(true));
-  override readonly permission = CommandPermission.StaffOnly;
+  override readonly permission = CommandPermission.Staff;
 
   override async autocomplete(interaction: AutocompleteInteractionWithGuild): Promise<void> {
     const options: AutocompleteOption[] = this.discord.application.scripts.scripts

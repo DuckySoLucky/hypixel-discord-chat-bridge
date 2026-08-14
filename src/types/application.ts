@@ -6,10 +6,11 @@ export type ApplicationWithClient = Application & { discord: DiscordManagerWithC
 export type ApplicationWithBot = Application & { minecraft: MinecraftManagerWithBot };
 export type ApplicationWithClientBot = Application & { discord: DiscordManagerWithClient; minecraft: MinecraftManagerWithBot };
 
-export type Devs = "DuckySoLucky" | "Kathund" | "GeorgeFilos" | "Zickles";
+export const DevNames = ["DuckySoLucky", "Kathund", "GeorgeFilos", "Zickles"] as const;
+export type DevName = (typeof DevNames)[number];
 export const DevTypes = ["Maintainer", "Contributor"] as const;
 export type DevType = (typeof DevTypes)[number];
-export interface Dev {
+export interface DevData {
   username: string;
   github?: string;
   id: string;

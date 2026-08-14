@@ -33,7 +33,7 @@ class ManageInactivityCommand extends DiscordCommand {
         .addStringOption((option) => option.setName("inactivity").setDescription("The inactivity you are wanting to get").setRequired(true).setAutocomplete(true))
     );
   override readonly flags = [CommandFlags.InactivityCommand, CommandFlags.VerificationCommand];
-  override readonly permission = CommandPermission.StaffOnly;
+  override readonly permission = CommandPermission.Staff;
 
   override async autocomplete(interaction: AutocompleteInteractionWithGuild): Promise<void> {
     const users = await this.discord.application.data.inactivity.getFullData().then((users) => users.filter((user) => !user.isExpired));

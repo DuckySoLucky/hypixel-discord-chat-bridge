@@ -9,7 +9,7 @@ import { replaceVariables } from "../../../utils/stringUtils.js";
 class BlacklistKickModal extends DiscordModal<DiscordManagerWithBot> {
   override readonly data = new DiscordModalData("blacklistKick");
   override readonly flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.BlacklistCommand];
-  override readonly permission = CommandPermission.StaffOnly;
+  override readonly permission = CommandPermission.Staff;
 
   override async execute(interaction: ModalSubmitInteractionWithGuild) {
     const blacklistCommand = new BlacklistCommand(this.discord);

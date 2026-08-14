@@ -14,7 +14,7 @@ class LinkedCommand extends DiscordCommand {
     .addStringOption((option) => option.setName("username").setDescription("Minecraft Username"));
   override readonly flags = [CommandFlags.VerificationCommand];
   override readonly response = BasicInteractionResponse.Ephemeral;
-  override readonly permission = CommandPermission.StaffOnly;
+  override readonly permission = CommandPermission.Staff;
 
   async getLinkedFromLinkedEmbed(message: Message): Promise<LinkedUser | undefined> {
     if (message.author.id !== message.client.user.id) return undefined;

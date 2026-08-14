@@ -8,7 +8,7 @@ import { SuccessEmbed } from "../../private/EmbedHelper.js";
 class UnblacklistModal extends DiscordModal {
   override readonly data = new DiscordModalData("unblacklist");
   override readonly flags = [CommandFlags.BlacklistCommand];
-  override readonly permission = CommandPermission.StaffOnly;
+  override readonly permission = CommandPermission.Staff;
 
   override async execute(interaction: ModalSubmitInteractionWithGuild) {
     const blacklistCommand = new BlacklistCommand(this.discord);

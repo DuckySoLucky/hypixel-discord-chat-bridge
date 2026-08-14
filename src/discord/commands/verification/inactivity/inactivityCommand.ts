@@ -14,7 +14,7 @@ class InactivityCommand extends DiscordCommand {
     .addStringOption((option) => option.setName("time").setDescription("The time you are inactive for (e.g. 1d, 72h, 2w)").setRequired(true))
     .addStringOption((option) => option.setName("reason").setDescription("The reason you are going away"));
   override readonly flags = [CommandFlags.InactivityCommand, CommandFlags.VerificationCommand];
-  override readonly permission = CommandPermission.GuildMemberOnly;
+  override readonly permission = CommandPermission.GuildMember;
 
   override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const linkedUser = await this.discord.application.data.linked.getUserByDiscordId(interaction.user.id);

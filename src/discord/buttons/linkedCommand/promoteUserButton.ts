@@ -9,7 +9,7 @@ import { replaceVariables } from "../../../utils/stringUtils.js";
 class PromoteUserButton extends DiscordButton<DiscordManagerWithBot> {
   override readonly data = new DiscordButtonData("promoteUser");
   override readonly flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.VerificationCommand];
-  override readonly permission = CommandPermission.StaffOnly;
+  override readonly permission = CommandPermission.Staff;
 
   override async execute(interaction: ButtonInteractionWithGuild) {
     const linkedCommand = new LinkedCommand(this.discord);

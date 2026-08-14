@@ -60,7 +60,7 @@ class BlacklistCommand extends DiscordCommand {
         .addStringOption((option) => option.setName("username").setDescription("Minecraft Username"))
     );
   override readonly flags = [CommandFlags.BlacklistCommand];
-  override readonly permission = CommandPermission.StaffOnly;
+  override readonly permission = CommandPermission.Staff;
   override readonly response = BasicInteractionResponse.Ephemeral;
 
   async getBlacklistedFromBlacklistEmbed(message: Message, retry: boolean = true): Promise<BlacklistUser | undefined> {

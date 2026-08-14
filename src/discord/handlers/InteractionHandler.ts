@@ -26,18 +26,18 @@ class InteractionHandler {
 
     const checks: Array<[boolean, string]> = [
       [
-        data.permission === CommandPermission.AdminOnly && !isAdminMemberCheck,
+        data.permission === CommandPermission.Admin && !isAdminMemberCheck,
         "You don't have permission to use this command. You are required to be an admin to use this command."
       ],
       [
-        data.permission === CommandPermission.StaffOnly && !isStaffMemberCheck,
+        data.permission === CommandPermission.Staff && !isStaffMemberCheck,
         "You don't have permission to use this command. You are required to be an staff member to use this command."
       ],
       [
-        data.permission === CommandPermission.GuildMemberOnly && !isGuildMemberCheck,
+        data.permission === CommandPermission.GuildMember && !isGuildMemberCheck,
         "You don't have permission to use this command. You are required to be inside of the guild to use this command."
       ],
-      [data.permission === CommandPermission.VerifiedOnly && !isVerifiedMemberCheck, "This command requires you to be verified. Please use /verify to verify."],
+      [data.permission === CommandPermission.Linked && !isVerifiedMemberCheck, "This command requires you to be verified. Please use /verify to verify."],
       [data.flags.includes(CommandFlags.InactivityCommand) && !this.discord.application.config.verification.inactivity.enabled, "Inactivity commands are disabled."],
       [data.flags.includes(CommandFlags.VerificationCommand) && !this.discord.application.config.verification.enabled, "Verification commands are disabled."],
       [data.flags.includes(CommandFlags.BlacklistCommand) && !this.discord.application.config.blacklist.enabled, "Blacklist commands are disabled."],

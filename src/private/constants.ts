@@ -1,6 +1,14 @@
-import type { CreditData, Dev, Devs } from "../types/application.js";
+import type { CreditData, DevData, DevName } from "../types/application.js";
+import type { EmbedStyleData, EmbedStyleName } from "../types/discord.js";
 
-export const CommonDevs: Record<Devs, Dev> = {
+export const EmbedStyles: Record<EmbedStyleName, EmbedStyleData> = {
+  Generic: { color: "Blue", footer: "DuckySoLucky" },
+  Warning: { author: { name: "An Warning has occurred" }, color: "Yellow" },
+  Error: { author: { name: "An Warning has occurred" }, color: "Red" },
+  Success: { author: { name: "Success" }, color: "Green" }
+};
+
+export const CommonDevs: Record<DevName, DevData> = {
   DuckySoLucky: { username: "duckysolucky", id: "486155512568741900", iconURL: "https://imgur.com/tgwQJTX.png", type: "Maintainer" },
   Kathund: { username: ".kathund", github: "kathund", id: "1276524855445164098", iconURL: "https://i.imgur.com/uUuZx2E.png", type: "Maintainer" },
   GeorgeFilos: { username: "george_filos", github: "georgefilos", id: "177083022305263616", iconURL: "https://i.imgur.com/YdxW048.png", type: "Contributor" },

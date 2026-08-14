@@ -81,7 +81,7 @@ class VerifyCommand extends DiscordCommand<DiscordManagerWithBot> {
         embeds: [
           new EmbedHelper()
             .setAuthor({ name: "Link with Hypixel Social Media" })
-            .setFields([{ name: "Instructions:", value: instructions }])
+            .setFields({ name: "Instructions:", value: instructions })
             .setImage("https://media.discordapp.net/attachments/922202066653417512/1066476136953036800/tutorial.gif")
             .setDevFooter("Kathund")
         ],

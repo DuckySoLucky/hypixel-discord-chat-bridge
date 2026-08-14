@@ -9,7 +9,7 @@ class GexpCheckFiltersModal extends DiscordModal {
   override readonly data = new DiscordModalData("gexpCheckFilters");
   override readonly response = BasicInteractionResponse.Ephemeral;
   override readonly flags = [CommandFlags.InactivityCommand, CommandFlags.VerificationCommand];
-  override readonly permission = CommandPermission.StaffOnly;
+  override readonly permission = CommandPermission.Staff;
 
   override async execute(interaction: ModalSubmitInteractionWithGuild) {
     if (!interaction.message) return;

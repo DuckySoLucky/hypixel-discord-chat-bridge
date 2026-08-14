@@ -8,7 +8,7 @@ import { SuccessEmbed } from "../private/EmbedHelper.js";
 class JoinRequestAcceptButton extends DiscordButton<DiscordManagerWithBot> {
   override readonly data = new DiscordButtonData("joinRequestAccept");
   override readonly flags = [CommandFlags.RequiresMinecraftBot];
-  override readonly permission = CommandPermission.StaffOnly;
+  override readonly permission = CommandPermission.Staff;
 
   override async execute(interaction: ButtonInteractionWithGuild) {
     const username = this.getUsernameFromJoinRequest(interaction.message);

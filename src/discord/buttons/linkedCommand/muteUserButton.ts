@@ -9,7 +9,7 @@ class MuteUserButton extends DiscordButton {
   override readonly data = new DiscordButtonData("muteUser");
   override readonly response = ButtonResponse.None;
   override readonly flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.VerificationCommand];
-  override readonly permission = CommandPermission.StaffOnly;
+  override readonly permission = CommandPermission.Staff;
 
   override async execute(interaction: ButtonInteractionWithGuild) {
     const linkedCommand = new LinkedCommand(this.discord);

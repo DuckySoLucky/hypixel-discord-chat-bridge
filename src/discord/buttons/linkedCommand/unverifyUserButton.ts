@@ -8,7 +8,7 @@ import { type ButtonInteractionWithGuild, CommandFlags, CommandPermission, type 
 class UnverifyUserButton extends DiscordButton<DiscordManagerWithBot> {
   override readonly data = new DiscordButtonData("unverifyUser");
   override readonly flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.VerificationCommand];
-  override readonly permission = CommandPermission.StaffOnly;
+  override readonly permission = CommandPermission.Staff;
 
   override async execute(interaction: ButtonInteractionWithGuild) {
     const linkedCommand = new LinkedCommand(this.discord);

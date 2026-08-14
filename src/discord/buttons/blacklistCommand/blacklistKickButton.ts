@@ -9,7 +9,7 @@ class BlacklistKickButton extends DiscordButton {
   override readonly data = new DiscordButtonData("blacklistKick");
   override readonly response = ButtonResponse.None;
   override readonly flags = [CommandFlags.BlacklistCommand, CommandFlags.RequiresMinecraftBot];
-  override readonly permission = CommandPermission.StaffOnly;
+  override readonly permission = CommandPermission.Staff;
 
   override async execute(interaction: ButtonInteractionWithGuild) {
     const blacklistCommand = new BlacklistCommand(this.discord);

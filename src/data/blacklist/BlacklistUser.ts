@@ -1,4 +1,4 @@
-import EmbedHelper, { SuccessEmbed } from "../../discord/private/EmbedHelper.js";
+import EmbedHelper, { BlacklistEmbed, SuccessEmbed } from "../../discord/private/EmbedHelper.js";
 import GenericData from "../GenericData.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import MowojangAPI from "../../private/MowojangAPI.js";
@@ -101,22 +101,12 @@ class BlacklistUser extends GenericData<BlacklistedUserData, BlacklistManager> {
     await message.edit({
       content: "",
       embeds: [
-        new EmbedHelper()
-          .setAuthor({ name: "Found Blacklist" })
-          .setFields(
-            { name: "Discord", value: `<@${this.discordId ?? "UNKNOWN"}>` },
-            { name: "Discord ID", value: `\`\`\`${this.discordId ?? "UNKNOWN"}\`\`\`` },
-            { name: "Username", value: `\`\`\`${(await this.getUsername()) ?? "UNKNOWN"}\`\`\`` },
-            { name: "UUID", value: `\`\`\`${this.uuid ?? "UNKNOWN"}\`\`\`` },
-            { name: "\u200B", value: "\u200B" },
-            { name: "Blacklisted Reason", value: `\`\`\`${this.reason}\`\`\`` },
-            { name: "Blacklisted By", value: `<@${this.by}>` },
-            { name: "Blacklisted Timestamp", value: `<t:${this.timestamp}:F> (<t:${this.timestamp}:R>)` },
-            { name: "\u200B", value: "\u200B" },
-            { name: "Removed Reason", value: `\`\`\`${reason}\`\`\`` },
-            { name: "Removed By", value: `<@${user.id}>` }
-          )
-          .setDevFooter("Kathund")
+        new BlacklistEmbed(this).addFields(
+          { name: "\u200B", value: "\u200B" },
+          { name: "\u200B", value: "\u200B" },
+          { name: "Removed Reason", value: `\`\`\`${reason}\`\`\`` },
+          { name: "Removed By", value: `<@${user.id}>` }
+        )
       ],
       components: [new ActionRowBuilder<ButtonBuilder>().addComponents(fixedButtons)]
     });

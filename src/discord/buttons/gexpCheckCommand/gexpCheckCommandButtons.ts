@@ -9,7 +9,7 @@ class GexpCheckCommandButtons extends DiscordButton {
   override readonly data = new DiscordButtonData([...GexpDisplays]);
   override readonly response = ButtonResponse.Update;
   override readonly flags = [CommandFlags.InactivityCommand, CommandFlags.VerificationCommand];
-  override readonly permission = CommandPermission.StaffOnly;
+  override readonly permission = CommandPermission.Staff;
 
   override async execute(interaction: ButtonInteractionWithGuild) {
     const gexpCheckCommand = new GexpCheckCommand(this.discord);
