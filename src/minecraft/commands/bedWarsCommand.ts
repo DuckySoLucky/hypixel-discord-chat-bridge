@@ -2,7 +2,7 @@ import MinecraftCommand from "../private/commands/MinecraftCommand.js";
 import MinecraftCommandData from "../private/commands/MinecraftCommandData.js";
 import MinecraftCommandDataOption from "../private/commands/MinecraftCommandDataOption.js";
 import { type BedWarsInternalName, type BedWarsModeName, isBedWarsModeName } from "../../types/minecraft.js";
-import { formatNumber } from "../../utils/stringUtils.js";
+import { formatNumber, titleCase } from "../../utils/stringUtils.js";
 import { getPlayer } from "../../utils/hypixelUtils.js";
 import type { BedWarsMode, Player } from "hypixel-api-reborn";
 
@@ -58,7 +58,7 @@ class BedwarsCommand extends MinecraftCommand {
     const { finalKills, FKDR, wins, winstreak, broken, BLRatio } = this.getStats(hypixelPlayer, mode);
 
     await this.send(
-      `[${Math.floor(hypixelPlayer.stats.BedWars.level)}✫] ${hypixelPlayer.nickname} ${mode} FK: ${formatNumber(
+      `[${Math.floor(hypixelPlayer.stats.BedWars.level)}✫] ${hypixelPlayer.nickname} ${titleCase(mode)} FK: ${formatNumber(
         finalKills
       )} FKDR: ${FKDR} W: ${formatNumber(wins)} BB: ${formatNumber(broken)} BLR: ${BLRatio} WS: ${winstreak}`
     );

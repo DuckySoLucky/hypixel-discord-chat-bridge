@@ -1,4 +1,5 @@
 import type HypixelDiscordChatBridgeError from "../private/error.js";
+import type { DataWithTimestamp } from "../plugin-api.ts";
 
 export function delay(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -59,4 +60,8 @@ export function getNestedValue(obj: unknown, path: string): unknown {
     current = Reflect.get(current, key);
   }
   return current;
+}
+
+export function getMostRecent<T extends DataWithTimestamp>(data: T[]): T | undefined {
+  return [...data].sort((a, b) => b.timestamp - a.timestamp)[0];
 }

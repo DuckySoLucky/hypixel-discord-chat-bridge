@@ -18,9 +18,9 @@ import type { NBT } from "prismarine-nbt";
 import type { PrismarineChatFormatter } from "prismarine-chat";
 
 class MinecraftManager extends CommunicationBridge implements Lifecycle {
-  readonly supportedVersions: string[] = ["1.21.11"];
-  readonly unsupportedVersions: Record<string, { reason: string; disable: boolean }> = {
-    "1.8.9": { reason: "1.8.9 is old and outdated. It will no longer be supported please move to 1.21.11", disable: true }
+  static supportedVersions: string[] = ["1.21.11"];
+  static unsupportedVersions: Record<string, { reason: string; disable: boolean }> = {
+    "1.8.9": { reason: "1.8.9 is old and outdated. It will no longer be supported please move to 1.21.11 or higher", disable: true }
   };
   readonly stateHandler: StateHandler;
   readonly commandHandler: CommandHandler;
@@ -100,21 +100,26 @@ class MinecraftManager extends CommunicationBridge implements Lifecycle {
     return Promise.resolve();
   }
 
-  private createBotConnection() {
-    const version = this.unsupportedVersions[this.application.config.minecraft.bot.version];
-    if (version) {
-      console.warn(`[minecraft.bot.version] You currently have an unsupported version selected (${this.application.config.minecraft.bot.version})`);
-      console.warn(`[minecraft.bot.version] ${version.reason}`);
+  static validateMinecraftVersion(version: string) {
+    const versionData = this.unsupportedVersions[version];
+
+    const isVersionSupported = this.supportedVersions.includes(version);
+    if (!isVersionSupported) console.warn(`[minecraft.bot.version] You currently have an unsupported version selected (${version})`);
+
+    if (versionData) {
+      console.warn(`[minecraft.bot.version] ${versionData.reason}`);
       console.warn(`[minecraft.bot.version] The currently supported versions are ${this.supportedVersions.join(", ")}`);
-      if (version.disable) process.exit(1);
+      if (versionData.disable) process.exit(1);
     }
 
-    if (!this.supportedVersions.includes(this.application.config.minecraft.bot.version)) {
-      console.warn(`[minecraft.bot.version] You currently have an unsupported version selected (${this.application.config.minecraft.bot.version})`);
+    if (!isVersionSupported) {
       console.warn("[minecraft.bot.version] While it may work we cannot guarantee it to work");
       console.warn(`[minecraft.bot.version] The currently supported versions are ${this.supportedVersions.join(", ")}`);
     }
+  }
 
+  private createBotConnection() {
+    MinecraftManager.validateMinecraftVersion(this.application.config.minecraft.bot.version);
     return createClient({
       host: this.application.config.minecraft.bot.server,
       port: this.application.config.minecraft.bot.port,

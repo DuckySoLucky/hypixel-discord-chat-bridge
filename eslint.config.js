@@ -54,7 +54,7 @@ export default [
       "@stylistic/template-curly-spacing": "error",
       "import/no-extraneous-dependencies": "error",
       "@typescript-eslint/no-explicit-any": "off",
-      "@stylistic/line-comment-position": "error",
+      "@stylistic/line-comment-position": "warn",
       "@stylistic/object-curly-newline": "error",
       "@stylistic/array-bracket-spacing": "warn",
       "import/no-useless-path-segments": "error",

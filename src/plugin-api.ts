@@ -14,6 +14,7 @@ export * from "./utils/discordUtils.js";
 export * from "./utils/hypixelUtils.js";
 export * from "./utils/messageToImage.js";
 export * from "./utils/miscUtils.js";
+export * from "./utils/stringUtils.js";
 
 export { default as Application } from "./Application.js";
 export { default as BridgeEventBus } from "./private/BridgeEventBus.js";

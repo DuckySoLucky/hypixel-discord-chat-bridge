@@ -15,3 +15,7 @@ export interface LogData {
   background: ChalkInstance;
   color: ChalkInstance;
 }
+
+export interface DataWithTimestamp {
+  timestamp: number;
+}

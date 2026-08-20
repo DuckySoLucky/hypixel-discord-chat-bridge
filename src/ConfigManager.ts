@@ -1,4 +1,5 @@
 import HypixelDiscordChatBridgeError from "./private/error.js";
+import MinecraftManager from "./minecraft/MinecraftManager.js";
 import { Config, ConfigChangeType, type JsonObject, type JsonValue, type MigrationMap } from "./types/config.js";
 import { displayBigMessage } from "./private/logger.js";
 import { getNestedValue } from "./utils/miscUtils.js";
@@ -255,6 +256,7 @@ class ConfigManager {
     const parse = await Config.safeParseAsync(configFile);
     if (parse.success) {
       console.other("Config is valid");
+      MinecraftManager.validateMinecraftVersion(parse.data.minecraft.bot.version);
       return parse.data;
     }
     parse.error.issues.forEach(({ path, message }) => {
