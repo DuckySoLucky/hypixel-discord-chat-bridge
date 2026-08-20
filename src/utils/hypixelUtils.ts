@@ -1,6 +1,5 @@
 import HypixelDiscordChatBridgeError from "../private/error.js";
 import MowojangAPI from "../private/MowojangAPI.js";
-import config from "../../config.json" with { type: "json" };
 import {
   Client,
   type Guild,
@@ -13,8 +12,10 @@ import {
   type SkyblockProfileWithMe
 } from "hypixel-api-reborn";
 import { type NetworthResult, ProfileNetworthCalculator } from "skyhelper-networth";
+import { readFileSync } from "node:fs";
 import type { LatestProfileOptions, SelectedProfileData } from "../types/minecraft.js";
 
+const config = JSON.parse(readFileSync("config.json", "utf-8"));
 const HypixelAPIReborn = new Client(config.API.hypixel.key, { cache: true, mowojang: MowojangAPI });
 HypixelAPIReborn.requestHandler.setBaseURL(config.API.hypixel.baseURL || undefined);
 

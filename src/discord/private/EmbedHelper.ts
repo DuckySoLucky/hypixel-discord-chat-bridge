@@ -1,12 +1,14 @@
-import config from "../../../config.json" with { type: "json" };
 import { type APIEmbed, type APIEmbedField, type ColorResolvable, EmbedBuilder, type EmbedData } from "discord.js";
 import { CommonDevs, EmbedStyles } from "../../private/constants.js";
 import { ConfigOtherColors } from "../../types/config.js";
+import { readFileSync } from "node:fs";
 import type BlacklistUser from "../../data/blacklist/BlacklistUser.ts";
 import type InactiveUser from "../../data/inactivity/InactiveUser.ts";
 import type { DevData, DevName } from "../../types/application.js";
 import type { EmbedHelperField, EmbedStyleData, EmbedStyleName, MinecraftFieldData } from "../../types/discord.js";
 import type { GuildMember, Player } from "hypixel-api-reborn";
+
+const config = JSON.parse(readFileSync("config.json", "utf-8"));
 
 export default class EmbedHelper extends EmbedBuilder {
   constructor(data?: EmbedData | APIEmbed) {
