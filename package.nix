@@ -25,10 +25,10 @@ stdenv.mkDerivation (finalAttrs: {
   strictDeps = true;
 
   src = fetchFromGitHub {
-    owner = "Kathund";
+    owner = "DuckySoLucky";
     repo = "hypixel-discord-chat-bridge";
-    rev = "b4f9f18325d192e04508fd27fe8b045c7c94475e";
-    hash = "sha256-XB7rcbDs/NHXlvgKLESlPwjJL9R/rAstNcAmj9n84+w=";
+    rev = "9ec6e3b9916cde0c253be427260a478361c85707";
+    hash = "sha256-h0j7xDh8Kgl1JfUSV3EHH2PLMFV3TPIjxfCEwcbXlnw=";
   };
 
   patches = [ ./fix-config.patch ];
@@ -37,7 +37,7 @@ stdenv.mkDerivation (finalAttrs: {
     inherit (finalAttrs) pname version src;
     inherit pnpm;
     fetcherVersion = 4;
-    hash = "sha256-GkUIpYF2g3lCVxTNCPDzOb49xPHRNWK3XU/Nj1sV1Nk=";
+    hash = "sha256-Vd9zrm6TTD2DfJlq9EsWJX2WnSf125EzDd5Tl/LxQQo=";
   };
 
   nativeBuildInputs = [
@@ -62,8 +62,6 @@ stdenv.mkDerivation (finalAttrs: {
   dontPnpmBuild = true;
 
   preBuild = ''
-    substituteInPlace node_modules/.pnpm/skyhelper-networth@2.7.5/node_modules/skyhelper-networth/constants/itemsMap.js \
-      --replace "path.join(__dirname, '..', '.itemsBackup.json')" "require('node:os').tmpdir() + '/.skyhelper-itemsBackup.json'"
     mkdir -p .nodedir/include
     ln -s ${nodejs}/include/node .nodedir/include/node
     cd node_modules/canvas
@@ -72,26 +70,25 @@ stdenv.mkDerivation (finalAttrs: {
   '';
 
   installPhase = ''
-    runHook preInstall
+        runHook preInstall
 
-    mkdir -p "$out/lib/hypixel-discord-chat-bridge"
-    cp -r src "$out/lib/hypixel-discord-chat-bridge/"
-    cp -r node_modules "$out/lib/hypixel-discord-chat-bridge/"
-    cp -r resources "$out/lib/hypixel-discord-chat-bridge/"
-    cp package.json pnpm-lock.yaml pnpm-workspace.yaml "$out/lib/hypixel-discord-chat-bridge/"
-    cp index.ts "$out/lib/hypixel-discord-chat-bridge/"
+        mkdir -p "$out/lib/hypixel-discord-chat-bridge"
+        cp -r src "$out/lib/hypixel-discord-chat-bridge/"
+        cp -r node_modules "$out/lib/hypixel-discord-chat-bridge/"
+        cp package.json pnpm-lock.yaml pnpm-workspace.yaml "$out/lib/hypixel-discord-chat-bridge/"
+        cp index.ts "$out/lib/hypixel-discord-chat-bridge/"
 
-    mkdir -p "$out/bin"
-    cat > "$out/bin/hypixel-discord-chat-bridge" << 'WRAPPER'
-#!/bin/sh
-exec __NODE__ "$out/lib/hypixel-discord-chat-bridge/node_modules/tsx/dist/cli.mjs" "$out/lib/hypixel-discord-chat-bridge/index.ts" "$@"
-WRAPPER
-    chmod +x "$out/bin/hypixel-discord-chat-bridge"
-    substituteInPlace "$out/bin/hypixel-discord-chat-bridge" \
-      --replace '__NODE__' "${nodejs}/bin/node" \
-      --replace '$out' "$out"
+        mkdir -p "$out/bin"
+        cat > "$out/bin/bridgebot" << 'WRAPPER'
+    #!/bin/sh
+    exec __NODE__ "$out/lib/hypixel-discord-chat-bridge/node_modules/tsx/dist/cli.mjs" "$out/lib/hypixel-discord-chat-bridge/index.ts" "$@"
+    WRAPPER
+        chmod +x "$out/bin/bridgebot"
+        substituteInPlace "$out/bin/bridgebot" \
+          --replace '__NODE__' "${nodejs}/bin/node" \
+          --replace '$out' "$out"
 
-    runHook postInstall
+        runHook postInstall
   '';
 
   passthru.updateScript = nix-update-script { };
@@ -99,7 +96,7 @@ WRAPPER
   meta = {
     description = "A two-way chat bridge between Hypixel guild chat and a Discord channel. The application utilizes discord.js v14 for communicating with Discord, and mineflayer for communicating with Hypixel";
     homepage = "https://github.com/Kathund/hypixel-discord-chat-bridge";
-    mainProgram = "hypixel-discord-chat-bridge";
+    mainProgram = "bridgebot";
     platforms = lib.platforms.all;
   };
 })
