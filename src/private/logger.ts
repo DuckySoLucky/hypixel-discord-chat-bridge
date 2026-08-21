@@ -26,14 +26,15 @@ function logSomething(message: string, log: LogData): void {
   console.log(log.background(`[${getTimestamp()}] ${titleCase(log.level)} >${log.color(` ${message}`)}`));
 }
 
+let useDefault = false;
 try {
   await access("config.json");
 } catch {
-  const log = logs.find((log) => log.level === "error") || otherLog;
-  logSomething("`config.json` does not exist. Please use `pnpm generate:config` to generate a config", log);
-  process.exit(0);
+  const log = logs.find((log) => log.level === "warn") || otherLog;
+  logSomething("`config.json` does not exist. Using default values for the logger. Please use `pnpm generate:config` to generate a config.", log);
+  useDefault = true;
 }
-const config = JSON.parse(await readFile("config.json", "utf-8"));
+const config = JSON.parse(await readFile(useDefault ? "config.example.json" : "config.json", "utf-8"));
 
 const defaultPath = `./logs/${new Date().toISOString()}`;
 const fileLoggingEnabled = config.other?.logToFiles;
