@@ -326,11 +326,18 @@ This document is generated from the Zod config schema in `src/types/config.ts`
 | --------------- | ------------------------ | -------- | ------------------------------------------------------- |
 | `colors`        | `record<string, string>` | Yes      |                                                         |
 | `backupConfigs` | `boolean`                | Yes      | Whether backup copies of config files should be created |
-| `logToFiles`    | `boolean`                | Yes      | Whether log output should be written to files           |
+| `logging`       | `object`                 | Yes      |                                                         |
+
+### logging
+
+| Key           | Type      | Required | Description                                       |
+| ------------- | --------- | -------- | ------------------------------------------------- |
+| `saveToFiles` | `boolean` | Yes      | Whether log output should be written to files     |
+| `location`    | `string`  | Yes      | The location of where these files should be saved |
 
 ---
 
-This document is [auto generated](/scripts/docs/Configuration.ts) and was last updated on `Fri, 14 Aug 2026 05:51:41 GMT` (`1786686701393`)
+This document is [auto generated](/scripts/docs/Configuration.ts) and was last updated on `Fri, 21 Aug 2026 04:53:05 GMT` (`1787287985019`)
 
 To update this document please run `pnpm docgen` or contact a maintainer and ask them to update it.
 

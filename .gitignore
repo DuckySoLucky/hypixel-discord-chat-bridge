@@ -1,7 +1,5 @@
 node_modules/
 /config.json
-auth-cache/
-/logs/
 /data/
 /build/
 result

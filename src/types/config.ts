@@ -224,12 +224,16 @@ export const ConfigStatsChannelsChannel = zod.object({
 });
 export const ConfigStatsChannels = zod.object({ enabled: zod.boolean(), autoUpdater: ConfigStatsChannelsAutoUpdater, channels: zod.array(ConfigStatsChannelsChannel) });
 
+export const ConfigOtherLogging = zod.object({
+  saveToFiles: zod.boolean().meta({ description: "Whether log output should be written to files" }),
+  location: zod.string().meta({ description: "The location of where these files should be saved" })
+});
 export const ConfigOtherColors = zod.enum(["Blue", "Red", "Green", "Yellow"]);
 export type ConfigOtherColors = zod.infer<typeof ConfigOtherColors>;
 export const ConfigOther = zod.object({
   colors: zod.record(ConfigOtherColors, zod.string()).meta({ skip: true }),
   backupConfigs: zod.boolean().meta({ description: "Whether backup copies of config files should be created" }),
-  logToFiles: zod.boolean().meta({ description: "Whether log output should be written to files" })
+  logging: ConfigOtherLogging
 });
 
 export const Config = zod.object({

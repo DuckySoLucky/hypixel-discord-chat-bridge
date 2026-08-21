@@ -63,7 +63,18 @@ class ConfigManager {
         }
       },
       3: { "minecraft.guild.requirements.requiredToHave": { key: "minecraft.guild.requirements.requirementsNeededToPass", change: ConfigChangeType.Move } },
-      4: { "minecraft.autoLimbo": { change: ConfigChangeType.Delete }, "other.codeUpdater": { change: ConfigChangeType.Delete } }
+      4: { "minecraft.autoLimbo": { change: ConfigChangeType.Delete }, "other.codeUpdater": { change: ConfigChangeType.Delete } },
+      5: {
+        "minecraft.bot.accountsLocation": {
+          key: "minecraft.bot.accountsLocation",
+          change: ConfigChangeType.Transform,
+          transform: (value) => {
+            if (value === "./auth-cache") return "./data/auth-cache";
+            return value;
+          }
+        },
+        "other.logToFiles": { key: "other.logging.saveToFiles", change: ConfigChangeType.Move }
+      }
     };
     this.hasConfigChanged = false;
   }

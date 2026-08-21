@@ -982,9 +982,17 @@
           "skip": true
         },
         "backupConfigs": { "type": "boolean", "description": "Whether backup copies of config files should be created" },
-        "logToFiles": { "type": "boolean", "description": "Whether log output should be written to files" }
+        "logging": {
+          "type": "object",
+          "properties": {
+            "saveToFiles": { "type": "boolean", "description": "Whether log output should be written to files" },
+            "location": { "type": "string", "description": "The location of where these files should be saved" }
+          },
+          "required": ["saveToFiles", "location"],
+          "additionalProperties": false
+        }
       },
-      "required": ["colors", "backupConfigs", "logToFiles"],
+      "required": ["colors", "backupConfigs", "logging"],
       "additionalProperties": false
     }
   },

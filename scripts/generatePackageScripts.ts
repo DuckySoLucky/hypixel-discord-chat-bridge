@@ -39,3 +39,5 @@ fixedScripts.docgen = docgen.map((script) => `pnpm docgen:${script}`).join(" && 
 fixedScripts["generate:config"] = "pnpm exec tsx scripts/generateConfig.ts";
 packageJson.scripts = fixedScripts;
 await saveFile("package.json", JSON.stringify(packageJson));
+
+process.exit(0);

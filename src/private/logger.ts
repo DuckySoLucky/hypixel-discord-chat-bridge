@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import { Logger, createLogger, format, transports } from "winston";
 import { access, readFile } from "node:fs/promises";
-import { getTimestamp, titleCase } from "../utils/stringUtils.js";
+import { getTimestamp, replaceVariables, titleCase } from "../utils/stringUtils.js";
 import type { LogData } from "../types/misc.js";
 
 const otherLog = { level: "other", background: chalk.bgCyan.black, color: chalk.reset.cyan };
@@ -36,8 +36,8 @@ try {
 }
 const config = JSON.parse(await readFile(useDefault ? "config.example.json" : "config.json", "utf-8"));
 
-const defaultPath = `./logs/${new Date().toISOString()}`;
-const fileLoggingEnabled = config.other?.logToFiles;
+const defaultPath = replaceVariables(config.other?.logging?.location ?? "./data/logs/{timestamp}", { timestamp: new Date().toISOString() });
+const fileLoggingEnabled = config.other?.logging?.saveToFiles ?? true;
 const fullTransport = fileLoggingEnabled ? new transports.File({ level: "max", filename: `${defaultPath}/full.log` }) : undefined;
 const loggers: { [key: string]: Logger } = {};
 logs.forEach((log) => {
