@@ -194,11 +194,9 @@ class MinecraftManager extends CommunicationBridge {
     let successfullySent = false;
     const messageListener = (data: { positionId: number; formattedMessage: string }) => {
       const chatMessage = this.prismarineChat.fromNotch(data.formattedMessage);
-      const receivedMessage = chatMessage.toString();
+      const message = chatMessage.toString();
 
-      const isAnyGuildMessage = this.messageHandler.isGuildMessage(receivedMessage) || this.messageHandler.isOfficerMessage(receivedMessage);
-
-      if (receivedMessage.trim().includes(message.trim()) && isAnyGuildMessage) {
+      if (message.trim().includes(message.trim()) && (this.messageHandler.isGuildMessage(message) || this.messageHandler.isOfficerMessage(message))) {
         this.bot.removeListener("systemChat", messageListener);
         successfullySent = true;
       }
