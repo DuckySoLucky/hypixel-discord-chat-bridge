@@ -24,20 +24,15 @@ stdenv.mkDerivation (finalAttrs: {
   __structuredAttrs = true;
   strictDeps = true;
 
-  src = fetchFromGitHub {
-    owner = "DuckySoLucky";
-    repo = "hypixel-discord-chat-bridge";
-    rev = "9ec6e3b9916cde0c253be427260a478361c85707";
-    hash = "sha256-h0j7xDh8Kgl1JfUSV3EHH2PLMFV3TPIjxfCEwcbXlnw=";
+  src = builtins.path {
+    path = ./.;
+    name = "source";
   };
-
-  patches = [ ./fix-config.patch ];
-
   pnpmDeps = fetchPnpmDeps {
     inherit (finalAttrs) pname version src;
     inherit pnpm;
     fetcherVersion = 4;
-    hash = "sha256-Vd9zrm6TTD2DfJlq9EsWJX2WnSf125EzDd5Tl/LxQQo=";
+    hash = "sha256-UwtsPRRfARKiH7J/spIBulMFWLWr8gNCeW8UW5x8cYY=";
   };
 
   nativeBuildInputs = [
@@ -62,6 +57,9 @@ stdenv.mkDerivation (finalAttrs: {
   dontPnpmBuild = true;
 
   preBuild = ''
+    SKYHELPER_FILE=$(find node_modules/.pnpm -path '*/skyhelper-networth/constants/itemsMap.js' | head -1)
+    substituteInPlace "$SKYHELPER_FILE" \
+      --replace "path.join(__dirname, '..', '.itemsBackup.json')" "require('node:os').tmpdir() + '/.skyhelper-itemsBackup.json'"
     mkdir -p .nodedir/include
     ln -s ${nodejs}/include/node .nodedir/include/node
     cd node_modules/canvas
