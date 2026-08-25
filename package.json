@@ -65,7 +65,7 @@
     "cheerio": "1.2.0",
     "discord.js": "14.27.0",
     "express": "5.2.1",
-    "hypixel-api-reborn": "12.0.0-29",
+    "hypixel-api-reborn": "12.0.0-30",
     "minecraft-data": "3.111.0",
     "minecraft-protocol": "1.66.2",
     "mowojang": "0.7.2",
