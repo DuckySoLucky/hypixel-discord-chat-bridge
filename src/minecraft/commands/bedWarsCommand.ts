@@ -34,9 +34,9 @@ class BedwarsCommand extends MinecraftCommand {
     let stats: BedWarsMode;
     if (mode === "overall") stats = hypixelPlayer.stats.BedWars;
     else stats = hypixelPlayer.stats.BedWars[this.convertMode(mode)];
-    const { finals, wins, winstreak } = stats;
+    const { finals, wins, winstreak, winLossRatio } = stats;
     const { broken, ratio } = stats.beds;
-    return { finalKills: finals.total.kills, FKDR: finals.total.ratio, wins, winstreak, broken, BLRatio: ratio };
+    return { finalKills: finals.total.kills, FKDR: finals.total.ratio, wins, winstreak, broken, BLRatio: ratio, winLossRatio };
   }
 
   override async execute(player: string, message: string) {
@@ -55,12 +55,12 @@ class BedwarsCommand extends MinecraftCommand {
     }
 
     const hypixelPlayer = await getPlayer(player);
-    const { finalKills, FKDR, wins, winstreak, broken, BLRatio } = this.getStats(hypixelPlayer, mode);
+    const { finalKills, FKDR, wins, winstreak, broken, BLRatio, winLossRatio } = this.getStats(hypixelPlayer, mode);
 
     await this.send(
       `[${Math.floor(hypixelPlayer.stats.BedWars.level)}✫] ${hypixelPlayer.nickname} ${titleCase(mode)} FK: ${formatNumber(
         finalKills
-      )} FKDR: ${FKDR} W: ${formatNumber(wins)} BB: ${formatNumber(broken)} BLR: ${BLRatio} WS: ${winstreak}`
+      )} FKDR: ${FKDR} W: ${formatNumber(wins)} WLR: ${winLossRatio} BB: ${formatNumber(broken)} BLR: ${BLRatio} WS: ${winstreak}`
     );
   }
 }
