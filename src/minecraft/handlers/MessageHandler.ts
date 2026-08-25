@@ -558,7 +558,7 @@ class MessageHandler {
   private readonly reportError = (error: unknown): void => console.error(toError(error));
 
   isDiscordMessage(message: string): boolean {
-    const isDiscordMessage = /^(?<username>(?!https?:\/\/)[^\s»:>]+)\s*[»:>]\s*(?<message>.*)/;
+    const isDiscordMessage = /^(?<username>(?!https?:\/\/).+?)\s*[»:>]\s*(?<message>.*)$/;
     const match = message.match(isDiscordMessage);
     if (!match?.groups) return false;
     if (match && ["Party", "Guild", "Officer"].includes(match.groups.username || "UNKNOWN")) {
@@ -569,7 +569,6 @@ class MessageHandler {
 
   private isCommand(message: string): boolean {
     const regex = new RegExp(
-      // eslint-disable-next-line @stylistic/max-len
       `^(?<prefix>[${this.minecraft.application.config.minecraft.commands.normal.prefix}${this.minecraft.application.config.minecraft.commands.soopy.prefix}])(?<command>\\S+)(?:\\s+(?<args>.+))?\\s*$`
     );
 

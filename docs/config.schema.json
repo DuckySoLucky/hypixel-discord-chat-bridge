@@ -141,9 +141,10 @@
           "required": ["enabled", "customWords"],
           "additionalProperties": false
         },
-        "stripEmojisFromUsernames": { "type": "boolean" }
+        "stripEmojisFromUsernames": { "type": "boolean" },
+        "stripSpacesFromUsernames": { "type": "boolean" }
       },
-      "required": ["minecraft", "discord", "channels", "filter", "stripEmojisFromUsernames"],
+      "required": ["minecraft", "discord", "channels", "filter", "stripEmojisFromUsernames", "stripSpacesFromUsernames"],
       "additionalProperties": false
     },
     "minecraft": {

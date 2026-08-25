@@ -46,6 +46,7 @@ This document is generated from the Zod config schema in `src/types/config.ts`
 | `channels`                 | `object`  | Yes      |             |
 | `filter`                   | `object`  | Yes      |             |
 | `stripEmojisFromUsernames` | `boolean` | Yes      |             |
+| `stripSpacesFromUsernames` | `boolean` | Yes      |             |
 
 ### minecraft
 
@@ -337,7 +338,7 @@ This document is generated from the Zod config schema in `src/types/config.ts`
 
 ---
 
-This document is [auto generated](/scripts/docs/Configuration.ts) and was last updated on `Fri, 21 Aug 2026 04:53:05 GMT` (`1787287985019`)
+This document is [auto generated](/scripts/docs/Configuration.ts) and was last updated on `Tue, 25 Aug 2026 14:50:09 GMT` (`1787669409232`)
 
 To update this document please run `pnpm docgen` or contact a maintainer and ask them to update it.
 

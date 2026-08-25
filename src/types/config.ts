@@ -83,7 +83,8 @@ export const ConfigBridge = zod.object({
   discord: ConfigBridgeDiscord,
   channels: ConfigBridgeChannels,
   filter: ConfigBridgeFilter,
-  stripEmojisFromUsernames: zod.boolean()
+  stripEmojisFromUsernames: zod.boolean(),
+  stripSpacesFromUsernames: zod.boolean()
 });
 
 export const ConfigMinecraftCommand = zod.object({ enabled: zod.boolean(), prefix: zod.string() });

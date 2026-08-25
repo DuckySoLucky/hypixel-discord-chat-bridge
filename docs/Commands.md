@@ -53,6 +53,7 @@ Minecraft commands can be executed from any chat channel that the bot can see. T
 | `meow`               | meow                                                                          | mrrp, mrrow, miau, mauww, meep, :3, nja, nya, awawa    | `!meow`                    | Anyone     |
 | `murdermystery`      | Get Murder Mystery Player Stats                                               | mm                                                     | `!murdermystery [u]`       | Anyone     |
 | `networth`           | Networth of specified user.                                                   | nw                                                     | `!networth (u)`            | Anyone     |
+| `overflowskills`     | Overflow Skills and Skill Average of specified user.                          | oskills, oskill, osk                                   | `!overflowskills [u]`      | Anyone     |
 | `player`             | Get Hypixel Player Stats                                                      | None                                                   | `!player [u]`              | Anyone     |
 | `sheepwars`          |                                                                               | sheep, shep                                            | `!sheepwars [u]`           | Anyone     |
 | `skills`             | Skills and Skill Average of specified user.                                   | skill, sa                                              | `!skills [u]`              | Anyone     |
@@ -102,7 +103,7 @@ Minecraft commands can be executed from any chat channel that the bot can see. T
 
 ---
 
-This document is [auto generated](/scripts/docs/Commands.ts) and was last updated on `Fri, 21 Aug 2026 04:53:05 GMT` (`1787287985019`)
+This document is [auto generated](/scripts/docs/Commands.ts) and was last updated on `Tue, 25 Aug 2026 14:50:09 GMT` (`1787669409232`)
 
 To update this document please run `pnpm docgen` or contact a maintainer and ask them to update it.
 

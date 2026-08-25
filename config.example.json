@@ -58,7 +58,8 @@
         "doxxes"
       ]
     },
-    "stripEmojisFromUsernames": true
+    "stripEmojisFromUsernames": true,
+    "stripSpacesFromUsernames": true
   },
   "minecraft": {
     "commands": {

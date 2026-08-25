@@ -9,7 +9,7 @@ This is the place where information about hypixel-discord-chat-bridge is stored
 
 ---
 
-This document is [auto generated](/scripts/docs/README.ts) and was last updated on `Fri, 21 Aug 2026 04:53:05 GMT` (`1787287985019`)
+This document is [auto generated](/scripts/docs/README.ts) and was last updated on `Tue, 25 Aug 2026 14:50:09 GMT` (`1787669409232`)
 
 To update this document please run `pnpm docgen` or contact a maintainer and ask them to update it.
 

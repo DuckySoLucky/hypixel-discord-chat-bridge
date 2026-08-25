@@ -279,6 +279,8 @@ class MinecraftManager extends CommunicationBridge implements Lifecycle {
       }
     }
 
+    if (this.application.config.bridge.stripSpacesFromUsernames) username = username.replaceAll(" ", "");
+
     message = replaceVariables(this.application.config.bridge.minecraft.format, { username, message });
     const chat = channelId === this.application.config.bridge.channels.officer.channel ? "/oc" : "/gc";
     if (replyingTo) message = message.replace(username, `${username} replying to ${replyingTo}`);

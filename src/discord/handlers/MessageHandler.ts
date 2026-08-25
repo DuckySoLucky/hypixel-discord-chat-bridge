@@ -21,7 +21,7 @@ class MessageHandler {
 
       const baseMessageData: Omit<DiscordToMinecraftMessage, "message"> = {
         channelId: message.channel.id,
-        username: formattedUsername.replaceAll(" ", ""),
+        username: formattedUsername,
         replyingTo: await this.fetchReply(message),
         sourceMessage: message
       };
