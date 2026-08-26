@@ -142,9 +142,11 @@
           "additionalProperties": false
         },
         "stripEmojisFromUsernames": { "type": "boolean" },
-        "stripSpacesFromUsernames": { "type": "boolean" }
+        "stripSpacesFromUsernames": { "type": "boolean" },
+        "timeout": { "type": "string", "description": "How long should bridged messages wait before assuming something went wrong" },
+        "messageErrorReactions": { "type": "boolean", "description": "Should the bot react X when a message fails" }
       },
-      "required": ["minecraft", "discord", "channels", "filter", "stripEmojisFromUsernames", "stripSpacesFromUsernames"],
+      "required": ["minecraft", "discord", "channels", "filter", "stripEmojisFromUsernames", "stripSpacesFromUsernames", "timeout", "messageErrorReactions"],
       "additionalProperties": false
     },
     "minecraft": {
@@ -153,6 +155,7 @@
         "commands": {
           "type": "object",
           "properties": {
+            "timeout": { "type": "string", "description": "How long the command should wait before assuming something went wrong" },
             "messageRepeatBypassLength": { "type": "number" },
             "maxMessageLength": { "type": "number" },
             "normal": {
@@ -168,7 +171,7 @@
               "additionalProperties": false
             }
           },
-          "required": ["messageRepeatBypassLength", "maxMessageLength", "normal", "soopy"],
+          "required": ["timeout", "messageRepeatBypassLength", "maxMessageLength", "normal", "soopy"],
           "additionalProperties": false
         },
         "guild": {

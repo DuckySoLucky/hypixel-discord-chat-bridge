@@ -1,4 +1,5 @@
 import HypixelDiscordChatBridgeError from "../../private/error.js";
+import ms, { type StringValue } from "ms";
 import {
   type CommandFlags,
   CommandPermission,
@@ -12,7 +13,6 @@ import { MinecraftRequestTimeoutError } from "../../minecraft/MinecraftRequestBr
 import type DiscordManager from "../DiscordManager.js";
 
 abstract class BasicInteractionData<Manager extends DiscordManager = DiscordManagerWithClient> {
-  protected readonly commandTimeout: number = 5_000;
   readonly flags: readonly CommandFlags[] = [];
   readonly permission: CommandPermission = CommandPermission.Anyone;
   constructor(protected readonly discord: Manager) {}
@@ -24,7 +24,7 @@ abstract class BasicInteractionData<Manager extends DiscordManager = DiscordMana
     const request: GuildManagementRequest = { action, username, argument };
     const response = minecraft.requestBroker.request({
       description: `Guild management ${action} for ${username}`,
-      timeoutMs: this.commandTimeout,
+      timeoutMs: ms(this.discord.application.config.minecraft.commands.timeout as StringValue),
       matches: (message) => this.parseGuildManagementResponse(request, message) !== null,
       map: (message) => {
         const parsed = this.parseGuildManagementResponse(request, message);

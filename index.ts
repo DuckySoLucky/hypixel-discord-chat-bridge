@@ -18,7 +18,7 @@ const shutdown = async (signal: NodeJS.Signals): Promise<void> => {
     await application.stop();
   } catch (error: unknown) {
     console.error(error);
-    process.exitCode = 1;
+    process.exit(1);
   }
 };
 

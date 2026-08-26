@@ -30,7 +30,10 @@
     "docgen:docs:rEADME": "pnpm exec tsx scripts/docs/README.ts",
     "docgen:docs:config:schema": "pnpm exec tsx scripts/docs/config.schema.ts",
     "docgen:docs:variables:channel": "pnpm exec tsx scripts/docs/Variables/Channel.ts",
-    "docgen:docs:variables:player": "pnpm exec tsx scripts/docs/Variables/Player.ts"
+    "docgen:docs:variables:player": "pnpm exec tsx scripts/docs/Variables/Player.ts",
+    "validate": "pnpm validate:config && pnpm validate:exampleConfig",
+    "validate:config": "pnpm exec tsx scripts/validate/config.ts",
+    "validate:exampleConfig": "pnpm exec tsx scripts/validate/exampleConfig.ts"
   },
   "repository": {
     "type": "git",

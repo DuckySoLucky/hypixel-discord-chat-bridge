@@ -2,6 +2,7 @@ import DiscordCommand from "../../private/commands/DiscordCommand.js";
 import DiscordCommandDataBuilder from "../../private/commands/DiscordCommandDataBuilder.js";
 import EmbedHelper from "../../private/EmbedHelper.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
+import ms, { type StringValue } from "ms";
 import { type ChatInputCommandInteractionWithGuild, CommandFlags, type DiscordManagerWithBot, type ListMembers, type ListMembersGroup } from "../../../types/discord.js";
 import { MinecraftRequestTimeoutError } from "../../../minecraft/MinecraftRequestBroker.js";
 
@@ -13,7 +14,7 @@ class OnlineCommand extends DiscordCommand<DiscordManagerWithBot> {
     const cachedMessages: string[] = [];
     const response = this.discord.application.minecraft.requestBroker.request({
       description: "Hypixel guild online list",
-      timeoutMs: this.commandTimeout,
+      timeoutMs: ms(this.discord.application.config.minecraft.commands.timeout as StringValue),
       matches: (message) => {
         cachedMessages.push(message);
         return message.startsWith("Offline Members");

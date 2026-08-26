@@ -39,14 +39,16 @@ This document is generated from the Zod config schema in `src/types/config.ts`
 
 ## bridge
 
-| Key                        | Type      | Required | Description |
-| -------------------------- | --------- | -------- | ----------- |
-| `minecraft`                | `object`  | Yes      |             |
-| `discord`                  | `object`  | Yes      |             |
-| `channels`                 | `object`  | Yes      |             |
-| `filter`                   | `object`  | Yes      |             |
-| `stripEmojisFromUsernames` | `boolean` | Yes      |             |
-| `stripSpacesFromUsernames` | `boolean` | Yes      |             |
+| Key                        | Type      | Required | Description                                                                |
+| -------------------------- | --------- | -------- | -------------------------------------------------------------------------- |
+| `minecraft`                | `object`  | Yes      |                                                                            |
+| `discord`                  | `object`  | Yes      |                                                                            |
+| `channels`                 | `object`  | Yes      |                                                                            |
+| `filter`                   | `object`  | Yes      |                                                                            |
+| `stripEmojisFromUsernames` | `boolean` | Yes      |                                                                            |
+| `stripSpacesFromUsernames` | `boolean` | Yes      |                                                                            |
+| `timeout`                  | `string`  | Yes      | How long should bridged messages wait before assuming something went wrong |
+| `messageErrorReactions`    | `boolean` | Yes      | Should the bot react X when a message fails                                |
 
 ### minecraft
 
@@ -129,12 +131,13 @@ This document is generated from the Zod config schema in `src/types/config.ts`
 
 ### commands
 
-| Key                         | Type     | Required | Description |
-| --------------------------- | -------- | -------- | ----------- |
-| `messageRepeatBypassLength` | `number` | Yes      |             |
-| `maxMessageLength`          | `number` | Yes      |             |
-| `normal`                    | `object` | Yes      |             |
-| `soopy`                     | `object` | Yes      |             |
+| Key                         | Type     | Required | Description                                                           |
+| --------------------------- | -------- | -------- | --------------------------------------------------------------------- |
+| `timeout`                   | `string` | Yes      | How long the command should wait before assuming something went wrong |
+| `messageRepeatBypassLength` | `number` | Yes      |                                                                       |
+| `maxMessageLength`          | `number` | Yes      |                                                                       |
+| `normal`                    | `object` | Yes      |                                                                       |
+| `soopy`                     | `object` | Yes      |                                                                       |
 
 #### normal
 
@@ -338,7 +341,7 @@ This document is generated from the Zod config schema in `src/types/config.ts`
 
 ---
 
-This document is [auto generated](/scripts/docs/Configuration.ts) and was last updated on `Tue, 25 Aug 2026 14:50:09 GMT` (`1787669409232`)
+This document is [auto generated](/scripts/docs/Configuration.ts) and was last updated on `Wed, 26 Aug 2026 02:03:24 GMT` (`1787709804822`)
 
 To update this document please run `pnpm docgen` or contact a maintainer and ask them to update it.
 

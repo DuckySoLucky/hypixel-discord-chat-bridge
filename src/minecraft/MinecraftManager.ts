@@ -2,10 +2,11 @@ import CommandHandler from "./handlers/CommandHandler.js";
 import CommunicationBridge from "../private/CommunicationBridge.js";
 import MessageHandler from "./handlers/MessageHandler.js";
 import MinecraftData from "minecraft-data";
-import MinecraftRequestBroker from "./MinecraftRequestBroker.js";
+import MinecraftRequestBroker, { MinecraftRequestTimeoutError } from "./MinecraftRequestBroker.js";
 import PrismarineChat from "prismarine-chat";
 import PrismarineRegistry, { type RegistryPc } from "prismarine-registry";
 import StateHandler from "./handlers/StateHandler.js";
+import ms, { type StringValue } from "ms";
 import { type Client, createClient } from "minecraft-protocol";
 import { ResourcePackResult } from "../types/minecraft.js";
 import { replaceVariables } from "../utils/stringUtils.js";
@@ -288,18 +289,21 @@ class MinecraftManager extends CommunicationBridge implements Lifecycle {
     const outboundContent = message.trim();
     const acknowledgement = this.requestBroker.request({
       description: `Discord bridge message from ${username}`,
-      timeoutMs: 500,
+      timeoutMs: ms(this.application.config.bridge.timeout as StringValue),
       matches: (inboundContent) => {
         const expectedChannel = this.messageHandler.isGuildMessage(inboundContent) || this.messageHandler.isOfficerMessage(inboundContent);
         return expectedChannel && inboundContent.trim().includes(outboundContent);
       },
       map: () => undefined
     });
-    this.bot.chat(`${chat} ${message}`);
     try {
+      this.bot.chat(`${chat} ${message}`);
       await acknowledgement;
-    } catch {
-      await sourceMessage.react("❌");
+    } catch (error: unknown) {
+      console.error(error);
+      if (this.application.config.bridge.messageErrorReactions) await sourceMessage.react("❌");
+      if (error instanceof MinecraftRequestTimeoutError) return;
+      await this.application.discord.logError(toError(error));
     }
   }
 

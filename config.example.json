@@ -59,10 +59,13 @@
       ]
     },
     "stripEmojisFromUsernames": true,
-    "stripSpacesFromUsernames": true
+    "stripSpacesFromUsernames": true,
+    "timeout": "5s",
+    "messageErrorReactions": true
   },
   "minecraft": {
     "commands": {
+      "timeout": "5s",
       "messageRepeatBypassLength": 24,
       "maxMessageLength": 256,
       "normal": {

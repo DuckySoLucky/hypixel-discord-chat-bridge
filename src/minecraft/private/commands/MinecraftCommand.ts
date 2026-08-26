@@ -1,3 +1,4 @@
+import ms, { type StringValue } from "ms";
 import { AsyncLocalStorage } from "node:async_hooks";
 import { MinecraftRequestTimeoutError } from "../../MinecraftRequestBroker.js";
 import { delay, generateId } from "../../../utils/miscUtils.js";
@@ -96,7 +97,7 @@ abstract class MinecraftCommand<Manager extends MinecraftManager = MinecraftMana
     if (!this.minecraft.isBotOnline()) throw new Error("Minecraft client is not ready.");
     const response = this.minecraft.requestBroker.request({
       description: `Minecraft command response for ${message}`,
-      timeoutMs: 500,
+      timeoutMs: ms(this.minecraft.application.config.minecraft.commands.timeout as StringValue),
       signal: context.signal,
       matches: (responseMessage) => this.minecraft.messageHandler.isTooFast(responseMessage) || this.minecraft.messageHandler.isRepeatMessage(responseMessage),
       map: (responseMessage) => {

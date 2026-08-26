@@ -84,11 +84,14 @@ export const ConfigBridge = zod.object({
   channels: ConfigBridgeChannels,
   filter: ConfigBridgeFilter,
   stripEmojisFromUsernames: zod.boolean(),
-  stripSpacesFromUsernames: zod.boolean()
+  stripSpacesFromUsernames: zod.boolean(),
+  timeout: zod.string().meta({ description: "How long should bridged messages wait before assuming something went wrong" }),
+  messageErrorReactions: zod.boolean().meta({ description: "Should the bot react X when a message fails" })
 });
 
 export const ConfigMinecraftCommand = zod.object({ enabled: zod.boolean(), prefix: zod.string() });
 export const ConfigMinecraftCommands = zod.object({
+  timeout: zod.string().meta({ description: "How long the command should wait before assuming something went wrong" }),
   messageRepeatBypassLength: zod.number(),
   maxMessageLength: zod.number(),
   normal: ConfigMinecraftCommand,
