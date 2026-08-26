@@ -28,7 +28,7 @@ class CatacombsCommand extends MinecraftCommand {
     this.send(
       `${username}'s Catacombs: ${formatNumber(level.level)} | Selected Class: ${profile.me.dungeons.classes.selected} | Class Average: ${formatNumber(
         profile.me.dungeons.classes.average
-      )} | Secrets Found: ${formatNumber(profile.me.dungeons.secrets)} | Classes: ${healer}H, ${mage}M, ${berserk}B, ${archer}A, ${mage}M ${tank}T`
+      )} | Secrets Found: ${formatNumber(profile.me.dungeons.secrets)} | Classes: ${healer}H, ${mage}M, ${berserk}B, ${archer}A, ${tank}T`
     );
   }
 }
