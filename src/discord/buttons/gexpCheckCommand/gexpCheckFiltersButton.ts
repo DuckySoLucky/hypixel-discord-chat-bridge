@@ -3,17 +3,8 @@ import DiscordButtonData from "../../private/buttons/DiscordButtonData.js";
 import GexpCheckCommand from "../../commands/verification/inactivity/gexpCheckCommand.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import { type ButtonInteractionWithGuild, ButtonResponse, CommandFlags, CommandPermission } from "../../../types/discord.js";
-import {
-  CheckboxGroupBuilder,
-  CheckboxGroupOptionBuilder,
-  LabelBuilder,
-  ModalBuilder,
-  RadioGroupBuilder,
-  RadioGroupOptionBuilder,
-  TextInputBuilder,
-  TextInputStyle
-} from "discord.js";
-import { gexpCheckData } from "../../../types/inactivity.js";
+import { CheckboxGroupBuilder, CheckboxGroupOptionBuilder, LabelBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } from "discord.js";
+import { type GexpCheckOptionsDisplays, gexpCheckData } from "../../../types/inactivity.js";
 
 class GexpCheckFiltersButton extends DiscordButton {
   override readonly data = new DiscordButtonData("gexpCheckFilters");
@@ -57,16 +48,17 @@ class GexpCheckFiltersButton extends DiscordButton {
                 )
                 .setRequired(false)
             ),
-          new LabelBuilder().setLabel("Page").setRadioGroupComponent(
-            new RadioGroupBuilder()
-              .setCustomId("gexpCheckFiltersPage")
+          new LabelBuilder().setLabel("Filters").setCheckboxGroupComponent(
+            new CheckboxGroupBuilder()
+              .setCustomId("gexpCheckFiltersMain")
               .setRequired(false)
               .setOptions(
-                Object.entries(gexpCheckData).map(([id, { buttonLabel }]) =>
-                  new RadioGroupOptionBuilder()
+                Object.entries(gexpCheckData).map(([id, { label, description }]) =>
+                  new CheckboxGroupOptionBuilder()
                     .setValue(id)
-                    .setLabel(buttonLabel)
-                    .setDefault(id === options.type)
+                    .setLabel(label)
+                    .setDescription(description)
+                    .setDefault(options[id.replaceAll("gexpcheck_", "") as keyof GexpCheckOptionsDisplays] ?? false)
                 )
               )
           )
