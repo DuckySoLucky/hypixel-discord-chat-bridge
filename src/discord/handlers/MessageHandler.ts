@@ -1,6 +1,6 @@
+import { type Attachment, GuildMember, type Message, type User } from "discord.js";
 import { unemojify } from "node-emoji";
 import type DiscordManager from "../DiscordManager.js";
-import type { Attachment, GuildMember, Message } from "discord.js";
 import type { DiscordToMinecraftMessage } from "../../types/bridge.js";
 
 class MessageHandler {
@@ -59,7 +59,7 @@ class MessageHandler {
       if (message.reference?.messageId === undefined || message.mentions === undefined || message.mentions.repliedUser === null) return null;
 
       const reference = await message.channel.messages.fetch(message.reference.messageId);
-      const discUser = await message.guild.members.fetch(message.mentions.repliedUser.id);
+      const discUser = await message.guild.members.fetch(message.mentions.repliedUser.id).catch(() => message.mentions.repliedUser);
       const mentionedUserName = this.getDisplayName(discUser);
 
       switch (this.discord.application.config.bridge.discord.mode) {
@@ -75,13 +75,9 @@ class MessageHandler {
           if (name === undefined) return mentionedUserName;
           return name.split(".")?.[0] ?? "UNKNOWN";
         }
-        case "webhook": {
-          if (reference.attachments === null) return null;
-          if (reference.author.username === undefined) return mentionedUserName;
-          return reference.author.username;
-        }
+        case "webhook":
         default: {
-          return mentionedUserName ?? null;
+          return mentionedUserName;
         }
       }
     } catch (error) {
@@ -171,8 +167,14 @@ class MessageHandler {
     return isValid && validChannelIds.includes(message.channel.id);
   }
 
-  getDisplayName(user: GuildMember): string {
-    return user.nickname ?? user.user.globalName ?? user.user.username;
+  getDisplayName(user: GuildMember | User | null): string {
+    if (!user) return "UNKNOWN";
+    if (user instanceof GuildMember) return user.nickname ?? this.getFallbackDisplayName(user.user);
+    return this.getFallbackDisplayName(user);
+  }
+
+  private getFallbackDisplayName(user: User): string {
+    return user.globalName ?? user.username;
   }
 }
 
