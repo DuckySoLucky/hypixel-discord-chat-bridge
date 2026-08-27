@@ -2,6 +2,7 @@ import DiscordCommand from "../private/commands/DiscordCommand.js";
 import DiscordCommandDataBuilder from "../private/commands/DiscordCommandDataBuilder.js";
 import EmbedHelper, { SuccessEmbed } from "../private/EmbedHelper.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
+import prettyMilliseconds from "pretty-ms";
 import { type AutocompleteInteractionWithGuild, type AutocompleteOption, type ChatInputCommandInteractionWithGuild, CommandPermission } from "../../types/discord.js";
 import { titleCaseCamel } from "../../utils/stringUtils.js";
 
@@ -24,8 +25,15 @@ class ForceExecuteScriptCommand extends DiscordCommand {
     const script = this.discord.application.scripts.getScript(scriptName);
     if (!script) throw new HypixelDiscordChatBridgeError("Could not find that script?");
     await interaction.followUp({ embeds: [new EmbedHelper().setDescription(`Executing \`${script.id}\` script`).setDevFooter("Kathund")] });
-    await script.runNow();
-    await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(`Finished executing \`${script.id}\` script`).setDevFooter("Kathund")] });
+    const duration = await script.setUser(interaction.user).runNow();
+    await interaction.followUp({
+      embeds: [
+        new SuccessEmbed()
+          .setDescription(`Finished executing \`${script.id}\` script`)
+          .addFields({ name: "Duration", value: `${duration.toFixed(2)}ms (${prettyMilliseconds(duration)})` })
+          .setDevFooter("Kathund")
+      ]
+    });
   }
 }
 

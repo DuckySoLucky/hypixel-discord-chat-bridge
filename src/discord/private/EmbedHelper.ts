@@ -23,12 +23,12 @@ export default class EmbedHelper extends EmbedBuilder {
     return super.setColor(color as ColorResolvable);
   }
 
-  setDevFooter(data: DevName | DevData | null): this {
+  setDevFooter(data: DevName | DevData | null, message: string = "/help [command] for more information"): this {
     if (data === null) {
       return this.setFooter(null);
     }
     const { username, iconURL } = typeof data === "string" ? CommonDevs[data] : data;
-    return this.setFooter({ text: `by @${username} | /help [command] for more information`, iconURL });
+    return this.setFooter({ text: `by @${username} | ${message}`, iconURL });
   }
 
   setStyle(data: EmbedStyleName | EmbedStyleData): this {
@@ -109,7 +109,8 @@ export class BlacklistEmbed extends SuccessEmbed {
       { name: "Is in Guild", value: guildMember === null ? "UNKNOWN" : guildMember !== undefined ? ":white_check_mark: Yes" : ":x: No" },
       { name: "Blacklist ID", value: user.blacklistId, blockValue: true }
     );
-    this.setDevFooter("Kathund");
+    this.setTimestamp(Date.now());
+    this.setDevFooter("Kathund", "Last Updated");
   }
 }
 
@@ -125,6 +126,7 @@ export class InactivityEmbed extends SuccessEmbed {
     this.addDiscordFields(user.discordId ?? "UNKNOWN");
     this.addMinecraftFields({ formattedNickname: player?.formattedNickname, nickname: player?.nickname, uuid: player?.uuid });
     this.addFields({ name: "Inactivity ID", value: user.inactivityId, blockValue: true });
-    this.setDevFooter("Kathund");
+    this.setTimestamp(Date.now());
+    this.setDevFooter("Kathund", "Last Updated");
   }
 }

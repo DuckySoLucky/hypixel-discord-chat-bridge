@@ -6,7 +6,7 @@ import { type ButtonInteractionWithGuild, ButtonResponse, CommandFlags, CommandP
 
 class RefreshBlacklistButton extends DiscordButton {
   override readonly data = new DiscordButtonData("refreshBlacklist");
-  override readonly response = ButtonResponse.Update;
+  override readonly response = ButtonResponse.Ephemeral;
   override readonly flags = [CommandFlags.BlacklistCommand];
   override readonly permission = CommandPermission.Staff;
 
@@ -14,7 +14,8 @@ class RefreshBlacklistButton extends DiscordButton {
     const blacklistCommand = new BlacklistCommand(this.discord);
     const blacklistUser = await blacklistCommand.getBlacklistedFromBlacklistEmbed(interaction.message);
     if (!blacklistUser) throw new HypixelDiscordChatBridgeError("Unable to find the blacklist user");
-    await interaction.editReply(await this.discord.application.data.blacklist.getBlacklistDataResponse(blacklistUser));
+    await blacklistUser.refreshMessage();
+    await interaction.deleteReply();
   }
 }
 

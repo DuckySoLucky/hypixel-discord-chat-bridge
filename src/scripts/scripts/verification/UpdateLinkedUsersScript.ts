@@ -1,6 +1,6 @@
-import BasicScript from "../BasicScript.js";
-import { ScriptLogState, intervalSchedule } from "../../types/scripts.js";
-import type ScriptManager from "../ScriptsManager.js";
+import BasicScript from "../../BasicScript.js";
+import { ScriptLogState, intervalSchedule } from "../../../types/scripts.js";
+import type ScriptManager from "../../ScriptsManager.js";
 
 class UpdateLinkedUsersScript extends BasicScript {
   constructor(scripts: ScriptManager) {

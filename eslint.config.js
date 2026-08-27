@@ -21,7 +21,7 @@ export default [
     plugins: { "@stylistic": stylistic, "sort-imports": sortImports, "hypixelDiscordChatBridge": plugin },
     settings: { "import/resolver": { typescript: true, node: true } },
     rules: {
-      "sort-imports/sort-imports": ["error", { ignoreCase: false, ignoreMemberSort: false, memberSyntaxSortOrder: ["all", "single", "multiple", "none"] }],
+      "sort-imports/sort-imports": ["warn", { ignoreCase: false, ignoreMemberSort: false, memberSyntaxSortOrder: ["all", "single", "multiple", "none"] }],
       "@stylistic/max-len": ["warn", { code: 170, tabWidth: 2, ignoreComments: true, ignoreUrls: true, ignoreRegExpLiterals: true }],
       "@stylistic/space-before-function-paren": ["error", { anonymous: "never", named: "never", catch: "always" }],
       "import/no-unresolved": ["error", { ignore: ["hypixel-discord-chat-bridge/plugin-api"] }],

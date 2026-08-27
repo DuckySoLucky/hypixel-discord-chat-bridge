@@ -1,6 +1,20 @@
 import ms, { type StringValue } from "ms";
 
-export type ScriptSchedule = { readonly type: "cron"; readonly expression: string } | { readonly type: "interval"; readonly milliseconds: number };
+export interface CronScriptSchedule {
+  readonly type: "cron";
+  readonly expression: string;
+}
+
+export interface IntervalScriptSchedule {
+  readonly type: "interval";
+  readonly milliseconds: number;
+}
+
+export interface EmptyScriptSchedule {
+  readonly type: "empty";
+}
+
+export type ScriptSchedule = CronScriptSchedule | IntervalScriptSchedule | EmptyScriptSchedule;
 
 export interface ScriptOptions {
   readonly id: string;
@@ -15,6 +29,10 @@ export function intervalSchedule(value: string): ScriptSchedule {
 
 export function cronSchedule(expression: string): ScriptSchedule {
   return { type: "cron", expression };
+}
+
+export function emptySchedule(): EmptyScriptSchedule {
+  return { type: "empty" };
 }
 
 export enum ScriptLogState {

@@ -1,4 +1,5 @@
 import EmbedHelper from "../discord/private/EmbedHelper.js";
+import HypixelDiscordChatBridgeError from "../private/error.js";
 import prettyMilliseconds from "pretty-ms";
 import { ScriptLogState, type ScriptOptions } from "../types/scripts.js";
 import { performance } from "node:perf_hooks";
@@ -7,8 +8,10 @@ import { schedule } from "node-cron";
 import type ScriptManager from "./ScriptsManager.js";
 import type { Lifecycle } from "../core/Lifecycle.js";
 import type { ScheduledTask } from "node-cron";
+import type { User } from "discord.js";
 
 abstract class BasicScript implements Lifecycle {
+  #user?: User;
   readonly id: string;
   readonly enabled: boolean;
   private interval?: NodeJS.Timeout;
@@ -25,8 +28,8 @@ abstract class BasicScript implements Lifecycle {
 
   abstract execute(signal: AbortSignal): Promise<void>;
 
-  async runNow(): Promise<void> {
-    await this.runSafely();
+  async runNow(): Promise<number> {
+    return await this.runSafely();
   }
 
   start(): Promise<void> {
@@ -36,14 +39,23 @@ abstract class BasicScript implements Lifecycle {
     }
     if (this.interval || this.cronTask) return Promise.resolve();
 
-    if (this.options.schedule.type === "interval") {
-      const { milliseconds } = this.options.schedule;
-      console.scripts(`Loaded script \`${this.id}\` - executing every ${milliseconds}ms (${prettyMilliseconds(milliseconds)})`);
-      this.interval = setInterval(() => runDetached(this.runSafely()), milliseconds);
-    } else {
-      const { expression } = this.options.schedule;
-      console.scripts(`Loaded script \`${this.id}\` - executing with cron: ${expression}.`);
-      this.cronTask = schedule(expression, () => runDetached(this.runSafely()));
+    switch (this.options.schedule.type) {
+      case "cron": {
+        const { expression } = this.options.schedule;
+        console.scripts(`Loaded script \`${this.id}\` - executing with cron: ${expression}.`);
+        this.cronTask = schedule(expression, () => runDetached(this.runSafely()));
+        break;
+      }
+      case "interval": {
+        const { milliseconds } = this.options.schedule;
+        console.scripts(`Loaded script \`${this.id}\` - executing every ${milliseconds}ms (${prettyMilliseconds(milliseconds)})`);
+        this.interval = setInterval(() => runDetached(this.runSafely()), milliseconds);
+        break;
+      }
+      case "empty":
+      default: {
+        console.scripts(`Loaded script \`${this.id}\` - No execute set`);
+      }
     }
     return Promise.resolve();
   }
@@ -58,10 +70,10 @@ abstract class BasicScript implements Lifecycle {
     return Promise.resolve();
   }
 
-  private async runSafely(): Promise<void> {
+  private async runSafely(): Promise<number> {
     if (this.running && this.options.overlap !== "allow") {
       console.scripts(`Skipped script \`${this.id}\` because its previous execution is still running.`);
-      return;
+      return -1;
     }
 
     this.running = true;
@@ -82,6 +94,7 @@ abstract class BasicScript implements Lifecycle {
       }
       this.running = false;
       this.abortController = undefined;
+      return durationMs;
     }
   }
 
@@ -94,6 +107,24 @@ abstract class BasicScript implements Lifecycle {
     else if (state === ScriptLogState.Bad) embed.setColor("Red");
     else if (state === ScriptLogState.Misc) embed.setColor("Blue");
     await channel.send({ content: `Log from script: \`${this.id}\``, embeds: [embed] });
+  }
+
+  setUser(user: User): this {
+    this.#user = user;
+    setTimeout(() => runDetached(this.resetUser()), 15000);
+    return this;
+  }
+
+  private async resetUser() {
+    this.#user = undefined;
+  }
+
+  getUser(): User {
+    if (this.#user) return this.#user;
+    if (!this.scripts.application.discord.isClientOnline()) {
+      throw new HypixelDiscordChatBridgeError("The discord bot doesn't seam to be online? Please restart the application");
+    }
+    return this.scripts.application.discord.client.user;
   }
 }
 

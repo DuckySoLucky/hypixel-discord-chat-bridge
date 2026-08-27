@@ -46,12 +46,7 @@ class BlacklistUser extends GenericData<BlacklistedUserData, BlacklistManager> {
     const blacklistData = await this.manager.getBlacklistDataResponse(this);
 
     if (this.messageId) {
-      const message = await channel.messages.fetch(this.messageId).catch(() => null);
-      if (!message) {
-        this.messageId = undefined;
-        return await this.handleSave({ alertUser, shareUser, user });
-      }
-      await message.edit(blacklistData);
+      await this.refreshMessage();
       return this;
     }
 
@@ -156,6 +151,16 @@ class BlacklistUser extends GenericData<BlacklistedUserData, BlacklistManager> {
     if (!this.uuid) return undefined;
     const guild = hypixelGuild ?? (await this.manager.data.application.getBotGuild());
     return guild.members.find((member) => member.uuid === this.uuid);
+  }
+
+  async refreshMessage() {
+    if (!this.messageId) return;
+    const channel = await this.manager.data.application.discord.getChannel("Logger-Blacklist");
+    if (!channel || !channel.isSendable()) return this;
+    const message = await channel.messages.fetch(this.messageId).catch(() => null);
+    if (!message) return;
+    const blacklistData = await this.manager.getBlacklistDataResponse(this);
+    await message.edit(blacklistData);
   }
 
   override toJSON(): BlacklistedUserData {

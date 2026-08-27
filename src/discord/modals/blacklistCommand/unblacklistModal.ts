@@ -18,7 +18,7 @@ class UnblacklistModal extends DiscordModal {
     const reason = interaction.fields.getTextInputValue("unblacklistReason") ?? "No reason provided";
     const alertUser = this.discord.application.config.blacklist.notifications.onBlacklistChange.enabled;
     const shareUser = this.discord.application.config.blacklist.notifications.onBlacklistChange.shareBlacklister;
-    await blacklistUser.delete({ alertUser, shareUser, user: interaction.user, reason: reason.length > 0 ? reason : "No reason provided" });
+    await blacklistUser.delete({ alertUser, shareUser, user: interaction.user, reason });
     await interaction.followUp({ embeds: [new SuccessEmbed().setDescription("User has been unblacklisted").setDevFooter("Kathund")] });
   }
 }
