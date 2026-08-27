@@ -1,4 +1,5 @@
 import type MinecraftManager from "../minecraft/MinecraftManager.js";
+import type RawRequestData from "hypixel-api-reborn/dist/Private/RawRequestData.js";
 import type { Client } from "minecraft-protocol";
 import type { DiscordManagerWithBot } from "./discord.js";
 import type { SkyBlockProfile, SkyBlockProfileName, SkyblockProfileWithMe, WithSelectedProfile } from "hypixel-api-reborn";
@@ -51,6 +52,7 @@ export interface SelectedProfileData {
   uuid: string;
   profile: SkyblockProfileWithMe;
   profiles: WithSelectedProfile<Map<SkyBlockProfileName | "UNKNOWN", SkyBlockProfile>>;
+  raw: RawRequestData<any>;
 }
 
 export const BedWarsModeNames = ["overall", "solo", "doubles", "threes", "fours", "4v4"] as const;

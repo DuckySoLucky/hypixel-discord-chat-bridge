@@ -30,9 +30,9 @@ export async function getSelectedProfile(input: string, options?: LatestProfileO
   const profile = await MowojangAPI.getProfile(input);
   if (profile.error || !profile.data) throw new HypixelDiscordChatBridgeError("Player does not exist");
   const { UUID: uuid, username } = profile.data;
-  const { parsed: profiles } = await HypixelAPIReborn.getSkyBlockProfiles(uuid, { garden: options?.garden ?? false, museum: options?.museum ?? false });
+  const { parsed: profiles, raw } = await HypixelAPIReborn.getSkyBlockProfiles(uuid, { garden: options?.garden ?? false, museum: options?.museum ?? false });
   if (!profiles.selectedProfile) throw new HypixelDiscordChatBridgeError(`${uuid} has no selected SkyBlock profile.`);
-  return { username: formatUsername(username, profiles.selectedProfile.gameMode), rawUsername: username, uuid, profile: profiles.selectedProfile, profiles };
+  return { username: formatUsername(username, profiles.selectedProfile.gameMode), rawUsername: username, uuid, profile: profiles.selectedProfile, profiles, raw };
 }
 
 export async function getNetWorthCalculator(profile: SkyblockProfileWithMe): Promise<ProfileNetworthCalculator> {

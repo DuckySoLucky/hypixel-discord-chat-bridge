@@ -1,7 +1,7 @@
 import MinecraftCommand from "../private/commands/MinecraftCommand.js";
 import MinecraftCommandData from "../private/commands/MinecraftCommandData.js";
 import MinecraftCommandDataOption from "../private/commands/MinecraftCommandDataOption.js";
-import { formatNumber } from "../../utils/stringUtils.js";
+import { formatNumber, titleCase } from "../../utils/stringUtils.js";
 import { getSelectedProfile } from "../../utils/hypixelUtils.js";
 
 // CREDITS: by @Kathund (https://github.com/Kathund)
@@ -16,12 +16,15 @@ class ChocolateFactoryCommand extends MinecraftCommand {
     player = this.getArgs(message)[0] || player;
     const { username, profile } = await getSelectedProfile(player);
     const { prestige, totalChocolate, currentChocolate, employees } = profile.me.chocolateFactory;
-    const { bro, cousin, sis, father, grandma, dog, uncle } = employees;
+    const formattedEmployees = Object.entries(employees)
+      .map(([name, level]) => ({ name, level }))
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .map(({ name, level }) => `${titleCase(name)}: ${formatNumber(level)}`);
 
     await this.send(
       `${username}'s Chocolate Prestige: ${prestige} | Chocolate: ${formatNumber(currentChocolate)} | Total Chocolate: ${formatNumber(
         totalChocolate
-      )} | Employees: Bro: ${bro}, Cousin: ${cousin}, Sis: ${sis}, Father: ${father}, Grandma: ${grandma}, Dog: ${dog}, Uncle: ${uncle}`
+      )} | Employees: ${formattedEmployees.join(", ")}`
     );
   }
 }

@@ -14,16 +14,13 @@ class EssenceCommand extends MinecraftCommand {
   override async execute(player: string, message: string) {
     player = this.getArgs(message)[0] || player;
     const { username, profile } = await getSelectedProfile(player);
-    const essenceString = Object.entries(profile.me.currencies)
+    const formattedEssence = Object.entries(profile.me.currencies)
       .filter(([key]) => key.endsWith("Essence"))
-      .sort(([a], [b]) => a.localeCompare(b))
-      .map(([key, value]) => {
-        const name = key.replace("Essence", "");
-        return `${titleCase(name)}: ${formatNumber(value as number)}`;
-      })
-      .join(", ");
+      .map(([name, stat]) => ({ name: name.replaceAll("Essence", ""), stat }))
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .map(({ name, stat }) => `${titleCase(name)}: ${formatNumber(stat)}`);
 
-    await this.send(`${username}'s Essence: ${essenceString}`);
+    await this.send(`${username}'s Essence: ${formattedEssence.join(", ")}`);
   }
 }
 
