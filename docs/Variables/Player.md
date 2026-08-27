@@ -242,73 +242,221 @@ guild. Anyone outside will have 0
 
 `{skyblockSkillsNonCosmeticAverageLevel}` - Player's SkyBlock Average Level
 
-`{skyblockSkillsFarmingLevel}` - Player's SkyBlock Farming Level
-
-`{skyblockSkillsMiningLevel}` - Player's SkyBlock Mining Level
-
-`{skyblockSkillsCombatLevel}` - Player's SkyBlock Combat Level
-
-`{skyblockSkillsForagingLevel}` - Player's SkyBlock Foraging Level
-
-`{skyblockSkillsFishingLevel}` - Player's SkyBlock Fishing Level
-
-`{skyblockSkillsEnchantingLevel}` - Player's SkyBlock Enchanting Level
+`{skyblockSkillsAlchemyXp}` - Player's SkyBlock Alchemy Xp
 
 `{skyblockSkillsAlchemyLevel}` - Player's SkyBlock Alchemy Level
 
-`{skyblockSkillsCarpentryLevel}` - Player's SkyBlock Carpentry Level
+`{skyblockSkillsAlchemyLevelWithProgress}` - Player's SkyBlock Alchemy Level With Progress
 
-`{skyblockSkillsRunecraftingLevel}` - Player's SkyBlock Runecrafting Level
+`{skyblockSkillsAlchemyLevelOverflow}` - Player's SkyBlock Alchemy Overflow Level
 
-`{skyblockSkillsSocialLevel}` - Player's SkyBlock Social Level
-
-`{skyblockSkillsTamingLevel}` - Player's SkyBlock Taming Level
-
-`{skyblockSkillsFarmingXp}` - Player's SkyBlock Farming Xp
-
-`{skyblockSkillsMiningXp}` - Player's SkyBlock Mining Xp
-
-`{skyblockSkillsCombatXp}` - Player's SkyBlock Combat Xp
-
-`{skyblockSkillsForagingXp}` - Player's SkyBlock Foraging Xp
-
-`{skyblockSkillsFishingXp}` - Player's SkyBlock Fishing Xp
-
-`{skyblockSkillsEnchantingXp}` - Player's SkyBlock Enchanting Xp
-
-`{skyblockSkillsAlchemyXp}` - Player's SkyBlock Alchemy Xp
+`{skyblockSkillsAlchemyLevelOverflowWithProgress}` - Player's SkyBlock Alchemy Overflow Level With Progress
 
 `{skyblockSkillsCarpentryXp}` - Player's SkyBlock Carpentry Xp
 
+`{skyblockSkillsCarpentryLevel}` - Player's SkyBlock Carpentry Level
+
+`{skyblockSkillsCarpentryLevelWithProgress}` - Player's SkyBlock Carpentry Level With Progress
+
+`{skyblockSkillsCarpentryLevelOverflow}` - Player's SkyBlock Carpentry Overflow Level
+
+`{skyblockSkillsCarpentryLevelOverflowWithProgress}` - Player's SkyBlock Carpentry Overflow Level With Progress
+
+`{skyblockSkillsCombatXp}` - Player's SkyBlock Combat Xp
+
+`{skyblockSkillsCombatLevel}` - Player's SkyBlock Combat Level
+
+`{skyblockSkillsCombatLevelWithProgress}` - Player's SkyBlock Combat Level With Progress
+
+`{skyblockSkillsCombatLevelOverflow}` - Player's SkyBlock Combat Overflow Level
+
+`{skyblockSkillsCombatLevelOverflowWithProgress}` - Player's SkyBlock Combat Overflow Level With Progress
+
+`{skyblockSkillsEnchantingXp}` - Player's SkyBlock Enchanting Xp
+
+`{skyblockSkillsEnchantingLevel}` - Player's SkyBlock Enchanting Level
+
+`{skyblockSkillsEnchantingLevelWithProgress}` - Player's SkyBlock Enchanting Level With Progress
+
+`{skyblockSkillsEnchantingLevelOverflow}` - Player's SkyBlock Enchanting Overflow Level
+
+`{skyblockSkillsEnchantingLevelOverflowWithProgress}` - Player's SkyBlock Enchanting Overflow Level With Progress
+
+`{skyblockSkillsFarmingXp}` - Player's SkyBlock Farming Xp
+
+`{skyblockSkillsFarmingLevel}` - Player's SkyBlock Farming Level
+
+`{skyblockSkillsFarmingLevelWithProgress}` - Player's SkyBlock Farming Level With Progress
+
+`{skyblockSkillsFarmingLevelOverflow}` - Player's SkyBlock Farming Overflow Level
+
+`{skyblockSkillsFarmingLevelOverflowWithProgress}` - Player's SkyBlock Farming Overflow Level With Progress
+
+`{skyblockSkillsFishingXp}` - Player's SkyBlock Fishing Xp
+
+`{skyblockSkillsFishingLevel}` - Player's SkyBlock Fishing Level
+
+`{skyblockSkillsFishingLevelWithProgress}` - Player's SkyBlock Fishing Level With Progress
+
+`{skyblockSkillsFishingLevelOverflow}` - Player's SkyBlock Fishing Overflow Level
+
+`{skyblockSkillsFishingLevelOverflowWithProgress}` - Player's SkyBlock Fishing Overflow Level With Progress
+
+`{skyblockSkillsForagingXp}` - Player's SkyBlock Foraging Xp
+
+`{skyblockSkillsForagingLevel}` - Player's SkyBlock Foraging Level
+
+`{skyblockSkillsForagingLevelWithProgress}` - Player's SkyBlock Foraging Level With Progress
+
+`{skyblockSkillsForagingLevelOverflow}` - Player's SkyBlock Foraging Overflow Level
+
+`{skyblockSkillsForagingLevelOverflowWithProgress}` - Player's SkyBlock Foraging Overflow Level With Progress
+
+`{skyblockSkillsHuntingXp}` - Player's SkyBlock Hunting Xp
+
+`{skyblockSkillsHuntingLevel}` - Player's SkyBlock Hunting Level
+
+`{skyblockSkillsHuntingLevelWithProgress}` - Player's SkyBlock Hunting Level With Progress
+
+`{skyblockSkillsHuntingLevelOverflow}` - Player's SkyBlock Hunting Overflow Level
+
+`{skyblockSkillsHuntingLevelOverflowWithProgress}` - Player's SkyBlock Hunting Overflow Level With Progress
+
+`{skyblockSkillsMiningXp}` - Player's SkyBlock Mining Xp
+
+`{skyblockSkillsMiningLevel}` - Player's SkyBlock Mining Level
+
+`{skyblockSkillsMiningLevelWithProgress}` - Player's SkyBlock Mining Level With Progress
+
+`{skyblockSkillsMiningLevelOverflow}` - Player's SkyBlock Mining Overflow Level
+
+`{skyblockSkillsMiningLevelOverflowWithProgress}` - Player's SkyBlock Mining Overflow Level With Progress
+
 `{skyblockSkillsRunecraftingXp}` - Player's SkyBlock Runecrafting Xp
+
+`{skyblockSkillsRunecraftingLevel}` - Player's SkyBlock Runecrafting Level
+
+`{skyblockSkillsRunecraftingLevelWithProgress}` - Player's SkyBlock Runecrafting Level With Progress
+
+`{skyblockSkillsRunecraftingLevelOverflow}` - Player's SkyBlock Runecrafting Overflow Level
+
+`{skyblockSkillsRunecraftingLevelOverflowWithProgress}` - Player's SkyBlock Runecrafting Overflow Level With Progress
 
 `{skyblockSkillsSocialXp}` - Player's SkyBlock Social Xp
 
+`{skyblockSkillsSocialLevel}` - Player's SkyBlock Social Level
+
+`{skyblockSkillsSocialLevelWithProgress}` - Player's SkyBlock Social Level With Progress
+
+`{skyblockSkillsSocialLevelOverflow}` - Player's SkyBlock Social Overflow Level
+
+`{skyblockSkillsSocialLevelOverflowWithProgress}` - Player's SkyBlock Social Overflow Level With Progress
+
 `{skyblockSkillsTamingXp}` - Player's SkyBlock Taming Xp
 
-`{skyblockSlayerZombieLevel}` - Player's SkyBlock Zombie Slayer Level
+`{skyblockSkillsTamingLevel}` - Player's SkyBlock Taming Level
 
-`{skyblockSlayerSpiderLevel}` - Player's SkyBlock Spider Slayer Level
+`{skyblockSkillsTamingLevelWithProgress}` - Player's SkyBlock Taming Level With Progress
 
-`{skyblockSlayerWolfLevel}` - Player's SkyBlock Wolf Slayer Level
+`{skyblockSkillsTamingLevelOverflow}` - Player's SkyBlock Taming Overflow Level
 
-`{skyblockSlayerEndermanLevel}` - Player's SkyBlock Enderman Slayer Level
-
-`{skyblockSlayerBlazeLevel}` - Player's SkyBlock Blaze Slayer Level
-
-`{skyblockSlayerVampireLevel}` - Player's SkyBlock Vampire Slayer Level
-
-`{skyblockSlayerZombieXp}` - Player's SkyBlock Zombie Slayer Xp
-
-`{skyblockSlayerSpiderXp}` - Player's SkyBlock Spider Slayer Xp
-
-`{skyblockSlayerWolfXp}` - Player's SkyBlock Wolf Slayer Xp
-
-`{skyblockSlayerEndermanXp}` - Player's SkyBlock Enderman Slayer Xp
+`{skyblockSkillsTamingLevelOverflowWithProgress}` - Player's SkyBlock Taming Overflow Level With Progress
 
 `{skyblockSlayerBlazeXp}` - Player's SkyBlock Blaze Slayer Xp
 
+`{skyblockSlayerBlazeLevel}` - Player's SkyBlock Blaze Slayer Level
+
+`{skyblockSlayerBlazeLevelWithProgress}` - Player's SkyBlock Blaze Slayer Level With Progress
+
+`{skyblockSlayerBlazeTier1Kills}` - Player's SkyBlock Blaze Slayer Tier 1 Kills
+
+`{skyblockSlayerBlazeTier2Kills}` - Player's SkyBlock Blaze Slayer Tier 2 Kills
+
+`{skyblockSlayerBlazeTier3Kills}` - Player's SkyBlock Blaze Slayer Tier 3 Kills
+
+`{skyblockSlayerBlazeTier4Kills}` - Player's SkyBlock Blaze Slayer Tier 4 Kills
+
+`{skyblockSlayerBlazeTier5Kills}` - Player's SkyBlock Blaze Slayer Tier 5 Kills
+
+`{skyblockSlayerEndermanXp}` - Player's SkyBlock Enderman Slayer Xp
+
+`{skyblockSlayerEndermanLevel}` - Player's SkyBlock Enderman Slayer Level
+
+`{skyblockSlayerEndermanLevelWithProgress}` - Player's SkyBlock Enderman Slayer Level With Progress
+
+`{skyblockSlayerEndermanTier1Kills}` - Player's SkyBlock Enderman Slayer Tier 1 Kills
+
+`{skyblockSlayerEndermanTier2Kills}` - Player's SkyBlock Enderman Slayer Tier 2 Kills
+
+`{skyblockSlayerEndermanTier3Kills}` - Player's SkyBlock Enderman Slayer Tier 3 Kills
+
+`{skyblockSlayerEndermanTier4Kills}` - Player's SkyBlock Enderman Slayer Tier 4 Kills
+
+`{skyblockSlayerEndermanTier5Kills}` - Player's SkyBlock Enderman Slayer Tier 5 Kills
+
+`{skyblockSlayerSpiderXp}` - Player's SkyBlock Spider Slayer Xp
+
+`{skyblockSlayerSpiderLevel}` - Player's SkyBlock Spider Slayer Level
+
+`{skyblockSlayerSpiderLevelWithProgress}` - Player's SkyBlock Spider Slayer Level With Progress
+
+`{skyblockSlayerSpiderTier1Kills}` - Player's SkyBlock Spider Slayer Tier 1 Kills
+
+`{skyblockSlayerSpiderTier2Kills}` - Player's SkyBlock Spider Slayer Tier 2 Kills
+
+`{skyblockSlayerSpiderTier3Kills}` - Player's SkyBlock Spider Slayer Tier 3 Kills
+
+`{skyblockSlayerSpiderTier4Kills}` - Player's SkyBlock Spider Slayer Tier 4 Kills
+
+`{skyblockSlayerSpiderTier5Kills}` - Player's SkyBlock Spider Slayer Tier 5 Kills
+
 `{skyblockSlayerVampireXp}` - Player's SkyBlock Vampire Slayer Xp
+
+`{skyblockSlayerVampireLevel}` - Player's SkyBlock Vampire Slayer Level
+
+`{skyblockSlayerVampireLevelWithProgress}` - Player's SkyBlock Vampire Slayer Level With Progress
+
+`{skyblockSlayerVampireTier1Kills}` - Player's SkyBlock Vampire Slayer Tier 1 Kills
+
+`{skyblockSlayerVampireTier2Kills}` - Player's SkyBlock Vampire Slayer Tier 2 Kills
+
+`{skyblockSlayerVampireTier3Kills}` - Player's SkyBlock Vampire Slayer Tier 3 Kills
+
+`{skyblockSlayerVampireTier4Kills}` - Player's SkyBlock Vampire Slayer Tier 4 Kills
+
+`{skyblockSlayerVampireTier5Kills}` - Player's SkyBlock Vampire Slayer Tier 5 Kills
+
+`{skyblockSlayerWolfXp}` - Player's SkyBlock Wolf Slayer Xp
+
+`{skyblockSlayerWolfLevel}` - Player's SkyBlock Wolf Slayer Level
+
+`{skyblockSlayerWolfLevelWithProgress}` - Player's SkyBlock Wolf Slayer Level With Progress
+
+`{skyblockSlayerWolfTier1Kills}` - Player's SkyBlock Wolf Slayer Tier 1 Kills
+
+`{skyblockSlayerWolfTier2Kills}` - Player's SkyBlock Wolf Slayer Tier 2 Kills
+
+`{skyblockSlayerWolfTier3Kills}` - Player's SkyBlock Wolf Slayer Tier 3 Kills
+
+`{skyblockSlayerWolfTier4Kills}` - Player's SkyBlock Wolf Slayer Tier 4 Kills
+
+`{skyblockSlayerWolfTier5Kills}` - Player's SkyBlock Wolf Slayer Tier 5 Kills
+
+`{skyblockSlayerZombieXp}` - Player's SkyBlock Zombie Slayer Xp
+
+`{skyblockSlayerZombieLevel}` - Player's SkyBlock Zombie Slayer Level
+
+`{skyblockSlayerZombieLevelWithProgress}` - Player's SkyBlock Zombie Slayer Level With Progress
+
+`{skyblockSlayerZombieTier1Kills}` - Player's SkyBlock Zombie Slayer Tier 1 Kills
+
+`{skyblockSlayerZombieTier2Kills}` - Player's SkyBlock Zombie Slayer Tier 2 Kills
+
+`{skyblockSlayerZombieTier3Kills}` - Player's SkyBlock Zombie Slayer Tier 3 Kills
+
+`{skyblockSlayerZombieTier4Kills}` - Player's SkyBlock Zombie Slayer Tier 4 Kills
+
+`{skyblockSlayerZombieTier5Kills}` - Player's SkyBlock Zombie Slayer Tier 5 Kills
 
 `{skyblockDungeonsSecrets}` - Player's SkyBlock Dungeons Secrets
 
@@ -316,27 +464,59 @@ guild. Anyone outside will have 0
 
 `{skyblockDungeonsLevel}` - Player's SkyBlock Dungeons Level
 
+`{skyblockDungeonsLevelWithProgress}` - Player's SkyBlock Dungeons Level With Progress
+
 `{skyblockDungeonsClassAverageLevel}` - Player's SkyBlock Dungeons Class Average Level
-
-`{skyblockDungeonsClassHealerLevel}` - Player's SkyBlock Dungeons Healer Class Level
-
-`{skyblockDungeonsClassMageLevel}` - Player's SkyBlock Dungeons Mage Class Level
-
-`{skyblockDungeonsClassBerserkLevel}` - Player's SkyBlock Dungeons Berserk Class Level
-
-`{skyblockDungeonsClassArcherLevel}` - Player's SkyBlock Dungeons Archer Class Level
-
-`{skyblockDungeonsClassTankLevel}` - Player's SkyBlock Dungeons Tank Class Level
-
-`{skyblockDungeonsClassHealerXp}` - Player's SkyBlock Dungeons Healer Class Xp
-
-`{skyblockDungeonsClassMageXp}` - Player's SkyBlock Dungeons Mage Class Xp
-
-`{skyblockDungeonsClassBerserkXp}` - Player's SkyBlock Dungeons Berserk Class Xp
 
 `{skyblockDungeonsClassArcherXp}` - Player's SkyBlock Dungeons Archer Class Xp
 
+`{skyblockDungeonsClassArcherLevel}` - Player's SkyBlock Dungeons Archer Class Level
+
+`{skyblockDungeonsClassArcherLevelWithProgress}` - Player's SkyBlock Dungeons Archer Class Level With Progress
+
+`{skyblockDungeonsClassArcherLevelOverflow}` - Player's SkyBlock Dungeons Archer Class Overflow Level
+
+`{skyblockDungeonsClassArcherLevelOverflowWithProgress}` - Player's SkyBlock Dungeons Archer Class Overflow Level With Progress
+
+`{skyblockDungeonsClassBerserkXp}` - Player's SkyBlock Dungeons Berserk Class Xp
+
+`{skyblockDungeonsClassBerserkLevel}` - Player's SkyBlock Dungeons Berserk Class Level
+
+`{skyblockDungeonsClassBerserkLevelWithProgress}` - Player's SkyBlock Dungeons Berserk Class Level With Progress
+
+`{skyblockDungeonsClassBerserkLevelOverflow}` - Player's SkyBlock Dungeons Berserk Class Overflow Level
+
+`{skyblockDungeonsClassBerserkLevelOverflowWithProgress}` - Player's SkyBlock Dungeons Berserk Class Overflow Level With Progress
+
+`{skyblockDungeonsClassHealerXp}` - Player's SkyBlock Dungeons Healer Class Xp
+
+`{skyblockDungeonsClassHealerLevel}` - Player's SkyBlock Dungeons Healer Class Level
+
+`{skyblockDungeonsClassHealerLevelWithProgress}` - Player's SkyBlock Dungeons Healer Class Level With Progress
+
+`{skyblockDungeonsClassHealerLevelOverflow}` - Player's SkyBlock Dungeons Healer Class Overflow Level
+
+`{skyblockDungeonsClassHealerLevelOverflowWithProgress}` - Player's SkyBlock Dungeons Healer Class Overflow Level With Progress
+
+`{skyblockDungeonsClassMageXp}` - Player's SkyBlock Dungeons Mage Class Xp
+
+`{skyblockDungeonsClassMageLevel}` - Player's SkyBlock Dungeons Mage Class Level
+
+`{skyblockDungeonsClassMageLevelWithProgress}` - Player's SkyBlock Dungeons Mage Class Level With Progress
+
+`{skyblockDungeonsClassMageLevelOverflow}` - Player's SkyBlock Dungeons Mage Class Overflow Level
+
+`{skyblockDungeonsClassMageLevelOverflowWithProgress}` - Player's SkyBlock Dungeons Mage Class Overflow Level With Progress
+
 `{skyblockDungeonsClassTankXp}` - Player's SkyBlock Dungeons Tank Class Xp
+
+`{skyblockDungeonsClassTankLevel}` - Player's SkyBlock Dungeons Tank Class Level
+
+`{skyblockDungeonsClassTankLevelWithProgress}` - Player's SkyBlock Dungeons Tank Class Level With Progress
+
+`{skyblockDungeonsClassTankLevelOverflow}` - Player's SkyBlock Dungeons Tank Class Overflow Level
+
+`{skyblockDungeonsClassTankLevelOverflowWithProgress}` - Player's SkyBlock Dungeons Tank Class Overflow Level With Progress
 
 `{skyblockDungeonsEssenceDiamond}` - Player's SkyBlock Dungeons Essence Diamond
 
@@ -478,7 +658,7 @@ guild. Anyone outside will have 0
 
 ---
 
-This document is [auto generated](/scripts/docs/Variables/Player.ts) and was last updated on `Wed, 26 Aug 2026 02:03:24 GMT` (`1787709804822`)
+This document is [auto generated](/scripts/docs/Variables/Player.ts) and was last updated on `Thu, 27 Aug 2026 04:07:21 GMT` (`1787803641416`)
 
 To update this document please run `pnpm docgen` or contact a maintainer and ask them to update it.
 
