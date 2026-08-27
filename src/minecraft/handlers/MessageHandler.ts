@@ -498,7 +498,7 @@ class MessageHandler {
     if (!match || !match?.groups || !match.groups.message || !match.groups.chatType || !match.groups.username) return;
 
     if (this.isDiscordMessage(match.groups.message) === false) {
-      const { chatType, rank, username, guildRank = "[Member]", message } = match.groups;
+      const { chatType, rank = "", username, guildRank = "[Member]", message } = match.groups;
       if (message.includes("replying to") && username === this.minecraft.bot.username) {
         return;
       }
