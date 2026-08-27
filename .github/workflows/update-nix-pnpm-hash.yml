@@ -1,0 +1,48 @@
+name: Update nix pnpm hash
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  nix-update:
+    name: Check for pnpm hash update inside of nix package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Run nix update
+        run: |
+          nix run nixpkgs#nix-update -- \
+            --flake \
+            --version=skip \
+            bridgebot
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create pull request
+        if: steps.changes.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore(nix): Bump pnpm dep hash"
+          title: "chore(nix): Bump pnpm dep hash"
+          branch: nix-update/pnpm-deps
+          delete-branch: true
