@@ -69,8 +69,8 @@ importers:
         specifier: 3.13.0
         version: 3.13.0
       skyhelper-networth:
-        specifier: 2.8.0
-        version: 2.8.0(debug@4.4.3(supports-color@5.5.0))(supports-color@5.5.0)
+        specifier: 2.9.0
+        version: 2.9.0(debug@4.4.3(supports-color@5.5.0))(supports-color@5.5.0)
       winston:
         specifier: 3.19.0
         version: 3.19.0
@@ -2374,8 +2374,8 @@ packages:
     resolution: {integrity: sha512-kUMbT1oBJCpgrnKoSr0o6wPtvRWT9W9UKvGLwfJYO2WuahZRHOpEyL1ckyMGgMWh0UdpmaoFqKKD29WTomNEGA==}
     engines: {node: '>=8'}
 
-  skyhelper-networth@2.8.0:
-    resolution: {integrity: sha512-vtqwIDIxDB/MfFyF6IOyTgP905krPJeAqWY0MwvQ/5T/vQnSLnM1uARguRi0XIZKAHGbzBdfIYfL8bZ6ofWJ3A==}
+  skyhelper-networth@2.9.0:
+    resolution: {integrity: sha512-V19GepW+9J6aiQFbq8ZwF31KVdQPUbh7AJ1hVJN8O10XIWWXPzQPYz4N4Tx5ZtRyAqY4HRv864m8s5CjX1KZLA==}
 
   smart-buffer@4.2.0:
     resolution: {integrity: sha512-94hK0Hh8rPqQl2xXc3HsaBoOXKV20MToPkcXvwbISWLEs+64sBq5kFgn2kJDHb1Pry9yrP0dxrCI9RRci7RXKg==}
@@ -5164,7 +5164,7 @@ snapshots:
     dependencies:
       unicode-emoji-modifier-base: 1.0.0
 
-  skyhelper-networth@2.8.0(debug@4.4.3(supports-color@5.5.0))(supports-color@5.5.0):
+  skyhelper-networth@2.9.0(debug@4.4.3(supports-color@5.5.0))(supports-color@5.5.0):
     dependencies:
       axios: 1.19.0(debug@4.4.3(supports-color@5.5.0))(supports-color@5.5.0)
       prismarine-nbt: 2.8.0
