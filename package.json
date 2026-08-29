@@ -20,7 +20,7 @@
     "prettier:check": "pnpm exec prettier --check .",
     "build": "pnpm exec tsc --build",
     "dev": "pnpm exec nodemon",
-    "check": "pnpm install --frozen-lockfile && pnpm prettier && pnpm eslint && pnpm build",
+    "check": "pnpm install --frozen-lockfile && pnpm prettier && pnpm eslint && pnpm docgen && pnpm validate && pnpm build",
     "generate:config": "pnpm exec tsx scripts/generateConfig.ts",
     "docgen": "pnpm docgen:docs && pnpm docgen:packageScripts",
     "docgen:docs": "pnpm exec tsx scripts/generateDocs.ts",
