@@ -2,23 +2,29 @@ import GenericManager from "../GenericManager.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import LinkedUser from "./LinkedUser.js";
 import MowojangAPI from "../../private/MowojangAPI.js";
+import { type LinkedData, LinkedDataSchema, type LinkedUserData, type OldFormat } from "../../types/linked.js";
 import { access, readFile, writeFile } from "node:fs/promises";
 import { getNetWorth, getPlayer, getSelectedProfile } from "../../utils/hypixelUtils.js";
 import type DataManager from "../DataManager.js";
 import type { Guild, Player, SkyblockProfileWithMe } from "hypixel-api-reborn";
-import type { LinkedData, LinkedUserData, OldFormat } from "../../types/linked.js";
 import type { PlayerVariableStats } from "../../private/constants.js";
 
 class LinkedManager extends GenericManager<LinkedUserData, LinkedData, LinkedUser> {
   constructor(data: DataManager) {
-    super(data, "data/linked.json", "linked", []);
-    this.checkData();
+    super(data, "data/linked.json", "linked", [], LinkedDataSchema);
+  }
+
+  override async start(): Promise<void> {
+    await super.start();
+    await this.checkData();
   }
 
   private isNewFormat(data: unknown): data is LinkedUserData[] {
     return (
       Array.isArray(data) &&
-      data.every((item) => typeof item === "object" && item !== null && typeof (item as any).uuid === "string" && typeof (item as any).discordId === "string")
+      data.every(
+        (item) => typeof item === "object" && item !== null && typeof Reflect.get(item, "uuid") === "string" && typeof Reflect.get(item, "discordId") === "string"
+      )
     );
   }
 
@@ -61,8 +67,24 @@ class LinkedManager extends GenericManager<LinkedUserData, LinkedData, LinkedUse
     return data.map((user) => new LinkedUser(user, this));
   }
 
+  protected override getId(data: LinkedUser): string {
+    return `${data.uuid}:${data.discordId}`;
+  }
+
   async writeUsersParsed(users: LinkedUser[]): Promise<LinkedUser[]> {
     return await this.writeData(users.map((user) => user.toJSON()));
+  }
+
+  async addUser(user: LinkedUser): Promise<LinkedUser> {
+    const users = await this.mutateData((data) => {
+      const exists = data.some((item) => item.uuid === user.uuid || item.discordId === user.discordId);
+      return exists ? data : [...data, user.toJSON()];
+    });
+    return users.find((item) => item.uuid === user.uuid || item.discordId === user.discordId) ?? user;
+  }
+
+  async deleteUser(user: LinkedUser): Promise<LinkedUser[]> {
+    return await this.mutateData((data) => data.filter((item) => item.uuid !== user.uuid && item.discordId !== user.discordId));
   }
 
   async getUserByDiscordId(discordId: string): Promise<LinkedUser | undefined> {
@@ -113,6 +135,8 @@ class LinkedManager extends GenericManager<LinkedUserData, LinkedData, LinkedUse
       level: Math.floor(player.level.level),
       karma: Math.floor(player.karma),
       achievementPoints: Math.floor(player.achievements.points),
+      guildWeeklyXp: guildMember?.weeklyExperience ?? 0,
+      guildCurrentDayXp: guildMember?.expHistory?.[0]?.exp ?? 0,
       guildRank: guildMember?.rank ?? "",
       guildName: hypixelGuild.name,
 
@@ -212,17 +236,17 @@ class LinkedManager extends GenericManager<LinkedUserData, LinkedData, LinkedUse
       skywarsKDRatio: Math.floor(player.stats.SkyWars.kills.total.ratio),
       skywarsWins: Math.floor(player.stats.SkyWars.wins),
       skywarsLosses: Math.floor(player.stats.SkyWars.losses),
-      skywarsWLRatio: Math.floor(player.stats.SkyWars.WLRatio),
+      skywarsWLRatio: Math.floor(player.stats.SkyWars.winLossRatio),
       skywarsPlayedGames: Math.floor(player.stats.SkyWars.gamesPlayed),
 
       duelsDivision: player.stats.Duels.title ?? "",
       duelsKills: Math.floor(player.stats.Duels.kills),
       duelsDeaths: Math.floor(player.stats.Duels.deaths),
-      duelsKDRatio: Math.floor(player.stats.Duels.KDR),
+      duelsKDRatio: Math.floor(player.stats.Duels.killDeathRatio),
       duelsWins: Math.floor(player.stats.Duels.wins),
       duelsLosses: Math.floor(player.stats.Duels.losses),
-      duelsWLRatio: Math.floor(player.stats.Duels.WLR),
-      duelsPlayedGames: Math.floor(player.stats.Duels.playedGames),
+      duelsWLRatio: Math.floor(player.stats.Duels.winLossRatio),
+      duelsPlayedGames: Math.floor(player.stats.Duels.roundsPlayed),
 
       skyblockBank: Math.floor(networth?.bank ?? 0),
       skyblockPurse: Math.floor(networth?.purse ?? 0),
@@ -230,60 +254,168 @@ class LinkedManager extends GenericManager<LinkedUserData, LinkedData, LinkedUse
 
       skyblockSkillsAverageLevel: Math.floor(profile?.playerData?.skills?.average ?? 0),
       skyblockSkillsNonCosmeticAverageLevel: Math.floor(profile?.playerData?.skills?.nonCosmeticAverage ?? 0),
-      skyblockSkillsFarmingLevel: Math.floor(profile?.playerData?.skills?.farming?.level ?? 0),
-      skyblockSkillsMiningLevel: Math.floor(profile?.playerData?.skills?.mining?.level ?? 0),
-      skyblockSkillsCombatLevel: Math.floor(profile?.playerData?.skills?.combat?.level ?? 0),
-      skyblockSkillsForagingLevel: Math.floor(profile?.playerData?.skills?.foraging?.level ?? 0),
-      skyblockSkillsFishingLevel: Math.floor(profile?.playerData?.skills?.fishing?.level ?? 0),
-      skyblockSkillsEnchantingLevel: Math.floor(profile?.playerData?.skills?.enchanting?.level ?? 0),
+
+      skyblockSkillsAlchemyXp: Math.floor(profile?.playerData?.skills?.alchemy?.xp ?? 0),
       skyblockSkillsAlchemyLevel: Math.floor(profile?.playerData?.skills?.alchemy?.level ?? 0),
+      skyblockSkillsAlchemyLevelWithProgress: profile?.playerData?.skills?.alchemy?.levelWithProgress ?? 0,
+      skyblockSkillsAlchemyLevelOverflow: Math.floor(profile?.playerData?.skills?.alchemy?.overflowLevel?.level ?? 0),
+      skyblockSkillsAlchemyLevelOverflowWithProgress: profile?.playerData?.skills?.alchemy?.overflowLevel?.levelWithProgress ?? 0,
+
+      skyblockSkillsCarpentryXp: Math.floor(profile?.playerData?.skills?.carpentry?.xp ?? 0),
       skyblockSkillsCarpentryLevel: Math.floor(profile?.playerData?.skills?.carpentry?.level ?? 0),
-      skyblockSkillsRunecraftingLevel: Math.floor(profile?.playerData?.skills?.runecrafting?.level ?? 0),
-      skyblockSkillsSocialLevel: Math.floor(profile?.playerData?.skills?.social?.level ?? 0),
-      skyblockSkillsTamingLevel: Math.floor(profile?.playerData?.skills?.taming?.level ?? 0),
+      skyblockSkillsCarpentryLevelWithProgress: profile?.playerData?.skills?.carpentry?.levelWithProgress ?? 0,
+      skyblockSkillsCarpentryLevelOverflow: Math.floor(profile?.playerData?.skills?.carpentry?.overflowLevel?.level ?? 0),
+      skyblockSkillsCarpentryLevelOverflowWithProgress: profile?.playerData?.skills?.carpentry?.overflowLevel?.levelWithProgress ?? 0,
+
+      skyblockSkillsCombatXp: Math.floor(profile?.playerData?.skills?.combat?.xp ?? 0),
+      skyblockSkillsCombatLevel: Math.floor(profile?.playerData?.skills?.combat?.level ?? 0),
+      skyblockSkillsCombatLevelWithProgress: profile?.playerData?.skills?.combat?.levelWithProgress ?? 0,
+      skyblockSkillsCombatLevelOverflow: Math.floor(profile?.playerData?.skills?.combat?.overflowLevel?.level ?? 0),
+      skyblockSkillsCombatLevelOverflowWithProgress: profile?.playerData?.skills?.combat?.overflowLevel?.levelWithProgress ?? 0,
+
+      skyblockSkillsEnchantingXp: Math.floor(profile?.playerData?.skills?.enchanting?.xp ?? 0),
+      skyblockSkillsEnchantingLevel: Math.floor(profile?.playerData?.skills?.enchanting?.level ?? 0),
+      skyblockSkillsEnchantingLevelWithProgress: profile?.playerData?.skills?.enchanting?.levelWithProgress ?? 0,
+      skyblockSkillsEnchantingLevelOverflow: Math.floor(profile?.playerData?.skills?.enchanting?.overflowLevel?.level ?? 0),
+      skyblockSkillsEnchantingLevelOverflowWithProgress: profile?.playerData?.skills?.enchanting?.overflowLevel?.levelWithProgress ?? 0,
 
       skyblockSkillsFarmingXp: Math.floor(profile?.playerData?.skills?.farming?.xp ?? 0),
-      skyblockSkillsMiningXp: Math.floor(profile?.playerData?.skills?.mining?.xp ?? 0),
-      skyblockSkillsCombatXp: Math.floor(profile?.playerData?.skills?.combat?.xp ?? 0),
-      skyblockSkillsForagingXp: Math.floor(profile?.playerData?.skills?.foraging?.xp ?? 0),
-      skyblockSkillsFishingXp: Math.floor(profile?.playerData?.skills?.fishing?.xp ?? 0),
-      skyblockSkillsEnchantingXp: Math.floor(profile?.playerData?.skills?.enchanting?.xp ?? 0),
-      skyblockSkillsAlchemyXp: Math.floor(profile?.playerData?.skills?.alchemy?.xp ?? 0),
-      skyblockSkillsCarpentryXp: Math.floor(profile?.playerData?.skills?.carpentry?.xp ?? 0),
-      skyblockSkillsRunecraftingXp: Math.floor(profile?.playerData?.skills?.runecrafting?.xp ?? 0),
-      skyblockSkillsSocialXp: Math.floor(profile?.playerData?.skills?.social?.xp ?? 0),
-      skyblockSkillsTamingXp: Math.floor(profile?.playerData?.skills?.taming?.xp ?? 0),
+      skyblockSkillsFarmingLevel: Math.floor(profile?.playerData?.skills?.farming?.level ?? 0),
+      skyblockSkillsFarmingLevelWithProgress: profile?.playerData?.skills?.farming?.levelWithProgress ?? 0,
+      skyblockSkillsFarmingLevelOverflow: Math.floor(profile?.playerData?.skills?.farming?.overflowLevel?.level ?? 0),
+      skyblockSkillsFarmingLevelOverflowWithProgress: profile?.playerData?.skills?.farming?.overflowLevel?.levelWithProgress ?? 0,
 
-      skyblockSlayerZombieLevel: Math.floor(profile?.slayers?.zombie?.level?.level ?? 0),
-      skyblockSlayerSpiderLevel: Math.floor(profile?.slayers?.spider?.level?.level ?? 0),
-      skyblockSlayerWolfLevel: Math.floor(profile?.slayers?.wolf?.level?.level ?? 0),
-      skyblockSlayerEndermanLevel: Math.floor(profile?.slayers?.enderman?.level?.level ?? 0),
+      skyblockSkillsFishingXp: Math.floor(profile?.playerData?.skills?.fishing?.xp ?? 0),
+      skyblockSkillsFishingLevel: Math.floor(profile?.playerData?.skills?.fishing?.level ?? 0),
+      skyblockSkillsFishingLevelWithProgress: profile?.playerData?.skills?.fishing?.levelWithProgress ?? 0,
+      skyblockSkillsFishingLevelOverflow: Math.floor(profile?.playerData?.skills?.fishing?.overflowLevel?.level ?? 0),
+      skyblockSkillsFishingLevelOverflowWithProgress: profile?.playerData?.skills?.fishing?.overflowLevel?.levelWithProgress ?? 0,
+
+      skyblockSkillsForagingXp: Math.floor(profile?.playerData?.skills?.foraging?.xp ?? 0),
+      skyblockSkillsForagingLevel: Math.floor(profile?.playerData?.skills?.foraging?.level ?? 0),
+      skyblockSkillsForagingLevelWithProgress: profile?.playerData?.skills?.foraging?.levelWithProgress ?? 0,
+      skyblockSkillsForagingLevelOverflow: Math.floor(profile?.playerData?.skills?.foraging?.overflowLevel?.level ?? 0),
+      skyblockSkillsForagingLevelOverflowWithProgress: profile?.playerData?.skills?.foraging?.overflowLevel?.levelWithProgress ?? 0,
+
+      skyblockSkillsHuntingXp: Math.floor(profile?.playerData?.skills?.hunting?.xp ?? 0),
+      skyblockSkillsHuntingLevel: Math.floor(profile?.playerData?.skills?.hunting?.level ?? 0),
+      skyblockSkillsHuntingLevelWithProgress: profile?.playerData?.skills?.hunting?.levelWithProgress ?? 0,
+      skyblockSkillsHuntingLevelOverflow: Math.floor(profile?.playerData?.skills?.hunting?.overflowLevel?.level ?? 0),
+      skyblockSkillsHuntingLevelOverflowWithProgress: profile?.playerData?.skills?.hunting?.overflowLevel?.levelWithProgress ?? 0,
+
+      skyblockSkillsMiningXp: Math.floor(profile?.playerData?.skills?.mining?.xp ?? 0),
+      skyblockSkillsMiningLevel: Math.floor(profile?.playerData?.skills?.mining?.level ?? 0),
+      skyblockSkillsMiningLevelWithProgress: profile?.playerData?.skills?.mining?.levelWithProgress ?? 0,
+      skyblockSkillsMiningLevelOverflow: Math.floor(profile?.playerData?.skills?.mining?.overflowLevel?.level ?? 0),
+      skyblockSkillsMiningLevelOverflowWithProgress: profile?.playerData?.skills?.mining?.overflowLevel?.levelWithProgress ?? 0,
+
+      skyblockSkillsRunecraftingXp: Math.floor(profile?.playerData?.skills?.runecrafting?.xp ?? 0),
+      skyblockSkillsRunecraftingLevel: Math.floor(profile?.playerData?.skills?.runecrafting?.level ?? 0),
+      skyblockSkillsRunecraftingLevelWithProgress: profile?.playerData?.skills?.runecrafting?.levelWithProgress ?? 0,
+      skyblockSkillsRunecraftingLevelOverflow: Math.floor(profile?.playerData?.skills?.runecrafting?.overflowLevel?.level ?? 0),
+      skyblockSkillsRunecraftingLevelOverflowWithProgress: profile?.playerData?.skills?.runecrafting?.overflowLevel?.levelWithProgress ?? 0,
+
+      skyblockSkillsSocialXp: Math.floor(profile?.playerData?.skills?.social?.xp ?? 0),
+      skyblockSkillsSocialLevel: Math.floor(profile?.playerData?.skills?.social?.level ?? 0),
+      skyblockSkillsSocialLevelWithProgress: profile?.playerData?.skills?.social?.levelWithProgress ?? 0,
+      skyblockSkillsSocialLevelOverflow: Math.floor(profile?.playerData?.skills?.social?.overflowLevel?.level ?? 0),
+      skyblockSkillsSocialLevelOverflowWithProgress: profile?.playerData?.skills?.social?.overflowLevel?.levelWithProgress ?? 0,
+
+      skyblockSkillsTamingXp: Math.floor(profile?.playerData?.skills?.taming?.xp ?? 0),
+      skyblockSkillsTamingLevel: Math.floor(profile?.playerData?.skills?.taming?.level ?? 0),
+      skyblockSkillsTamingLevelWithProgress: profile?.playerData?.skills?.taming?.levelWithProgress ?? 0,
+      skyblockSkillsTamingLevelOverflow: Math.floor(profile?.playerData?.skills?.taming?.overflowLevel?.level ?? 0),
+      skyblockSkillsTamingLevelOverflowWithProgress: profile?.playerData?.skills?.taming?.overflowLevel?.levelWithProgress ?? 0,
+
+      skyblockSlayerBlazeXp: Math.floor(profile?.slayers?.blaze?.level?.xp ?? 0),
       skyblockSlayerBlazeLevel: Math.floor(profile?.slayers?.blaze?.level?.level ?? 0),
+      skyblockSlayerBlazeLevelWithProgress: profile?.slayers?.blaze?.level?.levelWithProgress ?? 0,
+      skyblockSlayerBlazeTier1Kills: Math.floor(profile?.slayers?.blaze?.tier1Kills ?? 0),
+      skyblockSlayerBlazeTier2Kills: Math.floor(profile?.slayers?.blaze?.tier2Kills ?? 0),
+      skyblockSlayerBlazeTier3Kills: Math.floor(profile?.slayers?.blaze?.tier3Kills ?? 0),
+      skyblockSlayerBlazeTier4Kills: Math.floor(profile?.slayers?.blaze?.tier4Kills ?? 0),
+      skyblockSlayerBlazeTier5Kills: Math.floor(profile?.slayers?.blaze?.tier5Kills ?? 0),
+
+      skyblockSlayerEndermanXp: Math.floor(profile?.slayers?.enderman?.level?.xp ?? 0),
+      skyblockSlayerEndermanLevel: Math.floor(profile?.slayers?.enderman?.level?.level ?? 0),
+      skyblockSlayerEndermanLevelWithProgress: profile?.slayers?.enderman?.level?.levelWithProgress ?? 0,
+      skyblockSlayerEndermanTier1Kills: Math.floor(profile?.slayers?.enderman?.tier1Kills ?? 0),
+      skyblockSlayerEndermanTier2Kills: Math.floor(profile?.slayers?.enderman?.tier2Kills ?? 0),
+      skyblockSlayerEndermanTier3Kills: Math.floor(profile?.slayers?.enderman?.tier3Kills ?? 0),
+      skyblockSlayerEndermanTier4Kills: Math.floor(profile?.slayers?.enderman?.tier4Kills ?? 0),
+      skyblockSlayerEndermanTier5Kills: Math.floor(profile?.slayers?.enderman?.tier5Kills ?? 0),
+
+      skyblockSlayerSpiderXp: Math.floor(profile?.slayers?.spider?.level?.xp ?? 0),
+      skyblockSlayerSpiderLevel: Math.floor(profile?.slayers?.spider?.level?.level ?? 0),
+      skyblockSlayerSpiderLevelWithProgress: profile?.slayers?.spider?.level?.levelWithProgress ?? 0,
+      skyblockSlayerSpiderTier1Kills: Math.floor(profile?.slayers?.spider?.tier1Kills ?? 0),
+      skyblockSlayerSpiderTier2Kills: Math.floor(profile?.slayers?.spider?.tier2Kills ?? 0),
+      skyblockSlayerSpiderTier3Kills: Math.floor(profile?.slayers?.spider?.tier3Kills ?? 0),
+      skyblockSlayerSpiderTier4Kills: Math.floor(profile?.slayers?.spider?.tier4Kills ?? 0),
+      skyblockSlayerSpiderTier5Kills: Math.floor(profile?.slayers?.spider?.tier5Kills ?? 0),
+
+      skyblockSlayerVampireXp: Math.floor(profile?.slayers?.vampire?.level?.xp ?? 0),
       skyblockSlayerVampireLevel: Math.floor(profile?.slayers?.vampire?.level?.level ?? 0),
+      skyblockSlayerVampireLevelWithProgress: profile?.slayers?.vampire?.level?.levelWithProgress ?? 0,
+      skyblockSlayerVampireTier1Kills: Math.floor(profile?.slayers?.vampire?.tier1Kills ?? 0),
+      skyblockSlayerVampireTier2Kills: Math.floor(profile?.slayers?.vampire?.tier2Kills ?? 0),
+      skyblockSlayerVampireTier3Kills: Math.floor(profile?.slayers?.vampire?.tier3Kills ?? 0),
+      skyblockSlayerVampireTier4Kills: Math.floor(profile?.slayers?.vampire?.tier4Kills ?? 0),
+      skyblockSlayerVampireTier5Kills: Math.floor(profile?.slayers?.vampire?.tier5Kills ?? 0),
+
+      skyblockSlayerWolfXp: Math.floor(profile?.slayers?.wolf?.level?.xp ?? 0),
+      skyblockSlayerWolfLevel: Math.floor(profile?.slayers?.wolf?.level?.level ?? 0),
+      skyblockSlayerWolfLevelWithProgress: profile?.slayers?.wolf?.level?.levelWithProgress ?? 0,
+      skyblockSlayerWolfTier1Kills: Math.floor(profile?.slayers?.wolf?.tier1Kills ?? 0),
+      skyblockSlayerWolfTier2Kills: Math.floor(profile?.slayers?.wolf?.tier2Kills ?? 0),
+      skyblockSlayerWolfTier3Kills: Math.floor(profile?.slayers?.wolf?.tier3Kills ?? 0),
+      skyblockSlayerWolfTier4Kills: Math.floor(profile?.slayers?.wolf?.tier4Kills ?? 0),
+      skyblockSlayerWolfTier5Kills: Math.floor(profile?.slayers?.wolf?.tier5Kills ?? 0),
 
       skyblockSlayerZombieXp: Math.floor(profile?.slayers?.zombie?.level?.xp ?? 0),
-      skyblockSlayerSpiderXp: Math.floor(profile?.slayers?.spider?.level?.xp ?? 0),
-      skyblockSlayerWolfXp: Math.floor(profile?.slayers?.wolf?.level?.xp ?? 0),
-      skyblockSlayerEndermanXp: Math.floor(profile?.slayers?.enderman?.level?.xp ?? 0),
-      skyblockSlayerBlazeXp: Math.floor(profile?.slayers?.blaze?.level?.xp ?? 0),
-      skyblockSlayerVampireXp: Math.floor(profile?.slayers?.vampire?.level?.xp ?? 0),
+      skyblockSlayerZombieLevel: Math.floor(profile?.slayers?.zombie?.level?.level ?? 0),
+      skyblockSlayerZombieLevelWithProgress: profile?.slayers?.zombie?.level?.levelWithProgress ?? 0,
+      skyblockSlayerZombieTier1Kills: Math.floor(profile?.slayers?.zombie?.tier1Kills ?? 0),
+      skyblockSlayerZombieTier2Kills: Math.floor(profile?.slayers?.zombie?.tier2Kills ?? 0),
+      skyblockSlayerZombieTier3Kills: Math.floor(profile?.slayers?.zombie?.tier3Kills ?? 0),
+      skyblockSlayerZombieTier4Kills: Math.floor(profile?.slayers?.zombie?.tier4Kills ?? 0),
+      skyblockSlayerZombieTier5Kills: Math.floor(profile?.slayers?.zombie?.tier5Kills ?? 0),
 
       skyblockDungeonsSecrets: Math.floor(profile?.dungeons?.secrets ?? 0),
       skyblockDungeonsXp: Math.floor(profile?.dungeons?.level?.xp ?? 0),
       skyblockDungeonsLevel: Math.floor(profile?.dungeons?.level?.level ?? 0),
-
+      skyblockDungeonsLevelWithProgress: profile?.dungeons?.level?.levelWithProgress ?? 0,
       skyblockDungeonsClassAverageLevel: Math.floor(profile?.dungeons?.classes?.average ?? 0),
-      skyblockDungeonsClassHealerLevel: Math.floor(profile?.dungeons?.classes?.healer?.level ?? 0),
-      skyblockDungeonsClassMageLevel: Math.floor(profile?.dungeons?.classes?.mage?.level ?? 0),
-      skyblockDungeonsClassBerserkLevel: Math.floor(profile?.dungeons?.classes?.berserk?.level ?? 0),
+
+      skyblockDungeonsClassArcherXp: Math.floor(profile?.dungeons?.classes?.archer?.xp ?? 0),
       skyblockDungeonsClassArcherLevel: Math.floor(profile?.dungeons?.classes?.archer?.level ?? 0),
-      skyblockDungeonsClassTankLevel: Math.floor(profile?.dungeons?.classes?.tank?.level ?? 0),
+      skyblockDungeonsClassArcherLevelWithProgress: profile?.dungeons?.classes?.archer?.levelWithProgress ?? 0,
+      skyblockDungeonsClassArcherLevelOverflow: Math.floor(profile?.dungeons?.classes?.archer?.overflowLevel?.level ?? 0),
+      skyblockDungeonsClassArcherLevelOverflowWithProgress: profile?.dungeons?.classes?.archer?.overflowLevel?.levelWithProgress ?? 0,
+
+      skyblockDungeonsClassBerserkXp: Math.floor(profile?.dungeons?.classes?.berserk?.xp ?? 0),
+      skyblockDungeonsClassBerserkLevel: Math.floor(profile?.dungeons?.classes?.berserk?.level ?? 0),
+      skyblockDungeonsClassBerserkLevelWithProgress: profile?.dungeons?.classes?.berserk?.levelWithProgress ?? 0,
+      skyblockDungeonsClassBerserkLevelOverflow: Math.floor(profile?.dungeons?.classes?.berserk?.overflowLevel?.level ?? 0),
+      skyblockDungeonsClassBerserkLevelOverflowWithProgress: profile?.dungeons?.classes?.berserk?.overflowLevel?.levelWithProgress ?? 0,
 
       skyblockDungeonsClassHealerXp: Math.floor(profile?.dungeons?.classes?.healer?.xp ?? 0),
+      skyblockDungeonsClassHealerLevel: Math.floor(profile?.dungeons?.classes?.healer?.level ?? 0),
+      skyblockDungeonsClassHealerLevelWithProgress: profile?.dungeons?.classes?.healer?.levelWithProgress ?? 0,
+      skyblockDungeonsClassHealerLevelOverflow: Math.floor(profile?.dungeons?.classes?.healer?.overflowLevel?.level ?? 0),
+      skyblockDungeonsClassHealerLevelOverflowWithProgress: profile?.dungeons?.classes?.healer?.overflowLevel?.levelWithProgress ?? 0,
+
       skyblockDungeonsClassMageXp: Math.floor(profile?.dungeons?.classes?.mage?.xp ?? 0),
-      skyblockDungeonsClassBerserkXp: Math.floor(profile?.dungeons?.classes?.berserk?.xp ?? 0),
-      skyblockDungeonsClassArcherXp: Math.floor(profile?.dungeons?.classes?.archer?.xp ?? 0),
+      skyblockDungeonsClassMageLevel: Math.floor(profile?.dungeons?.classes?.mage?.level ?? 0),
+      skyblockDungeonsClassMageLevelWithProgress: profile?.dungeons?.classes?.mage?.levelWithProgress ?? 0,
+      skyblockDungeonsClassMageLevelOverflow: Math.floor(profile?.dungeons?.classes?.mage?.overflowLevel?.level ?? 0),
+      skyblockDungeonsClassMageLevelOverflowWithProgress: profile?.dungeons?.classes?.mage?.overflowLevel?.levelWithProgress ?? 0,
+
       skyblockDungeonsClassTankXp: Math.floor(profile?.dungeons?.classes?.tank?.xp ?? 0),
+      skyblockDungeonsClassTankLevel: Math.floor(profile?.dungeons?.classes?.tank?.level ?? 0),
+      skyblockDungeonsClassTankLevelWithProgress: profile?.dungeons?.classes?.tank?.levelWithProgress ?? 0,
+      skyblockDungeonsClassTankLevelOverflow: Math.floor(profile?.dungeons?.classes?.tank?.overflowLevel?.level ?? 0),
+      skyblockDungeonsClassTankLevelOverflowWithProgress: profile?.dungeons?.classes?.tank?.overflowLevel?.levelWithProgress ?? 0,
 
       skyblockDungeonsEssenceDiamond: Math.floor(profile?.currencies?.diamondEssence ?? 0),
       skyblockDungeonsEssenceDragon: Math.floor(profile?.currencies?.dragonEssence ?? 0),

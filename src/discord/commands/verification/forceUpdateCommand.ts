@@ -1,20 +1,17 @@
 import DiscordCommand from "../../private/commands/DiscordCommand.js";
-import DiscordCommandData from "../../private/commands/DiscordCommandData.js";
+import DiscordCommandDataBuilder from "../../private/commands/DiscordCommandDataBuilder.js";
 import UpdateCommand from "./updateCommand.js";
-import { CommandFlags, type DiscordManagerWithBot } from "../../../types/discord.js";
-import type { ChatInputCommandInteraction } from "discord.js";
+import { type ChatInputCommandInteractionWithGuild, CommandFlags, CommandPermission, type DiscordManagerWithBot } from "../../../types/discord.js";
 
 class ForceUpdateCommand extends DiscordCommand<DiscordManagerWithBot> {
-  constructor(discord: DiscordManagerWithBot) {
-    super(discord);
-    this.data = new DiscordCommandData()
-      .setName("force-update")
-      .setDescription("Update user's roles")
-      .addUserOption((option) => option.setName("user").setDescription("Discord Username").setRequired(true));
-    this.flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.StaffOnly, CommandFlags.VerificationCommand];
-  }
+  override readonly data = new DiscordCommandDataBuilder()
+    .setName("force-update")
+    .setDescription("Update user's roles")
+    .addUserOption((option) => option.setName("user").setDescription("Discord Username").setRequired(true));
+  override readonly flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.VerificationCommand];
+  override readonly permission = CommandPermission.Staff;
 
-  override async execute(interaction: ChatInputCommandInteraction) {
+  override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const user = interaction.options.getUser("user", true);
     const updateCommand = new UpdateCommand(this.discord);
     updateCommand.isSelf = false;

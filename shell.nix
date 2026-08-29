@@ -1,9 +1,9 @@
-with import <nixpkgs> { };
-stdenv.mkDerivation {
-  name = "env";
-  nativeBuildInputs = [ pkg-config ];
-  buildInputs = [
+{ pkgs }:
+
+pkgs.mkShell {
+  packages = with pkgs; [
     python3
+    pkg-config
     autoreconfHook
     libX11
     libXi
@@ -16,15 +16,17 @@ stdenv.mkDerivation {
     nasm
     cairo
     pango
-    libuuid # required for canvas
+    libuuid
+    pnpm
   ];
 
-  APPEND_LIBRARY_PATH = "${lib.makeLibraryPath [
-    libGL
-    libuuid
-  ]}";
+  APPEND_LIBRARY_PATH = pkgs.lib.makeLibraryPath [
+    pkgs.libGL
+    pkgs.libuuid
+  ];
+
   shellHook = ''
-    LD=$CC
+    export LD="$CC"
     export LD_LIBRARY_PATH="$APPEND_LIBRARY_PATH:$LD_LIBRARY_PATH"
   '';
 }

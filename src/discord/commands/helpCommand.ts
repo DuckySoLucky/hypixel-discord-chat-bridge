@@ -1,37 +1,34 @@
 import DiscordCommand from "../private/commands/DiscordCommand.js";
-import DiscordCommandData from "../private/commands/DiscordCommandData.js";
-import Embed from "../private/Embed.js";
+import DiscordCommandDataBuilder from "../private/commands/DiscordCommandDataBuilder.js";
+import EmbedHelper from "../private/EmbedHelper.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import InformationCommand from "./informationCommand.js";
-import { CommandFlags, type DiscordManagerWithClient } from "../../types/discord.js";
-import type { ChatInputCommandInteraction } from "discord.js";
+import { type ChatInputCommandInteractionWithGuild, CommandFlags } from "../../types/discord.js";
 
 class HelpCommand extends DiscordCommand {
-  constructor(discord: DiscordManagerWithClient) {
-    super(discord);
-    this.data = new DiscordCommandData()
-      .setName("help")
-      .setDescription("Shows the help menu.")
-      .addStringOption((option) => option.setName("command").setDescription("Bot information about a specific command"));
-    this.flags = [CommandFlags.RequiresMinecraftBot];
-  }
+  override readonly data = new DiscordCommandDataBuilder()
+    .setName("help")
+    .setDescription("Shows the help menu.")
+    .addStringOption((option) => option.setName("command").setDescription("Bot information about a specific command"));
+  override readonly flags = [CommandFlags.RequiresMinecraftBot];
 
-  override async execute(interaction: ChatInputCommandInteraction) {
+  override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const commandName = interaction.options.getString("command") || undefined;
     const { discordCommands, minecraftCommands } = InformationCommand.getCommands(this.discord);
 
     if (commandName === undefined) {
-      const helpMenu = new Embed()
+      const helpMenu = new EmbedHelper()
         .setTitle("Hypixel Discord Chat Bridge Commands")
         .setDescription("`()` = **required** argument, `[]` = **optional** argument\n`u` = Minecraft Username")
         .addFields({ name: "**Discord**: ", value: `${discordCommands}`, inline: true }, { name: "**Minecraft**: ", value: `${minecraftCommands}`, inline: true });
 
-      return await interaction.followUp({ embeds: [helpMenu] });
+      await interaction.followUp({ embeds: [helpMenu] });
+      return;
     }
 
     const minecraftCommand = this.discord.application.minecraft.commandHandler.findNormalCommand(commandName);
     const isMinecraftCommand = Boolean(minecraftCommand);
-    const command = this.discord.commandHandler.commands.get(commandName) ?? minecraftCommand ?? undefined;
+    const command = this.discord.commandHandler.getCommand(commandName) ?? minecraftCommand ?? undefined;
     if (command === undefined) throw new HypixelDiscordChatBridgeError(`Command ${commandName} not found.`);
     const prefix = isMinecraftCommand ? this.discord.application.config.minecraft.commands.normal.prefix : "/";
 
@@ -48,7 +45,7 @@ class HelpCommand extends DiscordCommand {
       })
       .join("")}`;
 
-    const embed = new Embed()
+    const embed = new EmbedHelper()
       .setTitle(`**${prefix}${command.data.name}**`)
       .setDescription(description)
       .setFooter({ text: "by @duckysolucky | () = required, [] = optional", iconURL: "https://imgur.com/tgwQJTX.png" });

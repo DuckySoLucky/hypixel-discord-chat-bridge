@@ -1,12 +1,14 @@
 # Permissions
 
-| Name   | Description                                                                        |
-| ------ | ---------------------------------------------------------------------------------- |
-| Admin  | Your admin team. People will with this will be able to anything with the bot       |
-| Staff  | Your staff team. Members who are verified and have the staffRole set in the config |
-| Anyone | Kinda in the title. Any user                                                       |
+| Name         | Internal Name | Description                                                                                                             |
+| ------------ | ------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Admin        | Admin         | Your admin team. This is the person (/team) that owns the bot. It also includes the people you have added in the config |
+| Staff        | Staff         | Your staff team. Members who have the config role decalred in your config                                               |
+| Guild Member | GuildMember   | Your guild members. Members who are inside of the guild and verified                                                    |
+| Verified     | Linked        | Verified Users. Members who have been verified and been given the verified role                                         |
+| Anyone       | Anyone        | Kinda in the title. Any user                                                                                            |
 
-Permissions will fall down. This means any Admin will also be able to use any staff command
+Permissions will fall down. This means any Admin will also be able to use any staff command and anything down
 
 # Commands
 
@@ -51,7 +53,9 @@ Minecraft commands can be executed from any chat channel that the bot can see. T
 | `meow`               | meow                                                                          | mrrp, mrrow, miau, mauww, meep, :3, nja, nya, awawa    | `!meow`                    | Anyone     |
 | `murdermystery`      | Get Murder Mystery Player Stats                                               | mm                                                     | `!murdermystery [u]`       | Anyone     |
 | `networth`           | Networth of specified user.                                                   | nw                                                     | `!networth (u)`            | Anyone     |
+| `overflowskills`     | Overflow Skills and Skill Average of specified user.                          | oskills, oskill, osk                                   | `!overflowskills [u]`      | Anyone     |
 | `player`             | Get Hypixel Player Stats                                                      | None                                                   | `!player [u]`              | Anyone     |
+| `sheepwars`          |                                                                               | sheep, shep                                            | `!sheepwars [u]`           | Anyone     |
 | `skills`             | Skills and Skill Average of specified user.                                   | skill, sa                                              | `!skills [u]`              | Anyone     |
 | `level`              | Skyblock Level of specified user.                                             | lvl                                                    | `!level [u]`               | Anyone     |
 | `skywars`            | Skywars stats of specified user.                                              | sw                                                     | `!skywars [u]`             | Anyone     |
@@ -64,48 +68,48 @@ Minecraft commands can be executed from any chat channel that the bot can see. T
 
 ## Discord Commands
 
-| Command                | Description                                            | Syntax                                    | Permission |
-| ---------------------- | ------------------------------------------------------ | ----------------------------------------- | ---------- |
-| `blacklist`            | Blacklist a user                                       | `/blacklist [add] [remove] [get]`         | Staff      |
-| `credits`              | Shows the credits of the people who make this possible | `/credits`                                | Anyone     |
-| `execute`              | Executes commands as the minecraft bot.                | `/execute (command)`                      | Admin      |
-| `force-execute-script` | Allows executing scripts                               | `/force-execute-script (script-name)`     | Staff      |
-| `help`                 | Shows the help menu.                                   | `/help [command]`                         | Anyone     |
-| `information`          | Shows information about the bot.                       | `/information`                            | Anyone     |
-| `ping`                 | Show the latency of the bot.                           | `/ping`                                   | Anyone     |
-| `requirements`         | Check a user's requirements to join the guild          | `/requirements [u]`                       | Anyone     |
-| `restart`              | Restarts the bot.                                      | `/restart`                                | Staff      |
-| `uptime`               | Shows the uptime of the bot.                           | `/uptime`                                 | Anyone     |
-| `force-unverify`       | Remove a linked Minecraft account                      | `/force-unverify (user)`                  | Staff      |
-| `force-update`         | Update user's roles                                    | `/force-update (user)`                    | Staff      |
-| `force-verify`         | Connect Discord account to a Minecraft                 | `/force-verify (user) (u)`                | Staff      |
-| `linked`               | View who a user is linked to                           | `/linked [user] [u]`                      | Staff      |
-| `unverify`             | Remove your linked Minecraft account                   | `/unverify`                               | Anyone     |
-| `update`               | Update your current roles                              | `/update`                                 | Anyone     |
-| `verify`               | Connect your Discord account to Minecraft              | `/verify (u)`                             | Anyone     |
-| `gexp-check`           | Shows everyone under an set amount of gexp             | `/gexp-check (requirement)`               | Staff      |
-| `inactivity`           | Send an inactivity notice to the guild staff           | `/inactivity (time) [reason]`             | Anyone     |
-| `manage-inactivity`    | Manage inactivity                                      | `/manage-inactivity [add] [delete] [get]` | Staff      |
-| `guildtop`             | Top 10 members with the most guild experience.         | `/guildtop [time]`                        | Anyone     |
-| `list`                 | List of guild members.                                 | `/list`                                   | Anyone     |
-| `online`               | List of online members.                                | `/online`                                 | Anyone     |
-| `demote`               | Demotes the given user by one guild rank.              | `/demote (u)`                             | Staff      |
-| `invite`               | Invites the given user to the guild.                   | `/invite (u)`                             | Staff      |
-| `kick`                 | Kicks the given user to the guild.                     | `/kick (u) (reason)`                      | Staff      |
-| `mute`                 | Mutes the given user for a given amount of time.       | `/mute (u) (time)`                        | Staff      |
-| `promote`              | Promote the given user by one guild rank.              | `/promote (u)`                            | Staff      |
-| `set-rank`             | Set rank of the given user.                            | `/set-rank (u) (rank)`                    | Staff      |
-| `unmute`               | Unmute the given user.                                 | `/unmute (u)`                             | Staff      |
+| Command                | Description                                            | Syntax                                    | Permission   |
+| ---------------------- | ------------------------------------------------------ | ----------------------------------------- | ------------ |
+| `blacklist`            | Blacklist a user                                       | `/blacklist [add] [remove] [get]`         | Staff        |
+| `credits`              | Shows the credits of the people who make this possible | `/credits`                                | Anyone       |
+| `execute`              | Executes commands as the minecraft bot.                | `/execute (command)`                      | Admin        |
+| `force-execute-script` | Allows executing scripts                               | `/force-execute-script (script-name)`     | Staff        |
+| `help`                 | Shows the help menu.                                   | `/help [command]`                         | Anyone       |
+| `information`          | Shows information about the bot.                       | `/information`                            | Anyone       |
+| `ping`                 | Show the latency of the bot.                           | `/ping`                                   | Anyone       |
+| `requirements`         | Check a user's requirements to join the guild          | `/requirements [u]`                       | Anyone       |
+| `restart`              | Restarts the bot.                                      | `/restart`                                | Staff        |
+| `uptime`               | Shows the uptime of the bot.                           | `/uptime`                                 | Admin        |
+| `force-unverify`       | Remove a linked Minecraft account                      | `/force-unverify (user)`                  | Staff        |
+| `force-update`         | Update user's roles                                    | `/force-update (user)`                    | Staff        |
+| `force-verify`         | Connect Discord account to a Minecraft                 | `/force-verify (user) (u)`                | Staff        |
+| `linked`               | View who a user is linked to                           | `/linked [user] [u]`                      | Staff        |
+| `unverify`             | Remove your linked Minecraft account                   | `/unverify`                               | Verified     |
+| `update`               | Update your current roles                              | `/update`                                 | Verified     |
+| `verify`               | Connect your Discord account to Minecraft              | `/verify (u)`                             | Anyone       |
+| `gexp-check`           | Shows everyone under an set amount of gexp             | `/gexp-check (requirement)`               | Staff        |
+| `inactivity`           | Send an inactivity notice to the guild staff           | `/inactivity (time) [reason]`             | Guild Member |
+| `manage-inactivity`    | Manage inactivity                                      | `/manage-inactivity [add] [delete] [get]` | Staff        |
+| `guildtop`             | Top 10 members with the most guild experience.         | `/guildtop [time]`                        | Anyone       |
+| `list`                 | List of guild members.                                 | `/list`                                   | Anyone       |
+| `online`               | List of online members.                                | `/online`                                 | Anyone       |
+| `demote`               | Demotes the given user by one guild rank.              | `/demote (u)`                             | Staff        |
+| `invite`               | Invites the given user to the guild.                   | `/invite (u)`                             | Staff        |
+| `kick`                 | Kicks the given user to the guild.                     | `/kick (u) (reason)`                      | Staff        |
+| `mute`                 | Mutes the given user for a given amount of time.       | `/mute (u) (time)`                        | Staff        |
+| `promote`              | Promote the given user by one guild rank.              | `/promote (u)`                            | Staff        |
+| `set-rank`             | Set rank of the given user.                            | `/set-rank (u) (rank)`                    | Staff        |
+| `unmute`               | Unmute the given user.                                 | `/unmute (u)`                             | Staff        |
 
 ---
 
-This document is [auto generated](../scripts/generateCommandsDocs.ts).
+This document is [auto generated](/scripts/docs/Commands.ts) and was last updated on `Thu, 27 Aug 2026 04:07:21 GMT` (`1787803641416`)
 
-To update this please use `pnpm docgen`
+To update this document please run `pnpm docgen` or contact a maintainer and ask them to update it.
 
 ---
 
-If you need any help help consider checking out the [FAQ](FAQ.md)
+If you need any help help consider checking out the [FAQ](/docs/FrequentlyAskedQuestions.md)
 
 Feel free to reach out to the maintainers directly on Discord. [@duckysolucky](https://discord.com/users/486155512568741900) and
 [@.kathund](https://discord.com/users/1276524855445164098)

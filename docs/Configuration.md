@@ -39,13 +39,16 @@ This document is generated from the Zod config schema in `src/types/config.ts`
 
 ## bridge
 
-| Key                        | Type      | Required | Description |
-| -------------------------- | --------- | -------- | ----------- |
-| `minecraft`                | `object`  | Yes      |             |
-| `discord`                  | `object`  | Yes      |             |
-| `channels`                 | `object`  | Yes      |             |
-| `filter`                   | `object`  | Yes      |             |
-| `stripEmojisFromUsernames` | `boolean` | Yes      |             |
+| Key                        | Type      | Required | Description                                                                |
+| -------------------------- | --------- | -------- | -------------------------------------------------------------------------- |
+| `minecraft`                | `object`  | Yes      |                                                                            |
+| `discord`                  | `object`  | Yes      |                                                                            |
+| `channels`                 | `object`  | Yes      |                                                                            |
+| `filter`                   | `object`  | Yes      |                                                                            |
+| `stripEmojisFromUsernames` | `boolean` | Yes      |                                                                            |
+| `stripSpacesFromUsernames` | `boolean` | Yes      |                                                                            |
+| `timeout`                  | `string`  | Yes      | How long should bridged messages wait before assuming something went wrong |
+| `messageErrorReactions`    | `boolean` | Yes      | Should the bot react X when a message fails                                |
 
 ### minecraft
 
@@ -128,12 +131,13 @@ This document is generated from the Zod config schema in `src/types/config.ts`
 
 ### commands
 
-| Key                         | Type     | Required | Description |
-| --------------------------- | -------- | -------- | ----------- |
-| `messageRepeatBypassLength` | `number` | Yes      |             |
-| `maxMessageLength`          | `number` | Yes      |             |
-| `normal`                    | `object` | Yes      |             |
-| `soopy`                     | `object` | Yes      |             |
+| Key                         | Type     | Required | Description                                                           |
+| --------------------------- | -------- | -------- | --------------------------------------------------------------------- |
+| `timeout`                   | `string` | Yes      | How long the command should wait before assuming something went wrong |
+| `messageRepeatBypassLength` | `number` | Yes      |                                                                       |
+| `maxMessageLength`          | `number` | Yes      |                                                                       |
+| `normal`                    | `object` | Yes      |                                                                       |
+| `soopy`                     | `object` | Yes      |                                                                       |
 
 #### normal
 
@@ -326,17 +330,24 @@ This document is generated from the Zod config schema in `src/types/config.ts`
 | --------------- | ------------------------ | -------- | ------------------------------------------------------- |
 | `colors`        | `record<string, string>` | Yes      |                                                         |
 | `backupConfigs` | `boolean`                | Yes      | Whether backup copies of config files should be created |
-| `logToFiles`    | `boolean`                | Yes      | Whether log output should be written to files           |
+| `logging`       | `object`                 | Yes      |                                                         |
+
+### logging
+
+| Key           | Type      | Required | Description                                       |
+| ------------- | --------- | -------- | ------------------------------------------------- |
+| `saveToFiles` | `boolean` | Yes      | Whether log output should be written to files     |
+| `location`    | `string`  | Yes      | The location of where these files should be saved |
 
 ---
 
-This document is [auto generated](../scripts/generateConfigurationDocs.ts).
+This document is [auto generated](/scripts/docs/Configuration.ts) and was last updated on `Thu, 27 Aug 2026 04:07:21 GMT` (`1787803641416`)
 
-To update this please use `pnpm docgen`
+To update this document please run `pnpm docgen` or contact a maintainer and ask them to update it.
 
 ---
 
-If you need any help help consider checking out the [FAQ](FAQ.md)
+If you need any help help consider checking out the [FAQ](/docs/FrequentlyAskedQuestions.md)
 
 Feel free to reach out to the maintainers directly on Discord. [@duckysolucky](https://discord.com/users/486155512568741900) and
 [@.kathund](https://discord.com/users/1276524855445164098)

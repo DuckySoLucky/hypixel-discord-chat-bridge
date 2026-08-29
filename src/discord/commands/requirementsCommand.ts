@@ -1,21 +1,17 @@
 import DiscordCommand from "../private/commands/DiscordCommand.js";
-import DiscordCommandData from "../private/commands/DiscordCommandData.js";
-import Embed from "../private/Embed.js";
+import DiscordCommandDataBuilder from "../private/commands/DiscordCommandDataBuilder.js";
+import EmbedHelper from "../private/EmbedHelper.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import MowojangAPI from "../../private/MowojangAPI.js";
 import { formatNumber, titleCaseCamel } from "../../utils/stringUtils.js";
-import type { ChatInputCommandInteraction } from "discord.js";
-import type { DiscordManagerWithClient, Requirement, Requirements } from "../../types/discord.js";
+import type { ChatInputCommandInteractionWithGuild, Requirement, Requirements } from "../../types/discord.js";
 import type { PlayerVariableStatsKeysNumber } from "../../private/constants.js";
 
 class RequirementsCommand extends DiscordCommand {
-  constructor(discord: DiscordManagerWithClient) {
-    super(discord);
-    this.data = new DiscordCommandData()
-      .setName("requirements")
-      .setDescription("Check a user's requirements to join the guild")
-      .addStringOption((option) => option.setName("username").setDescription("Minecraft Username"));
-  }
+  override readonly data = new DiscordCommandDataBuilder()
+    .setName("requirements")
+    .setDescription("Check a user's requirements to join the guild")
+    .addStringOption((option) => option.setName("username").setDescription("Minecraft Username"));
 
   async checkRequirements(uuid: string): Promise<Requirements> {
     const stats = await this.discord.application.data.linked.getPlayerVariableStats(uuid);
@@ -32,8 +28,8 @@ class RequirementsCommand extends DiscordCommand {
     return { username: stats.username, uuid, guildName: stats.guildName, passed, requirementsPassed, requirements };
   }
 
-  generateEmbed({ passed, username, guildName, requirements, requirementsPassed }: Requirements): Embed {
-    return new Embed()
+  generateEmbed({ passed, username, guildName, requirements, requirementsPassed }: Requirements): EmbedHelper {
+    return new EmbedHelper()
       .setColor(passed ? "Green" : "Red")
       .setTitle(`${username} **${passed ? "has" : "hasn't"}** got the requirements to join ${guildName}!`)
       .setDescription(
@@ -42,7 +38,7 @@ class RequirementsCommand extends DiscordCommand {
         } requirement(s)** needed to join ${guildName}`
       )
       .addFields(
-        requirements.map(({ key, has, required, passed }) => ({
+        ...requirements.map(({ key, has, required, passed }) => ({
           name: titleCaseCamel(key),
           value: `${passed ? ":white_check_mark:" : ":x:"} ${formatNumber(has, 2)}/${required}`,
           inline: true
@@ -51,8 +47,9 @@ class RequirementsCommand extends DiscordCommand {
       .setThumbnail(`https://www.mc-heads.net/avatar/${username}`);
   }
 
-  override async execute(interaction: ChatInputCommandInteraction) {
-    const username = interaction.options.getString("username", true);
+  override async execute(interaction: ChatInputCommandInteractionWithGuild) {
+    const username = interaction.options.getString("username");
+    if (!username) throw new HypixelDiscordChatBridgeError("Please input a user");
     const uuid = await MowojangAPI.getUUID(username);
     if (uuid === null) throw new HypixelDiscordChatBridgeError("Player does not exist");
     const data = await this.checkRequirements(uuid);

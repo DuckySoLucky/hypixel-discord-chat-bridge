@@ -80,8 +80,44 @@ jobs:
       - name: Generate Default Config
         run: cp config.example.json config.json
 
+      - name: Find unix timestamp
+        run: |
+          UNIX_TIMESTAMP=$(pnpm exec tsx scripts/findUnixTimestampFromDocs.ts)
+          echo "UNIX_TIMESTAMP=$UNIX_TIMESTAMP" >> "$GITHUB_ENV"
+
       - name: Run docgen
         run: pnpm docgen
+
+      - name: Ensure a clean working directory
+        run: git diff --exit-code
+
+  validate-data:
+    name: Validate Data
+    needs: [pnpm]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v6
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 11
+
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+
+      - name: Install node dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate Default Config
+        run: cp config.example.json config.json
+
+      - name: Run validations
+        run: pnpm validate
 
       - name: Ensure a clean working directory
         run: git diff --exit-code

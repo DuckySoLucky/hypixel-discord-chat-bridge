@@ -3,17 +3,13 @@ import MinecraftCommandData from "../private/commands/MinecraftCommandData.js";
 import MinecraftCommandDataOption from "../private/commands/MinecraftCommandDataOption.js";
 import { formatNumber } from "../../utils/stringUtils.js";
 import { getNetWorthCalculator, getSelectedProfile } from "../../utils/hypixelUtils.js";
-import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 class NetworthCommand extends MinecraftCommand {
-  constructor(minecraft: MinecraftManagerWithBot) {
-    super(minecraft);
-    this.data = new MinecraftCommandData()
-      .setName("networth")
-      .setDescription("Networth of specified user.")
-      .setAliases(["nw"])
-      .setOptions([new MinecraftCommandDataOption().setName("username").setRequired(true)]);
-  }
+  override readonly data = new MinecraftCommandData()
+    .setName("networth")
+    .setDescription("Networth of specified user.")
+    .setAliases(["nw"])
+    .setOptions([new MinecraftCommandDataOption().setName("username").setRequired(true)]);
 
   override async execute(player: string, message: string) {
     player = this.getArgs(message)[0] || player;
@@ -33,7 +29,7 @@ class NetworthCommand extends MinecraftCommand {
     const personalBank = profile.me.profileStats.bankAccount !== 0 ? formatNumber(profile.me.profileStats.bankAccount) : "N/A";
     const museumData = formatNumber(networthData.types.museum?.total ?? 0);
 
-    this.send(
+    await this.send(
       `${username}'s Networth is ${networth} | Non-Cosmetic Networth: ${nonCosmeticNetworth} | Unsoulbound Networth: ${
         unsoulboundNetworth
       } | Non-Cosmetic Unsoulbound Networth: ${nonCosmeticUnsoulboundNetworth} | Purse: ${purse} | Bank: ${bank} + ${personalBank} | Museum: ${museumData}`

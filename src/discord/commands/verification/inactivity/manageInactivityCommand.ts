@@ -1,42 +1,58 @@
 import DiscordCommand from "../../../private/commands/DiscordCommand.js";
-import DiscordCommandData from "../../../private/commands/DiscordCommandData.js";
+import DiscordCommandDataBuilder from "../../../private/commands/DiscordCommandDataBuilder.js";
 import HypixelDiscordChatBridgeError from "../../../../private/error.js";
 import InactiveUser from "../../../../data/inactivity/InactiveUser.js";
 import ms, { type StringValue } from "ms";
-import { type ChatInputCommandInteraction } from "discord.js";
-import { CommandFlags, type DiscordManagerWithClient } from "../../../../types/discord.js";
-import { SuccessEmbed } from "../../../private/Embed.js";
+import { CommandFlags, CommandPermission } from "../../../../types/discord.js";
+import { SuccessEmbed } from "../../../private/EmbedHelper.js";
+import { truncateString } from "../../../../utils/stringUtils.js";
+import type { AutocompleteInteractionWithGuild, AutocompleteOption, ChatInputCommandInteractionWithGuild } from "../../../../types/discord.js";
 
 class ManageInactivityCommand extends DiscordCommand {
-  constructor(discord: DiscordManagerWithClient) {
-    super(discord);
-    this.data = new DiscordCommandData()
-      .setName("manage-inactivity")
-      .setDescription("Manage inactivity")
-      .addSubcommand((option) =>
-        option
-          .setName("add")
-          .setDescription("Add a user to the inactivity list")
-          .addUserOption((option) => option.setName("user").setDescription("Discord Username").setRequired(true))
-          .addStringOption((option) => option.setName("time").setDescription("The time you are inactive for (e.g. 1d, 72h, 2w)").setRequired(true))
-          .addStringOption((option) => option.setName("reason").setDescription("The reason you are going away"))
+  override readonly data = new DiscordCommandDataBuilder()
+    .setName("manage-inactivity")
+    .setDescription("Manage inactivity")
+    .addSubcommand((option) =>
+      option
+        .setName("add")
+        .setDescription("Add a user to the inactivity list")
+        .addUserOption((option) => option.setName("user").setDescription("Discord Username").setRequired(true))
+        .addStringOption((option) => option.setName("time").setDescription("The time you are inactive for (e.g. 1d, 72h, 2w)").setRequired(true))
+        .addStringOption((option) => option.setName("reason").setDescription("The reason you are going away"))
+    )
+    .addSubcommand((option) =>
+      option
+        .setName("delete")
+        .setDescription("Delete an inactivity list entry")
+        .addStringOption((option) => option.setName("inactivity").setDescription("The inactivity you are wanting to delete").setRequired(true).setAutocomplete(true))
+    )
+    .addSubcommand((option) =>
+      option
+        .setName("get")
+        .setDescription("Get an inactivity list entry")
+        .addStringOption((option) => option.setName("inactivity").setDescription("The inactivity you are wanting to get").setRequired(true).setAutocomplete(true))
+    );
+  override readonly flags = [CommandFlags.InactivityCommand, CommandFlags.VerificationCommand];
+  override readonly permission = CommandPermission.Staff;
+
+  override async autocomplete(interaction: AutocompleteInteractionWithGuild): Promise<void> {
+    const users = await this.discord.application.data.inactivity.getFullData().then((users) => users.filter((user) => !user.isExpired));
+    const parsed = (
+      await Promise.all(
+        users.map(async (user) => {
+          const discUser = await user.getDiscordUser();
+          if (!discUser) return null;
+          return { username: this.discord.messageHandler.getDisplayName(discUser), reason: user.reason, id: user.inactivityId };
+        })
       )
-      .addSubcommand((option) =>
-        option
-          .setName("delete")
-          .setDescription("Delete an inactivity list entry")
-          .addStringOption((option) => option.setName("inactivity").setDescription("The inactivity you are wanting to delete").setRequired(true).setAutocomplete(true))
-      )
-      .addSubcommand((option) =>
-        option
-          .setName("get")
-          .setDescription("Get an inactivity list entry")
-          .addStringOption((option) => option.setName("inactivity").setDescription("The inactivity you are wanting to get").setRequired(true).setAutocomplete(true))
-      );
-    this.flags = [CommandFlags.StaffOnly, CommandFlags.InactivityCommand, CommandFlags.VerificationCommand];
+    ).filter((x): x is { username: string; reason: string; id: string } => x !== null);
+    const options: AutocompleteOption[] = parsed
+      .sort((a, b) => a.username.localeCompare(b.username))
+      .map(({ username, reason, id }) => ({ value: id, name: `${username} - ${truncateString(reason, 20)}` }));
+    await this.respondToAutocomplete(interaction, options);
   }
 
-  override async execute(interaction: ChatInputCommandInteraction) {
+  override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const subcommand = interaction.options.getSubcommand(true);
 
     switch (subcommand) {

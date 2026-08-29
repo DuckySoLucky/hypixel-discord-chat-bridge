@@ -1,4 +1,4 @@
-import Embed from "../private/Embed.js";
+import EmbedHelper from "../private/EmbedHelper.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import type DiscordManager from "../DiscordManager.js";
 
@@ -17,27 +17,25 @@ class StateHandler {
     this.discord.client.user.setPresence({ activities: [{ name: "/help | by @duckysolucky" }] });
 
     await this.loadGuild();
-    await this.discord.buttonHandler.loadButtons();
-    await this.discord.modalHandler.loadModals();
 
     const channel = await this.discord.getChannel("Guild");
     if (channel === null || !channel.isSendable()) return console.error('Channel "Guild" not found!');
-    await channel.send({ embeds: [new Embed().setAuthor({ name: "Chat Bridge is Online" }).setColor("Green").setFooter(null)] });
+    await channel.send({ embeds: [new EmbedHelper().setAuthor({ name: "Chat Bridge is Online" }).setColor("Green").setFooter(null)] });
 
     const loggerChannel = await this.discord.getChannel("Logger-Event");
     if (loggerChannel === null || !loggerChannel.isSendable()) return console.error('Channel "Logger-Event" not found!');
-    await loggerChannel.send({ embeds: [new Embed().setDescription("Discord bot is fully ready and online").setColor("Green")] });
+    await loggerChannel.send({ embeds: [new EmbedHelper().setDescription("Discord bot is fully ready and online").setColor("Green")] });
     console.discord("Client is fully ready!");
   }
 
   async onClose() {
     const channel = await this.discord.getChannel("Guild");
     if (channel === null || !channel.isSendable()) return console.error('Channel "Guild" not found!');
-    await channel.send({ embeds: [new Embed().setAuthor({ name: "Chat Bridge is Offline" }).setColor("Red").setFooter(null)] });
+    await channel.send({ embeds: [new EmbedHelper().setAuthor({ name: "Chat Bridge is Offline" }).setColor("Red").setFooter(null)] });
 
     const loggerChannel = await this.discord.getChannel("Logger-Event");
     if (loggerChannel === null || !loggerChannel.isSendable()) return console.error('Channel "Logger-Event" not found!');
-    await loggerChannel.send({ embeds: [new Embed().setDescription("Discord bot is shutting down").setColor("Red")] });
+    await loggerChannel.send({ embeds: [new EmbedHelper().setDescription("Discord bot is shutting down").setColor("Red")] });
   }
 }
 

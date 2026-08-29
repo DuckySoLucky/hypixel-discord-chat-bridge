@@ -1,22 +1,25 @@
 import DiscordCommand from "../../../private/commands/DiscordCommand.js";
-import DiscordCommandData from "../../../private/commands/DiscordCommandData.js";
+import DiscordCommandDataBuilder from "../../../private/commands/DiscordCommandDataBuilder.js";
 import HypixelDiscordChatBridgeError from "../../../../private/error.js";
-import { CommandFlags, type DiscordManagerWithBot, GuildManagementAction } from "../../../../types/discord.js";
-import { SuccessEmbed } from "../../../private/Embed.js";
+import {
+  type ChatInputCommandInteractionWithGuild,
+  CommandFlags,
+  CommandPermission,
+  type DiscordManagerWithBot,
+  GuildManagementAction
+} from "../../../../types/discord.js";
+import { SuccessEmbed } from "../../../private/EmbedHelper.js";
 import { replaceVariables } from "../../../../utils/stringUtils.js";
-import type { ChatInputCommandInteraction } from "discord.js";
 
 class DemoteCommand extends DiscordCommand<DiscordManagerWithBot> {
-  constructor(discord: DiscordManagerWithBot) {
-    super(discord);
-    this.data = new DiscordCommandData()
-      .setName("demote")
-      .setDescription("Demotes the given user by one guild rank.")
-      .addStringOption((option) => option.setName("guild-member-username").setDescription("Minecraft Username").setRequired(true).setAutocomplete(true));
-    this.flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.StaffOnly];
-  }
+  override readonly data = new DiscordCommandDataBuilder()
+    .setName("demote")
+    .setDescription("Demotes the given user by one guild rank.")
+    .addStringOption((option) => option.setName("guild-member-username").setDescription("Minecraft Username").setRequired(true).setAutocomplete(true));
+  override readonly flags = [CommandFlags.RequiresMinecraftBot];
+  override readonly permission = CommandPermission.Staff;
 
-  override async execute(interaction: ChatInputCommandInteraction) {
+  override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const username = interaction.options.getString("guild-member-username", true);
     const { action, message } = await this.handleGuildManagementAction("demote", username);
     if (action === GuildManagementAction.NotInGuild) {

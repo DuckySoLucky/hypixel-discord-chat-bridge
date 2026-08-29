@@ -3,21 +3,34 @@ import HypixelDiscordChatBridgeError from "../../private/error.js";
 import InactiveUser from "./InactiveUser.js";
 import { ActionRowBuilder, type BaseMessageOptions, ButtonStyle } from "discord.js";
 import { ButtonBuilder } from "discord.js";
-import { SuccessEmbed } from "../../discord/private/Embed.js";
+import { type InactiveUserData, type InactivityData, InactivityDataSchema } from "../../types/inactivity.js";
+import { InactivityEmbed } from "../../discord/private/EmbedHelper.js";
 import type DataManager from "../DataManager.js";
-import type { InactiveUserData, InactivityData } from "../../types/inactivity.js";
 
 class InactivityManager extends GenericManager<InactiveUserData, InactivityData, InactiveUser> {
   constructor(data: DataManager) {
-    super(data, "data/inactivity.json", "inactivity", []);
+    super(data, "data/inactivity.json", "inactivity", [], InactivityDataSchema);
   }
 
   override parseData(data: InactivityData): InactiveUser[] {
     return data.map((user) => new InactiveUser(user, this));
   }
 
+  protected override getId(data: InactiveUser): string {
+    return data.inactivityId;
+  }
+
   async writeUsersParsed(users: InactiveUser[]): Promise<InactiveUser[]> {
     return await this.writeData(users.map((user) => user.toJSON()));
+  }
+
+  async addUser(user: InactiveUser): Promise<InactiveUser> {
+    const users = await this.mutateData((data) => (data.some((item) => item.inactivityId === user.inactivityId) ? data : [...data, user.toJSON()]));
+    return users.find((item) => item.inactivityId === user.inactivityId) ?? user;
+  }
+
+  async deleteUser(user: InactiveUser): Promise<InactiveUser[]> {
+    return await this.mutateData((data) => data.filter((item) => item.inactivityId !== user.inactivityId));
   }
 
   async getUserByDiscordId(discordId: string): Promise<InactiveUser | undefined> {
@@ -47,20 +60,7 @@ class InactivityManager extends GenericManager<InactiveUserData, InactivityData,
     if (!linked) throw new HypixelDiscordChatBridgeError("User is not verified");
     const player = await linked.getHypixelPlayer();
     return {
-      embeds: [
-        new SuccessEmbed()
-          .setAuthor({ name: "Found Inactivity" })
-          .setFields(
-            { name: "Reason", value: `\`\`\`${user.reason}\`\`\`` },
-            { name: "Start Time", value: `<t:${user.start}:F> (<t:${user.start}:R>)` },
-            { name: "Expire Time", value: `<t:${user.expires}:F> (<t:${user.expires}:R>)` },
-            { name: "Discord", value: `<@${user.discordId}>` },
-            { name: "Discord ID", value: `\`\`\`${user.discordId}\`\`\`` },
-            { name: "Username", value: `\`\`\`${player?.nickname ?? "UNKNOWN"}\`\`\`` },
-            { name: "UUID", value: `\`\`\`${player?.uuid ?? "UNKNOWN"}\`\`\`` }
-          )
-          .setDevFooter("Kathund")
-      ],
+      embeds: [new InactivityEmbed(user, player)],
       components: [
         new ActionRowBuilder<ButtonBuilder>().addComponents(
           new ButtonBuilder().setCustomId("editInactivityReason").setLabel("Edit Reason").setStyle(ButtonStyle.Secondary),

@@ -1,15 +1,15 @@
 import {
   type ApplicationCommandOptionChoiceData,
-  AutocompleteInteraction,
+  type BaseInteraction,
   ChannelType,
-  Client,
-  GuildMember,
+  type Client,
+  type GuildMember,
   PermissionFlagsBits,
-  Role,
+  type Role,
   type SendableChannels,
   Team
 } from "discord.js";
-import { type AutoComplateOption, CommandFlags } from "../types/discord.js";
+import { type AutocompleteInteractionWithGuild, type AutocompleteOption, type BaseInteractionWithGuild, CommandPermission } from "../types/discord.js";
 
 export async function getApplicationOwners(client: Client): Promise<string[]> {
   if (!client.application) return [];
@@ -76,7 +76,8 @@ export async function isVerifiedMember(member: GuildMember): Promise<boolean> {
   return true;
 }
 
-export function ParseAutoComplete(interaction: AutocompleteInteraction, options: AutoComplateOption[]): ApplicationCommandOptionChoiceData[] {
+export function ParseAutoComplete(interaction: AutocompleteInteractionWithGuild, options: AutocompleteOption[]): ApplicationCommandOptionChoiceData[] {
+  if (options.length === 0) options.push({ name: "No choices found", value: "UNKNOWN" });
   const focusedOption = interaction.options.getFocused(true);
   return options
     .filter((choice) => choice.name.toLowerCase().startsWith(focusedOption.value.toLowerCase()))
@@ -92,8 +93,22 @@ export async function canSendMessages(channel: SendableChannels): Promise<boolea
   return perms.has(PermissionFlagsBits.ViewChannel) && perms.has(PermissionFlagsBits.SendMessages);
 }
 
-export function getDiscordCommandPermission(flags: CommandFlags[]) {
-  if (flags.includes(CommandFlags.AdminOnly)) return "Admin";
-  if (flags.includes(CommandFlags.StaffOnly)) return "Staff";
-  return "Anyone";
+export function getDiscordCommandPermission(permission: CommandPermission) {
+  switch (permission) {
+    case CommandPermission.Admin:
+      return "Admin";
+    case CommandPermission.Staff:
+      return "Staff";
+    case CommandPermission.GuildMember:
+      return "Guild Member";
+    case CommandPermission.Linked:
+      return "Verified";
+    case CommandPermission.Anyone:
+    default:
+      return "Anyone";
+  }
+}
+
+export function isInteractionInsideOfGuild(interaction: BaseInteraction): interaction is BaseInteractionWithGuild {
+  return interaction.guild !== null && interaction.member !== null;
 }

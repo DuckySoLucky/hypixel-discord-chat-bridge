@@ -1,6 +1,5 @@
 import MinecraftCommand from "../private/commands/MinecraftCommand.js";
 import MinecraftCommandData from "../private/commands/MinecraftCommandData.js";
-import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 
 /*
 Derpy = 368 mod 24 = 8
@@ -19,13 +18,10 @@ const yearZero = 1560275700000;
 
 // CREDITS: by @CarsonCodes (https://github.com/CarsonCodess)
 class SpecialMayorCommand extends MinecraftCommand {
-  constructor(minecraft: MinecraftManagerWithBot) {
-    super(minecraft);
-    this.data = new MinecraftCommandData()
-      .setName("specialmayor")
-      .setDescription("How many years until next special mayor, along with speculated special mayor.")
-      .setAliases(["specmayor"]);
-  }
+  override readonly data = new MinecraftCommandData()
+    .setName("specialmayor")
+    .setDescription("How many years until next special mayor, along with speculated special mayor.")
+    .setAliases(["specmayor"]);
 
   getYearsUntilSpecial(year: number): number {
     return (8 - (year % 8)) % 8;
@@ -48,7 +44,7 @@ class SpecialMayorCommand extends MinecraftCommand {
     }
   }
 
-  override execute(username: string, message: string) {
+  override async execute(username: string, message: string): Promise<void> {
     const currentYear = this.timeToSkyblockYear(Date.now());
     const yearsUntil = this.getYearsUntilSpecial(currentYear);
 
@@ -56,9 +52,9 @@ class SpecialMayorCommand extends MinecraftCommand {
     const mayor = this.getSpecialMayor(targetYear);
 
     if (yearsUntil === 0) {
-      this.send(`Special Mayor this year! It is speculated to be ${mayor}.`);
+      await this.send(`Special Mayor this year! It is speculated to be ${mayor}.`);
     } else {
-      this.send(`Not a Special Mayor year. ${yearsUntil} year(s) until the next one! It is speculated to be ${mayor}.`);
+      await this.send(`Not a Special Mayor year. ${yearsUntil} year(s) until the next one! It is speculated to be ${mayor}.`);
     }
   }
 }

@@ -1,14 +1,14 @@
-import Embed, { SuccessEmbed } from "../../discord/private/Embed.js";
+import EmbedHelper, { BlacklistEmbed, SuccessEmbed } from "../../discord/private/EmbedHelper.js";
 import GenericData from "../GenericData.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import MowojangAPI from "../../private/MowojangAPI.js";
-import { ActionRowBuilder, ButtonBuilder, ComponentType, type GuildMember, type User } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ComponentType, type GuildMember } from "discord.js";
 import { getPlayer } from "../../utils/hypixelUtils.js";
 import type BlacklistManager from "./BlacklistManager.js";
-import type { BasicBlacklistedUserData, BlacklistData, BlacklistedUserData } from "../../types/blacklist.js";
+import type { BasicBlacklistedUserData, BlacklistDeleteOptions, BlacklistSaveOptions, BlacklistedUserData } from "../../types/blacklist.js";
 import type { Guild, GuildMember as HypixelGuildMember, Player } from "hypixel-api-reborn";
 
-class BlacklistUser extends GenericData<BlacklistedUserData, BlacklistData, BlacklistManager> {
+class BlacklistUser extends GenericData<BlacklistedUserData, BlacklistManager> {
   readonly blacklistId: string;
   messageId?: string;
   readonly discordId: string | null;
@@ -27,26 +27,32 @@ class BlacklistUser extends GenericData<BlacklistedUserData, BlacklistData, Blac
     this.by = data.by;
   }
 
-  override async save(data: { alertUser: boolean; shareUser: boolean; user: User }): Promise<typeof this> {
-    const blacklisted = await this.manager.getFullData();
-    const user = await this.manager.getData(this);
-    if (user) return user;
-    await this.handleSave(data);
-    blacklisted.push(this);
-    await this.manager.writeUsersParsed(blacklisted);
-    return this;
+  async updateReason(reason: string, saveData: BlacklistSaveOptions): Promise<BlacklistUser> {
+    const user = new BlacklistUser({ ...this.toJSON(), reason }, this.manager);
+    return await user.save(saveData);
   }
 
-  private async handleSave({ alertUser, shareUser, user }: { alertUser: boolean; shareUser: boolean; user: User }): Promise<this> {
+  async save(data: BlacklistSaveOptions): Promise<BlacklistUser> {
+    await this.handleSave(data);
+    return await this.manager.addUser(this);
+  }
+
+  private async handleSave({ alertUser, shareUser, user }: BlacklistSaveOptions): Promise<this> {
     if (!this.manager.data.application.discord.isClientOnline()) {
       throw new HypixelDiscordChatBridgeError("The discord bot doesn't seam to be online? Please restart the application");
     }
     const channel = await this.manager.data.application.discord.getChannel("Logger-Blacklist");
     if (!channel || !channel.isSendable()) return this;
     const blacklistData = await this.manager.getBlacklistDataResponse(this);
+
+    if (this.messageId) {
+      await this.refreshMessage();
+      return this;
+    }
+
     const message = await channel.send({ ...blacklistData, content: "User has been blacklisted" });
     if (this.discordId && alertUser) {
-      const embed = new Embed()
+      const embed = new EmbedHelper()
         .setColor("Red")
         .setAuthor({ name: "You have been blacklisted" })
         .setDescription(this.reason)
@@ -62,14 +68,12 @@ class BlacklistUser extends GenericData<BlacklistedUserData, BlacklistData, Blac
     return this;
   }
 
-  override async delete(data: { alertUser: boolean; shareUser: boolean; user: User; reason: string }): Promise<BlacklistUser[]> {
-    const blacklisted = await this.manager.getFullData();
-    const updated = blacklisted.filter((u) => u.blacklistId !== this.blacklistId);
+  async delete(data: BlacklistDeleteOptions): Promise<BlacklistUser[]> {
     await this.handleDelete(data);
-    return await this.manager.writeUsersParsed(updated);
+    return await this.manager.deleteUser(this);
   }
 
-  private async handleDelete({ alertUser, shareUser, user, reason }: { alertUser: boolean; shareUser: boolean; user: User; reason: string }): Promise<void> {
+  private async handleDelete({ alertUser, shareUser, user, reason }: BlacklistDeleteOptions): Promise<void> {
     if (!this.manager.data.application.discord.isClientOnline()) {
       throw new HypixelDiscordChatBridgeError("The discord bot doesn't seam to be online? Please restart the application");
     }
@@ -92,22 +96,12 @@ class BlacklistUser extends GenericData<BlacklistedUserData, BlacklistData, Blac
     await message.edit({
       content: "",
       embeds: [
-        new Embed()
-          .setAuthor({ name: "Found Blacklist" })
-          .setFields(
-            { name: "Discord", value: `<@${this.discordId ?? "UNKNOWN"}>` },
-            { name: "Discord ID", value: `\`\`\`${this.discordId ?? "UNKNOWN"}\`\`\`` },
-            { name: "Username", value: `\`\`\`${(await this.getUsername()) ?? "UNKNOWN"}\`\`\`` },
-            { name: "UUID", value: `\`\`\`${this.uuid ?? "UNKNOWN"}\`\`\`` },
-            { name: "\u200B", value: "\u200B" },
-            { name: "Blacklisted Reason", value: `\`\`\`${this.reason}\`\`\`` },
-            { name: "Blacklisted By", value: `<@${this.by}>` },
-            { name: "Blacklisted Timestamp", value: `<t:${this.timestamp}:F> (<t:${this.timestamp}:R>)` },
-            { name: "\u200B", value: "\u200B" },
-            { name: "Removed Reason", value: `\`\`\`${reason}\`\`\`` },
-            { name: "Removed By", value: `<@${user.id}>` }
-          )
-          .setDevFooter("Kathund")
+        new BlacklistEmbed(this).addFields(
+          { name: "\u200B", value: "\u200B" },
+          { name: "\u200B", value: "\u200B" },
+          { name: "Removed Reason", value: `\`\`\`${reason}\`\`\`` },
+          { name: "Removed By", value: `<@${user.id}>` }
+        )
       ],
       components: [new ActionRowBuilder<ButtonBuilder>().addComponents(fixedButtons)]
     });
@@ -138,7 +132,7 @@ class BlacklistUser extends GenericData<BlacklistedUserData, BlacklistData, Blac
       throw new HypixelDiscordChatBridgeError("The discord bot doesn't seam to be online? Please restart the application");
     }
     if (!this.manager.data.application.discord.isGuildReady()) {
-      this.manager.data.application.discord.stateHandler.loadGuild();
+      await this.manager.data.application.discord.stateHandler.loadGuild();
       throw new HypixelDiscordChatBridgeError("The discord server isn't ready. Please try again later");
     }
 
@@ -157,6 +151,16 @@ class BlacklistUser extends GenericData<BlacklistedUserData, BlacklistData, Blac
     if (!this.uuid) return undefined;
     const guild = hypixelGuild ?? (await this.manager.data.application.getBotGuild());
     return guild.members.find((member) => member.uuid === this.uuid);
+  }
+
+  async refreshMessage() {
+    if (!this.messageId) return;
+    const channel = await this.manager.data.application.discord.getChannel("Logger-Blacklist");
+    if (!channel || !channel.isSendable()) return this;
+    const message = await channel.messages.fetch(this.messageId).catch(() => null);
+    if (!message) return;
+    const blacklistData = await this.manager.getBlacklistDataResponse(this);
+    await message.edit(blacklistData);
   }
 
   override toJSON(): BlacklistedUserData {

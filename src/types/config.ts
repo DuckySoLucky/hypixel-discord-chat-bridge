@@ -7,7 +7,13 @@ export enum ConfigChangeType {
   Transform
 }
 
-export type TransformFunction = (value: any, config: any) => any;
+export type JsonPrimitive = string | number | boolean | null;
+export type JsonValue = JsonPrimitive | JsonObject | JsonValue[];
+export interface JsonObject {
+  [key: string]: JsonValue;
+}
+
+export type TransformFunction = (value: JsonValue, config: JsonObject) => JsonValue;
 
 export interface MigrationRule {
   key?: string;
@@ -37,8 +43,11 @@ export const ConfigBridgeDiscord = zod.object({
   format: zod
     .string()
     .meta({
-      description:
-        "The format for messages sent from Minecraft to Discord\nOnly used with `minecraft` mode\nSupported arguments: {chatType}, {username}, {rank}, {guildRank}, {username}"
+      description: [
+        "The format for messages sent from Minecraft to Discord",
+        "Only used with `minecraft` mode",
+        "Supported arguments: {chatType}, {username}, {rank}, {guildRank}, {username}"
+      ].join("\n")
     })
 });
 export const ConfigBridgeChannelLoggingChannels = zod.object({
@@ -74,11 +83,15 @@ export const ConfigBridge = zod.object({
   discord: ConfigBridgeDiscord,
   channels: ConfigBridgeChannels,
   filter: ConfigBridgeFilter,
-  stripEmojisFromUsernames: zod.boolean()
+  stripEmojisFromUsernames: zod.boolean(),
+  stripSpacesFromUsernames: zod.boolean(),
+  timeout: zod.string().meta({ description: "How long should bridged messages wait before assuming something went wrong" }),
+  messageErrorReactions: zod.boolean().meta({ description: "Should the bot react X when a message fails" })
 });
 
 export const ConfigMinecraftCommand = zod.object({ enabled: zod.boolean(), prefix: zod.string() });
 export const ConfigMinecraftCommands = zod.object({
+  timeout: zod.string().meta({ description: "How long the command should wait before assuming something went wrong" }),
   messageRepeatBypassLength: zod.number(),
   maxMessageLength: zod.number(),
   normal: ConfigMinecraftCommand,
@@ -90,7 +103,7 @@ export const ConfigMinecraftGuildRequirements = zod.object({
   requirementsNeededToPass: zod.number().meta({ description: "The number of requirements a player must meet to pass" }),
   requirements: zod
     .record(zod.string(), zod.number().int().positive())
-    .refine((obj) => Object.keys(obj).every((key) => PlayerVariableStatsKeysNumbers.includes(key as any)), { message: "Invalid requirement key" })
+    .refine((obj) => Object.keys(obj).every((key) => (PlayerVariableStatsKeysNumbers as readonly string[]).includes(key)), { message: "Invalid requirement key" })
 });
 export const ConfigMinecraftGuild = zod.object({ requirements: ConfigMinecraftGuildRequirements });
 export const ConfigMinecraftHypixelAlertsAlert = zod.object({
@@ -143,11 +156,11 @@ export const ConfigVerificationRole = zod.discriminatedUnion("enabled", [
   zod.object({ enabled: zod.literal(false), roleId: zod.string().nullable().meta({ description: "Discord role id" }) })
 ]);
 export const ConfigVerificationRolesCustomRequirementString = zod.object({
-  type: zod.enum(PlayerVariableStatsKeysStrings).meta({ description: "The player variable string type required for verification\nSee docs/PlayerStatVariables.md " }),
+  type: zod.enum(PlayerVariableStatsKeysStrings).meta({ description: "The player variable string type required for verification\nSee docs/Variables/Player.md" }),
   value: zod.string().meta({ description: "The string value required for this custom verification requirement" })
 });
 export const ConfigVerificationRolesCustomRequirementNumber = zod.object({
-  type: zod.enum(PlayerVariableStatsKeysNumbers).meta({ description: "The player variable string type required for verification\nSee docs/PlayerStatVariables.md " }),
+  type: zod.enum(PlayerVariableStatsKeysNumbers).meta({ description: "The player variable string type required for verification\nSee docs/Variables/Player.md " }),
   value: zod.number().int().positive().meta({ description: "The numeric value required for this custom verification requirement" })
 });
 export const ConfigVerificationRolesCustomRequirement = zod.union([ConfigVerificationRolesCustomRequirementString, ConfigVerificationRolesCustomRequirementNumber]);
@@ -211,16 +224,20 @@ export const ConfigStatsChannelsAutoUpdater = zod.object({
 });
 export const ConfigStatsChannelsChannel = zod.object({
   id: zod.string().meta({ description: "Discord channel id" }),
-  name: zod.string().meta({ description: "What the channel should be named to\nSee docs/ChannelStatVariables.md" })
+  name: zod.string().meta({ description: "What the channel should be named to\nSee docs/Variables/Channel.md" })
 });
 export const ConfigStatsChannels = zod.object({ enabled: zod.boolean(), autoUpdater: ConfigStatsChannelsAutoUpdater, channels: zod.array(ConfigStatsChannelsChannel) });
 
+export const ConfigOtherLogging = zod.object({
+  saveToFiles: zod.boolean().meta({ description: "Whether log output should be written to files" }),
+  location: zod.string().meta({ description: "The location of where these files should be saved" })
+});
 export const ConfigOtherColors = zod.enum(["Blue", "Red", "Green", "Yellow"]);
 export type ConfigOtherColors = zod.infer<typeof ConfigOtherColors>;
 export const ConfigOther = zod.object({
   colors: zod.record(ConfigOtherColors, zod.string()).meta({ skip: true }),
   backupConfigs: zod.boolean().meta({ description: "Whether backup copies of config files should be created" }),
-  logToFiles: zod.boolean().meta({ description: "Whether log output should be written to files" })
+  logging: ConfigOtherLogging
 });
 
 export const Config = zod.object({

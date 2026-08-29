@@ -1,17 +1,15 @@
 import DiscordButton from "../../private/buttons/DiscordButton.js";
 import DiscordButtonData from "../../private/buttons/DiscordButtonData.js";
-import { type ButtonInteraction, LabelBuilder, ModalBuilder, TextDisplayBuilder, TextInputBuilder, TextInputStyle } from "discord.js";
-import { ButtonResponse, CommandFlags, type DiscordManagerWithClient } from "../../../types/discord.js";
+import { type ButtonInteractionWithGuild, ButtonResponse, CommandFlags, CommandPermission } from "../../../types/discord.js";
+import { LabelBuilder, ModalBuilder, TextDisplayBuilder, TextInputBuilder, TextInputStyle } from "discord.js";
 
 class GexpCheckGenerateKickButton extends DiscordButton {
-  constructor(discord: DiscordManagerWithClient) {
-    super(discord);
-    this.data = new DiscordButtonData("gexpCheckGenerateKick");
-    this.response = ButtonResponse.None;
-    this.flags = [CommandFlags.StaffOnly, CommandFlags.InactivityCommand, CommandFlags.VerificationCommand];
-  }
+  override readonly data = new DiscordButtonData("gexpCheckGenerateKick");
+  override readonly response = ButtonResponse.None;
+  override readonly flags = [CommandFlags.InactivityCommand, CommandFlags.VerificationCommand];
+  override readonly permission = CommandPermission.Staff;
 
-  override async execute(interaction: ButtonInteraction) {
+  override async execute(interaction: ButtonInteractionWithGuild) {
     await interaction.showModal(
       new ModalBuilder()
         .setCustomId("gexpCheckGenerateKick")

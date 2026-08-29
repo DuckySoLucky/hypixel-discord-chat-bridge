@@ -13,12 +13,12 @@ with Hypixel.
 
 ## Documentation And Tutorials
 
-- [Commands](docs/Commands.md)
-- [Configuration](docs/Configuration.md)
-- [Frequently asked questions](docs/FAQ.md)
-- [Installation](docs/Installation.md)
-- [Contribute](CONTRIBUTING.md)
-- [Development Documentation](docs/DEVELOPMENT.md)
+- [Commands](/docs/Commands.md)
+- [Configuration](/docs/Configuration.md)
+- [Contributing](/docs/CONTRIBUTING.md)
+- [Extending The Bridge](/docs/ExtendingTheBridge.md)
+- [Frequently Asked Questions](/docs/FrequentlyAskedQuestions.md)
+- [Installation](/docs/Installation.md)
 
 If you found this project helpful or interesting, please consider giving it a star. It helps other developers find the project and shows your appreciation for the work
 that went into it. Thank you!

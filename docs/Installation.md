@@ -82,7 +82,7 @@ or manually set everything
 3. Run the container:
 
 ```bash
-  docker container run --restart=unless-stopped -itd -v ./config.json:/app/config.json -v ./data/:/app/data/ --name hypixel-discord-chat-bridge ghcr.io/duckysolucky/hypixel-discord-chat-bridge:latest
+  docker container run --restart=unless-stopped -itd -v ./config.json:/app/config.json -v ./data/:/app/data/ ./plugins/:/app/plugins/ --name hypixel-discord-chat-bridge ghcr.io/duckysolucky/hypixel-discord-chat-bridge:latest
 ```
 
 Note that the path of the configuration source file must either be relative (with the `./`) or absolute.
@@ -104,7 +104,7 @@ To sign into a Minecraft account please see the [FAQ](./FAQ.md#how-do-i-add-a-mi
 
 ---
 
-If you need any help help consider checking out the [FAQ](FAQ.md)
+If you need any help help consider checking out the [FAQ](/docs/FrequentlyAskedQuestions.md)
 
 Feel free to reach out to the maintainers directly on Discord. [@duckysolucky](https://discord.com/users/486155512568741900) and
 [@.kathund](https://discord.com/users/1276524855445164098)

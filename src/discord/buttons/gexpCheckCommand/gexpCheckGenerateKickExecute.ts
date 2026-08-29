@@ -1,19 +1,17 @@
 import DiscordButton from "../../private/buttons/DiscordButton.js";
 import DiscordButtonData from "../../private/buttons/DiscordButtonData.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
-import { type ButtonInteraction, MessageFlags } from "discord.js";
-import { CommandFlags, type DiscordManagerWithBot } from "../../../types/discord.js";
-import { SuccessEmbed } from "../../private/Embed.js";
+import { type ButtonInteractionWithGuild, CommandFlags, CommandPermission, type DiscordManagerWithBot } from "../../../types/discord.js";
+import { MessageFlags } from "discord.js";
+import { SuccessEmbed } from "../../private/EmbedHelper.js";
 import { delay } from "../../../utils/miscUtils.js";
 
 class GexpCheckGenerateKickExecuteButton extends DiscordButton<DiscordManagerWithBot> {
-  constructor(discord: DiscordManagerWithBot) {
-    super(discord);
-    this.data = new DiscordButtonData("gexpCheckGenerateKickExecute");
-    this.flags = [CommandFlags.StaffOnly, CommandFlags.InactivityCommand, CommandFlags.VerificationCommand, CommandFlags.RequiresMinecraftBot];
-  }
+  override readonly data = new DiscordButtonData("gexpCheckGenerateKickExecute");
+  override readonly flags = [CommandFlags.InactivityCommand, CommandFlags.VerificationCommand, CommandFlags.RequiresMinecraftBot];
+  override readonly permission = CommandPermission.Staff;
 
-  override async execute(interaction: ButtonInteraction) {
+  override async execute(interaction: ButtonInteractionWithGuild) {
     if (!interaction.message) return;
     const attachment = interaction.message.attachments.first();
     if (!attachment) throw new HypixelDiscordChatBridgeError("No commands file found on the message?");

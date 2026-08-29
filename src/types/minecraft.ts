@@ -1,10 +1,23 @@
 import type MinecraftManager from "../minecraft/MinecraftManager.js";
+import type RawRequestData from "hypixel-api-reborn/dist/Private/RawRequestData.js";
 import type { Client } from "minecraft-protocol";
 import type { DiscordManagerWithBot } from "./discord.js";
 import type { SkyBlockProfile, SkyBlockProfileName, SkyblockProfileWithMe, WithSelectedProfile } from "hypixel-api-reborn";
 
 export type MinecraftManagerWithBot = MinecraftManager & { bot: Client };
 export type MinecraftManagerWithClient = MinecraftManagerWithBot & { application: { discord: DiscordManagerWithBot } };
+export type MinecraftManagerWithPlugin<Plugin> = MinecraftManager & { plugin: Plugin };
+
+export type MinecraftChatChannel = "guild" | "officer";
+
+export interface MinecraftCommandContext {
+  readonly player: string;
+  readonly rawMessage: string;
+  readonly args: readonly string[];
+  readonly channel: MinecraftChatChannel;
+  readonly signal: AbortSignal;
+  reply(message: string): Promise<void>;
+}
 
 export interface CommandDataOptionJSON {
   name: string;
@@ -39,6 +52,7 @@ export interface SelectedProfileData {
   uuid: string;
   profile: SkyblockProfileWithMe;
   profiles: WithSelectedProfile<Map<SkyBlockProfileName | "UNKNOWN", SkyBlockProfile>>;
+  raw: RawRequestData<any>;
 }
 
 export const BedWarsModeNames = ["overall", "solo", "doubles", "threes", "fours", "4v4"] as const;
@@ -51,42 +65,40 @@ export function isBedWarsModeName(value: string): value is BedWarsModeName {
 
 export const DuelsInternalNames = [
   "uhc",
-  "skywars",
-  "megawalls",
+  "skyWars",
+  "megaWalls",
   "blitz",
   "op",
   "classic",
   "bow",
-  "noDebuff",
+  "potion",
   "combo",
-  "bowSpleef",
+  "bowspleef",
   "sumo",
   "bridge",
   "parkour",
   "arena",
   "boxing",
-  "bedwars",
-  "bedwarsRush"
+  "bedWars"
 ] as const;
 export type DuelsInternalName = (typeof DuelsInternalNames)[number];
 export const DuelsModeMap: Record<DuelsInternalName, string[]> = {
   uhc: ["uhc", "u"],
-  skywars: ["skywars", "sw"],
-  megawalls: ["megawalls", "mw", "m"],
+  skyWars: ["skywars", "sw"],
+  megaWalls: ["megawalls", "mw", "m"],
   blitz: ["blitz"],
   op: ["op"],
   classic: ["classic", "class", "c"],
   bow: ["bow"],
-  noDebuff: ["nodebuff", "ndb"],
+  potion: ["nodebuff", "ndb"],
   combo: ["combo"],
-  bowSpleef: ["bowspleef", "bs"],
+  bowspleef: ["bowspleef", "bs"],
   sumo: ["sumo", "s"],
   bridge: ["bridge", "b"],
   parkour: ["parkour", "p"],
   arena: ["arena", "a"],
   boxing: ["boxing"],
-  bedwars: ["bedwars", "bw"],
-  bedwarsRush: ["bedwarsRush", "bwr"]
+  bedWars: ["bedwars", "bw"]
 };
 
 export const DuelsModeNames = Object.values(DuelsModeMap)
@@ -104,19 +116,14 @@ export const DuelsModeAliastoInternalMap = Object.entries(DuelsModeMap).reduce(
   {} as Record<string, DuelsInternalName>
 );
 
-export interface ParsedDuelsStats {
-  title: string | null;
-  kills: number;
-  KDR: number;
-  wins: number;
-  WLR: number;
-  winStreak: number;
-  bestWinStreak: number;
-}
-
 export enum ResourcePackResult {
   SuccessfullyLoaded = 0,
   Declined = 1,
   FailedDownload = 2,
   Accepted = 3
+}
+
+export interface LatestProfileOptions {
+  garden?: boolean;
+  museum?: boolean;
 }

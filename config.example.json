@@ -1,6 +1,6 @@
 {
   "$schema": "./docs/config.schema.json",
-  "configVersion": 4,
+  "configVersion": 5,
   "API": {
     "hypixel": {
       "key": "HYPIXEL_API_KEY",
@@ -58,10 +58,14 @@
         "doxxes"
       ]
     },
-    "stripEmojisFromUsernames": true
+    "stripEmojisFromUsernames": true,
+    "stripSpacesFromUsernames": true,
+    "timeout": "5s",
+    "messageErrorReactions": true
   },
   "minecraft": {
     "commands": {
+      "timeout": "5s",
       "messageRepeatBypassLength": 24,
       "maxMessageLength": 256,
       "normal": {
@@ -105,7 +109,7 @@
       "server": "mc.hypixel.net",
       "port": 25565,
       "version": "1.21.11",
-      "accountsLocation": "./auth-cache"
+      "accountsLocation": "./data/auth-cache"
     }
   },
   "discord": {
@@ -181,6 +185,9 @@
       "Yellow": "#FFD700"
     },
     "backupConfigs": true,
-    "logToFiles": true
+    "logging": {
+      "saveToFiles": true,
+      "location": "./data/logs/{timestamp}"
+    }
   }
 }

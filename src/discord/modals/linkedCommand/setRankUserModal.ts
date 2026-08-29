@@ -2,19 +2,16 @@ import DiscordModal from "../../private/modals/DiscordModal.js";
 import DiscordModalData from "../../private/modals/DiscordModalData.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import LinkedCommand from "../../commands/verification/linkedCommand.js";
-import { CommandFlags, type DiscordManagerWithBot, GuildManagementAction } from "../../../types/discord.js";
-import { SuccessEmbed } from "../../private/Embed.js";
+import { CommandFlags, CommandPermission, type DiscordManagerWithBot, GuildManagementAction, type ModalSubmitInteractionWithGuild } from "../../../types/discord.js";
+import { SuccessEmbed } from "../../private/EmbedHelper.js";
 import { replaceVariables } from "../../../utils/stringUtils.js";
-import type { ModalSubmitInteraction } from "discord.js";
 
 class SetRankUserModal extends DiscordModal<DiscordManagerWithBot> {
-  constructor(discord: DiscordManagerWithBot) {
-    super(discord);
-    this.data = new DiscordModalData("setRankUser");
-    this.flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.StaffOnly, CommandFlags.VerificationCommand];
-  }
+  override readonly data = new DiscordModalData("setRankUser");
+  override readonly flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.VerificationCommand];
+  override readonly permission = CommandPermission.Staff;
 
-  override async execute(interaction: ModalSubmitInteraction) {
+  override async execute(interaction: ModalSubmitInteractionWithGuild) {
     const linkedCommand = new LinkedCommand(this.discord);
     if (!interaction.isFromMessage()) throw new HypixelDiscordChatBridgeError("Unable to find the linked user");
     const linked = await linkedCommand.getLinkedFromLinkedEmbed(interaction.message);

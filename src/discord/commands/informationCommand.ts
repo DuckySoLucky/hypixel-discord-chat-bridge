@@ -1,17 +1,13 @@
 import DiscordCommand from "../private/commands/DiscordCommand.js";
-import DiscordCommandData from "../private/commands/DiscordCommandData.js";
-import Embed from "../private/Embed.js";
-import { CommandFlags, type DiscordManagerWithBot, type Information } from "../../types/discord.js";
+import DiscordCommandDataBuilder from "../private/commands/DiscordCommandDataBuilder.js";
+import EmbedHelper from "../private/EmbedHelper.js";
+import { type ChatInputCommandInteractionWithGuild, CommandFlags, type DiscordManagerWithBot, type Information } from "../../types/discord.js";
 import { replaceVariables, titleCase } from "../../utils/stringUtils.js";
 import type DiscordManager from "../DiscordManager.js";
-import type { ChatInputCommandInteraction } from "discord.js";
 
 class InformationCommand extends DiscordCommand<DiscordManagerWithBot> {
-  constructor(discord: DiscordManagerWithBot) {
-    super(discord);
-    this.data = new DiscordCommandData().setName("information").setDescription("Shows information about the bot.");
-    this.flags = [CommandFlags.RequiresMinecraftBot];
-  }
+  override readonly data = new DiscordCommandDataBuilder().setName("information").setDescription("Shows information about the bot.");
+  override readonly flags = [CommandFlags.RequiresMinecraftBot];
 
   static FormatCommandOptions(name: string, required?: boolean): string {
     return replaceVariables(required ? ` ({${name}})` : ` [{${name}}]`, { username: "u" })
@@ -84,13 +80,13 @@ class InformationCommand extends DiscordCommand<DiscordManagerWithBot> {
     return { discordInformation, minecraftInformation, generalInformation };
   }
 
-  override async execute(interaction: ChatInputCommandInteraction) {
+  override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const { discordCommands, minecraftCommands } = InformationCommand.getCommands(this.discord);
     const { discordInformation, minecraftInformation, generalInformation } = InformationCommand.getInformation(this.discord);
 
     await interaction.followUp({
       embeds: [
-        new Embed()
+        new EmbedHelper()
           .setTitle("Hypixel Bridge Bot Commands")
           .addFields(
             { name: "**Discord Commands**: ", value: `${discordCommands}`, inline: true },

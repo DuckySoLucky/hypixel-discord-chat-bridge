@@ -1,40 +1,34 @@
 import DiscordCommand from "../../private/commands/DiscordCommand.js";
-import DiscordCommandData from "../../private/commands/DiscordCommandData.js";
-import Embed from "../../private/Embed.js";
+import DiscordCommandDataBuilder from "../../private/commands/DiscordCommandDataBuilder.js";
+import EmbedHelper from "../../private/EmbedHelper.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
-import { CommandFlags, type DiscordManagerWithBot, type ListMembers, type ListMembersGroup } from "../../../types/discord.js";
+import ms, { type StringValue } from "ms";
+import { type ChatInputCommandInteractionWithGuild, CommandFlags, type DiscordManagerWithBot, type ListMembers, type ListMembersGroup } from "../../../types/discord.js";
+import { MinecraftRequestTimeoutError } from "../../../minecraft/MinecraftRequestBroker.js";
 import { removeColorCodes } from "../../../utils/stringUtils.js";
-import type { ChatInputCommandInteraction } from "discord.js";
 
 class ListCommand extends DiscordCommand<DiscordManagerWithBot> {
-  constructor(discord: DiscordManagerWithBot) {
-    super(discord);
-    this.data = new DiscordCommandData().setName("list").setDescription("List of guild members.");
-    this.flags = [CommandFlags.RequiresMinecraftBot];
-  }
+  override readonly data = new DiscordCommandDataBuilder().setName("list").setDescription("List of guild members.");
+  override readonly flags = [CommandFlags.RequiresMinecraftBot];
 
-  getMessages(): Promise<string[]> {
-    return new Promise<string[]>((resolve) => {
-      const cachedMessages: string[] = [];
-      const listener = (data: { positionId: number; formattedMessage: string }) => {
-        const rawMessage = this.discord.application.minecraft.prismarineChat.fromNotch(data.formattedMessage);
-        const message = rawMessage.toString();
-        cachedMessages.push(rawMessage.toMotd());
-
-        if (message.startsWith("Online Members")) {
-          this.discord.application.minecraft.bot.removeListener("systemChat", listener);
-          resolve(cachedMessages);
-        }
-      };
-
-      this.discord.application.minecraft.bot.on("systemChat", listener);
-      this.discord.application.minecraft.bot.chat("/g list");
-
-      setTimeout(() => {
-        this.discord.application.minecraft.bot.removeListener("systemChat", listener);
-        resolve(cachedMessages);
-      }, this.commandTimeout);
+  async getMessages(): Promise<string[]> {
+    const cachedMessages: string[] = [];
+    const response = this.discord.application.minecraft.requestBroker.request({
+      description: "Hypixel guild list",
+      timeoutMs: ms(this.discord.application.config.minecraft.commands.timeout as StringValue),
+      matches: (message) => {
+        cachedMessages.push(message);
+        return message.startsWith("Online Members");
+      },
+      map: () => cachedMessages
     });
+    this.discord.application.minecraft.bot.chat("/g list");
+    try {
+      return await response;
+    } catch (error: unknown) {
+      if (error instanceof MinecraftRequestTimeoutError) return cachedMessages;
+      throw error;
+    }
   }
 
   async getListMembers(): Promise<ListMembers> {
@@ -75,9 +69,16 @@ class ListCommand extends DiscordCommand<DiscordManagerWithBot> {
     return { online, onlineString, total, totalString, groups };
   }
 
-  override async execute(interaction: ChatInputCommandInteraction) {
+  override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const { groups, totalString, onlineString } = await this.getListMembers();
-    await interaction.followUp({ embeds: [new Embed().setTitle("List Members").setDescription(`${totalString}\n${onlineString}`).setFields(groups)] });
+    await interaction.followUp({
+      embeds: [
+        new EmbedHelper()
+          .setTitle("List Members")
+          .setDescription(`${totalString}\n${onlineString}`)
+          .setFields(...groups)
+      ]
+    });
   }
 }
 

@@ -2,29 +2,17 @@ import DiscordButton from "../../private/buttons/DiscordButton.js";
 import DiscordButtonData from "../../private/buttons/DiscordButtonData.js";
 import GexpCheckCommand from "../../commands/verification/inactivity/gexpCheckCommand.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
-import {
-  type ButtonInteraction,
-  CheckboxGroupBuilder,
-  CheckboxGroupOptionBuilder,
-  LabelBuilder,
-  ModalBuilder,
-  RadioGroupBuilder,
-  RadioGroupOptionBuilder,
-  TextInputBuilder,
-  TextInputStyle
-} from "discord.js";
-import { ButtonResponse, CommandFlags, type DiscordManagerWithClient } from "../../../types/discord.js";
-import { gexpCheckData } from "../../../types/inactivity.js";
+import { type ButtonInteractionWithGuild, ButtonResponse, CommandFlags, CommandPermission } from "../../../types/discord.js";
+import { CheckboxGroupBuilder, CheckboxGroupOptionBuilder, LabelBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } from "discord.js";
+import { type GexpCheckOptionsDisplays, gexpCheckData } from "../../../types/inactivity.js";
 
 class GexpCheckFiltersButton extends DiscordButton {
-  constructor(discord: DiscordManagerWithClient) {
-    super(discord);
-    this.data = new DiscordButtonData("gexpCheckFilters");
-    this.response = ButtonResponse.None;
-    this.flags = [CommandFlags.StaffOnly, CommandFlags.InactivityCommand, CommandFlags.VerificationCommand];
-  }
+  override readonly data = new DiscordButtonData("gexpCheckFilters");
+  override readonly response = ButtonResponse.None;
+  override readonly flags = [CommandFlags.InactivityCommand, CommandFlags.VerificationCommand];
+  override readonly permission = CommandPermission.Staff;
 
-  override async execute(interaction: ButtonInteraction) {
+  override async execute(interaction: ButtonInteractionWithGuild) {
     const options = GexpCheckCommand.getOptionsfromMessage(interaction.message);
     if (!options) throw new HypixelDiscordChatBridgeError("Unable to find the requirement gexp");
     const guild = this.discord.application.botGuild ? this.discord.application.botGuild : await this.discord.application.getBotGuild();
@@ -60,16 +48,17 @@ class GexpCheckFiltersButton extends DiscordButton {
                 )
                 .setRequired(false)
             ),
-          new LabelBuilder().setLabel("Page").setRadioGroupComponent(
-            new RadioGroupBuilder()
-              .setCustomId("gexpCheckFiltersPage")
+          new LabelBuilder().setLabel("Filters").setCheckboxGroupComponent(
+            new CheckboxGroupBuilder()
+              .setCustomId("gexpCheckFiltersMain")
               .setRequired(false)
               .setOptions(
-                Object.entries(gexpCheckData).map(([id, { buttonLabel }]) =>
-                  new RadioGroupOptionBuilder()
+                Object.entries(gexpCheckData).map(([id, { label, description }]) =>
+                  new CheckboxGroupOptionBuilder()
                     .setValue(id)
-                    .setLabel(buttonLabel)
-                    .setDefault(id === options.type)
+                    .setLabel(label)
+                    .setDescription(description)
+                    .setDefault(options[id.replaceAll("gexpcheck_", "") as keyof GexpCheckOptionsDisplays] ?? false)
                 )
               )
           )

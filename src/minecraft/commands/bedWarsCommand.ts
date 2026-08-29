@@ -1,20 +1,17 @@
 import MinecraftCommand from "../private/commands/MinecraftCommand.js";
 import MinecraftCommandData from "../private/commands/MinecraftCommandData.js";
 import MinecraftCommandDataOption from "../private/commands/MinecraftCommandDataOption.js";
-import { type BedWarsInternalName, type BedWarsModeName, type MinecraftManagerWithBot, isBedWarsModeName } from "../../types/minecraft.js";
-import { formatNumber } from "../../utils/stringUtils.js";
+import { type BedWarsInternalName, type BedWarsModeName, isBedWarsModeName } from "../../types/minecraft.js";
+import { formatNumber, titleCase } from "../../utils/stringUtils.js";
 import { getPlayer } from "../../utils/hypixelUtils.js";
 import type { BedWarsMode, Player } from "hypixel-api-reborn";
 
 class BedwarsCommand extends MinecraftCommand {
-  constructor(minecraft: MinecraftManagerWithBot) {
-    super(minecraft);
-    this.data = new MinecraftCommandData()
-      .setName("bedwars")
-      .setDescription("BedWars stats of specified user.")
-      .setAliases(["bw", "bws"])
-      .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft username")]);
-  }
+  override readonly data = new MinecraftCommandData()
+    .setName("bedwars")
+    .setDescription("BedWars stats of specified user.")
+    .setAliases(["bw", "bws"])
+    .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft username")]);
 
   convertMode(mode: BedWarsModeName): BedWarsInternalName {
     switch (mode) {
@@ -37,9 +34,9 @@ class BedwarsCommand extends MinecraftCommand {
     let stats: BedWarsMode;
     if (mode === "overall") stats = hypixelPlayer.stats.BedWars;
     else stats = hypixelPlayer.stats.BedWars[this.convertMode(mode)];
-    const { finals, wins, winstreak } = stats;
+    const { finals, wins, winstreak, winLossRatio } = stats;
     const { broken, ratio } = stats.beds;
-    return { finalKills: finals.total.kills, FKDR: finals.total.ratio, wins, winstreak, broken, BLRatio: ratio };
+    return { finalKills: finals.total.kills, FKDR: finals.total.ratio, wins, winstreak, broken, BLRatio: ratio, winLossRatio };
   }
 
   override async execute(player: string, message: string) {
@@ -58,12 +55,12 @@ class BedwarsCommand extends MinecraftCommand {
     }
 
     const hypixelPlayer = await getPlayer(player);
-    const { finalKills, FKDR, wins, winstreak, broken, BLRatio } = this.getStats(hypixelPlayer, mode);
+    const { finalKills, FKDR, wins, winstreak, broken, BLRatio, winLossRatio } = this.getStats(hypixelPlayer, mode);
 
-    this.send(
-      `[${Math.floor(hypixelPlayer.stats.BedWars.level)}✫] ${hypixelPlayer.nickname} ${mode} FK: ${formatNumber(
+    await this.send(
+      `[${Math.floor(hypixelPlayer.stats.BedWars.level)}✫] ${hypixelPlayer.nickname} ${titleCase(mode)} FK: ${formatNumber(
         finalKills
-      )} FKDR: ${FKDR} W: ${formatNumber(wins)} BB: ${formatNumber(broken)} BLR: ${BLRatio} WS: ${winstreak}`
+      )} FKDR: ${FKDR} W: ${formatNumber(wins)} WLR: ${winLossRatio} BB: ${formatNumber(broken)} BLR: ${BLRatio} WS: ${winstreak}`
     );
   }
 }

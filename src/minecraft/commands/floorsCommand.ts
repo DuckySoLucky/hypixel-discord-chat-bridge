@@ -5,19 +5,16 @@ import MinecraftCommandDataOption from "../private/commands/MinecraftCommandData
 import prettyMilliseconds from "pretty-ms";
 import { formatNumber } from "../../utils/stringUtils.js";
 import { getSelectedProfile } from "../../utils/hypixelUtils.js";
-import type { FloorData, MinecraftManagerWithBot } from "../../types/minecraft.js";
+import type { FloorData } from "../../types/minecraft.js";
 import type { SkyBlockMemberDungeonsFloor } from "hypixel-api-reborn";
 
 // CREDITS: by @Kathund (https://github.com/Kathund)
 class FloorCommand extends MinecraftCommand {
-  constructor(minecraft: MinecraftManagerWithBot) {
-    super(minecraft);
-    this.data = new MinecraftCommandData()
-      .setName("floor")
-      .setDescription("Returns stats about a floor")
-      .setAliases(["f1", "f2", "f3", "f4", "f5", "f6", "f7", "m1", "m2", "m3", "m4", "m5", "m6", "m7"])
-      .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
-  }
+  override readonly data = new MinecraftCommandData()
+    .setName("floor")
+    .setDescription("Returns stats about a floor")
+    .setAliases(["f1", "f2", "f3", "f4", "f5", "f6", "f7", "m1", "m2", "m3", "m4", "m5", "m6", "m7"])
+    .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
 
   override async execute(player: string, message: string) {
     player = this.getArgs(message)[0] || player;
@@ -57,7 +54,7 @@ class FloorCommand extends MinecraftCommand {
     const floorData = floors.find((floor) => floor.id === floorId);
     if (floorData === undefined || floorData.timesPlayed === 0) throw new HypixelDiscordChatBridgeError(`${username} has never done ${floorId} before.`);
 
-    this.send(
+    await this.send(
       `${username}'s ${floorId} completions ${formatNumber(floorData.timesPlayed)} | S+: ${prettyMilliseconds(floorData.fastestTimeSPlus, {
         secondsDecimalDigits: 0
       })} | S: ${prettyMilliseconds(floorData.fastestTimeS, { secondsDecimalDigits: 0 })}`

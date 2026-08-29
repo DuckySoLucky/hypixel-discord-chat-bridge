@@ -1,6 +1,19 @@
-import { Client, Guild } from "discord.js";
 import type DiscordManager from "../discord/DiscordManager.js";
-import type { Config } from "./config.js";
+import type {
+  APIEmbedField,
+  AutocompleteInteraction,
+  BaseInteraction,
+  ButtonInteraction,
+  ChatInputCommandInteraction,
+  Client,
+  ColorResolvable,
+  EmbedAuthorOptions,
+  Guild,
+  GuildMember,
+  ModalSubmitInteraction
+} from "discord.js";
+import type { Config, ConfigOtherColors } from "./config.js";
+import type { DevData, DevName } from "./application.ts";
 import type { MinecraftManagerWithBot } from "./minecraft.js";
 
 declare module "discord.js" {
@@ -10,15 +23,19 @@ declare module "discord.js" {
   }
 }
 
+export enum CommandPermission {
+  Admin,
+  Staff,
+  GuildMember,
+  Linked,
+  Anyone
+}
+
 export enum CommandFlags {
-  GuildMemberOnly,
   RequiresMinecraftBot,
-  StaffOnly,
-  AdminOnly,
   VerificationCommand,
   InactivityCommand,
-  BlacklistCommand,
-  VerifiedOnly
+  BlacklistCommand
 }
 
 export enum BasicInteractionResponse {
@@ -44,6 +61,7 @@ export type ChannelName = (typeof ChannelNames)[number];
 export type DiscordManagerWithClient = DiscordManager & { client: Client<true> };
 export type DiscordManagerWithGuild = DiscordManagerWithClient & { guild: Guild };
 export type DiscordManagerWithBot = DiscordManagerWithClient & { application: { minecraft: MinecraftManagerWithBot } };
+export type DiscordManagerWithPlugin<Plugin> = DiscordManager & { plugin: Plugin };
 
 export interface ListMembersGroup {
   name: string;
@@ -74,7 +92,7 @@ export interface Requirements {
   requirements: Requirement[];
 }
 
-export interface AutoComplateOption {
+export interface AutocompleteOption {
   name: string;
   value?: string;
 }
@@ -104,3 +122,45 @@ export enum GuildManagementAction {
 }
 
 export type GuildManagementActionResponse = { action: GuildManagementAction; message: string | null };
+
+export type GuildManagementCommand = "demote" | "invite" | "kick" | "mute" | "promote" | "setrank" | "unmute";
+
+export interface GuildManagementRequest {
+  readonly action: GuildManagementCommand;
+  readonly username: string;
+  readonly argument?: string;
+}
+
+export type BaseInteractionWithGuild = BaseInteraction & {
+  guild: Guild;
+  member: GuildMember;
+  isChatInputCommand(): this is ChatInputCommandInteractionWithGuild;
+  isButton(): this is ButtonInteractionWithGuild;
+  isAutocomplete(): this is AutocompleteInteractionWithGuild;
+  isAutocomplete(): this is AutocompleteInteractionWithGuild;
+};
+export type ChatInputCommandInteractionWithGuild = ChatInputCommandInteraction & { guild: Guild; member: GuildMember };
+export type ButtonInteractionWithGuild = ButtonInteraction & { guild: Guild; member: GuildMember };
+export type AutocompleteInteractionWithGuild = AutocompleteInteraction & { guild: Guild; member: GuildMember };
+export type ModalSubmitInteractionWithGuild = ModalSubmitInteraction & { guild: Guild; member: GuildMember };
+
+export const EmbedStyleNames = ["Generic", "Warning", "Error", "Success"] as const;
+export type EmbedStyleName = (typeof EmbedStyleNames)[number];
+export interface EmbedStyleData {
+  title?: string;
+  author?: EmbedAuthorOptions;
+  description?: string;
+  color?: ConfigOtherColors | ColorResolvable;
+  footer?: DevName | DevData;
+}
+
+export interface MinecraftFieldData {
+  formattedNickname?: string;
+  nickname?: string;
+  uuid?: string;
+}
+
+export interface EmbedHelperField extends APIEmbedField {
+  blockValue?: boolean;
+  formatTimestamp?: boolean;
+}

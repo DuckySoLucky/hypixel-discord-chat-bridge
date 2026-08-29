@@ -1,44 +1,36 @@
 import ButtonHandler from "./handlers/ButtonHandler.js";
 import CommandHandler from "./handlers/CommandHandler.js";
 import CommunicationBridge from "../private/CommunicationBridge.js";
-import Embed, { ErrorEmbed } from "./private/Embed.js";
+import EmbedHelper, { ErrorEmbed } from "./private/EmbedHelper.js";
 import EventHandler from "./handlers/EventHandler.js";
 import HypixelDiscordChatBridgeError from "../private/error.js";
 import InteractionHandler from "./handlers/InteractionHandler.js";
 import MessageHandler from "./handlers/MessageHandler.js";
 import ModalHandler from "./handlers/ModalHandler.js";
 import StateHandler from "./handlers/StateHandler.js";
+import { AttachmentBuilder, type Channel, ChannelType, Client, Events, GatewayIntentBits, Guild, MessageFlags, Webhook } from "discord.js";
 import {
-  AttachmentBuilder,
-  AutocompleteInteraction,
-  ButtonInteraction,
-  type Channel,
-  ChannelType,
-  ChatInputCommandInteraction,
-  Client,
-  Events,
-  GatewayIntentBits,
-  Guild,
-  MessageFlags,
-  ModalSubmitInteraction,
-  Webhook
-} from "discord.js";
-import {
+  type AutocompleteInteractionWithGuild,
+  type ButtonInteractionWithGuild,
   type ChannelName,
+  type ChatInputCommandInteractionWithGuild,
   type DiscordManagerWithClient,
   type DiscordManagerWithGuild,
   type GenericChannelName,
   type LoggerChannelName,
-  LoggerChannelNames
+  LoggerChannelNames,
+  type ModalSubmitInteractionWithGuild
 } from "../types/discord.js";
 import { canSendMessages, getApplicationOwners } from "../utils/discordUtils.js";
 import { messageToImage } from "../utils/messageToImage.js";
 import { removeColorCodes, replaceVariables } from "../utils/stringUtils.js";
+import { safeListener, toError } from "../utils/asyncUtils.js";
 import { writeFile } from "node:fs/promises";
 import type Application from "../Application.js";
-import type { BroadcastEvent } from "../types/bridge.js";
+import type { CleanEmbedEvent, HeadedEmbedEvent, MinecraftToDiscordMessage, PlayerToggleEvent } from "../types/bridge.js";
+import type { Lifecycle, LifecycleState } from "../core/Lifecycle.js";
 
-class DiscordManager extends CommunicationBridge {
+class DiscordManager extends CommunicationBridge implements Lifecycle {
   readonly buttonHandler: ButtonHandler;
   readonly commandHandler: CommandHandler;
   readonly eventHandler: EventHandler;
@@ -46,10 +38,12 @@ class DiscordManager extends CommunicationBridge {
   readonly messageHandler: MessageHandler;
   readonly stateHandler: StateHandler;
   readonly modalHandler: ModalHandler;
+  private state: LifecycleState = "idle";
+  private startPromise?: Promise<void>;
   client?: Client;
   guild?: Guild;
   constructor(readonly application: Application) {
-    super();
+    super(application.events);
     this.buttonHandler = new ButtonHandler(this);
     this.commandHandler = new CommandHandler(this);
     this.eventHandler = new EventHandler(this);
@@ -59,22 +53,85 @@ class DiscordManager extends CommunicationBridge {
     this.modalHandler = new ModalHandler(this);
   }
 
-  async connect() {
-    this.client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers] });
-    this.client.config = this.application.config;
-    this.client.discordManager = this;
-    await this.commandHandler.deployCommands();
-    this.client.on(Events.ClientReady, () => this.stateHandler.onReady());
-    this.client.on(Events.MessageCreate, (message) => this.messageHandler.onMessage(message));
-    this.client.on(Events.InteractionCreate, (interaction) => this.interactionHandler.onInteraction(interaction));
-    this.client.on(Events.GuildMemberAdd, (member) => this.eventHandler.onGuildMemberAdd(member));
-    this.client.on(Events.GuildMemberRemove, (member) => this.eventHandler.onGuildMemberRemove(member));
-    this.client.login(this.application.config.discord.token).catch((e) => console.error(e));
+  start(): Promise<void> {
+    if (this.state === "running") return Promise.resolve();
+    if (this.startPromise) return this.startPromise;
 
-    process.on("SIGINT", async () => {
-      await this.stateHandler.onClose();
-      process.kill(process.pid, "SIGTERM");
+    this.state = "starting";
+    this.stopBridgeListeners();
+    this.listen("minecraft-message", (event) => this.onBroadcast(event));
+    this.listen("player-toggle", (event) => this.onPlayerToggle(event));
+    this.listen("clean-embed", (event) => this.onBroadcastCleanEmbed(event));
+    this.listen("headed-embed", (event) => this.onBroadcastHeadedEmbed(event));
+    const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers] });
+    this.client = client;
+    client.config = this.application.config;
+    client.discordManager = this;
+
+    const readyPromise = new Promise<void>((resolve, reject) => {
+      client.once(
+        Events.ClientReady,
+        safeListener(async () => {
+          try {
+            await this.stateHandler.onReady();
+            this.state = "running";
+            resolve();
+          } catch (error: unknown) {
+            reject(toError(error));
+          }
+        }, reject)
+      );
     });
+
+    client.on(
+      Events.MessageCreate,
+      safeListener((message) => this.messageHandler.onMessage(message), this.reportError)
+    );
+    client.on(
+      Events.InteractionCreate,
+      safeListener((interaction) => this.interactionHandler.onInteraction(interaction), this.reportError)
+    );
+    client.on(
+      Events.GuildMemberAdd,
+      safeListener((member) => this.eventHandler.onGuildMemberAdd(member), this.reportError)
+    );
+    client.on(
+      Events.GuildMemberRemove,
+      safeListener((member) => this.eventHandler.onGuildMemberRemove(member), this.reportError)
+    );
+
+    this.startPromise = (async () => {
+      try {
+        await this.commandHandler.deployRegisteredCommands();
+        await client.login(this.application.config.discord.token);
+        await readyPromise;
+      } catch (error: unknown) {
+        this.state = "idle";
+        client.removeAllListeners();
+        await client.destroy().catch(console.error);
+        if (this.client === client) this.client = undefined;
+        throw toError(error);
+      } finally {
+        this.startPromise = undefined;
+      }
+    })();
+
+    return this.startPromise;
+  }
+
+  async stop(): Promise<void> {
+    if (this.state === "stopping" || this.state === "idle") return;
+    this.state = "stopping";
+    if (this.isClientOnline()) await this.stateHandler.onClose();
+    const client = this.client;
+    this.client = undefined;
+    this.guild = undefined;
+    if (client) {
+      client.removeAllListeners();
+      await client.destroy();
+    }
+    this.stopBridgeListeners();
+    this.state = "idle";
   }
 
   async getWebhook(type: ChannelName): Promise<Webhook | null> {
@@ -102,19 +159,20 @@ class DiscordManager extends CommunicationBridge {
     }
   }
 
-  override async onBroadcast(event: BroadcastEvent) {
-    let { fullMessage, chatType, username, rank, guildRank, message, color = "Green" } = event;
-    if (fullMessage === undefined || chatType === undefined || message === undefined) return;
-
+  async onBroadcast(event: MinecraftToDiscordMessage): Promise<void> {
+    let { fullMessage, chatType, message } = event;
     const mode = chatType === "Debug" ? "text" : this.application.config.bridge.discord.mode;
     message = ["text"].includes(mode) ? fullMessage : message;
     if (message.trim().length === 0) return;
 
     const channel = await this.getChannel(chatType);
     if (channel === null || !channel.isSendable()) return console.error(`Channel "${chatType.replace(/§[0-9a-fk-or]/g, "").trim()}" not found!`);
-    if (chatType === "Debug") return await channel.send({ content: message });
+    if (event.chatType === "Debug") {
+      await channel.send({ content: message });
+      return;
+    }
 
-    if (username === undefined || rank === undefined || guildRank === undefined) return;
+    const { username, rank, guildRank, color = "Green" } = event;
     console.broadcast(`${username} [${guildRank.replace(/§[0-9a-fk-or]/g, "").replace(/^\[|\]$/g, "")}]: ${message}`, "Discord");
 
     if (mode === "minecraft") message = replaceVariables(this.application.config.bridge.discord.format, { chatType, username, rank, guildRank, message });
@@ -123,7 +181,7 @@ class DiscordManager extends CommunicationBridge {
       case "bot": {
         await channel.send({
           embeds: [
-            new Embed()
+            new EmbedHelper()
               .setColor(color)
               .setDescription(message)
               .setFooter({ text: guildRank })
@@ -133,7 +191,7 @@ class DiscordManager extends CommunicationBridge {
 
         if (message.includes("https://")) {
           const links = message.match(/https?:\/\/[^\s]+/g);
-          if (links) channel.send(links.join("\n"));
+          if (links) await channel.send(links.join("\n"));
         }
 
         break;
@@ -143,14 +201,14 @@ class DiscordManager extends CommunicationBridge {
         if (message.length === 0) return;
         const webhook = await this.getWebhook(chatType);
         if (webhook === null) return;
-        webhook.send({ content: message, username: username, avatarURL: `https://www.mc-heads.net/avatar/${username}` });
+        await webhook.send({ content: message, username: username, avatarURL: `https://www.mc-heads.net/avatar/${username}` });
         break;
       }
       case "minecraft": {
         await channel.send({ files: [new AttachmentBuilder(await messageToImage(message, username), { name: `${username}.png` })] });
         if (message.includes("https://")) {
           const links = message.match(/https?:\/\/[^\s]+/g);
-          if (links) channel.send(links.join("\n"));
+          if (links) await channel.send(links.join("\n"));
         }
         break;
       }
@@ -164,27 +222,27 @@ class DiscordManager extends CommunicationBridge {
     }
   }
 
-  override async onBroadcastCleanEmbed(event: BroadcastEvent) {
+  async onBroadcastCleanEmbed(event: CleanEmbedEvent): Promise<void> {
     const { chatType, message, color } = event;
     if (chatType === undefined || message === undefined || color === undefined) return;
     console.broadcast(message, "Event");
 
     const channel = await this.getChannel(chatType);
     if (channel === null || !channel.isSendable()) return console.error(`Channel "${chatType.replace(/§[0-9a-fk-or]/g, "").trim()}" not found!`);
-    await channel.send({ embeds: [new Embed().setColor(color).setDescription(message).setFooter(null)] });
+    await channel.send({ embeds: [new EmbedHelper().setColor(color).setDescription(message).setFooter(null)] });
   }
 
-  override async onBroadcastHeadedEmbed(event: BroadcastEvent) {
+  async onBroadcastHeadedEmbed(event: HeadedEmbedEvent): Promise<void> {
     const { message, title = "", icon = "", color, chatType } = event;
     if (message === undefined || color === undefined || chatType === undefined) return;
     console.broadcast(message, "Event");
 
     const channel = await this.getChannel(chatType);
     if (channel === null || !channel.isSendable()) return console.error(`Channel "${chatType.replace(/§[0-9a-fk-or]/g, "").trim()}" not found!`);
-    await channel.send({ embeds: [new Embed().setColor(color).setDescription(message).setAuthor({ name: title, iconURL: icon }).setFooter(null)] });
+    await channel.send({ embeds: [new EmbedHelper().setColor(color).setDescription(message).setAuthor({ name: title, iconURL: icon }).setFooter(null)] });
   }
 
-  override async onPlayerToggle(event: BroadcastEvent) {
+  async onPlayerToggle(event: PlayerToggleEvent): Promise<void> {
     let { fullMessage, username, message, color, chatType } = event;
     if (fullMessage === undefined || username === undefined || message === undefined || color === undefined || chatType === undefined) return;
     console.broadcast(message, "Event");
@@ -195,7 +253,7 @@ class DiscordManager extends CommunicationBridge {
       case "bot":
         await channel.send({
           embeds: [
-            new Embed()
+            new EmbedHelper()
               .setColor(color)
               .setAuthor({ name: message, iconURL: `https://www.mc-heads.net/avatar/${username}` })
               .setFooter(null)
@@ -210,7 +268,7 @@ class DiscordManager extends CommunicationBridge {
         await webhook.send({
           username: username,
           avatarURL: `https://www.mc-heads.net/avatar/${username}`,
-          embeds: [new Embed().setColor(color).setDescription(message).setFooter(null)]
+          embeds: [new EmbedHelper().setColor(color).setDescription(message).setFooter(null)]
         });
         break;
       case "minecraft":
@@ -231,7 +289,7 @@ class DiscordManager extends CommunicationBridge {
       .join("");
   }
 
-  formatMessage(message: string, data: Record<string, any>) {
+  formatMessage(message: string, data: Readonly<Record<string, import("../utils/stringUtils.js").TemplatePrimitive>>): string {
     return replaceVariables(message, data);
   }
 
@@ -240,7 +298,11 @@ class DiscordManager extends CommunicationBridge {
   }
 
   isClientOnline(): this is DiscordManagerWithClient {
-    return this.client?.isReady() !== undefined;
+    return this.client?.isReady() === true;
+  }
+
+  hasClient(): this is DiscordManager & { client: Client } {
+    return this.client !== undefined;
   }
 
   async getChannel(type: ChannelName): Promise<Channel | null> {
@@ -255,7 +317,7 @@ class DiscordManager extends CommunicationBridge {
     if (!config || !config.enabled) return null;
     if (config.channel === null) {
       if (!this.isGuildReady()) {
-        this.stateHandler.loadGuild();
+        await this.stateHandler.loadGuild();
         throw new HypixelDiscordChatBridgeError("The discord server isn't ready. Please try again later");
       }
 
@@ -329,7 +391,7 @@ class DiscordManager extends CommunicationBridge {
 
   async handleError(
     error: Error | HypixelDiscordChatBridgeError,
-    interaction: ChatInputCommandInteraction | ButtonInteraction | AutocompleteInteraction | ModalSubmitInteraction | null = null
+    interaction: ChatInputCommandInteractionWithGuild | ButtonInteractionWithGuild | AutocompleteInteractionWithGuild | ModalSubmitInteractionWithGuild | null = null
   ) {
     console.error(error);
     await this.logError(error);
@@ -347,6 +409,8 @@ class DiscordManager extends CommunicationBridge {
       console.error(e);
     }
   }
+
+  private readonly reportError = (error: unknown): Promise<void> => this.handleError(toError(error));
 }
 
 export default DiscordManager;

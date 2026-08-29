@@ -1,27 +1,24 @@
 import DiscordCommand from "../../private/commands/DiscordCommand.js";
-import DiscordCommandData from "../../private/commands/DiscordCommandData.js";
-import Embed, { SuccessEmbed } from "../../private/Embed.js";
+import DiscordCommandDataBuilder from "../../private/commands/DiscordCommandDataBuilder.js";
+import EmbedHelper, { SuccessEmbed } from "../../private/EmbedHelper.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import LinkedUser from "../../../data/linked/LinkedUser.js";
 import UpdateCommand from "./updateCommand.js";
-import { type ChatInputCommandInteraction, MessageFlags } from "discord.js";
-import { CommandFlags, type DiscordManagerWithBot } from "../../../types/discord.js";
+import { type ChatInputCommandInteractionWithGuild, CommandFlags, type DiscordManagerWithBot } from "../../../types/discord.js";
+import { MessageFlags } from "discord.js";
 import { delay } from "../../../utils/miscUtils.js";
 import { getPlayer } from "../../../utils/hypixelUtils.js";
 
 class VerifyCommand extends DiscordCommand<DiscordManagerWithBot> {
+  override readonly data = new DiscordCommandDataBuilder()
+    .setName("verify")
+    .setDescription("Connect your Discord account to Minecraft")
+    .addStringOption((option) => option.setName("username").setDescription("Minecraft Username").setRequired(true));
+  override readonly flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.VerificationCommand];
   discordId: string | null = null;
   isSelf: boolean = false;
-  constructor(discord: DiscordManagerWithBot) {
-    super(discord);
-    this.data = new DiscordCommandData()
-      .setName("verify")
-      .setDescription("Connect your Discord account to Minecraft")
-      .addStringOption((option) => option.setName("username").setDescription("Minecraft Username").setRequired(true));
-    this.flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.VerificationCommand];
-  }
 
-  override async execute(interaction: ChatInputCommandInteraction) {
+  override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     try {
       if (this.discordId === null) {
         this.isSelf = true;
@@ -82,9 +79,9 @@ class VerifyCommand extends DiscordCommand<DiscordManagerWithBot> {
       const instructions = steps.map((step, index) => `${index + 1}. ${step}`).join("\n\n");
       await interaction.followUp({
         embeds: [
-          new Embed()
+          new EmbedHelper()
             .setAuthor({ name: "Link with Hypixel Social Media" })
-            .setFields([{ name: "Instructions:", value: instructions }])
+            .setFields({ name: "Instructions:", value: instructions })
             .setImage("https://media.discordapp.net/attachments/922202066653417512/1066476136953036800/tutorial.gif")
             .setDevFooter("Kathund")
         ],

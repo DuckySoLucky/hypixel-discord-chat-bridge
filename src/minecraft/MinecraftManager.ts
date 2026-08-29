@@ -2,66 +2,125 @@ import CommandHandler from "./handlers/CommandHandler.js";
 import CommunicationBridge from "../private/CommunicationBridge.js";
 import MessageHandler from "./handlers/MessageHandler.js";
 import MinecraftData from "minecraft-data";
+import MinecraftRequestBroker, { MinecraftRequestTimeoutError } from "./MinecraftRequestBroker.js";
 import PrismarineChat from "prismarine-chat";
 import PrismarineRegistry, { type RegistryPc } from "prismarine-registry";
 import StateHandler from "./handlers/StateHandler.js";
+import ms, { type StringValue } from "ms";
 import { type Client, createClient } from "minecraft-protocol";
 import { ResourcePackResult } from "../types/minecraft.js";
 import { replaceVariables } from "../utils/stringUtils.js";
+import { runDetached, toError } from "../utils/asyncUtils.js";
 import type Application from "../Application.js";
-import type { BroadcastEvent } from "../types/bridge.js";
+import type { DiscordToMinecraftMessage } from "../types/bridge.js";
+import type { Lifecycle, LifecycleState } from "../core/Lifecycle.js";
 import type { MinecraftManagerWithBot } from "../types/minecraft.js";
 import type { NBT } from "prismarine-nbt";
 import type { PrismarineChatFormatter } from "prismarine-chat";
 
-class MinecraftManager extends CommunicationBridge {
-  readonly supportedVersions: string[] = ["1.21.11"];
-  readonly unsupportedVersions: Record<string, { reason: string; disable: boolean }> = {
-    "1.8.9": { reason: "1.8.9 is old and outdated. It will no longer be supported please move to 1.21.11", disable: true }
+class MinecraftManager extends CommunicationBridge implements Lifecycle {
+  static supportedVersions: string[] = ["1.21.11"];
+  static unsupportedVersions: Record<string, { reason: string; disable: boolean }> = {
+    "1.8.9": { reason: "1.8.9 is old and outdated. It will no longer be supported please move to 1.21.11 or higher", disable: true }
   };
   readonly stateHandler: StateHandler;
   readonly commandHandler: CommandHandler;
   readonly messageHandler: MessageHandler;
   readonly prismarineRegistry: RegistryPc;
   readonly prismarineChat: PrismarineChatFormatter;
+  readonly requestBroker: MinecraftRequestBroker;
   private readonly indexedData;
+  private readonly intentionallyClosedClients = new WeakSet<Client>();
+  private state: LifecycleState = "idle";
+  private reconnectTimer?: NodeJS.Timeout;
+  private startPromise?: Promise<void>;
+  private resolveStart?: () => void;
+  private rejectStart?: (error: Error) => void;
   bot?: Client;
   constructor(readonly application: Application) {
-    super();
+    super(application.events);
     this.stateHandler = new StateHandler(this);
     this.commandHandler = new CommandHandler(this);
     this.messageHandler = new MessageHandler(this);
     this.prismarineRegistry = PrismarineRegistry(this.application.config.minecraft.bot.version) as RegistryPc;
     this.prismarineChat = PrismarineChat(this.prismarineRegistry);
+    this.requestBroker = new MinecraftRequestBroker(this.prismarineChat);
     this.indexedData = MinecraftData(this.application.config.minecraft.bot.version);
   }
 
-  async connect() {
-    this.bot = this.createBotConnection();
-    this.listenForRegistry(this.bot);
-    this.listenForSettings(this.bot);
-    this.listenForResourcePacks(this.bot);
+  async start(): Promise<void> {
+    if (this.state === "running") return;
+    if (this.startPromise) return this.startPromise;
 
-    this.stateHandler.registerEvents();
-    await this.commandHandler.deployCommands();
-    this.messageHandler.registerEvents();
+    this.state = "starting";
+    this.stopBridgeListeners();
+    this.listen("discord-message", (event) => this.onBroadcast(event));
+    const client = this.createBotConnection();
+    this.bot = client;
+    const startupPromise = new Promise<void>((resolve, reject) => {
+      this.resolveStart = resolve;
+      this.rejectStart = reject;
+    });
+    this.startPromise = startupPromise;
+
+    this.listenForRegistry(client);
+    this.listenForSettings(client);
+    this.listenForResourcePacks(client);
+    this.requestBroker.start(client);
+    this.stateHandler.registerEvents(client);
+    this.messageHandler.registerEvents(client);
+
+    try {
+      await startupPromise;
+    } catch (error: unknown) {
+      this.finishStart();
+      this.state = "idle";
+      throw toError(error);
+    }
   }
 
-  private createBotConnection() {
-    const version = this.unsupportedVersions[this.application.config.minecraft.bot.version];
-    if (version) {
-      console.warn(`[minecraft.bot.version] You currently have an unsupported version selected (${this.application.config.minecraft.bot.version})`);
-      console.warn(`[minecraft.bot.version] ${version.reason}`);
-      console.warn(`[minecraft.bot.version] The currently supported versions are ${this.supportedVersions.join(", ")}`);
-      if (version.disable) process.exit(1);
+  stop(): Promise<void> {
+    if (this.state === "stopping") return Promise.resolve();
+    this.state = "stopping";
+    if (this.reconnectTimer) clearTimeout(this.reconnectTimer);
+    this.reconnectTimer = undefined;
+    this.requestBroker.stop(new Error("Minecraft client is shutting down."));
+    this.stopBridgeListeners();
+
+    const client = this.bot;
+    this.bot = undefined;
+    if (client) {
+      this.intentionallyClosedClients.add(client);
+      client.end("Application shutdown");
+      client.removeAllListeners();
     }
 
-    if (!this.supportedVersions.includes(this.application.config.minecraft.bot.version)) {
-      console.warn(`[minecraft.bot.version] You currently have an unsupported version selected (${this.application.config.minecraft.bot.version})`);
+    this.rejectStart?.(new Error("Minecraft startup was cancelled."));
+    this.finishStart();
+    this.state = "idle";
+    return Promise.resolve();
+  }
+
+  static validateMinecraftVersion(version: string) {
+    const versionData = this.unsupportedVersions[version];
+
+    const isVersionSupported = this.supportedVersions.includes(version);
+    if (!isVersionSupported) console.warn(`[minecraft.bot.version] You currently have an unsupported version selected (${version})`);
+
+    if (versionData) {
+      console.warn(`[minecraft.bot.version] ${versionData.reason}`);
+      console.warn(`[minecraft.bot.version] The currently supported versions are ${this.supportedVersions.join(", ")}`);
+      if (versionData.disable) process.exit(1);
+    }
+
+    if (!isVersionSupported) {
       console.warn("[minecraft.bot.version] While it may work we cannot guarantee it to work");
       console.warn(`[minecraft.bot.version] The currently supported versions are ${this.supportedVersions.join(", ")}`);
     }
+  }
 
+  private createBotConnection() {
+    MinecraftManager.validateMinecraftVersion(this.application.config.minecraft.bot.version);
     return createClient({
       host: this.application.config.minecraft.bot.server,
       port: this.application.config.minecraft.bot.port,
@@ -157,17 +216,51 @@ class MinecraftManager extends CommunicationBridge {
   }
 
   isBotOnline(): this is MinecraftManagerWithBot {
+    return this.bot !== undefined && this.state === "running";
+  }
+
+  hasBot(): this is MinecraftManagerWithBot {
     return this.bot !== undefined;
   }
 
-  override onBroadcast(event: BroadcastEvent) {
+  isCurrentClient(client: Client): boolean {
+    return this.bot === client;
+  }
+
+  markReady(client: Client): void {
+    if (!this.isCurrentClient(client) || this.state !== "starting") return;
+    this.state = "running";
+    this.resolveStart?.();
+    this.finishStart();
+  }
+
+  handleDisconnect(client: Client, reason: string): boolean {
+    if (this.intentionallyClosedClients.delete(client)) return false;
+    if (!this.isCurrentClient(client)) return false;
+    this.bot = undefined;
+    this.requestBroker.stop(new Error(`Minecraft client disconnected: ${reason}`));
+    this.rejectStart?.(new Error(`Minecraft client disconnected before becoming ready: ${reason}`));
+    this.finishStart();
+    this.state = "idle";
+    return true;
+  }
+
+  scheduleReconnect(delayMs: number): void {
+    if (this.state === "stopping" || this.reconnectTimer) return;
+    this.reconnectTimer = setTimeout(() => {
+      this.reconnectTimer = undefined;
+      runDetached(this.start());
+    }, delayMs);
+  }
+
+  async onBroadcast(event: DiscordToMinecraftMessage): Promise<void> {
     if (!this.isBotOnline()) return;
-    let { channelId, username, message, replyingTo, discordMessage } = event;
-    if (channelId === undefined || username === undefined || message === undefined || replyingTo === undefined || discordMessage === undefined) return;
+    let { channelId, username, message, replyingTo, sourceMessage } = event;
     console.broadcast(`${username}: ${message}`, "Minecraft");
 
     if (channelId === this.application.config.bridge.channels.debug.channel && this.application.config.bridge.channels.debug.enabled === true) {
-      return this.bot.chat(message);
+      this.bot.chat(message);
+      return;
     }
 
     if (this.application.config.bridge.filter.enabled) {
@@ -187,29 +280,37 @@ class MinecraftManager extends CommunicationBridge {
       }
     }
 
+    if (this.application.config.bridge.stripSpacesFromUsernames) username = username.replaceAll(" ", "");
+
     message = replaceVariables(this.application.config.bridge.minecraft.format, { username, message });
     const chat = channelId === this.application.config.bridge.channels.officer.channel ? "/oc" : "/gc";
     if (replyingTo) message = message.replace(username, `${username} replying to ${replyingTo}`);
 
-    let successfullySent = false;
-    const messageListener = (data: { positionId: number; formattedMessage: string }) => {
-      const chatMessage = this.prismarineChat.fromNotch(data.formattedMessage);
-      const message = chatMessage.toString();
+    const outboundContent = message.trim();
+    const acknowledgement = this.requestBroker.request({
+      description: `Discord bridge message from ${username}`,
+      timeoutMs: ms(this.application.config.bridge.timeout as StringValue),
+      matches: (inboundContent) => {
+        const expectedChannel = this.messageHandler.isGuildMessage(inboundContent) || this.messageHandler.isOfficerMessage(inboundContent);
+        return expectedChannel && inboundContent.trim().includes(outboundContent);
+      },
+      map: () => undefined
+    });
+    try {
+      this.bot.chat(`${chat} ${message}`);
+      await acknowledgement;
+    } catch (error: unknown) {
+      console.error(error);
+      if (this.application.config.bridge.messageErrorReactions) await sourceMessage.react("❌");
+      if (error instanceof MinecraftRequestTimeoutError) return;
+      await this.application.discord.logError(toError(error));
+    }
+  }
 
-      if (message.trim().includes(message.trim()) && (this.messageHandler.isGuildMessage(message) || this.messageHandler.isOfficerMessage(message))) {
-        this.bot.removeListener("systemChat", messageListener);
-        successfullySent = true;
-      }
-    };
-
-    this.bot.on("systemChat", messageListener);
-    this.bot.chat(`${chat} ${message}`);
-
-    setTimeout(() => {
-      this.bot.removeListener("systemChat", messageListener);
-      if (successfullySent === true) return;
-      discordMessage.react("❌");
-    }, 500);
+  private finishStart(): void {
+    this.startPromise = undefined;
+    this.resolveStart = undefined;
+    this.rejectStart = undefined;
   }
 }
 

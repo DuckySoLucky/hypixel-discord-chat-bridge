@@ -1,22 +1,20 @@
 import DiscordCommand from "../../private/commands/DiscordCommand.js";
-import DiscordCommandData from "../../private/commands/DiscordCommandData.js";
+import DiscordCommandDataBuilder from "../../private/commands/DiscordCommandDataBuilder.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
-import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, type ChatInputCommandInteraction, Message } from "discord.js";
-import { BasicInteractionResponse, CommandFlags, type DiscordManagerWithClient } from "../../../types/discord.js";
-import { SuccessEmbed } from "../../private/Embed.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, Message } from "discord.js";
+import { BasicInteractionResponse, type ChatInputCommandInteractionWithGuild, CommandFlags, CommandPermission } from "../../../types/discord.js";
+import { SuccessEmbed } from "../../private/EmbedHelper.js";
 import type LinkedUser from "../../../data/linked/LinkedUser.js";
 
 class LinkedCommand extends DiscordCommand {
-  constructor(discord: DiscordManagerWithClient) {
-    super(discord);
-    this.data = new DiscordCommandData()
-      .setName("linked")
-      .setDescription("View who a user is linked to")
-      .addUserOption((option) => option.setName("user").setDescription("Discord Username"))
-      .addStringOption((option) => option.setName("username").setDescription("Minecraft Username"));
-    this.flags = [CommandFlags.StaffOnly, CommandFlags.VerificationCommand];
-    this.response = BasicInteractionResponse.Ephemeral;
-  }
+  override readonly data = new DiscordCommandDataBuilder()
+    .setName("linked")
+    .setDescription("View who a user is linked to")
+    .addUserOption((option) => option.setName("user").setDescription("Discord Username"))
+    .addStringOption((option) => option.setName("username").setDescription("Minecraft Username"));
+  override readonly flags = [CommandFlags.VerificationCommand];
+  override readonly response = BasicInteractionResponse.Ephemeral;
+  override readonly permission = CommandPermission.Staff;
 
   async getLinkedFromLinkedEmbed(message: Message): Promise<LinkedUser | undefined> {
     if (message.author.id !== message.client.user.id) return undefined;
@@ -27,7 +25,7 @@ class LinkedCommand extends DiscordCommand {
     return await this.discord.application.data.linked.getUserByDiscordId(field.value.replaceAll("`", ""));
   }
 
-  async followUp(interaction: ChatInputCommandInteraction | ButtonInteraction, linked: LinkedUser) {
+  async followUp(interaction: ChatInputCommandInteractionWithGuild | ButtonInteraction, linked: LinkedUser) {
     const [{ uuid, nickname, formattedNickname }, guildMember] = await Promise.all([linked.getHypixelPlayer(), linked.isUserInHypixelGuild()]);
 
     let buttons: ButtonBuilder[];
@@ -69,7 +67,7 @@ class LinkedCommand extends DiscordCommand {
     });
   }
 
-  override async execute(interaction: ChatInputCommandInteraction) {
+  override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const user = interaction.options.getUser("user");
     const username = interaction.options.getString("username");
     if (!user && !username) throw new HypixelDiscordChatBridgeError("You must specify a user or username.");

@@ -4,18 +4,14 @@ import MinecraftCommandData from "../private/commands/MinecraftCommandData.js";
 import MinecraftCommandDataOption from "../private/commands/MinecraftCommandDataOption.js";
 import { formatNumber, replaceVariables } from "../../utils/stringUtils.js";
 import { getSelectedProfile } from "../../utils/hypixelUtils.js";
-import type { MinecraftManagerWithBot } from "../../types/minecraft.js";
 import type { Rarity, SkyBlockInventoryItem } from "hypixel-api-reborn";
 
 class AccessoriesCommand extends MinecraftCommand {
-  constructor(minecraft: MinecraftManagerWithBot) {
-    super(minecraft);
-    this.data = new MinecraftCommandData()
-      .setName("accessories")
-      .setDescription("Accessories of specified user.")
-      .setAliases(["acc", "talismans", "talisman", "mp", "magicpower"])
-      .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
-  }
+  override readonly data = new MinecraftCommandData()
+    .setName("accessories")
+    .setDescription("Accessories of specified user.")
+    .setAliases(["acc", "talismans", "talisman", "mp", "magicpower"])
+    .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
 
   static getAccessories(accessories: SkyBlockInventoryItem[]) {
     try {
@@ -56,7 +52,7 @@ class AccessoriesCommand extends MinecraftCommand {
 
     const { recombed, amount, enriched, rarities } = talismans;
     const { COMMON, RARE, EPIC, LEGENDARY, MYTHIC, SPECIAL } = rarities;
-    this.send(
+    await this.send(
       `${username}'s Accessories: ${amount} (${formatNumber(decoded.magicalPower)} MP), Recombed: ${recombed}, Enriched: ${enriched} (${COMMON}C, ${RARE}R, ${EPIC}E, ${
         LEGENDARY
       }L, ${MYTHIC}M, ${SPECIAL}S)`

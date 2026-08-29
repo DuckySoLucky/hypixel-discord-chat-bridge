@@ -1,0 +1,41 @@
+name: Update nix pnpm hash
+
+on:
+  push:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 12 * * 0"
+
+permissions:
+  contents: write
+
+jobs:
+  nix-update:
+    if: github.event_name != 'schedule' || github.ref == 'refs/heads/main'
+    name: Check for pnpm hash update inside of nix package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Run nix update
+        run: |
+          nix run nixpkgs#nix-update -- \
+            --flake \
+            --version=skip \
+            bridgebot
+
+      - name: Commit and push changes
+        env:
+          TARGET_BRANCH: ${{ github.event_name == 'schedule' && 'main' || github.ref_name }}
+        run: |
+          git config --global user.name "Nix Updater[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "chore(nix): Bump pnpm dep hash" || echo "No changes to commit"
+          git push origin "HEAD:$TARGET_BRANCH"

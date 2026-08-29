@@ -6,9 +6,9 @@ import { getPlayer } from "../../utils/hypixelUtils.js";
 import type LinkedManager from "./LinkedManager.js";
 import type { Guild, GuildMember as HypixelGuildMember, Player } from "hypixel-api-reborn";
 import type { GuildMember } from "discord.js";
-import type { LinkedData, LinkedUserData } from "../../types/linked.js";
+import type { LinkedUserData } from "../../types/linked.js";
 
-class LinkedUser extends GenericData<LinkedUserData, LinkedData, LinkedManager> {
+class LinkedUser extends GenericData<LinkedUserData, LinkedManager> {
   readonly discordId: string;
   readonly uuid: string;
   constructor(data: LinkedUserData, manager: LinkedManager) {
@@ -23,13 +23,8 @@ class LinkedUser extends GenericData<LinkedUserData, LinkedData, LinkedManager> 
     return username;
   }
 
-  override async save(): Promise<typeof this> {
-    const linked = await this.manager.getFullData();
-    const user = await this.manager.getData(this);
-    if (user) return user;
-    linked.push(this);
-    await this.manager.writeUsersParsed(linked);
-    return this;
+  async save(): Promise<LinkedUser> {
+    return await this.manager.addUser(this);
   }
 
   private getLinkedRoles(): string[] {
@@ -54,10 +49,8 @@ class LinkedUser extends GenericData<LinkedUserData, LinkedData, LinkedManager> 
     }
   }
 
-  override async delete(): Promise<LinkedUser[]> {
-    const linked = await this.manager.getFullData();
-    const updated = linked.filter((u) => u.uuid !== this.uuid && u.discordId !== this.discordId);
-    return await this.manager.writeUsersParsed(updated);
+  async delete(): Promise<LinkedUser[]> {
+    return await this.manager.deleteUser(this);
   }
 
   async updateRoles(): Promise<this | null> {
@@ -67,13 +60,13 @@ class LinkedUser extends GenericData<LinkedUserData, LinkedData, LinkedManager> 
         throw new HypixelDiscordChatBridgeError("The discord bot doesn't seam to be online? Please restart the application");
       }
       if (!this.manager.data.application.discord.isGuildReady()) {
-        this.manager.data.application.discord.stateHandler.loadGuild();
+        await this.manager.data.application.discord.stateHandler.loadGuild();
         throw new HypixelDiscordChatBridgeError("The discord server isn't ready. Please try again later");
       }
 
       const member = await this.getDiscordUser();
       if (!member) {
-        this.delete();
+        await this.delete();
         return null;
       }
 

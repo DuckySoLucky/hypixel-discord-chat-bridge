@@ -1,84 +1,86 @@
 import BlacklistUser from "../../data/blacklist/BlacklistUser.js";
 import DiscordCommand from "../private/commands/DiscordCommand.js";
-import DiscordCommandData from "../private/commands/DiscordCommandData.js";
+import DiscordCommandDataBuilder from "../private/commands/DiscordCommandDataBuilder.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import MowojangAPI from "../../private/MowojangAPI.js";
-import { BasicInteractionResponse, CommandFlags, type DiscordManagerWithClient } from "../../types/discord.js";
-import { type ChatInputCommandInteraction, Message } from "discord.js";
-import { SuccessEmbed } from "../private/Embed.js";
+import { BasicInteractionResponse, type ChatInputCommandInteractionWithGuild, CommandFlags, CommandPermission } from "../../types/discord.js";
+import { Message } from "discord.js";
+import { SuccessEmbed } from "../private/EmbedHelper.js";
 import type LinkedUser from "../../data/linked/LinkedUser.js";
 
 class BlacklistCommand extends DiscordCommand {
-  constructor(discord: DiscordManagerWithClient) {
-    super(discord);
-    this.data = new DiscordCommandData()
-      .setName("blacklist")
-      .setDescription("Blacklist a user")
-      .addSubcommand((option) =>
-        option
-          .setName("add")
-          .setDescription("Add a user to the blacklist")
-          .addStringOption((option) => option.setName("reason").setDescription("Reason for the blacklist").setRequired(true))
-          .addUserOption((option) => option.setName("user").setDescription("Discord Username"))
-          .addStringOption((option) => option.setName("username").setDescription("Minecraft Username"))
-          .addBooleanOption((option) =>
-            option
-              .setName("alert-user")
-              .setDescription(
-                `Alert user that they have been blacklisted. Defauls to ${this.discord.application.config.blacklist.notifications.onBlacklistChange.enabled}`
-              )
-          )
-          .addBooleanOption((option) =>
-            option
-              .setName("share-user")
-              .setDescription(
-                `Share the blacklister with the user. Defauls to ${this.discord.application.config.blacklist.notifications.onBlacklistChange.shareBlacklister}`
-              )
-          )
-      )
-      .addSubcommand((option) =>
-        option
-          .setName("remove")
-          .setDescription("Remove a user to the blacklist")
-          .addUserOption((option) => option.setName("user").setDescription("Discord Username"))
-          .addStringOption((option) => option.setName("username").setDescription("Minecraft Username"))
-          .addStringOption((option) => option.setName("reason").setDescription("Reason for blacklist removal"))
-          .addBooleanOption((option) =>
-            option
-              .setName("alert-user")
-              .setDescription(
-                `Alert user that they have been blacklisted. Defauls to ${this.discord.application.config.blacklist.notifications.onBlacklistChange.enabled}`
-              )
-          )
-          .addBooleanOption((option) =>
-            option
-              .setName("share-user")
-              .setDescription(
-                `Share the blacklister with the user. Defauls to ${this.discord.application.config.blacklist.notifications.onBlacklistChange.shareBlacklister}`
-              )
-          )
-      )
-      .addSubcommand((option) =>
-        option
-          .setName("get")
-          .setDescription("Look up a blacklist")
-          .addUserOption((option) => option.setName("user").setDescription("Discord Username"))
-          .addStringOption((option) => option.setName("username").setDescription("Minecraft Username"))
-      );
-    this.flags = [CommandFlags.StaffOnly, CommandFlags.BlacklistCommand];
-    this.response = BasicInteractionResponse.Ephemeral;
-  }
+  override readonly data = new DiscordCommandDataBuilder()
+    .setName("blacklist")
+    .setDescription("Blacklist a user")
+    .addSubcommand((option) =>
+      option
+        .setName("add")
+        .setDescription("Add a user to the blacklist")
+        .addStringOption((option) => option.setName("reason").setDescription("Reason for the blacklist").setRequired(true))
+        .addUserOption((option) => option.setName("user").setDescription("Discord Username"))
+        .addStringOption((option) => option.setName("username").setDescription("Minecraft Username"))
+        .addBooleanOption((option) =>
+          option
+            .setName("alert-user")
+            .setDescription(`Alert user that they have been blacklisted. Defauls to ${this.discord.application.config.blacklist.notifications.onBlacklistChange.enabled}`)
+        )
+        .addBooleanOption((option) =>
+          option
+            .setName("share-user")
+            .setDescription(
+              `Share the blacklister with the user. Defauls to ${this.discord.application.config.blacklist.notifications.onBlacklistChange.shareBlacklister}`
+            )
+        )
+    )
+    .addSubcommand((option) =>
+      option
+        .setName("remove")
+        .setDescription("Remove a user to the blacklist")
+        .addUserOption((option) => option.setName("user").setDescription("Discord Username"))
+        .addStringOption((option) => option.setName("username").setDescription("Minecraft Username"))
+        .addStringOption((option) => option.setName("reason").setDescription("Reason for blacklist removal"))
+        .addBooleanOption((option) =>
+          option
+            .setName("alert-user")
+            .setDescription(`Alert user that they have been blacklisted. Defauls to ${this.discord.application.config.blacklist.notifications.onBlacklistChange.enabled}`)
+        )
+        .addBooleanOption((option) =>
+          option
+            .setName("share-user")
+            .setDescription(
+              `Share the blacklister with the user. Defauls to ${this.discord.application.config.blacklist.notifications.onBlacklistChange.shareBlacklister}`
+            )
+        )
+    )
+    .addSubcommand((option) =>
+      option
+        .setName("get")
+        .setDescription("Look up a blacklist")
+        .addUserOption((option) => option.setName("user").setDescription("Discord Username"))
+        .addStringOption((option) => option.setName("username").setDescription("Minecraft Username"))
+    );
+  override readonly flags = [CommandFlags.BlacklistCommand];
+  override readonly permission = CommandPermission.Staff;
+  override readonly response = BasicInteractionResponse.Ephemeral;
 
-  async getBlacklistedFromLinkedEmbed(message: Message): Promise<BlacklistUser | undefined> {
+  async getBlacklistedFromBlacklistEmbed(message: Message, retry: boolean = true): Promise<BlacklistUser | undefined> {
     if (message.author.id !== message.client.user.id) return undefined;
     const embed = message.embeds[0];
     if (embed === undefined) return undefined;
-    const field = embed.fields.find((field) => field.name === "Discord ID");
-    if (field === undefined) return undefined;
-    return await this.discord.application.data.blacklist.getUserByDiscordId(field.value.replaceAll("`", ""));
+    const field = embed.fields.find((field) => field.name === "Blacklist ID");
+    if (field === undefined) {
+      if (!retry) return undefined;
+      const discordIdField = embed.fields.find((field) => field.name === "Discord ID");
+      if (!discordIdField) return undefined;
+      const blacklist = await this.discord.application.data.blacklist.getUserByDiscordId(discordIdField.value.replaceAll("`", ""));
+      if (!blacklist) return undefined;
+      await message.edit(await this.discord.application.data.blacklist.getBlacklistDataResponse(blacklist));
+      return await this.getBlacklistedFromBlacklistEmbed(message, false);
+    }
+    return await this.discord.application.data.blacklist.getUserByBlacklistID(field.value.replaceAll("`", ""));
   }
 
-  override async execute(interaction: ChatInputCommandInteraction) {
+  override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const subcommand = interaction.options.getSubcommand(true);
     const user = interaction.options.getUser("user");
     const username = interaction.options.getString("username");

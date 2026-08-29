@@ -13,11 +13,15 @@
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
     "outDir": "./build",
+    "rootDir": ".",
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
     "target": "esnext",
-    "verbatimModuleSyntax": true
+    "verbatimModuleSyntax": true,
+    "declarationMap": true,
+    "allowArbitraryExtensions": false,
+    "rewriteRelativeImportExtensions": true
   }
 }

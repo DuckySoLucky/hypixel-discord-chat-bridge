@@ -1,21 +1,18 @@
 import DiscordCommand from "../../private/commands/DiscordCommand.js";
-import DiscordCommandData from "../../private/commands/DiscordCommandData.js";
+import DiscordCommandDataBuilder from "../../private/commands/DiscordCommandDataBuilder.js";
 import VerifyCommand from "./verifyCommand.js";
-import { CommandFlags, type DiscordManagerWithBot } from "../../../types/discord.js";
-import type { ChatInputCommandInteraction } from "discord.js";
+import { type ChatInputCommandInteractionWithGuild, CommandFlags, CommandPermission, type DiscordManagerWithBot } from "../../../types/discord.js";
 
 class ForceVerifyCommand extends DiscordCommand<DiscordManagerWithBot> {
-  constructor(discord: DiscordManagerWithBot) {
-    super(discord);
-    this.data = new DiscordCommandData()
-      .setName("force-verify")
-      .setDescription("Connect Discord account to a Minecraft")
-      .addUserOption((option) => option.setName("user").setDescription("Discord Username").setRequired(true))
-      .addStringOption((option) => option.setName("username").setDescription("Minecraft Username").setRequired(true));
-    this.flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.StaffOnly, CommandFlags.VerificationCommand];
-  }
+  override readonly data = new DiscordCommandDataBuilder()
+    .setName("force-verify")
+    .setDescription("Connect Discord account to a Minecraft")
+    .addUserOption((option) => option.setName("user").setDescription("Discord Username").setRequired(true))
+    .addStringOption((option) => option.setName("username").setDescription("Minecraft Username").setRequired(true));
+  override readonly flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.VerificationCommand];
+  override readonly permission = CommandPermission.Staff;
 
-  override async execute(interaction: ChatInputCommandInteraction) {
+  override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const user = interaction.options.getUser("user", true);
     const verifyCommand = new VerifyCommand(this.discord);
     verifyCommand.isSelf = false;

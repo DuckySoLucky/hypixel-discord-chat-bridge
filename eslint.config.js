@@ -4,6 +4,7 @@ import importPlugin from "eslint-plugin-import";
 import prettier from "eslint-config-prettier";
 import sortImports from "@j4cobi/eslint-plugin-sort-imports";
 import ts from "typescript-eslint";
+import plugin from "./scripts/eslint/plugin.js";
 import stylistic from "@stylistic/eslint-plugin";
 import { globalIgnores } from "eslint/config";
 
@@ -14,15 +15,17 @@ export default [
   prettier,
   globalIgnores(["./build/"]),
   {
-    ignores: ["**/*.test.ts", "build/*"],
+    ignores: ["build/*"],
     files: ["**/*.ts", "**/*.js"],
     languageOptions: { ecmaVersion: 2022, sourceType: "module", globals: { ...globals.es2022, ...globals.node } },
-    plugins: { "@stylistic": stylistic, "sort-imports": sortImports },
+    plugins: { "@stylistic": stylistic, "sort-imports": sortImports, "hypixelDiscordChatBridge": plugin },
     settings: { "import/resolver": { typescript: true, node: true } },
     rules: {
-      "sort-imports/sort-imports": ["error", { ignoreCase: false, ignoreMemberSort: false, memberSyntaxSortOrder: ["all", "single", "multiple", "none"] }],
+      "sort-imports/sort-imports": ["warn", { ignoreCase: false, ignoreMemberSort: false, memberSyntaxSortOrder: ["all", "single", "multiple", "none"] }],
       "@stylistic/max-len": ["warn", { code: 170, tabWidth: 2, ignoreComments: true, ignoreUrls: true, ignoreRegExpLiterals: true }],
       "@stylistic/space-before-function-paren": ["error", { anonymous: "never", named: "never", catch: "always" }],
+      "import/no-unresolved": ["error", { ignore: ["hypixel-discord-chat-bridge/plugin-api"] }],
+      "hypixelDiscordChatBridge/enforce-discord-command-data-builder": "error",
       "@stylistic/function-call-argument-newline": ["error", "consistent"],
       "@typescript-eslint/no-unused-vars": ["error", { args: "none" }],
       "@stylistic/quotes": ["error", "double", { avoidEscape: true }],
@@ -31,6 +34,7 @@ export default [
       "no-constant-condition": ["error", { checkLoops: false }],
       "import/enforce-node-protocol-usage": ["error", "always"],
       "no-extend-native": ["warn", { exceptions: ["Object"] }],
+      "hypixelDiscordChatBridge/enforce-embed-helper": "warn",
       "@stylistic/nonblock-statement-body-position": "error",
       "@stylistic/object-curly-spacing": ["error", "always"],
       "@stylistic/no-whitespace-before-property": "error",
@@ -50,7 +54,7 @@ export default [
       "@stylistic/template-curly-spacing": "error",
       "import/no-extraneous-dependencies": "error",
       "@typescript-eslint/no-explicit-any": "off",
-      "@stylistic/line-comment-position": "error",
+      "@stylistic/line-comment-position": "warn",
       "@stylistic/object-curly-newline": "error",
       "@stylistic/array-bracket-spacing": "warn",
       "import/no-useless-path-segments": "error",

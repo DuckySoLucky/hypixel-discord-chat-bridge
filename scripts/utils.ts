@@ -1,20 +1,22 @@
 import ConfigManager from "../src/ConfigManager.js";
 import zod from "zod";
+import { type TemplatePrimitive, replaceVariables } from "../src/utils/stringUtils.js";
 import { access, readFile, writeFile } from "node:fs/promises";
 import { format } from "prettier";
 import { getNestedValue } from "../src/utils/miscUtils.js";
 import { markdownTable } from "markdown-table";
-import { replaceVariables } from "../src/utils/stringUtils.js";
 import type { ConfigMetadata, ConfigMetadataDescription, ConfigMetadataDotPathDescription, SchemaData, UnwrappedSchema } from "./types.js";
 
-export function addLines(content: string, lines: string[]): string[] {
-  lines.push(...content.split("\n").map((line) => line.trim()));
+import "../src/private/logger.js";
+
+export function addLines(content: string, lines: string[], variables: Readonly<Record<string, TemplatePrimitive>> = {}): string[] {
+  lines.push(...content.split("\n").map((line) => replaceVariables(line.trim(), variables)));
   return lines;
 }
 
-export async function addFile(path: string, lines: string[]): Promise<string[]> {
+export async function addFile(path: string, lines: string[], variables?: Readonly<Record<string, TemplatePrimitive>>): Promise<string[]> {
   const content = await readFile(path, "utf-8");
-  return addLines(content, lines);
+  return addLines(content, lines, variables);
 }
 
 export function addTable(table: string[][], lines: string[]): string[] {
@@ -29,15 +31,17 @@ export async function saveFile(path: string, data: string) {
   console.other(`File Saved - ${path}`);
 }
 
-export async function initMarkdownFile(path: string): Promise<string[]> {
-  const id = path.replaceAll(".md", "").split("/")[1];
-  if (!id) throw new Error("Something went wrong with getting the id");
+export function getMarkdownFileId(path: string): string {
+  return path.replaceAll("docs/", "").replaceAll(".md", "");
+}
+
+export async function initMarkdownFile(path: string, id: string = getMarkdownFileId(path), variables?: Readonly<Record<string, TemplatePrimitive>>): Promise<string[]> {
   const headerPath = `./scripts/templates/${id}/Header.md`;
   let lines: string[] = [];
 
   try {
     await access(headerPath);
-    lines = await addFile(headerPath, lines);
+    lines = await addFile(headerPath, lines, variables);
   } catch {
     // Do nothing
   }
@@ -45,9 +49,7 @@ export async function initMarkdownFile(path: string): Promise<string[]> {
   return lines;
 }
 
-export async function saveMarkdownFile(path: string, lines: string[]) {
-  const id = path.replaceAll(".md", "").split("/")[1];
-  if (!id) throw new Error("Something went wrong with getting the id");
+export async function saveMarkdownFile(path: string, lines: string[], id: string = getMarkdownFileId(path)) {
   const footerPath = `./scripts/templates/${id}/Footer.md`;
 
   try {
@@ -57,11 +59,18 @@ export async function saveMarkdownFile(path: string, lines: string[]) {
     // Do nothing
   }
 
-  const utilsFooter = await readFile("./scripts/templates/Utils/Footer.md", "utf-8");
-  lines = addLines(replaceVariables(utilsFooter, { id }), lines);
+  process.env.UNIX_TIMESTAMP ||= Date.now().toString();
+  const variables: Readonly<Record<string, TemplatePrimitive>> = {
+    id,
+    timestamp: new Date(Number(process.env.UNIX_TIMESTAMP)).toUTCString(),
+    unix: process.env.UNIX_TIMESTAMP
+  };
 
-  const globalUtilsFooter = await readFile("./scripts/templates/Utils/GlobalFooter.md", "utf-8");
-  lines = addLines(replaceVariables(globalUtilsFooter, { id }), lines);
+  const generatedFooter = await readFile("./scripts/templates/Utils/GeneratedFooter.md", "utf-8");
+  lines = addLines(generatedFooter, lines, variables);
+
+  const globalFooter = await readFile("./scripts/templates/Utils/GlobalFooter.md", "utf-8");
+  lines = addLines(globalFooter, lines, variables);
 
   await saveFile(path, lines.join("\n"));
 }

@@ -1,6 +1,7 @@
 import BasicScript from "../../BasicScript.js";
 import minecraftProtocol from "minecraft-protocol";
 import ms, { type StringValue } from "ms";
+import { intervalSchedule } from "../../../types/scripts.js";
 import type ScriptManager from "../../ScriptsManager.js";
 
 class AlphaPlayerCountTrackerScript extends BasicScript {
@@ -12,7 +13,7 @@ class AlphaPlayerCountTrackerScript extends BasicScript {
     super(scripts, {
       id: "alphaPlayerCountTracker",
       enabled: scripts.application.config.minecraft.hypixelAlerts.alphaPlayerCountTracker.enabled,
-      interval: scripts.application.config.minecraft.hypixelAlerts.alphaPlayerCountTracker.interval
+      schedule: intervalSchedule(scripts.application.config.minecraft.hypixelAlerts.alphaPlayerCountTracker.interval)
     });
     this.messageCooldown = ms(scripts.application.config.minecraft.hypixelAlerts.alphaPlayerCountTracker.messageCooldown as StringValue);
     this.playerThreshold = scripts.application.config.minecraft.hypixelAlerts.alphaPlayerCountTracker.playerThreshold;

@@ -177,6 +177,7 @@ const strategies: SchemaStrategy[] = [
     match: (s, meta) => s instanceof zod.ZodArray && s.element instanceof zod.ZodDiscriminatedUnion && meta.configMetadata.dotPath === "verification.roles.custom",
     process: async (s, meta) => await askCustomVerficationRoles(s, meta)
   },
+  // eslint-disable-next-line no-use-before-define
   { match: (s) => s instanceof zod.ZodObject, process: async (s, _, path, key) => await renderSchemaSection(s, [...path, key]) }
 ];
 

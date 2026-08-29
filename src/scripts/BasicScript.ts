@@ -1,60 +1,100 @@
-import Embed from "../discord/private/Embed.js";
+import EmbedHelper from "../discord/private/EmbedHelper.js";
 import HypixelDiscordChatBridgeError from "../private/error.js";
-import ms, { type StringValue } from "ms";
 import prettyMilliseconds from "pretty-ms";
 import { ScriptLogState, type ScriptOptions } from "../types/scripts.js";
 import { performance } from "node:perf_hooks";
+import { runDetached, toError } from "../utils/asyncUtils.js";
 import { schedule } from "node-cron";
 import type ScriptManager from "./ScriptsManager.js";
+import type { Lifecycle } from "../core/Lifecycle.js";
+import type { ScheduledTask } from "node-cron";
+import type { User } from "discord.js";
 
-class BasicScript {
-  id: string;
-  enabled: boolean;
-  cron?: string;
-  interval?: number;
+abstract class BasicScript implements Lifecycle {
+  #user?: User;
+  readonly id: string;
+  readonly enabled: boolean;
+  private interval?: NodeJS.Timeout;
+  private cronTask?: ScheduledTask;
+  private running: boolean = false;
+  private abortController?: AbortController;
   constructor(
     protected readonly scripts: ScriptManager,
-    options: ScriptOptions
+    readonly options: ScriptOptions
   ) {
-    const { id, enabled, cron, interval } = options;
-    this.id = id;
-    this.enabled = enabled;
-    if (!cron && !interval) throw new HypixelDiscordChatBridgeError("You must specify a cron or an interval.");
-    if (cron && interval) throw new HypixelDiscordChatBridgeError("You cannot specify both cron and an interval.");
-    this.cron = cron;
-    this.interval = interval ? ms(interval as StringValue) : undefined;
-    this.init();
+    this.id = options.id;
+    this.enabled = options.enabled;
   }
 
-  execute(): unknown {
-    throw new Error("Execute Method not implemented!");
+  abstract execute(signal: AbortSignal): Promise<void>;
+
+  async runNow(): Promise<number> {
+    return await this.runSafely();
   }
 
-  private async run() {
+  start(): Promise<void> {
+    if (!this.enabled) {
+      console.scripts(`Script \`${this.id}\` is disabled.`);
+      return Promise.resolve();
+    }
+    if (this.interval || this.cronTask) return Promise.resolve();
+
+    switch (this.options.schedule.type) {
+      case "cron": {
+        const { expression } = this.options.schedule;
+        console.scripts(`Loaded script \`${this.id}\` - executing with cron: ${expression}.`);
+        this.cronTask = schedule(expression, () => runDetached(this.runSafely()));
+        break;
+      }
+      case "interval": {
+        const { milliseconds } = this.options.schedule;
+        console.scripts(`Loaded script \`${this.id}\` - executing every ${milliseconds}ms (${prettyMilliseconds(milliseconds)})`);
+        this.interval = setInterval(() => runDetached(this.runSafely()), milliseconds);
+        break;
+      }
+      case "empty":
+      default: {
+        console.scripts(`Loaded script \`${this.id}\` - No execute set`);
+      }
+    }
+    return Promise.resolve();
+  }
+
+  stop(): Promise<void> {
+    if (this.interval) clearInterval(this.interval);
+    this.interval = undefined;
+    this.cronTask?.stop();
+    this.cronTask = undefined;
+    this.abortController?.abort(new Error(`Script \`${this.id}\` stopped.`));
+    this.abortController = undefined;
+    return Promise.resolve();
+  }
+
+  private async runSafely(): Promise<number> {
+    if (this.running && this.options.overlap !== "allow") {
+      console.scripts(`Skipped script \`${this.id}\` because its previous execution is still running.`);
+      return -1;
+    }
+
+    this.running = true;
+    this.abortController = new AbortController();
     const start = performance.now();
     try {
-      this.log(`Executing the \`${this.id}\` script.`);
-      await this.execute();
-      this.log(`Finished executing the \`${this.id}\` script.`);
-    } catch (error) {
-      console.error(error);
+      await this.log(`Executing the \`${this.id}\` script.`);
+      await this.execute(this.abortController.signal);
+      await this.log(`Finished executing the \`${this.id}\` script.`, ScriptLogState.Good);
+    } catch (error: unknown) {
+      console.error(toError(error));
     } finally {
       const durationMs = performance.now() - start;
-      this.log(`Duration: ${durationMs.toFixed(2)}ms (${prettyMilliseconds(durationMs)})`);
-    }
-  }
-
-  private init() {
-    if (!this.enabled) return console.scripts(`Script \`${this.id}\` is disabled.`);
-
-    if (this.interval) {
-      console.scripts(`Loaded script \`${this.id}\` - executing every ${this.interval}ms (${prettyMilliseconds(this.interval)})`);
-      setInterval(() => this.run(), this.interval);
-    }
-
-    if (this.cron) {
-      console.scripts(`Loaded script \`${this.id}\` - executing with cron: ${this.cron}.`);
-      schedule(this.cron, () => this.run());
+      try {
+        await this.log(`Duration of the \`${this.id}\` script: ${durationMs.toFixed(2)}ms (${prettyMilliseconds(durationMs)})`, ScriptLogState.Misc);
+      } catch (error: unknown) {
+        console.error(toError(error));
+      }
+      this.running = false;
+      this.abortController = undefined;
+      return durationMs;
     }
   }
 
@@ -62,11 +102,29 @@ class BasicScript {
     console.scripts(message);
     const channel = await this.scripts.application.discord.getChannel("Logger-Scripts");
     if (!channel || !channel.isSendable()) return;
-    const embed = new Embed().setDescription(message).setDevFooter("Kathund");
+    const embed = new EmbedHelper().setDescription(message).setDevFooter("Kathund");
     if (state === ScriptLogState.Good) embed.setColor("Green");
     else if (state === ScriptLogState.Bad) embed.setColor("Red");
     else if (state === ScriptLogState.Misc) embed.setColor("Blue");
     await channel.send({ content: `Log from script: \`${this.id}\``, embeds: [embed] });
+  }
+
+  setUser(user: User): this {
+    this.#user = user;
+    setTimeout(() => runDetached(this.resetUser()), 15000);
+    return this;
+  }
+
+  private async resetUser() {
+    this.#user = undefined;
+  }
+
+  getUser(): User {
+    if (this.#user) return this.#user;
+    if (!this.scripts.application.discord.isClientOnline()) {
+      throw new HypixelDiscordChatBridgeError("The discord bot doesn't seam to be online? Please restart the application");
+    }
+    return this.scripts.application.discord.client.user;
   }
 }
 

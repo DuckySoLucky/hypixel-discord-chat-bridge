@@ -2,19 +2,16 @@ import DiscordButton from "../../private/buttons/DiscordButton.js";
 import DiscordButtonData from "../../private/buttons/DiscordButtonData.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";
 import LinkedCommand from "../../commands/verification/linkedCommand.js";
-import { CommandFlags, type DiscordManagerWithBot, GuildManagementAction } from "../../../types/discord.js";
-import { SuccessEmbed } from "../../private/Embed.js";
+import { type ButtonInteractionWithGuild, CommandFlags, CommandPermission, type DiscordManagerWithBot, GuildManagementAction } from "../../../types/discord.js";
+import { SuccessEmbed } from "../../private/EmbedHelper.js";
 import { replaceVariables } from "../../../utils/stringUtils.js";
-import type { ButtonInteraction } from "discord.js";
 
 class UnmuteUserButton extends DiscordButton<DiscordManagerWithBot> {
-  constructor(discord: DiscordManagerWithBot) {
-    super(discord);
-    this.data = new DiscordButtonData("unmuteUser");
-    this.flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.StaffOnly, CommandFlags.VerificationCommand];
-  }
+  override readonly data = new DiscordButtonData("unmuteUser");
+  override readonly flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.VerificationCommand];
+  override readonly permission = CommandPermission.Staff;
 
-  override async execute(interaction: ButtonInteraction) {
+  override async execute(interaction: ButtonInteractionWithGuild) {
     const linkedCommand = new LinkedCommand(this.discord);
     const linked = await linkedCommand.getLinkedFromLinkedEmbed(interaction.message);
     if (!linked) throw new HypixelDiscordChatBridgeError("Unable to find the linked user");
@@ -27,11 +24,9 @@ class UnmuteUserButton extends DiscordButton<DiscordManagerWithBot> {
     } else if (action === GuildManagementAction.NotInGuild) {
       throw new HypixelDiscordChatBridgeError(replaceVariables(this.discord.application.messages.notInGuildMessage, { username }));
     } else if (action === GuildManagementAction.UserUnmute) {
-      return await interaction.followUp({
-        embeds: [new SuccessEmbed().setDescription(replaceVariables(this.discord.application.messages.userUnmuteMessage, { username }))]
-      });
+      await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(replaceVariables(this.discord.application.messages.userUnmuteMessage, { username }))] });
     } else if (action === GuildManagementAction.GuildUnmute) {
-      return await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(this.discord.application.messages.guildUnmuteMessage)] });
+      await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(this.discord.application.messages.guildUnmuteMessage)] });
     }
   }
 }

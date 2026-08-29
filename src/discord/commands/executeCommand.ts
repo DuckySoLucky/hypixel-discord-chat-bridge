@@ -1,20 +1,17 @@
 import DiscordCommand from "../private/commands/DiscordCommand.js";
-import DiscordCommandData from "../private/commands/DiscordCommandData.js";
-import { CommandFlags, type DiscordManagerWithBot } from "../../types/discord.js";
-import { SuccessEmbed } from "../private/Embed.js";
-import type { ChatInputCommandInteraction } from "discord.js";
+import DiscordCommandDataBuilder from "../private/commands/DiscordCommandDataBuilder.js";
+import { type ChatInputCommandInteractionWithGuild, CommandFlags, CommandPermission, type DiscordManagerWithBot } from "../../types/discord.js";
+import { SuccessEmbed } from "../private/EmbedHelper.js";
 
 class ExecuteCommand extends DiscordCommand<DiscordManagerWithBot> {
-  constructor(discord: DiscordManagerWithBot) {
-    super(discord);
-    this.data = new DiscordCommandData()
-      .setName("execute")
-      .setDescription("Executes commands as the minecraft bot.")
-      .addStringOption((option) => option.setName("command").setDescription("Minecraft Command").setRequired(true));
-    this.flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.AdminOnly];
-  }
+  override readonly data = new DiscordCommandDataBuilder()
+    .setName("execute")
+    .setDescription("Executes commands as the minecraft bot.")
+    .addStringOption((option) => option.setName("command").setDescription("Minecraft Command").setRequired(true));
+  override readonly flags = [CommandFlags.RequiresMinecraftBot];
+  override readonly permission = CommandPermission.Admin;
 
-  override async execute(interaction: ChatInputCommandInteraction) {
+  override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const command = interaction.options.getString("command", true);
     this.discord.application.minecraft.bot.chat(`/${command}`);
     await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(`Successfully executed \`/${command}\``)] });
