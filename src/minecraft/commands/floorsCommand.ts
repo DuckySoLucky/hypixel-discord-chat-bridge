@@ -55,7 +55,7 @@ class FloorCommand extends MinecraftCommand {
 
     const floorId = message.slice(1, 3);
     const floorData = floors.find((floor) => floor.id === floorId);
-    if (floorData === undefined || floorData.timesPlayed === 0) throw new HypixelDiscordChatBridgeError(`${username} has never done {floor} before.`);
+    if (floorData === undefined || floorData.timesPlayed === 0) throw new HypixelDiscordChatBridgeError(`${username} has never done ${floorId} before.`);
 
     this.send(
       `${username}'s ${floorId} completions ${formatNumber(floorData.timesPlayed)} | S+: ${prettyMilliseconds(floorData.fastestTimeSPlus, {
