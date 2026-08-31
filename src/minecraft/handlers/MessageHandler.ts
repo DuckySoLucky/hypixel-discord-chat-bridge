@@ -6,24 +6,26 @@ import MowojangAPI from "../../private/MowojangAPI.js";
 import RequirementsCommand from "../../discord/commands/requirementsCommand.js";
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType } from "discord.js";
 import { delay, isUuid, replaceAllRanks } from "../../utils/miscUtils.js";
+import { parseChatComponent } from "../../utils/minecraftUtils.js";
 import { replaceVariables, truncateString } from "../../utils/stringUtils.js";
 import { runDetached, safeListener, toError } from "../../utils/asyncUtils.js";
 import type MinecraftManager from "../MinecraftManager.js";
+import type { CachedDiscordMessageData } from "../../types/minecraft.js";
 import type { ChatMessage } from "prismarine-chat";
 import type { Client } from "minecraft-protocol";
 import type { HeadedEmbedEvent } from "../../types/bridge.js";
 
-function parseChatComponent(value: string): object {
-  const parsed: unknown = JSON.parse(value);
-  if (typeof parsed !== "object" || parsed === null) throw new Error("Minecraft chat component is not an object.");
-  return parsed;
-}
-
 class MessageHandler {
   private allowLimbo: boolean = true;
   private readonly minecraftData;
+  private readonly discordMessages: CachedDiscordMessageData[] = [];
   constructor(private readonly minecraft: MinecraftManager) {
     this.minecraftData = GetMinecraftData(this.minecraft.application.config.minecraft.bot.version);
+  }
+
+  addDiscordMessage(data: CachedDiscordMessageData) {
+    const index = this.discordMessages.push(data) - 1;
+    setTimeout(() => this.discordMessages.splice(index, 1), 10_000);
   }
 
   setAllowLimbo(state: boolean): this {
@@ -525,8 +527,9 @@ class MessageHandler {
 
     const match = (this.minecraft.application.config.bridge.discord.mode === "minecraft" ? colouredMessage : message).match(regex);
     if (!match || !match?.groups || !match.groups.message || !match.groups.chatType || !match.groups.username) return;
+    const matchedMessage = match.groups.message;
 
-    if (this.isDiscordMessage(match.groups.message) === false) {
+    if (this.isDiscordMessage(matchedMessage) === false) {
       const { chatType, rank = "", username, guildRank = "[Member]", message } = match.groups;
       if (message.includes("replying to") && username === this.minecraft.bot.username) {
         return;
@@ -543,27 +546,28 @@ class MessageHandler {
       });
     }
 
-    if (this.isCommand(match.groups.message)) {
+    if (this.isCommand(matchedMessage)) {
       const officer = match.groups.chatType.includes("Officer");
-      if (this.isDiscordMessage(match.groups.message) === true) {
-        const { player, command } = this.getCommandData(match.groups.message);
-        if (!player || !command) return;
-        return this.minecraft.commandHandler.handle(player, command, officer);
+      if (this.isDiscordMessage(matchedMessage) === true) {
+        const commandData = this.getCommandData(matchedMessage);
+        if (!commandData) return;
+        return this.minecraft.commandHandler.handle(commandData.player, commandData.command, officer);
       }
 
-      return this.minecraft.commandHandler.handle(match.groups.username, match.groups.message, officer);
+      return this.minecraft.commandHandler.handle(match.groups.username, matchedMessage, officer);
     }
   }
 
   private readonly reportError = (error: unknown): void => console.error(toError(error));
 
   isDiscordMessage(message: string): boolean {
-    const isDiscordMessage = /^(?<username>(?!https?:\/\/).+?)\s*[»:>]\s*(?<message>.*)$/;
+    if (this.discordMessages.map(({ message }) => message).includes(message)) return true;
+    const isDiscordMessage = /^(?<username>(?!https?:\/\/)[^\s»:>]+)\s*[»:>]\s*(?<message>.*)/;
     const match = message.match(isDiscordMessage);
     if (!match?.groups) return false;
-    if (match && ["Party", "Guild", "Officer"].includes(match.groups.username || "UNKNOWN")) {
-      return false;
-    }
+    const username = match.groups.username || "UNKNOWN";
+    if (["Party", "Guild", "Officer"].includes(username)) return false;
+    if (username.length > 32) return false;
     return isDiscordMessage.test(message);
   }
 
@@ -571,6 +575,9 @@ class MessageHandler {
     const regex = new RegExp(
       `^(?<prefix>[${this.minecraft.application.config.minecraft.commands.normal.prefix}${this.minecraft.application.config.minecraft.commands.soopy.prefix}])(?<command>\\S+)(?:\\s+(?<args>.+))?\\s*$`
     );
+
+    const isDiscordMessage = this.discordMessages.find(({ message: discordMessage }) => message === discordMessage);
+    if (isDiscordMessage) return regex.test(isDiscordMessage.rawMessage);
 
     if (regex.test(message) === false) {
       const getMessage = /^(?<username>(?!https?:\/\/)[^\s»:>]+)\s*[»:>]\s*(?<message>.*)/;
@@ -581,11 +588,11 @@ class MessageHandler {
     return regex.test(message);
   }
 
-  private getCommandData(message: string): { [key: string]: string } {
+  private getCommandData(message: string): { player: string; command: string } | undefined {
     const regex = /^(?<player>[^\s»:>\s]+(?:\s+[^\s»:>\s]+)*)\s*[»:>\s]\s*(?<command>.*)/;
     const match = message.match(regex);
-    if (match === null) return {};
-    return match.groups ?? {};
+    if (match === null || match.groups === undefined || match.groups.player === undefined || match.groups.command === undefined) return undefined;
+    return { player: match.groups.player, command: match.groups.command };
   }
 
   getRankColor(message: string): string {

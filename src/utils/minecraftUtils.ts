@@ -1,5 +1,4 @@
 // Credits https://github.com/Altpapier/hypixel-discord-guild-bridge/blob/master/helper/messageToImage.js
-
 import { createCanvas, loadImage, registerFont } from "canvas";
 
 registerFont("src/private/fonts/MinecraftRegular-Bmg3.ttf", { family: "Minecraft" });
@@ -88,4 +87,10 @@ export async function messageToImage(message: string, username: string | null = 
     width += ctx.measureText(currentMessage).width;
   }
   return canvas.toBuffer();
+}
+
+export function parseChatComponent(value: string): object {
+  const parsed: unknown = JSON.parse(value);
+  if (typeof parsed !== "object" || parsed === null) throw new Error("Minecraft chat component is not an object.");
+  return parsed;
 }
