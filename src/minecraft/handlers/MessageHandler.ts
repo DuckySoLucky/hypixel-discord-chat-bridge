@@ -83,8 +83,8 @@ class MessageHandler {
   async onMessage(message: string, colouredMessage: string): Promise<void> {
     if (!this.minecraft.isBotOnline()) return;
 
-    // NOTE: fixes "100/100❤     100/100✎ Mana" spam in the debug channel
-    if (message.includes("✎ Mana") && message.includes("❤") && message.includes("/")) return;
+    // NOTE: fixes "100/100     100/100 Mana" spam in the debug channel
+    if (message.includes(" Mana") && message.includes("") && message.includes("/")) return;
 
     if (this.minecraft.application.config.bridge.channels.debug.enabled) {
       await this.minecraft.broadcastMessage({ fullMessage: colouredMessage, message, chatType: "Debug" });
