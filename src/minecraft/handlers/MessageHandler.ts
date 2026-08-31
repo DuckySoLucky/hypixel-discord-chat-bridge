@@ -558,12 +558,12 @@ class MessageHandler {
   private readonly reportError = (error: unknown): void => console.error(toError(error));
 
   isDiscordMessage(message: string): boolean {
-    const isDiscordMessage = /^(?<username>(?!https?:\/\/).+?)\s*[»:>]\s*(?<message>.*)$/;
+    const isDiscordMessage = /^(?<username>(?!https?:\/\/)[^\s»:>]+)\s*[»:>]\s*(?<message>.*)/;
     const match = message.match(isDiscordMessage);
     if (!match?.groups) return false;
-    if (match && ["Party", "Guild", "Officer"].includes(match.groups.username || "UNKNOWN")) {
-      return false;
-    }
+    const username = match.groups.username || "UNKNOWN";
+    if (["Party", "Guild", "Officer"].includes(username)) return false;
+    if (username.length > 32) return false;
     return isDiscordMessage.test(message);
   }
 
