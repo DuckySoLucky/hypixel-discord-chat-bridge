@@ -8,11 +8,11 @@ import {
   type PlayerRequestOptions,
   type RequestOptions,
   type SkyBlockElectionData,
-  type SkyBlockProfileType,
-  type SkyblockProfileWithMe
+  SkyBlockMuseum,
+  type SkyBlockProfileType
 } from "hypixel-api-reborn";
-import { type NetworthResult, ProfileNetworthCalculator } from "skyhelper-networth";
 import { readFileSync } from "node:fs";
+import type RequestData from "hypixel-api-reborn/dist/Private/RequestData.js";
 import type { LatestProfileOptions, SelectedProfileData } from "../types/minecraft.js";
 
 const config = JSON.parse(readFileSync("config.json", "utf-8"));
@@ -35,15 +35,8 @@ export async function getSelectedProfile(input: string, options?: LatestProfileO
   return { username: formatUsername(username, profiles.selectedProfile.gameMode), rawUsername: username, uuid, profile: profiles.selectedProfile, profiles, raw };
 }
 
-export async function getNetWorthCalculator(profile: SkyblockProfileWithMe): Promise<ProfileNetworthCalculator> {
-  const museum = await HypixelAPIReborn.getSkyBlockMuseum(profile.profileId);
-  const museumProfile = museum.raw.rawData.members[profile.me.uuid];
-  if (museumProfile === undefined) throw new HypixelDiscordChatBridgeError("Player has museum API off.");
-  return new ProfileNetworthCalculator(profile, museumProfile, profile.banking.balance);
-}
-
-export async function getNetWorth(profile: SkyblockProfileWithMe): Promise<NetworthResult> {
-  return await getNetWorthCalculator(profile).then((manager) => manager.getNetworth({ onlyNetworth: true }));
+export async function getSkyBlockMuseum(profileId: string, options?: RequestOptions): Promise<RequestData<SkyBlockMuseum>> {
+  return await HypixelAPIReborn.getSkyBlockMuseum(profileId, options);
 }
 
 export async function getPlayer(input: string, options?: PlayerRequestOptions): Promise<Player> {
