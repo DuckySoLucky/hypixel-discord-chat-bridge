@@ -19,9 +19,10 @@ import type { NBT } from "prismarine-nbt";
 import type { PrismarineChatFormatter } from "prismarine-chat";
 
 class MinecraftManager extends CommunicationBridge implements Lifecycle {
-  static supportedVersions: string[] = ["1.21.11"];
-  static unsupportedVersions: Record<string, { reason: string; disable: boolean }> = {
-    "1.8.9": { reason: "1.8.9 is old and outdated. It will no longer be supported please move to 1.21.11 or higher", disable: true }
+  static supportedVersions: string[] = ["1.21.11", "26.1.2"];
+  static versionsInformation: Record<string, { reason: string; disable: boolean }> = {
+    "1.8.9": { reason: "1.8.9 is old and outdated. It will no longer be supported please move to a supported version", disable: true },
+    "1.21.11": { reason: "1.21.11 is no longer supported by hypixel skyblock. This means commands like !warpout will not function correctly", disable: false }
   };
   readonly stateHandler: StateHandler;
   readonly commandHandler: CommandHandler;
@@ -102,7 +103,7 @@ class MinecraftManager extends CommunicationBridge implements Lifecycle {
   }
 
   static validateMinecraftVersion(version: string) {
-    const versionData = this.unsupportedVersions[version];
+    const versionData = this.versionsInformation[version];
 
     const isVersionSupported = this.supportedVersions.includes(version);
     if (!isVersionSupported) console.warn(`[minecraft.bot.version] You currently have an unsupported version selected (${version})`);

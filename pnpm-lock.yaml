@@ -36,11 +36,11 @@ importers:
         specifier: 12.0.0-31
         version: 12.0.0-31(debug@4.4.3(supports-color@5.5.0))(supports-color@5.5.0)
       minecraft-data:
-        specifier: 3.111.0
-        version: 3.111.0
+        specifier: 3.114.0
+        version: 3.114.0
       minecraft-protocol:
-        specifier: 1.66.2
-        version: 1.66.2(supports-color@5.5.0)
+        specifier: 1.68.0
+        version: 1.68.0(supports-color@5.5.0)
       mowojang:
         specifier: 0.7.2
         version: 0.7.2(debug@4.4.3(supports-color@5.5.0))(supports-color@5.5.0)
@@ -57,14 +57,14 @@ importers:
         specifier: 9.3.0
         version: 9.3.0
       prismarine-chat:
-        specifier: 1.12.0
-        version: 1.12.0
+        specifier: 1.13.0
+        version: 1.13.0(supports-color@5.5.0)
       prismarine-nbt:
         specifier: 2.8.0
         version: 2.8.0
       prismarine-registry:
         specifier: 1.12.0
-        version: 1.12.0
+        version: 1.12.0(supports-color@5.5.0)
       rss-parser:
         specifier: 3.13.0
         version: 3.13.0
@@ -1923,14 +1923,17 @@ packages:
     resolution: {integrity: sha512-z0yWI+4FDrrweS8Zmt4Ej5HdJmky15+L2e6Wgn3+iK5fWzb6T3fhNFq2+MeTRb064c6Wr4N/wv0DzQTjNzHNGQ==}
     engines: {node: '>=10'}
 
-  minecraft-data@3.111.0:
-    resolution: {integrity: sha512-0kKHqNZL/D1IbH7tJXBJ3z7YSn1/ylnWWR7X2zFwtEV+yr23nimItpGjP3o8UaLYrC+OV1gKLFQoew03XvJyoA==}
+  minecraft-data@3.113.2:
+    resolution: {integrity: sha512-+3/9uO/xHcaY3ZA9iW22EGdGi8SAQKeMvbXZGrsd9zHrNhsx5KDo4nblfdwTFxm2xNJEwF67cFuWGSR8VS13Qw==}
+
+  minecraft-data@3.114.0:
+    resolution: {integrity: sha512-7V3rl5XQTMa8D8nsVl3L/UYBB+2Kn9eFR8d1MKyge6ygjJC94RExq3anHdiGnrQ65SqtmpEc999SEihSU0drIA==}
 
   minecraft-folder-path@1.2.0:
     resolution: {integrity: sha512-qaUSbKWoOsH9brn0JQuBhxNAzTDMwrOXorwuRxdJKKKDYvZhtml+6GVCUrY5HRiEsieBEjCUnhVpDuQiKsiFaw==}
 
-  minecraft-protocol@1.66.2:
-    resolution: {integrity: sha512-keY1IY1E2AeurcekCfcXrg0TDbykGVFiMe1E4wR8QkNtQRieNwfr2xaF3g3vT9ChkwzvENqp3jxgmtFCKSUKPg==}
+  minecraft-protocol@1.68.0:
+    resolution: {integrity: sha512-atAGg/fhIVqyK6voWvED5QA+4ah65PNwpoDnkHawWhVzQbwFii77KcF6OpsU/Xlbi0o9GpihHiPdORSxXEA+Ug==}
     engines: {node: '>=22'}
 
   minimatch@10.2.6:
@@ -2163,8 +2166,8 @@ packages:
   prismarine-block@1.23.0:
     resolution: {integrity: sha512-j2UoU4KbXMvNlBw+aLkMOnEuMayYefznUfbrfv1VIbckG3RA9LpNWltOMHXuOR5YkHp8uIZPOclj95XC88jgGw==}
 
-  prismarine-chat@1.12.0:
-    resolution: {integrity: sha512-+1QBUn4WGXbAGwoGwJy31/FvH6JtTBHh//yU0xwOiVnBO71+6Ij0hYMd9PzTTAwR9bySfl/YLltGPBftUAOYOA==}
+  prismarine-chat@1.13.0:
+    resolution: {integrity: sha512-tvDbrQmJEoy09yLE5nnedGhQYxnRDaPRePMv7W39dFaHr2LGcA2JfCmH0vG5193+BsEFz3a5+0EpQSK8OW7YmA==}
 
   prismarine-item@1.18.0:
     resolution: {integrity: sha512-8pEq6YfcneVvarvUFnex09a3+MR8/4NCQVyawIKAa3kh/g9dHLexoEcpQEgM3cmpg4gbLmspSiARGwed5uGhlg==}
@@ -4593,11 +4596,13 @@ snapshots:
 
   mimic-response@3.1.0: {}
 
-  minecraft-data@3.111.0: {}
+  minecraft-data@3.113.2: {}
+
+  minecraft-data@3.114.0: {}
 
   minecraft-folder-path@1.2.0: {}
 
-  minecraft-protocol@1.66.2(supports-color@5.5.0):
+  minecraft-protocol@1.68.0(supports-color@5.5.0):
     dependencies:
       '@types/node-rsa': 1.1.4
       '@types/readable-stream': 4.0.24
@@ -4606,12 +4611,12 @@ snapshots:
       debug: 4.4.3(supports-color@5.5.0)
       endian-toggle: 0.0.0
       lodash.merge: 4.6.2
-      minecraft-data: 3.111.0
+      minecraft-data: 3.113.2
       minecraft-folder-path: 1.2.0
       node-fetch: 2.7.0
       node-rsa: 0.4.2
       prismarine-auth: 3.1.1(supports-color@5.5.0)
-      prismarine-chat: 1.12.0
+      prismarine-chat: 1.13.0(supports-color@5.5.0)
       prismarine-nbt: 2.8.0
       prismarine-realms: 1.6.0(supports-color@5.5.0)
       protodef: 1.19.0
@@ -4866,29 +4871,34 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  prismarine-biome@1.4.0(prismarine-registry@1.12.0):
+  prismarine-biome@1.4.0(prismarine-registry@1.12.0(supports-color@5.5.0)):
     dependencies:
-      prismarine-registry: 1.12.0
+      prismarine-registry: 1.12.0(supports-color@5.5.0)
 
-  prismarine-block@1.23.0:
+  prismarine-block@1.23.0(supports-color@5.5.0):
     dependencies:
-      minecraft-data: 3.111.0
-      prismarine-biome: 1.4.0(prismarine-registry@1.12.0)
-      prismarine-chat: 1.12.0
+      minecraft-data: 3.114.0
+      prismarine-biome: 1.4.0(prismarine-registry@1.12.0(supports-color@5.5.0))
+      prismarine-chat: 1.13.0(supports-color@5.5.0)
       prismarine-item: 1.18.0
       prismarine-nbt: 2.8.0
-      prismarine-registry: 1.12.0
+      prismarine-registry: 1.12.0(supports-color@5.5.0)
+    transitivePeerDependencies:
+      - supports-color
 
-  prismarine-chat@1.12.0:
+  prismarine-chat@1.13.0(supports-color@5.5.0):
     dependencies:
+      debug: 4.4.3(supports-color@5.5.0)
       mojangson: 2.0.4
       prismarine-nbt: 2.8.0
-      prismarine-registry: 1.12.0
+      prismarine-registry: 1.12.0(supports-color@5.5.0)
+    transitivePeerDependencies:
+      - supports-color
 
   prismarine-item@1.18.0:
     dependencies:
       prismarine-nbt: 2.8.0
-      prismarine-registry: 1.12.0
+      prismarine-registry: 1.12.0(supports-color@5.5.0)
 
   prismarine-nbt@2.8.0:
     dependencies:
@@ -4902,11 +4912,13 @@ snapshots:
       - encoding
       - supports-color
 
-  prismarine-registry@1.12.0:
+  prismarine-registry@1.12.0(supports-color@5.5.0):
     dependencies:
-      minecraft-data: 3.111.0
-      prismarine-block: 1.23.0
+      minecraft-data: 3.114.0
+      prismarine-block: 1.23.0(supports-color@5.5.0)
       prismarine-nbt: 2.8.0
+    transitivePeerDependencies:
+      - supports-color
 
   process@0.11.10: {}
 
