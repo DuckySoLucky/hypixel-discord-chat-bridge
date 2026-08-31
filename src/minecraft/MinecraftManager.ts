@@ -256,6 +256,7 @@ class MinecraftManager extends CommunicationBridge implements Lifecycle {
   async onBroadcast(event: DiscordToMinecraftMessage): Promise<void> {
     if (!this.isBotOnline()) return;
     let { channelId, username, message, replyingTo, sourceMessage } = event;
+    const rawMessage = message;
     console.broadcast(`${username}: ${message}`, "Minecraft");
 
     if (channelId === this.application.config.bridge.channels.debug.channel && this.application.config.bridge.channels.debug.enabled === true) {
@@ -297,6 +298,7 @@ class MinecraftManager extends CommunicationBridge implements Lifecycle {
       map: () => undefined
     });
     try {
+      this.messageHandler.addDiscordMessage({ message, username, rawMessage });
       this.bot.chat(`${chat} ${message}`);
       await acknowledgement;
     } catch (error: unknown) {

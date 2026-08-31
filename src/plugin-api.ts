@@ -12,7 +12,7 @@ export * from "./types/scripts.js";
 export * from "./utils/asyncUtils.js";
 export * from "./utils/discordUtils.js";
 export * from "./utils/hypixelUtils.js";
-export * from "./utils/messageToImage.js";
+export * from "./utils/minecraftUtils.js";
 export * from "./utils/miscUtils.js";
 export * from "./utils/stringUtils.js";
 

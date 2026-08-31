@@ -127,3 +127,9 @@ export interface LatestProfileOptions {
   garden?: boolean;
   museum?: boolean;
 }
+
+export interface CachedDiscordMessageData {
+  message: string;
+  username: string;
+  rawMessage: string;
+}

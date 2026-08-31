@@ -22,7 +22,7 @@ import {
   type ModalSubmitInteractionWithGuild
 } from "../types/discord.js";
 import { canSendMessages, getApplicationOwners } from "../utils/discordUtils.js";
-import { messageToImage } from "../utils/messageToImage.js";
+import { messageToImage } from "../utils/minecraftUtils.js";
 import { removeColorCodes, replaceVariables } from "../utils/stringUtils.js";
 import { safeListener, toError } from "../utils/asyncUtils.js";
 import { writeFile } from "node:fs/promises";
