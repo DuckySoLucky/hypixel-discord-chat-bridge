@@ -53,6 +53,8 @@ class InformationCommand extends DiscordCommand<DiscordManagerWithBot> {
     ];
     const minecraftInformation: Information[] = [
       { name: "Bot username", value: discord.application.minecraft.bot.username },
+      { name: "Bot uuid", value: discord.application.minecraft.bot.uuid },
+      { name: "Bot Version", value: discord.application.minecraft.bot.version },
       {
         name: "Normal Prefix",
         value: discord.application.config.minecraft.commands.normal.enabled ? discord.application.config.minecraft.commands.normal.prefix : "Disabled"
