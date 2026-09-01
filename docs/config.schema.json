@@ -255,15 +255,15 @@
         "commands": {
           "type": "object",
           "properties": {
-            "checkPermissions": { "type": "boolean" },
             "staffRole": { "type": "string", "description": "The discord role Id of your staff members" },
             "adminUsers": {
               "type": "array",
               "items": { "type": "string" },
               "description": "The discord user Ids of any admins\nThe people who own the bot are automatically included"
-            }
+            },
+            "debugCommands": { "type": "boolean", "description": "Should the debug commands be enabled" }
           },
-          "required": ["checkPermissions", "staffRole", "adminUsers"],
+          "required": ["staffRole", "adminUsers", "debugCommands"],
           "additionalProperties": false
         }
       },

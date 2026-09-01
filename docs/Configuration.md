@@ -226,11 +226,11 @@ This document is generated from the Zod config schema in `src/types/config.ts`
 
 ### commands
 
-| Key                | Type            | Required | Description                                                                              |
-| ------------------ | --------------- | -------- | ---------------------------------------------------------------------------------------- |
-| `checkPermissions` | `boolean`       | Yes      |                                                                                          |
-| `staffRole`        | `string`        | Yes      | The discord role Id of your staff members                                                |
-| `adminUsers`       | `array<string>` | Yes      | The discord user Ids of any admins The people who own the bot are automatically included |
+| Key             | Type            | Required | Description                                                                              |
+| --------------- | --------------- | -------- | ---------------------------------------------------------------------------------------- |
+| `staffRole`     | `string`        | Yes      | The discord role Id of your staff members                                                |
+| `adminUsers`    | `array<string>` | Yes      | The discord user Ids of any admins The people who own the bot are automatically included |
+| `debugCommands` | `boolean`       | Yes      | Should the debug commands be enabled                                                     |
 
 ## verification
 
@@ -341,7 +341,7 @@ This document is generated from the Zod config schema in `src/types/config.ts`
 
 ---
 
-This document is [auto generated](/scripts/docs/Configuration.ts) and was last updated on `Thu, 27 Aug 2026 04:07:21 GMT` (`1787803641416`)
+This document is [auto generated](/scripts/docs/Configuration.ts) and was last updated on `Tue, 01 Sep 2026 07:35:54 GMT` (`1788248154047`)
 
 To update this document please run `pnpm docgen` or contact a maintainer and ask them to update it.
 

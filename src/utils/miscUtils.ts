@@ -1,5 +1,9 @@
-import type HypixelDiscordChatBridgeError from "../private/error.js";
-import type { DataWithTimestamp } from "../plugin-api.ts";
+import HypixelDiscordChatBridgeError from "../private/error.js";
+import { DiscordjsError } from "discord.js";
+import { ErrorEmbed } from "../discord/private/EmbedHelper.js";
+import { HypixelAPIRebornError } from "hypixel-api-reborn";
+import type { DataWithTimestamp } from "../types/misc.js";
+import type { EmbedHelperField } from "../types/discord.js";
 
 export function delay(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -15,7 +19,7 @@ export function generateId(length: number): string {
   return result;
 }
 
-export function formatError(error: Error | HypixelDiscordChatBridgeError): string {
+export function formatError(error: Error | DiscordjsError | HypixelDiscordChatBridgeError | HypixelAPIRebornError): string {
   return error
     .toString()
     .replace("Hypixel-API-Reborn", "hypixel-api-reborn")
@@ -64,4 +68,16 @@ export function getNestedValue(obj: unknown, path: string): unknown {
 
 export function getMostRecent<T extends DataWithTimestamp>(data: T[]): T | undefined {
   return [...data].sort((a, b) => b.timestamp - a.timestamp)[0];
+}
+
+export function getErrorTypeName(error: Error | DiscordjsError | HypixelDiscordChatBridgeError | HypixelAPIRebornError): string {
+  if (error instanceof HypixelDiscordChatBridgeError) return "HypixelDiscordChatBridgeError";
+  else if (error instanceof HypixelAPIRebornError) return "HypixelAPIRebornError";
+  else if (error instanceof DiscordjsError) return "DiscordJsError";
+  return "Generic Error";
+}
+
+export function getErrorEmbed(error: Error | DiscordjsError | HypixelDiscordChatBridgeError | HypixelAPIRebornError, extraData: EmbedHelperField[] = []): ErrorEmbed {
+  const errorStack = error instanceof Error ? (error.stack ?? error.message) : String(error ?? "Unknown");
+  return new ErrorEmbed().setDescription(`\`\`\`${errorStack}\`\`\``).setFields(...[{ name: "Error Type", value: getErrorTypeName(error) }, ...extraData]);
 }

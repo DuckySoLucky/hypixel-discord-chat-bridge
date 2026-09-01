@@ -71,7 +71,8 @@ class ConfigManager {
         }
       },
       "other.logToFiles": { key: "other.logging.saveToFiles", change: ConfigChangeType.Move }
-    }
+    },
+    6: { "discord.commands.checkPermissions": { change: ConfigChangeType.Delete } }
   };
   private hasConfigChanged: boolean;
   constructor(private shouldBackupConfig: boolean = true) {

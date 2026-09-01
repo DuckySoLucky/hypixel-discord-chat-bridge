@@ -8,7 +8,7 @@ import InteractionHandler from "./handlers/InteractionHandler.js";
 import MessageHandler from "./handlers/MessageHandler.js";
 import ModalHandler from "./handlers/ModalHandler.js";
 import StateHandler from "./handlers/StateHandler.js";
-import { AttachmentBuilder, type Channel, ChannelType, Client, Events, GatewayIntentBits, Guild, MessageFlags, Webhook } from "discord.js";
+import { AttachmentBuilder, type Channel, ChannelType, Client, DiscordjsError, Events, GatewayIntentBits, Guild, MessageFlags, Webhook } from "discord.js";
 import {
   type AutocompleteInteractionWithGuild,
   type ButtonInteractionWithGuild,
@@ -16,18 +16,21 @@ import {
   type ChatInputCommandInteractionWithGuild,
   type DiscordManagerWithClient,
   type DiscordManagerWithGuild,
+  type EmbedHelperField,
   type GenericChannelName,
   type LoggerChannelName,
   LoggerChannelNames,
   type ModalSubmitInteractionWithGuild
 } from "../types/discord.js";
-import { canSendMessages, getApplicationOwners } from "../utils/discordUtils.js";
+import { canSendMessages, getApplicationOwners, parseInteractionType } from "../utils/discordUtils.js";
+import { getErrorEmbed, getErrorTypeName } from "../utils/miscUtils.js";
 import { messageToImage } from "../utils/minecraftUtils.js";
 import { removeColorCodes, replaceVariables } from "../utils/stringUtils.js";
 import { safeListener, toError } from "../utils/asyncUtils.js";
 import { writeFile } from "node:fs/promises";
 import type Application from "../Application.js";
 import type { CleanEmbedEvent, HeadedEmbedEvent, MinecraftToDiscordMessage, PlayerToggleEvent } from "../types/bridge.js";
+import type { HypixelAPIRebornError } from "hypixel-api-reborn";
 import type { Lifecycle, LifecycleState } from "../core/Lifecycle.js";
 
 class DiscordManager extends CommunicationBridge implements Lifecycle {
@@ -363,13 +366,7 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
     return await this.client.channels.fetch(currentChannelId);
   }
 
-  getErrorEmbed(error: Error | HypixelDiscordChatBridgeError): ErrorEmbed {
-    const errorStack = error instanceof Error ? (error.stack ?? error.message) : String(error ?? "Unknown");
-    return new ErrorEmbed().setDescription(`\`\`\`${errorStack}\`\`\``);
-  }
-
-  async logError(error: Error | HypixelDiscordChatBridgeError) {
-    if (error instanceof HypixelDiscordChatBridgeError) return;
+  async logError(error: Error | DiscordjsError | HypixelDiscordChatBridgeError | HypixelAPIRebornError, extraData: EmbedHelperField[] = []) {
     if (!this.isClientOnline()) return;
 
     try {
@@ -378,11 +375,10 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
 
       const hasPermission = await canSendMessages(channel);
       if (!hasPermission) return;
-
       const owners = await getApplicationOwners(this.client);
       await channel.send({
-        content: `${owners.map((id) => `<@${id}>`).join(" ")} <@&${this.application.config.discord.commands.staffRole}>`,
-        embeds: [this.getErrorEmbed(error)]
+        content: getErrorTypeName(error) === "Generic Error" ? owners.map((id) => `<@${id}>`).join(" ") : "",
+        embeds: [getErrorEmbed(error, extraData)]
       });
     } catch (e) {
       console.error(e);
@@ -390,11 +386,18 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
   }
 
   async handleError(
-    error: Error | HypixelDiscordChatBridgeError,
+    error: Error | DiscordjsError | HypixelDiscordChatBridgeError | HypixelAPIRebornError,
     interaction: ChatInputCommandInteractionWithGuild | ButtonInteractionWithGuild | AutocompleteInteractionWithGuild | ModalSubmitInteractionWithGuild | null = null
   ) {
     console.error(error);
-    await this.logError(error);
+    const extraErrorData: EmbedHelperField[] = [];
+    if (interaction) {
+      extraErrorData.push({ name: "User", value: `\`@${interaction.user.username}\` (\`${interaction.user.id}\`) <@${interaction.user.id}>` });
+      extraErrorData.push({ name: "Interaction Type", value: parseInteractionType(interaction.type) });
+      if (interaction.isCommand()) extraErrorData.push({ name: "Command", value: interaction.commandName, smallBlockValue: true });
+      if (interaction.isButton()) extraErrorData.push({ name: "Button", value: interaction.customId, smallBlockValue: true });
+    }
+    await this.logError(error, extraErrorData);
     if (!interaction || interaction.isAutocomplete()) return;
 
     const embed = new ErrorEmbed();
@@ -404,7 +407,7 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
     try {
       if (interaction.replied || interaction.deferred) await interaction.followUp({ embeds: [embed], flags: MessageFlags.Ephemeral });
       else await interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral });
-      if (!(error instanceof HypixelDiscordChatBridgeError)) await interaction.followUp({ embeds: [this.getErrorEmbed(error)], flags: MessageFlags.Ephemeral });
+      if (!(error instanceof HypixelDiscordChatBridgeError)) await interaction.followUp({ embeds: [getErrorEmbed(error)], flags: MessageFlags.Ephemeral });
     } catch (e) {
       console.error(e);
     }
