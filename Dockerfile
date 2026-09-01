@@ -1,5 +1,6 @@
 FROM node:22.22.3-bookworm
 ENV NODE_ENV=production
+ENV RUNNING_IN_DOCKER=true
 RUN apt-get update && apt-get install -y \
     libcairo2-dev \
     libpango1.0-dev \

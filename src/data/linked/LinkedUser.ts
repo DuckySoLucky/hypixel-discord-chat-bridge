@@ -1,9 +1,9 @@
 import GenericData from "../GenericData.js";
-import { toError } from "../../utils/asyncUtils.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import MowojangAPI from "../../private/MowojangAPI.js";
 import { formatNumber, replaceVariables } from "../../utils/stringUtils.js";
 import { getPlayer } from "../../utils/hypixelUtils.js";
+import { toError } from "../../utils/asyncUtils.js";
 import type LinkedManager from "./LinkedManager.js";
 import type { Guild, GuildMember as HypixelGuildMember, Player } from "hypixel-api-reborn";
 import type { GuildMember } from "discord.js";

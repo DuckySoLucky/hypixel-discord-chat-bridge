@@ -1,10 +1,10 @@
 import EmbedHelper, { BlacklistEmbed, SuccessEmbed } from "../../discord/private/EmbedHelper.js";
-import { toError } from "../../utils/asyncUtils.js";
 import GenericData from "../GenericData.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import MowojangAPI from "../../private/MowojangAPI.js";
 import { ActionRowBuilder, ButtonBuilder, ComponentType, type GuildMember } from "discord.js";
 import { getPlayer } from "../../utils/hypixelUtils.js";
+import { toError } from "../../utils/asyncUtils.js";
 import type BlacklistManager from "./BlacklistManager.js";
 import type { BasicBlacklistedUserData, BlacklistDeleteOptions, BlacklistSaveOptions, BlacklistedUserData } from "../../types/blacklist.js";
 import type { Guild, GuildMember as HypixelGuildMember, Player } from "hypixel-api-reborn";
