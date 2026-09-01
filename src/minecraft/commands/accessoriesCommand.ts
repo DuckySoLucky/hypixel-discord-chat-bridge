@@ -31,7 +31,7 @@ class AccessoriesCommand extends MinecraftCommand {
         output.amount++;
         output.rarities[accessory.rarity]++;
         if (accessory.recombobulated) output.recombed++;
-        output.enriched += accessory.raw.tag.ExtraAttributes.rarity_upgrades ? 1 : 0;
+        output.enriched += accessory.raw.tag.ExtraAttributes.talisman_enrichment !== undefined ? 1 : 0;
       }
 
       return output;
