@@ -140,9 +140,9 @@ export const ConfigMinecraft = zod.object({
 });
 
 export const ConfigDiscordCommands = zod.object({
-  checkPermissions: zod.boolean(),
   staffRole: zod.string().meta({ description: "The discord role Id of your staff members" }),
-  adminUsers: zod.array(zod.string()).meta({ description: "The discord user Ids of any admins\nThe people who own the bot are automatically included" })
+  adminUsers: zod.array(zod.string()).meta({ description: "The discord user Ids of any admins\nThe people who own the bot are automatically included" }),
+  debugCommands: zod.boolean().meta({ description: "Should the debug commands be enabled" })
 });
 export const ConfigDiscord = zod.object({
   serverId: zod.string().meta({ description: "The Discord server (guild) ID" }),

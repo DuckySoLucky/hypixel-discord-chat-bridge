@@ -14,7 +14,6 @@ class ForceUpdateCommand extends DiscordCommand<DiscordManagerWithBot> {
   override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const user = interaction.options.getUser("user", true);
     const updateCommand = new UpdateCommand(this.discord);
-    updateCommand.isSelf = false;
     updateCommand.discordId = user.id;
     await updateCommand.execute(interaction);
   }

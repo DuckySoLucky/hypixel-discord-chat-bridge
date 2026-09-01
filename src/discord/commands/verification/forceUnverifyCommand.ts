@@ -14,7 +14,6 @@ class ForceUnverifyCommand extends DiscordCommand<DiscordManagerWithBot> {
   override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const user = interaction.options.getUser("user", true);
     const unverifyCommand = new UnverifyCommand(this.discord);
-    unverifyCommand.isSelf = false;
     unverifyCommand.discordId = user.id;
     await unverifyCommand.execute(interaction);
   }

@@ -31,8 +31,7 @@ class StateHandler {
       if (this.minecraft.application.botGuild === undefined) await this.minecraft.application.getBotGuild();
 
       const loggerChannel = await this.minecraft.application.discord.getChannel("Logger-Event");
-      if (loggerChannel === null || !loggerChannel.isSendable()) console.error('Channel "Logger-Event" not found!');
-      else await loggerChannel.send({ embeds: [new EmbedHelper().setDescription(`Minecraft client ready, logged in as ${client.username}`).setColor("Green")] });
+      await loggerChannel.send({ embeds: [new EmbedHelper().setDescription(`Minecraft client ready, logged in as ${client.username}`).setColor("Green")] });
     } catch (error: unknown) {
       this.reportError(error);
     } finally {
@@ -47,7 +46,6 @@ class StateHandler {
     this.minecraft.scheduleReconnect(loginDelay);
 
     const loggerChannel = await this.minecraft.application.discord.getChannel("Logger-Event");
-    if (loggerChannel === null || !loggerChannel.isSendable()) return console.error('Channel "Logger-Event" not found!');
     await loggerChannel.send({ embeds: [new WarningEmbed().setDescription(`Minecraft bot has disconnected! Attempting reconnect in ${loginDelay / 1000} seconds`)] });
   }
 
@@ -56,22 +54,17 @@ class StateHandler {
     this.loginAttempts++;
 
     const loggerChannel = await this.minecraft.application.discord.getChannel("Logger-Event");
-    if (loggerChannel === null || !loggerChannel.isSendable()) return console.error('Channel "Logger-Event" not found!');
     await loggerChannel.send({ embeds: [new WarningEmbed().setDescription(`Minecraft bot has been kicked from the server for "${reason}"`)] });
   }
 
   readonly onError = (error: Error): void => {
     if (hasErrorCode(error, "ECONNRESET")) return;
+    if (hasErrorCode(error, "ECONNREFUSED")) return console.error("Connection refused while attempting to login via the Minecraft client");
 
-    if (hasErrorCode(error, "ECONNREFUSED")) {
-      console.error("Connection refused while attempting to login via the Minecraft client");
-      return;
-    }
-
-    console.error(error);
+    this.reportError(error);
   };
 
-  private readonly reportError = (error: unknown): void => console.error(toError(error));
+  private readonly reportError = (error: unknown): Promise<void> => this.minecraft.application.logError(toError(error));
 }
 
 export default StateHandler;

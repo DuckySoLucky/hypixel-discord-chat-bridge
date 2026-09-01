@@ -1,6 +1,6 @@
 {
   "$schema": "./docs/config.schema.json",
-  "configVersion": 5,
+  "configVersion": 6,
   "API": {
     "hypixel": {
       "key": "HYPIXEL_API_KEY",
@@ -121,12 +121,12 @@
     "serverId": "DISCORD_SERVER_ID",
     "token": "DISCORD_BOT_TOKEN",
     "commands": {
-      "checkPermissions": true,
       "staffRole": "COMMAND_ROLE_ID",
       "adminUsers": [
         "486155512568741900",
         "1276524855445164098"
-      ]
+      ],
+      "debugCommands": true
     }
   },
   "verification": {

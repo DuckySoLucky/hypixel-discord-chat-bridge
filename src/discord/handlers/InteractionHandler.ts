@@ -20,7 +20,7 @@ class InteractionHandler {
     const [isGuildMemberCheck, isStaffMemberCheck, isAdminMemberCheck, isVerifiedMemberCheck] = await Promise.all([
       isGuildMember(member),
       isStaffMember(member),
-      isAdminMember(member),
+      isAdminMember(member.user),
       isVerifiedMember(member)
     ]);
 
@@ -40,6 +40,7 @@ class InteractionHandler {
       [data.permission === CommandPermission.Linked && !isVerifiedMemberCheck, "This command requires you to be verified. Please use /verify to verify."],
       [data.flags.includes(CommandFlags.InactivityCommand) && !this.discord.application.config.verification.inactivity.enabled, "Inactivity commands are disabled."],
       [data.flags.includes(CommandFlags.VerificationCommand) && !this.discord.application.config.verification.enabled, "Verification commands are disabled."],
+      [data.flags.includes(CommandFlags.DebugCommand) && !this.discord.application.config.discord.commands.debugCommands, "Debug commands are disabled."],
       [data.flags.includes(CommandFlags.BlacklistCommand) && !this.discord.application.config.blacklist.enabled, "Blacklist commands are disabled."],
       [data.flags.includes(CommandFlags.RequiresMinecraftBot) && !this.discord.application.minecraft.isBotOnline(), this.discord.application.messages.minecraftBotOffline]
     ];

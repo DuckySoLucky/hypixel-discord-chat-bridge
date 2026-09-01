@@ -35,7 +35,8 @@ export enum CommandFlags {
   RequiresMinecraftBot,
   VerificationCommand,
   InactivityCommand,
-  BlacklistCommand
+  BlacklistCommand,
+  DebugCommand
 }
 
 export enum BasicInteractionResponse {
@@ -57,6 +58,9 @@ export const LoggerChannelNames = ["Logger-Guild", "Logger-Event", "Logger-Error
 export type LoggerChannelName = (typeof LoggerChannelNames)[number];
 export const ChannelNames = [...GenericChannelNames, ...LoggerChannelNames];
 export type ChannelName = (typeof ChannelNames)[number];
+export function isChannelName(value: string): value is ChannelName {
+  return (ChannelNames as readonly string[]).includes(value);
+}
 
 export type DiscordManagerWithClient = DiscordManager & { client: Client<true> };
 export type DiscordManagerWithGuild = DiscordManagerWithClient & { guild: Guild };
@@ -161,6 +165,7 @@ export interface MinecraftFieldData {
 }
 
 export interface EmbedHelperField extends APIEmbedField {
+  smallBlockValue?: boolean;
   blockValue?: boolean;
   formatTimestamp?: boolean;
 }

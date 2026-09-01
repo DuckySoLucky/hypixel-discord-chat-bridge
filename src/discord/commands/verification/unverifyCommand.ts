@@ -15,23 +15,17 @@ class UnverifyCommand extends DiscordCommand<DiscordManagerWithBot> {
   override readonly flags = [CommandFlags.VerificationCommand];
   override readonly permission = CommandPermission.Linked;
   discordId: string | null = null;
-  isSelf: boolean = false;
 
   override async execute(interaction: ChatInputCommandInteractionWithGuild | ButtonInteractionWithGuild) {
-    if (this.discordId === null) {
-      this.isSelf = true;
-      this.discordId = interaction.user.id;
-    }
+    if (!this.discordId) this.discordId = interaction.user.id;
     const linkedUser = await this.discord.application.data.linked.getUserByDiscordId(this.discordId);
-    if (linkedUser === undefined) throw new HypixelDiscordChatBridgeError("User is not verified");
+    if (linkedUser === undefined) throw new HypixelDiscordChatBridgeError(`<@${this.discordId}> is not verified`);
     await linkedUser.reset();
     await linkedUser.delete();
     await interaction.followUp({
-      embeds: [new SuccessEmbed().setDescription(`${this.isSelf ? "Your" : `<@${this.discordId}>'s`} account has been successfully unlinked`).setDevFooter("Kathund")]
+      embeds: [new SuccessEmbed().setDescription(`Successfully unlinked <@${this.discordId} from \`${await linkedUser.getUsername()}\`!`).setDevFooter("Kathund")]
     });
-
     this.discordId = null;
-    this.isSelf = false;
   }
 }
 

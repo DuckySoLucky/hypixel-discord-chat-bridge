@@ -53,7 +53,8 @@ export default class EmbedHelper extends EmbedBuilder {
     return { name, value: this.formatFieldValue({ name, value, inline, blockValue, formatTimestamp }), inline };
   }
 
-  private formatFieldValue({ value, blockValue, formatTimestamp }: EmbedHelperField): string {
+  private formatFieldValue({ value, smallBlockValue, blockValue, formatTimestamp }: EmbedHelperField): string {
+    if (smallBlockValue) return `\`${value}\``;
     if (blockValue) return `\`\`\`${value}\`\`\``;
     if (formatTimestamp) return `<t:${value}:F> (<t:${value}:R>)`;
     return value;

@@ -2,6 +2,7 @@ import DiscordCommand from "../private/commands/DiscordCommand.js";
 import DiscordCommandDataBuilder from "../private/commands/DiscordCommandDataBuilder.js";
 import EmbedHelper from "../private/EmbedHelper.js";
 import { type ChatInputCommandInteractionWithGuild, CommandFlags, type DiscordManagerWithBot, type Information } from "../../types/discord.js";
+import { execSync } from "node:child_process";
 import { replaceVariables, titleCase } from "../../utils/stringUtils.js";
 import type DiscordManager from "../DiscordManager.js";
 
@@ -37,7 +38,17 @@ class InformationCommand extends DiscordCommand<DiscordManagerWithBot> {
   }
 
   static FormatInformation(information: Information[]): string {
-    return information.map(({ name, value, format }) => `${titleCase(name)}: ${format !== false ? `\`${value}\`` : value}`).join("\n");
+    return information.map(({ name, value, format }) => `**${titleCase(name)}:** ${format !== false ? `\`${value}\`` : value}`).join("\n");
+  }
+
+  static getGitInfo(): { commit: string | null; dirty: boolean | null } {
+    try {
+      const commit = execSync("git rev-parse HEAD", { encoding: "utf8" }).trim();
+      const dirty = execSync("git status --porcelain", { encoding: "utf8" }).trim().length > 0;
+      return { commit, dirty };
+    } catch {
+      return { commit: null, dirty: null };
+    }
   }
 
   static getInformation(discord: DiscordManagerWithBot): { discordInformation: Information[]; minecraftInformation: Information[]; generalInformation: Information[] } {
@@ -74,10 +85,14 @@ class InformationCommand extends DiscordCommand<DiscordManagerWithBot> {
           : "Disabled"
       }
     ];
+    const { commit, dirty } = this.getGitInfo();
     const generalInformation: Information[] = [
       { name: "Filter Messages", value: discord.application.config.bridge.filter.enabled ? "Enabled" : "Disabled" },
       { name: "Version", value: discord.application.package.version },
-      { name: "Uptime", value: `<t:${Math.floor((Date.now() - discord.client.uptime) / 1000)}:R>`, format: false }
+      { name: "Uptime", value: `<t:${Math.floor((Date.now() - discord.client.uptime) / 1000)}:R>`, format: false },
+      { name: "Is Inside of Docker Container", value: process.env.RUNNING_IN_DOCKER === "true" ? ":white_check_mark: Yes" : ":x: No", format: false },
+      { name: "Git Hash", value: commit ?? "UNKNOWN" },
+      { name: "Is Git Dirty", value: dirty !== null ? (dirty ? ":white_check_mark: Yes" : ":x: No") : "UNKNOWN", format: false }
     ];
     return { discordInformation, minecraftInformation, generalInformation };
   }

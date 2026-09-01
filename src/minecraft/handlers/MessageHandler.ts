@@ -108,7 +108,6 @@ class MessageHandler {
       if (this.minecraft.application.config.blacklist.enabled) blacklistUser = await this.minecraft.application.data.blacklist.getUserByUUID(uuid);
 
       const logChannel = await this.minecraft.application.discord.getChannel("Logger-Guild");
-      if (!logChannel || !logChannel.isSendable()) return;
       const requestEmbed = new EmbedHelper().setColor("Green").setDescription(replaceVariables(this.minecraft.application.messages.requestMessage, { username }));
       const buttons: ButtonBuilder[] = [new ButtonBuilder().setCustomId("joinRequestAccept").setLabel("Accept Request").setStyle(ButtonStyle.Success)];
       if (this.minecraft.application.config.blacklist.notifications.onJoinRequest && blacklistUser) {
@@ -151,8 +150,7 @@ class MessageHandler {
         if (data.passed && this.minecraft.application.config.minecraft.guild.requirements.autoAccept) this.minecraft.bot.chat(`/guild accept ${username}`);
         const embed = requirementsCommand.generateEmbed(data);
         await logMessage.edit({ embeds: [...logMessage.embeds, embed] });
-        const officerChannel = await this.minecraft.application.discord.getChannel("Officer");
-        if (officerChannel?.isSendable()) await officerChannel.send({ embeds: [embed] });
+        await (await this.minecraft.application.discord.getChannel("Officer")).send({ embeds: [embed] });
       }
 
       if (this.minecraft.application.config.blacklist.enabled && this.minecraft.application.config.blacklist.notifications.onJoinRequest) {
@@ -562,8 +560,6 @@ class MessageHandler {
     }
   }
 
-  private readonly reportError = (error: unknown): void => console.error(toError(error));
-
   isDiscordMessage(message: string, senderUsername: string): boolean {
     if (!this.minecraft.hasBot()) throw new HypixelDiscordChatBridgeError(this.minecraft.application.messages.minecraftBotOffline);
     if (senderUsername !== this.minecraft.bot.username) return false;
@@ -824,10 +820,12 @@ class MessageHandler {
       const linkedUser = await this.minecraft.application.data.linked.getUserByUUID(uuid);
       if (!linkedUser) return;
       await linkedUser.updateRoles();
-    } catch {
-      //
+    } catch (error) {
+      this.reportError(error);
     }
   }
+
+  private readonly reportError = (error: unknown): Promise<void> => this.minecraft.application.logError(toError(error));
 }
 
 export default MessageHandler;

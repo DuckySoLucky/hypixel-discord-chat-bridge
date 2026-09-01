@@ -3,9 +3,9 @@ import type { EmbedStyleData, EmbedStyleName } from "../types/discord.js";
 
 export const EmbedStyles: Record<EmbedStyleName, EmbedStyleData> = {
   Generic: { color: "Blue", footer: "DuckySoLucky" },
-  Warning: { author: { name: "An Warning has occurred" }, color: "Yellow" },
-  Error: { author: { name: "An Warning has occurred" }, color: "Red" },
-  Success: { author: { name: "Success" }, color: "Green" }
+  Warning: { author: { name: "An Warning has occurred" }, color: "Yellow", footer: "DuckySoLucky" },
+  Error: { author: { name: "An Error has occurred" }, color: "Red", footer: "DuckySoLucky" },
+  Success: { author: { name: "Success" }, color: "Green", footer: "DuckySoLucky" }
 };
 
 export const CommonDevs: Record<DevName, DevData> = {

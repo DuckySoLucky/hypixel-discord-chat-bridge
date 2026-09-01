@@ -1,4 +1,5 @@
 import { type Attachment, GuildMember, type Message, type User } from "discord.js";
+import { toError } from "../../utils/asyncUtils.js";
 import { unemojify } from "node-emoji";
 import type DiscordManager from "../DiscordManager.js";
 import type { DiscordToMinecraftMessage } from "../../types/bridge.js";
@@ -49,7 +50,7 @@ class MessageHandler {
 
       await this.discord.broadcastMessage(messageData);
     } catch (error) {
-      console.error(error);
+      this.reportError(error);
     }
   }
 
@@ -81,7 +82,7 @@ class MessageHandler {
         }
       }
     } catch (error) {
-      console.error(error);
+      this.reportError(error);
       return null;
     }
   }
@@ -176,6 +177,8 @@ class MessageHandler {
   private getFallbackDisplayName(user: User): string {
     return user.globalName ?? user.username;
   }
+
+  private readonly reportError = (error: unknown): Promise<void> => this.discord.application.logError(toError(error));
 }
 
 export default MessageHandler;

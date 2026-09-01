@@ -84,14 +84,10 @@ abstract class BasicScript implements Lifecycle {
       await this.execute(this.abortController.signal);
       await this.log(`Finished executing the \`${this.id}\` script.`, ScriptLogState.Good);
     } catch (error: unknown) {
-      console.error(toError(error));
+      this.scripts.application.logError(toError(error));
     } finally {
       const durationMs = performance.now() - start;
-      try {
-        await this.log(`Duration of the \`${this.id}\` script: ${durationMs.toFixed(2)}ms (${prettyMilliseconds(durationMs)})`, ScriptLogState.Misc);
-      } catch (error: unknown) {
-        console.error(toError(error));
-      }
+      await this.log(`Duration of the \`${this.id}\` script: ${durationMs.toFixed(2)}ms (${prettyMilliseconds(durationMs)})`, ScriptLogState.Misc);
       this.running = false;
       this.abortController = undefined;
       return durationMs;
@@ -101,7 +97,6 @@ abstract class BasicScript implements Lifecycle {
   protected async log(message: string, state: ScriptLogState = ScriptLogState.Misc): Promise<void> {
     console.scripts(message);
     const channel = await this.scripts.application.discord.getChannel("Logger-Scripts");
-    if (!channel || !channel.isSendable()) return;
     const embed = new EmbedHelper().setDescription(message).setDevFooter("Kathund");
     if (state === ScriptLogState.Good) embed.setColor("Green");
     else if (state === ScriptLogState.Bad) embed.setColor("Red");

@@ -72,13 +72,10 @@ Minecraft commands can be executed from any chat channel that the bot can see. T
 | ---------------------- | ------------------------------------------------------ | ----------------------------------------- | ------------ |
 | `blacklist`            | Blacklist a user                                       | `/blacklist [add] [remove] [get]`         | Staff        |
 | `credits`              | Shows the credits of the people who make this possible | `/credits`                                | Anyone       |
-| `execute`              | Executes commands as the minecraft bot.                | `/execute (command)`                      | Admin        |
-| `force-execute-script` | Allows executing scripts                               | `/force-execute-script (script-name)`     | Staff        |
 | `help`                 | Shows the help menu.                                   | `/help [command]`                         | Anyone       |
 | `information`          | Shows information about the bot.                       | `/information`                            | Anyone       |
 | `ping`                 | Show the latency of the bot.                           | `/ping`                                   | Anyone       |
 | `requirements`         | Check a user's requirements to join the guild          | `/requirements [u]`                       | Anyone       |
-| `restart`              | Restarts the bot.                                      | `/restart`                                | Staff        |
 | `uptime`               | Shows the uptime of the bot.                           | `/uptime`                                 | Admin        |
 | `force-unverify`       | Remove a linked Minecraft account                      | `/force-unverify (user)`                  | Staff        |
 | `force-update`         | Update user's roles                                    | `/force-update (user)`                    | Staff        |
@@ -100,10 +97,16 @@ Minecraft commands can be executed from any chat channel that the bot can see. T
 | `promote`              | Promote the given user by one guild rank.              | `/promote (u)`                            | Staff        |
 | `set-rank`             | Set rank of the given user.                            | `/set-rank (u) (rank)`                    | Staff        |
 | `unmute`               | Unmute the given user.                                 | `/unmute (u)`                             | Staff        |
+| `execute`              | Executes commands as the minecraft bot.                | `/execute (command)`                      | Admin        |
+| `force-error`          | force an error                                         | `/force-error (message) (type)`           | Admin        |
+| `force-execute-script` | Allows executing scripts                               | `/force-execute-script (script-name)`     | Staff        |
+| `permission-check`     | Check what level of permission a user has              | `/permission-check [user]`                | Staff        |
+| `restart`              | Restarts the bot.                                      | `/restart`                                | Staff        |
+| `send-to-channel`      | Force Sending to a channel                             | `/send-to-channel (message) (channel)`    | Admin        |
 
 ---
 
-This document is [auto generated](/scripts/docs/Commands.ts) and was last updated on `Tue, 01 Sep 2026 12:12:15 GMT` (`1788264735045`)
+This document is [auto generated](/scripts/docs/Commands.ts) and was last updated on `Tue, 01 Sep 2026 12:27:55 GMT` (`1788265675804`)
 
 To update this document please run `pnpm docgen` or contact a maintainer and ask them to update it.
 

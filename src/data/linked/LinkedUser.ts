@@ -3,6 +3,7 @@ import HypixelDiscordChatBridgeError from "../../private/error.js";
 import MowojangAPI from "../../private/MowojangAPI.js";
 import { formatNumber, replaceVariables } from "../../utils/stringUtils.js";
 import { getPlayer } from "../../utils/hypixelUtils.js";
+import { toError } from "../../utils/asyncUtils.js";
 import type LinkedManager from "./LinkedManager.js";
 import type { Guild, GuildMember as HypixelGuildMember, Player } from "hypixel-api-reborn";
 import type { GuildMember } from "discord.js";
@@ -37,16 +38,12 @@ class LinkedUser extends GenericData<LinkedUserData, LinkedManager> {
   async reset() {
     if (!this.manager.data.application.minecraft.isBotOnline()) return;
     if (!this.manager.data.application.discord.isClientOnline()) return;
-    if (!this.manager.data.application.discord.isGuildReady()) return this.manager.data.application.discord.stateHandler.loadGuild();
+    if (!this.manager.data.application.discord.isGuildReady()) return this.manager.data.application.discord.loadGuild();
 
-    try {
-      const member = await this.manager.data.application.discord.guild.members.fetch(this.discordId);
-      if (!member) return;
-      if (this.manager.data.application.config.verification.nickname.enabled && member.nickname) await member.setNickname(null);
-      await member.roles.remove(this.getLinkedRoles(), "Updated Roles");
-    } catch (error) {
-      console.error(`Failed to completely clean up roles for ${this.discordId}:`, error);
-    }
+    const member = await this.manager.data.application.discord.guild.members.fetch(this.discordId);
+    if (!member) return;
+    if (this.manager.data.application.config.verification.nickname.enabled && member.nickname) await member.setNickname(null);
+    await member.roles.remove(this.getLinkedRoles(), "Updated Roles");
   }
 
   async delete(): Promise<LinkedUser[]> {
@@ -60,7 +57,7 @@ class LinkedUser extends GenericData<LinkedUserData, LinkedManager> {
         throw new HypixelDiscordChatBridgeError("The discord bot doesn't seam to be online? Please restart the application");
       }
       if (!this.manager.data.application.discord.isGuildReady()) {
-        await this.manager.data.application.discord.stateHandler.loadGuild();
+        await this.manager.data.application.discord.loadGuild();
         throw new HypixelDiscordChatBridgeError("The discord server isn't ready. Please try again later");
       }
 
@@ -118,7 +115,7 @@ class LinkedUser extends GenericData<LinkedUserData, LinkedManager> {
       );
       return this;
     } catch (error) {
-      console.error(error);
+      this.manager.data.application.logError(toError(error));
       return null;
     }
   }
@@ -128,12 +125,12 @@ class LinkedUser extends GenericData<LinkedUserData, LinkedManager> {
       throw new HypixelDiscordChatBridgeError("The discord bot doesn't seam to be online? Please restart the application");
     }
     if (!this.manager.data.application.discord.isGuildReady()) {
-      this.manager.data.application.discord.stateHandler.loadGuild();
+      this.manager.data.application.discord.loadGuild();
       throw new HypixelDiscordChatBridgeError("The discord server isn't ready. Please try again later");
     }
 
-    return await this.manager.data.application.discord.guild.members.fetch(this.discordId).catch((e) => {
-      console.error(e);
+    return await this.manager.data.application.discord.guild.members.fetch(this.discordId).catch((error) => {
+      this.manager.data.application.logError(toError(error));
       return null;
     });
   }
