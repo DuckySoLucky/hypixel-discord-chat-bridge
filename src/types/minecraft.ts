@@ -2,6 +2,7 @@ import type MinecraftManager from "../minecraft/MinecraftManager.js";
 import type RawRequestData from "hypixel-api-reborn/dist/Private/RawRequestData.js";
 import type { Client } from "minecraft-protocol";
 import type { DiscordManagerWithBot } from "./discord.js";
+import type { ProfileNetworthCalculator } from "skyhelper-networth";
 import type { SkyBlockProfile, SkyBlockProfileName, SkyblockProfileWithMe, WithSelectedProfile } from "hypixel-api-reborn";
 
 export type MinecraftManagerWithBot = MinecraftManager & { bot: Client };
@@ -132,4 +133,9 @@ export interface CachedDiscordMessageData {
   message: string;
   username: string;
   rawMessage: string;
+}
+
+export interface NetWorthCalculatorData {
+  calculator: ProfileNetworthCalculator;
+  profile: SelectedProfileData;
 }

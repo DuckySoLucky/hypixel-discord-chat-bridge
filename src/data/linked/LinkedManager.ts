@@ -4,7 +4,7 @@ import LinkedUser from "./LinkedUser.js";
 import MowojangAPI from "../../private/MowojangAPI.js";
 import { type LinkedData, LinkedDataSchema, type LinkedUserData, type OldFormat } from "../../types/linked.js";
 import { access, readFile, writeFile } from "node:fs/promises";
-import { getNetWorth, getPlayer, getSelectedProfile } from "../../utils/hypixelUtils.js";
+import { getNetWorthCalculator, getPlayer, getSelectedProfile } from "../../utils/hypixelUtils.js";
 import type DataManager from "../DataManager.js";
 import type { Guild, Player, SkyblockProfileWithMe } from "hypixel-api-reborn";
 import type { PlayerVariableStats } from "../../private/constants.js";
@@ -126,7 +126,8 @@ class LinkedManager extends GenericManager<LinkedUserData, LinkedData, LinkedUse
     if (!hypixelGuild) throw new HypixelDiscordChatBridgeError("In game Hypixel Guild not found.");
     if (!player) throw new HypixelDiscordChatBridgeError("Failed to fetch Player data");
 
-    const networth = skyblock ? await getNetWorth(skyblock).catch(() => null) : null;
+    const networthCalculator = skyblock ? await getNetWorthCalculator(uuid).then((data) => data.calculator) : null;
+    const networth = networthCalculator ? await networthCalculator.getNetworth({ onlyNetworth: true }) : null;
     const profile = skyblock?.me;
     const guildMember = hypixelGuild.members.find((m) => m.uuid === uuid);
 
