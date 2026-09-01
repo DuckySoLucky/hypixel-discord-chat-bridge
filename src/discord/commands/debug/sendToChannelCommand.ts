@@ -23,9 +23,7 @@ class SendToChannelCommand extends DiscordCommand {
   override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     const channelName = interaction.options.getString("channel", true);
     if (!isChannelName(channelName)) throw new HypixelDiscordChatBridgeError("Invalid channel name");
-    const channel = await this.discord.getChannel(channelName);
-    if (!channel || !channel.isSendable()) throw new HypixelDiscordChatBridgeError(`Channel "${channelName}" not found!`);
-    const message = await channel.send({ content: interaction.options.getString("message", true) });
+    const message = await (await this.discord.getChannel(channelName)).send({ content: interaction.options.getString("message", true) });
     await interaction.followUp({ embeds: [new SuccessEmbed().setDevFooter("Kathund").setDescription(`Message sent in \`${channelName}\`\n${message.url}`)] });
   }
 }

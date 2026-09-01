@@ -16,7 +16,7 @@ class UpdateStatChannelsScript extends BasicScript {
 
   async getStats(): Promise<ChannelVariableStats> {
     if (!this.scripts.application.discord.isGuildReady()) {
-      await this.scripts.application.discord.stateHandler.loadGuild();
+      await this.scripts.application.discord.loadGuild();
       throw new HypixelDiscordChatBridgeError("The discord server isn't ready. Please try again later");
     }
 
@@ -44,7 +44,7 @@ class UpdateStatChannelsScript extends BasicScript {
 
   override async execute() {
     if (!this.scripts.application.discord.isGuildReady()) {
-      await this.scripts.application.discord.stateHandler.loadGuild();
+      await this.scripts.application.discord.loadGuild();
       throw new HypixelDiscordChatBridgeError("The discord server isn't ready. Please try again later");
     }
     const stats = await this.getStats();

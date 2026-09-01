@@ -2,7 +2,7 @@ import ExtensionRegistry from "../../extensions/ExtensionRegistry.js";
 import axios from "axios";
 import loadExtensionModules from "../../extensions/moduleLoader.js";
 import { formatError } from "../../utils/miscUtils.js";
-import { runDetached } from "../../utils/asyncUtils.js";
+import { runDetached, toError } from "../../utils/asyncUtils.js";
 import type MinecraftCommand from "../private/commands/MinecraftCommand.js";
 import type MinecraftManager from "../MinecraftManager.js";
 
@@ -34,7 +34,7 @@ class CommandHandler {
       try {
         await command.run({ player, rawMessage: message, args, channel: officer ? "officer" : "guild", signal: abortController.signal });
       } catch (error) {
-        console.error(error);
+        await this.minecraft.application.logError(toError(error));
         if (!(error instanceof Error)) return;
         await command.send(formatError(error));
       }
@@ -68,7 +68,7 @@ class CommandHandler {
 
             this.minecraft.bot.chat(`/${chat} [SOOPY V2] ${response.data.msg}`);
           } catch (error) {
-            console.error(error);
+            await this.minecraft.application.logError(toError(error));
             if (!(error instanceof Error)) return;
             this.minecraft.bot.chat(`/${chat} [SOOPY V2] ${error.cause ?? error.message ?? "Unknown error"}`);
           }

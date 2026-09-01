@@ -1,6 +1,10 @@
 import type Application from "../Application.js";
+import type HypixelDiscordChatBridgeError from "../private/error.js";
 import type { DiscordManagerWithClient } from "./discord.js";
+import type { DiscordjsError } from "discord.js";
+import type { HypixelAPIRebornError } from "hypixel-api-reborn";
 import type { MinecraftManagerWithBot } from "./minecraft.js";
+import type { MinecraftRequestTimeoutError } from "../minecraft/MinecraftRequestBroker.ts";
 
 export type ApplicationWithClient = Application & { discord: DiscordManagerWithClient };
 export type ApplicationWithBot = Application & { minecraft: MinecraftManagerWithBot };
@@ -23,3 +27,5 @@ export interface CreditData {
   description: string;
   link: string;
 }
+
+export type ValidErrors = Error | DiscordjsError | HypixelDiscordChatBridgeError | HypixelAPIRebornError | MinecraftRequestTimeoutError;

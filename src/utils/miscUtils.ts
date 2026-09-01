@@ -2,8 +2,10 @@ import HypixelDiscordChatBridgeError from "../private/error.js";
 import { DiscordjsError } from "discord.js";
 import { ErrorEmbed } from "../discord/private/EmbedHelper.js";
 import { HypixelAPIRebornError } from "hypixel-api-reborn";
+import { MinecraftRequestTimeoutError } from "../minecraft/MinecraftRequestBroker.ts";
 import type { DataWithTimestamp } from "../types/misc.js";
 import type { EmbedHelperField } from "../types/discord.js";
+import type { ValidErrors } from "../types/application.js";
 
 export function delay(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -19,7 +21,7 @@ export function generateId(length: number): string {
   return result;
 }
 
-export function formatError(error: Error | DiscordjsError | HypixelDiscordChatBridgeError | HypixelAPIRebornError): string {
+export function formatError(error: ValidErrors): string {
   return error
     .toString()
     .replace("Hypixel-API-Reborn", "hypixel-api-reborn")
@@ -70,14 +72,15 @@ export function getMostRecent<T extends DataWithTimestamp>(data: T[]): T | undef
   return [...data].sort((a, b) => b.timestamp - a.timestamp)[0];
 }
 
-export function getErrorTypeName(error: Error | DiscordjsError | HypixelDiscordChatBridgeError | HypixelAPIRebornError): string {
+export function getErrorTypeName(error: ValidErrors): string {
   if (error instanceof HypixelDiscordChatBridgeError) return "HypixelDiscordChatBridgeError";
   else if (error instanceof HypixelAPIRebornError) return "HypixelAPIRebornError";
   else if (error instanceof DiscordjsError) return "DiscordJsError";
+  else if (error instanceof MinecraftRequestTimeoutError) return "MinecraftRequestTimeoutError";
   return "Generic Error";
 }
 
-export function getErrorEmbed(error: Error | DiscordjsError | HypixelDiscordChatBridgeError | HypixelAPIRebornError, extraData: EmbedHelperField[] = []): ErrorEmbed {
+export function getErrorEmbed(error: ValidErrors, extraData: EmbedHelperField[] = []): ErrorEmbed {
   const errorStack = error instanceof Error ? (error.stack ?? error.message) : String(error ?? "Unknown");
   return new ErrorEmbed().setDescription(`\`\`\`${errorStack}\`\`\``).setFields(...[{ name: "Error Type", value: getErrorTypeName(error) }, ...extraData]);
 }

@@ -9,11 +9,15 @@ import ScriptManager from "./scripts/ScriptsManager.js";
 import messages from "./messages.json" with { type: "json" };
 import packageJson from "../package.json" with { type: "json" };
 import { Filter } from "bad-words";
+import { canSendMessages, getApplicationOwners } from "./utils/discordUtils.js";
+import { getErrorEmbed, getErrorTypeName } from "./utils/miscUtils.js";
 import { getGuild } from "./utils/hypixelUtils.js";
 import type { Config } from "./types/config.js";
+import type { EmbedHelperField } from "./types/discord.js";
 import type { Guild } from "hypixel-api-reborn";
 import type { Lifecycle, LifecycleState } from "./core/Lifecycle.js";
 import type { MowojangProfile } from "mowojang";
+import type { ValidErrors } from "./types/application.ts";
 
 class Application implements Lifecycle {
   readonly package: typeof packageJson;
@@ -111,6 +115,24 @@ class Application implements Lifecycle {
       );
     }
     return this.botGuild;
+  }
+
+  async logError(error: ValidErrors, extraData: EmbedHelperField[] = []) {
+    console.error(error);
+    if (!this.discord.isClientOnline()) return;
+
+    try {
+      const channel = await this.discord.getChannel("Logger-Error");
+      const hasPermission = await canSendMessages(channel);
+      if (!hasPermission) return;
+      const owners = await getApplicationOwners(this.discord.client);
+      await channel.send({
+        content: getErrorTypeName(error) === "Generic Error" ? owners.map((id) => `<@${id}>`).join(" ") : "",
+        embeds: [getErrorEmbed(error, extraData)]
+      });
+    } catch (e) {
+      console.error(e);
+    }
   }
 }
 

@@ -2,7 +2,7 @@ import CommandHandler from "./handlers/CommandHandler.js";
 import CommunicationBridge from "../private/CommunicationBridge.js";
 import MessageHandler from "./handlers/MessageHandler.js";
 import MinecraftData from "minecraft-data";
-import MinecraftRequestBroker, { MinecraftRequestTimeoutError } from "./MinecraftRequestBroker.js";
+import MinecraftRequestBroker from "./MinecraftRequestBroker.js";
 import PrismarineChat from "prismarine-chat";
 import PrismarineRegistry, { type RegistryPc } from "prismarine-registry";
 import StateHandler from "./handlers/StateHandler.js";
@@ -19,7 +19,7 @@ import type { NBT } from "prismarine-nbt";
 import type { PrismarineChatFormatter } from "prismarine-chat";
 
 class MinecraftManager extends CommunicationBridge implements Lifecycle {
-  static supportedVersions: string[] = ["1.21.11", "26.1.2"];
+  static supportedVersions: string[] = ["26.1.2"];
   static versionsInformation: Record<string, { reason: string; disable: boolean }> = {
     "1.8.9": { reason: "1.8.9 is old and outdated. It will no longer be supported please move to a supported version", disable: true },
     "1.21.11": { reason: "1.21.11 is no longer supported by hypixel skyblock. This means commands like !warpout will not function correctly", disable: false }
@@ -303,10 +303,8 @@ class MinecraftManager extends CommunicationBridge implements Lifecycle {
       this.bot.chat(`${chat} ${message}`);
       await acknowledgement;
     } catch (error: unknown) {
-      console.error(error);
+      await this.application.logError(toError(error));
       if (this.application.config.bridge.messageErrorReactions) await sourceMessage.react("❌");
-      if (error instanceof MinecraftRequestTimeoutError) return;
-      await this.application.discord.logError(toError(error));
     }
   }
 

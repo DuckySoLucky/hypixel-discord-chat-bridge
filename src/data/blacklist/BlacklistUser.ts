@@ -1,4 +1,5 @@
 import EmbedHelper, { BlacklistEmbed, SuccessEmbed } from "../../discord/private/EmbedHelper.js";
+import { toError } from "../../utils/asyncUtils.js";
 import GenericData from "../GenericData.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import MowojangAPI from "../../private/MowojangAPI.js";
@@ -42,7 +43,6 @@ class BlacklistUser extends GenericData<BlacklistedUserData, BlacklistManager> {
       throw new HypixelDiscordChatBridgeError("The discord bot doesn't seam to be online? Please restart the application");
     }
     const channel = await this.manager.data.application.discord.getChannel("Logger-Blacklist");
-    if (!channel || !channel.isSendable()) return this;
     const blacklistData = await this.manager.getBlacklistDataResponse(this);
 
     if (this.messageId) {
@@ -78,7 +78,6 @@ class BlacklistUser extends GenericData<BlacklistedUserData, BlacklistManager> {
       throw new HypixelDiscordChatBridgeError("The discord bot doesn't seam to be online? Please restart the application");
     }
     const channel = await this.manager.data.application.discord.getChannel("Logger-Blacklist");
-    if (!channel || !channel.isSendable()) return;
     if (!this.messageId) return;
     const message = await channel.messages.fetch(this.messageId);
     const component = message.components[0];
@@ -132,12 +131,12 @@ class BlacklistUser extends GenericData<BlacklistedUserData, BlacklistManager> {
       throw new HypixelDiscordChatBridgeError("The discord bot doesn't seam to be online? Please restart the application");
     }
     if (!this.manager.data.application.discord.isGuildReady()) {
-      await this.manager.data.application.discord.stateHandler.loadGuild();
+      await this.manager.data.application.discord.loadGuild();
       throw new HypixelDiscordChatBridgeError("The discord server isn't ready. Please try again later");
     }
 
-    return await this.manager.data.application.discord.guild.members.fetch(this.discordId).catch((e) => {
-      console.error(e);
+    return await this.manager.data.application.discord.guild.members.fetch(this.discordId).catch((error) => {
+      this.manager.data.application.logError(toError(error));
       return null;
     });
   }
@@ -156,7 +155,6 @@ class BlacklistUser extends GenericData<BlacklistedUserData, BlacklistManager> {
   async refreshMessage() {
     if (!this.messageId) return;
     const channel = await this.manager.data.application.discord.getChannel("Logger-Blacklist");
-    if (!channel || !channel.isSendable()) return this;
     const message = await channel.messages.fetch(this.messageId).catch(() => null);
     if (!message) return;
     const blacklistData = await this.manager.getBlacklistDataResponse(this);

@@ -15,53 +15,42 @@ class VerifyCommand extends DiscordCommand<DiscordManagerWithBot> {
     .setDescription("Connect your Discord account to Minecraft")
     .addStringOption((option) => option.setName("username").setDescription("Minecraft Username").setRequired(true));
   override readonly flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.VerificationCommand];
-  discordId: string | null = null;
-  isSelf: boolean = false;
 
   override async execute(interaction: ChatInputCommandInteractionWithGuild) {
     try {
-      if (this.discordId === null) {
-        this.isSelf = true;
-        this.discordId = interaction.user.id;
-      }
-
-      if (!interaction.guild || !this.discordId) throw new HypixelDiscordChatBridgeError("Please run this command inside of a guild");
-      const discordUser = await interaction.guild.members.fetch(this.discordId).catch((e) => console.error(e));
-      if (!discordUser) throw new HypixelDiscordChatBridgeError("This discord user doesn't exist");
-
-      const linkedUser = await this.discord.application.data.linked.getUserByDiscordId(this.discordId);
-      if (linkedUser !== undefined) throw new HypixelDiscordChatBridgeError("User is verified. Please use /unverify first");
+      const linkedUser = await this.discord.application.data.linked.getUserByDiscordId(interaction.user.id);
+      if (linkedUser !== undefined) throw new HypixelDiscordChatBridgeError(`You are already verified as ${await linkedUser.getUsername()}. Please use /unverify first`);
 
       const username = interaction.options.getString("username", true);
       const { socialMedia, nickname, uuid } = await getPlayer(username);
-
-      if (this.isSelf) {
-        const discordUsername = socialMedia.discord;
-        if (!discordUsername) {
-          throw new HypixelDiscordChatBridgeError(`The player '${nickname}' has not linked their Discord account. Please follow the instructions below.`);
-        }
-
-        if (discordUsername.toLowerCase() !== discordUser.user.username) {
-          throw new HypixelDiscordChatBridgeError(
-            `The player '${nickname}' has linked their Discord account to a different account ('${discordUsername}'). Please follow the instructions below.`
-          );
-        }
+      const linkedMinecraftUser = await this.discord.application.data.linked.getUserByUUID(uuid);
+      if (linkedMinecraftUser !== undefined) {
+        throw new HypixelDiscordChatBridgeError(`${nickname} is already verified to <@${linkedMinecraftUser.discordId}>. Please contact an staff member to intervene`);
       }
 
-      await new LinkedUser({ discordId: this.discordId, uuid }, this.discord.application.data.linked).save();
+      const discordUsername = socialMedia.discord;
+      if (!discordUsername) {
+        throw new HypixelDiscordChatBridgeError(`The player '${nickname}' has not linked their Discord account. Please follow the instructions below.`);
+      }
+
+      if (discordUsername.toLowerCase() !== interaction.user.username) {
+        throw new HypixelDiscordChatBridgeError(
+          `The player '${nickname}' has linked their Discord account to a different account ('${discordUsername}'). Please follow the instructions below.`
+        );
+      }
+
+      await new LinkedUser({ discordId: interaction.user.id, uuid }, this.discord.application.data.linked).save();
 
       await interaction.followUp({
         embeds: [
           new SuccessEmbed()
-            .setDescription(`${this.isSelf ? "Your" : `<@${this.discordId}>'s`} account has been successfully linked to \`${nickname}\``)
+            .setDescription(`You have Successfully linked your account to \`${nickname}\``)
             .setAuthor({ name: "Successfully linked!" })
             .setDevFooter("Kathund")
         ]
       });
 
       const updateCommand = new UpdateCommand(this.discord);
-      updateCommand.isSelf = this.isSelf;
-      updateCommand.discordId = this.discordId;
       await updateCommand.execute(interaction);
     } catch (error) {
       if (!(error instanceof Error)) return;
@@ -88,9 +77,6 @@ class VerifyCommand extends DiscordCommand<DiscordManagerWithBot> {
         flags: MessageFlags.Ephemeral
       });
     }
-
-    this.discordId = null;
-    this.isSelf = false;
   }
 }
 

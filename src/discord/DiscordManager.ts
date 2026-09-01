@@ -7,8 +7,7 @@ import HypixelDiscordChatBridgeError from "../private/error.js";
 import InteractionHandler from "./handlers/InteractionHandler.js";
 import MessageHandler from "./handlers/MessageHandler.js";
 import ModalHandler from "./handlers/ModalHandler.js";
-import StateHandler from "./handlers/StateHandler.js";
-import { AttachmentBuilder, type Channel, ChannelType, Client, DiscordjsError, Events, GatewayIntentBits, Guild, MessageFlags, Webhook } from "discord.js";
+import { AttachmentBuilder, ChannelType, Client, Events, GatewayIntentBits, Guild, MessageFlags, type SendableChannels, Webhook } from "discord.js";
 import {
   type AutocompleteInteractionWithGuild,
   type ButtonInteractionWithGuild,
@@ -22,16 +21,16 @@ import {
   LoggerChannelNames,
   type ModalSubmitInteractionWithGuild
 } from "../types/discord.js";
-import { canSendMessages, getApplicationOwners, parseInteractionType } from "../utils/discordUtils.js";
-import { getErrorEmbed, getErrorTypeName } from "../utils/miscUtils.js";
+import { getErrorEmbed } from "../utils/miscUtils.js";
 import { messageToImage } from "../utils/minecraftUtils.js";
+import { parseInteractionType } from "../utils/discordUtils.js";
 import { removeColorCodes, replaceVariables } from "../utils/stringUtils.js";
 import { safeListener, toError } from "../utils/asyncUtils.js";
 import { writeFile } from "node:fs/promises";
 import type Application from "../Application.js";
 import type { CleanEmbedEvent, HeadedEmbedEvent, MinecraftToDiscordMessage, PlayerToggleEvent } from "../types/bridge.js";
-import type { HypixelAPIRebornError } from "hypixel-api-reborn";
 import type { Lifecycle, LifecycleState } from "../core/Lifecycle.js";
+import type { ValidErrors } from "../types/application.js";
 
 class DiscordManager extends CommunicationBridge implements Lifecycle {
   readonly buttonHandler: ButtonHandler;
@@ -39,7 +38,6 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
   readonly eventHandler: EventHandler;
   readonly interactionHandler: InteractionHandler;
   readonly messageHandler: MessageHandler;
-  readonly stateHandler: StateHandler;
   readonly modalHandler: ModalHandler;
   private state: LifecycleState = "idle";
   private startPromise?: Promise<void>;
@@ -52,7 +50,6 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
     this.eventHandler = new EventHandler(this);
     this.interactionHandler = new InteractionHandler(this);
     this.messageHandler = new MessageHandler(this);
-    this.stateHandler = new StateHandler(this);
     this.modalHandler = new ModalHandler(this);
   }
 
@@ -67,16 +64,23 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
     this.listen("clean-embed", (event) => this.onBroadcastCleanEmbed(event));
     this.listen("headed-embed", (event) => this.onBroadcastHeadedEmbed(event));
     const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers] });
-    this.client = client;
     client.config = this.application.config;
     client.discordManager = this;
+    this.client = client;
 
     const readyPromise = new Promise<void>((resolve, reject) => {
       client.once(
         Events.ClientReady,
         safeListener(async () => {
           try {
-            await this.stateHandler.onReady();
+            if (!this.isClientOnline() || !this.client.user) return;
+            console.discord(`Discord client ready, logged in as ${this.client.user.username} (${this.client.user.id})!`);
+            this.client.user.setPresence({ activities: [{ name: "/help | by @duckysolucky" }] });
+            await this.loadGuild();
+            await (await this.getChannel("Guild")).send({ embeds: [new EmbedHelper().setAuthor({ name: "Chat Bridge is Online" }).setColor("Green").setFooter(null)] });
+            await (await this.getChannel("Logger-Event")).send({ embeds: [new EmbedHelper().setDescription("Discord bot is fully ready and online").setColor("Green")] });
+            console.discord("Client is fully ready!");
+
             this.state = "running";
             resolve();
           } catch (error: unknown) {
@@ -122,10 +126,15 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
     return this.startPromise;
   }
 
+  protected async onClose() {
+    await (await this.getChannel("Guild")).send({ embeds: [new EmbedHelper().setAuthor({ name: "Chat Bridge is Offline" }).setColor("Red").setFooter(null)] });
+    await (await this.getChannel("Logger-Event")).send({ embeds: [new EmbedHelper().setDescription("Discord bot is shutting down").setColor("Red")] });
+  }
+
   async stop(): Promise<void> {
     if (this.state === "stopping" || this.state === "idle") return;
     this.state = "stopping";
-    if (this.isClientOnline()) await this.stateHandler.onClose();
+    if (this.isClientOnline()) await this.onClose();
     const client = this.client;
     this.client = undefined;
     this.guild = undefined;
@@ -137,9 +146,15 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
     this.state = "idle";
   }
 
+  async loadGuild() {
+    if (!this.isClientOnline()) throw new HypixelDiscordChatBridgeError("The discord bot doesn't seam to be online? Please restart the application");
+    this.guild = await this.client.guilds.fetch(this.application.config.discord.serverId);
+    console.discord(`Guild ready, successfully fetched ${this.guild.name}`);
+  }
+
   async getWebhook(type: ChannelName): Promise<Webhook | null> {
     const channel = await this.getChannel(type);
-    if (channel === null || !channel.isSendable() || channel.type !== ChannelType.GuildText) throw new HypixelDiscordChatBridgeError(`Channel "${type}" not found!`);
+    if (channel.type !== ChannelType.GuildText) throw new HypixelDiscordChatBridgeError(`Channel "${type}" not found!`);
     try {
       const webhooks = await channel.fetchWebhooks();
 
@@ -154,7 +169,7 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
       }
       return hook;
     } catch (error) {
-      console.error(error);
+      this.reportError(error);
       await channel.send({
         embeds: [new ErrorEmbed().setDescription("An error occurred while trying to fetch the webhooks. Please make sure the bot has the `MANAGE_WEBHOOKS` permission.")]
       });
@@ -169,11 +184,7 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
     if (message.trim().length === 0) return;
 
     const channel = await this.getChannel(chatType);
-    if (channel === null || !channel.isSendable()) return console.error(`Channel "${chatType.replace(/§[0-9a-fk-or]/g, "").trim()}" not found!`);
-    if (event.chatType === "Debug") {
-      await channel.send({ content: message });
-      return;
-    }
+    if (event.chatType === "Debug") return await channel.send({ content: message }).then((message) => void message);
 
     const { username, rank, guildRank, color = "Green" } = event;
     console.broadcast(`${username} [${guildRank.replace(/§[0-9a-fk-or]/g, "").replace(/^\[|\]$/g, "")}]: ${message}`, "Discord");
@@ -231,7 +242,6 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
     console.broadcast(message, "Event");
 
     const channel = await this.getChannel(chatType);
-    if (channel === null || !channel.isSendable()) return console.error(`Channel "${chatType.replace(/§[0-9a-fk-or]/g, "").trim()}" not found!`);
     await channel.send({ embeds: [new EmbedHelper().setColor(color).setDescription(message).setFooter(null)] });
   }
 
@@ -241,7 +251,6 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
     console.broadcast(message, "Event");
 
     const channel = await this.getChannel(chatType);
-    if (channel === null || !channel.isSendable()) return console.error(`Channel "${chatType.replace(/§[0-9a-fk-or]/g, "").trim()}" not found!`);
     await channel.send({ embeds: [new EmbedHelper().setColor(color).setDescription(message).setAuthor({ name: title, iconURL: icon }).setFooter(null)] });
   }
 
@@ -250,7 +259,6 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
     if (fullMessage === undefined || username === undefined || message === undefined || color === undefined || chatType === undefined) return;
     console.broadcast(message, "Event");
     const channel = await this.getChannel(chatType);
-    if (channel === null || !channel.isSendable()) return console.error(`Channel "${chatType.replace(/§[0-9a-fk-or]/g, "").trim()}" not found!`);
 
     switch (this.application.config.bridge.discord.mode) {
       case "bot":
@@ -308,19 +316,20 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
     return this.client !== undefined;
   }
 
-  async getChannel(type: ChannelName): Promise<Channel | null> {
-    if (!this.isClientOnline()) return null;
+  async getChannel(type: ChannelName): Promise<SendableChannels> {
+    if (!this.isClientOnline()) throw new HypixelDiscordChatBridgeError("The discord bot doesn't seam to be online? Please restart the application");
     const cleanType = removeColorCodes(type);
     if ((LoggerChannelNames as readonly string[]).includes(cleanType)) return await this.getLoggerChannel(cleanType as LoggerChannelName);
     const configKeyMap: Record<GenericChannelName, keyof typeof this.application.config.bridge.channels> = { Guild: "guild", Officer: "officer", Debug: "debug" };
-    if (!(cleanType in configKeyMap)) return null;
+    if (!(cleanType in configKeyMap)) throw new HypixelDiscordChatBridgeError("Invalid channel key parsed into getChannel");
     const configKey = configKeyMap[cleanType as GenericChannelName];
 
     const config = this.application.config.bridge.channels[configKey];
-    if (!config || !config.enabled) return null;
+    if (!config) throw new HypixelDiscordChatBridgeError(`Channel "${type}" does not have a config value!`);
+    if (!config.enabled) throw new HypixelDiscordChatBridgeError(`Channel "${type}" is disabled!`);
     if (config.channel === null) {
       if (!this.isGuildReady()) {
-        await this.stateHandler.loadGuild();
+        await this.loadGuild();
         throw new HypixelDiscordChatBridgeError("The discord server isn't ready. Please try again later");
       }
 
@@ -331,11 +340,13 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
       return channel;
     }
 
-    return await this.client.channels.fetch(config.channel);
+    const channel = await this.client.channels.fetch(config.channel);
+    if (channel === null || !channel.isSendable()) throw new HypixelDiscordChatBridgeError(`Channel "${type}" not found!`);
+    return channel;
   }
 
-  private async getLoggerChannel(type: LoggerChannelName): Promise<Channel | null> {
-    if (!this.isClientOnline()) return null;
+  private async getLoggerChannel(type: LoggerChannelName): Promise<SendableChannels> {
+    if (!this.isClientOnline()) throw new HypixelDiscordChatBridgeError("The discord bot doesn't seam to be online? Please restart the application");
     const cleanType = removeColorCodes(type);
     const configKeyMap: Record<LoggerChannelName, keyof typeof this.application.config.bridge.channels.logging.channels> = {
       "Logger-Guild": "guild",
@@ -346,15 +357,17 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
       "Logger-Inactivity": "inactivity"
     };
 
-    if (!(cleanType in configKeyMap)) return null;
+    if (!(cleanType in configKeyMap)) throw new HypixelDiscordChatBridgeError("Invalid channel key parsed into getChannel");
     const configKey = configKeyMap[cleanType as LoggerChannelName];
     const currentChannelId = this.application.config.bridge.channels.logging.channels[configKey];
 
     if (currentChannelId === null) {
       const parentChannelId = this.application.config.bridge.channels.logging.channel;
-      if (!parentChannelId) return null;
+      if (!parentChannelId) throw new HypixelDiscordChatBridgeError("logging does not have a parent channel id set");
       const basicChannel = await this.client.channels.fetch(parentChannelId);
-      if (!basicChannel || !basicChannel.isSendable() || basicChannel.type !== ChannelType.GuildText) return null;
+      if (!basicChannel || !basicChannel.isSendable() || basicChannel.type !== ChannelType.GuildText) {
+        throw new HypixelDiscordChatBridgeError("Basic Logging Channel not found!");
+      }
       const thread = await basicChannel.threads.create({ name: cleanType });
       await thread.send(`<@&${this.application.config.discord.commands.staffRole}>`);
       this.application.config.bridge.channels.logging.channels[configKey] = thread.id;
@@ -363,41 +376,24 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
       return thread;
     }
 
-    return await this.client.channels.fetch(currentChannelId);
-  }
-
-  async logError(error: Error | DiscordjsError | HypixelDiscordChatBridgeError | HypixelAPIRebornError, extraData: EmbedHelperField[] = []) {
-    if (!this.isClientOnline()) return;
-
-    try {
-      const channel = await this.getChannel("Logger-Error");
-      if (!channel || !channel.isSendable()) return;
-
-      const hasPermission = await canSendMessages(channel);
-      if (!hasPermission) return;
-      const owners = await getApplicationOwners(this.client);
-      await channel.send({
-        content: getErrorTypeName(error) === "Generic Error" ? owners.map((id) => `<@${id}>`).join(" ") : "",
-        embeds: [getErrorEmbed(error, extraData)]
-      });
-    } catch (e) {
-      console.error(e);
-    }
+    const channel = await this.client.channels.fetch(currentChannelId);
+    if (channel === null || !channel.isSendable()) throw new HypixelDiscordChatBridgeError(`Channel "${type}" not found!`);
+    return channel;
   }
 
   async handleError(
-    error: Error | DiscordjsError | HypixelDiscordChatBridgeError | HypixelAPIRebornError,
-    interaction: ChatInputCommandInteractionWithGuild | ButtonInteractionWithGuild | AutocompleteInteractionWithGuild | ModalSubmitInteractionWithGuild | null = null
+    error: ValidErrors,
+    interaction: ChatInputCommandInteractionWithGuild | ButtonInteractionWithGuild | AutocompleteInteractionWithGuild | ModalSubmitInteractionWithGuild | null = null,
+    extraErrorData: EmbedHelperField[] = []
   ) {
-    console.error(error);
-    const extraErrorData: EmbedHelperField[] = [];
     if (interaction) {
+      extraErrorData.push({ name: "Source", value: "Discord Interaction" });
       extraErrorData.push({ name: "User", value: `\`@${interaction.user.username}\` (\`${interaction.user.id}\`) <@${interaction.user.id}>` });
       extraErrorData.push({ name: "Interaction Type", value: parseInteractionType(interaction.type) });
       if (interaction.isCommand()) extraErrorData.push({ name: "Command", value: interaction.commandName, smallBlockValue: true });
       if (interaction.isButton()) extraErrorData.push({ name: "Button", value: interaction.customId, smallBlockValue: true });
     }
-    await this.logError(error, extraErrorData);
+    await this.application.logError(error, extraErrorData);
     if (!interaction || interaction.isAutocomplete()) return;
 
     const embed = new ErrorEmbed();
@@ -408,8 +404,8 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
       if (interaction.replied || interaction.deferred) await interaction.followUp({ embeds: [embed], flags: MessageFlags.Ephemeral });
       else await interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral });
       if (!(error instanceof HypixelDiscordChatBridgeError)) await interaction.followUp({ embeds: [getErrorEmbed(error)], flags: MessageFlags.Ephemeral });
-    } catch (e) {
-      console.error(e);
+    } catch (e: unknown) {
+      this.application.logError(toError(e));
     }
   }
 
