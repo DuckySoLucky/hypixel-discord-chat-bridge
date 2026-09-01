@@ -528,9 +528,10 @@ class MessageHandler {
     const match = (this.minecraft.application.config.bridge.discord.mode === "minecraft" ? colouredMessage : message).match(regex);
     if (!match || !match?.groups || !match.groups.message || !match.groups.chatType || !match.groups.username) return;
     const matchedMessage = match.groups.message;
+    const username = match.groups.username;
 
-    if (this.isDiscordMessage(matchedMessage) === false) {
-      const { chatType, rank = "", username, guildRank = "[Member]", message } = match.groups;
+    if (this.isDiscordMessage(matchedMessage, username) === false) {
+      const { chatType, rank = "", guildRank = "[Member]", message } = match.groups;
       if (message.includes("replying to") && username === this.minecraft.bot.username) {
         return;
       }
@@ -548,7 +549,7 @@ class MessageHandler {
 
     if (this.isCommand(matchedMessage)) {
       const officer = match.groups.chatType.includes("Officer");
-      if (this.isDiscordMessage(matchedMessage) === true) {
+      if (this.isDiscordMessage(matchedMessage, username) === true) {
         const commandData = this.getCommandData(matchedMessage);
         if (!commandData) return;
         return this.minecraft.commandHandler.handle(commandData.player, commandData.command, officer);
@@ -560,7 +561,9 @@ class MessageHandler {
 
   private readonly reportError = (error: unknown): void => console.error(toError(error));
 
-  isDiscordMessage(message: string): boolean {
+  isDiscordMessage(message: string, senderUsername: string): boolean {
+    if (!this.minecraft.hasBot()) throw new HypixelDiscordChatBridgeError(this.minecraft.application.messages.minecraftBotOffline);
+    if (senderUsername !== this.minecraft.bot.username) return false;
     if (this.discordMessages.map(({ message }) => message).includes(message)) return true;
     const isDiscordMessage = /^(?<username>(?!https?:\/\/)[^\s»:>]+)\s*[»:>]\s*(?<message>.*)/;
     const match = message.match(isDiscordMessage);
