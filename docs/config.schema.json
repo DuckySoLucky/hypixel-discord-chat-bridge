@@ -191,9 +191,16 @@
               },
               "required": ["enabled", "autoAccept", "requirementsNeededToPass", "requirements"],
               "additionalProperties": false
+            },
+            "welcomer": {
+              "type": "object",
+              "properties": { "enabled": { "type": "boolean" }, "message": { "type": "string" }, "showCredits": { "type": "boolean", "skip": true } },
+              "required": ["enabled", "message", "showCredits"],
+              "additionalProperties": false,
+              "description": "Welcome a new member that joins the in game guild"
             }
           },
-          "required": ["requirements"],
+          "required": ["requirements", "welcomer"],
           "additionalProperties": false
         },
         "hypixelAlerts": {

@@ -83,6 +83,11 @@
         "autoAccept": false,
         "requirementsNeededToPass": 1,
         "requirements": {}
+      },
+      "welcomer": {
+        "enabled": true,
+        "message": "Welcome to the guild {username}! Make sure to join our discord using /g discord!",
+        "showCredits": true
       }
     },
     "hypixelAlerts": {
