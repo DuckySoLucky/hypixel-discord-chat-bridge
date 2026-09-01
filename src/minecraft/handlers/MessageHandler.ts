@@ -187,19 +187,22 @@ class MessageHandler {
       const username = this.getUsernameFromEventMessage(message);
       setTimeout(() => runDetached(this.tryToUpdateUser(username)), 15000);
 
-      await delay(1000);
-      this.minecraft.bot.chat(
-        `/gc ${replaceVariables(this.minecraft.application.messages.guildJoinMessage, {
-          prefix: this.minecraft.application.config.minecraft.commands.normal.prefix
-        })} | by @duckysolucky`
-      );
-
       const broadcastMessage: Omit<HeadedEmbedEvent, "chatType"> = {
         message: replaceVariables(this.minecraft.application.messages.joinMessage, { username }),
         title: "Member Joined",
         icon: `https://mc-heads.net/avatar/${username}`,
         color: "Green"
       };
+
+      if (this.minecraft.application.config.minecraft.guild.welcomer.enabled) {
+        await delay(1000);
+        this.minecraft.bot.chat(
+          `/gc ${replaceVariables(this.minecraft.application.config.minecraft.guild.welcomer.message, {
+            prefix: this.minecraft.application.config.minecraft.commands.normal.prefix,
+            username
+          })}${this.minecraft.application.config.minecraft.guild.welcomer.showCredits ? " | by @duckysolucky" : ""}`
+        );
+      }
 
       await Promise.all([
         this.minecraft.broadcastHeadedEmbed({ ...broadcastMessage, chatType: "Logger-Guild" }),

@@ -155,9 +155,10 @@ This document is generated from the Zod config schema in `src/types/config.ts`
 
 ### guild
 
-| Key            | Type     | Required | Description |
-| -------------- | -------- | -------- | ----------- |
-| `requirements` | `object` | Yes      |             |
+| Key            | Type     | Required | Description                                       |
+| -------------- | -------- | -------- | ------------------------------------------------- |
+| `requirements` | `object` | Yes      |                                                   |
+| `welcomer`     | `object` | Yes      | Welcome a new member that joins the in game guild |
 
 #### requirements
 
@@ -167,6 +168,14 @@ This document is generated from the Zod config schema in `src/types/config.ts`
 | `autoAccept`               | `boolean`                | Yes      | Whether new guild members are automatically accepted if they have pass the requirements |
 | `requirementsNeededToPass` | `number`                 | Yes      | The number of requirements a player must meet to pass                                   |
 | `requirements`             | `record<string, number>` | Yes      |                                                                                         |
+
+#### welcomer
+
+| Key           | Type      | Required | Description |
+| ------------- | --------- | -------- | ----------- |
+| `enabled`     | `boolean` | Yes      |             |
+| `message`     | `string`  | Yes      |             |
+| `showCredits` | `boolean` | Yes      |             |
 
 ### hypixelAlerts
 
@@ -341,7 +350,7 @@ This document is generated from the Zod config schema in `src/types/config.ts`
 
 ---
 
-This document is [auto generated](/scripts/docs/Configuration.ts) and was last updated on `Tue, 01 Sep 2026 07:35:54 GMT` (`1788248154047`)
+This document is [auto generated](/scripts/docs/Configuration.ts) and was last updated on `Tue, 01 Sep 2026 12:27:14 GMT` (`1788265634290`)
 
 To update this document please run `pnpm docgen` or contact a maintainer and ask them to update it.
 

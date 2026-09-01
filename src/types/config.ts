@@ -105,7 +105,11 @@ export const ConfigMinecraftGuildRequirements = zod.object({
     .record(zod.string(), zod.number().int().positive())
     .refine((obj) => Object.keys(obj).every((key) => (PlayerVariableStatsKeysNumbers as readonly string[]).includes(key)), { message: "Invalid requirement key" })
 });
-export const ConfigMinecraftGuild = zod.object({ requirements: ConfigMinecraftGuildRequirements });
+export const ConfigMinecraftGuildWelcomer = zod.object({ enabled: zod.boolean(), message: zod.string(), showCredits: zod.boolean().meta({ skip: true }) });
+export const ConfigMinecraftGuild = zod.object({
+  requirements: ConfigMinecraftGuildRequirements,
+  welcomer: ConfigMinecraftGuildWelcomer.meta({ description: "Welcome a new member that joins the in game guild" })
+});
 export const ConfigMinecraftHypixelAlertsAlert = zod.object({
   enabled: zod.boolean(),
   interval: zod.string().meta({ description: "How often should the alert be ran (/checked)" })
