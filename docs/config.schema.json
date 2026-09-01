@@ -1181,9 +1181,10 @@
           },
           "required": ["saveToFiles", "location"],
           "additionalProperties": false
-        }
+        },
+        "showDevFooters": { "type": "boolean", "description": "Whether dev footers should be disabled or not", "skip": true }
       },
-      "required": ["colors", "backupConfigs", "logging"],
+      "required": ["colors", "backupConfigs", "logging", "showDevFooters"],
       "additionalProperties": false
     }
   },

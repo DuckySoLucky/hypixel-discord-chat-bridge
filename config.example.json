@@ -193,6 +193,7 @@
     "logging": {
       "saveToFiles": true,
       "location": "./data/logs/{timestamp}"
-    }
+    },
+    "showDevFooters": true
   }
 }

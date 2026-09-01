@@ -24,11 +24,9 @@ export default class EmbedHelper extends EmbedBuilder {
   }
 
   setDevFooter(data: DevName | DevData | null, message: string = "/help [command] for more information"): this {
-    if (data === null) {
-      return this.setFooter(null);
-    }
+    if (data === null) return this.setFooter(null);
     const { username, iconURL } = typeof data === "string" ? CommonDevs[data] : data;
-    return this.setFooter({ text: `by @${username} | ${message}`, iconURL });
+    return this.setFooter({ text: config.other.showDevFooters ? message : `by @${username} | ${message}`, iconURL: config.other.showDevFooters ? undefined : iconURL });
   }
 
   setStyle(data: EmbedStyleName | EmbedStyleData): this {
