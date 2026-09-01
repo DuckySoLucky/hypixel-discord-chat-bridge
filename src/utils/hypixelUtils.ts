@@ -8,12 +8,13 @@ import {
   type PlayerRequestOptions,
   type RequestOptions,
   type SkyBlockElectionData,
-  type SkyBlockProfileType,
-  type SkyblockProfileWithMe
+  SkyBlockMuseum,
+  type SkyBlockProfileType
 } from "hypixel-api-reborn";
-import { type NetworthResult, ProfileNetworthCalculator } from "skyhelper-networth";
+import { ProfileNetworthCalculator } from "skyhelper-networth";
 import { readFileSync } from "node:fs";
-import type { LatestProfileOptions, SelectedProfileData } from "../types/minecraft.js";
+import type RequestData from "hypixel-api-reborn/dist/Private/RequestData.js";
+import type { LatestProfileOptions, NetWorthCalculatorData, SelectedProfileData } from "../types/minecraft.js";
 
 const config = JSON.parse(readFileSync("config.json", "utf-8"));
 const HypixelAPIReborn = new Client(config.API.hypixel.key, { cache: true, mowojang: MowojangAPI });
@@ -35,15 +36,24 @@ export async function getSelectedProfile(input: string, options?: LatestProfileO
   return { username: formatUsername(username, profiles.selectedProfile.gameMode), rawUsername: username, uuid, profile: profiles.selectedProfile, profiles, raw };
 }
 
-export async function getNetWorthCalculator(profile: SkyblockProfileWithMe): Promise<ProfileNetworthCalculator> {
-  const museum = await HypixelAPIReborn.getSkyBlockMuseum(profile.profileId);
-  const museumProfile = museum.raw.rawData.members[profile.me.uuid];
-  if (museumProfile === undefined) throw new HypixelDiscordChatBridgeError("Player has museum API off.");
-  return new ProfileNetworthCalculator(profile, museumProfile, profile.banking.balance);
+export async function getSkyBlockMuseum(profileId: string, options?: RequestOptions): Promise<RequestData<SkyBlockMuseum>> {
+  return await HypixelAPIReborn.getSkyBlockMuseum(profileId, options);
 }
 
-export async function getNetWorth(profile: SkyblockProfileWithMe): Promise<NetworthResult> {
-  return await getNetWorthCalculator(profile).then((manager) => manager.getNetworth({ onlyNetworth: true }));
+export async function getNetWorthCalculator(input: string): Promise<NetWorthCalculatorData> {
+  const mojangProfile = await MowojangAPI.getProfile(input);
+  if (mojangProfile.error || !mojangProfile.data) throw new HypixelDiscordChatBridgeError("Player does not exist");
+  const profile = await getSelectedProfile(mojangProfile.data.UUID);
+
+  const selectedProfile = profile.raw.rawData.profiles.find((profile: Record<string, any>) => profile.selected === true);
+  if (selectedProfile === undefined) throw new HypixelDiscordChatBridgeError("Player doesn't have a skyblock profile selected.");
+  const museum = await getSkyBlockMuseum(selectedProfile.profileId);
+
+  const museumProfile = museum.raw.rawData.members[selectedProfile.me.uuid];
+  if (museumProfile === undefined) throw new HypixelDiscordChatBridgeError("Player has museum API off.");
+
+  const calculator = new ProfileNetworthCalculator(selectedProfile, museumProfile, selectedProfile.banking.balance);
+  return { calculator, profile };
 }
 
 export async function getPlayer(input: string, options?: PlayerRequestOptions): Promise<Player> {

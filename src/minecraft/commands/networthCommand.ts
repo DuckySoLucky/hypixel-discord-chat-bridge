@@ -2,7 +2,7 @@ import MinecraftCommand from "../private/commands/MinecraftCommand.js";
 import MinecraftCommandData from "../private/commands/MinecraftCommandData.js";
 import MinecraftCommandDataOption from "../private/commands/MinecraftCommandDataOption.js";
 import { formatNumber } from "../../utils/stringUtils.js";
-import { getNetWorthCalculator, getSelectedProfile } from "../../utils/hypixelUtils.js";
+import { getNetWorthCalculator } from "../../utils/hypixelUtils.js";
 
 class NetworthCommand extends MinecraftCommand {
   override readonly data = new MinecraftCommandData()
@@ -13,8 +13,8 @@ class NetworthCommand extends MinecraftCommand {
 
   override async execute(player: string, message: string) {
     player = this.getArgs(message)[0] || player;
-    const { username, profile } = await getSelectedProfile(player);
-    const networthCalculator = await getNetWorthCalculator(profile);
+    const { calculator: networthCalculator, profile: profileData } = await getNetWorthCalculator(player);
+    const { username, profile } = profileData;
 
     const networthData = await networthCalculator.getNetworth({ onlyNetworth: true });
     const nonCosmeticNetworthData = await networthCalculator.getNonCosmeticNetworth({ onlyNetworth: true });
