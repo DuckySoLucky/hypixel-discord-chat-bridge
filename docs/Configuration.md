@@ -335,11 +335,12 @@ This document is generated from the Zod config schema in `src/types/config.ts`
 
 ## other
 
-| Key             | Type                     | Required | Description                                             |
-| --------------- | ------------------------ | -------- | ------------------------------------------------------- |
-| `colors`        | `record<string, string>` | Yes      |                                                         |
-| `backupConfigs` | `boolean`                | Yes      | Whether backup copies of config files should be created |
-| `logging`       | `object`                 | Yes      |                                                         |
+| Key              | Type                     | Required | Description                                             |
+| ---------------- | ------------------------ | -------- | ------------------------------------------------------- |
+| `colors`         | `record<string, string>` | Yes      |                                                         |
+| `backupConfigs`  | `boolean`                | Yes      | Whether backup copies of config files should be created |
+| `logging`        | `object`                 | Yes      |                                                         |
+| `showDevFooters` | `boolean`                | Yes      | Whether dev footers should be disabled or not           |
 
 ### logging
 
@@ -350,7 +351,7 @@ This document is generated from the Zod config schema in `src/types/config.ts`
 
 ---
 
-This document is [auto generated](/scripts/docs/Configuration.ts) and was last updated on `Tue, 01 Sep 2026 12:27:55 GMT` (`1788265675804`)
+This document is [auto generated](/scripts/docs/Configuration.ts) and was last updated on `Tue, 01 Sep 2026 12:40:23 GMT` (`1788266423653`)
 
 To update this document please run `pnpm docgen` or contact a maintainer and ask them to update it.
 

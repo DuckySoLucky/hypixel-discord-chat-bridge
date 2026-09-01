@@ -241,7 +241,8 @@ export type ConfigOtherColors = zod.infer<typeof ConfigOtherColors>;
 export const ConfigOther = zod.object({
   colors: zod.record(ConfigOtherColors, zod.string()).meta({ skip: true }),
   backupConfigs: zod.boolean().meta({ description: "Whether backup copies of config files should be created" }),
-  logging: ConfigOtherLogging
+  logging: ConfigOtherLogging,
+  showDevFooters: zod.boolean().meta({ description: "Whether dev footers should be disabled or not", skip: true })
 });
 
 export const Config = zod.object({

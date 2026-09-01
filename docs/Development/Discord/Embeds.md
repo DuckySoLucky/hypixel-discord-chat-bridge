@@ -7,6 +7,8 @@ embeds with a custom template
 
 One of the big changes is that we make it so every embed has a dev credits footer. While you can remove this if you want it is heavly discouraged
 
+You can disable the dev footers by setting `other.hideDevFooters` to `true` inside of your config file
+
 ## Creating Embeds
 
 Since discord.js itself already has a pretty good guide on embeds and we aren't changing much about them please consider checking out their guide.
