@@ -26,7 +26,7 @@ class UpdateCommand extends DiscordCommand<DiscordManagerWithBot> {
     await interaction.followUp({
       embeds: [
         new SuccessEmbed()
-          .setDescription(`Successfully synced <@${this.discordId}'s roles with \`${await MowojangAPI.getUsername(linkedUser.uuid)}\`'s stats!`)
+          .setDescription(`Successfully synced <@${this.discordId}>'s roles with \`${await MowojangAPI.getUsername(linkedUser.uuid)}\`'s stats!`)
           .setDevFooter("Kathund")
       ]
     });

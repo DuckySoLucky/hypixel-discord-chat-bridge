@@ -23,7 +23,7 @@ class UnverifyCommand extends DiscordCommand<DiscordManagerWithBot> {
     await linkedUser.reset();
     await linkedUser.delete();
     await interaction.followUp({
-      embeds: [new SuccessEmbed().setDescription(`Successfully unlinked <@${this.discordId} from \`${await linkedUser.getUsername()}\`!`).setDevFooter("Kathund")]
+      embeds: [new SuccessEmbed().setDescription(`Successfully unlinked <@${this.discordId}> from \`${await linkedUser.getUsername()}\`!`).setDevFooter("Kathund")]
     });
     this.discordId = null;
   }
