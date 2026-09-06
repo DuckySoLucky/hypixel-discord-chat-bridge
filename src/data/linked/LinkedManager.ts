@@ -126,7 +126,11 @@ class LinkedManager extends GenericManager<LinkedUserData, LinkedData, LinkedUse
     if (!hypixelGuild) throw new HypixelDiscordChatBridgeError("In game Hypixel Guild not found.");
     if (!player) throw new HypixelDiscordChatBridgeError("Failed to fetch Player data");
 
-    const networthCalculator = skyblock ? await getNetWorthCalculator(uuid).then((data) => data.calculator) : null;
+    const networthCalculator = skyblock
+      ? await getNetWorthCalculator(uuid)
+          .then((data) => data.calculator)
+          .catch(() => null)
+      : null;
     const networth = networthCalculator ? await networthCalculator.getNetworth({ onlyNetworth: true }) : null;
     const profile = skyblock?.me;
     const guildMember = hypixelGuild.members.find((m) => m.uuid === uuid);
