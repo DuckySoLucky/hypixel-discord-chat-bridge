@@ -1,7 +1,7 @@
 import ms, { type StringValue } from "ms";
 import { AsyncLocalStorage } from "node:async_hooks";
 import { MinecraftRequestTimeoutError } from "../../MinecraftRequestBroker.js";
-import { delay, generateId } from "../../../utils/miscUtils.js";
+import { delay, formatError, generateId } from "../../../utils/miscUtils.js";
 import { splitMessage } from "../../../utils/stringUtils.js";
 import { toError } from "../../../utils/asyncUtils.js";
 import type MinecraftCommandData from "./MinecraftCommandData.js";
@@ -36,7 +36,13 @@ abstract class MinecraftCommand<Manager extends MinecraftManager = MinecraftMana
   async run(context: Omit<MinecraftCommandContext, "reply">): Promise<void> {
     const invocationContext: MinecraftCommandContext = { ...context, reply: (message) => this.sendForContext(context, message) };
     await this.invocationStorage.run(invocationContext, async () => {
-      await this.execute(invocationContext.player, invocationContext.rawMessage);
+      try {
+        await this.execute(invocationContext.player, invocationContext.rawMessage);
+      } catch (error) {
+        await this.logError(toError(error));
+        if (!(error instanceof Error)) return;
+        await this.send(formatError(error));
+      }
     });
   }
 
@@ -66,7 +72,7 @@ abstract class MinecraftCommand<Manager extends MinecraftManager = MinecraftMana
         return await this.sendMessage(context, message);
       } catch (error) {
         if (this.hasCommandTimedOut(startTime)) return console.error("Message sending timed out after 10 seconds");
-        if (!(error instanceof SendError)) return this.logError(error);
+        if (!(error instanceof SendError)) return await this.logError(error);
 
         switch (error.type) {
           case SendErrorType.RATE_LIMITED: {
@@ -123,8 +129,8 @@ abstract class MinecraftCommand<Manager extends MinecraftManager = MinecraftMana
     return context;
   }
 
-  protected logError(error: unknown) {
-    this.minecraft.application.logError(toError(error), [
+  protected async logError(error: unknown) {
+    await this.minecraft.application.logError(toError(error), [
       { name: "Source", value: "Minecraft Command" },
       { name: "Command", value: this.data.name, smallBlockValue: true },
       { name: "Channel", value: this.context.channel, smallBlockValue: true },
