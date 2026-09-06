@@ -47,7 +47,7 @@ abstract class MinecraftCommand<Manager extends MinecraftManager = MinecraftMana
   }
 
   private hasCommandTimedOut(startTime: number): boolean {
-    return Date.now() - startTime > 10_000;
+    return Date.now() - startTime > ms(this.minecraft.application.config.minecraft.commands.timeout as StringValue);
   }
 
   send(message: string, maxRetries = 5, isErrorMessage = false): Promise<void> {
