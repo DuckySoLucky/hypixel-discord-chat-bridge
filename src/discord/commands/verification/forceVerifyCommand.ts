@@ -30,7 +30,7 @@ class ForceVerifyCommand extends DiscordCommand<DiscordManagerWithBot> {
       throw new HypixelDiscordChatBridgeError(`${profile.data.username} is already verified to <@${linkedMinecraftUser.discordId}>. Please use /linked to handle this`);
     }
 
-    await new LinkedUser({ discordId: interaction.user.id, uuid: profile.data.UUID }, this.discord.application.data.linked).save();
+    await new LinkedUser({ discordId: user.id, uuid: profile.data.UUID }, this.discord.application.data.linked).save();
 
     const updateCommand = new UpdateCommand(this.discord);
     updateCommand.discordId = user.id;
