@@ -88,7 +88,6 @@ export default [
       "import/no-named-default": "error",
       "@stylistic/comma-dangle": "error",
       "@stylistic/brace-style": "error",
-      "@stylistic/indent": ["error", 2],
       "@stylistic/key-spacing": "error",
       "@stylistic/comma-style": "error",
       "no-useless-constructor": "error",
