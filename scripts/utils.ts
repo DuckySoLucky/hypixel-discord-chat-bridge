@@ -124,7 +124,8 @@ export function getTitle({ formattedDotPath, description, rawDescription }: Conf
 export async function getMetadata({ schema, path, key }: SchemaData, shouldUseConfig: boolean = false): Promise<ConfigMetadata> {
   const { description, rawDescription } = getMetadataDescription(schema);
   const dotPath = getDotPath(path, key);
-  const config = shouldUseConfig ? await ConfigManager.getConfigFile() : await ConfigManager.getExampleConfigFile();
+  const configManager = new ConfigManager();
+  const config = shouldUseConfig ? await configManager.getConfigFile() : await configManager.getExampleConfigFile();
   const value = getNestedValue(config, dotPath);
   const smallMetadata: ConfigMetadataDotPathDescription = { dotPath, formattedDotPath: `[${dotPath}]`, description, rawDescription };
   const metadata: ConfigMetadata = {

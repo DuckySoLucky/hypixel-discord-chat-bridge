@@ -1,4 +1,4 @@
 import ConfigManager from "../../src/ConfigManager.ts";
 
-await ConfigManager.validateExampleConfig();
+await new ConfigManager().validateExampleConfig();
 process.exit(0);

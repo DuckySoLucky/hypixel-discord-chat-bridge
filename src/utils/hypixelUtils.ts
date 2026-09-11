@@ -18,8 +18,8 @@ import type RequestData from "hypixel-api-reborn/dist/Private/RequestData.js";
 import type { LatestProfileOptions, NetWorthCalculatorData, SelectedProfileData } from "../types/minecraft.js";
 
 const config = JSON.parse(readFileSync("config.json", "utf-8"));
-const HypixelAPIReborn = new Client(config.API.hypixel.key, { cache: true, mowojang: MowojangAPI });
-HypixelAPIReborn.requestHandler.setBaseURL(config.API.hypixel.baseURL || undefined);
+const HypixelAPIReborn = new Client(config?.API?.hypixel?.key || "UNKNOWN", { cache: true, mowojang: MowojangAPI });
+HypixelAPIReborn.requestHandler.setBaseURL(config?.API?.hypixel?.baseURL || undefined);
 
 export function formatUsername(username: string, gamemode: SkyBlockProfileType | null): string {
   if (gamemode === "ironman") return `♲ ${username}`;

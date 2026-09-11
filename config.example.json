@@ -1,6 +1,6 @@
 {
   "$schema": "./docs/config.schema.json",
-  "configVersion": 6,
+  "configVersion": 7,
   "API": {
     "hypixel": {
       "key": "HYPIXEL_API_KEY",
