@@ -59,7 +59,7 @@ class CommandHandler {
         (async () => {
           if (!this.minecraft.isBotOnline()) return;
           try {
-            const URI = encodeURI(`https://soopy.dev/api/guildBot/runCommand?user=${player}&cmd=${message.slice(1)}`);
+            const URI = encodeURI(`${this.minecraft.application.config.API.soopy.baseURL}/guildBot/runCommand?user=${player}&cmd=${message.slice(1)}`);
             const response = await axios.get(URI);
 
             if (response?.data?.msg === undefined) {

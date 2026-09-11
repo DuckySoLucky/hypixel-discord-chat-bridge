@@ -1,6 +1,6 @@
 {
   "$schema": "./docs/config.schema.json",
-  "configVersion": 7,
+  "configVersion": 8,
   "API": {
     "hypixel": {
       "key": "HYPIXEL_API_KEY",
@@ -8,6 +8,12 @@
     },
     "mowojang": {
       "baseURL": null
+    },
+    "soopy": {
+      "baseURL": "https://soopy.dev/api"
+    },
+    "mcHeads": {
+      "baseURL": "https://www.mc-heads.net"
     }
   },
   "bridge": {
@@ -58,8 +64,18 @@
         "doxxes"
       ]
     },
-    "stripEmojisFromUsernames": true,
-    "stripSpacesFromUsernames": true,
+    "strippers": {
+      "usernames": {
+        "emojis": true,
+        "spaces": true,
+        "nonAlphanumeric": true
+      },
+      "messages": {
+        "emojis": false,
+        "spaces": false,
+        "nonAlphanumeric": true
+      }
+    },
     "timeout": "5s",
     "messageErrorReactions": true
   },
@@ -127,6 +143,16 @@
         "1276524855445164098"
       ],
       "debugCommands": true
+    },
+    "embeds": {
+      "showTime": true,
+      "showDevFooters": true,
+      "colors": {
+        "Blue": "#3498DB",
+        "Red": "#ED4245",
+        "Green": "#57F287",
+        "Yellow": "#FFD700"
+      }
     }
   },
   "verification": {
@@ -183,17 +209,10 @@
     "channels": []
   },
   "other": {
-    "colors": {
-      "Blue": "#3498DB",
-      "Red": "#ED4245",
-      "Green": "#57F287",
-      "Yellow": "#FFD700"
-    },
     "backupConfigs": true,
-    "logging": {
+    "logger": {
       "saveToFiles": true,
       "location": "./data/logs/{timestamp}"
-    },
-    "showDevFooters": true
+    }
   }
 }

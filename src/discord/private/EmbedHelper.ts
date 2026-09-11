@@ -1,6 +1,6 @@
 import { type APIEmbed, type APIEmbedField, type ColorResolvable, EmbedBuilder, type EmbedData } from "discord.js";
 import { CommonDevs, EmbedStyles } from "../../private/constants.js";
-import { ConfigOtherColors } from "../../types/config.js";
+import { ConfigDiscordEmbedsColors } from "../../types/config.js";
 import { readFileSync } from "node:fs";
 import type BlacklistUser from "../../data/blacklist/BlacklistUser.ts";
 import type InactiveUser from "../../data/inactivity/InactiveUser.ts";
@@ -14,19 +14,20 @@ export default class EmbedHelper extends EmbedBuilder {
   constructor(data?: EmbedData | APIEmbed) {
     super(data);
     if (data) return;
-    this.setTimestamp();
+    if (config.discord.embeds.showTime) this.setTimestamp();
     this.setStyle("Generic");
   }
 
-  override setColor(color: ConfigOtherColors | ColorResolvable | null): this {
-    if (ConfigOtherColors.safeParse(color).success) return super.setColor(config.other.colors[color as ConfigOtherColors] as ColorResolvable);
+  override setColor(color: ConfigDiscordEmbedsColors | ColorResolvable | null): this {
+    if (ConfigDiscordEmbedsColors.safeParse(color).success) return super.setColor(config.discord.embeds.colors[color as ConfigDiscordEmbedsColors] as ColorResolvable);
     return super.setColor(color as ColorResolvable);
   }
 
   setDevFooter(data: DevName | DevData | null, message: string = "/help [command] for more information"): this {
     if (data === null) return this.setFooter(null);
     const { username, iconURL } = typeof data === "string" ? CommonDevs[data] : data;
-    return this.setFooter({ text: config.other.showDevFooters ? `by @${username} | ${message}` : message, iconURL: config.other.showDevFooters ? iconURL : undefined });
+    const showDevFooters = config?.discord?.embeds?.showDevFooters ?? true;
+    return this.setFooter({ text: showDevFooters ? `by @${username} | ${message}` : message, iconURL: showDevFooters ? iconURL : undefined });
   }
 
   setStyle(data: EmbedStyleName | EmbedStyleData): this {

@@ -190,7 +190,7 @@ class MessageHandler {
       const broadcastMessage: Omit<HeadedEmbedEvent, "chatType"> = {
         message: replaceVariables(this.minecraft.application.messages.joinMessage, { username }),
         title: "Member Joined",
-        icon: `https://mc-heads.net/avatar/${username}`,
+        icon: `${this.minecraft.application.config.API.mcHeads.baseURL}/avatar/${username}`,
         color: "Green"
       };
 
@@ -218,7 +218,7 @@ class MessageHandler {
       const broadcastMessage: Omit<HeadedEmbedEvent, "chatType"> = {
         message: replaceVariables(this.minecraft.application.messages.leaveMessage, { username }),
         title: "Member Left",
-        icon: `https://mc-heads.net/avatar/${username}`,
+        icon: `${this.minecraft.application.config.API.mcHeads.baseURL}/avatar/${username}`,
         color: "Red"
       };
 
@@ -236,7 +236,7 @@ class MessageHandler {
       const broadcastMessage: Omit<HeadedEmbedEvent, "chatType"> = {
         message: replaceVariables(this.minecraft.application.messages.kickMessage, { username }),
         title: "Member Kicked",
-        icon: `https://mc-heads.net/avatar/${username}`,
+        icon: `${this.minecraft.application.config.API.mcHeads.baseURL}/avatar/${username}`,
         color: "Red"
       };
 
@@ -262,7 +262,7 @@ class MessageHandler {
       const broadcastMessage: Omit<HeadedEmbedEvent, "chatType"> = {
         message: replaceVariables(this.minecraft.application.messages.promotionMessage, { username, rank }),
         title: "Member Promoted",
-        icon: `https://mc-heads.net/avatar/${username}`,
+        icon: `${this.minecraft.application.config.API.mcHeads.baseURL}/avatar/${username}`,
         color: "Green"
       };
 
@@ -286,7 +286,7 @@ class MessageHandler {
       const broadcastMessage: Omit<HeadedEmbedEvent, "chatType"> = {
         message: replaceVariables(this.minecraft.application.messages.demotionMessage, { username, rank }),
         title: "Member Demoted",
-        icon: `https://mc-heads.net/avatar/${username}`,
+        icon: `${this.minecraft.application.config.API.mcHeads.baseURL}/avatar/${username}`,
         color: "Red"
       };
 

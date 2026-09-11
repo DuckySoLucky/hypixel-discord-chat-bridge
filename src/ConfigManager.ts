@@ -77,6 +77,13 @@ class ConfigManager extends BasicConfigManager<Config> {
       "other.autoUpdater": { change: ConfigChangeType.Delete },
       "other.autoUpdaterInterval": { change: ConfigChangeType.Delete },
       "bridge.channels.debug.mode": { change: ConfigChangeType.Delete }
+    },
+    8: {
+      "other.showDevFooters": { key: "discord.embeds.showDevFooters", change: ConfigChangeType.Move },
+      "other.colors": { key: "discord.embeds.colors", change: ConfigChangeType.Move },
+      "other.logging": { key: "other.logger", change: ConfigChangeType.Move },
+      "bridge.stripEmojisFromUsernames": { key: "bridge.strippers.usernames.emojis", change: ConfigChangeType.Move },
+      "bridge.stripSpacesFromUsernames": { key: "bridge.strippers.usernames.spaces", change: ConfigChangeType.Move }
     }
   };
 

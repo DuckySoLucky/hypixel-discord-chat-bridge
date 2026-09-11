@@ -1,9 +1,10 @@
 import BasicScript from "../../BasicScript.js";
+import { getSkyBlockSkills } from "../../../utils/hypixelUtils.js";
 import { intervalSchedule } from "../../../types/scripts.js";
 import type ScriptManager from "../../ScriptsManager.js";
 
 class SkyBlockVersionScript extends BasicScript {
-  private skyblockVersion?: number;
+  private skyblockVersion?: string;
   constructor(scripts: ScriptManager) {
     super(scripts, {
       id: "skyBlockVersion",
@@ -14,9 +15,7 @@ class SkyBlockVersionScript extends BasicScript {
 
   override async execute() {
     if (!this.scripts.application.minecraft.isBotOnline()) return;
-    const response = await fetch("https://api.hypixel.net/v2/resources/skyblock/skills");
-    if (!response.ok) throw new Error(`Hypixel API returned ${response.status} ${response.statusText}`);
-    const data = await response.json();
+    const data = await getSkyBlockSkills({ noCache: true });
     const currentVersion = data.version;
 
     if (this.skyblockVersion === undefined) {

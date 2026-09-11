@@ -35,7 +35,7 @@ class KickCommand extends DiscordCommand<DiscordManagerWithBot> {
         embeds: [
           new SuccessEmbed()
             .setDescription(replaceVariables(this.discord.application.messages.kickMessage, { username }))
-            .setAuthor({ name: "Member Kicked", iconURL: `https://mc-heads.net/avatar/${username}` })
+            .setAuthor({ name: "Member Kicked", iconURL: `${this.discord.application.config.API.mcHeads.baseURL}/avatar/${username}` })
         ]
       });
     }

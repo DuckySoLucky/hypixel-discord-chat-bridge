@@ -2,28 +2,23 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "properties": {
-    "$schema": { "type": "string", "skip": true },
-    "configVersion": {
-      "type": "integer",
-      "exclusiveMinimum": 0,
-      "maximum": 9007199254740991,
-      "description": "!IMPORTANT DO NOT TOUCH\nConfig format version number",
-      "skip": true
-    },
+    "$schema": { "type": "string", "description": "!IMPORTANT DO NOT TOUCH\nConfig schema format path" },
+    "configVersion": { "type": "integer", "exclusiveMinimum": 0, "maximum": 9007199254740991, "description": "!IMPORTANT DO NOT TOUCH\nConfig format version number" },
     "API": {
       "type": "object",
       "properties": {
         "hypixel": {
           "type": "object",
           "properties": {
-            "key": { "type": "string" },
+            "key": { "type": "string", "description": "The Hypixel API key itself" },
             "baseURL": {
               "anyOf": [{ "type": "string", "format": "uri" }, { "type": "null" }],
               "description": "The base URL for the Hypixel API. If null, the default Hypixel API URL will be used"
             }
           },
           "required": ["key", "baseURL"],
-          "additionalProperties": false
+          "additionalProperties": false,
+          "description": "Configuration for the Hypixel API"
         },
         "mowojang": {
           "type": "object",
@@ -34,11 +29,27 @@
             }
           },
           "required": ["baseURL"],
-          "additionalProperties": false
+          "additionalProperties": false,
+          "description": "Configuration for the Mowojang API"
+        },
+        "soopy": {
+          "type": "object",
+          "properties": { "baseURL": { "type": "string", "format": "uri", "description": "The base URL for the Soopy API" } },
+          "required": ["baseURL"],
+          "additionalProperties": false,
+          "description": "Configuration for the Soopy API"
+        },
+        "mcHeads": {
+          "type": "object",
+          "properties": { "baseURL": { "type": "string", "format": "uri", "description": "The base URL for the mc-heads API" } },
+          "required": ["baseURL"],
+          "additionalProperties": false,
+          "description": "Configuration for the mc-heads API"
         }
       },
-      "required": ["hypixel", "mowojang"],
-      "additionalProperties": false
+      "required": ["hypixel", "mowojang", "soopy", "mcHeads"],
+      "additionalProperties": false,
+      "description": "Configuration options for API's used inside of the bot"
     },
     "bridge": {
       "type": "object",
@@ -52,20 +63,22 @@
             }
           },
           "required": ["format"],
-          "additionalProperties": false
+          "additionalProperties": false,
+          "description": "Configuration options for how the minecraft side of the bridge behaves"
         },
         "discord": {
           "type": "object",
           "properties": {
             "allowedBots": { "type": "array", "items": { "type": "string" }, "description": "Array of discord User Ids" },
-            "mode": { "type": "string", "enum": ["bot", "webhook", "minecraft"] },
+            "mode": { "type": "string", "enum": ["bot", "webhook", "minecraft"], "description": "Which Discord bridge mode should be used" },
             "format": {
               "type": "string",
               "description": "The format for messages sent from Minecraft to Discord\nOnly used with `minecraft` mode\nSupported arguments: {chatType}, {username}, {rank}, {guildRank}, {username}"
             }
           },
           "required": ["allowedBots", "mode", "format"],
-          "additionalProperties": false
+          "additionalProperties": false,
+          "description": "Configuration options for how the discord side of the bridge behaves"
         },
         "channels": {
           "type": "object",
@@ -73,34 +86,37 @@
             "debug": {
               "type": "object",
               "properties": {
-                "enabled": { "type": "boolean" },
+                "enabled": { "type": "boolean", "description": "Should this bridge channel be enabled" },
                 "channel": { "anyOf": [{ "type": "string" }, { "type": "null" }], "description": "Discord channel id. If null, an auto-generated channel will be used" }
               },
               "required": ["enabled", "channel"],
-              "additionalProperties": false
+              "additionalProperties": false,
+              "description": "Configuration for a single bridge channel"
             },
             "guild": {
               "type": "object",
               "properties": {
-                "enabled": { "type": "boolean" },
+                "enabled": { "type": "boolean", "description": "Should this bridge channel be enabled" },
                 "channel": { "anyOf": [{ "type": "string" }, { "type": "null" }], "description": "Discord channel id. If null, an auto-generated channel will be used" }
               },
               "required": ["enabled", "channel"],
-              "additionalProperties": false
+              "additionalProperties": false,
+              "description": "Configuration for a single bridge channel"
             },
             "officer": {
               "type": "object",
               "properties": {
-                "enabled": { "type": "boolean" },
+                "enabled": { "type": "boolean", "description": "Should this bridge channel be enabled" },
                 "channel": { "anyOf": [{ "type": "string" }, { "type": "null" }], "description": "Discord channel id. If null, an auto-generated channel will be used" }
               },
               "required": ["enabled", "channel"],
-              "additionalProperties": false
+              "additionalProperties": false,
+              "description": "Configuration for a single bridge channel"
             },
             "logging": {
               "type": "object",
               "properties": {
-                "enabled": { "type": "boolean" },
+                "enabled": { "type": "boolean", "description": "Should this bridge channel be enabled" },
                 "channel": { "anyOf": [{ "type": "string" }, { "type": "null" }], "description": "Discord channel id. If null, an auto-generated channel will be used" },
                 "channels": {
                   "type": "object",
@@ -122,32 +138,65 @@
                     }
                   },
                   "required": ["guild", "event", "error", "blacklist", "scripts", "inactivity"],
-                  "additionalProperties": false
+                  "additionalProperties": false,
+                  "description": "Specific logging channels for different bridge events"
                 }
               },
               "required": ["enabled", "channel", "channels"],
-              "additionalProperties": false
+              "additionalProperties": false,
+              "description": "Configuration for a bridge logging channel"
             }
           },
           "required": ["debug", "guild", "officer", "logging"],
-          "additionalProperties": false
+          "additionalProperties": false,
+          "description": "Configuration options for the bridge channels"
         },
         "filter": {
           "type": "object",
           "properties": {
-            "enabled": { "type": "boolean" },
+            "enabled": { "type": "boolean", "description": "Should the chat filter be enabled" },
             "customWords": { "type": "array", "items": { "type": "string" }, "description": "Custom words used for filtering bridge messages" }
           },
           "required": ["enabled", "customWords"],
-          "additionalProperties": false
+          "additionalProperties": false,
+          "description": "Bridge chat filtering configuration"
         },
-        "stripEmojisFromUsernames": { "type": "boolean" },
-        "stripSpacesFromUsernames": { "type": "boolean" },
+        "strippers": {
+          "type": "object",
+          "properties": {
+            "usernames": {
+              "type": "object",
+              "properties": {
+                "emojis": { "type": "boolean", "description": "Whether emoji characters should be stripped from usernames or messages" },
+                "spaces": { "type": "boolean", "description": "Whether extra spaces should be stripped from usernames or messages" },
+                "nonAlphanumeric": { "type": "boolean", "description": "Whether non-alphanumeric characters should be stripped from usernames or messages" }
+              },
+              "required": ["emojis", "spaces", "nonAlphanumeric"],
+              "additionalProperties": false,
+              "description": "Stripper settings for usernames"
+            },
+            "messages": {
+              "type": "object",
+              "properties": {
+                "emojis": { "type": "boolean", "description": "Whether emoji characters should be stripped from usernames or messages" },
+                "spaces": { "type": "boolean", "description": "Whether extra spaces should be stripped from usernames or messages" },
+                "nonAlphanumeric": { "type": "boolean", "description": "Whether non-alphanumeric characters should be stripped from usernames or messages" }
+              },
+              "required": ["emojis", "spaces", "nonAlphanumeric"],
+              "additionalProperties": false,
+              "description": "Stripper settings for messages"
+            }
+          },
+          "required": ["usernames", "messages"],
+          "additionalProperties": false,
+          "description": "Configuration options for the bridge message/username strippers"
+        },
         "timeout": { "type": "string", "description": "How long should bridged messages wait before assuming something went wrong" },
         "messageErrorReactions": { "type": "boolean", "description": "Should the bot react X when a message fails" }
       },
-      "required": ["minecraft", "discord", "channels", "filter", "stripEmojisFromUsernames", "stripSpacesFromUsernames", "timeout", "messageErrorReactions"],
-      "additionalProperties": false
+      "required": ["minecraft", "discord", "channels", "filter", "strippers", "timeout", "messageErrorReactions"],
+      "additionalProperties": false,
+      "description": "Configuration options for the chat bridge"
     },
     "minecraft": {
       "type": "object",
@@ -156,23 +205,32 @@
           "type": "object",
           "properties": {
             "timeout": { "type": "string", "description": "How long the command should wait before assuming something went wrong" },
-            "messageRepeatBypassLength": { "type": "number" },
-            "maxMessageLength": { "type": "number" },
+            "messageRepeatBypassLength": { "type": "number", "description": "The number of repeated messages allowed before a command is ignored" },
+            "maxMessageLength": { "type": "number", "description": "The maximum length of a minecraft command message" },
             "normal": {
               "type": "object",
-              "properties": { "enabled": { "type": "boolean" }, "prefix": { "type": "string" } },
+              "properties": {
+                "enabled": { "type": "boolean", "description": "Whether this minecraft command is enabled" },
+                "prefix": { "type": "string", "description": "The command prefix used for this minecraft command" }
+              },
               "required": ["enabled", "prefix"],
-              "additionalProperties": false
+              "additionalProperties": false,
+              "description": "Configuration for the normal minecraft command system"
             },
             "soopy": {
               "type": "object",
-              "properties": { "enabled": { "type": "boolean" }, "prefix": { "type": "string" } },
+              "properties": {
+                "enabled": { "type": "boolean", "description": "Whether this minecraft command is enabled" },
+                "prefix": { "type": "string", "description": "The command prefix used for this minecraft command" }
+              },
               "required": ["enabled", "prefix"],
-              "additionalProperties": false
+              "additionalProperties": false,
+              "description": "Configuration for the Soopy minecraft command system"
             }
           },
           "required": ["timeout", "messageRepeatBypassLength", "maxMessageLength", "normal", "soopy"],
-          "additionalProperties": false
+          "additionalProperties": false,
+          "description": "Configuration for minecraft command handling"
         },
         "guild": {
           "type": "object",
@@ -180,79 +238,102 @@
             "requirements": {
               "type": "object",
               "properties": {
-                "enabled": { "type": "boolean" },
+                "enabled": { "type": "boolean", "description": "Whether guild requirement checking is enabled" },
                 "autoAccept": { "type": "boolean", "description": "Whether new guild members are automatically accepted if they have pass the requirements" },
                 "requirementsNeededToPass": { "type": "number", "description": "The number of requirements a player must meet to pass" },
                 "requirements": {
                   "type": "object",
                   "propertyNames": { "type": "string" },
-                  "additionalProperties": { "type": "integer", "exclusiveMinimum": 0, "maximum": 9007199254740991 }
+                  "additionalProperties": { "type": "integer", "exclusiveMinimum": 0, "maximum": 9007199254740991 },
+                  "description": "The guild requirement thresholds keyed by player stat"
                 }
               },
               "required": ["enabled", "autoAccept", "requirementsNeededToPass", "requirements"],
-              "additionalProperties": false
+              "additionalProperties": false,
+              "description": "Configuration for guild join requirements"
             },
             "welcomer": {
               "type": "object",
-              "properties": { "enabled": { "type": "boolean" }, "message": { "type": "string" }, "showCredits": { "type": "boolean", "skip": true } },
+              "properties": {
+                "enabled": { "type": "boolean", "description": "Whether the guild welcome message is enabled" },
+                "message": { "type": "string", "description": "The welcome message sent to new guild members" },
+                "showCredits": { "type": "boolean", "skip": true, "description": "Whether welcome message credits should be shown" }
+              },
               "required": ["enabled", "message", "showCredits"],
               "additionalProperties": false,
-              "description": "Welcome a new member that joins the in game guild"
+              "description": "Configuration for the guild welcome message"
             }
           },
           "required": ["requirements", "welcomer"],
-          "additionalProperties": false
+          "additionalProperties": false,
+          "description": "Configuration for minecraft guild behavior"
         },
         "hypixelAlerts": {
           "type": "object",
           "properties": {
             "hypixelNews": {
               "type": "object",
-              "properties": { "enabled": { "type": "boolean" }, "interval": { "type": "string", "description": "How often should the alert be ran (/checked)" } },
+              "properties": {
+                "enabled": { "type": "boolean", "description": "Whether this Hypixel alert is enabled" },
+                "interval": { "type": "string", "description": "How often should the alert be ran (/checked)" }
+              },
               "required": ["enabled", "interval"],
-              "additionalProperties": false
+              "additionalProperties": false,
+              "description": "Hypixel news alert settings"
             },
             "statusUpdates": {
               "type": "object",
-              "properties": { "enabled": { "type": "boolean" }, "interval": { "type": "string", "description": "How often should the alert be ran (/checked)" } },
+              "properties": {
+                "enabled": { "type": "boolean", "description": "Whether this Hypixel alert is enabled" },
+                "interval": { "type": "string", "description": "How often should the alert be ran (/checked)" }
+              },
               "required": ["enabled", "interval"],
-              "additionalProperties": false
+              "additionalProperties": false,
+              "description": "Hypixel status update alert settings"
             },
             "skyblockVersion": {
               "type": "object",
-              "properties": { "enabled": { "type": "boolean" }, "interval": { "type": "string", "description": "How often should the alert be ran (/checked)" } },
+              "properties": {
+                "enabled": { "type": "boolean", "description": "Whether this Hypixel alert is enabled" },
+                "interval": { "type": "string", "description": "How often should the alert be ran (/checked)" }
+              },
               "required": ["enabled", "interval"],
-              "additionalProperties": false
+              "additionalProperties": false,
+              "description": "SkyBlock version alert settings"
             },
             "alphaPlayerCountTracker": {
               "type": "object",
               "properties": {
-                "enabled": { "type": "boolean" },
+                "enabled": { "type": "boolean", "description": "Whether this Hypixel alert is enabled" },
                 "interval": { "type": "string", "description": "How often should the alert be ran (/checked)" },
                 "messageCooldown": { "type": "string", "description": "The cooldown between alpha player count messages" },
                 "playerThreshold": { "type": "number", "description": "The player count threshold to trigger an alert" }
               },
               "required": ["enabled", "interval", "messageCooldown", "playerThreshold"],
-              "additionalProperties": false
+              "additionalProperties": false,
+              "description": "Configuration for the alpha player count tracking alert"
             }
           },
           "required": ["hypixelNews", "statusUpdates", "skyblockVersion", "alphaPlayerCountTracker"],
-          "additionalProperties": false
+          "additionalProperties": false,
+          "description": "Configuration for Hypixel alerts"
         },
         "bot": {
           "type": "object",
           "properties": {
-            "server": { "type": "string" },
-            "port": { "type": "number", "minimum": 1, "maximum": 65535 },
+            "server": { "type": "string", "description": "The Minecraft server address to connect to" },
+            "port": { "type": "number", "minimum": 1, "maximum": 65535, "description": "The Minecraft server port to connect to" },
             "version": { "type": "string", "description": "The Minecraft version" },
             "accountsLocation": { "type": "string", "description": "The file path to Minecraft account credentials" }
           },
           "required": ["server", "port", "version", "accountsLocation"],
-          "additionalProperties": false
+          "additionalProperties": false,
+          "description": "Configuration for the minecraft bot connection"
         }
       },
       "required": ["commands", "guild", "hypixelAlerts", "bot"],
-      "additionalProperties": false
+      "additionalProperties": false,
+      "description": "Configuration options for minecraft related stuff"
     },
     "discord": {
       "type": "object",
@@ -271,20 +352,40 @@
             "debugCommands": { "type": "boolean", "description": "Should the debug commands be enabled" }
           },
           "required": ["staffRole", "adminUsers", "debugCommands"],
-          "additionalProperties": false
+          "additionalProperties": false,
+          "description": "Configuration for discord bot commands"
+        },
+        "embeds": {
+          "type": "object",
+          "properties": {
+            "showTime": { "type": "boolean", "description": "Should the default generic embed show the current timestamp" },
+            "showDevFooters": { "type": "boolean", "description": "Whether dev footers should be disabled or not", "skip": true },
+            "colors": {
+              "type": "object",
+              "propertyNames": { "type": "string", "enum": ["Blue", "Red", "Green", "Yellow"] },
+              "additionalProperties": { "type": "string" },
+              "required": ["Blue", "Red", "Green", "Yellow"],
+              "description": "The default colors for embeds",
+              "skip": true
+            }
+          },
+          "required": ["showTime", "showDevFooters", "colors"],
+          "additionalProperties": false,
+          "description": "Configuration options for embeds and how they are displayed"
         }
       },
-      "required": ["serverId", "token", "commands"],
-      "additionalProperties": false
+      "required": ["serverId", "token", "commands", "embeds"],
+      "additionalProperties": false,
+      "description": "Configuration options for discord related stuff"
     },
     "verification": {
       "type": "object",
       "properties": {
-        "enabled": { "type": "boolean" },
+        "enabled": { "type": "boolean", "description": "Whether verification is enabled" },
         "nickname": {
           "type": "object",
           "properties": {
-            "enabled": { "type": "boolean" },
+            "enabled": { "type": "boolean", "description": "Whether verified user nicknames should be managed automatically" },
             "nickname": {
               "type": "string",
               "description": "The nickname format used for verified users.\nSee docs/PlayerStatVaribles.md for list of supported variables"
@@ -292,7 +393,8 @@
             "removeCommas": { "type": "boolean", "description": "Whether commas should be removed from generated nicknames" }
           },
           "required": ["enabled", "nickname", "removeCommas"],
-          "additionalProperties": false
+          "additionalProperties": false,
+          "description": "Configuration for automatic nickname updates"
         },
         "roles": {
           "type": "object",
@@ -314,7 +416,8 @@
                   "required": ["enabled", "roleId"],
                   "additionalProperties": false
                 }
-              ]
+              ],
+              "description": "Role assigned to verified users"
             },
             "guildMember": {
               "oneOf": [
@@ -333,7 +436,8 @@
                   "required": ["enabled", "roleId"],
                   "additionalProperties": false
                 }
-              ]
+              ],
+              "description": "Role assigned to guild members"
             },
             "custom": {
               "type": "array",
@@ -342,7 +446,7 @@
                   {
                     "type": "object",
                     "properties": {
-                      "enabled": { "type": "boolean", "const": true },
+                      "enabled": { "type": "boolean", "const": true, "description": "Whether this custom verification role is enabled" },
                       "roleId": { "type": "string", "description": "Discord role id" },
                       "requirements": {
                         "type": "array",
@@ -697,7 +801,8 @@
                               "additionalProperties": false
                             }
                           ]
-                        }
+                        },
+                        "description": "The requirements needed to receive this custom verification role"
                       }
                     },
                     "required": ["enabled", "roleId", "requirements"],
@@ -706,7 +811,7 @@
                   {
                     "type": "object",
                     "properties": {
-                      "enabled": { "type": "boolean", "const": false },
+                      "enabled": { "type": "boolean", "const": false, "description": "Whether this custom verification role is disabled" },
                       "roleId": { "anyOf": [{ "type": "string" }, { "type": "null" }], "description": "Discord role id" },
                       "requirements": {
                         "type": "array",
@@ -1061,45 +1166,51 @@
                               "additionalProperties": false
                             }
                           ]
-                        }
+                        },
+                        "description": "The requirements needed to receive this custom verification role"
                       }
                     },
                     "required": ["enabled", "roleId", "requirements"],
                     "additionalProperties": false
                   }
                 ]
-              }
+              },
+              "description": "Custom verification roles based on player requirements"
             },
             "autoUpdater": {
               "type": "object",
               "properties": {
-                "enabled": { "type": "boolean" },
+                "enabled": { "type": "boolean", "description": "Whether role auto-updating is enabled for verified users" },
                 "interval": { "type": "string", "description": "How often should all linked users have there roles updated" }
               },
               "required": ["enabled", "interval"],
-              "additionalProperties": false
+              "additionalProperties": false,
+              "description": "Configuration for automatic verification role updates"
             }
           },
           "required": ["verified", "guildMember", "custom", "autoUpdater"],
-          "additionalProperties": false
+          "additionalProperties": false,
+          "description": "Configuration for verification roles"
         },
         "inactivity": {
           "type": "object",
           "properties": {
-            "enabled": { "type": "boolean" },
+            "enabled": { "type": "boolean", "description": "Whether inactivity checks are enabled for verified users" },
             "maxInactivityTime": { "type": "string", "description": "The maximum allowed inactivity time before action is taken" }
           },
           "required": ["enabled", "maxInactivityTime"],
-          "additionalProperties": false
+          "additionalProperties": false,
+          "description": "Configuration for verification inactivity tracking"
         }
       },
       "required": ["enabled", "nickname", "roles", "inactivity"],
-      "additionalProperties": false
+      "additionalProperties": false,
+      "description": "Configuration for user verification"
     },
     "blacklist": {
       "type": "object",
       "properties": {
-        "enabled": { "type": "boolean" },
+        "enabled": { "type": "boolean", "description": "Whether the blacklist feature is enabled" },
         "notifications": {
           "type": "object",
           "properties": {
@@ -1110,13 +1221,15 @@
                 "shareBlacklister": { "type": "boolean", "description": "Whether the user who blacklisted someone should be shared in notifications" }
               },
               "required": ["enabled", "shareBlacklister"],
-              "additionalProperties": false
+              "additionalProperties": false,
+              "description": "Configuration for notifications sent when a blacklist change occurs"
             },
             "onJoinRequest": { "type": "boolean", "description": "Whether join request notifications are enabled" },
             "onUserJoinDiscord": { "type": "boolean", "description": "Whether Discord join notifications are enabled" }
           },
           "required": ["onBlacklistChange", "onJoinRequest", "onUserJoinDiscord"],
-          "additionalProperties": false
+          "additionalProperties": false,
+          "description": "Configuration for blacklist notifications"
         },
         "actions": {
           "type": "object",
@@ -1124,27 +1237,37 @@
             "blockBotAccess": { "type": "boolean", "description": "Whether blacklisted users are blocked from bot access" },
             "kickFromGuild": {
               "type": "object",
-              "properties": { "enabled": { "type": "boolean" }, "reason": { "type": "string", "description": "The reason used when kicking a player from the guild" } },
+              "properties": {
+                "enabled": { "type": "boolean", "description": "Whether blacklisted users should be kicked from the guild" },
+                "reason": { "type": "string", "description": "The reason used when kicking a player from the guild" }
+              },
               "required": ["enabled", "reason"],
-              "additionalProperties": false
+              "additionalProperties": false,
+              "description": "Configuration for kicking blacklisted users from the guild"
             }
           },
           "required": ["blockBotAccess", "kickFromGuild"],
-          "additionalProperties": false
+          "additionalProperties": false,
+          "description": "Configuration for actions taken against blacklisted users"
         }
       },
       "required": ["enabled", "notifications", "actions"],
-      "additionalProperties": false
+      "additionalProperties": false,
+      "description": "Configuration for blacklist handling"
     },
     "statsChannels": {
       "type": "object",
       "properties": {
-        "enabled": { "type": "boolean" },
+        "enabled": { "type": "boolean", "description": "Whether stats channels are enabled" },
         "autoUpdater": {
           "type": "object",
-          "properties": { "enabled": { "type": "boolean" }, "interval": { "type": "string", "description": "How often stats channels are updated" } },
+          "properties": {
+            "enabled": { "type": "boolean", "description": "Whether stats channel auto-updating is enabled" },
+            "interval": { "type": "string", "description": "How often stats channels are updated" }
+          },
           "required": ["enabled", "interval"],
-          "additionalProperties": false
+          "additionalProperties": false,
+          "description": "Configuration for automatic stats channel updates"
         },
         "channels": {
           "type": "array",
@@ -1155,37 +1278,34 @@
               "name": { "type": "string", "description": "What the channel should be named to\nSee docs/Variables/Channel.md" }
             },
             "required": ["id", "name"],
-            "additionalProperties": false
-          }
+            "additionalProperties": false,
+            "description": "Configuration for a single stats channel"
+          },
+          "description": "The stats channels to maintain"
         }
       },
       "required": ["enabled", "autoUpdater", "channels"],
-      "additionalProperties": false
+      "additionalProperties": false,
+      "description": "Configuration for stats channels"
     },
     "other": {
       "type": "object",
       "properties": {
-        "colors": {
-          "type": "object",
-          "propertyNames": { "type": "string", "enum": ["Blue", "Red", "Green", "Yellow"] },
-          "additionalProperties": { "type": "string" },
-          "required": ["Blue", "Red", "Green", "Yellow"],
-          "skip": true
-        },
         "backupConfigs": { "type": "boolean", "description": "Whether backup copies of config files should be created" },
-        "logging": {
+        "logger": {
           "type": "object",
           "properties": {
             "saveToFiles": { "type": "boolean", "description": "Whether log output should be written to files" },
             "location": { "type": "string", "description": "The location of where these files should be saved" }
           },
           "required": ["saveToFiles", "location"],
-          "additionalProperties": false
-        },
-        "showDevFooters": { "type": "boolean", "description": "Whether dev footers should be disabled or not", "skip": true }
+          "additionalProperties": false,
+          "description": "Configuration options for the logger"
+        }
       },
-      "required": ["colors", "backupConfigs", "logging", "showDevFooters"],
-      "additionalProperties": false
+      "required": ["backupConfigs", "logger"],
+      "additionalProperties": false,
+      "description": "Configuration options for misc/other stuff or things that don't have a good location"
     }
   },
   "required": ["$schema", "configVersion", "API", "bridge", "minecraft", "discord", "verification", "blacklist", "statsChannels", "other"],

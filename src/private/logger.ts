@@ -36,8 +36,8 @@ try {
 }
 const config = JSON.parse(await readFile(useDefault ? "config.example.json" : "config.json", "utf-8"));
 
-const defaultPath = replaceVariables(config.other?.logging?.location ?? "./data/logs/{timestamp}", { timestamp: new Date().toISOString() });
-const fileLoggingEnabled = config.other?.logging?.saveToFiles ?? true;
+const defaultPath = replaceVariables(config.other?.logger?.location ?? "./data/logs/{timestamp}", { timestamp: new Date().toISOString() });
+const fileLoggingEnabled = config.other?.logger?.saveToFiles ?? true;
 const fullTransport = fileLoggingEnabled ? new transports.File({ level: "max", filename: `${defaultPath}/full.log` }) : undefined;
 const loggers: { [key: string]: Logger } = {};
 logs.forEach((log) => {

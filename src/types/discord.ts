@@ -12,7 +12,7 @@ import type {
   GuildMember,
   ModalSubmitInteraction
 } from "discord.js";
-import type { Config, ConfigOtherColors } from "./config.js";
+import type { Config, ConfigDiscordEmbedsColors } from "./config.js";
 import type { DevData, DevName } from "./application.ts";
 import type { MinecraftManagerWithBot } from "./minecraft.js";
 
@@ -154,7 +154,7 @@ export interface EmbedStyleData {
   title?: string;
   author?: EmbedAuthorOptions;
   description?: string;
-  color?: ConfigOtherColors | ColorResolvable;
+  color?: ConfigDiscordEmbedsColors | ColorResolvable;
   footer?: DevName | DevData;
 }
 

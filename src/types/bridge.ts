@@ -1,6 +1,6 @@
 import type { ChannelName } from "./discord.js";
 import type { ColorResolvable, Message } from "discord.js";
-import type { ConfigOtherColors } from "./config.js";
+import type { ConfigDiscordEmbedsColors } from "./config.js";
 
 export interface DiscordToMinecraftMessage {
   readonly channelId: string;
@@ -23,7 +23,7 @@ export interface MinecraftChatMessage {
   readonly rank: string | null;
   readonly guildRank: string;
   readonly message: string;
-  readonly color?: ConfigOtherColors | ColorResolvable;
+  readonly color?: ConfigDiscordEmbedsColors | ColorResolvable;
 }
 
 export type MinecraftToDiscordMessage = MinecraftDebugMessage | MinecraftChatMessage;
@@ -32,14 +32,14 @@ export interface PlayerToggleEvent {
   readonly fullMessage: string;
   readonly username: string;
   readonly message: string;
-  readonly color: ConfigOtherColors | ColorResolvable;
+  readonly color: ConfigDiscordEmbedsColors | ColorResolvable;
   readonly chatType: "Guild";
 }
 
 export interface CleanEmbedEvent {
   readonly chatType: ChannelName;
   readonly message: string;
-  readonly color: ConfigOtherColors | ColorResolvable;
+  readonly color: ConfigDiscordEmbedsColors | ColorResolvable;
 }
 
 export interface HeadedEmbedEvent extends CleanEmbedEvent {

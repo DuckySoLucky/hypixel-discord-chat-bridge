@@ -1,3 +1,3 @@
 # Configuration
 
-This document is generated from the Zod config schema in `src/types/config.ts`
+This document is generated from the Zod config schema in [`src/types/config.ts`](/src/types/config.ts)

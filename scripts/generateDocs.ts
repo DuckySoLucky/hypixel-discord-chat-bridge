@@ -1,3 +1,4 @@
+import { initMarkdownFile, saveMarkdownFile } from "./utils.js";
 import { readdir } from "node:fs/promises";
 import "../src/private/logger.js";
 
@@ -9,6 +10,8 @@ for (const file of scripts) {
   console.other(`Running ${file}`);
   await import(`./docs/${file}`);
 }
+
+await saveMarkdownFile("scripts/README.md", await initMarkdownFile("scripts/README.md", "ScriptsReadme"), "ScriptsReadme", false);
 
 process.env.UNIX_TIMESTAMP = "";
 process.exit(0);

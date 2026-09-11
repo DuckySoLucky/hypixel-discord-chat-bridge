@@ -10,6 +10,7 @@ import {
   type SkyBlockElectionData,
   SkyBlockMuseum,
   type SkyBlockProfileType,
+  type SkyBlockSkills,
   removeDashesFromUUID
 } from "hypixel-api-reborn";
 import { ProfileNetworthCalculator } from "skyhelper-networth";
@@ -73,6 +74,12 @@ export async function getGuild(searchParameter: GuildFetchOption, query: string,
 
 export async function getSkyBlockElection(options?: RequestOptions): Promise<SkyBlockElectionData> {
   return await HypixelAPIReborn.getSkyBlockElection(options).then((data) => {
+    return data.parsed;
+  });
+}
+
+export async function getSkyBlockSkills(options?: RequestOptions): Promise<SkyBlockSkills> {
+  return await HypixelAPIReborn.getSkyBlockSkills(options).then((data) => {
     return data.parsed;
   });
 }
