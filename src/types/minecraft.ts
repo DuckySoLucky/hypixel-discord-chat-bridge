@@ -65,23 +65,23 @@ export function isBedWarsModeName(value: string): value is BedWarsModeName {
 }
 
 export const DuelsModeMap: Record<string, string[]> = {
-  uhc: ["uhc", "u"],
-  skyWars: ["skywars", "sw"],
-  megaWalls: ["megawalls", "mw", "m"],
-  blitz: ["blitz"],
-  op: ["op"],
-  classic: ["classic", "class", "c"],
-  bow: ["bow"],
-  potion: ["nodebuff", "ndb"],
-  combo: ["combo"],
-  bowspleef: ["bowspleef", "bs"],
-  sumo: ["sumo", "s"],
-  bridge: ["bridge", "b"],
-  parkour: ["parkour", "p"],
   arena: ["arena", "a"],
-  boxing: ["boxing"],
   bedWars: ["bedwars", "bw"],
-  quake: ["quake", "q"]
+  blitz: ["blitz"],
+  bow: ["bow"],
+  bowspleef: ["bowspleef", "bs"],
+  boxing: ["boxing"],
+  bridge: ["bridge", "b"],
+  classic: ["classic", "class", "c"],
+  combo: ["combo"],
+  megaWalls: ["megawalls", "mw", "m"],
+  op: ["op"],
+  parkour: ["parkour", "p"],
+  potion: ["nodebuff", "ndb"],
+  quake: ["quake", "q"],
+  skyWars: ["skywars", "sw"],
+  sumo: ["sumo", "s"],
+  uhc: ["uhc", "u"]
 };
 export type DuelsInternalName = keyof typeof DuelsModeMap;
 
