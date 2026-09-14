@@ -55,7 +55,7 @@ export async function getNetWorthCalculator(input: string): Promise<NetWorthCalc
   const museumProfile = museum.raw.rawData.members[removeDashesFromUUID(mojangProfile.data.UUID)];
   if (museumProfile === undefined) throw new HypixelDiscordChatBridgeError("Player has museum API off.");
 
-  const calculator = new ProfileNetworthCalculator(selectedProfileMember, museumProfile, selectedProfile.banking.balance);
+  const calculator = new ProfileNetworthCalculator(selectedProfileMember, museumProfile, selectedProfile?.banking?.balance ?? 0);
   return { calculator, profile };
 }
 
