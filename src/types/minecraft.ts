@@ -65,41 +65,43 @@ export function isBedWarsModeName(value: string): value is BedWarsModeName {
 }
 
 export const DuelsInternalNames = [
-  "uhc",
-  "skyWars",
-  "megaWalls",
-  "blitz",
-  "op",
-  "classic",
-  "bow",
-  "potion",
-  "combo",
-  "bowspleef",
-  "sumo",
-  "bridge",
-  "parkour",
   "arena",
+  "bedWars",
+  "blitz",
+  "bow",
+  "bowspleef",
   "boxing",
-  "bedWars"
+  "bridge",
+  "classic",
+  "combo",
+  "megaWalls",
+  "op",
+  "parkour",
+  "potion",
+  "quake",
+  "skyWars",
+  "sumo",
+  "uhc"
 ] as const;
 export type DuelsInternalName = (typeof DuelsInternalNames)[number];
 export const DuelsModeMap: Record<DuelsInternalName, string[]> = {
-  uhc: ["uhc", "u"],
-  skyWars: ["skywars", "sw"],
-  megaWalls: ["megawalls", "mw", "m"],
-  blitz: ["blitz"],
-  op: ["op"],
-  classic: ["classic", "class", "c"],
-  bow: ["bow"],
-  potion: ["nodebuff", "ndb"],
-  combo: ["combo"],
-  bowspleef: ["bowspleef", "bs"],
-  sumo: ["sumo", "s"],
-  bridge: ["bridge", "b"],
-  parkour: ["parkour", "p"],
   arena: ["arena", "a"],
+  bedWars: ["bedwars", "bw"],
+  blitz: ["blitz"],
+  bow: ["bow"],
+  bowspleef: ["bowspleef", "bs"],
   boxing: ["boxing"],
-  bedWars: ["bedwars", "bw"]
+  bridge: ["bridge", "b"],
+  classic: ["classic", "class", "c"],
+  combo: ["combo"],
+  megaWalls: ["megawalls", "mw", "m"],
+  op: ["op"],
+  parkour: ["parkour", "p"],
+  potion: ["nodebuff", "ndb"],
+  quake: ["quake", "q"],
+  skyWars: ["skywars", "sw"],
+  sumo: ["sumo", "s"],
+  uhc: ["uhc", "u"]
 };
 
 export const DuelsModeNames = Object.values(DuelsModeMap)
