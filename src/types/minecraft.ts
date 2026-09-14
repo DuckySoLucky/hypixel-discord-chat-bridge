@@ -64,7 +64,27 @@ export function isBedWarsModeName(value: string): value is BedWarsModeName {
   return (BedWarsModeNames as readonly string[]).includes(value);
 }
 
-export const DuelsModeMap: Record<string, string[]> = {
+export const DuelsInternalNames = [
+  "arena",
+  "bedWars",
+  "blitz",
+  "bow",
+  "bowspleef",
+  "boxing",
+  "bridge",
+  "classic",
+  "combo",
+  "megaWalls",
+  "op",
+  "parkour",
+  "potion",
+  "quake",
+  "skyWars",
+  "sumo",
+  "uhc"
+] as const;
+export type DuelsInternalName = (typeof DuelsInternalNames)[number];
+export const DuelsModeMap: Record<DuelsInternalName, string[]> = {
   arena: ["arena", "a"],
   bedWars: ["bedwars", "bw"],
   blitz: ["blitz"],
@@ -83,7 +103,6 @@ export const DuelsModeMap: Record<string, string[]> = {
   sumo: ["sumo", "s"],
   uhc: ["uhc", "u"]
 };
-export type DuelsInternalName = keyof typeof DuelsModeMap;
 
 export const DuelsModeNames = Object.values(DuelsModeMap)
   .flat()
