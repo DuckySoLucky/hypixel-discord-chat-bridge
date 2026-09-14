@@ -234,8 +234,9 @@ if (hasConfig) {
     process.exit(0);
   }
 
-  const currentConfig = await ConfigManager.getConfigFile();
-  await ConfigManager.backupConfig(currentConfig, true);
+  const configManager = new ConfigManager();
+  const currentConfig = await configManager.getConfigFile();
+  await configManager.backupConfig(currentConfig, true);
 }
 
 const config = await renderSchemaSection(Config, []);

@@ -44,7 +44,7 @@ class RequirementsCommand extends DiscordCommand {
           inline: true
         }))
       )
-      .setThumbnail(`https://www.mc-heads.net/avatar/${username}`);
+      .setThumbnail(`${this.discord.application.config.API.mcHeads.baseURL}/avatar/${username}`);
   }
 
   override async execute(interaction: ChatInputCommandInteractionWithGuild) {

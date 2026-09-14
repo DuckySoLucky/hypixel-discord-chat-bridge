@@ -1,5 +1,6 @@
 import ConfigManager from "../src/ConfigManager.js";
 import zod from "zod";
+import { CommonDevs } from "../src/private/constants.js";
 import { type TemplatePrimitive, replaceVariables } from "../src/utils/stringUtils.js";
 import { access, readFile, writeFile } from "node:fs/promises";
 import { format } from "prettier";
@@ -49,28 +50,34 @@ export async function initMarkdownFile(path: string, id: string = getMarkdownFil
   return lines;
 }
 
-export async function saveMarkdownFile(path: string, lines: string[], id: string = getMarkdownFileId(path)) {
+export async function saveMarkdownFile(path: string, lines: string[], id: string = getMarkdownFileId(path), generatedFooters: boolean = true) {
   const footerPath = `./scripts/templates/${id}/Footer.md`;
-
-  try {
-    await access(footerPath);
-    lines = await addFile(footerPath, lines);
-  } catch {
-    // Do nothing
-  }
 
   process.env.UNIX_TIMESTAMP ||= Date.now().toString();
   const variables: Readonly<Record<string, TemplatePrimitive>> = {
     id,
     timestamp: new Date(Number(process.env.UNIX_TIMESTAMP)).toUTCString(),
-    unix: process.env.UNIX_TIMESTAMP
+    unix: process.env.UNIX_TIMESTAMP,
+    maintainers: Object.values(CommonDevs)
+      .filter(({ type }) => type === "Maintainer")
+      .map(({ username, id }) => `[@${username}](https://discord.com/users/${id})`)
+      .join(", ")
   };
 
-  const generatedFooter = await readFile("./scripts/templates/Utils/GeneratedFooter.md", "utf-8");
-  lines = addLines(generatedFooter, lines, variables);
+  try {
+    await access(footerPath);
+    lines = await addFile(footerPath, lines, variables);
+  } catch {
+    // Do nothing
+  }
 
-  const globalFooter = await readFile("./scripts/templates/Utils/GlobalFooter.md", "utf-8");
-  lines = addLines(globalFooter, lines, variables);
+  if (generatedFooters) {
+    const generatedFooter = await readFile("./scripts/templates/Utils/GeneratedFooter.md", "utf-8");
+    lines = addLines(generatedFooter, lines, variables);
+
+    const globalFooter = await readFile("./scripts/templates/Utils/GlobalFooter.md", "utf-8");
+    lines = addLines(globalFooter, lines, variables);
+  }
 
   await saveFile(path, lines.join("\n"));
 }
@@ -124,7 +131,8 @@ export function getTitle({ formattedDotPath, description, rawDescription }: Conf
 export async function getMetadata({ schema, path, key }: SchemaData, shouldUseConfig: boolean = false): Promise<ConfigMetadata> {
   const { description, rawDescription } = getMetadataDescription(schema);
   const dotPath = getDotPath(path, key);
-  const config = shouldUseConfig ? await ConfigManager.getConfigFile() : await ConfigManager.getExampleConfigFile();
+  const configManager = new ConfigManager();
+  const config = shouldUseConfig ? await configManager.getConfigFile() : await configManager.getExampleConfigFile();
   const value = getNestedValue(config, dotPath);
   const smallMetadata: ConfigMetadataDotPathDescription = { dotPath, formattedDotPath: `[${dotPath}]`, description, rawDescription };
   const metadata: ConfigMetadata = {

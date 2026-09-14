@@ -9,7 +9,7 @@ import StateHandler from "./handlers/StateHandler.js";
 import ms, { type StringValue } from "ms";
 import { type Client, createClient } from "minecraft-protocol";
 import { ResourcePackResult } from "../types/minecraft.js";
-import { replaceVariables } from "../utils/stringUtils.js";
+import { removeEmojis, removeNonAlphanumeric, removeSpaces, replaceVariables } from "../utils/stringUtils.js";
 import { runDetached, toError } from "../utils/asyncUtils.js";
 import type Application from "../Application.js";
 import type { DiscordToMinecraftMessage } from "../types/bridge.js";
@@ -274,15 +274,13 @@ class MinecraftManager extends CommunicationBridge implements Lifecycle {
       }
     }
 
-    if (this.application.config.bridge.stripEmojisFromUsernames) {
-      try {
-        username = username.replace(/:[\w\-_]+:/g, "");
-      } catch {
-        // Do nothing
-      }
-    }
+    if (this.application.config.bridge.strippers.usernames.emojis) username = removeEmojis(username);
+    if (this.application.config.bridge.strippers.usernames.spaces) username = removeSpaces(username);
+    if (this.application.config.bridge.strippers.usernames.nonAlphanumeric) username = removeNonAlphanumeric(username);
 
-    if (this.application.config.bridge.stripSpacesFromUsernames) username = username.replaceAll(" ", "");
+    if (this.application.config.bridge.strippers.messages.emojis) message = removeEmojis(message);
+    if (this.application.config.bridge.strippers.messages.spaces) message = removeSpaces(message);
+    if (this.application.config.bridge.strippers.messages.nonAlphanumeric) message = removeNonAlphanumeric(message);
 
     message = replaceVariables(this.application.config.bridge.minecraft.format, { username, message });
     const chat = channelId === this.application.config.bridge.channels.officer.channel ? "/oc" : "/gc";

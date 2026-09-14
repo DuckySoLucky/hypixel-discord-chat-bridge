@@ -97,3 +97,15 @@ export function upperFirst(string: string): string {
   if (!string) return string;
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+export function removeEmojis(string: string): string {
+  return string.replace(/:[\w\-_]+:/g, "");
+}
+
+export function removeSpaces(string: string): string {
+  return string.replaceAll(" ", "");
+}
+
+export function removeNonAlphanumeric(string: string): string {
+  return string.replace(/[^\x20-\x7E]/g, "");
+}

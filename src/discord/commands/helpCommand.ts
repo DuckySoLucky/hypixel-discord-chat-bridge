@@ -48,7 +48,7 @@ class HelpCommand extends DiscordCommand {
     const embed = new EmbedHelper()
       .setTitle(`**${prefix}${command.data.name}**`)
       .setDescription(description)
-      .setFooter({ text: "by @duckysolucky | () = required, [] = optional", iconURL: "https://imgur.com/tgwQJTX.png" });
+      .setDevFooter("DuckySoLucky", "() = required, [] = optional");
 
     await interaction.followUp({ embeds: [embed] });
   }

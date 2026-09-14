@@ -39,7 +39,7 @@ class SetRankUserModal extends DiscordModal<DiscordManagerWithBot> {
         embeds: [
           new SuccessEmbed()
             .setDescription(replaceVariables(this.discord.application.messages.promotionMessage, { username, rank }))
-            .setAuthor({ name: "Member Promoted", iconURL: `https://mc-heads.net/avatar/${username}` })
+            .setAuthor({ name: "Member Promoted", iconURL: `${this.discord.application.config.API.mcHeads.baseURL}/avatar/${username}` })
         ]
       });
     } else if (action === GuildManagementAction.Demote) {
@@ -54,7 +54,7 @@ class SetRankUserModal extends DiscordModal<DiscordManagerWithBot> {
         embeds: [
           new SuccessEmbed()
             .setDescription(replaceVariables(this.discord.application.messages.demotionMessage, { username, rank }))
-            .setAuthor({ name: "Member Demote", iconURL: `https://mc-heads.net/avatar/${username}` })
+            .setAuthor({ name: "Member Demote", iconURL: `${this.discord.application.config.API.mcHeads.baseURL}/avatar/${username}` })
         ]
       });
     }

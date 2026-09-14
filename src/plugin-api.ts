@@ -16,7 +16,10 @@ export * from "./utils/minecraftUtils.js";
 export * from "./utils/miscUtils.js";
 export * from "./utils/stringUtils.js";
 
+export * from "./private/constants.js";
+
 export { default as Application } from "./Application.js";
+export { default as BasicConfigManager } from "./core/BasicConfigManager.js";
 export { default as BridgeEventBus } from "./private/BridgeEventBus.js";
 export { default as BridgePlugin } from "./plugins/BridgePlugin.js";
 export { default as DiscordButton } from "./discord/private/buttons/DiscordButton.js";
@@ -32,6 +35,8 @@ export { default as BasicScript } from "./scripts/BasicScript.js";
 export { default as HypixelDiscordChatBridgeError } from "./private/error.js";
 export { default as MowojangAPI } from "./private/MowojangAPI.js";
 export { default as EmbedHelper, WarningEmbed, ErrorEmbed, SuccessEmbed } from "./discord/private/EmbedHelper.js";
+export { default as GenericData } from "./data/GenericData.js";
+export { default as GenericManager } from "./data/GenericManager.js";
 export type { default as DiscordManager } from "./discord/DiscordManager.js";
 export type { default as MinecraftManager } from "./minecraft/MinecraftManager.js";
 export type { default as ScriptManager } from "./scripts/ScriptsManager.js";

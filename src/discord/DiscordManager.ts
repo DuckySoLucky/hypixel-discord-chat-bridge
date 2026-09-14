@@ -21,6 +21,7 @@ import {
   LoggerChannelNames,
   type ModalSubmitInteractionWithGuild
 } from "../types/discord.js";
+import { CommonDevs } from "../private/constants.js";
 import { getErrorEmbed } from "../utils/miscUtils.js";
 import { messageToImage } from "../utils/minecraftUtils.js";
 import { parseInteractionType } from "../utils/discordUtils.js";
@@ -159,7 +160,7 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
       const webhooks = await channel.fetchWebhooks();
 
       if (webhooks.size === 0) {
-        await channel.createWebhook({ name: "Hypixel Chat Bridge", avatar: "https://imgur.com/tgwQJTX.png" });
+        await channel.createWebhook({ name: "Hypixel Chat Bridge", avatar: CommonDevs.DuckySoLucky.iconURL });
         return await this.getWebhook(type);
       }
 
@@ -199,7 +200,7 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
               .setColor(color)
               .setDescription(message)
               .setFooter({ text: guildRank })
-              .setAuthor({ name: username, iconURL: `https://www.mc-heads.net/avatar/${username}` })
+              .setAuthor({ name: username, iconURL: `${this.application.config.API.mcHeads.baseURL}/avatar/${username}` })
           ]
         });
 
@@ -215,7 +216,7 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
         if (message.length === 0) return;
         const webhook = await this.getWebhook(chatType);
         if (webhook === null) return;
-        await webhook.send({ content: message, username: username, avatarURL: `https://www.mc-heads.net/avatar/${username}` });
+        await webhook.send({ content: message, username: username, avatarURL: `${this.application.config.API.mcHeads.baseURL}/avatar/${username}` });
         break;
       }
       case "minecraft": {
@@ -266,7 +267,7 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
           embeds: [
             new EmbedHelper()
               .setColor(color)
-              .setAuthor({ name: message, iconURL: `https://www.mc-heads.net/avatar/${username}` })
+              .setAuthor({ name: message, iconURL: `${this.application.config.API.mcHeads.baseURL}/avatar/${username}` })
               .setFooter(null)
           ]
         });
@@ -278,7 +279,7 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
         if (webhook === null) return;
         await webhook.send({
           username: username,
-          avatarURL: `https://www.mc-heads.net/avatar/${username}`,
+          avatarURL: `${this.application.config.API.mcHeads.baseURL}/avatar/${username}`,
           embeds: [new EmbedHelper().setColor(color).setDescription(message).setFooter(null)]
         });
         break;

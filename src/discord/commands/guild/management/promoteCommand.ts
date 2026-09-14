@@ -42,7 +42,7 @@ class PromoteCommand extends DiscordCommand<DiscordManagerWithBot> {
         embeds: [
           new SuccessEmbed()
             .setDescription(replaceVariables(this.discord.application.messages.promotionMessage, { username, rank }))
-            .setAuthor({ name: "Member Promoted", iconURL: `https://mc-heads.net/avatar/${username}` })
+            .setAuthor({ name: "Member Promoted", iconURL: `${this.discord.application.config.API.mcHeads.baseURL}/avatar/${username}` })
         ]
       });
     }

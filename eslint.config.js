@@ -27,6 +27,7 @@ export default [
       "import/no-unresolved": ["error", { ignore: ["hypixel-discord-chat-bridge/plugin-api"] }],
       "hypixelDiscordChatBridge/enforce-discord-command-data-builder": "error",
       "@stylistic/function-call-argument-newline": ["error", "consistent"],
+      "hypixelDiscordChatBridge/enforce-no-plugin-api-imports": "error",
       "@typescript-eslint/no-unused-vars": ["error", { args: "none" }],
       "@stylistic/quotes": ["error", "double", { avoidEscape: true }],
       "@stylistic/array-bracket-newline": ["error", "consistent"],

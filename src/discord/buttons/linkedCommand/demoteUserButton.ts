@@ -37,7 +37,7 @@ class DemoteUserButton extends DiscordButton<DiscordManagerWithBot> {
         embeds: [
           new SuccessEmbed()
             .setDescription(replaceVariables(this.discord.application.messages.demotionMessage, { username, rank }))
-            .setAuthor({ name: "Member Demote", iconURL: `https://mc-heads.net/avatar/${username}` })
+            .setAuthor({ name: "Member Demote", iconURL: `${this.discord.application.config.API.mcHeads.baseURL}/avatar/${username}` })
         ]
       });
     }
