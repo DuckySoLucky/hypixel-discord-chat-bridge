@@ -48,6 +48,7 @@ Minecraft commands can be executed from any chat channel that the bot can see. T
 | `hotm`               | Skyblock Hotm Stats of specified user.                                        | mining                                                 | `!hotm [u]`                | Anyone     |
 | `jacob`              | Jacob's Contest Stats of specified user.                                      | jacobs, jacobcontest, contest                          | `!jacob [u]`               | Anyone     |
 | `kuudra`             | Kuudra Stats of specified user.                                               | None                                                   | `!kuudra [u]`              | Anyone     |
+| `level`              | Skyblock Level of specified user.                                             | lvl                                                    | `!level [u]`               | Anyone     |
 | `mayor`              | Skyblock Mayor.                                                               | None                                                   | `!mayor`                   | Anyone     |
 | `megawalls`          | View the Megawalls stats of a player                                          | mw                                                     | `!megawalls [u]`           | Anyone     |
 | `meow`               | meow                                                                          | mrrp, mrrow, miau, mauww, meep, :3, nja, nya, awawa    | `!meow`                    | Anyone     |
@@ -57,9 +58,8 @@ Minecraft commands can be executed from any chat channel that the bot can see. T
 | `player`             | Get Hypixel Player Stats                                                      | None                                                   | `!player [u]`              | Anyone     |
 | `sheepwars`          |                                                                               | sheep, shep                                            | `!sheepwars [u]`           | Anyone     |
 | `skills`             | Skills and Skill Average of specified user.                                   | skill, sa                                              | `!skills [u]`              | Anyone     |
-| `level`              | Skyblock Level of specified user.                                             | lvl                                                    | `!level [u]`               | Anyone     |
-| `skywars`            | Skywars stats of specified user.                                              | sw                                                     | `!skywars [u]`             | Anyone     |
 | `skyblock`           | Skyblock Stats of specified user.                                             | stats, sb                                              | `!skyblock [u]`            | Anyone     |
+| `skywars`            | Skywars stats of specified user.                                              | sw                                                     | `!skywars [u]`             | Anyone     |
 | `slayer`             | Slayer of specified user.                                                     | slayers                                                | `!slayer [u]`              | Anyone     |
 | `specialmayor`       | How many years until next special mayor, along with speculated special mayor. | specmayor                                              | `!specialmayor`            | Anyone     |
 | `trophyfish`         | Trophy Fish Stats of specified user.                                          | tf, trophyfishing, trophy                              | `!trophyfish [u]`          | Anyone     |
@@ -72,41 +72,41 @@ Minecraft commands can be executed from any chat channel that the bot can see. T
 | ---------------------- | ------------------------------------------------------ | ----------------------------------------- | ------------ |
 | `blacklist`            | Blacklist a user                                       | `/blacklist [add] [remove] [get]`         | Staff        |
 | `credits`              | Shows the credits of the people who make this possible | `/credits`                                | Anyone       |
-| `help`                 | Shows the help menu.                                   | `/help [command]`                         | Anyone       |
-| `information`          | Shows information about the bot.                       | `/information`                            | Anyone       |
-| `ping`                 | Show the latency of the bot.                           | `/ping`                                   | Anyone       |
-| `requirements`         | Check a user's requirements to join the guild          | `/requirements [u]`                       | Anyone       |
-| `uptime`               | Shows the uptime of the bot.                           | `/uptime`                                 | Admin        |
-| `force-unverify`       | Remove a linked Minecraft account                      | `/force-unverify (user)`                  | Staff        |
-| `force-update`         | Update user's roles                                    | `/force-update (user)`                    | Staff        |
-| `force-verify`         | Connect Discord account to a Minecraft                 | `/force-verify (user) (u)`                | Staff        |
-| `linked`               | View who a user is linked to                           | `/linked [user] [u]`                      | Staff        |
-| `unverify`             | Remove your linked Minecraft account                   | `/unverify`                               | Verified     |
-| `update`               | Update your current roles                              | `/update`                                 | Verified     |
-| `verify`               | Connect your Discord account to Minecraft              | `/verify (u)`                             | Anyone       |
-| `gexp-check`           | Shows everyone under an set amount of gexp             | `/gexp-check (requirement)`               | Staff        |
-| `inactivity`           | Send an inactivity notice to the guild staff           | `/inactivity (time) [reason]`             | Guild Member |
-| `manage-inactivity`    | Manage inactivity                                      | `/manage-inactivity [add] [delete] [get]` | Staff        |
-| `guildtop`             | Top 10 members with the most guild experience.         | `/guildtop [time]`                        | Anyone       |
-| `list`                 | List of guild members.                                 | `/list`                                   | Anyone       |
-| `online`               | List of online members.                                | `/online`                                 | Anyone       |
 | `demote`               | Demotes the given user by one guild rank.              | `/demote (u)`                             | Staff        |
-| `invite`               | Invites the given user to the guild.                   | `/invite (u)`                             | Staff        |
-| `kick`                 | Kicks the given user to the guild.                     | `/kick (u) (reason)`                      | Staff        |
-| `mute`                 | Mutes the given user for a given amount of time.       | `/mute (u) (time)`                        | Staff        |
-| `promote`              | Promote the given user by one guild rank.              | `/promote (u)`                            | Staff        |
-| `set-rank`             | Set rank of the given user.                            | `/set-rank (u) (rank)`                    | Staff        |
-| `unmute`               | Unmute the given user.                                 | `/unmute (u)`                             | Staff        |
 | `execute`              | Executes commands as the minecraft bot.                | `/execute (command)`                      | Admin        |
 | `force-error`          | force an error                                         | `/force-error (message) (type)`           | Admin        |
 | `force-execute-script` | Allows executing scripts                               | `/force-execute-script (script-name)`     | Staff        |
+| `force-unverify`       | Remove a linked Minecraft account                      | `/force-unverify (user)`                  | Staff        |
+| `force-update`         | Update user's roles                                    | `/force-update (user)`                    | Staff        |
+| `force-verify`         | Connect Discord account to a Minecraft                 | `/force-verify (user) (u)`                | Staff        |
+| `gexp-check`           | Shows everyone under an set amount of gexp             | `/gexp-check (requirement)`               | Staff        |
+| `guildtop`             | Top 10 members with the most guild experience.         | `/guildtop [time]`                        | Anyone       |
+| `help`                 | Shows the help menu.                                   | `/help [command]`                         | Anyone       |
+| `inactivity`           | Send an inactivity notice to the guild staff           | `/inactivity (time) [reason]`             | Guild Member |
+| `information`          | Shows information about the bot.                       | `/information`                            | Anyone       |
+| `invite`               | Invites the given user to the guild.                   | `/invite (u)`                             | Staff        |
+| `kick`                 | Kicks the given user to the guild.                     | `/kick (u) (reason)`                      | Staff        |
+| `linked`               | View who a user is linked to                           | `/linked [user] [u]`                      | Staff        |
+| `list`                 | List of guild members.                                 | `/list`                                   | Anyone       |
+| `manage-inactivity`    | Manage inactivity                                      | `/manage-inactivity [add] [delete] [get]` | Staff        |
+| `mute`                 | Mutes the given user for a given amount of time.       | `/mute (u) (time)`                        | Staff        |
+| `online`               | List of online members.                                | `/online`                                 | Anyone       |
 | `permission-check`     | Check what level of permission a user has              | `/permission-check [user]`                | Staff        |
+| `ping`                 | Show the latency of the bot.                           | `/ping`                                   | Anyone       |
+| `promote`              | Promote the given user by one guild rank.              | `/promote (u)`                            | Staff        |
+| `requirements`         | Check a user's requirements to join the guild          | `/requirements [u]`                       | Anyone       |
 | `restart`              | Restarts the bot.                                      | `/restart`                                | Staff        |
 | `send-to-channel`      | Force Sending to a channel                             | `/send-to-channel (message) (channel)`    | Admin        |
+| `set-rank`             | Set rank of the given user.                            | `/set-rank (u) (rank)`                    | Staff        |
+| `unmute`               | Unmute the given user.                                 | `/unmute (u)`                             | Staff        |
+| `unverify`             | Remove your linked Minecraft account                   | `/unverify`                               | Verified     |
+| `update`               | Update your current roles                              | `/update`                                 | Verified     |
+| `uptime`               | Shows the uptime of the bot.                           | `/uptime`                                 | Admin        |
+| `verify`               | Connect your Discord account to Minecraft              | `/verify (u)`                             | Anyone       |
 
 ---
 
-This document is [auto generated](/scripts/docs/Commands.ts) and was last updated on `Thu, 17 Sep 2026 07:31:17 GMT` (`1789630277235`)
+This document is [auto generated](/scripts/docs/Commands.ts) and was last updated on `Thu, 17 Sep 2026 07:48:12 GMT` (`1789631292973`)
 
 To update this document please run `pnpm docgen` or contact a maintainer and ask them to update it.
 

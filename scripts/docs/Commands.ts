@@ -27,17 +27,19 @@ await Promise.all([application.minecraft.commandHandler.deployCommands(true), ap
 lines = addTable(
   [
     ["Command", "Description", "Aliases", "Syntax", "Permission"],
-    ...application.minecraft.commandHandler.commands.map((command) => {
-      const optionsString = command.data.options.map((option) => InformationCommand.FormatCommandOptions(option.name, option.required)).join("");
+    ...application.minecraft.commandHandler.commands
+      .toSorted((a, b) => a.data.name.localeCompare(b.data.name))
+      .map((command) => {
+        const optionsString = command.data.options.map((option) => InformationCommand.FormatCommandOptions(option.name, option.required)).join("");
 
-      return [
-        `\`${command.data.name}\``,
-        command.data.description,
-        command.data.aliases.length ? command.data.aliases.join(", ") : "None",
-        `\`!${command.data.name}${optionsString}\``,
-        "Anyone"
-      ];
-    })
+        return [
+          `\`${command.data.name}\``,
+          command.data.description,
+          command.data.aliases.length ? command.data.aliases.join(", ") : "None",
+          `\`!${command.data.name}${optionsString}\``,
+          "Anyone"
+        ];
+      })
   ],
   lines
 );
@@ -47,13 +49,15 @@ lines.push("", "## Discord Commands", "");
 lines = addTable(
   [
     ["Command", "Description", "Syntax", "Permission"],
-    ...application.discord.commandHandler.commands.map((command) => {
-      const { options } = command.data.toJSON();
+    ...application.discord.commandHandler.commands
+      .toSorted((a, b) => a.data.name.localeCompare(b.data.name))
+      .map((command) => {
+        const { options } = command.data.toJSON();
 
-      const optionsString = options?.map(({ name, required }) => InformationCommand.FormatCommandOptions(name, required)).join("") ?? "";
+        const optionsString = options?.map(({ name, required }) => InformationCommand.FormatCommandOptions(name, required)).join("") ?? "";
 
-      return [`\`${command.data.name}\``, command.data.description, `\`/${command.data.name}${optionsString}\``, getDiscordCommandPermission(command.permission)];
-    })
+        return [`\`${command.data.name}\``, command.data.description, `\`/${command.data.name}${optionsString}\``, getDiscordCommandPermission(command.permission)];
+      })
   ],
   lines
 );
