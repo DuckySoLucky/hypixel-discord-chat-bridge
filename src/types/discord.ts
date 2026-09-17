@@ -13,7 +13,7 @@ import type {
   ModalSubmitInteraction
 } from "discord.js";
 import type { Config, ConfigDiscordEmbedsColors } from "./config.js";
-import type { DevData, DevName } from "./application.ts";
+import type { DevData, DevName } from "./application.js";
 import type { MinecraftManagerWithBot } from "./minecraft.js";
 
 declare module "discord.js" {

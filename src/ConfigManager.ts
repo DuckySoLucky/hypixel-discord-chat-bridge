@@ -1,4 +1,4 @@
-import BasicConfigManager from "./core/BasicConfigManager.ts";
+import BasicConfigManager from "./core/BasicConfigManager.js";
 import MinecraftManager from "./minecraft/MinecraftManager.js";
 import { Config, ConfigChangeType, type MigrationMap } from "./types/config.js";
 

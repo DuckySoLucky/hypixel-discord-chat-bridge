@@ -6,15 +6,18 @@ import { toError } from "../../utils/asyncUtils.js";
 import type InactivityManager from "./InactivityManager.js";
 import type { BasicInactiveUserData, InactiveUserData } from "../../types/inactivity.js";
 
-class InactiveUser extends GenericData<InactiveUserData, InactivityManager> {
+class InactiveUser extends GenericData<InactiveUserData> {
   readonly inactivityId: string;
   messageId?: string;
   readonly discordId: string;
   readonly reason: string;
   readonly start: number;
   readonly duration: number;
-  constructor(data: BasicInactiveUserData, manager: InactivityManager) {
-    super(manager);
+  constructor(
+    data: BasicInactiveUserData,
+    private readonly manager: InactivityManager
+  ) {
+    super();
     this.inactivityId = data.inactivityId ?? crypto.randomUUID();
     this.messageId = data.messageId;
     this.discordId = data.discordId;

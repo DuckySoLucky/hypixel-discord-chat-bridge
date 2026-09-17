@@ -658,7 +658,7 @@ guild. Anyone outside will have 0
 
 ---
 
-This document is [auto generated](/scripts/docs/Variables/Player.ts) and was last updated on `Mon, 14 Sep 2026 04:19:26 GMT` (`1789359566410`)
+This document is [auto generated](/scripts/docs/Variables/Player.ts) and was last updated on `Thu, 17 Sep 2026 07:48:12 GMT` (`1789631292973`)
 
 To update this document please run `pnpm docgen` or contact a maintainer and ask them to update it.
 

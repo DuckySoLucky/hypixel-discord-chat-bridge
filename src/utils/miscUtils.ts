@@ -2,7 +2,7 @@ import HypixelDiscordChatBridgeError from "../private/error.js";
 import { DiscordjsError } from "discord.js";
 import { ErrorEmbed } from "../discord/private/EmbedHelper.js";
 import { HypixelAPIRebornError } from "hypixel-api-reborn";
-import { MinecraftRequestTimeoutError } from "../minecraft/MinecraftRequestBroker.ts";
+import { MinecraftRequestTimeoutError } from "../minecraft/MinecraftRequestBroker.js";
 import type { DataWithTimestamp } from "../types/misc.js";
 import type { EmbedHelperField } from "../types/discord.js";
 import type { ValidErrors } from "../types/application.js";

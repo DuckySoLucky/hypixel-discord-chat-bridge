@@ -1,4 +1,5 @@
 import ms, { type StringValue } from "ms";
+import type ScriptManager from "../scripts/ScriptsManager.js";
 
 export interface CronScriptSchedule {
   readonly type: "cron";
@@ -23,7 +24,7 @@ export interface ScriptOptions {
   readonly overlap?: "allow" | "skip";
 }
 
-export function intervalSchedule(value: string): ScriptSchedule {
+export function intervalSchedule(value: string | StringValue): ScriptSchedule {
   return { type: "interval", milliseconds: ms(value as StringValue) };
 }
 
@@ -40,3 +41,5 @@ export enum ScriptLogState {
   Bad,
   Misc
 }
+
+export type ScriptManagerWithPlugin<Plugin> = ScriptManager & { plugin: Plugin };

@@ -3,8 +3,7 @@ import ShowcasePlugin from "../examples/showcase-plugin/index.js";
 import assert from "node:assert/strict";
 import showcasePluginConfig from "../examples/showcase-plugin/config.js";
 import test from "node:test";
-import type Application from "../src/Application.ts";
-import type ScriptManager from "../src/scripts/ScriptsManager.js";
+import type Application from "../src/Application.js";
 import type {
   BridgePluginContext,
   DiscordButtonFactory,
@@ -15,6 +14,7 @@ import type {
 } from "../src/plugins/BridgePlugin.js";
 import type { DiscordManagerWithPlugin } from "../src/types/discord.js";
 import type { MinecraftManagerWithPlugin } from "../src/types/minecraft.js";
+import type { ScriptManagerWithPlugin } from "../src/types/scripts.js";
 
 function createPluginContext(): {
   readonly context: BridgePluginContext<ShowcasePlugin>;
@@ -24,7 +24,7 @@ function createPluginContext(): {
   readonly minecraftCommands: MinecraftCommandFactory<ShowcasePlugin>[];
   readonly buttons: DiscordButtonFactory<ShowcasePlugin>[];
   readonly modals: DiscordModalFactory<ShowcasePlugin>[];
-  readonly scripts: ScriptFactory[];
+  readonly scripts: ScriptFactory<ShowcasePlugin>[];
 } {
   const events = new BridgeEventBus();
   const logs: string[] = [];
@@ -32,7 +32,7 @@ function createPluginContext(): {
   const minecraftCommands: MinecraftCommandFactory<ShowcasePlugin>[] = [];
   const buttons: DiscordButtonFactory<ShowcasePlugin>[] = [];
   const modals: DiscordModalFactory<ShowcasePlugin>[] = [];
-  const scripts: ScriptFactory[] = [];
+  const scripts: ScriptFactory<ShowcasePlugin>[] = [];
   return {
     events,
     logs,
@@ -67,7 +67,7 @@ test("showcase plugin demonstrates every extension registration family", async (
 
   const discord = { plugin } as DiscordManagerWithPlugin<ShowcasePlugin>;
   const minecraft = { plugin, application } as unknown as MinecraftManagerWithPlugin<ShowcasePlugin>;
-  const scripts = {} as ScriptManager;
+  const scripts = {} as ScriptManagerWithPlugin<ShowcasePlugin>;
 
   assert.equal(registration.discordCommands[0]?.(discord).data.name, "showcase");
   assert.equal(registration.minecraftCommands[0]?.(minecraft).data.name, "pluginshowcase");

@@ -1,4 +1,4 @@
-import BlacklistCommand from "../../commands/blacklistCommand.ts";
+import BlacklistCommand from "../../commands/blacklistCommand.js";
 import DiscordModal from "../../private/modals/DiscordModal.js";
 import DiscordModalData from "../../private/modals/DiscordModalData.js";
 import HypixelDiscordChatBridgeError from "../../../private/error.js";

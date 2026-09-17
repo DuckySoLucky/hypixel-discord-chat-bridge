@@ -1,6 +1,4 @@
-abstract class GenericData<JSONData, Manager> {
-  constructor(readonly manager: Manager) {}
-
+abstract class GenericData<JSONData> {
   abstract toJSON(): JSONData;
 }
 

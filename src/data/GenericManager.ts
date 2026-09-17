@@ -5,11 +5,11 @@ import type GenericData from "./GenericData.js";
 import type { Lifecycle } from "../core/Lifecycle.js";
 import type { ZodType } from "zod";
 
-abstract class GenericManager<JSONData, Data, ParsedData extends GenericData<JSONData, GenericManager<JSONData, Data, ParsedData>>> implements Lifecycle {
+abstract class GenericManager<JSONData, Data, ParsedData extends GenericData<JSONData>, Manager = DataManager> implements Lifecycle {
   private initialized?: Promise<void>;
   private writeQueue: Promise<void> = Promise.resolve();
   constructor(
-    readonly data: DataManager,
+    readonly data: Manager,
     private readonly filePath: string,
     private readonly name: string,
     private readonly basicData: Data,

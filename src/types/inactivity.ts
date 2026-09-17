@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type BlacklistUser from "../data/blacklist/BlacklistUser.ts";
+import type BlacklistUser from "../data/blacklist/BlacklistUser.js";
 import type InactiveUser from "../data/inactivity/InactiveUser.js";
 import type LinkedUser from "../data/linked/LinkedUser.js";
 import type { GuildMember } from "hypixel-api-reborn";
