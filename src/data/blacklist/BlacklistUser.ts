@@ -9,7 +9,7 @@ import type BlacklistManager from "./BlacklistManager.js";
 import type { BasicBlacklistedUserData, BlacklistDeleteOptions, BlacklistSaveOptions, BlacklistedUserData } from "../../types/blacklist.js";
 import type { Guild, GuildMember as HypixelGuildMember, Player } from "hypixel-api-reborn";
 
-class BlacklistUser extends GenericData<BlacklistedUserData, BlacklistManager> {
+class BlacklistUser extends GenericData<BlacklistedUserData> {
   readonly blacklistId: string;
   messageId?: string;
   readonly discordId: string | null;
@@ -17,8 +17,11 @@ class BlacklistUser extends GenericData<BlacklistedUserData, BlacklistManager> {
   readonly reason: string;
   readonly timestamp: number;
   readonly by: string;
-  constructor(data: BasicBlacklistedUserData, manager: BlacklistManager) {
-    super(manager);
+  constructor(
+    data: BasicBlacklistedUserData,
+    private readonly manager: BlacklistManager
+  ) {
+    super();
     this.blacklistId = data.blacklistId ?? crypto.randomUUID();
     this.messageId = data.messageId;
     this.discordId = data.discordId;

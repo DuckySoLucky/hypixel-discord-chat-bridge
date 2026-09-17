@@ -15,13 +15,12 @@ interface TestRecordJSON {
 
 const testStoreSchema = z.array(z.object({ id: z.string(), value: z.string() }));
 
-class TestRecord extends GenericData<TestRecordJSON, TestManager> {
+class TestRecord extends GenericData<TestRecordJSON> {
   constructor(
-    manager: TestManager,
     readonly id: string,
     readonly value: string
   ) {
-    super(manager);
+    super();
   }
 
   override toJSON(): TestRecordJSON {
@@ -35,7 +34,7 @@ class TestManager extends GenericManager<TestRecordJSON, TestRecordJSON[], TestR
   }
 
   override parseData(data: TestRecordJSON[]): TestRecord[] {
-    return data.map((record) => new TestRecord(this, record.id, record.value));
+    return data.map((record) => new TestRecord(record.id, record.value));
   }
 
   override getId(data: TestRecord): string {

@@ -1,21 +1,24 @@
 import GenericData from "../GenericData.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import MowojangAPI from "../../private/MowojangAPI.js";
+import { type Guild, type GuildMember as HypixelGuildMember, type Player, removeDashesFromUUID } from "hypixel-api-reborn";
 import { formatNumber, replaceVariables } from "../../utils/stringUtils.js";
 import { getPlayer } from "../../utils/hypixelUtils.js";
 import { toError } from "../../utils/asyncUtils.js";
 import type LinkedManager from "./LinkedManager.js";
-import type { Guild, GuildMember as HypixelGuildMember, Player } from "hypixel-api-reborn";
 import type { GuildMember } from "discord.js";
 import type { LinkedUserData } from "../../types/linked.js";
 
-class LinkedUser extends GenericData<LinkedUserData, LinkedManager> {
+class LinkedUser extends GenericData<LinkedUserData> {
   readonly discordId: string;
   readonly uuid: string;
-  constructor(data: LinkedUserData, manager: LinkedManager) {
-    super(manager);
+  constructor(
+    data: LinkedUserData,
+    private readonly manager: LinkedManager
+  ) {
+    super();
     this.discordId = data.discordId;
-    this.uuid = data.uuid;
+    this.uuid = removeDashesFromUUID(data.uuid);
   }
 
   async getUsername(): Promise<string> {

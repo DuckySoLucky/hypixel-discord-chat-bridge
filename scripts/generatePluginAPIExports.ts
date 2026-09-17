@@ -1,5 +1,5 @@
 import { readFile, readdir } from "node:fs/promises";
-import { saveFile } from "./utils.ts";
+import { saveFile } from "./utils.js";
 
 const types = await readdir("./src/types", { encoding: "utf-8" }).then((files) =>
   files

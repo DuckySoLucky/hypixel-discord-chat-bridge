@@ -10,7 +10,7 @@ import type { Lifecycle } from "../core/Lifecycle.js";
 import type { ScheduledTask } from "node-cron";
 import type { User } from "discord.js";
 
-abstract class BasicScript implements Lifecycle {
+abstract class BasicScript<Manager extends ScriptManager = ScriptManager> implements Lifecycle {
   #user?: User;
   readonly id: string;
   readonly enabled: boolean;
@@ -19,7 +19,7 @@ abstract class BasicScript implements Lifecycle {
   private running: boolean = false;
   private abortController?: AbortController;
   constructor(
-    protected readonly scripts: ScriptManager,
+    protected readonly scripts: Manager,
     readonly options: ScriptOptions
   ) {
     this.id = options.id;

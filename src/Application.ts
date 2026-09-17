@@ -17,7 +17,7 @@ import type { EmbedHelperField } from "./types/discord.js";
 import type { Guild } from "hypixel-api-reborn";
 import type { Lifecycle, LifecycleState } from "./core/Lifecycle.js";
 import type { MowojangProfile } from "mowojang";
-import type { ValidErrors } from "./types/application.ts";
+import type { ValidErrors } from "./types/application.js";
 
 class Application implements Lifecycle {
   readonly package: typeof packageJson;

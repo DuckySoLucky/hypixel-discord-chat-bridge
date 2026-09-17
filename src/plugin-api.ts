@@ -17,6 +17,7 @@ export * from "./utils/miscUtils.js";
 export * from "./utils/stringUtils.js";
 
 export * from "./private/constants.js";
+export * from "./core/Lifecycle.js";
 
 export { default as Application } from "./Application.js";
 export { default as BasicConfigManager } from "./core/BasicConfigManager.js";
@@ -50,4 +51,3 @@ export type {
   MinecraftCommandFactory,
   ScriptFactory
 } from "./plugins/BridgePlugin.js";
-export type { LifecycleState, Lifecycle, Disposable } from "./core/Lifecycle.js";

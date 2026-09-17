@@ -1,9 +1,10 @@
-import { BasicScript, type BridgePluginLogger, type ScriptManager } from "hypixel-discord-chat-bridge/plugin-api";
+import { BasicScript, type BridgePluginLogger, type ScriptManagerWithPlugin } from "hypixel-discord-chat-bridge/plugin-api";
+import type ShowcasePlugin from "../index.js";
 import type { ShowcasePluginConfig } from "../config.js";
 
-class ShowcaseScript extends BasicScript {
+class ShowcaseScript extends BasicScript<ScriptManagerWithPlugin<ShowcasePlugin>> {
   constructor(
-    scripts: ScriptManager,
+    scripts: ScriptManagerWithPlugin<ShowcasePlugin>,
     private readonly logger: BridgePluginLogger,
     config: ShowcasePluginConfig["scripts"]["showcase"]
   ) {

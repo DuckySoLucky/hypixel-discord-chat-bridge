@@ -10,6 +10,7 @@ import type { BridgePluginContext } from "./BridgePlugin.js";
 import type { DiscordManagerWithPlugin } from "../types/discord.js";
 import type { Lifecycle } from "../core/Lifecycle.js";
 import type { MinecraftManagerWithPlugin } from "../types/minecraft.js";
+import type { ScriptManagerWithPlugin } from "../types/scripts.js";
 
 class PluginManager implements Lifecycle {
   readonly #plugins = new ExtensionRegistry<BridgePlugin<any>>();
@@ -30,6 +31,13 @@ class PluginManager implements Lifecycle {
       get: (target, property, receiver) => (property === "plugin" ? getPlugin() : Reflect.get(target, property, receiver)),
       set: (target, property, value, receiver) => (property === "plugin" ? true : Reflect.set(target, property, value, receiver))
     }) as MinecraftManagerWithPlugin<Plugin>;
+  }
+
+  private createScriptManagerWithPlugin<Plugin>(getPlugin: () => Plugin): ScriptManagerWithPlugin<Plugin> {
+    return new Proxy(this.application.scripts, {
+      get: (target, property, receiver) => (property === "plugin" ? getPlugin() : Reflect.get(target, property, receiver)),
+      set: (target, property, value, receiver) => (property === "plugin" ? true : Reflect.set(target, property, value, receiver))
+    }) as ScriptManagerWithPlugin<Plugin>;
   }
 
   private isExtensionModule<Extension, Context>(value: unknown): value is { default: new (context: Context, application: Application) => Extension } {
@@ -74,7 +82,7 @@ class PluginManager implements Lifecycle {
             this.application.minecraft.commandHandler.registerCommand(factory(this.createMinecraftManagerWithPlugin(getPlugin)), "plugin"),
           registerButton: (factory) => this.application.discord.buttonHandler.registerButton(factory(this.createDiscordManagerWithPlugin(getPlugin)), "plugin"),
           registerModal: (factory) => this.application.discord.modalHandler.registerModal(factory(this.createDiscordManagerWithPlugin(getPlugin)), "plugin"),
-          registerScript: (factory) => this.application.scripts.registerScript(factory(this.application.scripts), "plugin")
+          registerScript: (factory) => this.application.scripts.registerScript(factory(this.createScriptManagerWithPlugin(getPlugin)), "plugin")
         };
 
         const plugin = new imported.default(context, this.application);

@@ -6,10 +6,10 @@ import type DiscordButton from "../discord/private/buttons/DiscordButton.js";
 import type DiscordCommand from "../discord/private/commands/DiscordCommand.js";
 import type DiscordModal from "../discord/private/modals/DiscordModal.js";
 import type MinecraftCommand from "../minecraft/private/commands/MinecraftCommand.js";
-import type ScriptManager from "../scripts/ScriptsManager.js";
 import type { DiscordManagerWithPlugin } from "../types/discord.js";
 import type { Lifecycle } from "../core/Lifecycle.js";
 import type { MinecraftManagerWithPlugin } from "../types/minecraft.js";
+import type { ScriptManagerWithPlugin } from "../types/scripts.js";
 
 export interface BridgePluginMetadata {
   readonly name: string;
@@ -26,7 +26,7 @@ export interface BridgePluginContext<Plugin> {
   registerMinecraftCommand(factory: MinecraftCommandFactory<Plugin>): void;
   registerButton(factory: DiscordButtonFactory<Plugin>): void;
   registerModal(factory: DiscordModalFactory<Plugin>): void;
-  registerScript(factory: ScriptFactory): void;
+  registerScript(factory: ScriptFactory<Plugin>): void;
 }
 
 export interface BridgePluginLogger {
@@ -39,7 +39,7 @@ export type DiscordCommandFactory<Plugin> = (discord: DiscordManagerWithPlugin<P
 export type MinecraftCommandFactory<Plugin> = (minecraft: MinecraftManagerWithPlugin<Plugin>) => MinecraftCommand<MinecraftManagerWithPlugin<Plugin>>;
 export type DiscordButtonFactory<Plugin> = (discord: DiscordManagerWithPlugin<Plugin>) => DiscordButton<DiscordManagerWithPlugin<Plugin>>;
 export type DiscordModalFactory<Plugin> = (discord: DiscordManagerWithPlugin<Plugin>) => DiscordModal<DiscordManagerWithPlugin<Plugin>>;
-export type ScriptFactory = (scripts: ScriptManager) => BasicScript;
+export type ScriptFactory<Plugin> = (scripts: ScriptManagerWithPlugin<Plugin>) => BasicScript<ScriptManagerWithPlugin<Plugin>>;
 
 export default abstract class BridgePlugin<Plugin> implements Lifecycle {
   abstract readonly metadata: BridgePluginMetadata;

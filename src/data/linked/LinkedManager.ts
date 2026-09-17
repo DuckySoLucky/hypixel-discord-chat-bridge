@@ -2,11 +2,11 @@ import GenericManager from "../GenericManager.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import LinkedUser from "./LinkedUser.js";
 import MowojangAPI from "../../private/MowojangAPI.js";
+import { type Guild, type Player, type SkyblockProfileWithMe, removeDashesFromUUID } from "hypixel-api-reborn";
 import { type LinkedData, LinkedDataSchema, type LinkedUserData, type OldFormat } from "../../types/linked.js";
 import { access, readFile, writeFile } from "node:fs/promises";
 import { getNetWorthCalculator, getPlayer, getSelectedProfile } from "../../utils/hypixelUtils.js";
 import type DataManager from "../DataManager.js";
-import type { Guild, Player, SkyblockProfileWithMe } from "hypixel-api-reborn";
 import type { PlayerVariableStats } from "../../private/constants.js";
 
 class LinkedManager extends GenericManager<LinkedUserData, LinkedData, LinkedUser> {
@@ -93,12 +93,14 @@ class LinkedManager extends GenericManager<LinkedUserData, LinkedData, LinkedUse
   }
 
   async getUserByUsername(username: string): Promise<LinkedUser | undefined> {
-    const UUID = await MowojangAPI.getUUID(username);
+    let UUID = await MowojangAPI.getUUID(username);
     if (UUID === null) throw new HypixelDiscordChatBridgeError("User doesn't exist");
+    UUID = removeDashesFromUUID(UUID);
     return this.getUserByUUID(UUID);
   }
 
   async getUserByUUID(UUID: string): Promise<LinkedUser | undefined> {
+    UUID = removeDashesFromUUID(UUID);
     const users = await this.getFullData();
     return users.find((user) => user.uuid === UUID);
   }

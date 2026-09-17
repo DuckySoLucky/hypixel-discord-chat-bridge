@@ -2,8 +2,8 @@ import { type APIEmbed, type APIEmbedField, type ColorResolvable, EmbedBuilder, 
 import { CommonDevs, EmbedStyles } from "../../private/constants.js";
 import { ConfigDiscordEmbedsColors } from "../../types/config.js";
 import { readFileSync } from "node:fs";
-import type BlacklistUser from "../../data/blacklist/BlacklistUser.ts";
-import type InactiveUser from "../../data/inactivity/InactiveUser.ts";
+import type BlacklistUser from "../../data/blacklist/BlacklistUser.js";
+import type InactiveUser from "../../data/inactivity/InactiveUser.js";
 import type { DevData, DevName } from "../../types/application.js";
 import type { EmbedHelperField, EmbedStyleData, EmbedStyleName, MinecraftFieldData } from "../../types/discord.js";
 import type { GuildMember, Player } from "hypixel-api-reborn";
