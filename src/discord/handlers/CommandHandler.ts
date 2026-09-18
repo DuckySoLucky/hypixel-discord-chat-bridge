@@ -66,6 +66,7 @@ class CommandHandler {
           if (command.flags.includes(CommandFlags.DebugCommand) && !this.discord.application.config.discord.commands.debugCommands) continue;
           if (command.flags.includes(CommandFlags.VerificationCommand) && !this.discord.application.config.verification.enabled) continue;
           if (command.flags.includes(CommandFlags.BlacklistCommand) && !this.discord.application.config.blacklist.enabled) continue;
+          if (command.flags.includes(CommandFlags.RequirementsCommand) && !this.discord.application.config.minecraft.guild.requirements.enabled) continue;
         }
 
         commands.push(command.data.toJSON());

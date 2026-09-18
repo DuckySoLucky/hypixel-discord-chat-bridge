@@ -36,7 +36,8 @@ export enum CommandFlags {
   VerificationCommand,
   InactivityCommand,
   BlacklistCommand,
-  DebugCommand
+  DebugCommand,
+  RequirementsCommand
 }
 
 export enum BasicInteractionResponse {

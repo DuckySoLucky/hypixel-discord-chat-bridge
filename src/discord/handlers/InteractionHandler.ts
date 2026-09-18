@@ -42,6 +42,10 @@ class InteractionHandler {
       [data.flags.includes(CommandFlags.VerificationCommand) && !this.discord.application.config.verification.enabled, "Verification commands are disabled."],
       [data.flags.includes(CommandFlags.DebugCommand) && !this.discord.application.config.discord.commands.debugCommands, "Debug commands are disabled."],
       [data.flags.includes(CommandFlags.BlacklistCommand) && !this.discord.application.config.blacklist.enabled, "Blacklist commands are disabled."],
+      [
+        data.flags.includes(CommandFlags.RequirementsCommand) && !this.discord.application.config.minecraft.guild.requirements.enabled,
+        "Requirements commands are disabled."
+      ],
       [data.flags.includes(CommandFlags.RequiresMinecraftBot) && !this.discord.application.minecraft.isBotOnline(), this.discord.application.messages.minecraftBotOffline]
     ];
 
