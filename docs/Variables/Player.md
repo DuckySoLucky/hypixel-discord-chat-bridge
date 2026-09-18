@@ -34,13 +34,13 @@ guild. Anyone outside will have 0
 
 `{bedwarsDeaths}` - Player's BedWars Deaths
 
-`{bedwarsKDRatio}` - Player's BedWars KDRatio
+`{bedwarsKillDeathRatio}` - Player's BedWars Kill Death Ratio
 
 `{bedwarsFinalKills}` - Player's BedWars Final Kills
 
-`{bedwarsFinalDeathss}` - Player's BedWars Final Deathss
+`{bedwarsFinalDeaths}` - Player's BedWars Final Deaths
 
-`{bedwarsFinalKDRatio}` - Player's BedWars Final KDRatio
+`{bedwarsFinalKillDeathRatio}` - Player's BedWars Final Kill Death Ratio
 
 `{bedwarsWins}` - Player's BedWars Wins
 
@@ -60,13 +60,13 @@ guild. Anyone outside will have 0
 
 `{bedwarsSoloDeaths}` - Bedwars Solo Deaths
 
-`{bedwarsSoloKDRatio}` - Bedwars Solo Kdratio
+`{bedwarsSoloKillDeathRatio}` - Bedwars Solo Kdratio
 
 `{bedwarsSoloFinalKills}` - Bedwars Solo Final Kills
 
 `{bedwarsSoloFinalDeathss}` - Bedwars Solo Final Deathss
 
-`{bedwarsSoloFinalKDRatio}` - Bedwars Solo Final Kdratio
+`{bedwarsSoloFinalKillDeathRatio}` - Bedwars Solo Final Kdratio
 
 `{bedwarsSoloWins}` - Bedwars Solo Wins
 
@@ -86,13 +86,13 @@ guild. Anyone outside will have 0
 
 `{bedwarsDoublesDeaths}` - Bedwars Doubles Deaths
 
-`{bedwarsDoublesKDRatio}` - Bedwars Doubles Kdratio
+`{bedwarsDoublesKillDeathRatio}` - Bedwars Doubles Kdratio
 
 `{bedwarsDoublesFinalKills}` - Bedwars Doubles Final Kills
 
 `{bedwarsDoublesFinalDeathss}` - Bedwars Doubles Final Deathss
 
-`{bedwarsDoublesFinalKDRatio}` - Bedwars Doubles Final Kdratio
+`{bedwarsDoublesFinalKillDeathRatio}` - Bedwars Doubles Final Kdratio
 
 `{bedwarsDoublesWins}` - Bedwars Doubles Wins
 
@@ -112,13 +112,13 @@ guild. Anyone outside will have 0
 
 `{bedwarsThreesDeaths}` - Bedwars Threes Deaths
 
-`{bedwarsThreesKDRatio}` - Bedwars Threes Kdratio
+`{bedwarsThreesKillDeathRatio}` - Bedwars Threes Kdratio
 
 `{bedwarsThreesFinalKills}` - Bedwars Threes Final Kills
 
 `{bedwarsThreesFinalDeathss}` - Bedwars Threes Final Deathss
 
-`{bedwarsThreesFinalKDRatio}` - Bedwars Threes Final Kdratio
+`{bedwarsThreesFinalKillDeathRatio}` - Bedwars Threes Final Kdratio
 
 `{bedwarsThreesWins}` - Bedwars Threes Wins
 
@@ -138,13 +138,13 @@ guild. Anyone outside will have 0
 
 `{bedwarsFoursDeaths}` - Bedwars Fours Deaths
 
-`{bedwarsFoursKDRatio}` - Bedwars Fours Kdratio
+`{bedwarsFoursKillDeathRatio}` - Bedwars Fours Kdratio
 
 `{bedwarsFoursFinalKills}` - Bedwars Fours Final Kills
 
 `{bedwarsFoursFinalDeathss}` - Bedwars Fours Final Deathss
 
-`{bedwarsFoursFinalKDRatio}` - Bedwars Fours Final Kdratio
+`{bedwarsFoursFinalKillDeathRatio}` - Bedwars Fours Final Kdratio
 
 `{bedwarsFoursWins}` - Bedwars Fours Wins
 
@@ -164,13 +164,13 @@ guild. Anyone outside will have 0
 
 `{bedwars4v4Deaths}` - Bedwars 4v4 deaths
 
-`{bedwars4v4KDRatio}` - Bedwars 4v4 kdratio
+`{bedwars4v4KillDeathRatio}` - Bedwars 4v4 kdratio
 
 `{bedwars4v4FinalKills}` - Bedwars 4v4 final Kills
 
 `{bedwars4v4FinalDeathss}` - Bedwars 4v4 final Deathss
 
-`{bedwars4v4FinalKDRatio}` - Bedwars 4v4 final Kdratio
+`{bedwars4v4FinalKillDeathRatio}` - Bedwars 4v4 final Kdratio
 
 `{bedwars4v4Wins}` - Bedwars 4v4 wins
 
@@ -202,7 +202,7 @@ guild. Anyone outside will have 0
 
 `{skywarsDeaths}` - Player's SkyWars Deaths
 
-`{skywarsKDRatio}` - Player's SkyWars KDRatio
+`{skywarsKillDeathRatio}` - Player's SkyWars Kill Death Ratio
 
 `{skywarsWins}` - Player's SkyWars Wins
 
@@ -220,7 +220,7 @@ guild. Anyone outside will have 0
 
 `{duelsDeaths}` - Player's Duels Deaths
 
-`{duelsKDRatio}` - Player's Duels KDRatio
+`{duelsKillDeathRatio}` - Player's Duels Kill Death Ratio
 
 `{duelsWins}` - Player's Duels Wins
 
@@ -658,7 +658,7 @@ guild. Anyone outside will have 0
 
 ---
 
-This document is [auto generated](/scripts/docs/Variables/Player.ts) and was last updated on `Thu, 17 Sep 2026 07:48:12 GMT` (`1789631292973`)
+This document is [auto generated](/scripts/docs/Variables/Player.ts) and was last updated on `Fri, 18 Sep 2026 01:26:31 GMT` (`1789694791340`)
 
 To update this document please run `pnpm docgen` or contact a maintainer and ask them to update it.
 
