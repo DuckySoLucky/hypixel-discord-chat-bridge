@@ -1,6 +1,7 @@
 import BasicConfigManager from "./core/BasicConfigManager.js";
 import MinecraftManager from "./minecraft/MinecraftManager.js";
-import { Config, ConfigChangeType, type MigrationMap } from "./types/config.js";
+import { Config, ConfigChangeType, ConfigVerificationRolesCustom, type MigrationMap } from "./types/config.js";
+import { PlayerVariableStatsKeyRenamingMap } from "./private/constants.js";
 
 class ConfigManager extends BasicConfigManager<Config> {
   protected readonly configPath = "config.json";
@@ -84,6 +85,59 @@ class ConfigManager extends BasicConfigManager<Config> {
       "other.logging": { key: "other.logger", change: ConfigChangeType.Move },
       "bridge.stripEmojisFromUsernames": { key: "bridge.strippers.usernames.emojis", change: ConfigChangeType.Move },
       "bridge.stripSpacesFromUsernames": { key: "bridge.strippers.usernames.spaces", change: ConfigChangeType.Move }
+    },
+    9: {
+      "verification.roles.custom": {
+        key: "verification.roles.custom",
+        change: ConfigChangeType.Transform,
+        transform: (rawValue) => {
+          if (typeof rawValue !== "object" || rawValue === null || !Array.isArray(rawValue)) throw new Error("Verifcation roles custom must be an array.");
+          const replaceMap = PlayerVariableStatsKeyRenamingMap[1];
+          if (!replaceMap) throw new Error("Could not find the player variable stats key renamming map");
+          const fixedValues: ConfigVerificationRolesCustom[] = [];
+          rawValue.forEach((value, index) => {
+            if (typeof value !== "object" || value === null || Array.isArray(value)) throw new Error(`Verifcation roles custom [${index}] must be an object.`);
+            if (typeof value.enabled !== "boolean" || value.enabled === null) throw new Error(`Verifcation roles custom [${index}] enabled must be an boolean.`);
+            if (typeof value.roleId !== "string" || value.roleId === null) throw new Error(`Verifcation roles custom [${index}] roleId must be an string.`);
+            if (typeof value.requirements !== "object" || value.requirements === null || !Array.isArray(value.requirements)) {
+              throw new Error(`Verifcation roles custom [${index}] Requirements must be an array.`);
+            }
+            const fixed: ConfigVerificationRolesCustom = { enabled: value.enabled, roleId: value.roleId, requirements: [] };
+            value.requirements.forEach((requirement, requirementIndex) => {
+              if (typeof requirement !== "object" || requirement === null || Array.isArray(requirement)) {
+                throw new Error(`Verifcation roles custom [${index}] requirement [${requirementIndex}] must be an object.`);
+              }
+              if (typeof requirement.type !== "string" || requirement.type === null) {
+                throw new Error(`Verifcation roles custom [${index}] requirement [${requirementIndex}] type must be an string.`);
+              }
+              if (typeof requirement.value !== "string" && typeof requirement.value !== "number") {
+                throw new Error(`Verifcation roles custom [${index}] requirement [${requirementIndex}] type must be an string.`);
+              }
+              const normalizedType = replaceMap[requirement.type] ?? requirement.type;
+              const migrationRequirement = { type: normalizedType as string, value: requirement.value } as ConfigVerificationRolesCustom["requirements"][number];
+              fixed.requirements.push(migrationRequirement);
+            });
+            fixedValues.push(fixed);
+          });
+          return fixedValues;
+        }
+      },
+      "minecraft.guild.requirements.requirements": {
+        key: "minecraft.guild.requirements.requirements",
+        change: ConfigChangeType.Transform,
+        transform: (rawValue) => {
+          if (typeof rawValue !== "object" || rawValue === null || Array.isArray(rawValue)) throw new Error("Guild requirements must be an object.");
+          const replaceMap = PlayerVariableStatsKeyRenamingMap[1];
+          if (!replaceMap) throw new Error("Could not find the player variable stats key renamming map");
+          const newRequirements: Record<string, number> = {};
+          Object.entries(rawValue).forEach(([key, value]) => {
+            if (typeof value !== "number") throw new Error(`Guild requirement "${key}" must be a number.`);
+            if (replaceMap[key]) newRequirements[replaceMap[key]] = value;
+            else newRequirements[key] = value;
+          });
+          return newRequirements;
+        }
+      }
     }
   };
 
