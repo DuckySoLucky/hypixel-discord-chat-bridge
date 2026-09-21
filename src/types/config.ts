@@ -191,8 +191,25 @@ export const ConfigMinecraftBot = zod
     accountsLocation: zod.string().meta({ description: "The file path to Minecraft account credentials" })
   })
   .meta({ description: "Configuration for the minecraft bot connection" });
+export const ConfigMinecraftFontRenderer = zod
+  .object({
+    target: zod.enum(["modern", "legecy"]).meta({ description: "What rendering system should be used" }),
+    maxLineWidth: zod.number().meta({ description: "How long should each line be" }),
+    fontSize: zod.number().meta({ description: "The size of the font" }),
+    shadowOffset: zod.number().meta({ description: "How big the shadow offset should be" }),
+    skinToken: zod.string().meta({ description: "What should the replacer for skins be" }),
+    skinWidth: zod.number().meta({ description: "The width of the skin" })
+  })
+  .meta({ description: "Configuration for the minecraft font renderer" });
+export type ConfigMinecraftFontRenderer = zod.infer<typeof ConfigMinecraftFontRenderer>;
 export const ConfigMinecraft = zod
-  .object({ commands: ConfigMinecraftCommands, guild: ConfigMinecraftGuild, hypixelAlerts: ConfigMinecraftHypixelAlerts, bot: ConfigMinecraftBot })
+  .object({
+    commands: ConfigMinecraftCommands,
+    guild: ConfigMinecraftGuild,
+    hypixelAlerts: ConfigMinecraftHypixelAlerts,
+    bot: ConfigMinecraftBot,
+    fontRenderer: ConfigMinecraftFontRenderer
+  })
   .meta({ description: "Configuration options for minecraft related stuff" });
 
 export const ConfigDiscordCommands = zod

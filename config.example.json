@@ -131,6 +131,14 @@
       "port": 25565,
       "version": "26.1.2",
       "accountsLocation": "./data/auth-cache"
+    },
+    "fontRenderer": {
+      "target": "modern",
+      "maxLineWidth": 1024,
+      "fontSize": 40,
+      "shadowOffset": 4,
+      "skinToken": "{skin}",
+      "skinWidth": 35
     }
   },
   "discord": {

@@ -164,6 +164,7 @@ This document is generated from the Zod config schema in [`src/types/config.ts`]
 | `guild`         | `object` | Yes      | Configuration for minecraft guild behavior     |
 | `hypixelAlerts` | `object` | Yes      | Configuration for Hypixel alerts               |
 | `bot`           | `object` | Yes      | Configuration for the minecraft bot connection |
+| `fontRenderer`  | `object` | Yes      | Configuration for the minecraft font renderer  |
 
 ### commands
 
@@ -260,6 +261,17 @@ This document is generated from the Zod config schema in [`src/types/config.ts`]
 | `port`             | `number` | Yes      | The Minecraft server port to connect to        |
 | `version`          | `string` | Yes      | The Minecraft version                          |
 | `accountsLocation` | `string` | Yes      | The file path to Minecraft account credentials |
+
+### fontRenderer
+
+| Key            | Type                   | Required | Description                           |
+| -------------- | ---------------------- | -------- | ------------------------------------- |
+| `target`       | `enum(modern, legecy)` | Yes      | What rendering system should be used  |
+| `maxLineWidth` | `number`               | Yes      | How long should each line be          |
+| `fontSize`     | `number`               | Yes      | The size of the font                  |
+| `shadowOffset` | `number`               | Yes      | How big the shadow offset should be   |
+| `skinToken`    | `string`               | Yes      | What should the replacer for skins be |
+| `skinWidth`    | `number`               | Yes      | The width of the skin                 |
 
 ## discord
 
@@ -394,7 +406,7 @@ This document is generated from the Zod config schema in [`src/types/config.ts`]
 
 ---
 
-This document is [auto generated](/scripts/docs/Configuration.ts) and was last updated on `Mon, 21 Sep 2026 11:16:51 GMT` (`1789989411540`)
+This document is [auto generated](/scripts/docs/Configuration.ts) and was last updated on `Mon, 21 Sep 2026 11:18:53 GMT` (`1789989533953`)
 
 To update this document please run `pnpm docgen` or contact a maintainer and ask them to update it.
 

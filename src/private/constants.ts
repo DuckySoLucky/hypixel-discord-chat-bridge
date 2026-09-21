@@ -1,3 +1,4 @@
+import type { ColorChatCode, FormattingChatCode } from "../types/minecraft.js";
 import type { CreditData, DevData, DevName } from "../types/application.js";
 import type { EmbedStyleData, EmbedStyleName } from "../types/discord.js";
 
@@ -765,3 +766,56 @@ export const ChannelVariableStatsKeyDescriptionMap: Record<ChannelVariableStatsK
   discordChannels: "The amount of discord channels",
   discordRoles: "The amount of discord roles"
 };
+
+export const MinecraftFormattingChatCodesNames = ["BOLD", "STRIKETHROUGH", "UNDERLINE", "ITALIC", "RESET"] as const;
+export type MinecraftFormattingChatCodesName = (typeof MinecraftFormattingChatCodesNames)[number];
+export const MinecraftFormattingChatCodes: Record<MinecraftFormattingChatCodesName, FormattingChatCode> = {
+  BOLD: { character: "l", code: "§l" },
+  STRIKETHROUGH: { character: "m", code: "§m" },
+  UNDERLINE: { character: "n", code: "§n" },
+  ITALIC: { character: "o", code: "§o" },
+  RESET: { character: "r", code: "§r" }
+};
+
+export const MinecraftColorChatCodesNames = [
+  "BLACK",
+  "DARK_BLUE",
+  "DARK_GREEN",
+  "DARK_AQUA",
+  "DARK_RED",
+  "DARK_PURPLE",
+  "GOLD",
+  "GRAY",
+  "DARK_GRAY",
+  "BLUE",
+  "GREEN",
+  "AQUA",
+  "RED",
+  "LIGHT_PURPLE",
+  "YELLOW",
+  "WHITE"
+] as const;
+export type MinecraftColorChatCodesName = (typeof MinecraftColorChatCodesNames)[number];
+export const MinecraftColorChatCodes: Record<MinecraftColorChatCodesName, ColorChatCode> = {
+  BLACK: { character: "0", code: "§0", color: "#000000" },
+  DARK_BLUE: { character: "1", code: "§1", color: "#0000AA" },
+  DARK_GREEN: { character: "2", code: "§2", color: "#00AA00" },
+  DARK_AQUA: { character: "3", code: "§3", color: "#00AAAA" },
+  DARK_RED: { character: "4", code: "§4", color: "#AA0000" },
+  DARK_PURPLE: { character: "5", code: "§5", color: "#AA00AA" },
+  GOLD: { character: "6", code: "§6", color: "#FFAA00" },
+  GRAY: { character: "7", code: "§7", color: "#AAAAAA" },
+  DARK_GRAY: { character: "8", code: "§8", color: "#555555" },
+  BLUE: { character: "9", code: "§9", color: "#5555FF" },
+  GREEN: { character: "a", code: "§a", color: "#55FF55" },
+  AQUA: { character: "b", code: "§b", color: "#55FFFF" },
+  RED: { character: "c", code: "§c", color: "#FF5555" },
+  LIGHT_PURPLE: { character: "d", code: "§d", color: "#FF55FF" },
+  YELLOW: { character: "e", code: "§e", color: "#FFFF55" },
+  WHITE: { character: "f", code: "§f", color: "#FFFFFF" }
+};
+
+export const MinecraftChatCodesNames = [...MinecraftFormattingChatCodesNames, ...MinecraftColorChatCodesNames] as const;
+export type MinecraftChatCodesName = (typeof MinecraftChatCodesNames)[number];
+export type MinecraftChatCodes = { [K in MinecraftFormattingChatCodesName]: FormattingChatCode } & { [K in MinecraftColorChatCodesName]: ColorChatCode };
+export const MinecraftChatCodes: MinecraftChatCodes = { ...MinecraftFormattingChatCodes, ...MinecraftColorChatCodes };
