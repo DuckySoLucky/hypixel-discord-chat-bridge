@@ -116,7 +116,7 @@ abstract class BasicConfigManager<TypedConfig extends JsonObject> {
           if (!rule.key) throw new HypixelDiscordChatBridgeError(`Transform migration missing target key for "${oldPath}"`);
           const transformed = rule.transform(value, config);
           this.setNestedValue(config, rule.key, transformed);
-          this.deleteNestedValue(config, oldPath);
+          if (rule.key !== oldPath) this.deleteNestedValue(config, oldPath);
           break;
         }
         default: {

@@ -12,11 +12,11 @@ string
 
 `{guildName}` - The guild name. Note this is the name of the guild that the minecraft bot is inside of
 
-`{level}` - Player's Hypixel Level
+`{hypixelLevel}` - Player's Hypixel Level
 
-`{karma}` - Player's Hypixel Karma
+`{hypixelKarma}` - Player's Hypixel Karma
 
-`{achievementPoints}` - Player's Hypixel Achievement Points
+`{hypixelAchievementPoints}` - Player's Hypixel Achievement Points
 
 `{guildWeeklyXp}` - Player's total amount of gexp gained this week. **Note!** Due to api key limits this will only work if the user is inside of the minecraft bot's
 guild. Anyone outside will have 0
@@ -34,25 +34,25 @@ guild. Anyone outside will have 0
 
 `{bedwarsDeaths}` - Player's BedWars Deaths
 
-`{bedwarsKDRatio}` - Player's BedWars KDRatio
+`{bedwarsKillDeathRatio}` - Player's BedWars Kill Death Ratio
 
 `{bedwarsFinalKills}` - Player's BedWars Final Kills
 
-`{bedwarsFinalDeathss}` - Player's BedWars Final Deathss
+`{bedwarsFinalDeaths}` - Player's BedWars Final Deaths
 
-`{bedwarsFinalKDRatio}` - Player's BedWars Final KDRatio
+`{bedwarsFinalKillDeathRatio}` - Player's BedWars Final Kill Death Ratio
 
 `{bedwarsWins}` - Player's BedWars Wins
 
 `{bedwarsLosses}` - Player's BedWars Losses
 
-`{bedwarsWLRatio}` - Player's BedWars WLRatio
+`{bedwarsWinLossRatio}` - Player's BedWars WLRatio
 
 `{bedwarsBedsBroken}` - Player's BedWars Beds Broken
 
 `{bedwarsBedsLost}` - Player's BedWars Beds Lost
 
-`{bedwarsBedsBLRatio}` - Player's BedWars Beds BLRatio
+`{bedwarsBedsBrokenLostRatio}` - Player's BedWars Beds BLRatio
 
 `{bedwarsPlayedGames}` - Player's BedWars Played Games
 
@@ -60,25 +60,25 @@ guild. Anyone outside will have 0
 
 `{bedwarsSoloDeaths}` - Bedwars Solo Deaths
 
-`{bedwarsSoloKDRatio}` - Bedwars Solo Kdratio
+`{bedwarsSoloKillDeathRatio}` - Bedwars Solo Kdratio
 
 `{bedwarsSoloFinalKills}` - Bedwars Solo Final Kills
 
-`{bedwarsSoloFinalDeathss}` - Bedwars Solo Final Deathss
+`{bedwarsSoloFinalDeaths}` - Bedwars Solo Final Deathss
 
-`{bedwarsSoloFinalKDRatio}` - Bedwars Solo Final Kdratio
+`{bedwarsSoloFinalKillDeathRatio}` - Bedwars Solo Final Kdratio
 
 `{bedwarsSoloWins}` - Bedwars Solo Wins
 
 `{bedwarsSoloLosses}` - Bedwars Solo Losses
 
-`{bedwarsSoloWLRatio}` - Bedwars Solo Wlratio
+`{bedwarsSoloWinLossRatio}` - Bedwars Solo Wlratio
 
 `{bedwarsSoloBedsBroken}` - Bedwars Solo Beds Broken
 
 `{bedwarsSoloBedsLost}` - Bedwars Solo Beds Lost
 
-`{bedwarsSoloBedsBLRatio}` - Bedwars Solo Beds Blratio
+`{bedwarsSoloBedsBrokenLostRatio}` - Bedwars Solo Beds Blratio
 
 `{bedwarsSoloPlayedGames}` - Bedwars Solo Played Games
 
@@ -86,25 +86,25 @@ guild. Anyone outside will have 0
 
 `{bedwarsDoublesDeaths}` - Bedwars Doubles Deaths
 
-`{bedwarsDoublesKDRatio}` - Bedwars Doubles Kdratio
+`{bedwarsDoublesKillDeathRatio}` - Bedwars Doubles Kdratio
 
 `{bedwarsDoublesFinalKills}` - Bedwars Doubles Final Kills
 
-`{bedwarsDoublesFinalDeathss}` - Bedwars Doubles Final Deathss
+`{bedwarsDoublesFinalDeaths}` - Bedwars Doubles Final Deathss
 
-`{bedwarsDoublesFinalKDRatio}` - Bedwars Doubles Final Kdratio
+`{bedwarsDoublesFinalKillDeathRatio}` - Bedwars Doubles Final Kdratio
 
 `{bedwarsDoublesWins}` - Bedwars Doubles Wins
 
 `{bedwarsDoublesLosses}` - Bedwars Doubles Losses
 
-`{bedwarsDoublesWLRatio}` - Bedwars Doubles Wlratio
+`{bedwarsDoublesWinLossRatio}` - Bedwars Doubles Wlratio
 
 `{bedwarsDoublesBedsBroken}` - Bedwars Doubles Beds Broken
 
 `{bedwarsDoublesBedsLost}` - Bedwars Doubles Beds Lost
 
-`{bedwarsDoublesBedsBLRatio}` - Bedwars Doubles Beds Blratio
+`{bedwarsDoublesBedsBrokenLostRatio}` - Bedwars Doubles Beds Blratio
 
 `{bedwarsDoublesPlayedGames}` - Bedwars Doubles Played Games
 
@@ -112,25 +112,25 @@ guild. Anyone outside will have 0
 
 `{bedwarsThreesDeaths}` - Bedwars Threes Deaths
 
-`{bedwarsThreesKDRatio}` - Bedwars Threes Kdratio
+`{bedwarsThreesKillDeathRatio}` - Bedwars Threes Kdratio
 
 `{bedwarsThreesFinalKills}` - Bedwars Threes Final Kills
 
-`{bedwarsThreesFinalDeathss}` - Bedwars Threes Final Deathss
+`{bedwarsThreesFinalDeaths}` - Bedwars Threes Final Deathss
 
-`{bedwarsThreesFinalKDRatio}` - Bedwars Threes Final Kdratio
+`{bedwarsThreesFinalKillDeathRatio}` - Bedwars Threes Final Kdratio
 
 `{bedwarsThreesWins}` - Bedwars Threes Wins
 
 `{bedwarsThreesLosses}` - Bedwars Threes Losses
 
-`{bedwarsThreesWLRatio}` - Bedwars Threes Wlratio
+`{bedwarsThreesWinLossRatio}` - Bedwars Threes Wlratio
 
 `{bedwarsThreesBedsBroken}` - Bedwars Threes Beds Broken
 
 `{bedwarsThreesBedsLost}` - Bedwars Threes Beds Lost
 
-`{bedwarsThreesBedsBLRatio}` - Bedwars Threes Beds Blratio
+`{bedwarsThreesBedsBrokenLostRatio}` - Bedwars Threes Beds Blratio
 
 `{bedwarsThreesPlayedGames}` - Bedwars Threes Played Games
 
@@ -138,53 +138,53 @@ guild. Anyone outside will have 0
 
 `{bedwarsFoursDeaths}` - Bedwars Fours Deaths
 
-`{bedwarsFoursKDRatio}` - Bedwars Fours Kdratio
+`{bedwarsFoursKillDeathRatio}` - Bedwars Fours Kdratio
 
 `{bedwarsFoursFinalKills}` - Bedwars Fours Final Kills
 
-`{bedwarsFoursFinalDeathss}` - Bedwars Fours Final Deathss
+`{bedwarsFoursFinalDeaths}` - Bedwars Fours Final Deathss
 
-`{bedwarsFoursFinalKDRatio}` - Bedwars Fours Final Kdratio
+`{bedwarsFoursFinalKillDeathRatio}` - Bedwars Fours Final Kdratio
 
 `{bedwarsFoursWins}` - Bedwars Fours Wins
 
 `{bedwarsFoursLosses}` - Bedwars Fours Losses
 
-`{bedwarsFoursWLRatio}` - Bedwars Fours Wlratio
+`{bedwarsFoursWinLossRatio}` - Bedwars Fours Wlratio
 
 `{bedwarsFoursBedsBroken}` - Bedwars Fours Beds Broken
 
 `{bedwarsFoursBedsLost}` - Bedwars Fours Beds Lost
 
-`{bedwarsFoursBedsBLRatio}` - Bedwars Fours Beds Blratio
+`{bedwarsFoursBedsBrokenLostRatio}` - Bedwars Fours Beds Blratio
 
 `{bedwarsFoursPlayedGames}` - Bedwars Fours Played Games
 
-`{bedwars4v4Kills}` - Bedwars 4v4 kills
+`{bedwarsTwoFourKills}` - Bedwars TwoFour kills
 
-`{bedwars4v4Deaths}` - Bedwars 4v4 deaths
+`{bedwarsTwoFourDeaths}` - Bedwars TwoFour deaths
 
-`{bedwars4v4KDRatio}` - Bedwars 4v4 kdratio
+`{bedwarsTwoFourKillDeathRatio}` - Bedwars TwoFour kdratio
 
-`{bedwars4v4FinalKills}` - Bedwars 4v4 final Kills
+`{bedwarsTwoFourFinalKills}` - Bedwars TwoFour final Kills
 
-`{bedwars4v4FinalDeathss}` - Bedwars 4v4 final Deathss
+`{bedwarsTwoFourFinalDeaths}` - Bedwars TwoFour final Deathss
 
-`{bedwars4v4FinalKDRatio}` - Bedwars 4v4 final Kdratio
+`{bedwarsTwoFourFinalKillDeathRatio}` - Bedwars TwoFour final Kdratio
 
-`{bedwars4v4Wins}` - Bedwars 4v4 wins
+`{bedwarsTwoFourWins}` - Bedwars TwoFour wins
 
-`{bedwars4v4Losses}` - Bedwars 4v4 losses
+`{bedwarsTwoFourLosses}` - Bedwars TwoFour losses
 
-`{bedwars4v4WLRatio}` - Bedwars 4v4 wlratio
+`{bedwarsTwoFourWinLossRatio}` - Bedwars TwoFour wlratio
 
-`{bedwars4v4BedsBroken}` - Bedwars 4v 4beds Broken
+`{bedwarsTwoFourBedsBroken}` - Bedwars 4v 4beds Broken
 
-`{bedwars4v4BedsLost}` - Bedwars 4v4 beds Lost
+`{bedwarsTwoFourBedsLost}` - Bedwars TwoFour beds Lost
 
-`{bedwars4v4BedsBLRatio}` - Bedwars 4v4 beds Blratio
+`{bedwarsTwoFourBedsBrokenLostRatio}` - Bedwars TwoFour beds Blratio
 
-`{bedwars4v4PlayedGames}` - Bedwars 4v4 Played Games
+`{bedwarsTwoFourPlayedGames}` - Bedwars TwoFour Played Games
 
 ## SkyWars
 
@@ -202,13 +202,13 @@ guild. Anyone outside will have 0
 
 `{skywarsDeaths}` - Player's SkyWars Deaths
 
-`{skywarsKDRatio}` - Player's SkyWars KDRatio
+`{skywarsKillDeathRatio}` - Player's SkyWars Kill Death Ratio
 
 `{skywarsWins}` - Player's SkyWars Wins
 
 `{skywarsLosses}` - Player's SkyWars Losses
 
-`{skywarsWLRatio}` - Player's SkyWars WLRatio
+`{skywarsWinLossRatio}` - Player's SkyWars WLRatio
 
 `{skywarsPlayedGames}` - Player's SkyWars Played Games
 
@@ -220,13 +220,13 @@ guild. Anyone outside will have 0
 
 `{duelsDeaths}` - Player's Duels Deaths
 
-`{duelsKDRatio}` - Player's Duels KDRatio
+`{duelsKillDeathRatio}` - Player's Duels Kill Death Ratio
 
 `{duelsWins}` - Player's Duels Wins
 
 `{duelsLosses}` - Player's Duels Losses
 
-`{duelsWLRatio}` - Player's Duels WLRatio
+`{duelsWinLossRatio}` - Player's Duels WLRatio
 
 `{duelsPlayedGames}` - Player's Duels Played Games
 
@@ -658,7 +658,7 @@ guild. Anyone outside will have 0
 
 ---
 
-This document is [auto generated](/scripts/docs/Variables/Player.ts) and was last updated on `Thu, 17 Sep 2026 07:48:12 GMT` (`1789631292973`)
+This document is [auto generated](/scripts/docs/Variables/Player.ts) and was last updated on `Mon, 21 Sep 2026 10:54:11 GMT` (`1789988051965`)
 
 To update this document please run `pnpm docgen` or contact a maintainer and ask them to update it.
 

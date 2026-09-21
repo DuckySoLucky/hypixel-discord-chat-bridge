@@ -1,11 +1,67 @@
 import BasicConfigManager from "./core/BasicConfigManager.js";
 import MinecraftManager from "./minecraft/MinecraftManager.js";
-import { Config, ConfigChangeType, type MigrationMap } from "./types/config.js";
+import { Config, ConfigChangeType, ConfigVerificationRolesCustom, type JsonValue, type MigrationMap } from "./types/config.js";
 
 class ConfigManager extends BasicConfigManager<Config> {
   protected readonly configPath = "config.json";
   protected readonly defaultConfigPath = "config.example.json";
   protected readonly schema = Config;
+  protected readonly playerVariableStatsKeyRenamingMap: Record<number, Record<string, string>> = {
+    1: {
+      bedwarsKDRatio: "bedwarsKillDeathRatio",
+      bedwarsFinalDeathss: "bedwarsFinalDeaths",
+      bedwarsFinalKDRatio: "bedwarsFinalKillDeathRatio",
+      bedwarsSoloKDRatio: "bedwarsSoloKillDeathRatio",
+      bedwarsSoloFinalKDRatio: "bedwarsSoloFinalKillDeathRatio",
+      bedwarsDoublesKDRatio: "bedwarsDoublesKillDeathRatio",
+      bedwarsDoublesFinalKDRatio: "bedwarsDoublesFinalKillDeathRatio",
+      bedwarsThreesKDRatio: "bedwarsThreesKillDeathRatio",
+      bedwarsThreesFinalKDRatio: "bedwarsThreesFinalKillDeathRatio",
+      bedwarsFoursKDRatio: "bedwarsFoursKillDeathRatio",
+      bedwarsFoursFinalKDRatio: "bedwarsFoursFinalKillDeathRatio",
+      bedwars4v4KDRatio: "bedwars4v4KillDeathRatio",
+      bedwars4v4FinalKDRatio: "bedwars4v4FinalKillDeathRatio",
+      skywarsKDRatio: "skywarsKillDeathRatio",
+      duelsKDRatio: "duelsKillDeathRatio"
+    },
+    2: {
+      level: "hypixelLevel",
+      karma: "hypixelKarma",
+      achievementPoints: "hypixelAchievementPoints",
+      bedwars4v4Kills: "bedwarsTwoFourKills",
+      bedwars4v4Deaths: "bedwarsTwoFourDeaths",
+      bedwars4v4KillDeathRatio: "bedwarsTwoFourKillDeathRatio",
+      bedwars4v4FinalKills: "bedwarsTwoFourFinalKills",
+      bedwars4v4FinalDeathss: "bedwarsTwoFourFinalDeathss",
+      bedwars4v4FinalKillDeathRatio: "bedwarsTwoFourFinalKillDeathRatio",
+      bedwars4v4Wins: "bedwarsTwoFourWins",
+      bedwars4v4Losses: "bedwarsTwoFourLosses",
+      bedwars4v4WLRatio: "bedwarsTwoFourWLRatio",
+      bedwars4v4BedsBroken: "bedwarsTwoFourBedsBroken",
+      bedwars4v4BedsLost: "bedwarsTwoFourBedsLost",
+      bedwars4v4BedsBLRatio: "bedwarsTwoFourBedsBLRatio",
+      bedwars4v4PlayedGames: "bedwarsTwoFourPlayedGames",
+      bedwarsWLRatio: "bedwarsWinLossRatio",
+      bedwarsBedsBLRatio: "bedwarsBedsBrokenLostRatio",
+      bedwarsSoloFinalDeathss: "bedwarsSoloFinalDeaths",
+      bedwarsSoloWLRatio: "bedwarsSoloWinLossRatio",
+      bedwarsSoloBedsBLRatio: "bedwarsSoloBedsBrokenLostRatio",
+      bedwarsDoublesFinalDeathss: "bedwarsDoublesFinalDeaths",
+      bedwarsDoublesWLRatio: "bedwarsDoublesWinLossRatio",
+      bedwarsDoublesBedsBLRatio: "bedwarsDoublesBedsBrokenLostRatio",
+      bedwarsThreesFinalDeathss: "bedwarsThreesFinalDeaths",
+      bedwarsThreesWLRatio: "bedwarsThreesWinLossRatio",
+      bedwarsThreesBedsBLRatio: "bedwarsThreesBedsBrokenLostRatio",
+      bedwarsFoursFinalDeathss: "bedwarsFoursFinalDeaths",
+      bedwarsFoursWLRatio: "bedwarsFoursWinLossRatio",
+      bedwarsFoursBedsBLRatio: "bedwarsFoursBedsBrokenLostRatio",
+      bedwarsTwoFourFinalDeathss: "bedwarsTwoFourFinalDeaths",
+      bedwarsTwoFourWLRatio: "bedwarsTwoFourWinLossRatio",
+      bedwarsTwoFourBedsBLRatio: "bedwarsTwoFourBedsBrokenLostRatio",
+      skywarsWLRatio: "skywarsWinLossRatio",
+      duelsWLRatio: "duelsWinLossRatio"
+    }
+  };
   protected readonly versions: Record<number, MigrationMap> = {
     2: {
       "discord.bot.serverID": { key: "discord.serverId", change: ConfigChangeType.Move },
@@ -84,12 +140,93 @@ class ConfigManager extends BasicConfigManager<Config> {
       "other.logging": { key: "other.logger", change: ConfigChangeType.Move },
       "bridge.stripEmojisFromUsernames": { key: "bridge.strippers.usernames.emojis", change: ConfigChangeType.Move },
       "bridge.stripSpacesFromUsernames": { key: "bridge.strippers.usernames.spaces", change: ConfigChangeType.Move }
+    },
+    9: {
+      "verification.roles.custom": {
+        key: "verification.roles.custom",
+        change: ConfigChangeType.Transform,
+        transform: (value) => {
+          const replacementMap = this.playerVariableStatsKeyRenamingMap[1];
+          if (!replacementMap) throw new Error("Could not find the player variable stats key renamming map");
+          return this.remapVerificationRolesCustomKeys(value, replacementMap);
+        }
+      },
+      "minecraft.guild.requirements.requirements": {
+        key: "minecraft.guild.requirements.requirements",
+        change: ConfigChangeType.Transform,
+        transform: (rawValue) => {
+          const replacementMap = this.playerVariableStatsKeyRenamingMap[1];
+          if (!replacementMap) throw new Error("Could not find the player variable stats key renamming map");
+          return this.remapMinecraftGuildRequirementsRequirements(rawValue, replacementMap);
+        }
+      }
+    },
+    10: {
+      "verification.roles.custom": {
+        key: "verification.roles.custom",
+        change: ConfigChangeType.Transform,
+        transform: (value) => {
+          const replacementMap = this.playerVariableStatsKeyRenamingMap[2];
+          if (!replacementMap) throw new Error("Could not find the player variable stats key renamming map");
+          return this.remapVerificationRolesCustomKeys(value, replacementMap);
+        }
+      },
+      "minecraft.guild.requirements.requirements": {
+        key: "minecraft.guild.requirements.requirements",
+        change: ConfigChangeType.Transform,
+        transform: (rawValue) => {
+          const replacementMap = this.playerVariableStatsKeyRenamingMap[2];
+          if (!replacementMap) throw new Error("Could not find the player variable stats key renamming map");
+          return this.remapMinecraftGuildRequirementsRequirements(rawValue, replacementMap);
+        }
+      }
     }
   };
 
   protected override onConfigValidated(config: Config): Config {
     MinecraftManager.validateMinecraftVersion(config.minecraft.bot.version);
     return config;
+  }
+
+  private remapVerificationRolesCustomKeys(rawValue: JsonValue, replacementMap: Record<string, string>): JsonValue {
+    if (typeof rawValue !== "object" || rawValue === null || !Array.isArray(rawValue)) throw new Error("Verifcation roles custom must be an array.");
+    const fixedValues: ConfigVerificationRolesCustom[] = [];
+    rawValue.forEach((value, index) => {
+      if (typeof value !== "object" || value === null || Array.isArray(value)) throw new Error(`Verifcation roles custom [${index}] must be an object.`);
+      if (typeof value.enabled !== "boolean" || value.enabled === null) throw new Error(`Verifcation roles custom [${index}] enabled must be an boolean.`);
+      if (typeof value.roleId !== "string" || value.roleId === null) throw new Error(`Verifcation roles custom [${index}] roleId must be an string.`);
+      if (typeof value.requirements !== "object" || value.requirements === null || !Array.isArray(value.requirements)) {
+        throw new Error(`Verifcation roles custom [${index}] Requirements must be an array.`);
+      }
+      const fixed: ConfigVerificationRolesCustom = { enabled: value.enabled, roleId: value.roleId, requirements: [] };
+      value.requirements.forEach((requirement, requirementIndex) => {
+        if (typeof requirement !== "object" || requirement === null || Array.isArray(requirement)) {
+          throw new Error(`Verifcation roles custom [${index}] requirement [${requirementIndex}] must be an object.`);
+        }
+        if (typeof requirement.type !== "string" || requirement.type === null) {
+          throw new Error(`Verifcation roles custom [${index}] requirement [${requirementIndex}] type must be an string.`);
+        }
+        if (typeof requirement.value !== "string" && typeof requirement.value !== "number") {
+          throw new Error(`Verifcation roles custom [${index}] requirement [${requirementIndex}] type must be an string.`);
+        }
+        const normalizedType = replacementMap[requirement.type] ?? requirement.type;
+        const migrationRequirement = { type: normalizedType as string, value: requirement.value } as ConfigVerificationRolesCustom["requirements"][number];
+        fixed.requirements.push(migrationRequirement);
+      });
+      fixedValues.push(fixed);
+    });
+    return fixedValues;
+  }
+
+  private remapMinecraftGuildRequirementsRequirements(rawValue: JsonValue, replacementMap: Record<string, string>): JsonValue {
+    if (typeof rawValue !== "object" || rawValue === null || Array.isArray(rawValue)) throw new Error("Guild requirements must be an object.");
+    const newRequirements: Record<string, number> = {};
+    Object.entries(rawValue).forEach(([key, value]) => {
+      if (typeof value !== "number") throw new Error(`Guild requirement "${key}" must be a number.`);
+      if (replacementMap[key]) newRequirements[replacementMap[key]] = value;
+      else newRequirements[key] = value;
+    });
+    return newRequirements;
   }
 }
 

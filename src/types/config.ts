@@ -15,12 +15,22 @@ export interface JsonObject {
 
 export type TransformFunction = (value: JsonValue, config: JsonObject) => JsonValue;
 
-export interface MigrationRule {
-  key?: string;
-  change: ConfigChangeType;
-  transform?: TransformFunction;
+export interface MigrationRuleMove {
+  key: string;
+  change: ConfigChangeType.Move;
 }
 
+export interface MigrationRuleDelete {
+  change: ConfigChangeType.Delete;
+}
+
+export interface MigrationRuleTransform {
+  key: string;
+  change: ConfigChangeType.Transform;
+  transform: TransformFunction;
+}
+
+export type MigrationRule = MigrationRuleMove | MigrationRuleDelete | MigrationRuleTransform;
 export type MigrationMap = Record<string, MigrationRule>;
 
 export const ConfigDiscordChannelId = zod.string().meta({ description: "Discord channel id" });
@@ -243,6 +253,7 @@ export const ConfigVerificationRolesCustomDisabled = zod.object({
   requirements: zod.array(ConfigVerificationRolesCustomRequirement).meta({ description: "The requirements needed to receive this custom verification role" })
 });
 export const ConfigVerificationRolesCustom = zod.discriminatedUnion("enabled", [ConfigVerificationRolesCustomEnabled, ConfigVerificationRolesCustomDisabled]);
+export type ConfigVerificationRolesCustom = zod.infer<typeof ConfigVerificationRolesCustom>;
 export const ConfigVerificationRoles = zod
   .object({
     verified: ConfigVerificationRole.meta({ description: "Role assigned to verified users" }),
