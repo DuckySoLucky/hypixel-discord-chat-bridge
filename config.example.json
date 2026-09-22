@@ -133,7 +133,7 @@
       "accountsLocation": "./data/auth-cache"
     },
     "fontRenderer": {
-      "target": "legecy",
+      "target": "modern",
       "maxLineWidth": 1024,
       "xPadding": 4,
       "yPadding": 0,
