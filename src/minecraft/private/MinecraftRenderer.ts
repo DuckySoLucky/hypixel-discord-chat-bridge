@@ -1,3 +1,10 @@
+/*
+ * @author jejebecarte <https://github.com/jejebecarte>
+ * @license MIT <https://github.com/jejebecarte/minecraft-text-canvas/blob/ccbaf6f303d7b1d8f06379fba26c4489521a6056/LICENSE>
+ * @see https://github.com/jejebecarte/minecraft-text-canvas/tree/ccbaf6f303d7b1d8f06379fba26c4489521a6056
+ * Modified
+ */
+
 import { type CanvasRenderingContext2D, createCanvas, loadImage, registerFont } from "canvas";
 import { MinecraftChatCodes } from "../../private/constants.js";
 import type { ConfigMinecraftFontRenderer } from "../../types/config.js";
