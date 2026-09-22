@@ -133,8 +133,10 @@
       "accountsLocation": "./data/auth-cache"
     },
     "fontRenderer": {
-      "target": "modern",
+      "target": "legecy",
       "maxLineWidth": 1024,
+      "xPadding": 4,
+      "yPadding": 0,
       "fontSize": 40,
       "shadowOffset": 4,
       "skinToken": "{skin}",

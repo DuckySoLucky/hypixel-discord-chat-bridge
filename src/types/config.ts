@@ -195,6 +195,8 @@ export const ConfigMinecraftFontRenderer = zod
   .object({
     target: zod.enum(["modern", "legecy"]).meta({ description: "What rendering system should be used" }),
     maxLineWidth: zod.number().meta({ description: "How long should each line be" }),
+    xPadding: zod.number().nonnegative().meta({ description: "The horizontal padding around rendered text" }),
+    yPadding: zod.number().nonnegative().meta({ description: "The vertical padding around rendered text" }),
     fontSize: zod.number().meta({ description: "The size of the font" }),
     shadowOffset: zod.number().meta({ description: "How big the shadow offset should be" }),
     skinToken: zod.string().meta({ description: "What should the replacer for skins be" }),

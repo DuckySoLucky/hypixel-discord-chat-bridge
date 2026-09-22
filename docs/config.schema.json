@@ -335,12 +335,14 @@
           "properties": {
             "target": { "type": "string", "enum": ["modern", "legecy"], "description": "What rendering system should be used" },
             "maxLineWidth": { "type": "number", "description": "How long should each line be" },
+            "xPadding": { "type": "number", "minimum": 0, "description": "The horizontal padding around rendered text" },
+            "yPadding": { "type": "number", "minimum": 0, "description": "The vertical padding around rendered text" },
             "fontSize": { "type": "number", "description": "The size of the font" },
             "shadowOffset": { "type": "number", "description": "How big the shadow offset should be" },
             "skinToken": { "type": "string", "description": "What should the replacer for skins be" },
             "skinWidth": { "type": "number", "description": "The width of the skin" }
           },
-          "required": ["target", "maxLineWidth", "fontSize", "shadowOffset", "skinToken", "skinWidth"],
+          "required": ["target", "maxLineWidth", "xPadding", "yPadding", "fontSize", "shadowOffset", "skinToken", "skinWidth"],
           "additionalProperties": false,
           "description": "Configuration for the minecraft font renderer"
         }

@@ -127,11 +127,11 @@ class MinecraftRenderer {
 
   private async renderTextModern(text: string, ctx: CanvasRenderingContext2D, username: string | null) {
     const skin = username !== null && text.includes(this.options.skinToken) ? await loadImage(`https://nmsr.nickac.dev/face/${username}`) : null;
-    let cursorY = this.options.fontSize - this.options.shadowOffset;
+    let cursorY = this.options.yPadding + this.options.fontSize - this.options.shadowOffset;
 
     text.split(MinecraftRenderer.NEWLINE_REGEX).forEach((line) => {
       const state = this.createFormattingState();
-      let cursorX = 0;
+      let cursorX = this.options.xPadding;
       this.setFont(ctx, state);
 
       for (let i = 0; i < line.length; i++) {
@@ -208,43 +208,6 @@ class MinecraftRenderer {
 
   private setCanvasDimensions(text: string, ctx: CanvasRenderingContext2D) {
     const lines = text.split(MinecraftRenderer.NEWLINE_REGEX);
-    let widestLineWidth = 0;
-
-    // TODO: reuse the results from the bold and italic substring search in renderTextModern() - draw text in chunks, not char by char
-    lines.forEach((line) => {
-      // Find the width of the line if no characters are bold or italic
-      ctx.font = `${this.options.fontSize}px Minecraft`;
-      let width = ctx.measureText(line.replaceAll(MinecraftRenderer.SUPPORTED_FORMAT_CODES, "")).width;
-
-      // Add the extra width for bold substrings
-      line.match(/§l(.*?)(?:§r|$)/gm)?.forEach((subStr) => {
-        const modifiersRemoved = subStr.replaceAll(MinecraftRenderer.SUPPORTED_FORMAT_CODES, "");
-        width += modifiersRemoved.length * this.options.shadowOffset;
-      });
-
-      // Add extra width for a starting strikethrough/underline
-      if (line.match(/^§(?:n|m)/m)) width += this.options.shadowOffset;
-
-      // Add extra width for an ending strikethrough/underline or italic (italic font has no right bearing)
-      if (line.match(/§(?:n|m|o)(?:(?!§r).)*$/m)) width += this.options.shadowOffset;
-
-      // Add the extra width for italic substrings
-      [...line.matchAll(/§o(.*?)(?:§r|$)/gm)]?.forEach((match) => {
-        const group = match[1]!;
-
-        ctx.font = `${this.options.fontSize}px Minecraft`;
-        const normal = ctx.measureText(group.replaceAll(MinecraftRenderer.SUPPORTED_FORMAT_CODES, "")).width;
-
-        ctx.font = `${this.options.fontSize}px MinecraftItalic`;
-        const italic = ctx.measureText(group.replaceAll(MinecraftRenderer.SUPPORTED_FORMAT_CODES, "")).width;
-
-        // Add the difference between the normal width and italic width
-        width += italic - normal;
-      });
-
-      // If this is the widest line, set the overall width accordingly
-      if (widestLineWidth < width) widestLineWidth = width;
-    });
 
     // Extra height for underline shadow on the bottom line
     const underlineExtraheight = lines[lines.length - 1]?.includes(MinecraftChatCodes.UNDERLINE.code) ? this.options.shadowOffset : 0;
@@ -252,8 +215,8 @@ class MinecraftRenderer {
     // Add the shadow size to the height so it isn't cut off
     const height = this.options.fontSize * lines.length + this.options.shadowOffset + underlineExtraheight;
 
-    ctx.canvas.width = widestLineWidth;
-    ctx.canvas.height = height;
+    ctx.canvas.width = this.options.maxLineWidth + 2 * this.options.xPadding;
+    ctx.canvas.height = height + 2 * this.options.yPadding;
   }
 
   private async renderModern(text: string, username: string | null = null): Promise<Buffer<ArrayBufferLike>> {

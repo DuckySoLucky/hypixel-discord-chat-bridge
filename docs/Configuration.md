@@ -264,14 +264,16 @@ This document is generated from the Zod config schema in [`src/types/config.ts`]
 
 ### fontRenderer
 
-| Key            | Type                   | Required | Description                           |
-| -------------- | ---------------------- | -------- | ------------------------------------- |
-| `target`       | `enum(modern, legecy)` | Yes      | What rendering system should be used  |
-| `maxLineWidth` | `number`               | Yes      | How long should each line be          |
-| `fontSize`     | `number`               | Yes      | The size of the font                  |
-| `shadowOffset` | `number`               | Yes      | How big the shadow offset should be   |
-| `skinToken`    | `string`               | Yes      | What should the replacer for skins be |
-| `skinWidth`    | `number`               | Yes      | The width of the skin                 |
+| Key            | Type                   | Required | Description                                 |
+| -------------- | ---------------------- | -------- | ------------------------------------------- |
+| `target`       | `enum(modern, legecy)` | Yes      | What rendering system should be used        |
+| `maxLineWidth` | `number`               | Yes      | How long should each line be                |
+| `xPadding`     | `number`               | Yes      | The horizontal padding around rendered text |
+| `yPadding`     | `number`               | Yes      | The vertical padding around rendered text   |
+| `fontSize`     | `number`               | Yes      | The size of the font                        |
+| `shadowOffset` | `number`               | Yes      | How big the shadow offset should be         |
+| `skinToken`    | `string`               | Yes      | What should the replacer for skins be       |
+| `skinWidth`    | `number`               | Yes      | The width of the skin                       |
 
 ## discord
 
@@ -406,7 +408,7 @@ This document is generated from the Zod config schema in [`src/types/config.ts`]
 
 ---
 
-This document is [auto generated](/scripts/docs/Configuration.ts) and was last updated on `Mon, 21 Sep 2026 11:18:53 GMT` (`1789989533953`)
+This document is [auto generated](/scripts/docs/Configuration.ts) and was last updated on `Tue, 22 Sep 2026 06:50:32 GMT` (`1790059832008`)
 
 To update this document please run `pnpm docgen` or contact a maintainer and ask them to update it.
 
