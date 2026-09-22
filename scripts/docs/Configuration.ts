@@ -6,10 +6,6 @@ import { addTable, getMetadataDescription, getObjectShape, initMarkdownFile, sav
 
 const lines = await initMarkdownFile("docs/Configuration.md");
 
-function isOptionalSchema(schema: any): boolean {
-  return unwrapSchema(schema).optional;
-}
-
 function getTypeLabel(schema: any): string {
   const { schema: unwrapped, optional, nullable } = unwrapSchema(schema);
 
@@ -60,13 +56,8 @@ function renderSchemaSection(schema: any, path: string[], lines: string[]): void
   lines.push("");
   addTable(
     [
-      ["Key", "Type", "Required", "Description"],
-      ...entries.map(([key, fieldSchema]) => [
-        `\`${key}\``,
-        `\`${getTypeLabel(fieldSchema)}\``,
-        isOptionalSchema(fieldSchema) ? "No" : "Yes",
-        getMetadataDescription(fieldSchema).description
-      ])
+      ["Key", "Type", "Description"],
+      ...entries.map(([key, fieldSchema]) => [`\`${key}\``, `\`${getTypeLabel(fieldSchema)}\``, getMetadataDescription(fieldSchema).description])
     ],
     lines
   );
