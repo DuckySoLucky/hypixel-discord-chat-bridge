@@ -24,7 +24,12 @@ export const MiscCredits: CreditData[] = [
   { name: "Mowojang API", description: "Handles UUID <--> Username conversions", link: "mowojang.matdoes.dev" },
   { name: "DawJaw", description: "Jacob contests tracking", link: "dawjaw.net" },
   { name: "Soopy", description: "SoopyV2 commands", link: "soopy.dev" },
-  { name: "NickAc's Minecraft Skin Renderer", description: "Handles head rendering with the minecraft bridge format", link: "nmsr.nickac.dev" }
+  { name: "NickAc's Minecraft Skin Renderer", description: "Handles head rendering with the minecraft bridge format", link: "nmsr.nickac.dev" },
+  {
+    name: "jejebecarte's Minecraft Text Canvas",
+    description: "Handles converting minecraft formatted messages into rendered images",
+    link: "github.com/jejebecarte/minecraft-text-canvas"
+  }
 ];
 
 export const PlayerVariableStatsKeysGeneralString = ["username", "guildRank", "guildName"] as const;
