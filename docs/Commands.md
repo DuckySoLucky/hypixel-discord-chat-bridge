@@ -24,6 +24,7 @@ Minecraft commands can be executed from any chat channel that the bot can see. T
 | -------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------ | -------------------------- | ---------- |
 | `8ball`              | Ask an 8ball a question.                                                      | 8b                                                     | `!8ball (question)`        | Anyone     |
 | `accessories`        | Accessories of specified user.                                                | acc, talismans, talisman, mp, magicpower               | `!accessories [u]`         | Anyone     |
+| `bark`               | bark                                                                          | woof, bork, bwoof, awruf, arf, awrf, awooo             | `!bark`                    | Anyone     |
 | `bedwars`            | BedWars stats of specified user.                                              | bw, bws                                                | `!bedwars [u]`             | Anyone     |
 | `bestiary`           | Bestiary of specified user.                                                   | be                                                     | `!bestiary [u]`            | Anyone     |
 | `blitzsurvivalgames` | Blitz Survival Games stats of specified user.                                 | blitz, blitzsg, bsg                                    | `!blitzsurvivalgames [u]`  | Anyone     |
@@ -106,7 +107,7 @@ Minecraft commands can be executed from any chat channel that the bot can see. T
 
 ---
 
-This document is [auto generated](/scripts/docs/Commands.ts) and was last updated on `Mon, 21 Sep 2026 10:54:11 GMT` (`1789988051965`)
+This document is [auto generated](/scripts/docs/Commands.ts) and was last updated on `Wed, 23 Sep 2026 16:47:56 GMT` (`1790182076628`)
 
 To update this document please run `pnpm docgen` or contact a maintainer and ask them to update it.
 
