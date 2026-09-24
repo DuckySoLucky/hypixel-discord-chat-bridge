@@ -348,6 +348,7 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
 
   private async getLoggerChannel(type: LoggerChannelName): Promise<SendableChannels> {
     if (!this.isClientOnline()) throw new HypixelDiscordChatBridgeError("The discord bot doesn't seam to be online? Please restart the application");
+    if (!this.application.config.bridge.channels.logging.enabled) throw new HypixelDiscordChatBridgeError(`Channel "${type}" is disabled!`);
     const cleanType = removeColorCodes(type);
     const configKeyMap: Record<LoggerChannelName, keyof typeof this.application.config.bridge.channels.logging.channels> = {
       "Logger-Guild": "guild",
