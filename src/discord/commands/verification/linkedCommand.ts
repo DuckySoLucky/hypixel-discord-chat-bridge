@@ -11,7 +11,8 @@ class LinkedCommand extends DiscordCommand {
     .setName("linked")
     .setDescription("View who a user is linked to")
     .addUserOption((option) => option.setName("user").setDescription("Discord Username"))
-    .addStringOption((option) => option.setName("username").setDescription("Minecraft Username"));
+    .addStringOption((option) => option.setName("username").setDescription("Minecraft Username"))
+    .setAuthors(["Kathund"]);
   override readonly flags = [CommandFlags.VerificationCommand];
   override readonly response = BasicInteractionResponse.Ephemeral;
   override readonly permission = CommandPermission.Staff;

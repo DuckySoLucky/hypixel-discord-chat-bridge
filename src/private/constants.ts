@@ -1,4 +1,4 @@
-import type { CreditData, DevData, DevName } from "../types/application.js";
+import type { CreditData, DevData } from "../types/application.js";
 import type { EmbedStyleData, EmbedStyleName } from "../types/discord.js";
 
 export const EmbedStyles: Record<EmbedStyleName, EmbedStyleData> = {
@@ -8,12 +8,41 @@ export const EmbedStyles: Record<EmbedStyleName, EmbedStyleData> = {
   Success: { author: { name: "Success" }, color: "Green", footer: "DuckySoLucky" }
 };
 
-export const CommonDevs: Record<DevName, DevData> = {
-  DuckySoLucky: { username: "duckysolucky", id: "486155512568741900", iconURL: "https://imgur.com/tgwQJTX.png", type: "Maintainer" },
-  Kathund: { username: ".kathund", github: "kathund", id: "1276524855445164098", iconURL: "https://i.imgur.com/uUuZx2E.png", type: "Maintainer" },
-  GeorgeFilos: { username: "george_filos", github: "georgefilos", id: "177083022305263616", iconURL: "https://i.imgur.com/YdxW048.png", type: "Contributor" },
-  Zickles: { username: "zickles", id: "468043261911498767", iconURL: "https://i.imgur.com/vw8SAq4.png", type: "Contributor" }
-};
+export const CommonDevs = {
+  "DuckySoLucky": {
+    displayName: "DuckySoLucky",
+    githubUsername: "duckysolucky",
+    type: "Maintainer",
+    avatarURL: "https://imgur.com/tgwQJTX.png",
+    discord: { username: "duckysolucky", id: "486155512568741900" }
+  },
+  "Kathund": {
+    displayName: "Amber",
+    githubUsername: "kathund",
+    type: "Maintainer",
+    avatarURL: "https://kathund.dev/kathund.png",
+    discord: { username: ".kathund", id: "1276524855445164098" }
+  },
+  "GeorgeFilos": {
+    displayName: "George",
+    githubUsername: "georgefilos",
+    type: "Contributor",
+    avatarURL: "https://i.imgur.com/YdxW048.png",
+    discord: { username: "george_filos", id: "177083022305263616" }
+  },
+  "Zickles": {
+    displayName: "Zickles",
+    githubUsername: "zickles",
+    type: "Contributor",
+    avatarURL: "https://i.imgur.com/vw8SAq4.png",
+    discord: { username: "zickles", id: "468043261911498767" }
+  },
+  "MattyHD0": { displayName: "Matias", githubUsername: "MattyHD0", type: "Contributor", discord: { username: "mattyhd0", id: "280839691257774080" } },
+  "it-pup": { displayName: "Autumn", githubUsername: "it-pup", type: "Contributor", discord: { username: "itpuppy", id: "1386313709433131080" } },
+  "CarsonCodess": { displayName: "CarsonCodess", githubUsername: "CarsonCodess", type: "Contributor" },
+  "SomeTree": { displayName: "SomeTree", githubUsername: "sometreee", type: "Contributor" },
+  "Pixelic": { displayName: "Pixelic", githubUsername: "pixelicc", type: "Contributor", discord: { username: "pixelic", id: "619208257721860108" } }
+} satisfies Record<string, DevData>;
 
 export const MiscCredits: CreditData[] = [
   { name: "discord.js", description: "Handles the discord part of this project", link: "discord.js.org" },

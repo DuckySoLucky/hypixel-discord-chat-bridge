@@ -16,7 +16,8 @@ class ForceExecuteScriptCommand extends DiscordCommand {
   override readonly data = new DiscordCommandDataBuilder()
     .setName("force-execute-script")
     .setDescription("Allows executing scripts")
-    .addStringOption((option) => option.setName("script-name").setDescription("Script Name").setRequired(true).setAutocomplete(true));
+    .addStringOption((option) => option.setName("script-name").setDescription("Script Name").setRequired(true).setAutocomplete(true))
+    .setAuthors(["Kathund"]);
   override readonly flags = [CommandFlags.DebugCommand];
   override readonly permission = CommandPermission.Staff;
 

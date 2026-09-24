@@ -13,7 +13,8 @@ class VerifyCommand extends DiscordCommand<DiscordManagerWithBot> {
   override readonly data = new DiscordCommandDataBuilder()
     .setName("verify")
     .setDescription("Connect your Discord account to Minecraft")
-    .addStringOption((option) => option.setName("username").setDescription("Minecraft Username").setRequired(true));
+    .addStringOption((option) => option.setName("username").setDescription("Minecraft Username").setRequired(true))
+    .setAuthors(["Kathund"]);
   override readonly flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.VerificationCommand];
 
   override async execute(interaction: ChatInputCommandInteractionWithGuild) {

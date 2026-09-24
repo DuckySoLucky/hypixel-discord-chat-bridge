@@ -11,7 +11,7 @@ import {
 import { SuccessEmbed } from "../../private/EmbedHelper.js";
 
 class UnverifyCommand extends DiscordCommand<DiscordManagerWithBot> {
-  override readonly data = new DiscordCommandDataBuilder().setName("unverify").setDescription("Remove your linked Minecraft account");
+  override readonly data = new DiscordCommandDataBuilder().setName("unverify").setDescription("Remove your linked Minecraft account").setAuthors(["Kathund"]);
   override readonly flags = [CommandFlags.VerificationCommand];
   override readonly permission = CommandPermission.Linked;
   discordId: string | null = null;

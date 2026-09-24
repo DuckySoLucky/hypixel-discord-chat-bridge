@@ -4,13 +4,13 @@ import MinecraftCommandDataOption from "../private/commands/MinecraftCommandData
 import { formatNumber } from "../../utils/stringUtils.js";
 import { getSelectedProfile } from "../../utils/hypixelUtils.js";
 
-// CREDITS: by @Kathund (https://github.com/Kathund)
 class JacobCommand extends MinecraftCommand {
   override readonly data = new MinecraftCommandData()
     .setName("jacob")
     .setDescription("Jacob's Contest Stats of specified user.")
     .setAliases(["jacobs", "jacobcontest", "contest"])
-    .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
+    .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")])
+    .setAuthors(["Kathund"]);
 
   override async execute(player: string, message: string) {
     player = this.getArgs(message)[0] || player;

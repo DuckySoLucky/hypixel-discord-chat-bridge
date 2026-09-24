@@ -14,8 +14,10 @@ import {
   type SlashCommandSubcommandGroupBuilder,
   type SlashCommandUserOption
 } from "discord.js";
+import type { DevName } from "../../../types/application.js";
 
 class DiscordCommandDataBuilder extends SlashCommandBuilder {
+  #authors: DevName[] = ["DuckySoLucky"];
   constructor() {
     super();
     this.setContexts(InteractionContextType.Guild);
@@ -87,6 +89,15 @@ class DiscordCommandDataBuilder extends SlashCommandBuilder {
   override addUserOption(input: SlashCommandUserOption | ((builder: SlashCommandUserOption) => SlashCommandUserOption)): this {
     super.addUserOption(input);
     return this;
+  }
+
+  setAuthors(names: DevName[]): this {
+    this.#authors = [...names];
+    return this;
+  }
+
+  get authors(): DevName[] {
+    return this.#authors;
   }
 }
 

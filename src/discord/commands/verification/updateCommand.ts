@@ -12,7 +12,7 @@ import {
 import { SuccessEmbed } from "../../private/EmbedHelper.js";
 
 class UpdateCommand extends DiscordCommand<DiscordManagerWithBot> {
-  override readonly data = new DiscordCommandDataBuilder().setName("update").setDescription("Update your current roles");
+  override readonly data = new DiscordCommandDataBuilder().setName("update").setDescription("Update your current roles").setAuthors(["Kathund"]);
   override readonly flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.VerificationCommand];
   override readonly permission = CommandPermission.Linked;
   discordId: string | null = null;

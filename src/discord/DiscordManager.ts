@@ -169,7 +169,7 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
       const webhooks = await channel.fetchWebhooks();
 
       if (webhooks.size === 0) {
-        await channel.createWebhook({ name: "Hypixel Chat Bridge", avatar: CommonDevs.DuckySoLucky.iconURL });
+        await channel.createWebhook({ name: "Hypixel Chat Bridge", avatar: CommonDevs.DuckySoLucky?.avatarURL });
         return await this.getWebhook(type);
       }
 

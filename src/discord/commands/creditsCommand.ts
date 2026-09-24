@@ -3,6 +3,7 @@ import DiscordCommandDataBuilder from "../private/commands/DiscordCommandDataBui
 import EmbedHelper from "../private/EmbedHelper.js";
 import { CommonDevs, MiscCredits } from "../../private/constants.js";
 import { DevTypes } from "../../types/application.js";
+import { convertDevDataToName } from "../../utils/miscUtils.js";
 import type { ChatInputCommandInteractionWithGuild } from "../../types/discord.js";
 
 class CreditsCommand extends DiscordCommand {
@@ -18,8 +19,8 @@ class CreditsCommand extends DiscordCommand {
             name: `**${type}**`,
             value: Object.values(CommonDevs)
               .filter((data) => data.type === type)
-              .sort((a, b) => a.username.localeCompare(b.username))
-              .map(({ username, github, id }) => `@${username} (<@${id}>) - [Github](<https://github.com/${github ?? username}>)`)
+              .sort((a, b) => a.displayName.localeCompare(b.displayName))
+              .map((dev) => `${convertDevDataToName(dev, true)} - [Github](<https://github.com/${dev.githubUsername}>)`)
               .join("\n")
           };
         })
@@ -29,7 +30,7 @@ class CreditsCommand extends DiscordCommand {
         name: "**Support**",
         value: `If you need any support please reach out to the maintainers: ${Object.values(CommonDevs)
           .filter(({ type }) => type === "Maintainer")
-          .map(({ username }) => `@${username}`)
+          .map((dev) => convertDevDataToName(dev))
           .join(", ")}`
       });
 

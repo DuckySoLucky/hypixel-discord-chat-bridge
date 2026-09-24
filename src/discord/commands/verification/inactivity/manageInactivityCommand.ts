@@ -32,7 +32,8 @@ class ManageInactivityCommand extends DiscordCommand {
         .setName("get")
         .setDescription("Get an inactivity list entry")
         .addStringOption((option) => option.setName("inactivity").setDescription("The inactivity you are wanting to get").setRequired(true).setAutocomplete(true))
-    );
+    )
+    .setAuthors(["Kathund"]);
   override readonly flags = [CommandFlags.InactivityCommand, CommandFlags.VerificationCommand];
   override readonly permission = CommandPermission.Staff;
 

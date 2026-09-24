@@ -20,59 +20,59 @@ Permissions will fall down. This means any Admin will also be able to use any st
 
 Minecraft commands can be executed from any chat channel that the bot can see. This includes guild and officer chat.
 
-| Command              | Description                                                                   | Aliases                                                | Syntax                     | Permission |
-| -------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------ | -------------------------- | ---------- |
-| `8ball`              | Ask an 8ball a question.                                                      | 8b                                                     | `!8ball (question)`        | Anyone     |
-| `accessories`        | Accessories of specified user.                                                | acc, talismans, talisman, mp, magicpower               | `!accessories [u]`         | Anyone     |
-| `bark`               | bark                                                                          | woof, bork, bwoof, awruf, arf, awrf, awooo             | `!bark`                    | Anyone     |
-| `bedwars`            | BedWars stats of specified user.                                              | bw, bws                                                | `!bedwars [u]`             | Anyone     |
-| `bestiary`           | Bestiary of specified user.                                                   | be                                                     | `!bestiary [u]`            | Anyone     |
-| `blitzsurvivalgames` | Blitz Survival Games stats of specified user.                                 | blitz, blitzsg, bsg                                    | `!blitzsurvivalgames [u]`  | Anyone     |
-| `boo`                | Boo someone!                                                                  | None                                                   | `!boo (u)`                 | Anyone     |
-| `boop`               | Boop someone!                                                                 | bp                                                     | `!boop (u)`                | Anyone     |
-| `buildbattle`        | Build Battle Stats of specified user.                                         | bb                                                     | `!buildbattle [u]`         | Anyone     |
-| `calculate`          | Calculate.                                                                    | math, calc                                             | `!calculate (calculation)` | Anyone     |
-| `catacombs`          | Skyblock Dungeons Stats of specified user.                                    | cata, dungeons                                         | `!catacombs [u]`           | Anyone     |
-| `chocolatefactory`   | Skyblock Chocolate Factory Stats of specified user.                           | cf, factory, chocolate                                 | `!chocolatefactory [u]`    | Anyone     |
-| `coinflip`           | Flips a coin.                                                                 | coin                                                   | `!coinflip`                | Anyone     |
-| `crimsonisle`        | Crimson Isle Stats of specified user.                                         | crimson, nether, isle                                  | `!crimsonisle [u]`         | Anyone     |
-| `dojo`               | Dojo Stats of specified user.                                                 | None                                                   | `!dojo [u]`                | Anyone     |
-| `duels`              | Duel stats of specified user.                                                 | d                                                      | `!duels [u]`               | Anyone     |
-| `essence`            | Skyblock Dungeons Stats of specified user.                                    | None                                                   | `!essence [u]`             | Anyone     |
-| `fairysouls`         | Fairy Souls of specified user.                                                | fs, fairysoul                                          | `!fairysouls [u]`          | Anyone     |
-| `floor`              | Returns stats about a floor                                                   | f1, f2, f3, f4, f5, f6, f7, m1, m2, m3, m4, m5, m6, m7 | `!floor [u]`               | Anyone     |
-| `forge`              | Skyblock Forge Info Stats of specified user.                                  | None                                                   | `!forge [u]`               | Anyone     |
-| `garden`             | Skyblock Garden Stats of specified user.                                      | None                                                   | `!garden [u]`              | Anyone     |
-| `guild`              | View information of a guild                                                   | g                                                      | `!guild (guild)`           | Anyone     |
-| `guildexp`           | Guilds experience of specified user.                                          | gexp                                                   | `!guildexp [u]`            | Anyone     |
-| `guildof`            | View the player's guild                                                       | gof, guildofplayer, gop                                | `!guildof (player)`        | Anyone     |
-| `hotm`               | Skyblock Hotm Stats of specified user.                                        | mining                                                 | `!hotm [u]`                | Anyone     |
-| `jacob`              | Jacob's Contest Stats of specified user.                                      | jacobs, jacobcontest, contest                          | `!jacob [u]`               | Anyone     |
-| `kuudra`             | Kuudra Stats of specified user.                                               | None                                                   | `!kuudra [u]`              | Anyone     |
-| `level`              | Skyblock Level of specified user.                                             | lvl                                                    | `!level [u]`               | Anyone     |
-| `mayor`              | Skyblock Mayor.                                                               | None                                                   | `!mayor`                   | Anyone     |
-| `megawalls`          | View the Megawalls stats of a player                                          | mw                                                     | `!megawalls [u]`           | Anyone     |
-| `meow`               | meow                                                                          | mrrp, mrrow, miau, mauww, meep, :3, nja, nya, awawa    | `!meow`                    | Anyone     |
-| `murdermystery`      | Get Murder Mystery Player Stats                                               | mm                                                     | `!murdermystery [u]`       | Anyone     |
-| `networth`           | Networth of specified user.                                                   | nw                                                     | `!networth (u)`            | Anyone     |
-| `overflowskills`     | Overflow Skills and Skill Average of specified user.                          | oskills, oskill, osk                                   | `!overflowskills [u]`      | Anyone     |
-| `player`             | Get Hypixel Player Stats                                                      | None                                                   | `!player [u]`              | Anyone     |
-| `sheepwars`          |                                                                               | sheep, shep                                            | `!sheepwars [u]`           | Anyone     |
-| `skills`             | Skills and Skill Average of specified user.                                   | skill, sa                                              | `!skills [u]`              | Anyone     |
-| `skyblock`           | Skyblock Stats of specified user.                                             | stats, sb                                              | `!skyblock [u]`            | Anyone     |
-| `skywars`            | Skywars stats of specified user.                                              | sw                                                     | `!skywars [u]`             | Anyone     |
-| `slayer`             | Slayer of specified user.                                                     | slayers                                                | `!slayer [u]`              | Anyone     |
-| `specialmayor`       | How many years until next special mayor, along with speculated special mayor. | specmayor                                              | `!specialmayor`            | Anyone     |
-| `trophyfish`         | Trophy Fish Stats of specified user.                                          | tf, trophyfishing, trophy                              | `!trophyfish [u]`          | Anyone     |
-| `warpout`            | Warp player out of the game                                                   | warp                                                   | `!warpout [u]`             | Anyone     |
-| `woolwars`           | WoolWars stats of specified user.                                             | ww                                                     | `!woolwars [u]`            | Anyone     |
+| Command              | Description                                                                   | Aliases                                                | Syntax                     | Permission | Author       |
+| -------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------ | -------------------------- | ---------- | ------------ |
+| `8ball`              | Ask an 8ball a question.                                                      | 8b                                                     | `!8ball (question)`        | Anyone     | DuckySoLucky |
+| `accessories`        | Accessories of specified user.                                                | acc, talismans, talisman, mp, magicpower               | `!accessories [u]`         | Anyone     | DuckySoLucky |
+| `bark`               | bark                                                                          | woof, bork, bwoof, awruf, arf, awrf, awooo             | `!bark`                    | Anyone     | it-pup       |
+| `bedwars`            | BedWars stats of specified user.                                              | bw, bws                                                | `!bedwars [u]`             | Anyone     | DuckySoLucky |
+| `bestiary`           | Bestiary of specified user.                                                   | be                                                     | `!bestiary [u]`            | Anyone     | DuckySoLucky |
+| `blitzsurvivalgames` | Blitz Survival Games stats of specified user.                                 | blitz, blitzsg, bsg                                    | `!blitzsurvivalgames [u]`  | Anyone     | Kathund      |
+| `boo`                | Boo someone!                                                                  | None                                                   | `!boo (u)`                 | Anyone     | Zickles      |
+| `boop`               | Boop someone!                                                                 | bp                                                     | `!boop (u)`                | Anyone     | Zickles      |
+| `buildbattle`        | Build Battle Stats of specified user.                                         | bb                                                     | `!buildbattle [u]`         | Anyone     | Kathund      |
+| `calculate`          | Calculate.                                                                    | math, calc                                             | `!calculate (calculation)` | Anyone     | DuckySoLucky |
+| `catacombs`          | Skyblock Dungeons Stats of specified user.                                    | cata, dungeons                                         | `!catacombs [u]`           | Anyone     | DuckySoLucky |
+| `chocolatefactory`   | Skyblock Chocolate Factory Stats of specified user.                           | cf, factory, chocolate                                 | `!chocolatefactory [u]`    | Anyone     | Kathund      |
+| `coinflip`           | Flips a coin.                                                                 | coin                                                   | `!coinflip`                | Anyone     | CarsonCodess |
+| `crimsonisle`        | Crimson Isle Stats of specified user.                                         | crimson, nether, isle                                  | `!crimsonisle [u]`         | Anyone     | Kathund      |
+| `dojo`               | Dojo Stats of specified user.                                                 | None                                                   | `!dojo [u]`                | Anyone     | Kathund      |
+| `duels`              | Duel stats of specified user.                                                 | d                                                      | `!duels [u]`               | Anyone     | DuckySoLucky |
+| `essence`            | Skyblock Dungeons Stats of specified user.                                    | None                                                   | `!essence [u]`             | Anyone     | Kathund      |
+| `fairysouls`         | Fairy Souls of specified user.                                                | fs, fairysoul                                          | `!fairysouls [u]`          | Anyone     | DuckySoLucky |
+| `floor`              | Returns stats about a floor                                                   | f1, f2, f3, f4, f5, f6, f7, m1, m2, m3, m4, m5, m6, m7 | `!floor [u]`               | Anyone     | Kathund      |
+| `forge`              | Skyblock Forge Info Stats of specified user.                                  | None                                                   | `!forge [u]`               | Anyone     | Kathund      |
+| `garden`             | Skyblock Garden Stats of specified user.                                      | None                                                   | `!garden [u]`              | Anyone     | Kathund      |
+| `guild`              | View information of a guild                                                   | g                                                      | `!guild (guild)`           | Anyone     | DuckySoLucky |
+| `guildexp`           | Guilds experience of specified user.                                          | gexp                                                   | `!guildexp [u]`            | Anyone     | DuckySoLucky |
+| `guildof`            | View the player's guild                                                       | gof, guildofplayer, gop                                | `!guildof (player)`        | Anyone     | MattyHD0     |
+| `hotm`               | Skyblock Hotm Stats of specified user.                                        | mining                                                 | `!hotm [u]`                | Anyone     | Kathund      |
+| `jacob`              | Jacob's Contest Stats of specified user.                                      | jacobs, jacobcontest, contest                          | `!jacob [u]`               | Anyone     | Kathund      |
+| `kuudra`             | Kuudra Stats of specified user.                                               | None                                                   | `!kuudra [u]`              | Anyone     | Kathund      |
+| `level`              | Skyblock Level of specified user.                                             | lvl                                                    | `!level [u]`               | Anyone     | DuckySoLucky |
+| `mayor`              | Shows the current skyblock mayor                                              | None                                                   | `!mayor`                   | Anyone     | Kathund      |
+| `megawalls`          | View the Megawalls stats of a player                                          | mw                                                     | `!megawalls [u]`           | Anyone     | DuckySoLucky |
+| `meow`               | meow                                                                          | mrrp, mrrow, miau, mauww, meep, :3, nja, nya, awawa    | `!meow`                    | Anyone     | Kathund      |
+| `murdermystery`      | Get Murder Mystery Player Stats                                               | mm                                                     | `!murdermystery [u]`       | Anyone     | Kathund      |
+| `networth`           | Networth of specified user.                                                   | nw                                                     | `!networth (u)`            | Anyone     | DuckySoLucky |
+| `overflowskills`     | Overflow Skills and Skill Average of specified user.                          | oskills, oskill, osk                                   | `!overflowskills [u]`      | Anyone     | MattyHD0     |
+| `player`             | Get Hypixel Player Stats                                                      | None                                                   | `!player [u]`              | Anyone     | DuckySoLucky |
+| `sheepwars`          |                                                                               | sheep, shep                                            | `!sheepwars [u]`           | Anyone     | DuckySoLucky |
+| `skills`             | Skills and Skill Average of specified user.                                   | skill, sa                                              | `!skills [u]`              | Anyone     | DuckySoLucky |
+| `skyblock`           | Skyblock Stats of specified user.                                             | stats, sb                                              | `!skyblock [u]`            | Anyone     | DuckySoLucky |
+| `skywars`            | Skywars stats of specified user.                                              | sw                                                     | `!skywars [u]`             | Anyone     | DuckySoLucky |
+| `slayer`             | Slayer of specified user.                                                     | slayers                                                | `!slayer [u]`              | Anyone     | DuckySoLucky |
+| `specialmayor`       | How many years until next special mayor, along with speculated special mayor. | specmayor                                              | `!specialmayor`            | Anyone     | CarsonCodess |
+| `trophyfish`         | Trophy Fish Stats of specified user.                                          | tf, trophyfishing, trophy                              | `!trophyfish [u]`          | Anyone     | Kathund      |
+| `warpout`            | Warp player out of the game                                                   | warp                                                   | `!warpout [u]`             | Anyone     | DuckySoLucky |
+| `woolwars`           | WoolWars stats of specified user.                                             | ww                                                     | `!woolwars [u]`            | Anyone     | DuckySoLucky |
 
 ## Discord Commands
 
 | Command                | Description                                            | Syntax                                    | Permission   |
 | ---------------------- | ------------------------------------------------------ | ----------------------------------------- | ------------ |
 | `blacklist`            | Blacklist a user                                       | `/blacklist [add] [remove] [get]`         | Staff        |
-| `credits`              | Shows the credits of the people who make this possible | `/credits`                                | Anyone       |
+| `credits`              | Shows the credits of the people who make this possible | `/credits [developer]`                    | Anyone       |
 | `demote`               | Demotes the given user by one guild rank.              | `/demote (u)`                             | Staff        |
 | `execute`              | Executes commands as the minecraft bot.                | `/execute (command)`                      | Admin        |
 | `force-error`          | force an error                                         | `/force-error (message) (type)`           | Admin        |
@@ -107,7 +107,7 @@ Minecraft commands can be executed from any chat channel that the bot can see. T
 
 ---
 
-This document is [auto generated](/scripts/docs/Commands.ts) and was last updated on `Wed, 23 Sep 2026 16:47:56 GMT` (`1790182076628`)
+This document is [auto generated](/scripts/docs/Commands.ts) and was last updated on `Thu, 24 Sep 2026 03:20:23 GMT` (`1790220023109`)
 
 To update this document please run `pnpm docgen` or contact a maintainer and ask them to update it.
 

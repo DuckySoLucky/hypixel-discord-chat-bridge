@@ -5,12 +5,12 @@ import { SkyBlockMemberCrimsonIsleDojoMinigame } from "hypixel-api-reborn";
 import { formatNumber, titleCase } from "../../utils/stringUtils.js";
 import { getSelectedProfile } from "../../utils/hypixelUtils.js";
 
-// CREDITS: by @Kathund (https://github.com/Kathund)
 class DojoCommand extends MinecraftCommand {
   override readonly data = new MinecraftCommandData()
     .setName("dojo")
     .setDescription("Dojo Stats of specified user.")
-    .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
+    .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")])
+    .setAuthors(["Kathund"]);
 
   override async execute(player: string, message: string) {
     player = this.getArgs(message)[0] || player;

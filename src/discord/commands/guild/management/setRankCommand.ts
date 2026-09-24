@@ -16,7 +16,8 @@ class SetRankCommand extends DiscordCommand<DiscordManagerWithBot> {
     .setName("set-rank")
     .setDescription("Set rank of the given user.")
     .addStringOption((option) => option.setName("guild-member-username").setDescription("Minecraft Username").setRequired(true).setAutocomplete(true))
-    .addStringOption((option) => option.setName("guild-rank").setDescription("In game rank").setRequired(true).setAutocomplete(true));
+    .addStringOption((option) => option.setName("guild-rank").setDescription("In game rank").setRequired(true).setAutocomplete(true))
+    .setAuthors(["Kathund"]);
   override readonly flags = [CommandFlags.RequiresMinecraftBot];
   override readonly permission = CommandPermission.Staff;
 

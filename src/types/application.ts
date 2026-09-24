@@ -1,5 +1,6 @@
 import type Application from "../Application.js";
 import type HypixelDiscordChatBridgeError from "../private/error.js";
+import type { CommonDevs } from "../private/constants.js";
 import type { DiscordManagerWithClient } from "./discord.js";
 import type { DiscordjsError } from "discord.js";
 import type { HypixelAPIRebornError } from "hypixel-api-reborn";
@@ -10,17 +11,33 @@ export type ApplicationWithClient = Application & { discord: DiscordManagerWithC
 export type ApplicationWithBot = Application & { minecraft: MinecraftManagerWithBot };
 export type ApplicationWithClientBot = Application & { discord: DiscordManagerWithClient; minecraft: MinecraftManagerWithBot };
 
-export const DevNames = ["DuckySoLucky", "Kathund", "GeorgeFilos", "Zickles"] as const;
-export type DevName = (typeof DevNames)[number];
+export type DevName = keyof typeof CommonDevs;
 export const DevTypes = ["Maintainer", "Contributor"] as const;
 export type DevType = (typeof DevTypes)[number];
-export interface DevData {
+
+export interface DevDiscordData {
   username: string;
-  github?: string;
   id: string;
-  iconURL: string;
-  type: DevType;
 }
+
+export interface BasicDevData {
+  displayName: string;
+  githubUsername: string;
+  avatarURL?: string;
+  discord?: DevDiscordData;
+}
+
+export interface MaintainerDevData extends BasicDevData {
+  type: "Maintainer";
+  avatarURL: string;
+  discord: DevDiscordData;
+}
+
+export interface ContributorDevData extends BasicDevData {
+  type: "Contributor";
+}
+
+export type DevData = MaintainerDevData | ContributorDevData;
 
 export interface CreditData {
   name: string;

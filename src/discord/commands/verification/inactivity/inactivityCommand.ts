@@ -12,7 +12,8 @@ class InactivityCommand extends DiscordCommand {
     .setName("inactivity")
     .setDescription("Send an inactivity notice to the guild staff")
     .addStringOption((option) => option.setName("time").setDescription("The time you are inactive for (e.g. 1d, 72h, 2w)").setRequired(true))
-    .addStringOption((option) => option.setName("reason").setDescription("The reason you are going away"));
+    .addStringOption((option) => option.setName("reason").setDescription("The reason you are going away"))
+    .setAuthors(["Kathund"]);
   override readonly flags = [CommandFlags.InactivityCommand, CommandFlags.VerificationCommand];
   override readonly permission = CommandPermission.GuildMember;
 
