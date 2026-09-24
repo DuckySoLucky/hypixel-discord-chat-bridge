@@ -114,12 +114,13 @@ class MessageHandler {
         requestEmbed.setTitle(":warning: User is blacklisted");
         buttons.push(new ButtonBuilder().setCustomId("joinRequestViewBlacklist").setLabel("View Blacklist").setStyle(ButtonStyle.Secondary));
       }
-      const logMessage = await logChannel.send({ embeds: [requestEmbed], components: [new ActionRowBuilder<ButtonBuilder>().addComponents(buttons)] });
+      const logMessage = (await logChannel?.send({ embeds: [requestEmbed], components: [new ActionRowBuilder<ButtonBuilder>().addComponents(buttons)] })) ?? null;
 
       setTimeout(
         () =>
           runDetached(
             (async () => {
+              if (!logMessage) return;
               const component = logMessage.components[0];
               if (!component || component.type !== ComponentType.ActionRow) return;
               let found = false;
@@ -149,8 +150,10 @@ class MessageHandler {
         await delay(1000);
         if (data.passed && this.minecraft.application.config.minecraft.guild.requirements.autoAccept) this.minecraft.bot.chat(`/guild accept ${username}`);
         const embed = requirementsCommand.generateEmbed(data);
-        await logMessage.edit({ embeds: [...logMessage.embeds, embed] });
-        await (await this.minecraft.application.discord.getChannel("Officer")).send({ embeds: [embed] });
+        if (logMessage) await logMessage.edit({ embeds: [...logMessage.embeds, embed] });
+        const officer = await this.minecraft.application.discord.getChannel("Officer");
+        if (!officer) return;
+        await officer.send({ embeds: [embed] });
       }
 
       if (this.minecraft.application.config.blacklist.enabled && this.minecraft.application.config.blacklist.notifications.onJoinRequest) {

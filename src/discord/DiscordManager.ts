@@ -78,8 +78,10 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
             console.discord(`Discord client ready, logged in as ${this.client.user.username} (${this.client.user.id})!`);
             this.client.user.setPresence({ activities: [{ name: "/help | by @duckysolucky" }] });
             await this.loadGuild();
-            await (await this.getChannel("Guild")).send({ embeds: [new EmbedHelper().setAuthor({ name: "Chat Bridge is Online" }).setColor("Green").setFooter(null)] });
-            await (await this.getChannel("Logger-Event")).send({ embeds: [new EmbedHelper().setDescription("Discord bot is fully ready and online").setColor("Green")] });
+            const guild = await this.getChannel("Guild");
+            if (guild) await guild.send({ embeds: [new EmbedHelper().setAuthor({ name: "Chat Bridge is Online" }).setColor("Green").setFooter(null)] });
+            const eventLogger = await this.getChannel("Logger-Event");
+            if (eventLogger) await eventLogger.send({ embeds: [new EmbedHelper().setDescription("Discord bot is fully ready and online").setColor("Green")] });
             console.discord("Client is fully ready!");
 
             this.state = "running";
@@ -128,8 +130,10 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
   }
 
   protected async onClose() {
-    await (await this.getChannel("Guild")).send({ embeds: [new EmbedHelper().setAuthor({ name: "Chat Bridge is Offline" }).setColor("Red").setFooter(null)] });
-    await (await this.getChannel("Logger-Event")).send({ embeds: [new EmbedHelper().setDescription("Discord bot is shutting down").setColor("Red")] });
+    const guild = await this.getChannel("Guild");
+    if (guild) await guild.send({ embeds: [new EmbedHelper().setAuthor({ name: "Chat Bridge is Offline" }).setColor("Red").setFooter(null)] });
+    const eventLogger = await this.getChannel("Logger-Event");
+    if (eventLogger) await eventLogger.send({ embeds: [new EmbedHelper().setDescription("Discord bot is shutting down").setColor("Red")] });
   }
 
   async stop(): Promise<void> {
@@ -155,7 +159,7 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
 
   async getWebhook(type: ChannelName): Promise<Webhook | null> {
     const channel = await this.getChannel(type);
-    if (channel.type !== ChannelType.GuildText) throw new HypixelDiscordChatBridgeError(`Channel "${type}" not found!`);
+    if (channel?.type !== ChannelType.GuildText) throw new HypixelDiscordChatBridgeError(`Channel "${type}" not found!`);
     try {
       const webhooks = await channel.fetchWebhooks();
 
@@ -185,6 +189,7 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
     if (message.trim().length === 0) return;
 
     const channel = await this.getChannel(chatType);
+    if (!channel) return;
     if (event.chatType === "Debug") return await channel.send({ content: message }).then((message) => void message);
 
     const { username, rank, guildRank, color = "Green" } = event;
@@ -243,6 +248,7 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
     console.broadcast(message, "Event");
 
     const channel = await this.getChannel(chatType);
+    if (!channel) return;
     await channel.send({ embeds: [new EmbedHelper().setColor(color).setDescription(message).setFooter(null)] });
   }
 
@@ -252,6 +258,7 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
     console.broadcast(message, "Event");
 
     const channel = await this.getChannel(chatType);
+    if (!channel) return;
     await channel.send({ embeds: [new EmbedHelper().setColor(color).setDescription(message).setAuthor({ name: title, iconURL: icon }).setFooter(null)] });
   }
 
@@ -260,6 +267,7 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
     if (fullMessage === undefined || username === undefined || message === undefined || color === undefined || chatType === undefined) return;
     console.broadcast(message, "Event");
     const channel = await this.getChannel(chatType);
+    if (!channel) return;
 
     switch (this.application.config.bridge.discord.mode) {
       case "bot":
@@ -317,7 +325,7 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
     return this.client !== undefined;
   }
 
-  async getChannel(type: ChannelName): Promise<SendableChannels> {
+  async getChannel(type: ChannelName): Promise<SendableChannels | null> {
     if (!this.isClientOnline()) throw new HypixelDiscordChatBridgeError("The discord bot doesn't seam to be online? Please restart the application");
     const cleanType = removeColorCodes(type);
     if ((LoggerChannelNames as readonly string[]).includes(cleanType)) return await this.getLoggerChannel(cleanType as LoggerChannelName);
@@ -327,7 +335,10 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
 
     const config = this.application.config.bridge.channels[configKey];
     if (!config) throw new HypixelDiscordChatBridgeError(`Channel "${type}" does not have a config value!`);
-    if (!config.enabled) throw new HypixelDiscordChatBridgeError(`Channel "${type}" is disabled!`);
+    if (!config.enabled) {
+      if (this.application.config.other.logger.warningForDisabledChannel) console.warn(`Channel "${type}" is disabled! This channel was requested but it's disabled`);
+      return null;
+    }
     if (config.channel === null) {
       if (!this.isGuildReady()) {
         await this.loadGuild();
@@ -346,9 +357,12 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
     return channel;
   }
 
-  private async getLoggerChannel(type: LoggerChannelName): Promise<SendableChannels> {
+  private async getLoggerChannel(type: LoggerChannelName): Promise<SendableChannels | null> {
     if (!this.isClientOnline()) throw new HypixelDiscordChatBridgeError("The discord bot doesn't seam to be online? Please restart the application");
-    if (!this.application.config.bridge.channels.logging.enabled) throw new HypixelDiscordChatBridgeError(`Channel "${type}" is disabled!`);
+    if (!this.application.config.bridge.channels.logging.enabled) {
+      if (this.application.config.other.logger.warningForDisabledChannel) console.warn(`Channel "${type}" is disabled! This channel was requested but it's disabled`);
+      return null;
+    }
     const cleanType = removeColorCodes(type);
     const configKeyMap: Record<LoggerChannelName, keyof typeof this.application.config.bridge.channels.logging.channels> = {
       "Logger-Guild": "guild",

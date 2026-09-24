@@ -337,7 +337,8 @@ export const ConfigStatsChannels = zod
 export const ConfigOtherLogger = zod
   .object({
     saveToFiles: zod.boolean().meta({ description: "Whether log output should be written to files" }),
-    location: zod.string().meta({ description: "The location of where these files should be saved" })
+    location: zod.string().meta({ description: "The location of where these files should be saved" }),
+    warningForDisabledChannel: zod.boolean().meta({ description: "Whether the channel disabled warning should be sent", skip: true })
   })
   .meta({ description: "Configuration options for the logger" });
 export const ConfigOther = zod
