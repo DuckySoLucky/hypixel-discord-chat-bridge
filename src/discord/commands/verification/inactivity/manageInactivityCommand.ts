@@ -5,6 +5,7 @@ import InactiveUser from "../../../../data/inactivity/InactiveUser.js";
 import ms, { type StringValue } from "ms";
 import { CommandFlags, CommandPermission } from "../../../../types/discord.js";
 import { SuccessEmbed } from "../../../private/EmbedHelper.js";
+import { getDisplayName } from "../../../../utils/discordUtils.js";
 import { truncateString } from "../../../../utils/stringUtils.js";
 import type { AutocompleteInteractionWithGuild, AutocompleteOption, ChatInputCommandInteractionWithGuild } from "../../../../types/discord.js";
 
@@ -42,7 +43,7 @@ class ManageInactivityCommand extends DiscordCommand {
         users.map(async (user) => {
           const discUser = await user.getDiscordUser();
           if (!discUser) return null;
-          return { username: this.discord.messageHandler.getDisplayName(discUser), reason: user.reason, id: user.inactivityId };
+          return { username: getDisplayName(discUser), reason: user.reason, id: user.inactivityId };
         })
       )
     ).filter((x): x is { username: string; reason: string; id: string } => x !== null);

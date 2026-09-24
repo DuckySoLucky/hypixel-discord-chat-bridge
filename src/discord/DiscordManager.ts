@@ -7,7 +7,7 @@ import HypixelDiscordChatBridgeError from "../private/error.js";
 import InteractionHandler from "./handlers/InteractionHandler.js";
 import MessageHandler from "./handlers/MessageHandler.js";
 import ModalHandler from "./handlers/ModalHandler.js";
-import { AttachmentBuilder, ChannelType, Client, Events, GatewayIntentBits, Guild, MessageFlags, type SendableChannels, Webhook } from "discord.js";
+import { AttachmentBuilder, ChannelType, Client, Events, GatewayIntentBits, Guild, MessageFlags, Partials, type SendableChannels, Webhook } from "discord.js";
 import {
   type AutocompleteInteractionWithGuild,
   type ButtonInteractionWithGuild,
@@ -64,7 +64,16 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
     this.listen("player-toggle", (event) => this.onPlayerToggle(event));
     this.listen("clean-embed", (event) => this.onBroadcastCleanEmbed(event));
     this.listen("headed-embed", (event) => this.onBroadcastHeadedEmbed(event));
-    const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers] });
+    const client = new Client({
+      intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent,
+        GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.DirectMessages
+      ],
+      partials: [Partials.Channel]
+    });
     client.config = this.application.config;
     client.discordManager = this;
     this.client = client;
@@ -306,6 +315,7 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
   }
 
   isGuildReady(): this is DiscordManagerWithGuild {
+    if (!this.isClientOnline()) return false;
     return this.guild?.id !== undefined;
   }
 
