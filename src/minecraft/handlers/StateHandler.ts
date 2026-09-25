@@ -31,6 +31,7 @@ class StateHandler {
       if (this.minecraft.application.botGuild === undefined) await this.minecraft.application.getBotGuild();
 
       const loggerChannel = await this.minecraft.application.discord.getChannel("Logger-Event");
+      if (!loggerChannel) return;
       await loggerChannel.send({ embeds: [new EmbedHelper().setDescription(`Minecraft client ready, logged in as ${client.username}`).setColor("Green")] });
     } catch (error: unknown) {
       this.reportError(error);
@@ -46,6 +47,7 @@ class StateHandler {
     this.minecraft.scheduleReconnect(loginDelay);
 
     const loggerChannel = await this.minecraft.application.discord.getChannel("Logger-Event");
+    if (!loggerChannel) return;
     await loggerChannel.send({ embeds: [new WarningEmbed().setDescription(`Minecraft bot has disconnected! Attempting reconnect in ${loginDelay / 1000} seconds`)] });
   }
 
@@ -54,6 +56,7 @@ class StateHandler {
     this.loginAttempts++;
 
     const loggerChannel = await this.minecraft.application.discord.getChannel("Logger-Event");
+    if (!loggerChannel) return;
     await loggerChannel.send({ embeds: [new WarningEmbed().setDescription(`Minecraft bot has been kicked from the server for "${reason}"`)] });
   }
 

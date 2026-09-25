@@ -387,14 +387,15 @@ This document is generated from the Zod config schema in [`src/types/config.ts`]
 
 ### logger
 
-| Key           | Type      | Required | Description                                       |
-| ------------- | --------- | -------- | ------------------------------------------------- |
-| `saveToFiles` | `boolean` | Yes      | Whether log output should be written to files     |
-| `location`    | `string`  | Yes      | The location of where these files should be saved |
+| Key                         | Type      | Required | Description                                         |
+| --------------------------- | --------- | -------- | --------------------------------------------------- |
+| `saveToFiles`               | `boolean` | Yes      | Whether log output should be written to files       |
+| `location`                  | `string`  | Yes      | The location of where these files should be saved   |
+| `warningForDisabledChannel` | `boolean` | Yes      | Whether the channel disabled warning should be sent |
 
 ---
 
-This document is [auto generated](/scripts/docs/Configuration.ts) and was last updated on `Wed, 23 Sep 2026 16:47:56 GMT` (`1790182076628`)
+This document is [auto generated](/scripts/docs/Configuration.ts) and was last updated on `Thu, 24 Sep 2026 06:02:38 GMT` (`1790229758701`)
 
 To update this document please run `pnpm docgen` or contact a maintainer and ask them to update it.
 

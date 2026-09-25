@@ -97,6 +97,7 @@ abstract class BasicScript<Manager extends ScriptManager = ScriptManager> implem
   protected async log(message: string, state: ScriptLogState = ScriptLogState.Misc): Promise<void> {
     console.scripts(message);
     const channel = await this.scripts.application.discord.getChannel("Logger-Scripts");
+    if (!channel) return;
     const embed = new EmbedHelper().setDescription(message).setDevFooter("Kathund");
     if (state === ScriptLogState.Good) embed.setColor("Green");
     else if (state === ScriptLogState.Bad) embed.setColor("Red");

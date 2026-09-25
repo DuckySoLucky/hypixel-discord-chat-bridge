@@ -38,6 +38,7 @@ class InactiveUser extends GenericData<InactiveUserData> {
       throw new HypixelDiscordChatBridgeError("The discord bot doesn't seam to be online? Please restart the application");
     }
     const channel = await this.manager.data.application.discord.getChannel("Logger-Inactivity");
+    if (!channel) throw new HypixelDiscordChatBridgeError('Channel "Logger-Inactivity" is disabled!');
     const inactivityData = await this.manager.getInactivityDataResponse(this);
     const message = await channel.send(inactivityData);
     this.messageId = message.id;
@@ -54,6 +55,7 @@ class InactiveUser extends GenericData<InactiveUserData> {
       throw new HypixelDiscordChatBridgeError("The discord bot doesn't seam to be online? Please restart the application");
     }
     const channel = await this.manager.data.application.discord.getChannel("Logger-Inactivity");
+    if (!channel) throw new HypixelDiscordChatBridgeError('Channel "Logger-Inactivity" is disabled!');
     if (!this.messageId) return;
     const message = await channel.messages.fetch(this.messageId);
     const embeds = message.embeds.map((embed) => new EmbedHelper(embed.toJSON()).setColor("Red"));
