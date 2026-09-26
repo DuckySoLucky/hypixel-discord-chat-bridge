@@ -21,6 +21,7 @@ const MaxRuns = 15_000;
 // Potentially better system would be reading player's api data to calculate what they have
 const GlobalBoost = 0.2 + 0.06 + 0.5 + 0.1 + 0.02;
 
+// CREDITS: by @MattyHD0 (https://github.com/MattyHD0)
 class RunStillClassAvgCommand extends MinecraftCommand {
   override readonly data = new MinecraftCommandData()
     .setName("runstillclassavg")
