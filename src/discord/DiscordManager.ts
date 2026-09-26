@@ -21,7 +21,6 @@ import {
 } from "../types/discord.js";
 import { CommonDevs } from "../private/constants.js";
 import { getErrorEmbed } from "../utils/miscUtils.js";
-import { messageToImage } from "../utils/minecraftUtils.js";
 import { parseInteractionType } from "../utils/discordUtils.js";
 import { removeColorCodes, replaceVariables } from "../utils/stringUtils.js";
 import { safeListener, toError } from "../utils/asyncUtils.js";
@@ -234,7 +233,7 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
         break;
       }
       case "minecraft": {
-        await channel.send({ files: [new AttachmentBuilder(await messageToImage(message, username), { name: `${username}.png` })] });
+        await channel.send({ files: [new AttachmentBuilder(await this.application.minecraft.renderer.renderText(message, username), { name: `${username}.png` })] });
         if (message.includes("https://")) {
           const links = message.match(/https?:\/\/[^\s]+/g);
           if (links) await channel.send(links.join("\n"));
@@ -301,7 +300,7 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
         });
         break;
       case "minecraft":
-        await channel.send({ files: [new AttachmentBuilder(await messageToImage(fullMessage), { name: `${username}.png` })] });
+        await channel.send({ files: [new AttachmentBuilder(await this.application.minecraft.renderer.renderText(fullMessage), { name: `${username}.png` })] });
         break;
       default:
         throw new HypixelDiscordChatBridgeError("Invalid message mode: must be bot or webhook");

@@ -31,6 +31,7 @@ export { default as DiscordModal } from "./discord/private/modals/DiscordModal.j
 export { default as DiscordModalData } from "./discord/private/modals/DiscordModalData.js";
 export { default as DiscordStringSelectMenu } from "./discord/private/stringSelectMenu/DiscordStringSelectMenu.js";
 export { default as DiscordStringSelectMenuData } from "./discord/private/stringSelectMenu/DiscordStringSelectMenuData.js";
+export { default as MinecraftRenderer } from "./minecraft/private/MinecraftRenderer.js";
 export { default as MinecraftCommand } from "./minecraft/private/commands/MinecraftCommand.js";
 export { default as MinecraftCommandData } from "./minecraft/private/commands/MinecraftCommandData.js";
 export { default as MinecraftCommandDataOption } from "./minecraft/private/commands/MinecraftCommandDataOption.js";
