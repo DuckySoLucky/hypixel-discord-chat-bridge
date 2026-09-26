@@ -96,6 +96,7 @@ Minecraft commands can be executed from any chat channel that the bot can see. T
 | `permission-check`     | Check what level of permission a user has              | `/permission-check [user]`                | Staff        |
 | `ping`                 | Show the latency of the bot.                           | `/ping`                                   | Anyone       |
 | `promote`              | Promote the given user by one guild rank.              | `/promote (u)`                            | Staff        |
+| `render-text`          | Render Text using the bots minecraft text rendering    | `/render-text (text) [u] [target]`        | Staff        |
 | `requirements`         | Check a user's requirements to join the guild          | `/requirements [u]`                       | Anyone       |
 | `restart`              | Restarts the bot.                                      | `/restart`                                | Staff        |
 | `send-to-channel`      | Force Sending to a channel                             | `/send-to-channel (message) (channel)`    | Admin        |
@@ -108,7 +109,7 @@ Minecraft commands can be executed from any chat channel that the bot can see. T
 
 ---
 
-This document is [auto generated](/scripts/docs/Commands.ts) and was last updated on `Fri, 25 Sep 2026 06:27:35 GMT` (`1790317655448`)
+This document is [auto generated](/scripts/docs/Commands.ts) and was last updated on `Sat, 26 Sep 2026 14:14:17 GMT` (`1790432057801`)
 
 To update this document please run `pnpm docgen` or contact a maintainer and ask them to update it.
 

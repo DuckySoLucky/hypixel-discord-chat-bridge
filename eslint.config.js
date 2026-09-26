@@ -66,7 +66,7 @@ export default [
       "@stylistic/space-before-blocks": "error",
       "@stylistic/no-trailing-spaces": "error",
       "@stylistic/no-confusing-arrow": "error",
-      "import/prefer-default-export": "error",
+      "import/prefer-default-export": "warn",
       "logical-assignment-operators": "warn",
       "no-template-curly-in-string": "error",
       "quote-props": ["error", "consistent"],

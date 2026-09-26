@@ -2,6 +2,7 @@ import CommandHandler from "./handlers/CommandHandler.js";
 import CommunicationBridge from "../private/CommunicationBridge.js";
 import MessageHandler from "./handlers/MessageHandler.js";
 import MinecraftData from "minecraft-data";
+import MinecraftRenderer from "./private/MinecraftRenderer.js";
 import MinecraftRequestBroker from "./MinecraftRequestBroker.js";
 import PrismarineChat from "prismarine-chat";
 import PrismarineRegistry, { type RegistryPc } from "prismarine-registry";
@@ -30,6 +31,7 @@ class MinecraftManager extends CommunicationBridge implements Lifecycle {
   readonly prismarineRegistry: RegistryPc;
   readonly prismarineChat: PrismarineChatFormatter;
   readonly requestBroker: MinecraftRequestBroker;
+  readonly renderer: MinecraftRenderer;
   private readonly indexedData;
   private readonly intentionallyClosedClients = new WeakSet<Client>();
   private state: LifecycleState = "idle";
@@ -46,6 +48,7 @@ class MinecraftManager extends CommunicationBridge implements Lifecycle {
     this.prismarineRegistry = PrismarineRegistry(this.application.config.minecraft.bot.version) as RegistryPc;
     this.prismarineChat = PrismarineChat(this.prismarineRegistry);
     this.requestBroker = new MinecraftRequestBroker(this.prismarineChat);
+    this.renderer = new MinecraftRenderer(this.application.config.minecraft.fontRenderer);
     this.indexedData = MinecraftData(this.application.config.minecraft.bot.version);
   }
 
