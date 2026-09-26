@@ -14,6 +14,8 @@ class InteractionHandler {
     else if (interaction.isAutocomplete()) await this.discord.commandHandler.onAutoComplete(interaction);
     else if (interaction.isButton()) await this.discord.buttonHandler.onButton(interaction);
     else if (interaction.isModalSubmit()) await this.discord.modalHandler.onSubmit(interaction);
+    else if (interaction.isStringSelectMenu()) await this.discord.stringSelectMenuHandler.onSubmit(interaction);
+    else console.log(interaction);
   }
 
   async checkPerms(member: GuildMember, data: BasicInteractionData<DiscordManager>) {

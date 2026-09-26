@@ -5,14 +5,14 @@ import { type BlitzSurvivalGamesData, type BlitzSurvivalGamesKitId, BlitzSurviva
 import { formatNumber } from "../../utils/stringUtils.js";
 import { getPlayer } from "../../utils/hypixelUtils.js";
 
-// CREDITS: by @Kathund (https://github.com/Kathund)
 type BlitzSurvivalGamesKitKey = Exclude<BlitzSurvivalGamesKitId, "shadow knight" | "hype train"> | "shadowKnight" | "hypeTrain";
 class BlitzSurvivalGamesCommand extends MinecraftCommand {
   override readonly data = new MinecraftCommandData()
     .setName("blitzsurvivalgames")
     .setDescription("Blitz Survival Games stats of specified user.")
     .setAliases(["blitz", "blitzsg", "bsg"])
-    .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
+    .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")])
+    .setAuthors(["Kathund"]);
 
   convertKit(mode: BlitzSurvivalGamesKitId): BlitzSurvivalGamesKitKey {
     switch (mode) {

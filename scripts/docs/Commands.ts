@@ -26,7 +26,7 @@ await Promise.all([application.minecraft.commandHandler.deployCommands(true), ap
 
 lines = addTable(
   [
-    ["Command", "Description", "Aliases", "Syntax", "Permission"],
+    ["Command", "Description", "Aliases", "Syntax", "Permission", "Author"],
     ...application.minecraft.commandHandler.commands
       .toSorted((a, b) => a.data.name.localeCompare(b.data.name))
       .map((command) => {
@@ -37,7 +37,8 @@ lines = addTable(
           command.data.description,
           command.data.aliases.length ? command.data.aliases.join(", ") : "None",
           `\`!${command.data.name}${optionsString}\``,
-          "Anyone"
+          "Anyone",
+          command.data.authors[0] ?? "DuckySoLucky"
         ];
       })
   ],

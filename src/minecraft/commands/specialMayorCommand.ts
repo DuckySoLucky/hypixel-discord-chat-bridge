@@ -16,12 +16,12 @@ const yearLength = 12;
 const yearMs = yearLength * monthLength * dayMs;
 const yearZero = 1560275700000;
 
-// CREDITS: by @CarsonCodes (https://github.com/CarsonCodess)
 class SpecialMayorCommand extends MinecraftCommand {
   override readonly data = new MinecraftCommandData()
     .setName("specialmayor")
     .setDescription("How many years until next special mayor, along with speculated special mayor.")
-    .setAliases(["specmayor"]);
+    .setAliases(["specmayor"])
+    .setAuthors(["CarsonCodess"]);
 
   getYearsUntilSpecial(year: number): number {
     return (8 - (year % 8)) % 8;

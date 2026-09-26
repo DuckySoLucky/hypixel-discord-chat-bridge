@@ -4,6 +4,8 @@ import EmbedHelper from "../private/EmbedHelper.js";
 import HypixelDiscordChatBridgeError from "../../private/error.js";
 import InformationCommand from "./informationCommand.js";
 import { type ChatInputCommandInteractionWithGuild, CommandFlags } from "../../types/discord.js";
+import { CommonDevs } from "../../private/constants.js";
+import { convertDevDataToName } from "../../utils/miscUtils.js";
 
 class HelpCommand extends DiscordCommand {
   override readonly data = new DiscordCommandDataBuilder()
@@ -32,23 +34,22 @@ class HelpCommand extends DiscordCommand {
     if (command === undefined) throw new HypixelDiscordChatBridgeError(`Command ${commandName} not found.`);
     const prefix = isMinecraftCommand ? this.discord.application.config.minecraft.commands.normal.prefix : "/";
 
-    const aliasesString =
-      isMinecraftCommand && minecraftCommand!.data.aliases.length > 0
-        ? `Aliases: ${minecraftCommand!.data.aliases.map((alias) => `\`${prefix}${alias}\``).join(", ")}\n`
-        : "";
-
-    const description = `${aliasesString}${command.data.description}\n${command.data.options
-      .map((option) => option.toJSON())
-      .map(({ name, required, description }) => {
-        const optionString = required ? `(${name})` : `[${name}]`;
-        return `\`${optionString}\`: ${description}\n`;
-      })
-      .join("")}`;
+    const description: string[] = [
+      command.data.description,
+      "",
+      `**Authors:** ${command.data.authors.map((author) => convertDevDataToName(CommonDevs[author])).join(", ")}`
+    ];
+    if (isMinecraftCommand && minecraftCommand!.data.aliases.length > 0) {
+      description.push(`**Aliases:** ${minecraftCommand!.data.aliases.map((alias) => `\`${prefix}${alias}\``).join(", ")}`);
+    }
+    description.push(
+      ...command.data.options.map((option) => option.toJSON()).map(({ name, required, description }) => `\`${required ? `(${name})` : `[${name}]`}\`: ${description}`)
+    );
 
     const embed = new EmbedHelper()
       .setTitle(`**${prefix}${command.data.name}**`)
-      .setDescription(description)
-      .setDevFooter("DuckySoLucky", "() = required, [] = optional");
+      .setDescription(description.join("\n"))
+      .setDevFooter(command.data.authors[0] ?? "DuckySoLucky", "() = required, [] = optional");
 
     await interaction.followUp({ embeds: [embed] });
   }

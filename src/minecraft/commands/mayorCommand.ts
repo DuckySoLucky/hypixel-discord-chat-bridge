@@ -4,9 +4,8 @@ import MinecraftCommandData from "../private/commands/MinecraftCommandData.js";
 import { delay } from "../../utils/miscUtils.js";
 import { getSkyBlockElection } from "../../utils/hypixelUtils.js";
 
-// CREDITS: by @Kathund (https://github.com/Kathund)
 class MayorCommand extends MinecraftCommand {
-  override readonly data = new MinecraftCommandData().setName("mayor").setDescription("Skyblock Mayor.");
+  override readonly data = new MinecraftCommandData().setName("mayor").setDescription("Shows the current skyblock mayor").setAuthors(["Kathund"]);
 
   override async execute(player: string, message: string) {
     const data = await getSkyBlockElection();

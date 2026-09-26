@@ -4,7 +4,7 @@ import EmbedHelper from "../../private/EmbedHelper.js";
 import { type ChatInputCommandInteractionWithGuild, CommandFlags, CommandPermission } from "../../../types/discord.js";
 
 class RestartCommand extends DiscordCommand {
-  override readonly data = new DiscordCommandDataBuilder().setName("restart").setDescription("Restarts the bot.");
+  override readonly data = new DiscordCommandDataBuilder().setName("restart").setDescription("Restarts the bot.").setAuthors(["GeorgeFilos"]);
   override readonly flags = [CommandFlags.DebugCommand];
   override readonly permission = CommandPermission.Staff;
 

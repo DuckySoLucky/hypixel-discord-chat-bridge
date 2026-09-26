@@ -13,7 +13,8 @@ class GexpCheckCommand extends DiscordCommand {
   override readonly data = new DiscordCommandDataBuilder()
     .setName("gexp-check")
     .setDescription("Shows everyone under an set amount of gexp")
-    .addNumberOption((option) => option.setName("requirement").setDescription("Members below this GEXP number").setRequired(true).setMinValue(1));
+    .addNumberOption((option) => option.setName("requirement").setDescription("Members below this GEXP number").setRequired(true).setMinValue(1))
+    .setAuthors(["Kathund"]);
   override readonly flags = [CommandFlags.InactivityCommand, CommandFlags.VerificationCommand];
   override readonly permission = CommandPermission.Staff;
 

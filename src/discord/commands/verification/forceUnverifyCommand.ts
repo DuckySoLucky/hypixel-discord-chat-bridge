@@ -7,7 +7,8 @@ class ForceUnverifyCommand extends DiscordCommand<DiscordManagerWithBot> {
   override readonly data = new DiscordCommandDataBuilder()
     .setName("force-unverify")
     .setDescription("Remove a linked Minecraft account")
-    .addUserOption((option) => option.setName("user").setDescription("Discord Username").setRequired(true));
+    .addUserOption((option) => option.setName("user").setDescription("Discord Username").setRequired(true))
+    .setAuthors(["Kathund"]);
   override readonly flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.VerificationCommand];
   override readonly permission = CommandPermission.Staff;
 

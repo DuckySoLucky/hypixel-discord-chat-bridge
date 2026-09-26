@@ -7,6 +7,7 @@ import { format } from "prettier";
 import { getNestedValue } from "../src/utils/miscUtils.js";
 import { markdownTable } from "markdown-table";
 import type { ConfigMetadata, ConfigMetadataDescription, ConfigMetadataDotPathDescription, SchemaData, UnwrappedSchema } from "./types.js";
+import type { MaintainerDevData } from "../src/types/application.js";
 
 import "../src/private/logger.js";
 
@@ -59,8 +60,8 @@ export async function saveMarkdownFile(path: string, lines: string[], id: string
     timestamp: new Date(Number(process.env.UNIX_TIMESTAMP)).toUTCString(),
     unix: process.env.UNIX_TIMESTAMP,
     maintainers: Object.values(CommonDevs)
-      .filter(({ type }) => type === "Maintainer")
-      .map(({ username, id }) => `[@${username}](https://discord.com/users/${id})`)
+      .filter((dev): dev is MaintainerDevData => dev.type === "Maintainer")
+      .map(({ discord }) => `[@${discord.username}](https://discord.com/users/${discord.id})`)
       .join(", ")
   };
 

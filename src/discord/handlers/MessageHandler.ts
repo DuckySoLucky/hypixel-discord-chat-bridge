@@ -1,4 +1,5 @@
-import { type Attachment, GuildMember, type Message, type User } from "discord.js";
+import { type Attachment, type Message } from "discord.js";
+import { getDisplayName } from "../../utils/discordUtils.js";
 import { toError } from "../../utils/asyncUtils.js";
 import { unemojify } from "node-emoji";
 import type DiscordManager from "../DiscordManager.js";
@@ -15,7 +16,7 @@ class MessageHandler {
       const content = this.stripDiscordContent(message).trim();
       if (content.length === 0 && message.attachments.size === 0) return;
 
-      const username = this.getDisplayName(discordUser);
+      const username = getDisplayName(discordUser);
       if (username === undefined || username.length === 0) return;
 
       const formattedUsername = unemojify(username);
@@ -61,7 +62,7 @@ class MessageHandler {
 
       const reference = await message.channel.messages.fetch(message.reference.messageId);
       const discUser = await message.guild.members.fetch(message.mentions.repliedUser.id).catch(() => message.mentions.repliedUser);
-      const mentionedUserName = this.getDisplayName(discUser);
+      const mentionedUserName = getDisplayName(discUser);
 
       switch (this.discord.application.config.bridge.discord.mode) {
         case "bot": {
@@ -112,7 +113,7 @@ class MessageHandler {
 
       const replaceUserMention = (_match: string, mentionedUserId: string): string => {
         const mentionedUser = message.mentions.members?.get(mentionedUserId) ?? message.guild?.members.cache.get(mentionedUserId);
-        return mentionedUser ? `@${this.getDisplayName(mentionedUser)}` : "@unknown-user";
+        return mentionedUser ? `@${getDisplayName(mentionedUser)}` : "@unknown-user";
       };
       output = output.replace(userMentionPattern, replaceUserMention);
 
@@ -166,16 +167,6 @@ class MessageHandler {
     ];
 
     return isValid && validChannelIds.includes(message.channel.id);
-  }
-
-  getDisplayName(user: GuildMember | User | null): string {
-    if (!user) return "UNKNOWN";
-    if (user instanceof GuildMember) return user.nickname ?? this.getFallbackDisplayName(user.user);
-    return this.getFallbackDisplayName(user);
-  }
-
-  private getFallbackDisplayName(user: User): string {
-    return user.globalName ?? user.username;
   }
 
   private readonly reportError = (error: unknown): Promise<void> => this.discord.application.logError(toError(error));

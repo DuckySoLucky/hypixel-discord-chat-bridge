@@ -1,17 +1,18 @@
-import type DiscordManager from "../discord/DiscordManager.js";
-import type {
-  APIEmbedField,
-  AutocompleteInteraction,
-  BaseInteraction,
-  ButtonInteraction,
-  ChatInputCommandInteraction,
-  Client,
-  ColorResolvable,
-  EmbedAuthorOptions,
-  Guild,
-  GuildMember,
-  ModalSubmitInteraction
+import {
+  type APIEmbedField,
+  type AutocompleteInteraction,
+  type BaseInteraction,
+  type ButtonInteraction,
+  type ChatInputCommandInteraction,
+  type Client,
+  type ColorResolvable,
+  type EmbedAuthorOptions,
+  type Guild,
+  type GuildMember,
+  type ModalSubmitInteraction,
+  StringSelectMenuInteraction
 } from "discord.js";
+import type DiscordManager from "../discord/DiscordManager.js";
 import type { Config, ConfigDiscordEmbedsColors } from "./config.js";
 import type { DevData, DevName } from "./application.js";
 import type { MinecraftManagerWithBot } from "./minecraft.js";
@@ -136,18 +137,30 @@ export interface GuildManagementRequest {
   readonly argument?: string;
 }
 
-export type BaseInteractionWithGuild = BaseInteraction & {
+export interface GuildInteractionData {
+  guildId: string;
   guild: Guild;
   member: GuildMember;
-  isChatInputCommand(): this is ChatInputCommandInteractionWithGuild;
-  isButton(): this is ButtonInteractionWithGuild;
-  isAutocomplete(): this is AutocompleteInteractionWithGuild;
-  isAutocomplete(): this is AutocompleteInteractionWithGuild;
-};
-export type ChatInputCommandInteractionWithGuild = ChatInputCommandInteraction & { guild: Guild; member: GuildMember };
-export type ButtonInteractionWithGuild = ButtonInteraction & { guild: Guild; member: GuildMember };
-export type AutocompleteInteractionWithGuild = AutocompleteInteraction & { guild: Guild; member: GuildMember };
-export type ModalSubmitInteractionWithGuild = ModalSubmitInteraction & { guild: Guild; member: GuildMember };
+}
+export type BaseInteractionWithGuild = BaseInteraction &
+  GuildInteractionData & {
+    isChatInputCommand(): this is ChatInputCommandInteractionWithGuild;
+    isButton(): this is ButtonInteractionWithGuild;
+    isAutocomplete(): this is AutocompleteInteractionWithGuild;
+    isModalSubmit(): this is ModalSubmitInteractionWithGuild;
+    isStringSelectMenu(): this is StringSelectMenuInteractionWithGuild;
+  };
+export type ChatInputCommandInteractionWithGuild = ChatInputCommandInteraction & GuildInteractionData;
+export type ButtonInteractionWithGuild = ButtonInteraction & GuildInteractionData;
+export type AutocompleteInteractionWithGuild = AutocompleteInteraction & GuildInteractionData;
+export type ModalSubmitInteractionWithGuild = ModalSubmitInteraction & GuildInteractionData;
+export type StringSelectMenuInteractionWithGuild = StringSelectMenuInteraction & GuildInteractionData;
+export type InteractionsWithGuild =
+  | ChatInputCommandInteractionWithGuild
+  | ButtonInteractionWithGuild
+  | AutocompleteInteractionWithGuild
+  | ModalSubmitInteractionWithGuild
+  | StringSelectMenuInteractionWithGuild;
 
 export const EmbedStyleNames = ["Generic", "Warning", "Error", "Success"] as const;
 export type EmbedStyleName = (typeof EmbedStyleNames)[number];

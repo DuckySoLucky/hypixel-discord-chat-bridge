@@ -8,7 +8,7 @@ import { MinecraftRequestTimeoutError } from "../../../minecraft/MinecraftReques
 import { removeColorCodes } from "../../../utils/stringUtils.js";
 
 class ListCommand extends DiscordCommand<DiscordManagerWithBot> {
-  override readonly data = new DiscordCommandDataBuilder().setName("list").setDescription("List of guild members.");
+  override readonly data = new DiscordCommandDataBuilder().setName("list").setDescription("List of guild members.").setAuthors(["Kathund"]);
   override readonly flags = [CommandFlags.RequiresMinecraftBot];
 
   async getMessages(): Promise<string[]> {

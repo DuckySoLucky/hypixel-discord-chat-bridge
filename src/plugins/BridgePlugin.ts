@@ -5,6 +5,7 @@ import type BridgeEventBus from "../private/BridgeEventBus.js";
 import type DiscordButton from "../discord/private/buttons/DiscordButton.js";
 import type DiscordCommand from "../discord/private/commands/DiscordCommand.js";
 import type DiscordModal from "../discord/private/modals/DiscordModal.js";
+import type DiscordStringSelectMenu from "../discord/private/stringSelectMenu/DiscordStringSelectMenu.js";
 import type MinecraftCommand from "../minecraft/private/commands/MinecraftCommand.js";
 import type { DiscordManagerWithPlugin } from "../types/discord.js";
 import type { Lifecycle } from "../core/Lifecycle.js";
@@ -26,6 +27,7 @@ export interface BridgePluginContext<Plugin> {
   registerMinecraftCommand(factory: MinecraftCommandFactory<Plugin>): void;
   registerButton(factory: DiscordButtonFactory<Plugin>): void;
   registerModal(factory: DiscordModalFactory<Plugin>): void;
+  registerStringSelectMenu(factory: DiscordStringSelectMenuFactory<Plugin>): void;
   registerScript(factory: ScriptFactory<Plugin>): void;
 }
 
@@ -39,6 +41,7 @@ export type DiscordCommandFactory<Plugin> = (discord: DiscordManagerWithPlugin<P
 export type MinecraftCommandFactory<Plugin> = (minecraft: MinecraftManagerWithPlugin<Plugin>) => MinecraftCommand<MinecraftManagerWithPlugin<Plugin>>;
 export type DiscordButtonFactory<Plugin> = (discord: DiscordManagerWithPlugin<Plugin>) => DiscordButton<DiscordManagerWithPlugin<Plugin>>;
 export type DiscordModalFactory<Plugin> = (discord: DiscordManagerWithPlugin<Plugin>) => DiscordModal<DiscordManagerWithPlugin<Plugin>>;
+export type DiscordStringSelectMenuFactory<Plugin> = (discord: DiscordManagerWithPlugin<Plugin>) => DiscordStringSelectMenu<DiscordManagerWithPlugin<Plugin>>;
 export type ScriptFactory<Plugin> = (scripts: ScriptManagerWithPlugin<Plugin>) => BasicScript<ScriptManagerWithPlugin<Plugin>>;
 
 export default abstract class BridgePlugin<Plugin> implements Lifecycle {
