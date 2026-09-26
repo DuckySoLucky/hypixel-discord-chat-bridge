@@ -15,7 +15,7 @@ const MaxRuns = 15_000;
 // Assumption made
 // Has max Scarf Shard providing a 20% boost - https://hypixelskyblock.minecraft.wiki/w/Scarf_Shard
 // Has Scarf's Grimoire providing a 6% boost - https://hypixelskyblock.minecraft.wiki/w/Scarf%27s_Grimoire
-// Unknown source 50%
+// Completing the floot 5+ times providing a 50% boost - https://web.archive.org/web/20260305134813/https://wiki.hypixel.net/Dungeoneering#Maximizing_XP_Gains
 // Has Catacombs Expert Ring providing a 10% boost - https://hypixelskyblock.minecraft.wiki/w/Catacombs_Expert_Ring
 // Has Hecatomb at max level (10) providing a 2% boost - https://hypixelskyblock.minecraft.wiki/w/Hecatomb
 // Potentially better system would be reading player's api data to calculate what they have
