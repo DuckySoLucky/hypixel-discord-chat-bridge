@@ -30,7 +30,7 @@ Variables that get used inside Stats Channels config
 
 ---
 
-This document is [auto generated](/scripts/docs/Variables/Channel.ts) and was last updated on `Tue, 22 Sep 2026 06:53:01 GMT` (`1790059981512`)
+This document is [auto generated](/scripts/docs/Variables/Channel.ts) and was last updated on `Sat, 26 Sep 2026 14:14:17 GMT` (`1790432057801`)
 
 To update this document please run `pnpm docgen` or contact a maintainer and ask them to update it.
 

@@ -222,7 +222,8 @@
     "backupConfigs": true,
     "logger": {
       "saveToFiles": true,
-      "location": "./data/logs/{timestamp}"
+      "location": "./data/logs/{timestamp}",
+      "warningForDisabledChannel": true
     }
   }
 }

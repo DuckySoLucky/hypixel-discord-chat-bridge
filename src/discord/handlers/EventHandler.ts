@@ -9,6 +9,7 @@ class EventHandler {
     const blacklistUser = await this.discord.application.data.blacklist.getUserByDiscordId(member.user.id);
     if (blacklistUser === undefined) return;
     const channel = await this.discord.getChannel("Logger-Event");
+    if (!channel) return;
     const response = await this.discord.application.data.blacklist.getBlacklistDataResponse(blacklistUser);
     await channel.send({ ...response, content: `:warning: Blacklisted User joined the discord\n-# <@&${this.discord.application.config.discord.commands.staffRole}>` });
   }

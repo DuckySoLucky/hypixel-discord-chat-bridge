@@ -1312,9 +1312,10 @@
           "type": "object",
           "properties": {
             "saveToFiles": { "type": "boolean", "description": "Whether log output should be written to files" },
-            "location": { "type": "string", "description": "The location of where these files should be saved" }
+            "location": { "type": "string", "description": "The location of where these files should be saved" },
+            "warningForDisabledChannel": { "type": "boolean", "description": "Whether the channel disabled warning should be sent", "skip": true }
           },
-          "required": ["saveToFiles", "location"],
+          "required": ["saveToFiles", "location", "warningForDisabledChannel"],
           "additionalProperties": false,
           "description": "Configuration options for the logger"
         }

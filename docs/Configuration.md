@@ -401,14 +401,15 @@ This document is generated from the Zod config schema in [`src/types/config.ts`]
 
 ### logger
 
-| Key           | Type      | Description                                       |
-| ------------- | --------- | ------------------------------------------------- |
-| `saveToFiles` | `boolean` | Whether log output should be written to files     |
-| `location`    | `string`  | The location of where these files should be saved |
+| Key                         | Type      | Description                                         |
+| --------------------------- | --------- | --------------------------------------------------- |
+| `saveToFiles`               | `boolean` | Whether log output should be written to files       |
+| `location`                  | `string`  | The location of where these files should be saved   |
+| `warningForDisabledChannel` | `boolean` | Whether the channel disabled warning should be sent |
 
 ---
 
-This document is [auto generated](/scripts/docs/Configuration.ts) and was last updated on `Tue, 22 Sep 2026 06:53:01 GMT` (`1790059981512`)
+This document is [auto generated](/scripts/docs/Configuration.ts) and was last updated on `Sat, 26 Sep 2026 14:14:17 GMT` (`1790432057801`)
 
 To update this document please run `pnpm docgen` or contact a maintainer and ask them to update it.
 
