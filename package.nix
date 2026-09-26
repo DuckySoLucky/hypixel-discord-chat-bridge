@@ -93,7 +93,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   meta = {
     description = "A two-way chat bridge between Hypixel guild chat and a Discord channel. The application utilizes discord.js v14 for communicating with Discord, and mineflayer for communicating with Hypixel";
-    homepage = "https://github.com/Kathund/hypixel-discord-chat-bridge";
+    homepage = "https://github.com/DuckySoLucky/hypixel-discord-chat-bridge";
     mainProgram = "bridgebot";
     platforms = lib.platforms.all;
   };

@@ -124,6 +124,7 @@ class Application implements Lifecycle {
 
     try {
       const channel = await this.discord.getChannel("Logger-Error");
+      if (!channel) return;
       const hasPermission = await canSendMessages(channel);
       if (!hasPermission) return;
       const owners = await getApplicationOwners(this.discord.client);

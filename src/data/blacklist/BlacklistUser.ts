@@ -46,6 +46,7 @@ class BlacklistUser extends GenericData<BlacklistedUserData> {
       throw new HypixelDiscordChatBridgeError("The discord bot doesn't seam to be online? Please restart the application");
     }
     const channel = await this.manager.data.application.discord.getChannel("Logger-Blacklist");
+    if (!channel) throw new HypixelDiscordChatBridgeError('Channel "Logger-Blacklist" is disabled!');
     const blacklistData = await this.manager.getBlacklistDataResponse(this);
 
     if (this.messageId) {
@@ -81,6 +82,7 @@ class BlacklistUser extends GenericData<BlacklistedUserData> {
       throw new HypixelDiscordChatBridgeError("The discord bot doesn't seam to be online? Please restart the application");
     }
     const channel = await this.manager.data.application.discord.getChannel("Logger-Blacklist");
+    if (!channel) throw new HypixelDiscordChatBridgeError('Channel "Logger-Blacklist" is disabled!');
     if (!this.messageId) return;
     const message = await channel.messages.fetch(this.messageId);
     const component = message.components[0];
@@ -158,6 +160,7 @@ class BlacklistUser extends GenericData<BlacklistedUserData> {
   async refreshMessage() {
     if (!this.messageId) return;
     const channel = await this.manager.data.application.discord.getChannel("Logger-Blacklist");
+    if (!channel) throw new HypixelDiscordChatBridgeError('Channel "Logger-Blacklist" is disabled!');
     const message = await channel.messages.fetch(this.messageId).catch(() => null);
     if (!message) return;
     const blacklistData = await this.manager.getBlacklistDataResponse(this);
