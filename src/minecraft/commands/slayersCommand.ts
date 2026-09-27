@@ -17,7 +17,7 @@ class SlayersCommand extends MinecraftCommand {
     const { username, profile } = await getSelectedProfile(player);
     const formattedSlayers = Object.entries(profile.me.slayers)
       .filter(([_, data]) => data instanceof SkyBlockMemberSlayer)
-      .map(([name, data]) => ({ name, stat: data.level.levelWithProgress, xp: data.level.xp }))
+      .map(([name, data]) => ({ name, stat: data.level.level, xp: data.level.xp }))
       .sort((a, b) => a.name.localeCompare(b.name))
       .map(({ name, stat, xp }) => `${titleCase(name)}: ${stat} (${formatNumber(xp)})`);
 
