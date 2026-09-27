@@ -8,7 +8,8 @@ class PermissionCheckCommand extends DiscordCommand<DiscordManagerWithBot> {
   override readonly data = new DiscordCommandDataBuilder()
     .setName("permission-check")
     .setDescription("Check what level of permission a user has")
-    .addUserOption((option) => option.setName("user").setDescription("The user to check (Defaults to self)"));
+    .addUserOption((option) => option.setName("user").setDescription("The user to check (Defaults to self)"))
+    .setAuthors(["Kathund"]);
   override readonly flags = [CommandFlags.DebugCommand];
   override readonly permission = CommandPermission.Staff;
 

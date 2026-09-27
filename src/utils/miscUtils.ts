@@ -4,8 +4,8 @@ import { ErrorEmbed } from "../discord/private/EmbedHelper.js";
 import { HypixelAPIRebornError } from "hypixel-api-reborn";
 import { MinecraftRequestTimeoutError } from "../minecraft/MinecraftRequestBroker.js";
 import type { DataWithTimestamp } from "../types/misc.js";
+import type { DevData, ValidErrors } from "../types/application.js";
 import type { EmbedHelperField } from "../types/discord.js";
-import type { ValidErrors } from "../types/application.js";
 
 export function delay(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -83,4 +83,9 @@ export function getErrorTypeName(error: ValidErrors): string {
 export function getErrorEmbed(error: ValidErrors, extraData: EmbedHelperField[] = []): ErrorEmbed {
   const errorStack = error instanceof Error ? (error.stack ?? error.message) : String(error ?? "Unknown");
   return new ErrorEmbed().setDescription(`\`\`\`${errorStack}\`\`\``).setFields(...[{ name: "Error Type", value: getErrorTypeName(error) }, ...extraData]);
+}
+
+export function convertDevDataToName({ discord, displayName }: DevData, includeMention: boolean = false): string {
+  if (includeMention) return `${discord !== undefined ? `${displayName} (@${discord.username} | <@${discord.id}>)` : displayName}`;
+  return `${discord !== undefined ? `${displayName} (@${discord.username})` : displayName}`;
 }

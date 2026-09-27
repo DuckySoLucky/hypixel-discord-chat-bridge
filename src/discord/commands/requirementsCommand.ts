@@ -11,7 +11,8 @@ class RequirementsCommand extends DiscordCommand {
   override readonly data = new DiscordCommandDataBuilder()
     .setName("requirements")
     .setDescription("Check a user's requirements to join the guild")
-    .addStringOption((option) => option.setName("username").setDescription("Minecraft Username"));
+    .addStringOption((option) => option.setName("username").setDescription("Minecraft Username"))
+    .setAuthors(["Kathund"]);
   override readonly flags = [CommandFlags.RequirementsCommand];
 
   async checkRequirements(uuid: string): Promise<Requirements> {

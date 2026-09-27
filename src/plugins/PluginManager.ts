@@ -82,6 +82,8 @@ class PluginManager implements Lifecycle {
             this.application.minecraft.commandHandler.registerCommand(factory(this.createMinecraftManagerWithPlugin(getPlugin)), "plugin"),
           registerButton: (factory) => this.application.discord.buttonHandler.registerButton(factory(this.createDiscordManagerWithPlugin(getPlugin)), "plugin"),
           registerModal: (factory) => this.application.discord.modalHandler.registerModal(factory(this.createDiscordManagerWithPlugin(getPlugin)), "plugin"),
+          registerStringSelectMenu: (factory) =>
+            this.application.discord.stringSelectMenuHandler.registerStringSelectMenu(factory(this.createDiscordManagerWithPlugin(getPlugin)), "plugin"),
           registerScript: (factory) => this.application.scripts.registerScript(factory(this.createScriptManagerWithPlugin(getPlugin)), "plugin")
         };
 

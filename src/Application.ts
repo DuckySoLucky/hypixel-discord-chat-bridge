@@ -60,6 +60,7 @@ class Application implements Lifecycle {
           this.discord.commandHandler.loadCommands(),
           this.discord.buttonHandler.loadButtons(),
           this.discord.modalHandler.loadModals(),
+          this.discord.stringSelectMenuHandler.loadStringSelectMenus(),
           this.minecraft.commandHandler.loadCommands()
         ]);
         await this.plugins.load();

@@ -25,9 +25,11 @@ export default class EmbedHelper extends EmbedBuilder {
 
   setDevFooter(data: DevName | DevData | null, message: string = "/help [command] for more information"): this {
     if (data === null) return this.setFooter(null);
-    const { username, iconURL } = typeof data === "string" ? CommonDevs[data] : data;
+    const dev = (typeof data === "string" ? CommonDevs[data] : data) as DevData;
+    const { displayName, discord, avatarURL } = dev;
     const showDevFooters = config?.discord?.embeds?.showDevFooters ?? true;
-    return this.setFooter({ text: showDevFooters ? `by @${username} | ${message}` : message, iconURL: showDevFooters ? iconURL : undefined });
+    const username = discord ? `@${discord.username}` : displayName;
+    return this.setFooter({ text: showDevFooters ? `by ${username} | ${message}` : message, iconURL: showDevFooters ? avatarURL : undefined });
   }
 
   setStyle(data: EmbedStyleName | EmbedStyleData): this {

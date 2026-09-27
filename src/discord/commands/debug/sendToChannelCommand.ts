@@ -16,7 +16,8 @@ class SendToChannelCommand extends DiscordCommand {
         .setDescription("The channel to send to")
         .setRequired(true)
         .setChoices(ChannelNames.map((channel) => ({ name: titleCase(channel.replaceAll("-", "_")), value: channel })))
-    );
+    )
+    .setAuthors(["Kathund"]);
   override readonly flags = [CommandFlags.DebugCommand];
   override readonly permission = CommandPermission.Admin;
 

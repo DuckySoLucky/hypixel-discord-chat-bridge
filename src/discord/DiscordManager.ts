@@ -7,19 +7,17 @@ import HypixelDiscordChatBridgeError from "../private/error.js";
 import InteractionHandler from "./handlers/InteractionHandler.js";
 import MessageHandler from "./handlers/MessageHandler.js";
 import ModalHandler from "./handlers/ModalHandler.js";
-import { AttachmentBuilder, ChannelType, Client, Events, GatewayIntentBits, Guild, MessageFlags, type SendableChannels, Webhook } from "discord.js";
+import StringSelectMenuHandler from "./handlers/StringSelectMenuHandler.ts";
+import { AttachmentBuilder, ChannelType, Client, Events, GatewayIntentBits, Guild, MessageFlags, Partials, type SendableChannels, Webhook } from "discord.js";
 import {
-  type AutocompleteInteractionWithGuild,
-  type ButtonInteractionWithGuild,
   type ChannelName,
-  type ChatInputCommandInteractionWithGuild,
   type DiscordManagerWithClient,
   type DiscordManagerWithGuild,
   type EmbedHelperField,
   type GenericChannelName,
+  type InteractionsWithGuild,
   type LoggerChannelName,
-  LoggerChannelNames,
-  type ModalSubmitInteractionWithGuild
+  LoggerChannelNames
 } from "../types/discord.js";
 import { CommonDevs } from "../private/constants.js";
 import { getErrorEmbed } from "../utils/miscUtils.js";
@@ -39,6 +37,7 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
   readonly interactionHandler: InteractionHandler;
   readonly messageHandler: MessageHandler;
   readonly modalHandler: ModalHandler;
+  readonly stringSelectMenuHandler: StringSelectMenuHandler;
   private state: LifecycleState = "idle";
   private startPromise?: Promise<void>;
   client?: Client;
@@ -51,6 +50,7 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
     this.interactionHandler = new InteractionHandler(this);
     this.messageHandler = new MessageHandler(this);
     this.modalHandler = new ModalHandler(this);
+    this.stringSelectMenuHandler = new StringSelectMenuHandler(this);
   }
 
   start(): Promise<void> {
@@ -63,7 +63,16 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
     this.listen("player-toggle", (event) => this.onPlayerToggle(event));
     this.listen("clean-embed", (event) => this.onBroadcastCleanEmbed(event));
     this.listen("headed-embed", (event) => this.onBroadcastHeadedEmbed(event));
-    const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers] });
+    const client = new Client({
+      intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent,
+        GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.DirectMessages
+      ],
+      partials: [Partials.Channel]
+    });
     client.config = this.application.config;
     client.discordManager = this;
     this.client = client;
@@ -163,7 +172,7 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
       const webhooks = await channel.fetchWebhooks();
 
       if (webhooks.size === 0) {
-        await channel.createWebhook({ name: "Hypixel Chat Bridge", avatar: CommonDevs.DuckySoLucky.iconURL });
+        await channel.createWebhook({ name: "Hypixel Chat Bridge", avatar: CommonDevs.DuckySoLucky?.avatarURL });
         return await this.getWebhook(type);
       }
 
@@ -313,6 +322,7 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
   }
 
   isGuildReady(): this is DiscordManagerWithGuild {
+    if (!this.isClientOnline()) return false;
     return this.guild?.id !== undefined;
   }
 
@@ -396,11 +406,7 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
     return channel;
   }
 
-  async handleError(
-    error: ValidErrors,
-    interaction: ChatInputCommandInteractionWithGuild | ButtonInteractionWithGuild | AutocompleteInteractionWithGuild | ModalSubmitInteractionWithGuild | null = null,
-    extraErrorData: EmbedHelperField[] = []
-  ) {
+  async handleError(error: ValidErrors, interaction: InteractionsWithGuild | null = null, extraErrorData: EmbedHelperField[] = []) {
     if (interaction) {
       extraErrorData.push({ name: "Source", value: "Discord Interaction" });
       extraErrorData.push({ name: "User", value: `\`@${interaction.user.username}\` (\`${interaction.user.id}\`) <@${interaction.user.id}>` });

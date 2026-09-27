@@ -5,13 +5,13 @@ import MinecraftCommandDataOption from "../private/commands/MinecraftCommandData
 import { formatNumber } from "../../utils/stringUtils.js";
 import { getGuild } from "../../utils/hypixelUtils.js";
 
-// CREDITS: by @MattyHD0 (https://github.com/MattyHD0)
 class GuildOfCommand extends MinecraftCommand {
   override readonly data = new MinecraftCommandData()
     .setName("guildof")
     .setDescription("View the player's guild")
     .setAliases(["gof", "guildofplayer", "gop"])
-    .setOptions([new MinecraftCommandDataOption().setName("player").setRequired(true)]);
+    .setOptions([new MinecraftCommandDataOption().setName("player").setRequired(true)])
+    .setAuthors(["MattyHD0"]);
 
   override async execute(player: string, message: string) {
     player = this.getArgs(message)[0] || player;

@@ -5,13 +5,13 @@ import { CalculateAverage } from "hypixel-api-reborn";
 import { formatNumber, titleCase } from "../../utils/stringUtils.js";
 import { getSelectedProfile } from "../../utils/hypixelUtils.js";
 
-// CREDITS: by @MattyHD0 (https://github.com/MattyHD0)
 class OverflowSkillsCommand extends MinecraftCommand {
   override readonly data = new MinecraftCommandData()
     .setName("overflowskills")
     .setDescription("Overflow Skills and Skill Average of specified user.")
     .setAliases(["oskills", "oskill", "osk"])
-    .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
+    .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")])
+    .setAuthors(["MattyHD0"]);
 
   override async execute(player: string, message: string) {
     player = this.getArgs(message)[0] || player;

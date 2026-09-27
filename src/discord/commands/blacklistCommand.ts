@@ -58,7 +58,8 @@ class BlacklistCommand extends DiscordCommand {
         .setDescription("Look up a blacklist")
         .addUserOption((option) => option.setName("user").setDescription("Discord Username"))
         .addStringOption((option) => option.setName("username").setDescription("Minecraft Username"))
-    );
+    )
+    .setAuthors(["Kathund"]);
   override readonly flags = [CommandFlags.BlacklistCommand];
   override readonly permission = CommandPermission.Staff;
   override readonly response = BasicInteractionResponse.Ephemeral;

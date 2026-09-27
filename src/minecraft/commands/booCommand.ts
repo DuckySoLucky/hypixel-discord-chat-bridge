@@ -4,12 +4,12 @@ import MinecraftCommandData from "../private/commands/MinecraftCommandData.js";
 import MinecraftCommandDataOption from "../private/commands/MinecraftCommandDataOption.js";
 import { delay } from "../../utils/miscUtils.js";
 
-// CREDITS: by @Zickles (https://github.com/Zickles)
 class BooCommand extends MinecraftCommand {
   override readonly data = new MinecraftCommandData()
     .setName("boo")
     .setDescription("Boo someone!")
-    .setOptions([new MinecraftCommandDataOption().setName("username").setRequired(true)]);
+    .setOptions([new MinecraftCommandDataOption().setName("username").setRequired(true)])
+    .setAuthors(["Zickles"]);
   private isOnCooldown: boolean = false;
 
   override async execute(player: string, message: string) {

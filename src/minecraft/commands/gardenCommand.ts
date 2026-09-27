@@ -5,12 +5,12 @@ import MinecraftCommandDataOption from "../private/commands/MinecraftCommandData
 import { formatNumber, titleCaseCamel } from "../../utils/stringUtils.js";
 import { getSelectedProfile } from "../../utils/hypixelUtils.js";
 
-// CREDITS: by @Kathund (https://github.com/Kathund)
 class GardenCommand extends MinecraftCommand {
   override readonly data = new MinecraftCommandData()
     .setName("garden")
     .setDescription("Skyblock Garden Stats of specified user.")
-    .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")]);
+    .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")])
+    .setAuthors(["Kathund"]);
   private readonly keyRemap: Record<string, string> = {
     "Nether Wart": "Wart",
     "Sugar Cane": "Cane",

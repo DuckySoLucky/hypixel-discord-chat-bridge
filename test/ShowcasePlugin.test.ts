@@ -9,6 +9,7 @@ import type {
   DiscordButtonFactory,
   DiscordCommandFactory,
   DiscordModalFactory,
+  DiscordStringSelectMenuFactory,
   MinecraftCommandFactory,
   ScriptFactory
 } from "../src/plugins/BridgePlugin.js";
@@ -32,6 +33,7 @@ function createPluginContext(): {
   const minecraftCommands: MinecraftCommandFactory<ShowcasePlugin>[] = [];
   const buttons: DiscordButtonFactory<ShowcasePlugin>[] = [];
   const modals: DiscordModalFactory<ShowcasePlugin>[] = [];
+  const stringSelectMenus: DiscordStringSelectMenuFactory<ShowcasePlugin>[] = [];
   const scripts: ScriptFactory<ShowcasePlugin>[] = [];
   return {
     events,
@@ -48,6 +50,7 @@ function createPluginContext(): {
       registerMinecraftCommand: (factory) => minecraftCommands.push(factory),
       registerButton: (factory) => buttons.push(factory),
       registerModal: (factory) => modals.push(factory),
+      registerStringSelectMenu: (factory) => stringSelectMenus.push(factory),
       registerScript: (factory) => scripts.push(factory)
     }
   };
