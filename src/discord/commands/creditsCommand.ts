@@ -71,6 +71,7 @@ class CreditsCommand extends DiscordCommand {
       lines.push(`**Discord:** <@${devData.discord.id}> (@${devData.discord.username} | \`${devData.discord.id}\`)`);
       buttons.push(new ButtonBuilder().setLabel("Discord").setStyle(ButtonStyle.Link).setURL(`https://discord.com/users/${devData.discord.id}`));
     }
+    if (devData.note) lines.push(`**Note:** ${devData.note}`);
     const discordCommands = this.discord.commandHandler.commands.filter(({ data }) => data.authors.includes(devName)).map((command) => `- \`${command.data.name}\``);
     const minecraftCommands = this.discord.application.minecraft.commandHandler.commands
       .filter(({ data }) => data.authors.includes(devName))
