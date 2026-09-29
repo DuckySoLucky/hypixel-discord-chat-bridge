@@ -14,7 +14,7 @@ class KuudraCommand extends MinecraftCommand {
   override async execute(player: string, message: string) {
     player = this.getArgs(message)[0] || player;
     const { username, profile } = await getSelectedProfile(player);
-    const formattedKuudra = Object.entries(profile.me.currencies)
+    const formattedKuudra = Object.entries(profile.me.crimsonIsle.kuudra)
       .filter(([key]) => key.endsWith("Completions"))
       .map(([name, stat]) => ({ name: name.replaceAll("Completions", ""), stat }))
       .map(({ name, stat }) => `${titleCase(name)}: ${formatNumber(stat)}`);
