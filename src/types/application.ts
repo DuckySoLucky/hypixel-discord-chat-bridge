@@ -25,6 +25,7 @@ export interface BasicDevData {
   githubUsername: string;
   avatarURL?: string;
   discord?: DevDiscordData;
+  note?: string;
 }
 
 export interface MaintainerDevData extends BasicDevData {

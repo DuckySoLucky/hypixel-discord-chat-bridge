@@ -22,7 +22,8 @@ export const CommonDevs = {
     githubUsername: "kathund",
     type: "Maintainer",
     avatarURL: "https://kathund.dev/kathund.png",
-    discord: { username: ".kathund", id: "1276524855445164098" }
+    discord: { username: ".kathund", id: "1276524855445164098" },
+    note: ":purple_heart:"
   },
   "GeorgeFilos": {
     displayName: "George",
