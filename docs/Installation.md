@@ -81,8 +81,20 @@ or manually set everything
 
 3. Run the container:
 
+The container runs as the `node` user (UID/GID `1000`). Create the folders before starting the container, otherwise Docker creates them owned by root:
+
 ```bash
-  docker container run --restart=unless-stopped -itd -v ./config.json:/app/config.json -v ./data/:/app/data/ ./plugins/:/app/plugins/ --name hypixel-discord-chat-bridge ghcr.io/duckysolucky/hypixel-discord-chat-bridge:latest
+mkdir -p data plugins
+```
+
+If you are upgrading from an older image that ran as root, `chown` the files to UID `1000` to prevent the bot from not starting.
+
+```bash
+sudo chown -R 1000:1000 config.json data plugins
+```
+
+```bash
+  docker container run --restart=unless-stopped -itd -v ./config.json:/app/config.json -v ./data/:/app/data/ -v ./plugins/:/app/plugins/ --name hypixel-discord-chat-bridge ghcr.io/duckysolucky/hypixel-discord-chat-bridge:latest
 ```
 
 Note that the path of the configuration source file must either be relative (with the `./`) or absolute.
