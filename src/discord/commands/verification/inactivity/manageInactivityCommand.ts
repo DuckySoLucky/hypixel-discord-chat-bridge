@@ -33,7 +33,7 @@ class ManageInactivityCommand extends DiscordCommand {
         .setDescription("Get an inactivity list entry")
         .addStringOption((option) => option.setName("inactivity").setDescription("The inactivity you are wanting to get").setRequired(true).setAutocomplete(true))
     )
-    .setAuthors(["Kathund"]);
+    .setAuthors(["Amber"]);
   override readonly flags = [CommandFlags.InactivityCommand, CommandFlags.VerificationCommand];
   override readonly permission = CommandPermission.Staff;
 
@@ -70,7 +70,7 @@ class ManageInactivityCommand extends DiscordCommand {
         if (isNaN(time)) throw new HypixelDiscordChatBridgeError("Please input a valid time");
         const reason = interaction.options.getString("reason") ?? "No reason provided";
         await new InactiveUser({ discordId: user.id, reason, duration: time }, this.discord.application.data.inactivity).save();
-        await interaction.followUp({ embeds: [new SuccessEmbed().setDescription("User has been marked as inactive").setDevFooter("Kathund")] });
+        await interaction.followUp({ embeds: [new SuccessEmbed().setDescription("User has been marked as inactive").setDevFooter("Amber")] });
         break;
       }
       case "delete": {
@@ -78,7 +78,7 @@ class ManageInactivityCommand extends DiscordCommand {
         const inactivityData = await this.discord.application.data.inactivity.getUserById(inactivityId);
         if (!inactivityData) throw new HypixelDiscordChatBridgeError("Unable to find that inactivity?");
         await inactivityData.delete();
-        await interaction.followUp({ embeds: [new SuccessEmbed().setDescription("Inactivity has been removed").setDevFooter("Kathund")] });
+        await interaction.followUp({ embeds: [new SuccessEmbed().setDescription("Inactivity has been removed").setDevFooter("Amber")] });
         break;
       }
       case "get": {

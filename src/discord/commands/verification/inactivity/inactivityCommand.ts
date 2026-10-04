@@ -13,7 +13,7 @@ class InactivityCommand extends DiscordCommand {
     .setDescription("Send an inactivity notice to the guild staff")
     .addStringOption((option) => option.setName("time").setDescription("The time you are inactive for (e.g. 1d, 72h, 2w)").setRequired(true))
     .addStringOption((option) => option.setName("reason").setDescription("The reason you are going away"))
-    .setAuthors(["Kathund"]);
+    .setAuthors(["Amber"]);
   override readonly flags = [CommandFlags.InactivityCommand, CommandFlags.VerificationCommand];
   override readonly permission = CommandPermission.GuildMember;
 
@@ -28,7 +28,7 @@ class InactivityCommand extends DiscordCommand {
     const reason = interaction.options.getString("reason") ?? "No reason provided";
     await new InactiveUser({ discordId: interaction.user.id, reason, duration: time }, this.discord.application.data.inactivity).save();
     await interaction.followUp({
-      embeds: [new SuccessEmbed().setDescription("Inactivity request has been successfully sent to the guild staff.").setDevFooter("Kathund")]
+      embeds: [new SuccessEmbed().setDescription("Inactivity request has been successfully sent to the guild staff.").setDevFooter("Amber")]
     });
   }
 }

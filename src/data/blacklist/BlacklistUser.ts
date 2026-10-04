@@ -61,7 +61,7 @@ class BlacklistUser extends GenericData<BlacklistedUserData> {
         .setAuthor({ name: "You have been blacklisted" })
         .setDescription(this.reason)
         .setFooter({ text: `Blacklisted by @${user.id}`, iconURL: user.avatarURL({ size: 4096 }) || undefined });
-      if (!shareUser) embed.setDevFooter("Kathund");
+      if (!shareUser) embed.setDevFooter("Amber");
       const send = await this.manager.data.application.discord.client.users.send(this.discordId, { embeds: [embed] }).catch((e: Error) => {
         if (e.name === "DiscordAPIError[50278]") return null;
         throw e;
@@ -114,7 +114,7 @@ class BlacklistUser extends GenericData<BlacklistedUserData> {
         .setAuthor({ name: "You have been removed from the blacklist" })
         .setDescription(this.reason)
         .setFooter({ text: `Removed by @${user.id}`, iconURL: user.avatarURL({ size: 4096 }) || undefined });
-      if (!shareUser) embed.setDevFooter("Kathund");
+      if (!shareUser) embed.setDevFooter("Amber");
       const send = await this.manager.data.application.discord.client.users.send(this.discordId, { embeds: [embed] }).catch((e: Error) => {
         if (e.name === "DiscordAPIError[50278]") return null;
         throw e;

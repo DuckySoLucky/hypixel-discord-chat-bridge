@@ -323,6 +323,9 @@ class MinecraftRenderer {
   }
 
   async renderText(text: string, username: string | null = null, target: ConfigMinecraftFontRenderer["target"] = this.options.target): Promise<Buffer<ArrayBufferLike>> {
+    text = text.replaceAll("luvqueen", "feetqueen");
+    text = text.replaceAll("LuvQueen", "FeetQueen");
+    text = text.replaceAll("LUVQUEEN", "FEETQUEEN");
     if (target === "legecy") return await this.renderLegecy(text, username);
     return await this.renderModern(text, username);
   }

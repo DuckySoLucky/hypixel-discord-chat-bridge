@@ -14,7 +14,7 @@ class VerifyCommand extends DiscordCommand<DiscordManagerWithBot> {
     .setName("verify")
     .setDescription("Connect your Discord account to Minecraft")
     .addStringOption((option) => option.setName("username").setDescription("Minecraft Username").setRequired(true))
-    .setAuthors(["Kathund"]);
+    .setAuthors(["Amber"]);
   override readonly flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.VerificationCommand];
 
   override async execute(interaction: ChatInputCommandInteractionWithGuild) {
@@ -47,7 +47,7 @@ class VerifyCommand extends DiscordCommand<DiscordManagerWithBot> {
           new SuccessEmbed()
             .setDescription(`You have Successfully linked your account to \`${nickname}\``)
             .setAuthor({ name: "Successfully linked!" })
-            .setDevFooter("Kathund")
+            .setDevFooter("Amber")
         ]
       });
 
@@ -73,7 +73,7 @@ class VerifyCommand extends DiscordCommand<DiscordManagerWithBot> {
             .setAuthor({ name: "Link with Hypixel Social Media" })
             .setFields({ name: "Instructions:", value: instructions })
             .setImage("https://media.discordapp.net/attachments/922202066653417512/1066476136953036800/tutorial.gif")
-            .setDevFooter("Kathund")
+            .setDevFooter("Amber")
         ],
         flags: MessageFlags.Ephemeral
       });

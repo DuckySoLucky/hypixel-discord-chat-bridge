@@ -17,7 +17,7 @@ class SendToChannelCommand extends DiscordCommand {
         .setRequired(true)
         .setChoices(ChannelNames.map((channel) => ({ name: titleCase(channel.replaceAll("-", "_")), value: channel })))
     )
-    .setAuthors(["Kathund"]);
+    .setAuthors(["Amber"]);
   override readonly flags = [CommandFlags.DebugCommand];
   override readonly permission = CommandPermission.Admin;
 
@@ -27,7 +27,7 @@ class SendToChannelCommand extends DiscordCommand {
     const channel = await this.discord.getChannel(channelName);
     if (!channel) throw new HypixelDiscordChatBridgeError(`Channel "${channelName} is disabled!`);
     const message = await channel.send({ content: interaction.options.getString("message", true) });
-    await interaction.followUp({ embeds: [new SuccessEmbed().setDevFooter("Kathund").setDescription(`Message sent in \`${channelName}\`\n${message.url}`)] });
+    await interaction.followUp({ embeds: [new SuccessEmbed().setDevFooter("Amber").setDescription(`Message sent in \`${channelName}\`\n${message.url}`)] });
   }
 }
 

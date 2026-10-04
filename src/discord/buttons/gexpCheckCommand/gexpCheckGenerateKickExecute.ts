@@ -25,7 +25,7 @@ class GexpCheckGenerateKickExecuteButton extends DiscordButton<DiscordManagerWit
       .filter(Boolean);
     if (!commands.length) throw new HypixelDiscordChatBridgeError("The commands file is empty?");
 
-    await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(`Found ${commands.length} kick command(s)`).setDevFooter("Kathund")] });
+    await interaction.followUp({ embeds: [new SuccessEmbed().setDescription(`Found ${commands.length} kick command(s)`).setDevFooter("Amber")] });
 
     for (const command of commands) {
       this.discord.application.minecraft.bot.chat(command);
@@ -33,7 +33,7 @@ class GexpCheckGenerateKickExecuteButton extends DiscordButton<DiscordManagerWit
     }
 
     await interaction.followUp({
-      embeds: [new SuccessEmbed().setDescription(`Executed ${commands.length} kick command(s)`).setDevFooter("Kathund")],
+      embeds: [new SuccessEmbed().setDescription(`Executed ${commands.length} kick command(s)`).setDevFooter("Amber")],
       flags: MessageFlags.Ephemeral
     });
   }

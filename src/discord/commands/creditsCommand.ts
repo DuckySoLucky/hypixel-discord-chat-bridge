@@ -22,7 +22,7 @@ class CreditsCommand extends DiscordCommand {
             .map(([key, dev]) => ({ name: `${convertDevDataToName(dev)} - ${dev.type}`, value: key }))
         )
     )
-    .setAuthors(["Kathund"]);
+    .setAuthors(["Amber"]);
 
   static getDevSelectMenu(): StringSelectMenuBuilder {
     return new StringSelectMenuBuilder()
@@ -58,7 +58,7 @@ class CreditsCommand extends DiscordCommand {
           .map((dev) => convertDevDataToName(dev))
           .join(", ")}`
       })
-      .setDevFooter("Kathund");
+      .setDevFooter("Amber");
     return { embeds: [embed], components: [new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(CreditsCommand.getDevSelectMenu())] };
   }
 
@@ -86,7 +86,7 @@ class CreditsCommand extends DiscordCommand {
             { name: "Minecraft Commands", value: minecraftCommands.length === 0 ? "None" : minecraftCommands.join("\n"), inline: true }
           )
           .setThumbnail(devData.avatarURL ?? null)
-          .setDevFooter("Kathund")
+          .setDevFooter("Amber")
       ],
       components: [
         new ActionRowBuilder<ButtonBuilder>().addComponents(buttons),

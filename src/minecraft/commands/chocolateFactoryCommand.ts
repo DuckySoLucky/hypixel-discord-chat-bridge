@@ -10,7 +10,7 @@ class ChocolateFactoryCommand extends MinecraftCommand {
     .setDescription("Skyblock Chocolate Factory Stats of specified user.")
     .setAliases(["cf", "factory", "chocolate"])
     .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")])
-    .setAuthors(["Kathund"]);
+    .setAuthors(["Amber"]);
 
   override async execute(player: string, message: string) {
     player = this.getArgs(message)[0] || player;

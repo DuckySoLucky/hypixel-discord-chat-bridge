@@ -12,7 +12,7 @@ class ForceVerifyCommand extends DiscordCommand<DiscordManagerWithBot> {
     .setDescription("Connect Discord account to a Minecraft")
     .addUserOption((option) => option.setName("user").setDescription("Discord Username").setRequired(true))
     .addStringOption((option) => option.setName("username").setDescription("Minecraft Username").setRequired(true))
-    .setAuthors(["Kathund"]);
+    .setAuthors(["Amber"]);
   override readonly flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.VerificationCommand];
   override readonly permission = CommandPermission.Staff;
 

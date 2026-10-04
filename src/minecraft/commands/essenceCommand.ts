@@ -9,7 +9,7 @@ class EssenceCommand extends MinecraftCommand {
     .setName("essence")
     .setDescription("Skyblock Dungeons Stats of specified user.")
     .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")])
-    .setAuthors(["Kathund"]);
+    .setAuthors(["Amber"]);
 
   override async execute(player: string, message: string) {
     player = this.getArgs(message)[0] || player;

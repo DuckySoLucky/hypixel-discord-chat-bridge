@@ -112,7 +112,7 @@ export class BlacklistEmbed extends SuccessEmbed {
       { name: "Blacklist ID", value: user.blacklistId, blockValue: true }
     );
     this.setTimestamp(Date.now());
-    this.setDevFooter("Kathund", "Last Updated");
+    this.setDevFooter("Amber", "Last Updated");
   }
 }
 
@@ -129,6 +129,6 @@ export class InactivityEmbed extends SuccessEmbed {
     this.addMinecraftFields({ formattedNickname: player?.formattedNickname, nickname: player?.nickname, uuid: player?.uuid });
     this.addFields({ name: "Inactivity ID", value: user.inactivityId, blockValue: true });
     this.setTimestamp(Date.now());
-    this.setDevFooter("Kathund", "Last Updated");
+    this.setDevFooter("Amber", "Last Updated");
   }
 }

@@ -11,7 +11,7 @@ class TrophyFishCommand extends MinecraftCommand {
     .setDescription("Trophy Fish Stats of specified user.")
     .setAliases(["tf", "trophyfishing", "trophy"])
     .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")])
-    .setAuthors(["Kathund"]);
+    .setAuthors(["Amber"]);
 
   override async execute(player: string, message: string) {
     player = this.getArgs(message)[0] || player;

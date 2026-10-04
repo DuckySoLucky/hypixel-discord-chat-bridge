@@ -37,5 +37,5 @@ Embed styles are basically templates that embeds can use to preset stuff. There 
 
 If you need any help help consider checking out the [FAQ](/docs/FrequentlyAskedQuestions.md)
 
-Feel free to reach out to the maintainers directly on Discord. [@duckysolucky](https://discord.com/users/486155512568741900) and
-[@.kathund](https://discord.com/users/1276524855445164098)
+Feel free to reach out to the maintainers directly on Discord. [@duckysolucky](https://discord.com/users/486155512568741900),
+[@amber.rip](https://discord.com/users/1276524855445164098)

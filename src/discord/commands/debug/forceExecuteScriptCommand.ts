@@ -17,7 +17,7 @@ class ForceExecuteScriptCommand extends DiscordCommand {
     .setName("force-execute-script")
     .setDescription("Allows executing scripts")
     .addStringOption((option) => option.setName("script-name").setDescription("Script Name").setRequired(true).setAutocomplete(true))
-    .setAuthors(["Kathund"]);
+    .setAuthors(["Amber"]);
   override readonly flags = [CommandFlags.DebugCommand];
   override readonly permission = CommandPermission.Staff;
 
@@ -32,14 +32,14 @@ class ForceExecuteScriptCommand extends DiscordCommand {
     const scriptName = interaction.options.getString("script-name", true);
     const script = this.discord.application.scripts.getScript(scriptName);
     if (!script) throw new HypixelDiscordChatBridgeError("Could not find that script?");
-    await interaction.followUp({ embeds: [new EmbedHelper().setDescription(`Executing \`${script.id}\` script`).setDevFooter("Kathund")] });
+    await interaction.followUp({ embeds: [new EmbedHelper().setDescription(`Executing \`${script.id}\` script`).setDevFooter("Amber")] });
     const duration = await script.setUser(interaction.user).runNow();
     await interaction.followUp({
       embeds: [
         new SuccessEmbed()
           .setDescription(`Finished executing \`${script.id}\` script`)
           .addFields({ name: "Duration", value: `${duration.toFixed(2)}ms (${prettyMilliseconds(duration)})` })
-          .setDevFooter("Kathund")
+          .setDevFooter("Amber")
       ]
     });
   }

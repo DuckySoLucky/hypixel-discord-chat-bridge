@@ -12,7 +12,7 @@ import {
 import { SuccessEmbed } from "../../private/EmbedHelper.js";
 
 class UpdateCommand extends DiscordCommand<DiscordManagerWithBot> {
-  override readonly data = new DiscordCommandDataBuilder().setName("update").setDescription("Update your current roles").setAuthors(["Kathund"]);
+  override readonly data = new DiscordCommandDataBuilder().setName("update").setDescription("Update your current roles").setAuthors(["Amber"]);
   override readonly flags = [CommandFlags.RequiresMinecraftBot, CommandFlags.VerificationCommand];
   override readonly permission = CommandPermission.Linked;
   discordId: string | null = null;
@@ -27,7 +27,7 @@ class UpdateCommand extends DiscordCommand<DiscordManagerWithBot> {
       embeds: [
         new SuccessEmbed()
           .setDescription(`Successfully synced <@${this.discordId}>'s roles with \`${await MowojangAPI.getUsername(linkedUser.uuid)}\`'s stats!`)
-          .setDevFooter("Kathund")
+          .setDevFooter("Amber")
       ]
     });
     this.discordId = null;

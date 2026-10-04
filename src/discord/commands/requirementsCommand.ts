@@ -12,7 +12,7 @@ class RequirementsCommand extends DiscordCommand {
     .setName("requirements")
     .setDescription("Check a user's requirements to join the guild")
     .addStringOption((option) => option.setName("username").setDescription("Minecraft Username"))
-    .setAuthors(["Kathund"]);
+    .setAuthors(["Amber"]);
   override readonly flags = [CommandFlags.RequirementsCommand];
 
   async checkRequirements(uuid: string): Promise<Requirements> {
