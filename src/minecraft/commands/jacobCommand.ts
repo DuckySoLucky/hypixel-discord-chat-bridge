@@ -10,7 +10,7 @@ class JacobCommand extends MinecraftCommand {
     .setDescription("Jacob's Contest Stats of specified user.")
     .setAliases(["jacobs", "jacobcontest", "contest"])
     .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")])
-    .setAuthors(["Kathund"]);
+    .setAuthors(["Amber"]);
 
   override async execute(player: string, message: string) {
     player = this.getArgs(message)[0] || player;

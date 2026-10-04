@@ -11,7 +11,7 @@ import {
 import { SuccessEmbed } from "../../private/EmbedHelper.js";
 
 class UnverifyCommand extends DiscordCommand<DiscordManagerWithBot> {
-  override readonly data = new DiscordCommandDataBuilder().setName("unverify").setDescription("Remove your linked Minecraft account").setAuthors(["Kathund"]);
+  override readonly data = new DiscordCommandDataBuilder().setName("unverify").setDescription("Remove your linked Minecraft account").setAuthors(["Amber"]);
   override readonly flags = [CommandFlags.VerificationCommand];
   override readonly permission = CommandPermission.Linked;
   discordId: string | null = null;
@@ -23,7 +23,7 @@ class UnverifyCommand extends DiscordCommand<DiscordManagerWithBot> {
     await linkedUser.reset();
     await linkedUser.delete();
     await interaction.followUp({
-      embeds: [new SuccessEmbed().setDescription(`Successfully unlinked <@${this.discordId}> from \`${await linkedUser.getUsername()}\`!`).setDevFooter("Kathund")]
+      embeds: [new SuccessEmbed().setDescription(`Successfully unlinked <@${this.discordId}> from \`${await linkedUser.getUsername()}\`!`).setDevFooter("Amber")]
     });
     this.discordId = null;
   }

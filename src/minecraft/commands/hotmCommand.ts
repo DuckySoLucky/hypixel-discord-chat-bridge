@@ -11,7 +11,7 @@ class HotmCommand extends MinecraftCommand {
     .setDescription("Skyblock Hotm Stats of specified user.")
     .setAliases(["mining"])
     .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")])
-    .setAuthors(["Kathund"]);
+    .setAuthors(["Amber"]);
 
   override async execute(player: string, message: string) {
     player = this.getArgs(message)[0] || player;

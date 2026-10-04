@@ -10,7 +10,7 @@ class GardenCommand extends MinecraftCommand {
     .setName("garden")
     .setDescription("Skyblock Garden Stats of specified user.")
     .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")])
-    .setAuthors(["Kathund"]);
+    .setAuthors(["Amber"]);
   private readonly keyRemap: Record<string, string> = {
     "Nether Wart": "Wart",
     "Sugar Cane": "Cane",

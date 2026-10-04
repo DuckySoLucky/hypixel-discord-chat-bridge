@@ -98,7 +98,7 @@ abstract class BasicScript<Manager extends ScriptManager = ScriptManager> implem
     console.scripts(message);
     const channel = await this.scripts.application.discord.getChannel("Logger-Scripts");
     if (!channel) return;
-    const embed = new EmbedHelper().setDescription(message).setDevFooter("Kathund");
+    const embed = new EmbedHelper().setDescription(message).setDevFooter("Amber");
     if (state === ScriptLogState.Good) embed.setColor("Green");
     else if (state === ScriptLogState.Bad) embed.setColor("Red");
     else if (state === ScriptLogState.Misc) embed.setColor("Blue");

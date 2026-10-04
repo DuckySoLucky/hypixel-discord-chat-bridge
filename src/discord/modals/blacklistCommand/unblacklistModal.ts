@@ -19,7 +19,7 @@ class UnblacklistModal extends DiscordModal {
     const alertUser = this.discord.application.config.blacklist.notifications.onBlacklistChange.enabled;
     const shareUser = this.discord.application.config.blacklist.notifications.onBlacklistChange.shareBlacklister;
     await blacklistUser.delete({ alertUser, shareUser, user: interaction.user, reason });
-    await interaction.followUp({ embeds: [new SuccessEmbed().setDescription("User has been unblacklisted").setDevFooter("Kathund")] });
+    await interaction.followUp({ embeds: [new SuccessEmbed().setDescription("User has been unblacklisted").setDevFooter("Amber")] });
   }
 }
 

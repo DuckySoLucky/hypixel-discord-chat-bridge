@@ -17,12 +17,12 @@ export const CommonDevs = {
     avatarURL: "https://imgur.com/tgwQJTX.png",
     discord: { username: "duckysolucky", id: "486155512568741900" }
   },
-  "Kathund": {
+  "Amber": {
     displayName: "Amber",
     githubUsername: "kathund",
     type: "Maintainer",
     avatarURL: "https://kathund.dev/kathund.png",
-    discord: { username: ".kathund", id: "1276524855445164098" },
+    discord: { username: "amber.rip", id: "1276524855445164098" },
     note: ":purple_heart:"
   },
   "GeorgeFilos": {

@@ -9,7 +9,7 @@ class KuudraCommand extends MinecraftCommand {
     .setName("kuudra")
     .setDescription("Kuudra Stats of specified user.")
     .setOptions([new MinecraftCommandDataOption().setName("username").setDescription("Minecraft Username")])
-    .setAuthors(["Kathund"]);
+    .setAuthors(["Amber"]);
 
   override async execute(player: string, message: string) {
     player = this.getArgs(message)[0] || player;

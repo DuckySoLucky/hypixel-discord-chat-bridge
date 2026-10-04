@@ -17,7 +17,7 @@ class EditBlacklistReasonModal extends DiscordModal {
     if (!blacklistUser) throw new HypixelDiscordChatBridgeError("Unable to find the blacklist user");
     const reason = interaction.fields.getTextInputValue("editBlacklistReasonReason") ?? "No reason provided";
     await blacklistUser.updateReason(reason, { alertUser: false, shareUser: false, user: interaction.user });
-    await interaction.followUp({ embeds: [new SuccessEmbed().setDescription("Reason updated").setDevFooter("Kathund")] });
+    await interaction.followUp({ embeds: [new SuccessEmbed().setDescription("Reason updated").setDevFooter("Amber")] });
   }
 }
 

@@ -16,7 +16,7 @@ class ForceErrorCommand extends DiscordCommand {
         .setRequired(true)
         .setChoices({ name: "Bridge Bot Error", value: "bridgeBot" }, { name: "Hypixel API Reborn Error", value: "reborn" }, { name: "Generic Error", value: "generic" })
     )
-    .setAuthors(["Kathund"]);
+    .setAuthors(["Amber"]);
   override readonly flags = [CommandFlags.DebugCommand];
   override readonly permission = CommandPermission.Admin;
 

@@ -12,7 +12,7 @@ class LinkedCommand extends DiscordCommand {
     .setDescription("View who a user is linked to")
     .addUserOption((option) => option.setName("user").setDescription("Discord Username"))
     .addStringOption((option) => option.setName("username").setDescription("Minecraft Username"))
-    .setAuthors(["Kathund"]);
+    .setAuthors(["Amber"]);
   override readonly flags = [CommandFlags.VerificationCommand];
   override readonly response = BasicInteractionResponse.Ephemeral;
   override readonly permission = CommandPermission.Staff;
@@ -56,7 +56,7 @@ class LinkedCommand extends DiscordCommand {
             { name: "UUID", value: `\`\`\`${uuid}\`\`\`` },
             { name: "Is in Guild", value: guildMember ? ":white_check_mark: Yes" : ":x: No" }
           )
-          .setDevFooter("Kathund")
+          .setDevFooter("Amber")
       ],
       components: [
         new ActionRowBuilder<ButtonBuilder>().addComponents(buttons),
