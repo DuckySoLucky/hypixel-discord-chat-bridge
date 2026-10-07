@@ -14,7 +14,8 @@
     },
     "nmsr": {
       "baseURL": "https://nmsr.nickac.dev"
-    }
+    },
+    "cache": true
   },
   "bridge": {
     "minecraft": {

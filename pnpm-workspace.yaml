@@ -1,7 +1,4 @@
 allowBuilds:
   canvas: true
   esbuild: true
-  hypixel-api-reborn: true
   unrs-resolver: true
-minimumReleaseAgeExclude:
-  - hypixel-api-reborn@12.0.0-31

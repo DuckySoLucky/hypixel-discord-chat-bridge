@@ -1,4 +1,5 @@
 import BridgeEventBus from "./private/BridgeEventBus.js";
+import CacheHandler from "./private/CacheHandler.js";
 import DataManager from "./data/DataManager.js";
 import DiscordManager from "./discord/DiscordManager.js";
 import HypixelDiscordChatBridgeError from "./private/error.js";
@@ -22,6 +23,7 @@ import type { ValidErrors } from "./types/application.js";
 class Application implements Lifecycle {
   readonly package: typeof packageJson;
   readonly messages: typeof messages;
+  readonly cache: CacheHandler = new CacheHandler();
   readonly data: DataManager;
   readonly events: BridgeEventBus;
   readonly discord: DiscordManager;
@@ -39,8 +41,8 @@ class Application implements Lifecycle {
   ) {
     this.package = packageJson;
     this.messages = messages;
-    this.events = new BridgeEventBus();
     this.data = new DataManager(this);
+    this.events = new BridgeEventBus();
     this.discord = new DiscordManager(this);
     this.minecraft = new MinecraftManager(this);
     this.scripts = new ScriptManager(this, deployScripts);

@@ -39,15 +39,16 @@
           "additionalProperties": false,
           "description": "Configuration for the Soopy API"
         },
-        "mcHeads": {
+        "nmsr": {
           "type": "object",
-          "properties": { "baseURL": { "type": "string", "format": "uri", "description": "The base URL for the mc-heads API" } },
+          "properties": { "baseURL": { "type": "string", "format": "uri", "description": "The base URL for the nmsr API" } },
           "required": ["baseURL"],
           "additionalProperties": false,
-          "description": "Configuration for the mc-heads API"
-        }
+          "description": "Configuration for the nmsr API"
+        },
+        "cache": { "type": "boolean", "description": "Should stuff be cached", "skip": true }
       },
-      "required": ["hypixel", "mowojang", "soopy", "mcHeads"],
+      "required": ["hypixel", "mowojang", "soopy", "nmsr", "cache"],
       "additionalProperties": false,
       "description": "Configuration options for API's used inside of the bot"
     },

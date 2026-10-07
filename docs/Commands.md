@@ -109,7 +109,7 @@ Minecraft commands can be executed from any chat channel that the bot can see. T
 
 ---
 
-This document is [auto generated](/scripts/docs/Commands.ts) and was last updated on `Sun, 04 Oct 2026 03:19:52 GMT` (`1791083992886`)
+This document is [auto generated](/scripts/docs/Commands.ts) and was last updated on `Wed, 07 Oct 2026 06:00:52 GMT` (`1791352852935`)
 
 To update this document please run `pnpm docgen` or contact a maintainer and ask them to update it.
 
