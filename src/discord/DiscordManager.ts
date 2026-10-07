@@ -213,7 +213,7 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
               .setColor(color)
               .setDescription(message)
               .setFooter({ text: guildRank })
-              .setAuthor({ name: username, iconURL: `${this.application.config.API.mcHeads.baseURL}/avatar/${username}` })
+              .setAuthor({ name: username, iconURL: `${this.application.config.API.nmsr.baseURL}/face/${username}` })
           ]
         });
 
@@ -229,7 +229,7 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
         if (message.length === 0) return;
         const webhook = await this.getWebhook(chatType);
         if (webhook === null) return;
-        await webhook.send({ content: message, username: username, avatarURL: `${this.application.config.API.mcHeads.baseURL}/avatar/${username}` });
+        await webhook.send({ content: message, username: username, avatarURL: `${this.application.config.API.nmsr.baseURL}/face/${username}` });
         break;
       }
       case "minecraft": {
@@ -283,7 +283,7 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
           embeds: [
             new EmbedHelper()
               .setColor(color)
-              .setAuthor({ name: message, iconURL: `${this.application.config.API.mcHeads.baseURL}/avatar/${username}` })
+              .setAuthor({ name: message, iconURL: `${this.application.config.API.nmsr.baseURL}/face/${username}` })
               .setFooter(null)
           ]
         });
@@ -295,7 +295,7 @@ class DiscordManager extends CommunicationBridge implements Lifecycle {
         if (webhook === null) return;
         await webhook.send({
           username: username,
-          avatarURL: `${this.application.config.API.mcHeads.baseURL}/avatar/${username}`,
+          avatarURL: `${this.application.config.API.nmsr.baseURL}/face/${username}`,
           embeds: [new EmbedHelper().setColor(color).setDescription(message).setFooter(null)]
         });
         break;

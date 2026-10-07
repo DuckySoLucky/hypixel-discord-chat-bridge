@@ -193,7 +193,7 @@ class MessageHandler {
       const broadcastMessage: Omit<HeadedEmbedEvent, "chatType"> = {
         message: replaceVariables(this.minecraft.application.messages.joinMessage, { username }),
         title: "Member Joined",
-        icon: `${this.minecraft.application.config.API.mcHeads.baseURL}/avatar/${username}`,
+        icon: `${this.minecraft.application.config.API.nmsr.baseURL}/face/${username}`,
         color: "Green"
       };
 
@@ -221,7 +221,7 @@ class MessageHandler {
       const broadcastMessage: Omit<HeadedEmbedEvent, "chatType"> = {
         message: replaceVariables(this.minecraft.application.messages.leaveMessage, { username }),
         title: "Member Left",
-        icon: `${this.minecraft.application.config.API.mcHeads.baseURL}/avatar/${username}`,
+        icon: `${this.minecraft.application.config.API.nmsr.baseURL}/face/${username}`,
         color: "Red"
       };
 
@@ -239,7 +239,7 @@ class MessageHandler {
       const broadcastMessage: Omit<HeadedEmbedEvent, "chatType"> = {
         message: replaceVariables(this.minecraft.application.messages.kickMessage, { username }),
         title: "Member Kicked",
-        icon: `${this.minecraft.application.config.API.mcHeads.baseURL}/avatar/${username}`,
+        icon: `${this.minecraft.application.config.API.nmsr.baseURL}/face/${username}`,
         color: "Red"
       };
 
@@ -265,7 +265,7 @@ class MessageHandler {
       const broadcastMessage: Omit<HeadedEmbedEvent, "chatType"> = {
         message: replaceVariables(this.minecraft.application.messages.promotionMessage, { username, rank }),
         title: "Member Promoted",
-        icon: `${this.minecraft.application.config.API.mcHeads.baseURL}/avatar/${username}`,
+        icon: `${this.minecraft.application.config.API.nmsr.baseURL}/face/${username}`,
         color: "Green"
       };
 
@@ -289,7 +289,7 @@ class MessageHandler {
       const broadcastMessage: Omit<HeadedEmbedEvent, "chatType"> = {
         message: replaceVariables(this.minecraft.application.messages.demotionMessage, { username, rank }),
         title: "Member Demoted",
-        icon: `${this.minecraft.application.config.API.mcHeads.baseURL}/avatar/${username}`,
+        icon: `${this.minecraft.application.config.API.nmsr.baseURL}/face/${username}`,
         color: "Red"
       };
 

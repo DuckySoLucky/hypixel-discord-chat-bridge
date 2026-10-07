@@ -1,6 +1,6 @@
 {
   "$schema": "./docs/config.schema.json",
-  "configVersion": 10,
+  "configVersion": 11,
   "API": {
     "hypixel": {
       "key": "HYPIXEL_API_KEY",
@@ -12,8 +12,8 @@
     "soopy": {
       "baseURL": "https://soopy.dev/api"
     },
-    "mcHeads": {
-      "baseURL": "https://www.mc-heads.net"
+    "nmsr": {
+      "baseURL": "https://nmsr.nickac.dev"
     }
   },
   "bridge": {

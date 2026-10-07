@@ -180,7 +180,8 @@ class ConfigManager extends BasicConfigManager<Config> {
           return this.remapMinecraftGuildRequirementsRequirements(rawValue, replacementMap);
         }
       }
-    }
+    },
+    11: { "api.mcHeads": { change: ConfigChangeType.Delete } }
   };
 
   protected override onConfigValidated(config: Config): Config {

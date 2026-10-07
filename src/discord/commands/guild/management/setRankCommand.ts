@@ -45,7 +45,7 @@ class SetRankCommand extends DiscordCommand<DiscordManagerWithBot> {
         embeds: [
           new SuccessEmbed()
             .setDescription(replaceVariables(this.discord.application.messages.promotionMessage, { username, rank }))
-            .setAuthor({ name: "Member Promoted", iconURL: `${this.discord.application.config.API.mcHeads.baseURL}/avatar/${username}` })
+            .setAuthor({ name: "Member Promoted", iconURL: `${this.discord.application.config.API.nmsr.baseURL}/face/${username}` })
         ]
       });
     } else if (action === GuildManagementAction.Demote) {
@@ -60,7 +60,7 @@ class SetRankCommand extends DiscordCommand<DiscordManagerWithBot> {
         embeds: [
           new SuccessEmbed()
             .setDescription(replaceVariables(this.discord.application.messages.demotionMessage, { username, rank }))
-            .setAuthor({ name: "Member Demote", iconURL: `${this.discord.application.config.API.mcHeads.baseURL}/avatar/${username}` })
+            .setAuthor({ name: "Member Demote", iconURL: `${this.discord.application.config.API.nmsr.baseURL}/face/${username}` })
         ]
       });
     }

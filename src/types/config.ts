@@ -49,12 +49,13 @@ export const ConfigAPIMowojang = zod
 export const ConfigAPISoopy = zod
   .object({ baseURL: zod.url().meta({ description: "The base URL for the Soopy API" }) })
   .meta({ description: "Configuration for the Soopy API" });
-export const ConfigAPIMCHeads = zod
-  .object({ baseURL: zod.url().meta({ description: "The base URL for the mc-heads API" }) })
-  .meta({ description: "Configuration for the mc-heads API" });
+export const ConfigAPINMSR = zod
+  .object({ baseURL: zod.url().meta({ description: "The base URL for the nmsr API" }) })
+  .meta({ description: "Configuration for the nmsr API" });
 export const ConfigAPI = zod
-  .object({ hypixel: ConfigAPIHypixel, mowojang: ConfigAPIMowojang, soopy: ConfigAPISoopy, mcHeads: ConfigAPIMCHeads })
+  .object({ hypixel: ConfigAPIHypixel, mowojang: ConfigAPIMowojang, soopy: ConfigAPISoopy, nmsr: ConfigAPINMSR })
   .meta({ description: "Configuration options for API's used inside of the bot" });
+export type ConfigAPI = zod.infer<typeof ConfigAPI>;
 
 export const ConfigBridgeMinecraft = zod
   .object({

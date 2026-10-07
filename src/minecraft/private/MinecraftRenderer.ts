@@ -7,7 +7,7 @@
 
 import { type CanvasRenderingContext2D, createCanvas, loadImage, registerFont } from "canvas";
 import { MinecraftChatCodes } from "../../private/constants.js";
-import type { ConfigMinecraftFontRenderer } from "../../types/config.js";
+import type { ConfigAPI, ConfigMinecraftFontRenderer } from "../../types/config.js";
 
 registerFont("src/private/fonts/2_Minecraft-Italic.otf", { family: "MinecraftItalic" });
 registerFont("src/private/fonts/MinecraftRegular-Bmg3.ttf", { family: "Minecraft" });
@@ -26,7 +26,10 @@ interface FormattingState {
 class MinecraftRenderer {
   private static readonly SUPPORTED_FORMAT_CODES = /§(?:0|1|2|3|4|5|6|7|8|9|a|b|c|d|e|f|l|m|n|o|r)/g;
   private static readonly NEWLINE_REGEX = /$/gm;
-  constructor(protected readonly options: ConfigMinecraftFontRenderer) {}
+  constructor(
+    protected readonly options: ConfigMinecraftFontRenderer,
+    protected readonly API: ConfigAPI
+  ) {}
 
   private createFormattingState(): FormattingState {
     return { activeCodes: "", color: MinecraftChatCodes.WHITE.color, isBold: false, isStruckThrough: false, isUnderlined: false, isItalic: false };
@@ -133,7 +136,7 @@ class MinecraftRenderer {
   }
 
   private async renderTextModern(text: string, ctx: CanvasRenderingContext2D, username: string | null) {
-    const skin = username !== null && text.includes(this.options.skinToken) ? await loadImage(`https://nmsr.nickac.dev/face/${username}`) : null;
+    const skin = username !== null && text.includes(this.options.skinToken) ? await loadImage(`${this.API.nmsr.baseURL}/face/${username}`) : null;
     let cursorY = this.options.yPadding + this.options.fontSize - this.options.shadowOffset;
 
     text.split(MinecraftRenderer.NEWLINE_REGEX).forEach((line) => {
@@ -310,7 +313,7 @@ class MinecraftRenderer {
 
       // Credits to https://github.com/Pixelicc for an idea and code
       if (username !== null && currentMessage.trim() === "{skin}") {
-        ctx.drawImage(await loadImage(`https://nmsr.nickac.dev/face/${username}`), width, height - 35, 35, 35);
+        ctx.drawImage(await loadImage(`${this.API.nmsr.baseURL}/face/${username}`), width, height - 35, 35, 35);
         width += 55;
         continue;
       }

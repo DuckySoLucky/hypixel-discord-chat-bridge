@@ -46,7 +46,7 @@ class RequirementsCommand extends DiscordCommand {
           inline: true
         }))
       )
-      .setThumbnail(`${this.discord.application.config.API.mcHeads.baseURL}/avatar/${username}`);
+      .setThumbnail(`${this.discord.application.config.API.nmsr.baseURL}/face/${username}`);
   }
 
   override async execute(interaction: ChatInputCommandInteractionWithGuild) {
