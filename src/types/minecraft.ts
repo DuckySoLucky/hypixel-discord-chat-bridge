@@ -153,3 +153,24 @@ export interface FormattingChatCode {
 export interface ColorChatCode extends FormattingChatCode {
   color: HexColorString;
 }
+
+export interface SoopyCommandData {
+  command: string;
+  description: string;
+  aliases: string[];
+  usage: string;
+  example: string;
+  exampleReturns: string;
+  modOnly: boolean;
+}
+
+export interface SoopyCommandListResponse {
+  customCommands: SoopyCommandData[];
+  defaultCommands: SoopyCommandData[];
+}
+
+export interface SoopyCommandResponse {
+  success: boolean;
+  msg: string;
+  raw: string;
+}

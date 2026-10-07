@@ -1,17 +1,24 @@
 import ExtensionRegistry from "../../extensions/ExtensionRegistry.js";
 import axios from "axios";
 import loadExtensionModules from "../../extensions/moduleLoader.js";
+import { Collection } from "discord.js";
 import { formatError } from "../../utils/miscUtils.js";
-import { runDetached, toError } from "../../utils/asyncUtils.js";
+import { toError } from "../../utils/asyncUtils.js";
 import type MinecraftCommand from "../private/commands/MinecraftCommand.js";
 import type MinecraftManager from "../MinecraftManager.js";
+import type { SoopyCommandData, SoopyCommandListResponse, SoopyCommandResponse } from "../../types/minecraft.ts";
 
 class CommandHandler {
   readonly #commands = new ExtensionRegistry<MinecraftCommand<MinecraftManager>>();
+  readonly #soopyCommands = new Collection<string, SoopyCommandData>();
   constructor(private readonly minecraft: MinecraftManager) {}
 
   findNormalCommand(name: string): MinecraftCommand<MinecraftManager> | undefined {
     return this.#commands.get(name);
+  }
+
+  findSoopyCommand(name: string): SoopyCommandData | undefined {
+    return this.#soopyCommands.get(name) ?? this.#soopyCommands.find((cmd) => cmd.aliases && cmd.aliases.includes(name));
   }
 
   async handle(player: string, message: string, officer: boolean) {
@@ -49,31 +56,30 @@ class CommandHandler {
       const command = message.slice(1).split(" ")[0];
       if (!command) return;
       if (isNaN(parseInt(command.replace(/[^-()\d/*+.]/g, ""))) === false) return;
+      const commandData = this.findSoopyCommand(command);
+      if (!commandData) return;
 
       const chat = officer ? "oc" : "gc";
-
-      this.minecraft.bot.chat(`/${chat} [SOOPY V2] ${message}`);
-
       console.minecraft(`${player} - [${command}] ${message}`);
-      runDetached(
-        (async () => {
-          if (!this.minecraft.isBotOnline()) return;
-          try {
-            const URI = encodeURI(`${this.minecraft.application.config.API.soopy.baseURL}/guildBot/runCommand?user=${player}&cmd=${message.slice(1)}`);
-            const response = await axios.get(URI);
+      await this.handleSoopyCommand(chat, player, commandData);
+    }
+  }
 
-            if (response?.data?.msg === undefined) {
-              return this.minecraft.bot.chat(`/${chat} [SOOPY V2] An error occured while running the command`);
-            }
-
-            this.minecraft.bot.chat(`/${chat} [SOOPY V2] ${response.data.msg}`);
-          } catch (error) {
-            await this.minecraft.application.logError(toError(error));
-            if (!(error instanceof Error)) return;
-            this.minecraft.bot.chat(`/${chat} [SOOPY V2] ${error.cause ?? error.message ?? "Unknown error"}`);
-          }
-        })()
+  private async handleSoopyCommand(chat: string, player: string, commandData: SoopyCommandData) {
+    if (!this.minecraft.isBotOnline()) return;
+    try {
+      const cached = this.minecraft.application.cache.get<SoopyCommandResponse>(`minecraft:commands:soopy:${commandData.command}:${player}`);
+      if (cached) return this.minecraft.bot.chat(`/${chat} [SOOPY V2] ${cached.raw}`);
+      const response = await axios.get<SoopyCommandResponse>(
+        encodeURI(`${this.minecraft.application.config.API.soopy.baseURL}/guildBot/runCommand?user=${player}&cmd=${commandData.command}`)
       );
+      if (!response.data.success) return this.minecraft.bot.chat(`/${chat} [SOOPY V2] An error occured while running the command`);
+      this.minecraft.application.cache.set(`minecraft:commands:soopy:${commandData.command}:${player}`, response.data);
+      return this.minecraft.bot.chat(`/${chat} [SOOPY V2] ${response.data.raw}`);
+    } catch (error) {
+      await this.minecraft.application.logError(toError(error));
+      if (!(error instanceof Error)) return;
+      this.minecraft.bot.chat(`/${chat} [SOOPY V2] ${error.cause ?? error.message ?? "Unknown error"}`);
     }
   }
 
@@ -87,8 +93,16 @@ class CommandHandler {
     if (!silent) console.minecraft(`Successfully reloaded ${this.#commands.size} minecraft command(s).`);
   }
 
+  async loadSoopyCommands(silent: boolean = false): Promise<void> {
+    this.#soopyCommands.clear();
+    const commands = await axios.get<SoopyCommandListResponse>("https://soopy.dev/commands/list");
+    commands.data.defaultCommands.filter((command) => !command.modOnly).forEach((command) => this.#soopyCommands.set(command.command, command));
+    if (!silent) console.minecraft(`Successfully loaded ${this.#soopyCommands.size} soopy command(s).`);
+  }
+
   async deployCommands(silent: boolean = false): Promise<void> {
-    await this.loadCommands(silent);
+    if (this.minecraft.application.config.minecraft.commands.normal.enabled) await this.loadCommands(silent);
+    if (this.minecraft.application.config.minecraft.commands.soopy.enabled) await this.loadSoopyCommands(silent);
   }
 
   get commands(): readonly MinecraftCommand<MinecraftManager>[] {

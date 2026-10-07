@@ -36,7 +36,7 @@ class MinecraftRenderer {
 
     const response = await axios.get(`${this.minecraft.application.config.API.nmsr.baseURL}/face/${username}`, { responseType: "arraybuffer" });
     const buffer = Buffer.from(response.data);
-    if (this.minecraft.application.config.API.cache) this.minecraft.application.cache.set(`minecraft:skin:${username}`, buffer);
+    this.minecraft.application.cache.set(`minecraft:skin:${username}`, buffer);
     return loadImage(buffer);
   }
 

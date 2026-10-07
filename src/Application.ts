@@ -23,7 +23,7 @@ import type { ValidErrors } from "./types/application.js";
 class Application implements Lifecycle {
   readonly package: typeof packageJson;
   readonly messages: typeof messages;
-  readonly cache: CacheHandler = new CacheHandler();
+  readonly cache: CacheHandler;
   readonly data: DataManager;
   readonly events: BridgeEventBus;
   readonly discord: DiscordManager;
@@ -41,6 +41,7 @@ class Application implements Lifecycle {
   ) {
     this.package = packageJson;
     this.messages = messages;
+    this.cache = new CacheHandler(this);
     this.data = new DataManager(this);
     this.events = new BridgeEventBus();
     this.discord = new DiscordManager(this);
@@ -63,7 +64,7 @@ class Application implements Lifecycle {
           this.discord.buttonHandler.loadButtons(),
           this.discord.modalHandler.loadModals(),
           this.discord.stringSelectMenuHandler.loadStringSelectMenus(),
-          this.minecraft.commandHandler.loadCommands()
+          this.minecraft.commandHandler.deployCommands()
         ]);
         await this.plugins.load();
         this.extensionsLoaded = true;
