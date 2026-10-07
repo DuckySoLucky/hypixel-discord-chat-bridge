@@ -21,7 +21,7 @@ class ForceVerifyCommand extends DiscordCommand<DiscordManagerWithBot> {
     const profile = await MowojangAPI.getProfile(interaction.options.getString("username", true));
     if (profile.error || !profile.data) throw new HypixelDiscordChatBridgeError("Player does not exist");
 
-    const linkedUser = await this.discord.application.data.linked.getUserByDiscordId(interaction.user.id);
+    const linkedUser = await this.discord.application.data.linked.getUserByDiscordId(user.id);
     if (linkedUser !== undefined) {
       throw new HypixelDiscordChatBridgeError(`<@${user.id}> is already verified to ${profile.data.username}. Please use /linked to handle this`);
     }
