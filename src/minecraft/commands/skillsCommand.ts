@@ -23,7 +23,7 @@ class SkillsCommand extends MinecraftCommand {
       .sort((a, b) => a.name.localeCompare(b.name))
       .map((skill) => `${titleCase(skill.name)}: ${formatNumber(skill.level)}`);
 
-    await this.send(`${username}'s Skill Average: ${(skills.average ?? 0).toFixed(2)} (${formattedSkills.join(", ")})`);
+    await this.send(`${username}'s Skill Average: ${(skills.nonCosmeticAverage ?? 0).toFixed(2)} (${formattedSkills.join(", ")})`);
   }
 }
 
