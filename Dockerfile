@@ -3,6 +3,10 @@ FROM node:22.22.3-alpine3.24
 ENV NODE_ENV=production
 ENV RUNNING_IN_DOCKER=true
 
+ARG GIT_COMMIT=unknown
+ENV GIT_COMMIT=$GIT_COMMIT
+ENV GIT_DIRTY=false
+
 ARG NODE_DISABLE_COMPILE_CACHE=1
 ARG npm_config_nodedir=/usr/local
 
