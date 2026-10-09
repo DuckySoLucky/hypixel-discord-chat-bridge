@@ -143,21 +143,31 @@ class Application implements Lifecycle {
     }
   }
 
-  getRuntimeInformation(): RuntimeInformation | null {
+  private getGitCommit(): RuntimeInformation["commit"] {
     try {
-      const commit = process.env.GIT_COMMIT ?? execSync("git rev-parse HEAD", { encoding: "utf8" }).trim();
-      const dirty = process.env.GIT_DIRTY !== undefined ? process.env.GIT_DIRTY === "true" : execSync("git status --porcelain", { encoding: "utf8" }).trim().length > 0;
-      const docker = process.env.RUNNING_IN_DOCKER === "true";
-      return { commit, dirty, docker };
+      return process.env.GIT_COMMIT ?? execSync("git rev-parse HEAD", { encoding: "utf8" }).trim();
     } catch (error) {
       this.logError(toError(error));
-      return null;
+      return "UNKNOWN";
     }
+  }
+
+  private getGitDirty(): RuntimeInformation["dirty"] {
+    try {
+      return process.env.GIT_DIRTY !== undefined ? process.env.GIT_DIRTY === "true" : execSync("git status --porcelain", { encoding: "utf8" }).trim().length > 0;
+    } catch (error) {
+      this.logError(toError(error));
+      return false;
+    }
+  }
+
+  getRuntimeInformation(): RuntimeInformation {
+    return { commit: this.getGitCommit(), dirty: this.getGitDirty(), docker: process.env.RUNNING_IN_DOCKER === "true" };
   }
 
   getUserAgent() {
     const runtime = this.getRuntimeInformation();
-    return `${this.package.name}/g${runtime?.commit ?? "UNKNOWN"} (github:DuckySoLucky/hypixel-discord-chat-bridge)`;
+    return `${this.package.name}/g${runtime.commit} (github:DuckySoLucky/hypixel-discord-chat-bridge)`;
   }
 
   async request<T>(url: string, config: AxiosRequestConfig = {}): Promise<AxiosResponse<T>> {

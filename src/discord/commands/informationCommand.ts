@@ -79,9 +79,9 @@ class InformationCommand extends DiscordCommand<DiscordManagerWithBot> {
       { name: "Filter Messages", value: discord.application.config.bridge.filter.enabled ? "Enabled" : "Disabled" },
       { name: "Version", value: discord.application.package.version },
       { name: "Uptime", value: `<t:${Math.floor((Date.now() - discord.client.uptime) / 1000)}:R>`, format: false },
-      { name: "Is Inside of Docker Container", value: runtimeInformation?.docker ? ":white_check_mark: Yes" : ":x: No", format: false },
-      { name: "Git Hash", value: runtimeInformation?.commit ?? "UNKNOWN" },
-      { name: "Is Git Dirty", value: runtimeInformation?.dirty !== null ? (runtimeInformation?.dirty ? ":white_check_mark: Yes" : ":x: No") : "UNKNOWN", format: false }
+      { name: "Is Inside of Docker Container", value: runtimeInformation.docker ? ":white_check_mark: Yes" : ":x: No", format: false },
+      { name: "Git Hash", value: runtimeInformation.commit },
+      { name: "Is Git Dirty", value: runtimeInformation.dirty ? ":white_check_mark: Yes" : ":x: No", format: false }
     ];
     return { discordInformation, minecraftInformation, generalInformation };
   }
