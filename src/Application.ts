@@ -7,18 +7,21 @@ import MinecraftManager from "./minecraft/MinecraftManager.js";
 import MowojangAPI from "./private/MowojangAPI.js";
 import PluginManager from "./plugins/PluginManager.js";
 import ScriptManager from "./scripts/ScriptsManager.js";
+import axios, { AxiosHeaders, type AxiosRequestConfig, type AxiosResponse } from "axios";
 import messages from "./messages.json" with { type: "json" };
 import packageJson from "../package.json" with { type: "json" };
 import { Filter } from "bad-words";
 import { canSendMessages, getApplicationOwners } from "./utils/discordUtils.js";
+import { execSync } from "node:child_process";
 import { getErrorEmbed, getErrorTypeName } from "./utils/miscUtils.js";
 import { getGuild } from "./utils/hypixelUtils.js";
+import { toError } from "./utils/asyncUtils.ts";
 import type { Config } from "./types/config.js";
 import type { EmbedHelperField } from "./types/discord.js";
 import type { Guild } from "hypixel-api-reborn";
 import type { Lifecycle, LifecycleState } from "./core/Lifecycle.js";
 import type { MowojangProfile } from "mowojang";
-import type { ValidErrors } from "./types/application.js";
+import type { RuntimeInformation, ValidErrors } from "./types/application.js";
 
 class Application implements Lifecycle {
   readonly package: typeof packageJson;
@@ -138,6 +141,29 @@ class Application implements Lifecycle {
     } catch (e) {
       console.error(e);
     }
+  }
+
+  getRuntimeInformation(): RuntimeInformation | null {
+    try {
+      const commit = execSync("git rev-parse HEAD", { encoding: "utf8" }).trim();
+      const dirty = execSync("git status --porcelain", { encoding: "utf8" }).trim().length > 0;
+      const docker = process.env.RUNNING_IN_DOCKER === "true";
+      return { commit, dirty, docker };
+    } catch (error) {
+      this.logError(toError(error));
+      return null;
+    }
+  }
+
+  getUserAgent() {
+    const runtime = this.getRuntimeInformation();
+    return `${this.package.name}/g${runtime?.commit ?? "UNKNOWN"} (github:DuckySoLucky/hypixel-discord-chat-bridge)`;
+  }
+
+  async request<T>(url: string, config: AxiosRequestConfig = {}): Promise<AxiosResponse<T>> {
+    const headers = new AxiosHeaders(config.headers as AxiosHeaders | undefined);
+    if (!headers.has("User-Agent")) headers.set("User-Agent", this.getUserAgent());
+    return await axios.get<T>(url, { ...config, headers });
   }
 }
 

@@ -16,10 +16,8 @@ class GexpCheckGenerateKickExecuteButton extends DiscordButton<DiscordManagerWit
     const attachment = interaction.message.attachments.first();
     if (!attachment) throw new HypixelDiscordChatBridgeError("No commands file found on the message?");
 
-    const res = await fetch(attachment.url);
-    if (!res.ok) throw new HypixelDiscordChatBridgeError(`Failed to fetch attachment: ${res.status}`);
-    const text = await res.text();
-    const commands = text
+    const res = await this.discord.application.request<string>(attachment.url);
+    const commands = res.data
       .split("\n")
       .map((line) => line.trim())
       .filter(Boolean);

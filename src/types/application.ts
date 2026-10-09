@@ -47,3 +47,9 @@ export interface CreditData {
 }
 
 export type ValidErrors = Error | DiscordjsError | HypixelDiscordChatBridgeError | HypixelAPIRebornError | MinecraftRequestTimeoutError;
+
+export interface RuntimeInformation {
+  commit: string;
+  dirty: boolean;
+  docker: boolean;
+}
