@@ -1,11 +1,9 @@
 import MinecraftCommand from "../private/commands/MinecraftCommand.js";
 import MinecraftCommandData from "../private/commands/MinecraftCommandData.js";
 import MinecraftCommandDataOption from "../private/commands/MinecraftCommandDataOption.js";
-import { CalculateAverage } from "hypixel-api-reborn";
+import { COSMETIC_SKILLS, CalculateAverage } from "hypixel-api-reborn";
 import { formatNumber, titleCase } from "../../utils/stringUtils.js";
 import { getSelectedProfile } from "../../utils/hypixelUtils.js";
-
-const CosmeticSkills = ["runecrafting", "social"];
 
 class OverflowSkillsCommand extends MinecraftCommand {
   override readonly data = new MinecraftCommandData()
@@ -22,7 +20,7 @@ class OverflowSkillsCommand extends MinecraftCommand {
     const skills = profile.me.playerData.skills;
     const parsedSkills = Object.entries(skills)
       .filter(([name]) => !["average", "nonCosmeticAverage", "toString"].includes(name))
-      .filter(([name]) => !CosmeticSkills.includes(name))
+      .filter(([name]) => !COSMETIC_SKILLS.includes(name))
       .filter(([_, data]) => data.currentXp > 1)
       .map(([name, data]) => ({ name, level: data.overflowLevel?.levelWithProgress ?? data.levelWithProgress }))
       .sort((a, b) => a.name.localeCompare(b.name));
