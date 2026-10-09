@@ -1,9 +1,9 @@
 import NodeCache from "node-cache";
-import ms from "ms";
 import type Application from "../Application.ts";
 
 class CacheHandler {
-  private readonly cache: NodeCache = new NodeCache({ stdTTL: Math.floor(ms("1h") / 1000), maxKeys: -1, checkperiod: 180 });
+  // Should cache things for an hour
+  private readonly cache: NodeCache = new NodeCache({ stdTTL: 1 * 60 * 60, maxKeys: -1, checkperiod: 180 });
   constructor(private readonly application: Application) {}
 
   set<T>(key: string, value: T): T {
