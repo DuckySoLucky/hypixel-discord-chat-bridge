@@ -3,7 +3,7 @@ import ms from "ms";
 import type Application from "../Application.ts";
 
 class CacheHandler {
-  private readonly cache: NodeCache = new NodeCache({ stdTTL: ms("1h"), maxKeys: -1, checkperiod: 180 });
+  private readonly cache: NodeCache = new NodeCache({ stdTTL: Math.floor(ms("1h") / 1000), maxKeys: -1, checkperiod: 180 });
   constructor(private readonly application: Application) {}
 
   set<T>(key: string, value: T): T {
