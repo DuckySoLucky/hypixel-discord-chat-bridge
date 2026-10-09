@@ -1,6 +1,5 @@
 import BasicScript from "../../BasicScript.js";
 import Parser from "rss-parser";
-import axios from "axios";
 import { delay } from "../../../utils/miscUtils.js";
 import { intervalSchedule } from "../../../types/scripts.js";
 import { load } from "cheerio";
@@ -53,7 +52,9 @@ class HypixelNewsScript extends BasicScript {
 
   private async isRecentPost(url: string): Promise<boolean> {
     try {
-      const response = await axios.get<string>(url, { headers: { "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0" } });
+      const response = await this.scripts.application.request<string>(url, {
+        headers: { "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0" }
+      });
       const $ = load(response.data);
       const timestamp = Number($("time.u-dt").first().attr("data-time"));
       if (!Number.isFinite(timestamp)) return false;

@@ -48,7 +48,7 @@ class MinecraftManager extends CommunicationBridge implements Lifecycle {
     this.prismarineRegistry = PrismarineRegistry(this.application.config.minecraft.bot.version) as RegistryPc;
     this.prismarineChat = PrismarineChat(this.prismarineRegistry);
     this.requestBroker = new MinecraftRequestBroker(this.prismarineChat);
-    this.renderer = new MinecraftRenderer(this.application.config.minecraft.fontRenderer);
+    this.renderer = new MinecraftRenderer(this);
     this.indexedData = MinecraftData(this.application.config.minecraft.bot.version);
   }
 

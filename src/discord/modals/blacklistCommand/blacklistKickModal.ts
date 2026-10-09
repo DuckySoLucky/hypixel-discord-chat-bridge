@@ -31,7 +31,7 @@ class BlacklistKickModal extends DiscordModal<DiscordManagerWithBot> {
         embeds: [
           new SuccessEmbed()
             .setDescription(replaceVariables(this.discord.application.messages.kickMessage, { username }))
-            .setAuthor({ name: "Member Kicked", iconURL: `${this.discord.application.config.API.mcHeads.baseURL}/avatar/${username}` })
+            .setAuthor({ name: "Member Kicked", iconURL: `${this.discord.application.config.API.nmsr.baseURL}/face/${username}` })
         ]
       });
     }

@@ -5,9 +5,10 @@
  * Modified
  */
 
-import { type CanvasRenderingContext2D, createCanvas, loadImage, registerFont } from "canvas";
+import { type CanvasRenderingContext2D, Image, createCanvas, loadImage, registerFont } from "canvas";
 import { MinecraftChatCodes } from "../../private/constants.js";
-import type { ConfigMinecraftFontRenderer } from "../../types/config.js";
+import type MinecraftManager from "../MinecraftManager.ts";
+import type { ConfigMinecraftFontRenderer } from "../../types/config.ts";
 
 registerFont("src/private/fonts/2_Minecraft-Italic.otf", { family: "MinecraftItalic" });
 registerFont("src/private/fonts/MinecraftRegular-Bmg3.ttf", { family: "Minecraft" });
@@ -26,7 +27,19 @@ interface FormattingState {
 class MinecraftRenderer {
   private static readonly SUPPORTED_FORMAT_CODES = /§(?:0|1|2|3|4|5|6|7|8|9|a|b|c|d|e|f|l|m|n|o|r)/g;
   private static readonly NEWLINE_REGEX = /$/gm;
-  constructor(protected readonly options: ConfigMinecraftFontRenderer) {}
+  constructor(protected readonly minecraft: MinecraftManager) {}
+
+  async getSkinHeadImage(username: string): Promise<Image> {
+    const cached = this.minecraft.application.cache.get<Buffer>(`minecraft:skin:${username}`);
+    if (cached) return loadImage(cached);
+
+    const response = await this.minecraft.application.request<any>(`${this.minecraft.application.config.API.nmsr.baseURL}/face/${username}`, {
+      responseType: "arraybuffer"
+    });
+    const buffer = Buffer.from(response.data);
+    this.minecraft.application.cache.set(`minecraft:skin:${username}`, buffer);
+    return loadImage(buffer);
+  }
 
   private createFormattingState(): FormattingState {
     return { activeCodes: "", color: MinecraftChatCodes.WHITE.color, isBold: false, isStruckThrough: false, isUnderlined: false, isItalic: false };
@@ -59,7 +72,7 @@ class MinecraftRenderer {
   }
 
   private setFont(ctx: CanvasRenderingContext2D, state: FormattingState) {
-    ctx.font = `${this.options.fontSize}px ${state.isItalic ? "MinecraftItalic" : "Minecraft"}`;
+    ctx.font = `${this.minecraft.application.config.minecraft.fontRenderer.fontSize}px ${state.isItalic ? "MinecraftItalic" : "Minecraft"}`;
   }
 
   private wrapText(text: string, ctx: CanvasRenderingContext2D, username: string | null) {
@@ -88,9 +101,9 @@ class MinecraftRenderer {
 
           for (let i = 0; i < token.length; i++) {
             const char = token[i] as string;
-            if (username !== null && token.startsWith(this.options.skinToken, i)) {
-              wordWidth += this.options.skinWidth;
-              i += this.options.skinToken.length - 1;
+            if (username !== null && token.startsWith(this.minecraft.application.config.minecraft.fontRenderer.skinToken, i)) {
+              wordWidth += this.minecraft.application.config.minecraft.fontRenderer.skinWidth;
+              i += this.minecraft.application.config.minecraft.fontRenderer.skinToken.length - 1;
               continue;
             }
 
@@ -104,15 +117,15 @@ class MinecraftRenderer {
             this.setFont(ctx, state);
             wordWidth += ctx.measureText(char).width;
             if (state.isBold) {
-              wordWidth += this.options.shadowOffset;
+              wordWidth += this.minecraft.application.config.minecraft.fontRenderer.shadowOffset;
             }
           }
 
           if ((wordStartIsStruckThrough || wordStartIsUnderlined) && lineWidth === 0) {
-            wordWidth += this.options.shadowOffset;
+            wordWidth += this.minecraft.application.config.minecraft.fontRenderer.shadowOffset;
           }
 
-          if (lineWidth > 0 && lineWidth + pendingWhitespaceWidth + wordWidth > this.options.maxLineWidth) {
+          if (lineWidth > 0 && lineWidth + pendingWhitespaceWidth + wordWidth > this.minecraft.application.config.minecraft.fontRenderer.maxLineWidth) {
             wrappedLine += `\n${wordStartCodes}`;
             lineWidth = 0;
             pendingWhitespace = "";
@@ -133,25 +146,34 @@ class MinecraftRenderer {
   }
 
   private async renderTextModern(text: string, ctx: CanvasRenderingContext2D, username: string | null) {
-    const skin = username !== null && text.includes(this.options.skinToken) ? await loadImage(`https://nmsr.nickac.dev/face/${username}`) : null;
-    let cursorY = this.options.yPadding + this.options.fontSize - this.options.shadowOffset;
+    const skin = username !== null && text.includes(this.minecraft.application.config.minecraft.fontRenderer.skinToken) ? await this.getSkinHeadImage(username) : null;
+    let cursorY =
+      this.minecraft.application.config.minecraft.fontRenderer.yPadding +
+      this.minecraft.application.config.minecraft.fontRenderer.fontSize -
+      this.minecraft.application.config.minecraft.fontRenderer.shadowOffset;
 
     text.split(MinecraftRenderer.NEWLINE_REGEX).forEach((line) => {
       const state = this.createFormattingState();
-      let cursorX = this.options.xPadding;
+      let cursorX = this.minecraft.application.config.minecraft.fontRenderer.xPadding;
       this.setFont(ctx, state);
 
       for (let i = 0; i < line.length; i++) {
         const char = line[i] as string;
-        if (skin !== null && line.startsWith(this.options.skinToken, i)) {
+        if (skin !== null && line.startsWith(this.minecraft.application.config.minecraft.fontRenderer.skinToken, i)) {
           ctx.save();
-          ctx.shadowOffsetX = this.options.shadowOffset;
-          ctx.shadowOffsetY = this.options.shadowOffset;
+          ctx.shadowOffsetX = this.minecraft.application.config.minecraft.fontRenderer.shadowOffset;
+          ctx.shadowOffsetY = this.minecraft.application.config.minecraft.fontRenderer.shadowOffset;
           ctx.shadowColor = "#131313";
-          ctx.drawImage(skin, cursorX, cursorY - this.options.fontSize + this.options.shadowOffset, this.options.skinWidth, this.options.skinWidth);
+          ctx.drawImage(
+            skin,
+            cursorX,
+            cursorY - this.minecraft.application.config.minecraft.fontRenderer.fontSize + this.minecraft.application.config.minecraft.fontRenderer.shadowOffset,
+            this.minecraft.application.config.minecraft.fontRenderer.skinWidth,
+            this.minecraft.application.config.minecraft.fontRenderer.skinWidth
+          );
           ctx.restore();
-          cursorX += this.options.skinWidth;
-          i += this.options.skinToken.length - 1;
+          cursorX += this.minecraft.application.config.minecraft.fontRenderer.skinWidth;
+          i += this.minecraft.application.config.minecraft.fontRenderer.skinToken.length - 1;
           continue;
         }
 
@@ -165,43 +187,63 @@ class MinecraftRenderer {
 
           // Add space for first char with strikethrough/underline
           if ((state.isStruckThrough || state.isUnderlined) && cursorX === 0) {
-            cursorX += this.options.shadowOffset;
+            cursorX += this.minecraft.application.config.minecraft.fontRenderer.shadowOffset;
           }
 
-          const shadowX = cursorX + this.options.shadowOffset;
-          const shadowY = cursorY + this.options.shadowOffset;
+          const shadowX = cursorX + this.minecraft.application.config.minecraft.fontRenderer.shadowOffset;
+          const shadowY = cursorY + this.minecraft.application.config.minecraft.fontRenderer.shadowOffset;
           ctx.fillStyle = "#131313";
 
           // Draw strikethrough shadow
           if (state.isStruckThrough) {
-            ctx.fillRect(cursorX, cursorY - 3 * this.options.shadowOffset, width + this.options.shadowOffset, this.options.shadowOffset);
+            ctx.fillRect(
+              cursorX,
+              cursorY - 3 * this.minecraft.application.config.minecraft.fontRenderer.shadowOffset,
+              width + this.minecraft.application.config.minecraft.fontRenderer.shadowOffset,
+              this.minecraft.application.config.minecraft.fontRenderer.shadowOffset
+            );
           }
 
           // Draw underline shadow
           if (state.isStruckThrough) {
-            ctx.fillRect(cursorX, cursorY + 2 * this.options.shadowOffset, width + this.options.shadowOffset, this.options.shadowOffset);
+            ctx.fillRect(
+              cursorX,
+              cursorY + 2 * this.minecraft.application.config.minecraft.fontRenderer.shadowOffset,
+              width + this.minecraft.application.config.minecraft.fontRenderer.shadowOffset,
+              this.minecraft.application.config.minecraft.fontRenderer.shadowOffset
+            );
           }
 
           // Draw text shadow
           ctx.fillText(char, shadowX, shadowY);
-          if (state.isBold) ctx.fillText(char, shadowX + this.options.shadowOffset, shadowY);
+          if (state.isBold) ctx.fillText(char, shadowX + this.minecraft.application.config.minecraft.fontRenderer.shadowOffset, shadowY);
 
           // Draw text
           ctx.fillStyle = state.color;
           ctx.fillText(char, cursorX, cursorY);
-          if (state.isBold) ctx.fillText(char, cursorX + this.options.shadowOffset, cursorY);
+          if (state.isBold) ctx.fillText(char, cursorX + this.minecraft.application.config.minecraft.fontRenderer.shadowOffset, cursorY);
 
           // Add extra spacing if character is bold
-          if (state.isBold) width += this.options.shadowOffset;
+          if (state.isBold) width += this.minecraft.application.config.minecraft.fontRenderer.shadowOffset;
 
           // Draw strikethrough
           if (state.isStruckThrough) {
-            ctx.fillRect(cursorX - this.options.shadowOffset, cursorY - 4 * this.options.shadowOffset, width + this.options.shadowOffset, this.options.shadowOffset);
+            ctx.fillRect(
+              cursorX - this.minecraft.application.config.minecraft.fontRenderer.shadowOffset,
+              cursorY - 4 * this.minecraft.application.config.minecraft.fontRenderer.shadowOffset,
+              width + this.minecraft.application.config.minecraft.fontRenderer.shadowOffset,
+              this.minecraft.application.config.minecraft.fontRenderer.shadowOffset
+            );
           }
 
           // Draw underline
           if (state.isUnderlined) {
-            ctx.fillRect(cursorX - this.options.shadowOffset, cursorY + this.options.shadowOffset, width + this.options.shadowOffset, this.options.shadowOffset);
+            ctx.fillRect(
+              cursorX - this.minecraft.application.config.minecraft.fontRenderer.shadowOffset,
+              cursorY + this.minecraft.application.config.minecraft.fontRenderer.shadowOffset,
+              width + this.minecraft.application.config.minecraft.fontRenderer.shadowOffset,
+              this.minecraft.application.config.minecraft.fontRenderer.shadowOffset
+            );
           }
 
           cursorX += width;
@@ -209,7 +251,7 @@ class MinecraftRenderer {
       }
 
       // Move the cursor down to the next line. Add double-spacing to account for shadow
-      cursorY += this.options.fontSize;
+      cursorY += this.minecraft.application.config.minecraft.fontRenderer.fontSize;
     });
   }
 
@@ -217,13 +259,18 @@ class MinecraftRenderer {
     const lines = text.split(MinecraftRenderer.NEWLINE_REGEX);
 
     // Extra height for underline shadow on the bottom line
-    const underlineExtraheight = lines[lines.length - 1]?.includes(MinecraftChatCodes.UNDERLINE.code) ? this.options.shadowOffset : 0;
+    const underlineExtraheight = lines[lines.length - 1]?.includes(MinecraftChatCodes.UNDERLINE.code)
+      ? this.minecraft.application.config.minecraft.fontRenderer.shadowOffset
+      : 0;
 
     // Add the shadow size to the height so it isn't cut off
-    const height = this.options.fontSize * lines.length + this.options.shadowOffset + underlineExtraheight;
+    const height =
+      this.minecraft.application.config.minecraft.fontRenderer.fontSize * lines.length +
+      this.minecraft.application.config.minecraft.fontRenderer.shadowOffset +
+      underlineExtraheight;
 
-    ctx.canvas.width = this.options.maxLineWidth + 2 * this.options.xPadding;
-    ctx.canvas.height = height + 2 * this.options.yPadding;
+    ctx.canvas.width = this.minecraft.application.config.minecraft.fontRenderer.maxLineWidth + 2 * this.minecraft.application.config.minecraft.fontRenderer.xPadding;
+    ctx.canvas.height = height + 2 * this.minecraft.application.config.minecraft.fontRenderer.yPadding;
   }
 
   private async renderModern(text: string, username: string | null = null): Promise<Buffer<ArrayBufferLike>> {
@@ -310,7 +357,7 @@ class MinecraftRenderer {
 
       // Credits to https://github.com/Pixelicc for an idea and code
       if (username !== null && currentMessage.trim() === "{skin}") {
-        ctx.drawImage(await loadImage(`https://nmsr.nickac.dev/face/${username}`), width, height - 35, 35, 35);
+        ctx.drawImage(await this.getSkinHeadImage(username), width, height - 35, 35, 35);
         width += 55;
         continue;
       }
@@ -322,10 +369,11 @@ class MinecraftRenderer {
     return canvas.toBuffer();
   }
 
-  async renderText(text: string, username: string | null = null, target: ConfigMinecraftFontRenderer["target"] = this.options.target): Promise<Buffer<ArrayBufferLike>> {
-    text = text.replaceAll("luvqueen", "feetqueen");
-    text = text.replaceAll("LuvQueen", "FeetQueen");
-    text = text.replaceAll("LUVQUEEN", "FEETQUEEN");
+  async renderText(
+    text: string,
+    username: string | null = null,
+    target: ConfigMinecraftFontRenderer["target"] = this.minecraft.application.config.minecraft.fontRenderer.target
+  ): Promise<Buffer<ArrayBufferLike>> {
     if (target === "legecy") return await this.renderLegecy(text, username);
     return await this.renderModern(text, username);
   }
