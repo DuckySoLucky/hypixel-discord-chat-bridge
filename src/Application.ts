@@ -145,8 +145,8 @@ class Application implements Lifecycle {
 
   getRuntimeInformation(): RuntimeInformation | null {
     try {
-      const commit = execSync("git rev-parse HEAD", { encoding: "utf8" }).trim();
-      const dirty = execSync("git status --porcelain", { encoding: "utf8" }).trim().length > 0;
+      const commit = process.env.GIT_COMMIT ?? execSync("git rev-parse HEAD", { encoding: "utf8" }).trim();
+      const dirty = process.env.GIT_DIRTY !== undefined ? process.env.GIT_DIRTY === "true" : execSync("git status --porcelain", { encoding: "utf8" }).trim().length > 0;
       const docker = process.env.RUNNING_IN_DOCKER === "true";
       return { commit, dirty, docker };
     } catch (error) {
