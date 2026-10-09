@@ -5,6 +5,8 @@ import { CalculateAverage } from "hypixel-api-reborn";
 import { formatNumber, titleCase } from "../../utils/stringUtils.js";
 import { getSelectedProfile } from "../../utils/hypixelUtils.js";
 
+const CosmeticSkills = ["runecrafting", "social"];
+
 class OverflowSkillsCommand extends MinecraftCommand {
   override readonly data = new MinecraftCommandData()
     .setName("overflowskills")
@@ -18,8 +20,10 @@ class OverflowSkillsCommand extends MinecraftCommand {
     const { username, profile } = await getSelectedProfile(player);
 
     const skills = profile.me.playerData.skills;
+    console.log(skills);
     const parsedSkills = Object.entries(skills)
       .filter(([name]) => !["average", "nonCosmeticAverage", "toString"].includes(name))
+      .filter(([name]) => !CosmeticSkills.includes(name))
       .filter(([_, data]) => data.currentXp > 1)
       .map(([name, data]) => ({ name, level: data.overflowLevel?.levelWithProgress ?? data.levelWithProgress }))
       .sort((a, b) => a.name.localeCompare(b.name));
