@@ -1,4 +1,4 @@
-FROM node:22.22.3-alpine3.24
+FROM node:22.23.4-alpine3.24
 
 ENV NODE_ENV=production
 ENV RUNNING_IN_DOCKER=true
