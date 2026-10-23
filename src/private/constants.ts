@@ -43,7 +43,8 @@ export const CommonDevs = {
   "it-pup": { displayName: "Autumn", githubUsername: "it-pup", type: "Contributor", discord: { username: "itpuppy", id: "1386313709433131080" } },
   "CarsonCodess": { displayName: "CarsonCodess", githubUsername: "CarsonCodess", type: "Contributor" },
   "SomeTree": { displayName: "SomeTree", githubUsername: "sometreee", type: "Contributor" },
-  "Pixelic": { displayName: "Pixelic", githubUsername: "pixelicc", type: "Contributor", discord: { username: "pixelic", id: "619208257721860108" } }
+  "Pixelic": { displayName: "Pixelic", githubUsername: "pixelicc", type: "Contributor", discord: { username: "pixelic", id: "619208257721860108" } },
+  "CraftedFury": { displayName: "CraftedFury", githubUsername: "CraftedFury", type: "Contributor", discord: { username: "craftedfury", id: "154743493464555521" } }
 } satisfies Record<string, DevData>;
 
 export const MiscCredits: CreditData[] = [
