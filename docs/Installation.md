@@ -5,7 +5,7 @@
 ### Prerequisites
 
 - [Git](https://git-scm.com/install)
-- [Node.js](https://nodejs.org/en/download) >= v22.22.3
+- [Node.js](https://nodejs.org/en/download) v22.23.4+, v24.22.1+ or v26.12.1+ (earlier releases trust the compromised eMudhra CAs)
 - [pnpm](https://pnpm.io/installation) >= v11.0.0
 - [A Minecraft account](https://minecraft.net)
 
