@@ -57,7 +57,7 @@ Minecraft commands can be executed from any chat channel that the bot can see. T
 | `networth`           | Networth of specified user.                                                   | nw                                                     | `!networth (u)`                          | Anyone     | DuckySoLucky |
 | `overflowskills`     | Overflow Skills and Skill Average of specified user.                          | oskills, oskill, osk                                   | `!overflowskills [u]`                    | Anyone     | MattyHD0     |
 | `player`             | Get Hypixel Player Stats                                                      | None                                                   | `!player [u]`                            | Anyone     | DuckySoLucky |
-| `quickmaths`         | Solve the equation in less than 10 seconds! Test your math skills!            | qm                                                     | `!quickmaths`                            | Anyone     | DuckySoLucky |
+| `quickmaths`         | Solve the equation in less than 10 seconds! Test your math skills!            | qm                                                     | `!quickmaths`                            | Anyone     | CraftedFury  |
 | `runstillclassavg`   | Calculate runs needed to reach target dungeon class average                   | rtca, runstillca, runtillclassavg, runtillca           | `!runstillclassavg [u] [floor] [target]` | Anyone     | MattyHD0     |
 | `sheepwars`          |                                                                               | sheep, shep                                            | `!sheepwars [u]`                         | Anyone     | DuckySoLucky |
 | `skills`             | Skills and Skill Average of specified user.                                   | skill, sa                                              | `!skills [u]`                            | Anyone     | DuckySoLucky |
@@ -110,7 +110,7 @@ Minecraft commands can be executed from any chat channel that the bot can see. T
 
 ---
 
-This document is [auto generated](/scripts/docs/Commands.ts) and was last updated on `Wed, 07 Oct 2026 06:00:52 GMT` (`1791352852935`)
+This document is [auto generated](/scripts/docs/Commands.ts) and was last updated on `Fri, 23 Oct 2026 04:05:15 GMT` (`1792728315959`)
 
 To update this document please run `pnpm docgen` or contact a maintainer and ask them to update it.
 

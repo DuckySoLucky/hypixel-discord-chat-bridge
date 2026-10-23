@@ -11,7 +11,8 @@ class QuickMathsCommand extends MinecraftCommand {
   override readonly data = new MinecraftCommandData()
     .setName("quickmaths")
     .setDescription("Solve the equation in less than 10 seconds! Test your math skills!")
-    .setAliases(["qm"]);
+    .setAliases(["qm"])
+    .setAuthors(["CraftedFury"]);
   protected readonly answerWindowMs: number = 10_000;
 
   static createEquation(random: () => number = Math.random): { equation: string; answer: number } {

@@ -410,7 +410,7 @@ This document is generated from the Zod config schema in [`src/types/config.ts`]
 
 ---
 
-This document is [auto generated](/scripts/docs/Configuration.ts) and was last updated on `Wed, 07 Oct 2026 06:00:52 GMT` (`1791352852935`)
+This document is [auto generated](/scripts/docs/Configuration.ts) and was last updated on `Fri, 23 Oct 2026 04:05:15 GMT` (`1792728315959`)
 
 To update this document please run `pnpm docgen` or contact a maintainer and ask them to update it.
 
