@@ -50,7 +50,7 @@ class FloorCommand extends MinecraftCommand {
         });
       });
 
-    const floorId = message.slice(1, 3);
+    const floorId = message.slice(1, 3).toLowerCase();
     const floorData = floors.find((floor) => floor.id === floorId);
     if (floorData === undefined || floorData.timesPlayed === 0) throw new HypixelDiscordChatBridgeError(`${username} has never done ${floorId} before.`);
 
