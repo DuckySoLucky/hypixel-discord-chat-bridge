@@ -1,7 +1,7 @@
 {
   lib,
   stdenv,
-  fetchFromGitHub,
+  rev ? null,
   nix-update-script,
   fetchPnpmDeps,
   pnpmConfigHook,
@@ -32,7 +32,7 @@ stdenv.mkDerivation (finalAttrs: {
     inherit (finalAttrs) pname version src;
     inherit pnpm;
     fetcherVersion = 4;
-    hash = "sha256-KTQxNnFpCwLSxKrB639w2K7a3C/Bi2S1FbgwGsopxEM=";
+    hash = "sha256-ox5nFFKx98SfgoElkdrBRf5QD6h63cF5WnD/Am6oqQI=";
   };
 
   nativeBuildInputs = [
@@ -68,25 +68,21 @@ stdenv.mkDerivation (finalAttrs: {
   '';
 
   installPhase = ''
-        runHook preInstall
+    runHook preInstall
 
-        mkdir -p "$out/lib/hypixel-discord-chat-bridge"
-        cp -r src "$out/lib/hypixel-discord-chat-bridge/"
-        cp -r node_modules "$out/lib/hypixel-discord-chat-bridge/"
-        cp package.json pnpm-lock.yaml pnpm-workspace.yaml "$out/lib/hypixel-discord-chat-bridge/"
-        cp index.ts "$out/lib/hypixel-discord-chat-bridge/"
+    mkdir -p "$out/lib/hypixel-discord-chat-bridge"
+    cp -r src "$out/lib/hypixel-discord-chat-bridge/"
+    cp -r node_modules "$out/lib/hypixel-discord-chat-bridge/"
+    cp package.json pnpm-lock.yaml pnpm-workspace.yaml "$out/lib/hypixel-discord-chat-bridge/"
+    cp index.ts "$out/lib/hypixel-discord-chat-bridge/"
 
-        mkdir -p "$out/bin"
-        cat > "$out/bin/bridgebot" << 'WRAPPER'
-    #!/bin/sh
-    exec __NODE__ "$out/lib/hypixel-discord-chat-bridge/node_modules/tsx/dist/cli.mjs" "$out/lib/hypixel-discord-chat-bridge/index.ts" "$@"
-    WRAPPER
-        chmod +x "$out/bin/bridgebot"
-        substituteInPlace "$out/bin/bridgebot" \
-          --replace '__NODE__' "${nodejs}/bin/node" \
-          --replace '$out' "$out"
 
-        runHook postInstall
+    makeWrapper "${nodejs}/bin/node" "$out/bin/bridgebot" \
+      --add-flag "$out/lib/hypixel-discord-chat-bridge/node_modules/tsx/dist/cli.mjs" \
+      --add-flag "$out/lib/hypixel-discord-chat-bridge/index.ts" \
+      --set GIT_DIRTY false \
+      --set GIT_COMMIT "${if rev == null then "unknown" else rev}"
+    runHook postInstall
   '';
 
   passthru.updateScript = nix-update-script { };

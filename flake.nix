@@ -14,16 +14,15 @@
       legacyPackages = genSystems (
         system:
         import ./default.nix {
+          gitRev = toString self.rev or null;
           pkgs = import nixpkgs { inherit system; };
         }
       );
       packages = genSystems (
         system: nixpkgs.lib.filterAttrs (_: v: nixpkgs.lib.isDerivation v) self.legacyPackages.${system}
       );
-      devShells = genSystems (
-        system: {
-          default = import ./shell.nix { pkgs = import nixpkgs { inherit system; }; };
-        }
-      );
+      devShells = genSystems (system: {
+        default = import ./shell.nix { pkgs = import nixpkgs { inherit system; }; };
+      });
     };
 }
