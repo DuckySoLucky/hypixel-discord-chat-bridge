@@ -84,7 +84,7 @@
     "rss-parser": "3.13.0",
     "skyhelper-networth": "2.10.0",
     "winston": "3.19.0",
-    "zod": "4.4.3"
+    "zod": "4.6.6"
   },
   "devDependencies": {
     "@eslint/js": "9.39.5",
