@@ -67,7 +67,7 @@ importers:
         version: 2.8.0
       prismarine-registry:
         specifier: 1.12.0
-        version: 1.12.0(supports-color@5.5.0)
+        version: 1.12.0
       rss-parser:
         specifier: 3.13.0
         version: 3.13.0
@@ -1506,8 +1506,8 @@ packages:
   fn.name@1.1.0:
     resolution: {integrity: sha512-GRnmB5gPyJpAhTQdSZTSp9uaPSvl09KoYcMQtsB9rQoOmzs9dH6ffeccH+Z+cv6P68Hu5bC6JjRh4Ah/mHSNRw==}
 
-  follow-redirects@1.16.1:
-    resolution: {integrity: sha512-FNvFGzoMLWmE6Yj9spb/zjd7yiNCHiAW9/Tg9CXrQ8wuu32HtlJOwWO11OJafl5FfY3DxTdQ0vj42zU1kvv5jg==}
+  follow-redirects@1.16.2:
+    resolution: {integrity: sha512-/kVP2U8z596Ia0gwFrwyIeo74ta5aVmSeU1FfAUMAmcEP5EP7zydmag3SLiN64NaRKef3lxsq7i/g7ltJQDGow==}
     engines: {node: '>=4.0'}
     peerDependencies:
       debug: '*'
@@ -3463,7 +3463,7 @@ snapshots:
 
   axios@1.19.0(debug@4.4.3(supports-color@5.5.0))(supports-color@5.5.0):
     dependencies:
-      follow-redirects: 1.16.1(debug@4.4.3(supports-color@5.5.0))
+      follow-redirects: 1.16.2(debug@4.4.3(supports-color@5.5.0))
       form-data: 4.0.6
       https-proxy-agent: 5.0.1(supports-color@5.5.0)
       proxy-from-env: 2.1.0
@@ -4172,7 +4172,7 @@ snapshots:
 
   fn.name@1.1.0: {}
 
-  follow-redirects@1.16.1(debug@4.4.3(supports-color@5.5.0)):
+  follow-redirects@1.16.2(debug@4.4.3(supports-color@5.5.0)):
     optionalDependencies:
       debug: 4.4.3(supports-color@5.5.0)
 
@@ -4870,18 +4870,18 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  prismarine-biome@1.4.0(prismarine-registry@1.12.0(supports-color@5.5.0)):
+  prismarine-biome@1.4.0(prismarine-registry@1.12.0):
     dependencies:
-      prismarine-registry: 1.12.0(supports-color@5.5.0)
+      prismarine-registry: 1.12.0
 
   prismarine-block@1.23.0(supports-color@5.5.0):
     dependencies:
       minecraft-data: 3.114.0
-      prismarine-biome: 1.4.0(prismarine-registry@1.12.0(supports-color@5.5.0))
+      prismarine-biome: 1.4.0(prismarine-registry@1.12.0)
       prismarine-chat: 1.13.0(supports-color@5.5.0)
       prismarine-item: 1.18.0
       prismarine-nbt: 2.8.0
-      prismarine-registry: 1.12.0(supports-color@5.5.0)
+      prismarine-registry: 1.12.0
     transitivePeerDependencies:
       - supports-color
 
@@ -4890,14 +4890,14 @@ snapshots:
       debug: 4.4.3(supports-color@5.5.0)
       mojangson: 2.1.0
       prismarine-nbt: 2.8.0
-      prismarine-registry: 1.12.0(supports-color@5.5.0)
+      prismarine-registry: 1.12.0
     transitivePeerDependencies:
       - supports-color
 
   prismarine-item@1.18.0:
     dependencies:
       prismarine-nbt: 2.8.0
-      prismarine-registry: 1.12.0(supports-color@5.5.0)
+      prismarine-registry: 1.12.0
 
   prismarine-nbt@2.8.0:
     dependencies:
@@ -4911,13 +4911,11 @@ snapshots:
       - encoding
       - supports-color
 
-  prismarine-registry@1.12.0(supports-color@5.5.0):
+  prismarine-registry@1.12.0:
     dependencies:
       minecraft-data: 3.114.0
       prismarine-block: 1.23.0(supports-color@5.5.0)
       prismarine-nbt: 2.8.0
-    transitivePeerDependencies:
-      - supports-color
 
   process@0.11.10: {}
 
