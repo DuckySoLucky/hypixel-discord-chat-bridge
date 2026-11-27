@@ -1,4 +1,4 @@
----
+***
 
 This document is [auto generated](/scripts/docs/{id}.ts) and was last updated on `{timestamp}` (`{unix}`)
 

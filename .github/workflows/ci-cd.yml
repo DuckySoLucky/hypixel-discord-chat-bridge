@@ -2,11 +2,11 @@ name: "CI/CD"
 
 on:
   push:
-  pull_request:
   workflow_dispatch:
+  pull_request:
 
 env:
-  NODE_VERSION: "latest"
+  NODE_VERSION: "24"
 
 jobs:
   pnpm:
@@ -14,21 +14,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Git checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v6
-        with:
-          version: 11
 
       - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "pnpm"
 
       - name: Install node dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Generate Default Config
+        run: cp config.example.json config.json
 
   prettier:
     name: check linting (prettier)
@@ -36,15 +37,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Git checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v6
-        with:
-          version: 11
 
       - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "pnpm"
@@ -52,8 +51,37 @@ jobs:
       - name: Install node dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Generate Default Config
+        run: cp config.example.json config.json
+
       - name: Check prettier
         run: pnpm prettier:check
+
+  eslint:
+    name: check linting (eslint)
+    needs: [pnpm]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v7
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+
+      - name: Install node dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate Default Config
+        run: cp config.example.json config.json
+
+      - name: Check eslint
+        run: pnpm eslint:check
 
   check-docs:
     name: check docs
@@ -61,15 +89,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Git checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v6
-        with:
-          version: 11
 
       - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "pnpm"
@@ -93,19 +119,17 @@ jobs:
 
   validate-data:
     name: Validate Data
-    needs: [pnpm]
+    needs: [pnpm, check-docs]
     runs-on: ubuntu-latest
     steps:
       - name: Git checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v6
-        with:
-          version: 11
 
       - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "pnpm"
@@ -122,49 +146,19 @@ jobs:
       - name: Ensure a clean working directory
         run: git diff --exit-code
 
-  eslint:
-    name: check linting (eslint)
-    needs: [pnpm]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Git checkout
-        uses: actions/checkout@v6
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v6
-        with:
-          version: 11
-
-      - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v6
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: "pnpm"
-
-      - name: Install node dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Generate Default Config
-        run: cp config.example.json config.json
-
-      - name: Check eslint
-        run: pnpm eslint:check
-
   build:
     name: build
     needs: [pnpm, prettier, eslint]
     runs-on: ubuntu-latest
     steps:
       - name: Git checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v6
-        with:
-          version: 11
 
       - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "pnpm"
@@ -188,7 +182,7 @@ jobs:
       packages: write
     steps:
       - name: Git checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Set up docker
         uses: docker/setup-buildx-action@v3

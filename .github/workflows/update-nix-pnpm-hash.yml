@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Git checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -28,7 +28,7 @@ jobs:
           nix run nixpkgs#nix-update -- \
             --flake \
             --version=skip \
-            bridgebot
+            hypixeldiscordchatbridge
 
       - name: Commit and push changes
         env:

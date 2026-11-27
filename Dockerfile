@@ -1,4 +1,4 @@
-FROM node:22.23.4-alpine3.24
+FROM node:24.22.1-alpine3.24
 
 ENV NODE_ENV=production
 ENV RUNNING_IN_DOCKER=true
@@ -19,7 +19,7 @@ RUN apk add --no-cache \
         giflib \
         librsvg \
     && chown node:node /app \
-    && npm install -g --cache /tmp/npm-cache pnpm@11.28.3 \
+    && npm install -g --cache /tmp/npm-cache pnpm@11.21.0 \
     && rm -rf /tmp/npm-cache
 
 COPY --chown=node:node package.json pnpm-lock.yaml pnpm-workspace.yaml ./
