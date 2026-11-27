@@ -1,4 +1,4 @@
----
+***
 
 If you need any help help consider checking out the [FAQ](/docs/FrequentlyAskedQuestions.md)
 
