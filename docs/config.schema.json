@@ -88,7 +88,7 @@
               "type": "object",
               "properties": {
                 "enabled": { "type": "boolean", "description": "Should this bridge channel be enabled" },
-                "channel": { "anyOf": [{ "type": "string" }, { "type": "null" }], "description": "Discord channel id. If null, an auto-generated channel will be used" }
+                "channel": { "description": "Discord channel id. If null, an auto-generated channel will be used", "type": ["string", "null"] }
               },
               "required": ["enabled", "channel"],
               "additionalProperties": false,
@@ -98,7 +98,7 @@
               "type": "object",
               "properties": {
                 "enabled": { "type": "boolean", "description": "Should this bridge channel be enabled" },
-                "channel": { "anyOf": [{ "type": "string" }, { "type": "null" }], "description": "Discord channel id. If null, an auto-generated channel will be used" }
+                "channel": { "description": "Discord channel id. If null, an auto-generated channel will be used", "type": ["string", "null"] }
               },
               "required": ["enabled", "channel"],
               "additionalProperties": false,
@@ -108,7 +108,7 @@
               "type": "object",
               "properties": {
                 "enabled": { "type": "boolean", "description": "Should this bridge channel be enabled" },
-                "channel": { "anyOf": [{ "type": "string" }, { "type": "null" }], "description": "Discord channel id. If null, an auto-generated channel will be used" }
+                "channel": { "description": "Discord channel id. If null, an auto-generated channel will be used", "type": ["string", "null"] }
               },
               "required": ["enabled", "channel"],
               "additionalProperties": false,
@@ -118,25 +118,16 @@
               "type": "object",
               "properties": {
                 "enabled": { "type": "boolean", "description": "Should this bridge channel be enabled" },
-                "channel": { "anyOf": [{ "type": "string" }, { "type": "null" }], "description": "Discord channel id. If null, an auto-generated channel will be used" },
+                "channel": { "description": "Discord channel id. If null, an auto-generated channel will be used", "type": ["string", "null"] },
                 "channels": {
                   "type": "object",
                   "properties": {
-                    "guild": { "anyOf": [{ "type": "string" }, { "type": "null" }], "description": "Discord channel id. If null, an auto-generated thread will be used" },
-                    "event": { "anyOf": [{ "type": "string" }, { "type": "null" }], "description": "Discord channel id. If null, an auto-generated thread will be used" },
-                    "error": { "anyOf": [{ "type": "string" }, { "type": "null" }], "description": "Discord channel id. If null, an auto-generated thread will be used" },
-                    "blacklist": {
-                      "anyOf": [{ "type": "string" }, { "type": "null" }],
-                      "description": "Discord channel id. If null, an auto-generated thread will be used"
-                    },
-                    "scripts": {
-                      "anyOf": [{ "type": "string" }, { "type": "null" }],
-                      "description": "Discord channel id. If null, an auto-generated thread will be used"
-                    },
-                    "inactivity": {
-                      "anyOf": [{ "type": "string" }, { "type": "null" }],
-                      "description": "Discord channel id. If null, an auto-generated thread will be used"
-                    }
+                    "guild": { "description": "Discord channel id. If null, an auto-generated thread will be used", "type": ["string", "null"] },
+                    "event": { "description": "Discord channel id. If null, an auto-generated thread will be used", "type": ["string", "null"] },
+                    "error": { "description": "Discord channel id. If null, an auto-generated thread will be used", "type": ["string", "null"] },
+                    "blacklist": { "description": "Discord channel id. If null, an auto-generated thread will be used", "type": ["string", "null"] },
+                    "scripts": { "description": "Discord channel id. If null, an auto-generated thread will be used", "type": ["string", "null"] },
+                    "inactivity": { "description": "Discord channel id. If null, an auto-generated thread will be used", "type": ["string", "null"] }
                   },
                   "required": ["guild", "event", "error", "blacklist", "scripts", "inactivity"],
                   "additionalProperties": false,
@@ -426,10 +417,7 @@
                 },
                 {
                   "type": "object",
-                  "properties": {
-                    "enabled": { "type": "boolean", "const": false },
-                    "roleId": { "anyOf": [{ "type": "string" }, { "type": "null" }], "description": "Discord role id" }
-                  },
+                  "properties": { "enabled": { "type": "boolean", "const": false }, "roleId": { "description": "Discord role id", "type": ["string", "null"] } },
                   "required": ["enabled", "roleId"],
                   "additionalProperties": false
                 }
@@ -446,10 +434,7 @@
                 },
                 {
                   "type": "object",
-                  "properties": {
-                    "enabled": { "type": "boolean", "const": false },
-                    "roleId": { "anyOf": [{ "type": "string" }, { "type": "null" }], "description": "Discord role id" }
-                  },
+                  "properties": { "enabled": { "type": "boolean", "const": false }, "roleId": { "description": "Discord role id", "type": ["string", "null"] } },
                   "required": ["enabled", "roleId"],
                   "additionalProperties": false
                 }
@@ -829,7 +814,7 @@
                     "type": "object",
                     "properties": {
                       "enabled": { "type": "boolean", "const": false, "description": "Whether this custom verification role is disabled" },
-                      "roleId": { "anyOf": [{ "type": "string" }, { "type": "null" }], "description": "Discord role id" },
+                      "roleId": { "description": "Discord role id", "type": ["string", "null"] },
                       "requirements": {
                         "type": "array",
                         "items": {
