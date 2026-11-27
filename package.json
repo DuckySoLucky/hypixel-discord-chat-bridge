@@ -53,12 +53,13 @@
   },
   "homepage": "https://github.com/DuckySoLucky/hypixel-discord-chat-bridge#readme",
   "engines": {
-    "node": "^22.23.4 || ^24.22.1 || >=26.12.1",
-    "pnpm": ">=11.0.0",
+    "node": "^24.22.1 || >=26.12.1",
+    "pnpm": ">=11.21.0",
     "npm": "forbidden, use pnpm instead",
     "yarn": "forbidden, use pnpm instead",
     "bun": "forbidden, use pnpm instead"
   },
+  "packageManager": "pnpm@11.21.0",
   "type": "module",
   "dependencies": {
     "@inquirer/prompts": "8.5.2",
