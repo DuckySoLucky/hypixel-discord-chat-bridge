@@ -28,7 +28,7 @@ jobs:
           nix run nixpkgs#nix-update -- \
             --flake \
             --version=skip \
-            bridgebot
+            hypixeldiscordchatbridge
 
       - name: Commit and push changes
         env:
